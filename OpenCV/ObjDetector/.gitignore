@@ -1,6 +1,3 @@
-*
-!*.*
-!*/
 CMakeCache.txt
 Makefile
 cmake_install_cmake
@@ -23,3 +20,4 @@ CMakeFiles/2.8.12.2/CMakeCCompiler.cmake
 CMakeFiles/
 CMakeCache.txt
 detect_main
+
