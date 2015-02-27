@@ -1,6 +1,7 @@
 CMakeCache.txt
 Makefile
 cmake_install_cmake
+cmake_install.cmake
 install_manifest.txt
 *.o
 *.so
