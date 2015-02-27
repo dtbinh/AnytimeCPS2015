@@ -17,6 +17,20 @@ using namespace cv::ml;
 int main(int, char**)
 {
 
+//general opts
+bool training_on = 1;
+
+
+//learning params for pixel classifier
+
+int displayImage = 1; //show images for debug if needed
+int nClusters = 2; //number of clusters for gmm
+int countB =0, countF=0; //count back and foreground (red and not)
+
+Vec3b color; //3-d vec to store pixs of image
+
+
+//stuff to read from dir
 DIR *dir; //for directory of images 
 
 string dirName_ITP = "Images/Train/Pics/"; 
@@ -27,6 +41,11 @@ dir = opendir(dirName_ITP.c_str()); //open where train pics are
 
 struct dirent *ent;
 
+
+// read images from dir and get pixels of interest/not of interest
+
+if(training_on)
+ {
  if (dir != NULL) {
         while ((ent = readdir (dir)) != NULL) //while training image dir not empty
         {
@@ -42,7 +61,7 @@ struct dirent *ent;
             */
             
             
-            // learn now
+            // extract pixel info
             
             
             
@@ -51,7 +70,7 @@ struct dirent *ent;
     } else {
         cout<<"not present"<<endl;
     }    
-
+ }
 
 
 

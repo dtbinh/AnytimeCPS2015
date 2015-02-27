@@ -7,9 +7,12 @@
 #include "opencv2/highgui.hpp"
 #include <dirent.h>
 #include <string.h>
+#include "opencv2/ml.hpp"
 
 using namespace cv;
 using namespace std;
+using namespace cv::ml;
+
 
 int main(int, char**)
 {
