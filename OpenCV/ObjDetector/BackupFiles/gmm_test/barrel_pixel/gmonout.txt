@@ -1,0 +1,898 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  ms/call  ms/call  name    
+ 15.17      1.53     1.53                             cv::normL2Sqr_(float const*, float const*, int)
+ 13.13      2.85     1.32                             cv::kmeans(cv::_InputArray const&, int, cv::_InputOutputArray const&, cv::TermCriteria, int, int, cv::_OutputArray const&)
+ 12.44      4.10     1.25                             cv::KMeansDistanceComputer::operator()(cv::Range const&) const
+  7.76      4.88     0.78                             cv::ml::EMImpl::computeProbabilities(cv::Mat const&, cv::Mat*, int) const
+  5.17      5.40     0.52                             cv::_InputArray::getMat(int) const
+  4.98      5.90     0.50                             cv::Mat::create(int, int const*, int)
+  4.83      6.38     0.49 61440140     0.00     0.00  cv::Mat::release()
+  3.68      6.75     0.37                             cv::arithm_op(cv::_InputArray const&, cv::_InputArray const&, cv::_OutputArray const&, cv::_InputArray const&, int, void (**)(unsigned char const*, unsigned long, unsigned char const*, unsigned long, unsigned char*, unsigned long, cv::Size_<int>, void*), bool, void*, int)
+  3.48      7.10     0.35                             cv::Mat::convertTo(cv::_OutputArray const&, int, double, double) const
+  3.38      7.44     0.34                             cv::Mat::Mat(cv::Mat const&, cv::Range const&, cv::Range const&)
+  2.39      7.68     0.24                             cv::MatOp_AddEx::makeExpr(cv::MatExpr&, cv::Mat const&, cv::Mat const&, double, double, cv::Scalar_<double> const&)
+  1.89      7.87     0.19                             cv::ml::EMImpl::mStep()
+  1.64      8.04     0.17                             cv::Mat::operator=(cv::Mat const&)
+  1.29      8.17     0.13                             cv::StdMatAllocator::allocate(int, int const*, int, void*, unsigned long*, int, cv::UMatUsageFlags) const
+  1.09      8.28     0.11                             cv::_InputArray::size(int) const
+  1.00      8.38     0.10                             cv::_InputArray::dims(int) const
+  1.00      8.48     0.10                             cv::KMeansPPDistanceComputer::operator()(cv::Range const&) const
+  0.80      8.56     0.08                             cv::MatAllocator::unmap(cv::UMatData*) const
+  0.70      8.63     0.07 61440132     0.00     0.00  cv::Mat::~Mat()
+  0.70      8.70     0.07                             cv::_OutputArray::create(int, int const*, int, int, bool, int) const
+  0.65      8.76     0.07                             cv::ml::EMImpl::predict2(cv::_InputArray const&, cv::_OutputArray const&) const
+  0.60      8.82     0.06                             cv::ml::EMImpl::doTrain(int, cv::_OutputArray const&, cv::_OutputArray const&, cv::_OutputArray const&)
+  0.60      8.88     0.06                             cv::operator-(cv::Mat const&, cv::Mat const&)
+  0.50      8.93     0.05                             cv::UMatData::UMatData(cv::MatAllocator const*)
+  0.50      8.98     0.05                             cv::cvtScale64f(double const*, unsigned long, unsigned char const*, unsigned long, double*, unsigned long, cv::Size_<int>, double*)
+  0.50      9.03     0.05                             cv::_InputArray::sizend(int*, int) const
+  0.50      9.08     0.05                             cv::StdMatAllocator::deallocate(cv::UMatData*) const
+  0.40      9.12     0.04                             cv::ml::EMImpl::clusterTrainSamples()
+  0.40      9.16     0.04                             void cv::vBinOp64<double, cv::OpAdd<double, double, double>, cv::VAdd<double> >(double const*, unsigned long, double const*, unsigned long, double*, unsigned long, cv::Size_<int>)
+  0.40      9.20     0.04                             void cv::MulTransposedR<double, double>(cv::Mat const&, cv::Mat&, cv::Mat const&, double)
+  0.40      9.24     0.04                             cv::operator*(double, cv::Mat const&)
+  0.40      9.28     0.04                             cv::MatAllocator::map(cv::UMatData*, int) const
+  0.40      9.32     0.04                             main
+  0.30      9.35     0.03  5760000     0.00     0.00  double& cv::Mat::at<double>(int)
+  0.30      9.38     0.03  3840010     0.00     0.00  cv::Size_<int>::Size_()
+  0.30      9.41     0.03                             cv::Mat::deallocate()
+  0.30      9.44     0.03                             cv::UMatData::~UMatData()
+  0.30      9.47     0.03                             void cv::vBinOp64<double, cv::OpSub<double, double, double>, cv::VSub<double> >(double const*, unsigned long, double const*, unsigned long, double*, unsigned long, cv::Size_<int>)
+  0.30      9.50     0.03                             cv::finalizeHdr(cv::Mat&)
+  0.30      9.53     0.03                             cv::MatOp_AddEx::assign(cv::MatExpr const&, cv::Mat&, int) const
+  0.30      9.56     0.03                             cv::_InputArray::isContinuous(int) const
+  0.30      9.59     0.03                             cv::_InputArray::type(int) const
+  0.30      9.62     0.03                             cv::_OutputArray::getUMatRef(int) const
+  0.30      9.65     0.03                             cv::_OutputArray::create(cv::Size_<int>, int, int, bool, int) const
+  0.30      9.68     0.03                             cv::TLSDataContainer::getData() const
+  0.20      9.70     0.02 11520000     0.00     0.00  cv::Vec<unsigned char, 3>::operator[](int)
+  0.20      9.72     0.02  7075048     0.00     0.00  unsigned char& cv::Mat::at<unsigned char>(int, int)
+  0.20      9.74     0.02  5760000     0.00     0.00  double& cv::Mat::at<double>(int, int)
+  0.20      9.76     0.02                             void cv::convertData_<unsigned char, signed char>(void const*, void*, int)
+  0.20      9.78     0.02                             cv::connectedcomponents::LabelingImpl<int, unsigned char, cv::connectedcomponents::CCStatsOp>::operator()(cv::Mat const&, cv::Mat&, int, cv::connectedcomponents::CCStatsOp&)
+  0.20      9.80     0.02                             cv::min(cv::UMat const&, cv::UMat const&, cv::UMat&)
+  0.20      9.82     0.02                             cv::ocl::useOpenCL()
+  0.20      9.84     0.02                             cv::resizeAreaFast_Invoker<unsigned char, int, cv::ResizeAreaFastVec<unsigned char, cv::ResizeAreaFastVec_SIMD_8u> >::operator()(cv::Range const&) const
+  0.20      9.86     0.02                             cv::Mat::reshape(int, int) const
+  0.15      9.88     0.02                             cv::minMaxLoc(cv::_InputArray const&, double*, double*, cv::Point_<int>*, cv::Point_<int>*, cv::_InputArray const&)
+  0.10      9.89     0.01  5760000     0.00     0.00  cv::Vec<unsigned char, 3>& cv::Mat::at<cv::Vec<unsigned char, 3> >(int, int)
+  0.10      9.90     0.01  3840001     0.00     0.00  cv::Ptr<cv::ml::EM>::operator->() const
+  0.10      9.91     0.01  3840000     0.00     0.00  cv::Vec<double, 2>::operator[](int)
+  0.10      9.92     0.01  1920000     0.00     0.00  char& cv::Mat::at<char>(int, int)
+  0.10      9.93     0.01        5     2.00     2.00  cv::Mat::create(int, int, int)
+  0.10      9.94     0.01        2     5.00     5.00  cv::Vec<double, 2>::Vec()
+  0.10      9.95     0.01                             cv::Mat::resize(unsigned long, cv::Scalar_<double> const&)
+  0.10      9.96     0.01                             cv::subtract(cv::_InputArray const&, cv::_InputArray const&, cv::_OutputArray const&, cv::_InputArray const&, int)
+  0.10      9.97     0.01                             void cv::reduceR_<double, double, cv::OpAdd<double, double, double> >(cv::Mat const&, cv::Mat&)
+  0.10      9.98     0.01                             void cv::reduceR_<short, short, cv::OpMax<short> >(cv::Mat const&, cv::Mat&)
+  0.10      9.99     0.01                             cv::_InputArray::offset(int) const
+  0.10     10.00     0.01                             cv::_InputArray::channels(int) const
+  0.10     10.01     0.01                             cv::_OutputArray::createSameSize(cv::_InputArray const&, int) const
+  0.10     10.02     0.01                             cv::_OutputArray::needed() const
+  0.10     10.03     0.01                             cv::ResizeArea_Invoker<unsigned char, float>::operator()(cv::Range const&) const
+  0.10     10.04     0.01                             cvConvertImage
+  0.05     10.04     0.01  5760000     0.00     0.00  cv::Mat::isContinuous() const
+  0.05     10.05     0.01                             cv::ml::EMImpl::write(cv::FileStorage&) const
+  0.05     10.05     0.01                             cv::ml::EMImpl::predict(cv::_InputArray const&, cv::_OutputArray const&, int) const
+  0.00     10.05     0.00  3840014     0.00     0.00  cv::_InputArray::init(int, void const*)
+  0.00     10.05     0.00  3840010     0.00     0.00  cv::_InputArray::~_InputArray()
+  0.00     10.05     0.00  3840006     0.00     0.00  cv::_InputArray::_InputArray(cv::Mat const&)
+  0.00     10.05     0.00  1920100     0.00     0.00  std::vector<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::operator[](unsigned long)
+  0.00     10.05     0.00  1920005     0.00     0.00  int& cv::Mat::at<int>(int, int)
+  0.00     10.05     0.00      100     0.00     0.00  cv::Vec<unsigned char, 3>::Vec(cv::Vec<unsigned char, 3> const&)
+  0.00     10.05     0.00      100     0.00     0.00  cv::Vec<unsigned char, 3>::Vec(unsigned char, unsigned char, unsigned char)
+  0.00     10.05     0.00      100     0.00     0.00  cv::Matx<unsigned char, 3, 1>::Matx(unsigned char, unsigned char, unsigned char)
+  0.00     10.05     0.00      100     0.00     0.00  cv::Matx<unsigned char, 3, 1>::Matx(unsigned char const*)
+  0.00     10.05     0.00      100     0.00     0.00  void std::_Construct<cv::Vec<unsigned char, 3>, cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>*, cv::Vec<unsigned char, 3> const&)
+  0.00     10.05     0.00      100     0.00     0.00  cv::Vec<unsigned char, 3>* std::__addressof<cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>&)
+  0.00     10.05     0.00      100     0.00     0.00  operator new(unsigned long, void*)
+  0.00     10.05     0.00       16     0.00     0.00  cv::MatExpr::~MatExpr()
+  0.00     10.05     0.00       11     0.00     0.00  cv::MatSize::MatSize(int*)
+  0.00     10.05     0.00       11     0.00     0.00  cv::MatStep::MatStep()
+  0.00     10.05     0.00        8     0.00     0.00  cv::String::~String()
+  0.00     10.05     0.00        7     0.00     0.00  cv::String::String(char const*)
+  0.00     10.05     0.00        6     0.00     0.00  cv::Mat::Mat()
+  0.00     10.05     0.00        4     0.00     0.00  cv::_InputArray::_InputArray()
+  0.00     10.05     0.00        4     0.00     0.00  cv::_OutputArray::_OutputArray(cv::Mat&)
+  0.00     10.05     0.00        4     0.00     0.00  cv::_OutputArray::~_OutputArray()
+  0.00     10.05     0.00        3     0.00     2.00  cv::Mat::Mat(int, int, int)
+  0.00     10.05     0.00        3     0.00     0.00  cv::Size_<int>::Size_(int, int)
+  0.00     10.05     0.00        2     0.00     0.00  cv::TermCriteria::TermCriteria(int, int, double)
+  0.00     10.05     0.00        2     0.00     2.00  cv::Mat::Mat(cv::Size_<int>, int)
+  0.00     10.05     0.00        2     0.00     0.00  cv::Ptr<cv::ml::EM>::release()
+  0.00     10.05     0.00        2     0.00     0.00  cv::Ptr<cv::ml::EM>::~Ptr()
+  0.00     10.05     0.00        2     0.00     0.00  cv::Vec<unsigned char, 3>::Vec()
+  0.00     10.05     0.00        2     0.00     0.00  cv::Matx<double, 2, 1>::Matx()
+  0.00     10.05     0.00        2     0.00     0.00  cv::Matx<unsigned char, 3, 1>::Matx()
+  0.00     10.05     0.00        2     0.00     0.00  cv::detail::PtrOwner::decRef()
+  0.00     10.05     0.00        2     0.00     0.00  __gnu_cxx::new_allocator<cv::Vec<unsigned char, 3> >::~new_allocator()
+  0.00     10.05     0.00        2     0.00     0.00  cv::MatExpr::operator cv::Mat() const
+  0.00     10.05     0.00        2     0.00     0.00  cv::MatSize::operator()() const
+  0.00     10.05     0.00        2     0.00     0.00  std::allocator<cv::Vec<unsigned char, 3> >::~allocator()
+  0.00     10.05     0.00        2     0.00     0.00  std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_M_get_Tp_allocator()
+  0.00     10.05     0.00        1     0.00     0.00  _GLOBAL__sub_I_main
+  0.00     10.05     0.00        1     0.00     0.00  __static_initialization_and_destruction_0(int, int)
+  0.00     10.05     0.00        1     0.00     0.00  cv::String::String()
+  0.00     10.05     0.00        1     0.00     0.00  __gnu_cxx::new_allocator<cv::Vec<unsigned char, 3> >::deallocate(cv::Vec<unsigned char, 3>*, unsigned long)
+  0.00     10.05     0.00        1     0.00     0.00  __gnu_cxx::new_allocator<cv::Vec<unsigned char, 3> >::allocate(unsigned long, void const*)
+  0.00     10.05     0.00        1     0.00     0.00  __gnu_cxx::new_allocator<cv::Vec<unsigned char, 3> >::new_allocator()
+  0.00     10.05     0.00        1     0.00     0.00  __gnu_cxx::new_allocator<cv::Vec<unsigned char, 3> >::new_allocator(__gnu_cxx::new_allocator<cv::Vec<unsigned char, 3> > const&)
+  0.00     10.05     0.00        1     0.00     0.00  __gnu_cxx::new_allocator<cv::Vec<unsigned char, 3> >::max_size() const
+  0.00     10.05     0.00        1     0.00     0.00  std::allocator<cv::Vec<unsigned char, 3> >::allocator()
+  0.00     10.05     0.00        1     0.00     0.00  std::allocator<cv::Vec<unsigned char, 3> >::allocator(std::allocator<cv::Vec<unsigned char, 3> > const&)
+  0.00     10.05     0.00        1     0.00     0.00  void std::_Destroy_aux<true>::__destroy<cv::Vec<unsigned char, 3>*>(cv::Vec<unsigned char, 3>*, cv::Vec<unsigned char, 3>*)
+  0.00     10.05     0.00        1     0.00     0.00  std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_M_allocate(unsigned long)
+  0.00     10.05     0.00        1     0.00     0.00  std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_Vector_impl::_Vector_impl(std::allocator<cv::Vec<unsigned char, 3> > const&)
+  0.00     10.05     0.00        1     0.00     0.00  std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_Vector_impl::~_Vector_impl()
+  0.00     10.05     0.00        1     0.00     0.00  std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_M_deallocate(cv::Vec<unsigned char, 3>*, unsigned long)
+  0.00     10.05     0.00        1     0.00     0.00  std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_M_create_storage(unsigned long)
+  0.00     10.05     0.00        1     0.00     0.00  std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_Vector_base(unsigned long, std::allocator<cv::Vec<unsigned char, 3> > const&)
+  0.00     10.05     0.00        1     0.00     0.00  std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::~_Vector_base()
+  0.00     10.05     0.00        1     0.00     0.00  void std::__uninitialized_fill_n<false>::__uninit_fill_n<cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3> const&)
+  0.00     10.05     0.00        1     0.00     0.00  std::vector<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_M_fill_initialize(unsigned long, cv::Vec<unsigned char, 3> const&)
+  0.00     10.05     0.00        1     0.00     0.00  std::vector<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::vector(unsigned long, cv::Vec<unsigned char, 3> const&, std::allocator<cv::Vec<unsigned char, 3> > const&)
+  0.00     10.05     0.00        1     0.00     0.00  std::vector<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::~vector()
+  0.00     10.05     0.00        1     0.00     0.00  void std::uninitialized_fill_n<cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3> const&)
+  0.00     10.05     0.00        1     0.00     0.00  void std::__uninitialized_fill_n_a<cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3>, cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3> const&, std::allocator<cv::Vec<unsigned char, 3> >&)
+  0.00     10.05     0.00        1     0.00     0.00  void std::_Destroy<cv::Vec<unsigned char, 3>*>(cv::Vec<unsigned char, 3>*, cv::Vec<unsigned char, 3>*)
+  0.00     10.05     0.00        1     0.00     0.00  void std::_Destroy<cv::Vec<unsigned char, 3>*, cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>*, cv::Vec<unsigned char, 3>*, std::allocator<cv::Vec<unsigned char, 3> >&)
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+ 
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this 
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+Copyright (C) 2012 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 2 byte(s) for 0.10% of 10.05 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[1]     15.2    1.53    0.00                 cv::normL2Sqr_(float const*, float const*, int) [1]
+-----------------------------------------------
+                                                 <spontaneous>
+[2]     13.1    1.32    0.00                 cv::kmeans(cv::_InputArray const&, int, cv::_InputOutputArray const&, cv::TermCriteria, int, int, cv::_OutputArray const&) [2]
+-----------------------------------------------
+                                                 <spontaneous>
+[3]     12.4    1.25    0.00                 cv::KMeansDistanceComputer::operator()(cv::Range const&) const [3]
+-----------------------------------------------
+                                                 <spontaneous>
+[4]      9.1    0.78    0.14                 cv::ml::EMImpl::computeProbabilities(cv::Mat const&, cv::Mat*, int) const [4]
+                0.02    0.12 15360000/61440132     cv::Mat::~Mat() [5]
+-----------------------------------------------
+                0.00    0.00       1/61440132     cv::MatOp_Cmp::assign(cv::MatExpr const&, cv::Mat&, int) const [89]
+                0.00    0.00       2/61440132     cv::ml::EMImpl::doTrain(int, cv::_OutputArray const&, cv::_OutputArray const&, cv::_OutputArray const&) [25]
+                0.00    0.00       2/61440132     cv::MatOp_Cmp::makeExpr(cv::MatExpr&, int, cv::Mat const&, double) [84]
+                0.00    0.00       3/61440132     cv::MatOp_Initializer::makeExpr(cv::MatExpr&, int, cv::Size_<int>, int, double) [83]
+                0.00    0.00       4/61440132     cv::ml::EMImpl::decomposeCovs() [85]
+                0.00    0.00       4/61440132     cv::resize(cv::_InputArray const&, cv::_OutputArray const&, cv::Size_<int>, double, double, int) [86]
+                0.00    0.00       8/61440132     cv::MatOp_Bin::assign(cv::MatExpr const&, cv::Mat&, int) const [82]
+                0.00    0.00       8/61440132     cv::operator/(double, cv::Mat const&) [81]
+                0.00    0.00       8/61440132     cv::MatOp_Bin::makeExpr(cv::MatExpr&, char, cv::Mat const&, cv::Mat const&, double) [80]
+                0.00    0.00      12/61440132     cv::ml::EMImpl::clusterTrainSamples() [31]
+                0.00    0.00      14/61440132     main [13]
+                0.00    0.00      18/61440132     cv::ml::EMImpl::mStep() [14]
+                0.00    0.00      48/61440132     cv::MatExpr::~MatExpr() [79]
+                0.00    0.03 3840000/61440132     cv::MatOp::augAssignAdd(cv::MatExpr const&, cv::Mat&) const [36]
+                0.00    0.03 3840000/61440132     cv::operator*(double, cv::Mat const&) [22]
+                0.01    0.06 7680000/61440132     cv::MatOp_AddEx::assign(cv::MatExpr const&, cv::Mat&, int) const [20]
+                0.02    0.12 15360000/61440132     cv::ml::EMImpl::computeProbabilities(cv::Mat const&, cv::Mat*, int) const [4]
+                0.03    0.24 30720000/61440132     cv::MatOp_AddEx::makeExpr(cv::MatExpr&, cv::Mat const&, cv::Mat const&, double, double, cv::Scalar_<double> const&) [7]
+[5]      5.5    0.07    0.49 61440132         cv::Mat::~Mat() [5]
+                0.49    0.00 61440132/61440140     cv::Mat::release() [9]
+-----------------------------------------------
+                                                 <spontaneous>
+[6]      5.2    0.52    0.00                 cv::_InputArray::getMat(int) const [6]
+-----------------------------------------------
+                                                 <spontaneous>
+[7]      5.1    0.24    0.28                 cv::MatOp_AddEx::makeExpr(cv::MatExpr&, cv::Mat const&, cv::Mat const&, double, double, cv::Scalar_<double> const&) [7]
+                0.03    0.24 30720000/61440132     cv::Mat::~Mat() [5]
+-----------------------------------------------
+                                                 <spontaneous>
+[8]      5.0    0.50    0.00                 cv::Mat::create(int, int const*, int) [8]
+-----------------------------------------------
+                0.00    0.00       8/61440140     cv::ml::EMImpl::doTrain(int, cv::_OutputArray const&, cv::_OutputArray const&, cv::_OutputArray const&) [25]
+                0.49    0.00 61440132/61440140     cv::Mat::~Mat() [5]
+[9]      4.8    0.49    0.00 61440140         cv::Mat::release() [9]
+-----------------------------------------------
+                                                 <spontaneous>
+[10]     3.7    0.37    0.00                 cv::arithm_op(cv::_InputArray const&, cv::_InputArray const&, cv::_OutputArray const&, cv::_InputArray const&, int, void (**)(unsigned char const*, unsigned long, unsigned char const*, unsigned long, unsigned char*, unsigned long, cv::Size_<int>, void*), bool, void*, int) [10]
+-----------------------------------------------
+                                                 <spontaneous>
+[11]     3.5    0.35    0.00                 cv::Mat::convertTo(cv::_OutputArray const&, int, double, double) const [11]
+-----------------------------------------------
+                                                 <spontaneous>
+[12]     3.4    0.34    0.00                 cv::Mat::Mat(cv::Mat const&, cv::Range const&, cv::Range const&) [12]
+-----------------------------------------------
+                                                 <spontaneous>
+[13]     2.2    0.04    0.19                 main [13]
+                0.03    0.01 5760000/5760000     double& cv::Mat::at<double>(int) [35]
+                0.00    0.03 3840006/3840006     cv::_InputArray::_InputArray(cv::Mat const&) [47]
+                0.02    0.00 11520000/11520000     cv::Vec<unsigned char, 3>::operator[](int) [48]
+                0.02    0.00 7075048/7075048     unsigned char& cv::Mat::at<unsigned char>(int, int) [49]
+                0.02    0.00 5760000/5760000     double& cv::Mat::at<double>(int, int) [50]
+                0.01    0.00 5760000/5760000     cv::Vec<unsigned char, 3>& cv::Mat::at<cv::Vec<unsigned char, 3> >(int, int) [59]
+                0.01    0.00 3840001/3840001     cv::Ptr<cv::ml::EM>::operator->() const [60]
+                0.01    0.00 3840000/3840000     cv::Vec<double, 2>::operator[](int) [61]
+                0.01    0.00 1920000/1920000     char& cv::Mat::at<char>(int, int) [62]
+                0.01    0.00       2/2           cv::Vec<double, 2>::Vec() [64]
+                0.00    0.01       3/3           cv::Mat::Mat(int, int, int) [74]
+                0.00    0.00       2/2           cv::Mat::Mat(cv::Size_<int>, int) [78]
+                0.00    0.00      14/61440132     cv::Mat::~Mat() [5]
+                0.00    0.00       2/16          cv::MatExpr::~MatExpr() [79]
+                0.00    0.00       4/4           cv::_OutputArray::_OutputArray(cv::Mat&) [88]
+                0.00    0.00 3840006/3840010     cv::_InputArray::~_InputArray() [4519]
+                0.00    0.00 1920100/1920100     std::vector<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::operator[](unsigned long) [4520]
+                0.00    0.00 1920005/1920005     int& cv::Mat::at<int>(int, int) [4521]
+                0.00    0.00     100/100         cv::Vec<unsigned char, 3>::Vec(unsigned char, unsigned char, unsigned char) [4523]
+                0.00    0.00       8/8           cv::String::~String() [4531]
+                0.00    0.00       7/7           cv::String::String(char const*) [4532]
+                0.00    0.00       4/6           cv::Mat::Mat() [4533]
+                0.00    0.00       4/4           cv::_OutputArray::~_OutputArray() [4534]
+                0.00    0.00       2/2           cv::Vec<unsigned char, 3>::Vec() [4539]
+                0.00    0.00       2/2           cv::TermCriteria::TermCriteria(int, int, double) [4536]
+                0.00    0.00       2/2           cv::MatExpr::operator cv::Mat() const [4544]
+                0.00    0.00       2/2           cv::MatSize::operator()() const [4545]
+                0.00    0.00       2/2           cv::Ptr<cv::ml::EM>::~Ptr() [4538]
+                0.00    0.00       1/1           cv::String::String() [4550]
+                0.00    0.00       1/3           cv::Size_<int>::Size_(int, int) [4535]
+                0.00    0.00       1/1           std::allocator<cv::Vec<unsigned char, 3> >::allocator() [4556]
+                0.00    0.00       1/1           std::vector<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::vector(unsigned long, cv::Vec<unsigned char, 3> const&, std::allocator<cv::Vec<unsigned char, 3> > const&) [4568]
+                0.00    0.00       1/2           std::allocator<cv::Vec<unsigned char, 3> >::~allocator() [4546]
+                0.00    0.00       1/1           std::vector<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::~vector() [4569]
+-----------------------------------------------
+                                                 <spontaneous>
+[14]     1.9    0.19    0.00                 cv::ml::EMImpl::mStep() [14]
+                0.00    0.00      18/61440132     cv::Mat::~Mat() [5]
+                0.00    0.00       4/16          cv::MatExpr::~MatExpr() [79]
+-----------------------------------------------
+                                                 <spontaneous>
+[15]     1.6    0.17    0.00                 cv::Mat::operator=(cv::Mat const&) [15]
+-----------------------------------------------
+                                                 <spontaneous>
+[16]     1.3    0.13    0.00                 cv::StdMatAllocator::allocate(int, int const*, int, void*, unsigned long*, int, cv::UMatUsageFlags) const [16]
+-----------------------------------------------
+                                                 <spontaneous>
+[17]     1.1    0.11    0.00                 cv::_InputArray::size(int) const [17]
+-----------------------------------------------
+                                                 <spontaneous>
+[18]     1.0    0.10    0.00                 cv::_InputArray::dims(int) const [18]
+-----------------------------------------------
+                                                 <spontaneous>
+[19]     1.0    0.10    0.00                 cv::KMeansPPDistanceComputer::operator()(cv::Range const&) const [19]
+-----------------------------------------------
+                                                 <spontaneous>
+[20]     1.0    0.03    0.07                 cv::MatOp_AddEx::assign(cv::MatExpr const&, cv::Mat&, int) const [20]
+                0.01    0.06 7680000/61440132     cv::Mat::~Mat() [5]
+-----------------------------------------------
+                                                 <spontaneous>
+[21]     0.8    0.08    0.00                 cv::MatAllocator::unmap(cv::UMatData*) const [21]
+-----------------------------------------------
+                                                 <spontaneous>
+[22]     0.7    0.04    0.03                 cv::operator*(double, cv::Mat const&) [22]
+                0.00    0.03 3840000/61440132     cv::Mat::~Mat() [5]
+-----------------------------------------------
+                                                 <spontaneous>
+[23]     0.7    0.07    0.00                 cv::_OutputArray::create(int, int const*, int, int, bool, int) const [23]
+-----------------------------------------------
+                                                 <spontaneous>
+[24]     0.6    0.07    0.00                 cv::ml::EMImpl::predict2(cv::_InputArray const&, cv::_OutputArray const&) const [24]
+-----------------------------------------------
+                                                 <spontaneous>
+[25]     0.6    0.06    0.00                 cv::ml::EMImpl::doTrain(int, cv::_OutputArray const&, cv::_OutputArray const&, cv::_OutputArray const&) [25]
+                0.00    0.00       8/61440140     cv::Mat::release() [9]
+                0.00    0.00       2/61440132     cv::Mat::~Mat() [5]
+-----------------------------------------------
+                                                 <spontaneous>
+[26]     0.6    0.06    0.00                 cv::operator-(cv::Mat const&, cv::Mat const&) [26]
+-----------------------------------------------
+                                                 <spontaneous>
+[27]     0.5    0.05    0.00                 cv::UMatData::UMatData(cv::MatAllocator const*) [27]
+-----------------------------------------------
+                                                 <spontaneous>
+[28]     0.5    0.05    0.00                 cv::cvtScale64f(double const*, unsigned long, unsigned char const*, unsigned long, double*, unsigned long, cv::Size_<int>, double*) [28]
+-----------------------------------------------
+                                                 <spontaneous>
+[29]     0.5    0.05    0.00                 cv::_InputArray::sizend(int*, int) const [29]
+-----------------------------------------------
+                                                 <spontaneous>
+[30]     0.5    0.05    0.00                 cv::StdMatAllocator::deallocate(cv::UMatData*) const [30]
+-----------------------------------------------
+                                                 <spontaneous>
+[31]     0.4    0.04    0.00                 cv::ml::EMImpl::clusterTrainSamples() [31]
+                0.00    0.00      12/61440132     cv::Mat::~Mat() [5]
+-----------------------------------------------
+                                                 <spontaneous>
+[32]     0.4    0.04    0.00                 void cv::vBinOp64<double, cv::OpAdd<double, double, double>, cv::VAdd<double> >(double const*, unsigned long, double const*, unsigned long, double*, unsigned long, cv::Size_<int>) [32]
+-----------------------------------------------
+                                                 <spontaneous>
+[33]     0.4    0.04    0.00                 void cv::MulTransposedR<double, double>(cv::Mat const&, cv::Mat&, cv::Mat const&, double) [33]
+-----------------------------------------------
+                                                 <spontaneous>
+[34]     0.4    0.04    0.00                 cv::MatAllocator::map(cv::UMatData*, int) const [34]
+-----------------------------------------------
+                0.03    0.01 5760000/5760000     main [13]
+[35]     0.3    0.03    0.01 5760000         double& cv::Mat::at<double>(int) [35]
+                0.01    0.00 5760000/5760000     cv::Mat::isContinuous() const [75]
+-----------------------------------------------
+                                                 <spontaneous>
+[36]     0.3    0.00    0.03                 cv::MatOp::augAssignAdd(cv::MatExpr const&, cv::Mat&) const [36]
+                0.00    0.03 3840000/61440132     cv::Mat::~Mat() [5]
+-----------------------------------------------
+                0.00    0.00       4/3840010     cv::_InputArray::_InputArray() [87]
+                0.03    0.00 3840006/3840010     cv::_InputArray::_InputArray(cv::Mat const&) [47]
+[37]     0.3    0.03    0.00 3840010         cv::Size_<int>::Size_() [37]
+-----------------------------------------------
+                                                 <spontaneous>
+[38]     0.3    0.03    0.00                 cv::Mat::deallocate() [38]
+-----------------------------------------------
+                                                 <spontaneous>
+[39]     0.3    0.03    0.00                 cv::UMatData::~UMatData() [39]
+-----------------------------------------------
+                                                 <spontaneous>
+[40]     0.3    0.03    0.00                 void cv::vBinOp64<double, cv::OpSub<double, double, double>, cv::VSub<double> >(double const*, unsigned long, double const*, unsigned long, double*, unsigned long, cv::Size_<int>) [40]
+-----------------------------------------------
+                                                 <spontaneous>
+[41]     0.3    0.03    0.00                 cv::finalizeHdr(cv::Mat&) [41]
+-----------------------------------------------
+                                                 <spontaneous>
+[42]     0.3    0.03    0.00                 cv::_InputArray::isContinuous(int) const [42]
+-----------------------------------------------
+                                                 <spontaneous>
+[43]     0.3    0.03    0.00                 cv::_InputArray::type(int) const [43]
+-----------------------------------------------
+                                                 <spontaneous>
+[44]     0.3    0.03    0.00                 cv::_OutputArray::getUMatRef(int) const [44]
+-----------------------------------------------
+                                                 <spontaneous>
+[45]     0.3    0.03    0.00                 cv::_OutputArray::create(cv::Size_<int>, int, int, bool, int) const [45]
+-----------------------------------------------
+                                                 <spontaneous>
+[46]     0.3    0.03    0.00                 cv::TLSDataContainer::getData() const [46]
+-----------------------------------------------
+                0.00    0.03 3840006/3840006     main [13]
+[47]     0.3    0.00    0.03 3840006         cv::_InputArray::_InputArray(cv::Mat const&) [47]
+                0.03    0.00 3840006/3840010     cv::Size_<int>::Size_() [37]
+                0.00    0.00 3840006/3840014     cv::_InputArray::init(int, void const*) [4518]
+-----------------------------------------------
+                0.02    0.00 11520000/11520000     main [13]
+[48]     0.2    0.02    0.00 11520000         cv::Vec<unsigned char, 3>::operator[](int) [48]
+-----------------------------------------------
+                0.02    0.00 7075048/7075048     main [13]
+[49]     0.2    0.02    0.00 7075048         unsigned char& cv::Mat::at<unsigned char>(int, int) [49]
+-----------------------------------------------
+                0.02    0.00 5760000/5760000     main [13]
+[50]     0.2    0.02    0.00 5760000         double& cv::Mat::at<double>(int, int) [50]
+-----------------------------------------------
+                                                 <spontaneous>
+[51]     0.2    0.02    0.00                 void cv::convertData_<unsigned char, signed char>(void const*, void*, int) [51]
+-----------------------------------------------
+                                                 <spontaneous>
+[52]     0.2    0.02    0.00                 cv::connectedcomponents::LabelingImpl<int, unsigned char, cv::connectedcomponents::CCStatsOp>::operator()(cv::Mat const&, cv::Mat&, int, cv::connectedcomponents::CCStatsOp&) [52]
+-----------------------------------------------
+                                                 <spontaneous>
+[53]     0.2    0.02    0.00                 cv::min(cv::UMat const&, cv::UMat const&, cv::UMat&) [53]
+-----------------------------------------------
+                                                 <spontaneous>
+[54]     0.2    0.02    0.00                 cv::ocl::useOpenCL() [54]
+-----------------------------------------------
+                                                 <spontaneous>
+[55]     0.2    0.02    0.00                 cv::resizeAreaFast_Invoker<unsigned char, int, cv::ResizeAreaFastVec<unsigned char, cv::ResizeAreaFastVec_SIMD_8u> >::operator()(cv::Range const&) const [55]
+-----------------------------------------------
+                                                 <spontaneous>
+[56]     0.2    0.02    0.00                 cv::Mat::reshape(int, int) const [56]
+-----------------------------------------------
+                                                 <spontaneous>
+[57]     0.1    0.02    0.00                 cv::minMaxLoc(cv::_InputArray const&, double*, double*, cv::Point_<int>*, cv::Point_<int>*, cv::_InputArray const&) [57]
+-----------------------------------------------
+                                                 <spontaneous>
+[58]     0.1    0.01    0.00                 cvConvertImage [58]
+-----------------------------------------------
+                0.01    0.00 5760000/5760000     main [13]
+[59]     0.1    0.01    0.00 5760000         cv::Vec<unsigned char, 3>& cv::Mat::at<cv::Vec<unsigned char, 3> >(int, int) [59]
+-----------------------------------------------
+                0.01    0.00 3840001/3840001     main [13]
+[60]     0.1    0.01    0.00 3840001         cv::Ptr<cv::ml::EM>::operator->() const [60]
+-----------------------------------------------
+                0.01    0.00 3840000/3840000     main [13]
+[61]     0.1    0.01    0.00 3840000         cv::Vec<double, 2>::operator[](int) [61]
+-----------------------------------------------
+                0.01    0.00 1920000/1920000     main [13]
+[62]     0.1    0.01    0.00 1920000         char& cv::Mat::at<char>(int, int) [62]
+-----------------------------------------------
+                0.00    0.00       2/5           cv::Mat::Mat(cv::Size_<int>, int) [78]
+                0.01    0.00       3/5           cv::Mat::Mat(int, int, int) [74]
+[63]     0.1    0.01    0.00       5         cv::Mat::create(int, int, int) [63]
+-----------------------------------------------
+                0.01    0.00       2/2           main [13]
+[64]     0.1    0.01    0.00       2         cv::Vec<double, 2>::Vec() [64]
+                0.00    0.00       2/2           cv::Matx<double, 2, 1>::Matx() [4540]
+-----------------------------------------------
+                                                 <spontaneous>
+[65]     0.1    0.01    0.00                 cv::Mat::resize(unsigned long, cv::Scalar_<double> const&) [65]
+-----------------------------------------------
+                                                 <spontaneous>
+[66]     0.1    0.01    0.00                 cv::subtract(cv::_InputArray const&, cv::_InputArray const&, cv::_OutputArray const&, cv::_InputArray const&, int) [66]
+-----------------------------------------------
+                                                 <spontaneous>
+[67]     0.1    0.01    0.00                 void cv::reduceR_<double, double, cv::OpAdd<double, double, double> >(cv::Mat const&, cv::Mat&) [67]
+-----------------------------------------------
+                                                 <spontaneous>
+[68]     0.1    0.01    0.00                 void cv::reduceR_<short, short, cv::OpMax<short> >(cv::Mat const&, cv::Mat&) [68]
+-----------------------------------------------
+                                                 <spontaneous>
+[69]     0.1    0.01    0.00                 cv::_InputArray::offset(int) const [69]
+-----------------------------------------------
+                                                 <spontaneous>
+[70]     0.1    0.01    0.00                 cv::_InputArray::channels(int) const [70]
+-----------------------------------------------
+                                                 <spontaneous>
+[71]     0.1    0.01    0.00                 cv::_OutputArray::createSameSize(cv::_InputArray const&, int) const [71]
+-----------------------------------------------
+                                                 <spontaneous>
+[72]     0.1    0.01    0.00                 cv::_OutputArray::needed() const [72]
+-----------------------------------------------
+                                                 <spontaneous>
+[73]     0.1    0.01    0.00                 cv::ResizeArea_Invoker<unsigned char, float>::operator()(cv::Range const&) const [73]
+-----------------------------------------------
+                0.00    0.01       3/3           main [13]
+[74]     0.1    0.00    0.01       3         cv::Mat::Mat(int, int, int) [74]
+                0.01    0.00       3/5           cv::Mat::create(int, int, int) [63]
+                0.00    0.00       3/11          cv::MatSize::MatSize(int*) [4529]
+                0.00    0.00       3/11          cv::MatStep::MatStep() [4530]
+-----------------------------------------------
+                0.01    0.00 5760000/5760000     double& cv::Mat::at<double>(int) [35]
+[75]     0.0    0.01    0.00 5760000         cv::Mat::isContinuous() const [75]
+-----------------------------------------------
+                                                 <spontaneous>
+[76]     0.0    0.01    0.00                 cv::ml::EMImpl::write(cv::FileStorage&) const [76]
+-----------------------------------------------
+                                                 <spontaneous>
+[77]     0.0    0.01    0.00                 cv::ml::EMImpl::predict(cv::_InputArray const&, cv::_OutputArray const&, int) const [77]
+-----------------------------------------------
+                0.00    0.00       2/2           main [13]
+[78]     0.0    0.00    0.00       2         cv::Mat::Mat(cv::Size_<int>, int) [78]
+                0.00    0.00       2/5           cv::Mat::create(int, int, int) [63]
+                0.00    0.00       2/11          cv::MatSize::MatSize(int*) [4529]
+                0.00    0.00       2/11          cv::MatStep::MatStep() [4530]
+-----------------------------------------------
+                0.00    0.00       1/16          cv::MatOp_Cmp::makeExpr(cv::MatExpr&, int, cv::Mat const&, double) [84]
+                0.00    0.00       1/16          cv::MatOp_Initializer::makeExpr(cv::MatExpr&, int, cv::Size_<int>, int, double) [83]
+                0.00    0.00       2/16          main [13]
+                0.00    0.00       4/16          cv::ml::EMImpl::mStep() [14]
+                0.00    0.00       8/16          cv::MatOp_Bin::makeExpr(cv::MatExpr&, char, cv::Mat const&, cv::Mat const&, double) [80]
+[79]     0.0    0.00    0.00      16         cv::MatExpr::~MatExpr() [79]
+                0.00    0.00      48/61440132     cv::Mat::~Mat() [5]
+-----------------------------------------------
+                                                 <spontaneous>
+[80]     0.0    0.00    0.00                 cv::MatOp_Bin::makeExpr(cv::MatExpr&, char, cv::Mat const&, cv::Mat const&, double) [80]
+                0.00    0.00       8/16          cv::MatExpr::~MatExpr() [79]
+                0.00    0.00       8/61440132     cv::Mat::~Mat() [5]
+-----------------------------------------------
+                                                 <spontaneous>
+[81]     0.0    0.00    0.00                 cv::operator/(double, cv::Mat const&) [81]
+                0.00    0.00       8/61440132     cv::Mat::~Mat() [5]
+-----------------------------------------------
+                                                 <spontaneous>
+[82]     0.0    0.00    0.00                 cv::MatOp_Bin::assign(cv::MatExpr const&, cv::Mat&, int) const [82]
+                0.00    0.00       8/61440132     cv::Mat::~Mat() [5]
+-----------------------------------------------
+                                                 <spontaneous>
+[83]     0.0    0.00    0.00                 cv::MatOp_Initializer::makeExpr(cv::MatExpr&, int, cv::Size_<int>, int, double) [83]
+                0.00    0.00       3/61440132     cv::Mat::~Mat() [5]
+                0.00    0.00       1/16          cv::MatExpr::~MatExpr() [79]
+-----------------------------------------------
+                                                 <spontaneous>
+[84]     0.0    0.00    0.00                 cv::MatOp_Cmp::makeExpr(cv::MatExpr&, int, cv::Mat const&, double) [84]
+                0.00    0.00       1/16          cv::MatExpr::~MatExpr() [79]
+                0.00    0.00       2/61440132     cv::Mat::~Mat() [5]
+-----------------------------------------------
+                                                 <spontaneous>
+[85]     0.0    0.00    0.00                 cv::ml::EMImpl::decomposeCovs() [85]
+                0.00    0.00       4/61440132     cv::Mat::~Mat() [5]
+-----------------------------------------------
+                                                 <spontaneous>
+[86]     0.0    0.00    0.00                 cv::resize(cv::_InputArray const&, cv::_OutputArray const&, cv::Size_<int>, double, double, int) [86]
+                0.00    0.00       4/61440132     cv::Mat::~Mat() [5]
+-----------------------------------------------
+                0.00    0.00       4/4           cv::_OutputArray::_OutputArray(cv::Mat&) [88]
+[87]     0.0    0.00    0.00       4         cv::_InputArray::_InputArray() [87]
+                0.00    0.00       4/3840010     cv::Size_<int>::Size_() [37]
+                0.00    0.00       4/3840014     cv::_InputArray::init(int, void const*) [4518]
+-----------------------------------------------
+                0.00    0.00       4/4           main [13]
+[88]     0.0    0.00    0.00       4         cv::_OutputArray::_OutputArray(cv::Mat&) [88]
+                0.00    0.00       4/4           cv::_InputArray::_InputArray() [87]
+                0.00    0.00       4/3840014     cv::_InputArray::init(int, void const*) [4518]
+-----------------------------------------------
+                                                 <spontaneous>
+[89]     0.0    0.00    0.00                 cv::MatOp_Cmp::assign(cv::MatExpr const&, cv::Mat&, int) const [89]
+                0.00    0.00       1/61440132     cv::Mat::~Mat() [5]
+-----------------------------------------------
+                0.00    0.00       4/3840014     cv::_InputArray::_InputArray() [87]
+                0.00    0.00       4/3840014     cv::_OutputArray::_OutputArray(cv::Mat&) [88]
+                0.00    0.00 3840006/3840014     cv::_InputArray::_InputArray(cv::Mat const&) [47]
+[4518]   0.0    0.00    0.00 3840014         cv::_InputArray::init(int, void const*) [4518]
+-----------------------------------------------
+                0.00    0.00       4/3840010     cv::_OutputArray::~_OutputArray() [4534]
+                0.00    0.00 3840006/3840010     main [13]
+[4519]   0.0    0.00    0.00 3840010         cv::_InputArray::~_InputArray() [4519]
+-----------------------------------------------
+                0.00    0.00 1920100/1920100     main [13]
+[4520]   0.0    0.00    0.00 1920100         std::vector<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::operator[](unsigned long) [4520]
+-----------------------------------------------
+                0.00    0.00 1920005/1920005     main [13]
+[4521]   0.0    0.00    0.00 1920005         int& cv::Mat::at<int>(int, int) [4521]
+-----------------------------------------------
+                0.00    0.00     100/100         void std::_Construct<cv::Vec<unsigned char, 3>, cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>*, cv::Vec<unsigned char, 3> const&) [4526]
+[4522]   0.0    0.00    0.00     100         cv::Vec<unsigned char, 3>::Vec(cv::Vec<unsigned char, 3> const&) [4522]
+                0.00    0.00     100/100         cv::Matx<unsigned char, 3, 1>::Matx(unsigned char const*) [4525]
+-----------------------------------------------
+                0.00    0.00     100/100         main [13]
+[4523]   0.0    0.00    0.00     100         cv::Vec<unsigned char, 3>::Vec(unsigned char, unsigned char, unsigned char) [4523]
+                0.00    0.00     100/100         cv::Matx<unsigned char, 3, 1>::Matx(unsigned char, unsigned char, unsigned char) [4524]
+-----------------------------------------------
+                0.00    0.00     100/100         cv::Vec<unsigned char, 3>::Vec(unsigned char, unsigned char, unsigned char) [4523]
+[4524]   0.0    0.00    0.00     100         cv::Matx<unsigned char, 3, 1>::Matx(unsigned char, unsigned char, unsigned char) [4524]
+-----------------------------------------------
+                0.00    0.00     100/100         cv::Vec<unsigned char, 3>::Vec(cv::Vec<unsigned char, 3> const&) [4522]
+[4525]   0.0    0.00    0.00     100         cv::Matx<unsigned char, 3, 1>::Matx(unsigned char const*) [4525]
+-----------------------------------------------
+                0.00    0.00     100/100         void std::__uninitialized_fill_n<false>::__uninit_fill_n<cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3> const&) [4566]
+[4526]   0.0    0.00    0.00     100         void std::_Construct<cv::Vec<unsigned char, 3>, cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>*, cv::Vec<unsigned char, 3> const&) [4526]
+                0.00    0.00     100/100         operator new(unsigned long, void*) [4528]
+                0.00    0.00     100/100         cv::Vec<unsigned char, 3>::Vec(cv::Vec<unsigned char, 3> const&) [4522]
+-----------------------------------------------
+                0.00    0.00     100/100         void std::__uninitialized_fill_n<false>::__uninit_fill_n<cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3> const&) [4566]
+[4527]   0.0    0.00    0.00     100         cv::Vec<unsigned char, 3>* std::__addressof<cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>&) [4527]
+-----------------------------------------------
+                0.00    0.00     100/100         void std::_Construct<cv::Vec<unsigned char, 3>, cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>*, cv::Vec<unsigned char, 3> const&) [4526]
+[4528]   0.0    0.00    0.00     100         operator new(unsigned long, void*) [4528]
+-----------------------------------------------
+                0.00    0.00       2/11          cv::Mat::Mat(cv::Size_<int>, int) [78]
+                0.00    0.00       3/11          cv::Mat::Mat(int, int, int) [74]
+                0.00    0.00       6/11          cv::Mat::Mat() [4533]
+[4529]   0.0    0.00    0.00      11         cv::MatSize::MatSize(int*) [4529]
+-----------------------------------------------
+                0.00    0.00       2/11          cv::Mat::Mat(cv::Size_<int>, int) [78]
+                0.00    0.00       3/11          cv::Mat::Mat(int, int, int) [74]
+                0.00    0.00       6/11          cv::Mat::Mat() [4533]
+[4530]   0.0    0.00    0.00      11         cv::MatStep::MatStep() [4530]
+-----------------------------------------------
+                0.00    0.00       8/8           main [13]
+[4531]   0.0    0.00    0.00       8         cv::String::~String() [4531]
+-----------------------------------------------
+                0.00    0.00       7/7           main [13]
+[4532]   0.0    0.00    0.00       7         cv::String::String(char const*) [4532]
+-----------------------------------------------
+                0.00    0.00       2/6           cv::MatExpr::operator cv::Mat() const [4544]
+                0.00    0.00       4/6           main [13]
+[4533]   0.0    0.00    0.00       6         cv::Mat::Mat() [4533]
+                0.00    0.00       6/11          cv::MatSize::MatSize(int*) [4529]
+                0.00    0.00       6/11          cv::MatStep::MatStep() [4530]
+-----------------------------------------------
+                0.00    0.00       4/4           main [13]
+[4534]   0.0    0.00    0.00       4         cv::_OutputArray::~_OutputArray() [4534]
+                0.00    0.00       4/3840010     cv::_InputArray::~_InputArray() [4519]
+-----------------------------------------------
+                0.00    0.00       1/3           main [13]
+                0.00    0.00       2/3           cv::MatSize::operator()() const [4545]
+[4535]   0.0    0.00    0.00       3         cv::Size_<int>::Size_(int, int) [4535]
+-----------------------------------------------
+                0.00    0.00       2/2           main [13]
+[4536]   0.0    0.00    0.00       2         cv::TermCriteria::TermCriteria(int, int, double) [4536]
+-----------------------------------------------
+                0.00    0.00       2/2           cv::Ptr<cv::ml::EM>::~Ptr() [4538]
+[4537]   0.0    0.00    0.00       2         cv::Ptr<cv::ml::EM>::release() [4537]
+                0.00    0.00       2/2           cv::detail::PtrOwner::decRef() [4542]
+-----------------------------------------------
+                0.00    0.00       2/2           main [13]
+[4538]   0.0    0.00    0.00       2         cv::Ptr<cv::ml::EM>::~Ptr() [4538]
+                0.00    0.00       2/2           cv::Ptr<cv::ml::EM>::release() [4537]
+-----------------------------------------------
+                0.00    0.00       2/2           main [13]
+[4539]   0.0    0.00    0.00       2         cv::Vec<unsigned char, 3>::Vec() [4539]
+                0.00    0.00       2/2           cv::Matx<unsigned char, 3, 1>::Matx() [4541]
+-----------------------------------------------
+                0.00    0.00       2/2           cv::Vec<double, 2>::Vec() [64]
+[4540]   0.0    0.00    0.00       2         cv::Matx<double, 2, 1>::Matx() [4540]
+-----------------------------------------------
+                0.00    0.00       2/2           cv::Vec<unsigned char, 3>::Vec() [4539]
+[4541]   0.0    0.00    0.00       2         cv::Matx<unsigned char, 3, 1>::Matx() [4541]
+-----------------------------------------------
+                0.00    0.00       2/2           cv::Ptr<cv::ml::EM>::release() [4537]
+[4542]   0.0    0.00    0.00       2         cv::detail::PtrOwner::decRef() [4542]
+-----------------------------------------------
+                0.00    0.00       2/2           std::allocator<cv::Vec<unsigned char, 3> >::~allocator() [4546]
+[4543]   0.0    0.00    0.00       2         __gnu_cxx::new_allocator<cv::Vec<unsigned char, 3> >::~new_allocator() [4543]
+-----------------------------------------------
+                0.00    0.00       2/2           main [13]
+[4544]   0.0    0.00    0.00       2         cv::MatExpr::operator cv::Mat() const [4544]
+                0.00    0.00       2/6           cv::Mat::Mat() [4533]
+-----------------------------------------------
+                0.00    0.00       2/2           main [13]
+[4545]   0.0    0.00    0.00       2         cv::MatSize::operator()() const [4545]
+                0.00    0.00       2/3           cv::Size_<int>::Size_(int, int) [4535]
+-----------------------------------------------
+                0.00    0.00       1/2           main [13]
+                0.00    0.00       1/2           std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_Vector_impl::~_Vector_impl() [4561]
+[4546]   0.0    0.00    0.00       2         std::allocator<cv::Vec<unsigned char, 3> >::~allocator() [4546]
+                0.00    0.00       2/2           __gnu_cxx::new_allocator<cv::Vec<unsigned char, 3> >::~new_allocator() [4543]
+-----------------------------------------------
+                0.00    0.00       1/2           std::vector<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::~vector() [4569]
+                0.00    0.00       1/2           std::vector<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_M_fill_initialize(unsigned long, cv::Vec<unsigned char, 3> const&) [4567]
+[4547]   0.0    0.00    0.00       2         std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_M_get_Tp_allocator() [4547]
+-----------------------------------------------
+                0.00    0.00       1/1           __libc_csu_init [7507]
+[4548]   0.0    0.00    0.00       1         _GLOBAL__sub_I_main [4548]
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [4549]
+-----------------------------------------------
+                0.00    0.00       1/1           _GLOBAL__sub_I_main [4548]
+[4549]   0.0    0.00    0.00       1         __static_initialization_and_destruction_0(int, int) [4549]
+-----------------------------------------------
+                0.00    0.00       1/1           main [13]
+[4550]   0.0    0.00    0.00       1         cv::String::String() [4550]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_M_deallocate(cv::Vec<unsigned char, 3>*, unsigned long) [4562]
+[4551]   0.0    0.00    0.00       1         __gnu_cxx::new_allocator<cv::Vec<unsigned char, 3> >::deallocate(cv::Vec<unsigned char, 3>*, unsigned long) [4551]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_M_allocate(unsigned long) [4559]
+[4552]   0.0    0.00    0.00       1         __gnu_cxx::new_allocator<cv::Vec<unsigned char, 3> >::allocate(unsigned long, void const*) [4552]
+                0.00    0.00       1/1           __gnu_cxx::new_allocator<cv::Vec<unsigned char, 3> >::max_size() const [4555]
+-----------------------------------------------
+                0.00    0.00       1/1           std::allocator<cv::Vec<unsigned char, 3> >::allocator() [4556]
+[4553]   0.0    0.00    0.00       1         __gnu_cxx::new_allocator<cv::Vec<unsigned char, 3> >::new_allocator() [4553]
+-----------------------------------------------
+                0.00    0.00       1/1           std::allocator<cv::Vec<unsigned char, 3> >::allocator(std::allocator<cv::Vec<unsigned char, 3> > const&) [4557]
+[4554]   0.0    0.00    0.00       1         __gnu_cxx::new_allocator<cv::Vec<unsigned char, 3> >::new_allocator(__gnu_cxx::new_allocator<cv::Vec<unsigned char, 3> > const&) [4554]
+-----------------------------------------------
+                0.00    0.00       1/1           __gnu_cxx::new_allocator<cv::Vec<unsigned char, 3> >::allocate(unsigned long, void const*) [4552]
+[4555]   0.0    0.00    0.00       1         __gnu_cxx::new_allocator<cv::Vec<unsigned char, 3> >::max_size() const [4555]
+-----------------------------------------------
+                0.00    0.00       1/1           main [13]
+[4556]   0.0    0.00    0.00       1         std::allocator<cv::Vec<unsigned char, 3> >::allocator() [4556]
+                0.00    0.00       1/1           __gnu_cxx::new_allocator<cv::Vec<unsigned char, 3> >::new_allocator() [4553]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_Vector_impl::_Vector_impl(std::allocator<cv::Vec<unsigned char, 3> > const&) [4560]
+[4557]   0.0    0.00    0.00       1         std::allocator<cv::Vec<unsigned char, 3> >::allocator(std::allocator<cv::Vec<unsigned char, 3> > const&) [4557]
+                0.00    0.00       1/1           __gnu_cxx::new_allocator<cv::Vec<unsigned char, 3> >::new_allocator(__gnu_cxx::new_allocator<cv::Vec<unsigned char, 3> > const&) [4554]
+-----------------------------------------------
+                0.00    0.00       1/1           void std::_Destroy<cv::Vec<unsigned char, 3>*>(cv::Vec<unsigned char, 3>*, cv::Vec<unsigned char, 3>*) [4572]
+[4558]   0.0    0.00    0.00       1         void std::_Destroy_aux<true>::__destroy<cv::Vec<unsigned char, 3>*>(cv::Vec<unsigned char, 3>*, cv::Vec<unsigned char, 3>*) [4558]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_M_create_storage(unsigned long) [4563]
+[4559]   0.0    0.00    0.00       1         std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_M_allocate(unsigned long) [4559]
+                0.00    0.00       1/1           __gnu_cxx::new_allocator<cv::Vec<unsigned char, 3> >::allocate(unsigned long, void const*) [4552]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_Vector_base(unsigned long, std::allocator<cv::Vec<unsigned char, 3> > const&) [4564]
+[4560]   0.0    0.00    0.00       1         std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_Vector_impl::_Vector_impl(std::allocator<cv::Vec<unsigned char, 3> > const&) [4560]
+                0.00    0.00       1/1           std::allocator<cv::Vec<unsigned char, 3> >::allocator(std::allocator<cv::Vec<unsigned char, 3> > const&) [4557]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::~_Vector_base() [4565]
+[4561]   0.0    0.00    0.00       1         std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_Vector_impl::~_Vector_impl() [4561]
+                0.00    0.00       1/2           std::allocator<cv::Vec<unsigned char, 3> >::~allocator() [4546]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::~_Vector_base() [4565]
+[4562]   0.0    0.00    0.00       1         std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_M_deallocate(cv::Vec<unsigned char, 3>*, unsigned long) [4562]
+                0.00    0.00       1/1           __gnu_cxx::new_allocator<cv::Vec<unsigned char, 3> >::deallocate(cv::Vec<unsigned char, 3>*, unsigned long) [4551]
+-----------------------------------------------
+                0.00    0.00       1/1           std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_Vector_base(unsigned long, std::allocator<cv::Vec<unsigned char, 3> > const&) [4564]
+[4563]   0.0    0.00    0.00       1         std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_M_create_storage(unsigned long) [4563]
+                0.00    0.00       1/1           std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_M_allocate(unsigned long) [4559]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::vector(unsigned long, cv::Vec<unsigned char, 3> const&, std::allocator<cv::Vec<unsigned char, 3> > const&) [4568]
+[4564]   0.0    0.00    0.00       1         std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_Vector_base(unsigned long, std::allocator<cv::Vec<unsigned char, 3> > const&) [4564]
+                0.00    0.00       1/1           std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_Vector_impl::_Vector_impl(std::allocator<cv::Vec<unsigned char, 3> > const&) [4560]
+                0.00    0.00       1/1           std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_M_create_storage(unsigned long) [4563]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::~vector() [4569]
+[4565]   0.0    0.00    0.00       1         std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::~_Vector_base() [4565]
+                0.00    0.00       1/1           std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_M_deallocate(cv::Vec<unsigned char, 3>*, unsigned long) [4562]
+                0.00    0.00       1/1           std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_Vector_impl::~_Vector_impl() [4561]
+-----------------------------------------------
+                0.00    0.00       1/1           void std::uninitialized_fill_n<cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3> const&) [4570]
+[4566]   0.0    0.00    0.00       1         void std::__uninitialized_fill_n<false>::__uninit_fill_n<cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3> const&) [4566]
+                0.00    0.00     100/100         cv::Vec<unsigned char, 3>* std::__addressof<cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>&) [4527]
+                0.00    0.00     100/100         void std::_Construct<cv::Vec<unsigned char, 3>, cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>*, cv::Vec<unsigned char, 3> const&) [4526]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::vector(unsigned long, cv::Vec<unsigned char, 3> const&, std::allocator<cv::Vec<unsigned char, 3> > const&) [4568]
+[4567]   0.0    0.00    0.00       1         std::vector<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_M_fill_initialize(unsigned long, cv::Vec<unsigned char, 3> const&) [4567]
+                0.00    0.00       1/2           std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_M_get_Tp_allocator() [4547]
+                0.00    0.00       1/1           void std::__uninitialized_fill_n_a<cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3>, cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3> const&, std::allocator<cv::Vec<unsigned char, 3> >&) [4571]
+-----------------------------------------------
+                0.00    0.00       1/1           main [13]
+[4568]   0.0    0.00    0.00       1         std::vector<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::vector(unsigned long, cv::Vec<unsigned char, 3> const&, std::allocator<cv::Vec<unsigned char, 3> > const&) [4568]
+                0.00    0.00       1/1           std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_Vector_base(unsigned long, std::allocator<cv::Vec<unsigned char, 3> > const&) [4564]
+                0.00    0.00       1/1           std::vector<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_M_fill_initialize(unsigned long, cv::Vec<unsigned char, 3> const&) [4567]
+-----------------------------------------------
+                0.00    0.00       1/1           main [13]
+[4569]   0.0    0.00    0.00       1         std::vector<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::~vector() [4569]
+                0.00    0.00       1/2           std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_M_get_Tp_allocator() [4547]
+                0.00    0.00       1/1           void std::_Destroy<cv::Vec<unsigned char, 3>*, cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>*, cv::Vec<unsigned char, 3>*, std::allocator<cv::Vec<unsigned char, 3> >&) [4573]
+                0.00    0.00       1/1           std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::~_Vector_base() [4565]
+-----------------------------------------------
+                0.00    0.00       1/1           void std::__uninitialized_fill_n_a<cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3>, cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3> const&, std::allocator<cv::Vec<unsigned char, 3> >&) [4571]
+[4570]   0.0    0.00    0.00       1         void std::uninitialized_fill_n<cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3> const&) [4570]
+                0.00    0.00       1/1           void std::__uninitialized_fill_n<false>::__uninit_fill_n<cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3> const&) [4566]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_M_fill_initialize(unsigned long, cv::Vec<unsigned char, 3> const&) [4567]
+[4571]   0.0    0.00    0.00       1         void std::__uninitialized_fill_n_a<cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3>, cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3> const&, std::allocator<cv::Vec<unsigned char, 3> >&) [4571]
+                0.00    0.00       1/1           void std::uninitialized_fill_n<cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3> const&) [4570]
+-----------------------------------------------
+                0.00    0.00       1/1           void std::_Destroy<cv::Vec<unsigned char, 3>*, cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>*, cv::Vec<unsigned char, 3>*, std::allocator<cv::Vec<unsigned char, 3> >&) [4573]
+[4572]   0.0    0.00    0.00       1         void std::_Destroy<cv::Vec<unsigned char, 3>*>(cv::Vec<unsigned char, 3>*, cv::Vec<unsigned char, 3>*) [4572]
+                0.00    0.00       1/1           void std::_Destroy_aux<true>::__destroy<cv::Vec<unsigned char, 3>*>(cv::Vec<unsigned char, 3>*, cv::Vec<unsigned char, 3>*) [4558]
+-----------------------------------------------
+                0.00    0.00       1/1           std::vector<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::~vector() [4569]
+[4573]   0.0    0.00    0.00       1         void std::_Destroy<cv::Vec<unsigned char, 3>*, cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>*, cv::Vec<unsigned char, 3>*, std::allocator<cv::Vec<unsigned char, 3> >&) [4573]
+                0.00    0.00       1/1           void std::_Destroy<cv::Vec<unsigned char, 3>*>(cv::Vec<unsigned char, 3>*, cv::Vec<unsigned char, 3>*) [4572]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function is in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+Copyright (C) 2012 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+Index by function name
+
+ [4548] _GLOBAL__sub_I_main [4541] cv::Matx<unsigned char, 3, 1>::Matx() [30] cv::StdMatAllocator::deallocate(cv::UMatData*) const
+ [4549] __static_initialization_and_destruction_0(int, int) [37] cv::Size_<int>::Size_() [16] cv::StdMatAllocator::allocate(int, int const*, int, void*, unsigned long*, int, cv::UMatUsageFlags) const
+   [1] cv::normL2Sqr_(float const*, float const*, int) [4535] cv::Size_<int>::Size_(int, int) [46] cv::TLSDataContainer::getData() const
+   [7] cv::MatOp_AddEx::makeExpr(cv::MatExpr&, cv::Mat const&, cv::Mat const&, double, double, cv::Scalar_<double> const&) [4550] cv::String::String() [73] cv::ResizeArea_Invoker<unsigned char, float>::operator()(cv::Range const&) const
+ [4518] cv::_InputArray::init(int, void const*) [4532] cv::String::String(char const*) [3] cv::KMeansDistanceComputer::operator()(cv::Range const&) const
+  [87] cv::_InputArray::_InputArray() [4531] cv::String::~String() [55] cv::resizeAreaFast_Invoker<unsigned char, int, cv::ResizeAreaFastVec<unsigned char, cv::ResizeAreaFastVec_SIMD_8u> >::operator()(cv::Range const&) const
+  [47] cv::_InputArray::_InputArray(cv::Mat const&) [4542] cv::detail::PtrOwner::decRef() [19] cv::KMeansPPDistanceComputer::operator()(cv::Range const&) const
+ [4519] cv::_InputArray::~_InputArray() [2] cv::kmeans(cv::_InputArray const&, int, cv::_InputOutputArray const&, cv::TermCriteria, int, int, cv::_OutputArray const&) [4] cv::ml::EMImpl::computeProbabilities(cv::Mat const&, cv::Mat*, int) const
+ [4536] cv::TermCriteria::TermCriteria(int, int, double) [79] cv::MatExpr::~MatExpr() [76] cv::ml::EMImpl::write(cv::FileStorage&) const
+  [88] cv::_OutputArray::_OutputArray(cv::Mat&) [4529] cv::MatSize::MatSize(int*) [77] cv::ml::EMImpl::predict(cv::_InputArray const&, cv::_OutputArray const&, int) const
+ [4534] cv::_OutputArray::~_OutputArray() [4530] cv::MatStep::MatStep() [24] cv::ml::EMImpl::predict2(cv::_InputArray const&, cv::_OutputArray const&) const
+  [51] void cv::convertData_<unsigned char, signed char>(void const*, void*, int) [27] cv::UMatData::UMatData(cv::MatAllocator const*) [75] cv::Mat::isContinuous() const
+  [52] cv::connectedcomponents::LabelingImpl<int, unsigned char, cv::connectedcomponents::CCStatsOp>::operator()(cv::Mat const&, cv::Mat&, int, cv::connectedcomponents::CCStatsOp&) [39] cv::UMatData::~UMatData() [56] cv::Mat::reshape(int, int) const
+  [31] cv::ml::EMImpl::clusterTrainSamples() [66] cv::subtract(cv::_InputArray const&, cv::_InputArray const&, cv::_OutputArray const&, cv::_InputArray const&, int) [11] cv::Mat::convertTo(cv::_OutputArray const&, int, double, double) const
+  [14] cv::ml::EMImpl::mStep() [32] void cv::vBinOp64<double, cv::OpAdd<double, double, double>, cv::VAdd<double> >(double const*, unsigned long, double const*, unsigned long, double*, unsigned long, cv::Size_<int>) [60] cv::Ptr<cv::ml::EM>::operator->() const
+  [25] cv::ml::EMImpl::doTrain(int, cv::_OutputArray const&, cv::_OutputArray const&, cv::_OutputArray const&) [40] void cv::vBinOp64<double, cv::OpSub<double, double, double>, cv::VSub<double> >(double const*, unsigned long, double const*, unsigned long, double*, unsigned long, cv::Size_<int>) [4544] cv::MatExpr::operator cv::Mat() const
+  [38] cv::Mat::deallocate()  [57] cv::minMaxLoc(cv::_InputArray const&, double*, double*, cv::Point_<int>*, cv::Point_<int>*, cv::_InputArray const&) [4545] cv::MatSize::operator()() const
+  [59] cv::Vec<unsigned char, 3>& cv::Mat::at<cv::Vec<unsigned char, 3> >(int, int) [28] cv::cvtScale64f(double const*, unsigned long, unsigned char const*, unsigned long, double*, unsigned long, cv::Size_<int>, double*) [4555] __gnu_cxx::new_allocator<cv::Vec<unsigned char, 3> >::max_size() const
+  [62] char& cv::Mat::at<char>(int, int) [41] cv::finalizeHdr(cv::Mat&) [4556] std::allocator<cv::Vec<unsigned char, 3> >::allocator()
+  [35] double& cv::Mat::at<double>(int) [33] void cv::MulTransposedR<double, double>(cv::Mat const&, cv::Mat&, cv::Mat const&, double) [4557] std::allocator<cv::Vec<unsigned char, 3> >::allocator(std::allocator<cv::Vec<unsigned char, 3> > const&)
+  [50] double& cv::Mat::at<double>(int, int) [67] void cv::reduceR_<double, double, cv::OpAdd<double, double, double> >(cv::Mat const&, cv::Mat&) [4546] std::allocator<cv::Vec<unsigned char, 3> >::~allocator()
+  [49] unsigned char& cv::Mat::at<unsigned char>(int, int) [68] void cv::reduceR_<short, short, cv::OpMax<short> >(cv::Mat const&, cv::Mat&) [4558] void std::_Destroy_aux<true>::__destroy<cv::Vec<unsigned char, 3>*>(cv::Vec<unsigned char, 3>*, cv::Vec<unsigned char, 3>*)
+ [4521] int& cv::Mat::at<int>(int, int) [10] cv::arithm_op(cv::_InputArray const&, cv::_InputArray const&, cv::_OutputArray const&, cv::_InputArray const&, int, void (**)(unsigned char const*, unsigned long, unsigned char const*, unsigned long, unsigned char*, unsigned long, cv::Size_<int>, void*), bool, void*, int) [4559] std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_M_allocate(unsigned long)
+   [8] cv::Mat::create(int, int const*, int) [26] cv::operator-(cv::Mat const&, cv::Mat const&) [4560] std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_Vector_impl::_Vector_impl(std::allocator<cv::Vec<unsigned char, 3> > const&)
+  [63] cv::Mat::create(int, int, int) [22] cv::operator*(double, cv::Mat const&) [4561] std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_Vector_impl::~_Vector_impl()
+  [65] cv::Mat::resize(unsigned long, cv::Scalar_<double> const&) [4551] __gnu_cxx::new_allocator<cv::Vec<unsigned char, 3> >::deallocate(cv::Vec<unsigned char, 3>*, unsigned long) [4562] std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_M_deallocate(cv::Vec<unsigned char, 3>*, unsigned long)
+   [9] cv::Mat::release()   [4552] __gnu_cxx::new_allocator<cv::Vec<unsigned char, 3> >::allocate(unsigned long, void const*) [4563] std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_M_create_storage(unsigned long)
+  [78] cv::Mat::Mat(cv::Size_<int>, int) [4553] __gnu_cxx::new_allocator<cv::Vec<unsigned char, 3> >::new_allocator() [4547] std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_M_get_Tp_allocator()
+  [74] cv::Mat::Mat(int, int, int) [4554] __gnu_cxx::new_allocator<cv::Vec<unsigned char, 3> >::new_allocator(__gnu_cxx::new_allocator<cv::Vec<unsigned char, 3> > const&) [4564] std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_Vector_base(unsigned long, std::allocator<cv::Vec<unsigned char, 3> > const&)
+  [12] cv::Mat::Mat(cv::Mat const&, cv::Range const&, cv::Range const&) [4543] __gnu_cxx::new_allocator<cv::Vec<unsigned char, 3> >::~new_allocator() [4565] std::_Vector_base<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::~_Vector_base()
+ [4533] cv::Mat::Mat()        [20] cv::MatOp_AddEx::assign(cv::MatExpr const&, cv::Mat&, int) const [4566] void std::__uninitialized_fill_n<false>::__uninit_fill_n<cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3> const&)
+   [5] cv::Mat::~Mat()        [42] cv::_InputArray::isContinuous(int) const [4567] std::vector<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::_M_fill_initialize(unsigned long, cv::Vec<unsigned char, 3> const&)
+  [15] cv::Mat::operator=(cv::Mat const&) [18] cv::_InputArray::dims(int) const [4568] std::vector<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::vector(unsigned long, cv::Vec<unsigned char, 3> const&, std::allocator<cv::Vec<unsigned char, 3> > const&)
+ [4537] cv::Ptr<cv::ml::EM>::release() [17] cv::_InputArray::size(int) const [4569] std::vector<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::~vector()
+ [4538] cv::Ptr<cv::ml::EM>::~Ptr() [43] cv::_InputArray::type(int) const [4520] std::vector<cv::Vec<unsigned char, 3>, std::allocator<cv::Vec<unsigned char, 3> > >::operator[](unsigned long)
+  [64] cv::Vec<double, 2>::Vec() [6] cv::_InputArray::getMat(int) const [4526] void std::_Construct<cv::Vec<unsigned char, 3>, cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>*, cv::Vec<unsigned char, 3> const&)
+  [61] cv::Vec<double, 2>::operator[](int) [69] cv::_InputArray::offset(int) const [4527] cv::Vec<unsigned char, 3>* std::__addressof<cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>&)
+ [4522] cv::Vec<unsigned char, 3>::Vec(cv::Vec<unsigned char, 3> const&) [29] cv::_InputArray::sizend(int*, int) const [4570] void std::uninitialized_fill_n<cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3> const&)
+ [4523] cv::Vec<unsigned char, 3>::Vec(unsigned char, unsigned char, unsigned char) [70] cv::_InputArray::channels(int) const [4571] void std::__uninitialized_fill_n_a<cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3>, cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>*, unsigned long, cv::Vec<unsigned char, 3> const&, std::allocator<cv::Vec<unsigned char, 3> >&)
+ [4539] cv::Vec<unsigned char, 3>::Vec() [34] cv::MatAllocator::map(cv::UMatData*, int) const [4572] void std::_Destroy<cv::Vec<unsigned char, 3>*>(cv::Vec<unsigned char, 3>*, cv::Vec<unsigned char, 3>*)
+  [48] cv::Vec<unsigned char, 3>::operator[](int) [21] cv::MatAllocator::unmap(cv::UMatData*) const [4573] void std::_Destroy<cv::Vec<unsigned char, 3>*, cv::Vec<unsigned char, 3> >(cv::Vec<unsigned char, 3>*, cv::Vec<unsigned char, 3>*, std::allocator<cv::Vec<unsigned char, 3> >&)
+  [53] cv::min(cv::UMat const&, cv::UMat const&, cv::UMat&) [44] cv::_OutputArray::getUMatRef(int) const [4528] operator new(unsigned long, void*)
+  [54] cv::ocl::useOpenCL()   [71] cv::_OutputArray::createSameSize(cv::_InputArray const&, int) const [58] cvConvertImage
+ [4540] cv::Matx<double, 2, 1>::Matx() [45] cv::_OutputArray::create(cv::Size_<int>, int, int, bool, int) const [13] main
+ [4524] cv::Matx<unsigned char, 3, 1>::Matx(unsigned char, unsigned char, unsigned char) [23] cv::_OutputArray::create(int, int const*, int, int, bool, int) const
+ [4525] cv::Matx<unsigned char, 3, 1>::Matx(unsigned char const*) [72] cv::_OutputArray::needed() const

@@ -1,0 +1,558 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls  ns/call  ns/call  name    
+ 23.53      0.04     0.04                             cv::ml::EMImpl::computeProbabilities(cv::Mat const&, cv::Mat*, int) const
+ 17.65      0.07     0.03                             cv::Mat::create(int, int const*, int)
+ 11.76      0.09     0.02   507739    39.39    39.39  cv::Mat::release()
+ 11.76      0.11     0.02                             cv::ml::EMImpl::predict2(cv::_InputArray const&, cv::_OutputArray const&) const
+  5.88      0.12     0.01   500115    20.00    20.00  cv::Size_<int>::Size_()
+  5.88      0.13     0.01   250200    39.97    39.97  cvRound(double)
+  5.88      0.14     0.01   250106    39.98    39.98  cv::_OutputArray::~_OutputArray()
+  5.88      0.15     0.01                             cv::_InputArray::getMat(int) const
+  5.88      0.16     0.01                             cv::Mat::convertTo(cv::_OutputArray const&, int, double, double) const
+  5.88      0.17     0.01                             main
+  0.00      0.17     0.00  1000316     0.00     0.00  cv::_InputArray::init(int, void const*)
+  0.00      0.17     0.00   505303     0.00    39.39  cv::Mat::~Mat()
+  0.00      0.17     0.00   500116     0.00     0.00  cv::_InputArray::~_InputArray()
+  0.00      0.17     0.00   500100     0.00     0.00  cv::Mat::isContinuous() const
+  0.00      0.17     0.00   500000     0.00     0.00  float& cv::Mat::at<float>(int)
+  0.00      0.17     0.00   250105     0.00    20.00  cv::_InputArray::_InputArray()
+  0.00      0.17     0.00   250104     0.00    20.00  cv::_OutputArray::_OutputArray()
+  0.00      0.17     0.00   250104     0.00    20.00  cv::_InputOutputArray::_InputOutputArray(cv::Mat&)
+  0.00      0.17     0.00   250104     0.00    39.98  cv::_InputOutputArray::~_InputOutputArray()
+  0.00      0.17     0.00   250100     0.00     0.00  cv::Point_<int>::Point_(int, int)
+  0.00      0.17     0.00   250012     0.00     0.00  cv::Vec<double, 4>::Vec()
+  0.00      0.17     0.00   250012     0.00     0.00  cv::Matx<double, 4, 1>::Matx()
+  0.00      0.17     0.00   250012     0.00     0.00  cv::Scalar_<double>::Scalar_(double, double, double, double)
+  0.00      0.17     0.00   250002     0.00    20.00  cv::_InputArray::_InputArray(cv::Mat const&)
+  0.00      0.17     0.00   250000     0.00     0.00  cv::Vec<double, 2>::operator[](int)
+  0.00      0.17     0.00   250000     0.00     0.00  cv::Vec<double, 4>::Vec(cv::Vec<double, 4> const&)
+  0.00      0.17     0.00   250000     0.00     0.00  cv::Matx<double, 4, 1>::Matx(double const*)
+  0.00      0.17     0.00   250000     0.00     0.00  cv::Scalar_<double>::Scalar_(cv::Scalar_<double> const&)
+  0.00      0.17     0.00   250000     0.00     0.00  cv::Scalar_<double> cv::operator*<double>(cv::Scalar_<double> const&, double)
+  0.00      0.17     0.00   250000     0.00     0.00  cv::Ptr<cv::ml::EM>::operator->() const
+  0.00      0.17     0.00     4864     0.00     0.00  cv::MatStep::operator[](int)
+  0.00      0.17     0.00     4864     0.00     0.00  cv::MatStep::operator[](int) const
+  0.00      0.17     0.00     2432     0.00    39.39  cv::Mat::operator=(cv::Mat const&)
+  0.00      0.17     0.00      200     0.00     0.00  float& cv::Mat::at<float>(int, int)
+  0.00      0.17     0.00      100     0.00     0.00  int& cv::Mat::at<int>(int)
+  0.00      0.17     0.00      100     0.00     0.00  cv::Point_<int>::Point_(cv::Point_<int> const&)
+  0.00      0.17     0.00       14     0.00   118.17  cv::MatExpr::~MatExpr()
+  0.00      0.17     0.00        9     0.00     0.00  cv::Size_<int>::Size_(int, int)
+  0.00      0.17     0.00        8     0.00     0.00  cv::_InputArray::init(int, void const*, cv::Size_<int>)
+  0.00      0.17     0.00        8     0.00    20.00  cv::_InputArray::_InputArray<double, 4, 1>(cv::Matx<double, 4, 1> const&)
+  0.00      0.17     0.00        8     0.00     0.00  cv::Range::Range(int, int)
+  0.00      0.17     0.00        8     0.00     0.00  cv::Size_<int>::operator=(cv::Size_<int> const&)
+  0.00      0.17     0.00        4     0.00     0.00  cv::Range::all()
+  0.00      0.17     0.00        4     0.00     0.00  cv::MatSize::MatSize(int*)
+  0.00      0.17     0.00        4     0.00     0.00  cv::MatStep::MatStep()
+  0.00      0.17     0.00        4     0.00     0.00  cv::Mat::rowRange(int, int) const
+  0.00      0.17     0.00        2     0.00     0.00  cv::Mat::create(int, int, int)
+  0.00      0.17     0.00        2     0.00     0.00  cv::Mat::Mat(int, int, int)
+  0.00      0.17     0.00        2     0.00     0.00  cv::Mat::Mat()
+  0.00      0.17     0.00        1     0.00     0.00  _GLOBAL__sub_I_main
+  0.00      0.17     0.00        1     0.00     0.00  __static_initialization_and_destruction_0(int, int)
+  0.00      0.17     0.00        1     0.00     0.00  cv::TermCriteria::TermCriteria(int, int, double)
+  0.00      0.17     0.00        1     0.00    20.00  cv::_OutputArray::_OutputArray(cv::Mat&)
+  0.00      0.17     0.00        1     0.00     0.00  cv::Ptr<cv::ml::EM>::release()
+  0.00      0.17     0.00        1     0.00     0.00  cv::Ptr<cv::ml::EM>::~Ptr()
+  0.00      0.17     0.00        1     0.00     0.00  cv::String::String(char const*)
+  0.00      0.17     0.00        1     0.00     0.00  cv::String::~String()
+  0.00      0.17     0.00        1     0.00     0.00  cv::detail::PtrOwner::decRef()
+  0.00      0.17     0.00        1     0.00     0.00  cv::MatExpr::operator cv::Mat() const
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+ 
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this 
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+Copyright (C) 2012 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 2 byte(s) for 5.88% of 0.17 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[1]     35.1    0.04    0.02                 cv::ml::EMImpl::computeProbabilities(cv::Mat const&, cv::Mat*, int) const [1]
+                0.00    0.02  500400/505303      cv::Mat::~Mat() [6]
+-----------------------------------------------
+                                                 <spontaneous>
+[2]     23.5    0.01    0.03                 main [2]
+                0.01    0.00  250200/250200      cvRound(double) [8]
+                0.00    0.01  250104/250104      cv::_InputOutputArray::~_InputOutputArray() [12]
+                0.00    0.01  250104/250104      cv::_InputOutputArray::_InputOutputArray(cv::Mat&) [15]
+                0.00    0.00  250002/250002      cv::_InputArray::_InputArray(cv::Mat const&) [16]
+                0.00    0.00      10/505303      cv::Mat::~Mat() [6]
+                0.00    0.00       8/8           cv::_InputArray::_InputArray<double, 4, 1>(cv::Matx<double, 4, 1> const&) [30]
+                0.00    0.00       1/14          cv::MatExpr::~MatExpr() [23]
+                0.00    0.00       2/2432        cv::Mat::operator=(cv::Mat const&) [18]
+                0.00    0.00       1/250106      cv::_OutputArray::~_OutputArray() [9]
+                0.00    0.00       1/1           cv::_OutputArray::_OutputArray(cv::Mat&) [32]
+                0.00    0.00  500000/500000      float& cv::Mat::at<float>(int) [4032]
+                0.00    0.00  250100/250100      cv::Point_<int>::Point_(int, int) [4033]
+                0.00    0.00  250010/500116      cv::_InputArray::~_InputArray() [4030]
+                0.00    0.00  250000/250000      cv::Ptr<cv::ml::EM>::operator->() const [4042]
+                0.00    0.00  250000/250000      cv::Vec<double, 2>::operator[](int) [4037]
+                0.00    0.00  250000/250000      cv::Scalar_<double>::Scalar_(cv::Scalar_<double> const&) [4040]
+                0.00    0.00  250000/250000      cv::Scalar_<double> cv::operator*<double>(cv::Scalar_<double> const&, double) [4041]
+                0.00    0.00     200/200         float& cv::Mat::at<float>(int, int) [4045]
+                0.00    0.00     100/100         int& cv::Mat::at<int>(int) [4046]
+                0.00    0.00     100/100         cv::Point_<int>::Point_(cv::Point_<int> const&) [4047]
+                0.00    0.00      12/250012      cv::Scalar_<double>::Scalar_(double, double, double, double) [4036]
+                0.00    0.00       4/4           cv::Mat::rowRange(int, int) const [4055]
+                0.00    0.00       2/2           cv::Mat::Mat(int, int, int) [4057]
+                0.00    0.00       1/2           cv::Mat::Mat() [4058]
+                0.00    0.00       1/9           cv::Size_<int>::Size_(int, int) [4048]
+                0.00    0.00       1/1           cv::MatExpr::operator cv::Mat() const [4067]
+                0.00    0.00       1/1           cv::TermCriteria::TermCriteria(int, int, double) [4061]
+                0.00    0.00       1/1           cv::String::String(char const*) [4064]
+                0.00    0.00       1/1           cv::String::~String() [4065]
+                0.00    0.00       1/1           cv::Ptr<cv::ml::EM>::~Ptr() [4063]
+-----------------------------------------------
+                                                 <spontaneous>
+[3]     17.6    0.03    0.00                 cv::Mat::create(int, int const*, int) [3]
+-----------------------------------------------
+                0.00    0.00       4/507739      cv::ml::EMImpl::doTrain(int, cv::_OutputArray const&, cv::_OutputArray const&, cv::_OutputArray const&) [29]
+                0.00    0.00    2432/507739      cv::Mat::operator=(cv::Mat const&) [18]
+                0.02    0.00  505303/507739      cv::Mat::~Mat() [6]
+[4]     11.8    0.02    0.00  507739         cv::Mat::release() [4]
+-----------------------------------------------
+                                                 <spontaneous>
+[5]     11.8    0.02    0.00                 cv::ml::EMImpl::predict2(cv::_InputArray const&, cv::_OutputArray const&) const [5]
+-----------------------------------------------
+                0.00    0.00       1/505303      cv::ml::EMImpl::doTrain(int, cv::_OutputArray const&, cv::_OutputArray const&, cv::_OutputArray const&) [29]
+                0.00    0.00       2/505303      cv::ml::EMImpl::decomposeCovs() [31]
+                0.00    0.00       3/505303      cv::MatOp_Initializer::makeExpr(cv::MatExpr&, int, cv::Size_<int>, int, double) [25]
+                0.00    0.00       6/505303      cv::ml::EMImpl::clusterTrainSamples() [26]
+                0.00    0.00       8/505303      cv::MatOp_Bin::assign(cv::MatExpr const&, cv::Mat&, int) const [28]
+                0.00    0.00       8/505303      cv::operator/(double, cv::Mat const&) [27]
+                0.00    0.00       8/505303      cv::MatOp_Bin::makeExpr(cv::MatExpr&, char, cv::Mat const&, cv::Mat const&, double) [22]
+                0.00    0.00      10/505303      main [2]
+                0.00    0.00      15/505303      cv::ml::EMImpl::mStep() [24]
+                0.00    0.00      42/505303      cv::MatExpr::~MatExpr() [23]
+                0.00    0.00     400/505303      cv::MatOp::augAssignAdd(cv::MatExpr const&, cv::Mat&) const [21]
+                0.00    0.00     400/505303      cv::operator*(double, cv::Mat const&) [20]
+                0.00    0.00     800/505303      cv::MatOp_AddEx::assign(cv::MatExpr const&, cv::Mat&, int) const [19]
+                0.00    0.00    3200/505303      cv::MatOp_AddEx::makeExpr(cv::MatExpr&, cv::Mat const&, cv::Mat const&, double, double, cv::Scalar_<double> const&) [17]
+                0.00    0.02  500400/505303      cv::ml::EMImpl::computeProbabilities(cv::Mat const&, cv::Mat*, int) const [1]
+[6]     11.7    0.00    0.02  505303         cv::Mat::~Mat() [6]
+                0.02    0.00  505303/507739      cv::Mat::release() [4]
+-----------------------------------------------
+                0.00    0.00       8/500115      cv::_InputArray::_InputArray<double, 4, 1>(cv::Matx<double, 4, 1> const&) [30]
+                0.00    0.00  250002/500115      cv::_InputArray::_InputArray(cv::Mat const&) [16]
+                0.01    0.00  250105/500115      cv::_InputArray::_InputArray() [13]
+[7]      5.9    0.01    0.00  500115         cv::Size_<int>::Size_() [7]
+-----------------------------------------------
+                0.01    0.00  250200/250200      main [2]
+[8]      5.9    0.01    0.00  250200         cvRound(double) [8]
+-----------------------------------------------
+                0.00    0.00       1/250106      main [2]
+                0.01    0.00  250105/250106      cv::_InputOutputArray::~_InputOutputArray() [12]
+[9]      5.9    0.01    0.00  250106         cv::_OutputArray::~_OutputArray() [9]
+                0.00    0.00  250106/500116      cv::_InputArray::~_InputArray() [4030]
+-----------------------------------------------
+                                                 <spontaneous>
+[10]     5.9    0.01    0.00                 cv::_InputArray::getMat(int) const [10]
+-----------------------------------------------
+                                                 <spontaneous>
+[11]     5.9    0.01    0.00                 cv::Mat::convertTo(cv::_OutputArray const&, int, double, double) const [11]
+-----------------------------------------------
+                0.00    0.01  250104/250104      main [2]
+[12]     5.9    0.00    0.01  250104         cv::_InputOutputArray::~_InputOutputArray() [12]
+                0.01    0.00  250105/250106      cv::_OutputArray::~_OutputArray() [9]
+-----------------------------------------------
+                0.00    0.00       1/250105      cv::_OutputArray::_OutputArray(cv::Mat&) [32]
+                0.00    0.01  250104/250105      cv::_OutputArray::_OutputArray() [14]
+[13]     2.9    0.00    0.01  250105         cv::_InputArray::_InputArray() [13]
+                0.01    0.00  250105/500115      cv::Size_<int>::Size_() [7]
+                0.00    0.00  250105/1000316     cv::_InputArray::init(int, void const*) [4029]
+-----------------------------------------------
+                0.00    0.01  250104/250104      cv::_InputOutputArray::_InputOutputArray(cv::Mat&) [15]
+[14]     2.9    0.00    0.01  250104         cv::_OutputArray::_OutputArray() [14]
+                0.00    0.01  250104/250105      cv::_InputArray::_InputArray() [13]
+                0.00    0.00  250104/1000316     cv::_InputArray::init(int, void const*) [4029]
+-----------------------------------------------
+                0.00    0.01  250104/250104      main [2]
+[15]     2.9    0.00    0.01  250104         cv::_InputOutputArray::_InputOutputArray(cv::Mat&) [15]
+                0.00    0.01  250104/250104      cv::_OutputArray::_OutputArray() [14]
+                0.00    0.00  250104/1000316     cv::_InputArray::init(int, void const*) [4029]
+-----------------------------------------------
+                0.00    0.00  250002/250002      main [2]
+[16]     2.9    0.00    0.00  250002         cv::_InputArray::_InputArray(cv::Mat const&) [16]
+                0.00    0.00  250002/500115      cv::Size_<int>::Size_() [7]
+                0.00    0.00  250002/1000316     cv::_InputArray::init(int, void const*) [4029]
+-----------------------------------------------
+                                                 <spontaneous>
+[17]     0.1    0.00    0.00                 cv::MatOp_AddEx::makeExpr(cv::MatExpr&, cv::Mat const&, cv::Mat const&, double, double, cv::Scalar_<double> const&) [17]
+                0.00    0.00    3200/505303      cv::Mat::~Mat() [6]
+                0.00    0.00    2400/2432        cv::Mat::operator=(cv::Mat const&) [18]
+-----------------------------------------------
+                0.00    0.00       2/2432        main [2]
+                0.00    0.00       3/2432        cv::ml::EMImpl::clusterTrainSamples() [26]
+                0.00    0.00       3/2432        cv::MatOp_Initializer::makeExpr(cv::MatExpr&, int, cv::Size_<int>, int, double) [25]
+                0.00    0.00      24/2432        cv::MatOp_Bin::makeExpr(cv::MatExpr&, char, cv::Mat const&, cv::Mat const&, double) [22]
+                0.00    0.00    2400/2432        cv::MatOp_AddEx::makeExpr(cv::MatExpr&, cv::Mat const&, cv::Mat const&, double, double, cv::Scalar_<double> const&) [17]
+[18]     0.1    0.00    0.00    2432         cv::Mat::operator=(cv::Mat const&) [18]
+                0.00    0.00    2432/507739      cv::Mat::release() [4]
+                0.00    0.00    4864/4864        cv::MatStep::operator[](int) [4043]
+                0.00    0.00    4864/4864        cv::MatStep::operator[](int) const [4044]
+-----------------------------------------------
+                                                 <spontaneous>
+[19]     0.0    0.00    0.00                 cv::MatOp_AddEx::assign(cv::MatExpr const&, cv::Mat&, int) const [19]
+                0.00    0.00     800/505303      cv::Mat::~Mat() [6]
+-----------------------------------------------
+                                                 <spontaneous>
+[20]     0.0    0.00    0.00                 cv::operator*(double, cv::Mat const&) [20]
+                0.00    0.00     400/505303      cv::Mat::~Mat() [6]
+-----------------------------------------------
+                                                 <spontaneous>
+[21]     0.0    0.00    0.00                 cv::MatOp::augAssignAdd(cv::MatExpr const&, cv::Mat&) const [21]
+                0.00    0.00     400/505303      cv::Mat::~Mat() [6]
+-----------------------------------------------
+                                                 <spontaneous>
+[22]     0.0    0.00    0.00                 cv::MatOp_Bin::makeExpr(cv::MatExpr&, char, cv::Mat const&, cv::Mat const&, double) [22]
+                0.00    0.00      24/2432        cv::Mat::operator=(cv::Mat const&) [18]
+                0.00    0.00       8/14          cv::MatExpr::~MatExpr() [23]
+                0.00    0.00       8/505303      cv::Mat::~Mat() [6]
+-----------------------------------------------
+                0.00    0.00       1/14          main [2]
+                0.00    0.00       1/14          cv::MatOp_Initializer::makeExpr(cv::MatExpr&, int, cv::Size_<int>, int, double) [25]
+                0.00    0.00       4/14          cv::ml::EMImpl::mStep() [24]
+                0.00    0.00       8/14          cv::MatOp_Bin::makeExpr(cv::MatExpr&, char, cv::Mat const&, cv::Mat const&, double) [22]
+[23]     0.0    0.00    0.00      14         cv::MatExpr::~MatExpr() [23]
+                0.00    0.00      42/505303      cv::Mat::~Mat() [6]
+-----------------------------------------------
+                                                 <spontaneous>
+[24]     0.0    0.00    0.00                 cv::ml::EMImpl::mStep() [24]
+                0.00    0.00      15/505303      cv::Mat::~Mat() [6]
+                0.00    0.00       4/14          cv::MatExpr::~MatExpr() [23]
+-----------------------------------------------
+                                                 <spontaneous>
+[25]     0.0    0.00    0.00                 cv::MatOp_Initializer::makeExpr(cv::MatExpr&, int, cv::Size_<int>, int, double) [25]
+                0.00    0.00       3/2432        cv::Mat::operator=(cv::Mat const&) [18]
+                0.00    0.00       3/505303      cv::Mat::~Mat() [6]
+                0.00    0.00       1/14          cv::MatExpr::~MatExpr() [23]
+-----------------------------------------------
+                                                 <spontaneous>
+[26]     0.0    0.00    0.00                 cv::ml::EMImpl::clusterTrainSamples() [26]
+                0.00    0.00       6/505303      cv::Mat::~Mat() [6]
+                0.00    0.00       3/2432        cv::Mat::operator=(cv::Mat const&) [18]
+-----------------------------------------------
+                                                 <spontaneous>
+[27]     0.0    0.00    0.00                 cv::operator/(double, cv::Mat const&) [27]
+                0.00    0.00       8/505303      cv::Mat::~Mat() [6]
+-----------------------------------------------
+                                                 <spontaneous>
+[28]     0.0    0.00    0.00                 cv::MatOp_Bin::assign(cv::MatExpr const&, cv::Mat&, int) const [28]
+                0.00    0.00       8/505303      cv::Mat::~Mat() [6]
+-----------------------------------------------
+                                                 <spontaneous>
+[29]     0.0    0.00    0.00                 cv::ml::EMImpl::doTrain(int, cv::_OutputArray const&, cv::_OutputArray const&, cv::_OutputArray const&) [29]
+                0.00    0.00       4/507739      cv::Mat::release() [4]
+                0.00    0.00       1/505303      cv::Mat::~Mat() [6]
+-----------------------------------------------
+                0.00    0.00       8/8           main [2]
+[30]     0.0    0.00    0.00       8         cv::_InputArray::_InputArray<double, 4, 1>(cv::Matx<double, 4, 1> const&) [30]
+                0.00    0.00       8/500115      cv::Size_<int>::Size_() [7]
+                0.00    0.00       8/9           cv::Size_<int>::Size_(int, int) [4048]
+                0.00    0.00       8/8           cv::_InputArray::init(int, void const*, cv::Size_<int>) [4049]
+-----------------------------------------------
+                                                 <spontaneous>
+[31]     0.0    0.00    0.00                 cv::ml::EMImpl::decomposeCovs() [31]
+                0.00    0.00       2/505303      cv::Mat::~Mat() [6]
+-----------------------------------------------
+                0.00    0.00       1/1           main [2]
+[32]     0.0    0.00    0.00       1         cv::_OutputArray::_OutputArray(cv::Mat&) [32]
+                0.00    0.00       1/250105      cv::_InputArray::_InputArray() [13]
+                0.00    0.00       1/1000316     cv::_InputArray::init(int, void const*) [4029]
+-----------------------------------------------
+                0.00    0.00       1/1000316     cv::_OutputArray::_OutputArray(cv::Mat&) [32]
+                0.00    0.00  250002/1000316     cv::_InputArray::_InputArray(cv::Mat const&) [16]
+                0.00    0.00  250104/1000316     cv::_OutputArray::_OutputArray() [14]
+                0.00    0.00  250104/1000316     cv::_InputOutputArray::_InputOutputArray(cv::Mat&) [15]
+                0.00    0.00  250105/1000316     cv::_InputArray::_InputArray() [13]
+[4029]   0.0    0.00    0.00 1000316         cv::_InputArray::init(int, void const*) [4029]
+-----------------------------------------------
+                0.00    0.00  250010/500116      main [2]
+                0.00    0.00  250106/500116      cv::_OutputArray::~_OutputArray() [9]
+[4030]   0.0    0.00    0.00  500116         cv::_InputArray::~_InputArray() [4030]
+-----------------------------------------------
+                0.00    0.00     100/500100      int& cv::Mat::at<int>(int) [4046]
+                0.00    0.00  500000/500100      float& cv::Mat::at<float>(int) [4032]
+[4031]   0.0    0.00    0.00  500100         cv::Mat::isContinuous() const [4031]
+-----------------------------------------------
+                0.00    0.00  500000/500000      main [2]
+[4032]   0.0    0.00    0.00  500000         float& cv::Mat::at<float>(int) [4032]
+                0.00    0.00  500000/500100      cv::Mat::isContinuous() const [4031]
+-----------------------------------------------
+                0.00    0.00  250100/250100      main [2]
+[4033]   0.0    0.00    0.00  250100         cv::Point_<int>::Point_(int, int) [4033]
+-----------------------------------------------
+                0.00    0.00  250012/250012      cv::Scalar_<double>::Scalar_(double, double, double, double) [4036]
+[4034]   0.0    0.00    0.00  250012         cv::Vec<double, 4>::Vec() [4034]
+                0.00    0.00  250012/250012      cv::Matx<double, 4, 1>::Matx() [4035]
+-----------------------------------------------
+                0.00    0.00  250012/250012      cv::Vec<double, 4>::Vec() [4034]
+[4035]   0.0    0.00    0.00  250012         cv::Matx<double, 4, 1>::Matx() [4035]
+-----------------------------------------------
+                0.00    0.00      12/250012      main [2]
+                0.00    0.00  250000/250012      cv::Scalar_<double> cv::operator*<double>(cv::Scalar_<double> const&, double) [4041]
+[4036]   0.0    0.00    0.00  250012         cv::Scalar_<double>::Scalar_(double, double, double, double) [4036]
+                0.00    0.00  250012/250012      cv::Vec<double, 4>::Vec() [4034]
+-----------------------------------------------
+                0.00    0.00  250000/250000      main [2]
+[4037]   0.0    0.00    0.00  250000         cv::Vec<double, 2>::operator[](int) [4037]
+-----------------------------------------------
+                0.00    0.00  250000/250000      cv::Scalar_<double>::Scalar_(cv::Scalar_<double> const&) [4040]
+[4038]   0.0    0.00    0.00  250000         cv::Vec<double, 4>::Vec(cv::Vec<double, 4> const&) [4038]
+                0.00    0.00  250000/250000      cv::Matx<double, 4, 1>::Matx(double const*) [4039]
+-----------------------------------------------
+                0.00    0.00  250000/250000      cv::Vec<double, 4>::Vec(cv::Vec<double, 4> const&) [4038]
+[4039]   0.0    0.00    0.00  250000         cv::Matx<double, 4, 1>::Matx(double const*) [4039]
+-----------------------------------------------
+                0.00    0.00  250000/250000      main [2]
+[4040]   0.0    0.00    0.00  250000         cv::Scalar_<double>::Scalar_(cv::Scalar_<double> const&) [4040]
+                0.00    0.00  250000/250000      cv::Vec<double, 4>::Vec(cv::Vec<double, 4> const&) [4038]
+-----------------------------------------------
+                0.00    0.00  250000/250000      main [2]
+[4041]   0.0    0.00    0.00  250000         cv::Scalar_<double> cv::operator*<double>(cv::Scalar_<double> const&, double) [4041]
+                0.00    0.00  250000/250012      cv::Scalar_<double>::Scalar_(double, double, double, double) [4036]
+-----------------------------------------------
+                0.00    0.00  250000/250000      main [2]
+[4042]   0.0    0.00    0.00  250000         cv::Ptr<cv::ml::EM>::operator->() const [4042]
+-----------------------------------------------
+                0.00    0.00    4864/4864        cv::Mat::operator=(cv::Mat const&) [18]
+[4043]   0.0    0.00    0.00    4864         cv::MatStep::operator[](int) [4043]
+-----------------------------------------------
+                0.00    0.00    4864/4864        cv::Mat::operator=(cv::Mat const&) [18]
+[4044]   0.0    0.00    0.00    4864         cv::MatStep::operator[](int) const [4044]
+-----------------------------------------------
+                0.00    0.00     200/200         main [2]
+[4045]   0.0    0.00    0.00     200         float& cv::Mat::at<float>(int, int) [4045]
+-----------------------------------------------
+                0.00    0.00     100/100         main [2]
+[4046]   0.0    0.00    0.00     100         int& cv::Mat::at<int>(int) [4046]
+                0.00    0.00     100/500100      cv::Mat::isContinuous() const [4031]
+-----------------------------------------------
+                0.00    0.00     100/100         main [2]
+[4047]   0.0    0.00    0.00     100         cv::Point_<int>::Point_(cv::Point_<int> const&) [4047]
+-----------------------------------------------
+                0.00    0.00       1/9           main [2]
+                0.00    0.00       8/9           cv::_InputArray::_InputArray<double, 4, 1>(cv::Matx<double, 4, 1> const&) [30]
+[4048]   0.0    0.00    0.00       9         cv::Size_<int>::Size_(int, int) [4048]
+-----------------------------------------------
+                0.00    0.00       8/8           cv::_InputArray::_InputArray<double, 4, 1>(cv::Matx<double, 4, 1> const&) [30]
+[4049]   0.0    0.00    0.00       8         cv::_InputArray::init(int, void const*, cv::Size_<int>) [4049]
+                0.00    0.00       8/8           cv::Size_<int>::operator=(cv::Size_<int> const&) [4051]
+-----------------------------------------------
+                0.00    0.00       4/8           cv::Range::all() [4052]
+                0.00    0.00       4/8           cv::Mat::rowRange(int, int) const [4055]
+[4050]   0.0    0.00    0.00       8         cv::Range::Range(int, int) [4050]
+-----------------------------------------------
+                0.00    0.00       8/8           cv::_InputArray::init(int, void const*, cv::Size_<int>) [4049]
+[4051]   0.0    0.00    0.00       8         cv::Size_<int>::operator=(cv::Size_<int> const&) [4051]
+-----------------------------------------------
+                0.00    0.00       4/4           cv::Mat::rowRange(int, int) const [4055]
+[4052]   0.0    0.00    0.00       4         cv::Range::all() [4052]
+                0.00    0.00       4/8           cv::Range::Range(int, int) [4050]
+-----------------------------------------------
+                0.00    0.00       2/4           cv::Mat::Mat() [4058]
+                0.00    0.00       2/4           cv::Mat::Mat(int, int, int) [4057]
+[4053]   0.0    0.00    0.00       4         cv::MatSize::MatSize(int*) [4053]
+-----------------------------------------------
+                0.00    0.00       2/4           cv::Mat::Mat() [4058]
+                0.00    0.00       2/4           cv::Mat::Mat(int, int, int) [4057]
+[4054]   0.0    0.00    0.00       4         cv::MatStep::MatStep() [4054]
+-----------------------------------------------
+                0.00    0.00       4/4           main [2]
+[4055]   0.0    0.00    0.00       4         cv::Mat::rowRange(int, int) const [4055]
+                0.00    0.00       4/4           cv::Range::all() [4052]
+                0.00    0.00       4/8           cv::Range::Range(int, int) [4050]
+-----------------------------------------------
+                0.00    0.00       2/2           cv::Mat::Mat(int, int, int) [4057]
+[4056]   0.0    0.00    0.00       2         cv::Mat::create(int, int, int) [4056]
+-----------------------------------------------
+                0.00    0.00       2/2           main [2]
+[4057]   0.0    0.00    0.00       2         cv::Mat::Mat(int, int, int) [4057]
+                0.00    0.00       2/4           cv::MatSize::MatSize(int*) [4053]
+                0.00    0.00       2/4           cv::MatStep::MatStep() [4054]
+                0.00    0.00       2/2           cv::Mat::create(int, int, int) [4056]
+-----------------------------------------------
+                0.00    0.00       1/2           main [2]
+                0.00    0.00       1/2           cv::MatExpr::operator cv::Mat() const [4067]
+[4058]   0.0    0.00    0.00       2         cv::Mat::Mat() [4058]
+                0.00    0.00       2/4           cv::MatSize::MatSize(int*) [4053]
+                0.00    0.00       2/4           cv::MatStep::MatStep() [4054]
+-----------------------------------------------
+                0.00    0.00       1/1           __libc_csu_init [6448]
+[4059]   0.0    0.00    0.00       1         _GLOBAL__sub_I_main [4059]
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [4060]
+-----------------------------------------------
+                0.00    0.00       1/1           _GLOBAL__sub_I_main [4059]
+[4060]   0.0    0.00    0.00       1         __static_initialization_and_destruction_0(int, int) [4060]
+-----------------------------------------------
+                0.00    0.00       1/1           main [2]
+[4061]   0.0    0.00    0.00       1         cv::TermCriteria::TermCriteria(int, int, double) [4061]
+-----------------------------------------------
+                0.00    0.00       1/1           cv::Ptr<cv::ml::EM>::~Ptr() [4063]
+[4062]   0.0    0.00    0.00       1         cv::Ptr<cv::ml::EM>::release() [4062]
+                0.00    0.00       1/1           cv::detail::PtrOwner::decRef() [4066]
+-----------------------------------------------
+                0.00    0.00       1/1           main [2]
+[4063]   0.0    0.00    0.00       1         cv::Ptr<cv::ml::EM>::~Ptr() [4063]
+                0.00    0.00       1/1           cv::Ptr<cv::ml::EM>::release() [4062]
+-----------------------------------------------
+                0.00    0.00       1/1           main [2]
+[4064]   0.0    0.00    0.00       1         cv::String::String(char const*) [4064]
+-----------------------------------------------
+                0.00    0.00       1/1           main [2]
+[4065]   0.0    0.00    0.00       1         cv::String::~String() [4065]
+-----------------------------------------------
+                0.00    0.00       1/1           cv::Ptr<cv::ml::EM>::release() [4062]
+[4066]   0.0    0.00    0.00       1         cv::detail::PtrOwner::decRef() [4066]
+-----------------------------------------------
+                0.00    0.00       1/1           main [2]
+[4067]   0.0    0.00    0.00       1         cv::MatExpr::operator cv::Mat() const [4067]
+                0.00    0.00       1/2           cv::Mat::Mat() [4058]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function is in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+Copyright (C) 2012 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+Index by function name
+
+ [4059] _GLOBAL__sub_I_main    [4] cv::Mat::release()   [4065] cv::String::~String()
+ [4060] __static_initialization_and_destruction_0(int, int) [4057] cv::Mat::Mat(int, int, int) [4066] cv::detail::PtrOwner::decRef()
+   [8] cvRound(double)      [4058] cv::Mat::Mat()         [23] cv::MatExpr::~MatExpr()
+ [4029] cv::_InputArray::init(int, void const*) [6] cv::Mat::~Mat() [4053] cv::MatSize::MatSize(int*)
+ [4049] cv::_InputArray::init(int, void const*, cv::Size_<int>) [18] cv::Mat::operator=(cv::Mat const&) [4054] cv::MatStep::MatStep()
+  [13] cv::_InputArray::_InputArray() [4062] cv::Ptr<cv::ml::EM>::release() [4043] cv::MatStep::operator[](int)
+  [16] cv::_InputArray::_InputArray(cv::Mat const&) [4063] cv::Ptr<cv::ml::EM>::~Ptr() [4040] cv::Scalar_<double>::Scalar_(cv::Scalar_<double> const&)
+  [30] cv::_InputArray::_InputArray<double, 4, 1>(cv::Matx<double, 4, 1> const&) [4037] cv::Vec<double, 2>::operator[](int) [4036] cv::Scalar_<double>::Scalar_(double, double, double, double)
+ [4030] cv::_InputArray::~_InputArray() [4034] cv::Vec<double, 4>::Vec() [4041] cv::Scalar_<double> cv::operator*<double>(cv::Scalar_<double> const&, double)
+ [4061] cv::TermCriteria::TermCriteria(int, int, double) [4038] cv::Vec<double, 4>::Vec(cv::Vec<double, 4> const&) [10] cv::_InputArray::getMat(int) const
+  [14] cv::_OutputArray::_OutputArray() [4039] cv::Matx<double, 4, 1>::Matx(double const*) [1] cv::ml::EMImpl::computeProbabilities(cv::Mat const&, cv::Mat*, int) const
+  [32] cv::_OutputArray::_OutputArray(cv::Mat&) [4035] cv::Matx<double, 4, 1>::Matx() [5] cv::ml::EMImpl::predict2(cv::_InputArray const&, cv::_OutputArray const&) const
+   [9] cv::_OutputArray::~_OutputArray() [4052] cv::Range::all() [4031] cv::Mat::isContinuous() const
+  [15] cv::_InputOutputArray::_InputOutputArray(cv::Mat&) [4050] cv::Range::Range(int, int) [4055] cv::Mat::rowRange(int, int) const
+  [12] cv::_InputOutputArray::~_InputOutputArray() [7] cv::Size_<int>::Size_() [11] cv::Mat::convertTo(cv::_OutputArray const&, int, double, double) const
+ [4032] float& cv::Mat::at<float>(int) [4048] cv::Size_<int>::Size_(int, int) [4042] cv::Ptr<cv::ml::EM>::operator->() const
+ [4045] float& cv::Mat::at<float>(int, int) [4051] cv::Size_<int>::operator=(cv::Size_<int> const&) [4067] cv::MatExpr::operator cv::Mat() const
+ [4046] int& cv::Mat::at<int>(int) [4047] cv::Point_<int>::Point_(cv::Point_<int> const&) [4044] cv::MatStep::operator[](int) const
+   [3] cv::Mat::create(int, int const*, int) [4033] cv::Point_<int>::Point_(int, int) [2] main
+ [4056] cv::Mat::create(int, int, int) [4064] cv::String::String(char const*)
