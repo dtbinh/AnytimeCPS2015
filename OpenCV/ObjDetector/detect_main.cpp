@@ -28,7 +28,7 @@ int nClusters = 2; //number of clusters for gmm
 int countB =0, countF=0; //count back and foreground (red and not)
 
 Vec3b color; //3-d vec to store pixs of image
-
+Vec2d probFg, probBg; //probabilities to belong to red(Fg) or not(Bg)
 
 //stuff to read from dir
 DIR *dir; //for directory of images 
@@ -46,23 +46,23 @@ struct dirent *ent;
 
 if(training_on)
  {
- if (dir != NULL) {
+ if (dir != NULL) { //for all images for training
         while ((ent = readdir (dir)) != NULL) //while training image dir not empty
         {
              
     	    string imgPath(dirName_ITP + ent->d_name);   // image name for train
     	    string maskPath(dirName_ITM + ent->d_name); //mask for this image
-            Mat img = imread(imgPath);
+            Mat imtrain = imread(imgPath);
             Mat mask = imread(maskPath);
              
              //printing for debug
-            cout<<endl<<endl<<"found one  "<<imgPath<<endl<<maskPath<<endl;
+            /* cout<<endl<<endl<<"found one  "<<imgPath<<endl<<maskPath<<endl;
             
-            cout<<img.size()<<" "<<img.rows<<" "<<img.cols<<endl;
-            
+            cout<<img.size()<<" "<<img.rows<<" "<<img.cols<<endl;*/           
             
             
             // extract pixel info
+            
             
             
             
@@ -70,7 +70,23 @@ if(training_on)
         closedir (dir);
     } else {
         cout<<"not present"<<endl;
-    }    
+    } //end directory searchthrough
+      
+    // how many did we find
+    printf("countB %d countF %d \n", countB, countF);
+    
+    // extract color info from images
+
+
+	Mat samplesForeground = Mat(countF,3, CV_64F); // to store color info
+	Mat samplesBackground = Mat(countB,3, CV_64F);
+	
+	countB=0; //re-use
+	countF=0;	
+
+	
+    
+      
  } //end if training_on
 
 
