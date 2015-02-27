@@ -54,11 +54,12 @@ if(training_on)
     	    string maskPath(dirName_ITM + ent->d_name); //mask for this image
             Mat img = imread(imgPath);
             Mat mask = imread(maskPath);
-            /* printing for debug
+             
+             //printing for debug
             cout<<endl<<endl<<"found one  "<<imgPath<<endl<<maskPath<<endl;
             
             cout<<img.size()<<" "<<img.rows<<" "<<img.cols<<endl;
-            */
+            
             
             
             // extract pixel info
@@ -70,8 +71,8 @@ if(training_on)
     } else {
         cout<<"not present"<<endl;
     }    
- }
+ } //end if training_on
 
 
-
-}
+return 0;
+} //end main
