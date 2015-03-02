@@ -158,8 +158,10 @@ if(training_on)
 
 	// save 'em
 	cout<<endl<<" Writing xml for EM models"<<endl<<endl;
-	cv::FileStorage fs("model.xml",cv::FileStorage::WRITE);
-	em_foreground->write(fs);
+	cv::FileStorage fs_fg("model_fg.xml",cv::FileStorage::WRITE);
+	em_foreground->write(fs_fg);
+	cv::FileStorage fs_bg("model_bg.xml",cv::FileStorage::WRITE);
+	em_background->write(fs_bg);
 	
 		
 
@@ -170,28 +172,106 @@ if(training_on)
  } //end if training_on
 
 if(testing_on)
- {	    				
-	    DIR *dir;	      
+ {	    cout<<endl<<"Testing ... "<<endl;				
+	    
+	    //threshold if needed
+            long double lnThresh = -1000000000000000000000;			
+
+	    // for the image files	
+    	    DIR *dir;	      
 	    string dirName_ITP = "Images/Test/Pics/";	
 	    string dirName_ITM = "Images/Test/Masks/mask.";
 	    dir = opendir(dirName_ITP.c_str());
 	    string imgName;
 	    struct dirent *ent;
+		
+	    // storage needed for predictions
+  	    Mat sample(1, 3, CV_64F);
+            Mat maskout; 
+	    int countB = 0;	
+	    int countF = 0;	
+            Vec2d probFg, probBg; 
 
+
+
+	    // read saved models from xmls	
+	    Ptr<EM> em_fg = EM::create(); //foreground pixs	
+	    cv::FileStorage fs_fg("model_fg.xml",cv::FileStorage::READ);	
+	    Ptr<EM> em_bg = EM::create(); //background pixs
+	    cv::FileStorage fs_bg("model_bg.xml",cv::FileStorage::READ);
+			
+
+	    if(fs_fg.isOpened()) 
+		{ cout<<endl<<" Reading for fg from xml"<<endl;		    
+		em_fg->read(fs_fg["model_fg"]);
+		fs_fg.release();
+		}
 	    
+            if(fs_bg.isOpened()) 
+		{ cout<<endl<<" Reading for bg from xml"<<endl;		    
+		em_bg->read(fs_bg["model_bg"]);
+		fs_bg.release();
+		}
+
 
 
 	    if (dir != NULL) { //read test images in Test dir
-		while ((ent = readdir (dir)) != NULL) {
-		     //imgName= ent->d_name;
+		while ((ent = readdir (dir)) != NULL) { //while images in here
+		     
 		string imgPath(dirName_ITP + ent->d_name);   // image name for train
     	        string maskPath(dirName_ITM + ent->d_name); //mask for this image
                 Mat imtest = imread(imgPath);
                 Mat mask = imread(maskPath,0); //make sure to read in greyscale son	
 		
-               cout<<endl<<endl<<"found one  "<<imgPath<<endl;
-	       cout<<imtest.size()<<" "<<imtest.rows<<" "<<imtest.cols<<endl;
-		}
+               
+		
+		 if(imtest.rows!=0 && imtest.cols!=0) //do not read stuff that is not an image
+		{
+		  cout<<endl<<endl<<"found one  "<<imgPath<<endl;
+	          cout<<imtest.size()<<" "<<imtest.rows<<" "<<imtest.cols<<endl;
+		
+                  // do some predicting now son  					
+                  maskout = Mat::zeros( Size( imtest.rows, imtest.cols ), CV_8U);//CV_8UC3 );	
+		  countB = 0;
+		  countF = 0;
+		
+		  // go over each pixel in image
+			for(int i=0; i<=imtest.rows-1;i++) {
+			    for(int j=0; j<=imtest.cols-1;j++) {
+				//cout<<endl<<i<<" "<<j<<endl;
+				color = imtest.at<Vec3b>(i,j);
+				sample.at<double>(0)=color[0];
+				sample.at<double>(1)=color[1];
+				sample.at<double>(2)=color[2];
+	
+				probFg=em_fg->predict2(sample, noArray());
+				probBg=em_bg->predict2(sample, noArray());
+	
+				
+				if((probFg[0]>probBg[0]) && (probFg[0]>lnThresh)){
+				    countF++;    
+				    maskout.at<char>(i,j) = 255;		   	
+				   //printf("probFg[0] %f probBg[0] %f \n", probFg[0], probBg[0]);
+				}
+				else
+				{   maskout.at<char>(i,j) = 0;
+				}
+			    }
+			} // done going over pixels in image
+				cout<<endl<<"red barrel pixels detected= "<<countF<<endl;
+				namedWindow("Maskout", WINDOW_NORMAL);
+				imshow("Maskout", maskout);
+				waitKey(0);
+
+				
+
+
+
+
+
+
+		} //end test for emptyness of dir obj
+	      } //out of images to test now
 		closedir (dir);
 	    } else {
 		cout<<"not present"<<endl;
