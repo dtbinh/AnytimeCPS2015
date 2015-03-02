@@ -172,18 +172,25 @@ if(training_on)
 if(testing_on)
  {	    				
 	    DIR *dir;	      
-	    string dirName = "Images/Test/";	
-	    dir = opendir(dirName.c_str());
+	    string dirName_ITP = "Images/Test/Pics/";	
+	    string dirName_ITM = "Images/Test/Masks/mask.";
+	    dir = opendir(dirName_ITP.c_str());
 	    string imgName;
 	    struct dirent *ent;
 
-	    if (dir != NULL) {
+	    
+
+
+	    if (dir != NULL) { //read test images in Test dir
 		while ((ent = readdir (dir)) != NULL) {
-		     //imgName= ent->d_name;
-		string imgPath(dirName + ent->d_name);	
-		cout<<endl<<endl<<"found one  "<<imgPath<<endl;
-		    Mat img = imread(imgPath);
-		    cout<<img.size()<<" "<<img.rows<<" "<<img.cols<<endl;
+		     
+		string imgPath(dirName_ITP + ent->d_name);   // image name for train
+    	        string maskPath(dirName_ITM + ent->d_name); //mask for this image
+                Mat imtest = imread(imgPath);
+                Mat mask = imread(maskPath,0); //make sure to read in greyscale son	
+		
+               cout<<endl<<endl<<"found one  "<<imgPath<<endl;
+	       cout<<imtest.size()<<" "<<imtest.rows<<" "<<imtest.cols<<endl;
 		}
 		closedir (dir);
 	    } else {
