@@ -13,13 +13,20 @@ using namespace cv;
 using namespace std;
 using namespace cv::ml;
 
+Mat functest(int a,int b)
+{
+Mat r;
+r = a + b;
+return r;
+}
 
 int main(int, char**)
 {
 
 //general opts
-bool training_on = 1;
-bool get_counts = 1; //manually do this and the next numbers
+bool training_on = 0;
+bool get_counts = 0; //manually do this and the next numbers
+bool testing_on = !training_on;
 int countBmax = 8474455;//75145797; 
 int countFmax= 1125545;//1654203;
 
@@ -160,10 +167,38 @@ if(training_on)
 	cout<<endl<<" Writing xml for EM models"<<endl<<endl;
 	cv::FileStorage fs("model.xml",cv::FileStorage::WRITE);
 	em_foreground->write(fs);
-	} //end check and training if not counting
+	
+		
+
+	
+
+		} //end check and training if not counting
 
  } //end if training_on
 
+if(testing_on)
+ {	    Mat r = functest(2,3);
+	    cout<<endl<<"func "<<r.cols;				
+	    DIR *dir;	      
+	    string dirName = "Images/Test/";	
+	    dir = opendir(dirName.c_str());
+	    string imgName;
+	    struct dirent *ent;
 
+	    if (dir != NULL) {
+		while ((ent = readdir (dir)) != NULL) {
+		     //imgName= ent->d_name;
+		string imgPath(dirName + ent->d_name);	
+		cout<<endl<<endl<<"found one  "<<imgPath<<endl;
+		    Mat img = imread(imgPath);
+		    cout<<img.size()<<" "<<img.rows<<" "<<img.cols<<endl;
+		}
+		closedir (dir);
+	    } else {
+		cout<<"not present"<<endl;
+	    }	
+
+
+ } //end testing
 return 0;
 } //end main
