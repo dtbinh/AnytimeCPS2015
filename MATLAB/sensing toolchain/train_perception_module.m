@@ -15,8 +15,7 @@ nonk = 1;
 if ~exist('loadgmm', 'var') ||  ~loadgmm
     for m=1:nbimages
         M=bw(:,:,m);
-        Im=imread(images(m).name);
-        % Normalize to decrease sensitivity to lighting variations
+        Im=imread(images(m).name);        
         I = preprocess_img(Im);
         a=size(I);
         %----------------------------
@@ -35,7 +34,7 @@ if ~exist('loadgmm', 'var') ||  ~loadgmm
         end
         %     scatter3(poi(:,1), poi(:,2), poi(:,3)); xlabel('R'); ylabel('G'); zlabel('B')
         k = size(poi,1)+1;
-        % Add non-pois as well - trying to work around ill-conditioning
+        % Add non-pois as well
         nonpoi = [nonpoi; zeros(a(1)*a(2) - N,nbcolors)];
         linear = find(M==0);
         for c=1:nbcolors
@@ -91,13 +90,13 @@ for m=1:nbimages
     end
     minAcceptanceProb
     % Filter out the smaller things
-    %...
+    M = imerode(reshape(clusterObjOfInterest,a(1),a(2)),strel('rectangle',[1,1]));
+    M = medfilt2(M,'symmetric');
     % Extract features for the positive class, i.e. of barrel objects.
     % We can either use the fact that we have manually extracted this
     % object...
     % M=bw(:,:,m);
     % ...or pick it from the gmm
-    M = reshape(clusterObjOfInterest,a(1),a(2));
     statsPosClass = regionprops(M, 'MajorAxisLength', 'MinorAxisLength', 'Eccentricity', 'Solidity');
     nbFoundObjects = length(statsPosClass);
     if ~isempty(statsPosClass)

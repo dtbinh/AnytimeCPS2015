@@ -10,5 +10,5 @@ S = repmat((s == 0),1,1,3);
 s(s==0) = 1;
 J = S.*I + (~S).*(I./repmat(s,1,1,3));
 if any(any(any(isnan(J),3),2))
-    error('Still have NaNs in the normalized image - this should not happen.')
+    error('Image J still has NaNs in the normalized image - this should not happen.')
 end
