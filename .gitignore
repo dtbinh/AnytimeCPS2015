@@ -1,1 +1,4 @@
 MATLAB/sensing toolchain/fit_gmm.asv
+MATLAB/sensing toolchain/coder
+MATLAB/sensing toolchain/codegen
+*.asv
