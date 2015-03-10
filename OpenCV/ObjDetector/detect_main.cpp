@@ -163,6 +163,7 @@ if(training_on)
 	cv::FileStorage fs_bg("model_bg.xml",cv::FileStorage::WRITE);
 	em_background->write(fs_bg);
 	
+	// now get object data
 		
 
 	
@@ -175,8 +176,7 @@ if(testing_on)
  {	    cout<<endl<<"Testing ... "<<endl;				
 	    
 	    //threshold if needed
-            long double lnThresh = -1000000000000000000000; // change color space or something, this
-								// is shit, pure un-fucking-adulterated 										shit		
+            //long double lnThresh = -1000000000000000000000; // 
 
 	    // for the image files	
     	    DIR *dir;	      
@@ -192,8 +192,12 @@ if(testing_on)
 	    int countB = 0;	
 	    int countF = 0;	
             Vec2d probFg, probBg; 
-
-
+ 
+            // for CC
+	    Mat labelImage;//(bw.size(), CV_32S);
+            Mat stats;
+	    Mat centroids; 		
+	    int nLabels;
 
 	    // read saved models from xmls	
 	    Ptr<EM> em_fg = EM::create(); //foreground pixs	
@@ -249,7 +253,7 @@ if(testing_on)
 				probBg=em_bg->predict2(sample, noArray());
 	
 				
-				if((probFg[0]>probBg[0]) && (probFg[0]>lnThresh)){
+				if(probFg[0]>probBg[0]){
 				    countF++;    
 				    maskout.at<char>(i,j) = 255;		   	
 				   //printf("probFg[0] %f probBg[0] %f \n", probFg[0], probBg[0]);
@@ -264,8 +268,10 @@ if(testing_on)
 				imshow("Maskout", maskout);
 				waitKey(0);
 
-				
-
+		        // CC testing now
+			labelImage = Mat::zeros(Size(imtest.rows,imtest.cols), CV_32S);
+			nLabels = connectedComponentsWithStats(maskout, labelImage, stats, centroids,8);	
+			
 
 
 
