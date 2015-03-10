@@ -22,7 +22,7 @@ KernelScale         = SVMModel.KernelParameters.Scale;
 SupportVectors      = SVMModel.SupportVectors;
 Bias                = SVMModel.Bias;
 
-nbimages = 3;
+nbimages = 1;
 for m=1:nbimages
     imageName = [folder, '/',images(m).name];
     Im=imread(imageName);
