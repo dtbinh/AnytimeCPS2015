@@ -37,7 +37,7 @@ M = medfilt2(M,'symmetric');
 % for i=1:length(stats)
 %     statsPosClass(i,:) = [stats(i).MajorAxisLength, stats(i).MinorAxisLength, stats(i).Eccentricity, stats(i).Solidity, stats(i).Centroid];
 % end    
-% % M = [1 1 1 0 0 0;1 0 0 1 1 1;1 1 0 0 0 0 ; 1 1 0 0 0 0;1 1 0 0 0 1;0 0 0 0 0 1];
+% M = [1 1 1 0 0 0;1 0 0 1 1 1;1 1 0 0 0 0 ; 1 1 0 0 0 0;1 1 0 0 0 1;0 0 0 0 0 1];
 L = label_connected_components_for_srcgen(M,4,8);
 nbcomponents = max(max(L));
 statsPosClass = zeros(nbcomponents,6);
