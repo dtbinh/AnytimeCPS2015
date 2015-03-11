@@ -44,10 +44,11 @@ for n=1:nbregions
     Eccentricity = sqrt(1-(MinorAxisLength/MajorAxisLength)^2);
     Area = length(ff);
     Centroid = sum(X)./Area;
-%     convex_hull = graham_scan(X);
+    [convex_hull, charea] = graham_scan(X,size(L,1),size(L,2));
+    
     stats(n,1) = MajorAxisLength;
     stats(n,2) = MinorAxisLength;
     stats(n,3) = Eccentricity;
-    stats(n,4) = 1;
+    stats(n,4) = Area/charea;
     stats(n,5:6) = Centroid;    
 end

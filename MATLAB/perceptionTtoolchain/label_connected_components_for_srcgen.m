@@ -4,7 +4,7 @@ function L = label_connected_components_for_srcgen(BW, n, minimumSize)
 % minimumSize: ignore all components of less than a minimumSize pixels
 
 L = zeros(size(BW));
-q = [];
+q = zeros(0,2);
 curlabel = 1;
 a = size(BW);
 for i=1:a(1)

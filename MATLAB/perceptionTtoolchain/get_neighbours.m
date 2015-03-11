@@ -1,6 +1,6 @@
 function nhbrs = get_neighbours(n,i,j,r,c)
 % Get n neighbours of pixel(i,j) in an image sized r-by-c
-nhbrs = [];
+nhbrs = zeros(0,2);
 if n==4
     if j>1
         nhbrs = [i, j-1];
