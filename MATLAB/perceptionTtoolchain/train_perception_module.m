@@ -1,4 +1,5 @@
 folder = '../../Data/Barrel';
+addpath(folder);
 load([folder,'/BarrelMasks.mat'])
 images = dir([folder,'/*.png']);
 
@@ -58,16 +59,13 @@ if ~exist('loadgmm', 'var') ||  ~loadgmm
     end
     regularizationValue = 0.01;
     tic
-    poiGM = fitgmdist(poi,nbcomponentsPOI, 'Start', 'plus', 'RegularizationValue',regularizationValue);
-    % poiGM = fitgmdist(poi,nbcomponentsPOI, 'Start', 'plus');
-    toc
+    poiGM = fitgmdist(poi,nbcomponentsPOI, 'Start', 'randSample', 'Regularize',regularizationValue);
+    %poiGM = fitgmdist(poi,nbcomponentsPOI, 'Start', 'plus', 'RegularizationValue',regularizationValue);
     if ~poiGM.Converged
         warning('Did not converge')
     end
-    tic
-    nonpoiGM = fitgmdist(nonpoi,nbcomponentsNonPOI, 'Start', 'plus', 'RegularizationValue',regularizationValue);
-    % nonpoiGM = fitgmdist(nonpoi,nbcomponentsNonPOI, 'Start', 'plus');
-    toc
+    nonpoiGM = fitgmdist(nonpoi,nbcomponentsNonPOI, 'Start', 'randSample', 'Regularize',regularizationValue);
+    %nonpoiGM = fitgmdist(nonpoi,nbcomponentsPOI, 'Start', 'plus', 'RegularizationValue',regularizationValue);
     if ~nonpoiGM.Converged
         warning('non POI Did not converge')
     end
@@ -95,8 +93,8 @@ for m=1:nbimages
     [idxnon, ~, posteriorsnon] = cluster(nonpoiGM,double(candidate));
     b = size(candidate);
     % For each pix, decide if it's best described by poi or non
-    d1 = sum(posteriorspoi.*repmat(poiGM.ComponentProportion,b(1),1),2);
-    d2 = sum(posteriorsnon.*repmat(nonpoiGM.ComponentProportion,b(1),1),2);
+    d1 = sum(posteriorspoi.*repmat(poiGM.PComponents,b(1),1),2);
+    d2 = sum(posteriorsnon.*repmat(nonpoiGM.PComponents,b(1),1),2);
     clusterObjOfInterest = 0; %initialize while
     while (nnz(clusterObjOfInterest)==0 && minAcceptanceProb >= minSignificanceProb)
         minAcceptanceProb = minAcceptanceProb*minAcceptanceProbScalingFactor;
