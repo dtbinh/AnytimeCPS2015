@@ -1,15 +1,28 @@
 folder = '../../Data/Barrel';
 load([folder,'/BarrelMasks.mat'])
 images = dir([folder,'/*.png']);
+
+% Knobs to control the perception tool chain
+knobs.nbimages = 3;
+knobs.colors = [1 2 3];
+knobs.nbcomponentsPOI = 4;
+knobs.nbcomponentsNonPOI = 4;
+knobs.minInitialAcceptanceProb = 0.5;
+knobs.minAcceptanceProbScalingFactor = 0.8;
+knobs.minSignificanceProb = 0.2;
+knobs.featuresList = {'MajorAxisLength', 'MinorAxisLength', 'Eccentricity', 'Solidity'};
+knobs.nbValidationFolds = 5;
+
 % pixels of interest (poi)
 poi = [];
 nonpoi = [];
 % we may choose to fit one, two or all three color components.
-colors = [1 2 3];
+colors = knobs.colors;
 nbcolors = length(colors);
-nbcomponentsPOI = 4;
-nbcomponentsNonPOI = 4;
-nbimages = 3 %#ok<NOPTS> %length(images)
+nbcomponentsPOI = knobs.nbcomponentsPOI;
+nbcomponentsNonPOI = knobs.nbcomponentsNonPOI;
+nbimages = knobs.nbimages %#ok<NOPTS> %length(images)
+ 
 k = 1 ;
 nonk = 1;
 if ~exist('loadgmm', 'var') ||  ~loadgmm
@@ -63,15 +76,16 @@ else
     load('GMs.mat');
 end
 
-% Cluster the data (for now, not doing cross-validation)
+% Cluster the data
 featuresPosClass = [];
 featuresNegClass = [];
-minAcceptanceProbScalingFactor = 0.8;
-minSignificanceProb = 0.2;
+minAcceptanceProbScalingFactor = knobs.minAcceptanceProbScalingFactor ;
+minSignificanceProb = knobs.minSignificanceProb ;
+minInitialAcceptanceProb = knobs.minInitialAcceptanceProb ;
 mp = 1;
 mn = 1;
 for m=1:nbimages
-    minAcceptanceProb = 0.5/minAcceptanceProbScalingFactor; % allow for 1st iteration of while loop
+    minAcceptanceProb = minInitialAcceptanceProb/minAcceptanceProbScalingFactor; % allow for 1st iteration of while loop
     Im=imread(images(m).name);
     I = preprocess_img(Im);
     I = I(:,:,colors);
@@ -88,7 +102,7 @@ for m=1:nbimages
         minAcceptanceProb = minAcceptanceProb*minAcceptanceProbScalingFactor;
         clusterObjOfInterest = (d1 > max(d2,minAcceptanceProb));
     end
-    minAcceptanceProb
+    %minAcceptanceProb
     % Filter out the smaller things
     M = imerode(reshape(clusterObjOfInterest,a(1),a(2)),strel('rectangle',[1,1]));
     M = medfilt2(M,'symmetric');
@@ -96,8 +110,10 @@ for m=1:nbimages
     % We can either use the fact that we have manually extracted this
     % object...
     % M=bw(:,:,m);
-    % ...or pick it from the gmm
-    statsPosClass = regionprops(M, 'MajorAxisLength', 'MinorAxisLength', 'Eccentricity', 'Solidity');
+    % ...or pick it from the gmm   
+    featuresList = knobs.featuresList;
+    statsPosClass = regionprops(M, featuresList{1}, featuresList{2}, featuresList{3} , featuresList{4});
+%     statsPosClass = regionprops(M, 'MajorAxisLength', 'MinorAxisLength', 'Eccentricity', 'Solidity');
     nbFoundObjects = length(statsPosClass);
     if ~isempty(statsPosClass)
         % Vector = major, minor, ecc, solidity
@@ -110,7 +126,7 @@ for m=1:nbimages
     % being of class OOI (as determined by a thresholding on d1), but isn't
     % (as determined by clusterObjOfInterest)
     M = reshape((d1 > minSignificanceProb).*(~clusterObjOfInterest),a(1),a(2));
-    statsNegClass = regionprops(M, 'Eccentricity', 'MajorAxisLength', 'MinorAxisLength', 'Solidity');
+    statsNegClass = regionprops(M, featuresList{1}, featuresList{2}, featuresList{3} , featuresList{4});
     nbFoundObjects = length(statsNegClass);
     if ~isempty(statsNegClass)
         % Vector = major, minor, ecc, solidity
@@ -122,8 +138,9 @@ end
 % Now train the SVM
 SVMModel = fitcsvm([featuresNegClass; featuresPosClass],[-ones(size(featuresNegClass,1),1); ones(size(featuresPosClass,1),1)],...
     'KernelFunction','rbf','Standardize',true, ...
+    'Crossval', 'on', 'KFold', knobs.nbValidationFolds, ...
     'PredictorNames', {'majorByMinor', 'eccentricity', 'solidity'});
 
-save('GMs.mat', 'poiGM', 'nonpoiGM', 'SVMModel', 'colors', 'minAcceptanceProb', 'minAcceptanceProbScalingFactor', 'minSignificanceProb', 'nbcolors', 'nbcomponentsPOI', 'nbcomponentsNonPOI', 'nbimages');
+save('tempGMs.mat', 'poiGM', 'nonpoiGM', 'SVMModel', 'knobs');
 
 1;

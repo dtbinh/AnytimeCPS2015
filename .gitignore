@@ -1,5 +1,5 @@
-MATLAB/perceptionTtoolchain/fit_gmm.asv
-MATLAB/perceptionTtoolchain/coder
-MATLAB/perceptionTtoolchain/codegen/*
-MATLAB/perceptionTtoolchain/codegen
+MATLAB\perceptionTtoolchain\codegen
+MATLAB\perceptionTtoolchain\coder
+MATLAB\perceptionTtoolchain\coder\*
 *.asv
+*.c
