@@ -1,4 +1,4 @@
-function [elapsedtime, estimationError] = run_perception_module(inImgName, GMs, mask)
+function [elapsedtime, estimationError] = run_perception_module(inImgName, GMs, mask, nbfeatures)
 % run_perception_module(inImgName)
 % 
 % Run the perception tool chain on input image whose name is inImgName
@@ -47,7 +47,12 @@ if ~isempty(statsPosClass)
     for i=1:nbFoundObjects
         featuresPosClass(i,:) = [statsPosClass(i).MajorAxisLength/statsPosClass(i).MinorAxisLength, statsPosClass(i).Eccentricity, statsPosClass(i).Solidity];
     end
+    if nbfeatures ==1
+    [label,score]=predict(SVMModel, featuresPosClass(:,3));
+    else
     [label,score]=predict(SVMModel, featuresPosClass);
+     end
+ 
     % Keep positively classified objects with high enough scores.
     % score(:,2) is a column of positive class scores = posterior
     % probabilities. For this to work, the SVMModel must have been passed
