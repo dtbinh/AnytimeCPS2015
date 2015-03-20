@@ -442,7 +442,7 @@
       <param.DefaultFixedPointSignedness />
     </unset>
     <fileset.entrypoints>
-      <file custom-data-expanded="true" value="${PROJECT_ROOT}\run_perception_module_for_srcgen.m">
+      <file custom-data-expanded="false" value="${PROJECT_ROOT}\run_perception_module_for_srcgen.m">
         <Inputs fileName="run_perception_module_for_srcgen.m" functionName="run_perception_module_for_srcgen">
           <Input Name="Im">
             <Class>uint8</Class>
