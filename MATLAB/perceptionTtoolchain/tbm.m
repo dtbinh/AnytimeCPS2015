@@ -5,6 +5,8 @@ load([folder,'/BarrelMasks.mat'])
 mats = dir('*.mat');
 for i=1:length(mats)
     GMs = load(mats(i).name);
+    s=regexp(mats(i).name,'_NF\d_', 'match');
+    nbfeatures = str2double(s(4));
     time_error = zeros(GMs.knobs.nbimages,2);
     for m=1:3%GMs.knobs.nbimages
         imageName = [folder, '/',images(m).name];
