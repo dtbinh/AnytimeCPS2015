@@ -28,8 +28,8 @@ candidate = reshape(I,a(1)*a(2),nbcolors);
 [~, ~, posteriorsnon] = cluster(nonpoiGM,double(candidate));
 b = size(candidate);
 % For each pix, decide if it's best described by poi or non
-d1 = sum(posteriorspoi.*repmat(poiGM.ComponentProportion,b(1),1),2);
-d2 = sum(posteriorsnon.*repmat(nonpoiGM.ComponentProportion,b(1),1),2);
+d1 = sum(posteriorspoi.*repmat(poiGM.PComponents,b(1),1),2);
+d2 = sum(posteriorsnon.*repmat(nonpoiGM.PComponents,b(1),1),2);
 clusterObjOfInterest = 0; %initialize while
 while (nnz(clusterObjOfInterest)==0 && minAcceptanceProb >= minSignificanceProb)
     minAcceptanceProb = minAcceptanceProb*minAcceptanceProbScalingFactor;
