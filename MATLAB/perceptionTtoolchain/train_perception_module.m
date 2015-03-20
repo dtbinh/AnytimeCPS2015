@@ -3,15 +3,36 @@ addpath(folder);
 load([folder,'/BarrelMasks.mat'])
 images = dir([folder,'/*.png']);
 
+listNbImages = [30];
+listPC = [2,4,6];
+listNConnComp = [4,8];
+listShapeFeatures = [1,3];
+
+for nbimages=listNbImages
+for nbcomponents=listPC
+for nbconncomp=listNConnComp
+for nbShapeFeatures = listShapeFeatures
+
+nbcomponentsPOI = nbcomponents;
+nbcomponentsNonPOI = nbcomponents;
+
+[nbimages, nbcomponentsPOI, nbcomponentsNonPOI, nbValidationFolds]
 % Knobs to control the perception tool chain
-knobs.nbimages = 3;
+knobs.nbimages = min(length(images), nbimages);
 knobs.colors = [1 2 3];
-knobs.nbcomponentsPOI = 4;
-knobs.nbcomponentsNonPOI = 4;
-knobs.minInitialAcceptanceProb = 0.5;
+knobs.nbcomponentsPOI = nbcomponentsPOI;
+knobs.nbcomponentsNonPOI = nbcomponentsNonPOI;
+knobs.nbconncomp = nbconncomp;
+if nbShapeFeatures == 1
+knobs.featuresList = {'Eccentricity'};
+elseif nbShapeFeatures == 3
+knobs.featuresList = {'MajorbyMinor', 'Eccentricity', 'Solidity'};
+else
+error('nbShapeFeatures must be 1 or 3');
+end
 knobs.minAcceptanceProbScalingFactor = 0.8;
+knobs.minInitialAcceptanceProb = 0.5;
 knobs.minSignificanceProb = 0.2;
-knobs.featuresList = {'MajorAxisLength', 'MinorAxisLength', 'Eccentricity', 'Solidity'};
 knobs.nbValidationFolds = 5;
 
 % pixels of interest (poi)
@@ -20,14 +41,13 @@ nonpoi = [];
 % we may choose to fit one, two or all three color components.
 colors = knobs.colors;
 nbcolors = length(colors);
-nbcomponentsPOI = knobs.nbcomponentsPOI;
-nbcomponentsNonPOI = knobs.nbcomponentsNonPOI;
-nbimages = knobs.nbimages %#ok<NOPTS> %length(images)
  
 k = 1 ;
 nonk = 1;
 if ~exist('loadgmm', 'var') ||  ~loadgmm
+    datestr(now)
     for m=1:nbimages
+	disp(['For GMM, m=',num2str(m)])
         M=bw(:,:,m);
         Im=imread(images(m).name);        
         I = preprocess_img(Im);
@@ -58,18 +78,21 @@ if ~exist('loadgmm', 'var') ||  ~loadgmm
         nonk = size(nonpoi,1)+1;
     end
     regularizationValue = 0.01;
-    tic
+    disp('Training POI GMM')
+    datestr(now)
     poiGM = fitgmdist(poi,nbcomponentsPOI, 'Start', 'randSample', 'Regularize',regularizationValue);
     %poiGM = fitgmdist(poi,nbcomponentsPOI, 'Start', 'plus', 'RegularizationValue',regularizationValue);
     if ~poiGM.Converged
         warning('Did not converge')
     end
+    disp('Training nonpoi GMM')
+    datestr(now)
     nonpoiGM = fitgmdist(nonpoi,nbcomponentsNonPOI, 'Start', 'randSample', 'Regularize',regularizationValue);
     %nonpoiGM = fitgmdist(nonpoi,nbcomponentsPOI, 'Start', 'plus', 'RegularizationValue',regularizationValue);
     if ~nonpoiGM.Converged
         warning('non POI Did not converge')
     end
-    save('GMs.mat', 'poiGM', 'nonpoiGM');
+    datestr(now)
 else
     load('GMs.mat');
 end
@@ -83,6 +106,7 @@ minInitialAcceptanceProb = knobs.minInitialAcceptanceProb ;
 mp = 1;
 mn = 1;
 for m=1:nbimages
+    disp(['For SVM, m=',num2str(m)])
     minAcceptanceProb = minInitialAcceptanceProb/minAcceptanceProbScalingFactor; % allow for 1st iteration of while loop
     Im=imread(images(m).name);
     I = preprocess_img(Im);
@@ -109,14 +133,17 @@ for m=1:nbimages
     % object...
     % M=bw(:,:,m);
     % ...or pick it from the gmm   
-    featuresList = knobs.featuresList;
-    statsPosClass = regionprops(M, featuresList{1}, featuresList{2}, featuresList{3} , featuresList{4});
-%     statsPosClass = regionprops(M, 'MajorAxisLength', 'MinorAxisLength', 'Eccentricity', 'Solidity');
+    CC = bwconncomp(M,nbconncomp);
+    statsPosClass = regionprops(CC, 'MajorAxisLength', 'MinorAxisLength', 'Eccentricity', 'Solidity'); 
     nbFoundObjects = length(statsPosClass);
     if ~isempty(statsPosClass)
         % Vector = major, minor, ecc, solidity
         featureVector = reshape(struct2array(statsPosClass),4,nbFoundObjects)';
-        featuresPosClass(mp:mp+nbFoundObjects-1,:) = [featureVector(:,1)./featureVector(:,2), featureVector(:,3:4)];
+	if nbShapeFeatures == 3
+        	featuresPosClass(mp:mp+nbFoundObjects-1,:) = [featureVector(:,1)./featureVector(:,2), featureVector(:,3:4)];
+	elseif nbShapeFeatures == 1
+        	featuresPosClass(mp:mp+nbFoundObjects-1,:) = [featureVector(:,3)];
+	end
         mp = mp + nbFoundObjects;
     end
     % Extract features for the negative class
@@ -124,21 +151,34 @@ for m=1:nbimages
     % being of class OOI (as determined by a thresholding on d1), but isn't
     % (as determined by clusterObjOfInterest)
     M = reshape((d1 > minSignificanceProb).*(~clusterObjOfInterest),a(1),a(2));
-    statsNegClass = regionprops(M, featuresList{1}, featuresList{2}, featuresList{3} , featuresList{4});
+    CC = bwconncomp(M,nbconncomp);
+    statsNegClass = regionprops(CC, 'MajorAxisLength', 'MinorAxisLength', 'Eccentricity', 'Solidity'); 
     nbFoundObjects = length(statsNegClass);
     if ~isempty(statsNegClass)
         % Vector = major, minor, ecc, solidity
         featureVector = reshape(struct2array(statsNegClass),4,nbFoundObjects)';
-        featuresNegClass(mn:mn+nbFoundObjects-1,:) = [featureVector(:,1)./featureVector(:,2), featureVector(:,3:4)];
+        if nbShapeFeatures == 3
+                featuresNegClass(mn:mn+nbFoundObjects-1,:) = [featureVector(:,1)./featureVector(:,2), featureVector(:,3:4)];
+        elseif nbShapeFeatures == 1
+                featuresNegClass(mn:mn+nbFoundObjects-1,:) = [featureVector(:,3)];
+        end
+
         mn = mn + nbFoundObjects;
     end
 end
 % Now train the SVM
+disp('Training SVM')
+datestr(now)
 SVMModel = fitcsvm([featuresNegClass; featuresPosClass],[-ones(size(featuresNegClass,1),1); ones(size(featuresPosClass,1),1)],...
     'KernelFunction','rbf','Standardize',true, ...
     'Crossval', 'on', 'KFold', knobs.nbValidationFolds, ...
     'PredictorNames', {'majorByMinor', 'eccentricity', 'solidity'});
+datestr(now)
+matname = ['trained','I',num2str(nbimages), '_C',num2str(nbcolors),'_PC',num2str(nbcomponentsPOI),'_NPC',num2str(nbcomponentsNonPOI),'_NF',num2str(nbShapeFeatures),'_NCC',num2str(nbconncomp),'.mat'];
+save(matname, 'poiGM', 'nonpoiGM', 'SVMModel', 'knobs');
 
-save('tempGMs.mat', 'poiGM', 'nonpoiGM', 'SVMModel', 'knobs');
+end
+end
+end
 
 1;
