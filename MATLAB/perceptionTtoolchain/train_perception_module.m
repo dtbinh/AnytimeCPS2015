@@ -3,8 +3,8 @@ addpath(folder);
 load([folder,'/BarrelMasks.mat'])
 images = dir([folder,'/*.png']);
 
-nbimages = 3;
-listPC = [2,4];%,6];
+nbimages = 30;
+listPC = [2,4,6];
 listNConnComp = [4,8];
 listShapeFeatures = [1,3];
 
@@ -169,7 +169,6 @@ for nbGMcomp=listPC
             datestr(now)
             SVMModel = fitcsvm([featuresNegClass; featuresPosClass],[-ones(size(featuresNegClass,1),1); ones(size(featuresPosClass,1),1)],...
                 'KernelFunction','rbf','Standardize',true, ...
-                'Crossval', 'on', 'KFold', knobs.nbValidationFolds, ...
                 'PredictorNames', knobs.featuresList);
             datestr(now)
             matname = ['trained','I',num2str(nbimages), '_C',num2str(nbcolors),'_PC',num2str(nbcomponentsPOI),'_NPC',num2str(nbcomponentsNonPOI),'_NF',num2str(nbShapeFeatures),'_NCC',num2str(nbconncomp),'.mat'];
