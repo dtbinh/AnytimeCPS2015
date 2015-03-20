@@ -5,7 +5,6 @@ GMs = load('GMs.mat');
 colors      = [1,2,3];
 poiGM       = GMs.poiGM;
 nonpoiGM    = GMs.nonpoiGM;
-knobs       = GMs.knobs;
 minAcceptanceProbScalingFactor 	= GMs.minAcceptanceProbScalingFactor;
 minSignificanceProb             = GMs.minSignificanceProb;
 minAcceptanceProb               = GMs.minAcceptanceProb;
@@ -25,8 +24,7 @@ Bias                = SVMModel.Bias;
 
 nbimages = 1;
 for m=1:nbimages
-    imageName = [folder, '/',images(m).name];
-    run_perception_module(imageName);
+    imageName = [folder, '/',images(m).name];    
     Im=imread(imageName);
     run_perception_module_for_srcgen(Im, colors, minAcceptanceProbScalingFactor, minSignificanceProb, minAcceptanceProb, ...
         muPOI, SigmaPOI, ComponentProportionPOI, ...

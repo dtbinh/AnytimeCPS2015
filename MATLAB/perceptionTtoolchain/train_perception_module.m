@@ -170,6 +170,7 @@ for nbGMcomp=listPC
             SVMModel = fitcsvm([featuresNegClass; featuresPosClass],[-ones(size(featuresNegClass,1),1); ones(size(featuresPosClass,1),1)],...
                 'KernelFunction','rbf','Standardize',true, ...
                 'PredictorNames', knobs.featuresList);
+            SVMModel = fitSVMPosterior(SVMModel);
             datestr(now)
             matname = ['trained','I',num2str(nbimages), '_C',num2str(nbcolors),'_PC',num2str(nbcomponentsPOI),'_NPC',num2str(nbcomponentsNonPOI),'_NF',num2str(nbShapeFeatures),'_NCC',num2str(nbconncomp),'.mat'];
             save(matname, 'poiGM', 'nonpoiGM', 'SVMModel', 'knobs');
