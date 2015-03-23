@@ -313,7 +313,7 @@ if(testing_on)
 	string symbl = "_";
 	string fldrnclustsymbl(fldrnclust+symbl);
 	string labelimgfile(fldrnclustsymbl+ent->d_name);
-	imwrite(labelimgfile,labelImage);
+	imwrite(labelimgfile,dst);
 	cout<<endl<<"Labelimg written to"<<labelimgfile<<endl;
 waitKey(0);
 
