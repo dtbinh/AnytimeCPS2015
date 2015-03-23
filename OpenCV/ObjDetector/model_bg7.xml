@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<opencv_storage>
+<training_params>
+  <nclusters>7</nclusters>
+  <cov_mat_type>spherical</cov_mat_type>
+  <epsilon>1.0000000000000000e-03</epsilon>
+  <iterations>3000</iterations></training_params>
+<weights type_id="opencv-matrix">
+  <rows>1</rows>
+  <cols>7</cols>
+  <dt>d</dt>
+  <data>
+    9.9999973017325916e-01 4.4990167174013282e-08 4.4990167149253497e-08
+    4.4990167149253497e-08 4.4990167149253497e-08 4.4990167149253497e-08
+    4.4990167149253497e-08</data></weights>
+<means type_id="opencv-matrix">
+  <rows>7</rows>
+  <cols>3</cols>
+  <dt>d</dt>
+  <data>
+    0. 0. 0. 186. 121. 125. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.</data></means>
+<covs>
+  <_ type_id="opencv-matrix">
+    <rows>3</rows>
+    <cols>3</cols>
+    <dt>d</dt>
+    <data>
+      2.2204460492503131e-16 0. 0. 0. 2.2204460492503131e-16 0. 0. 0.
+      2.2204460492503131e-16</data></_>
+  <_ type_id="opencv-matrix">
+    <rows>3</rows>
+    <cols>3</cols>
+    <dt>d</dt>
+    <data>
+      2.2204460492503131e-16 0. 0. 0. 2.2204460492503131e-16 0. 0. 0.
+      2.2204460492503131e-16</data></_>
+  <_ type_id="opencv-matrix">
+    <rows>3</rows>
+    <cols>3</cols>
+    <dt>d</dt>
+    <data>
+      2.2204460492503131e-16 0. 0. 0. 2.2204460492503131e-16 0. 0. 0.
+      2.2204460492503131e-16</data></_>
+  <_ type_id="opencv-matrix">
+    <rows>3</rows>
+    <cols>3</cols>
+    <dt>d</dt>
+    <data>
+      2.2204460492503131e-16 0. 0. 0. 2.2204460492503131e-16 0. 0. 0.
+      2.2204460492503131e-16</data></_>
+  <_ type_id="opencv-matrix">
+    <rows>3</rows>
+    <cols>3</cols>
+    <dt>d</dt>
+    <data>
+      2.2204460492503131e-16 0. 0. 0. 2.2204460492503131e-16 0. 0. 0.
+      2.2204460492503131e-16</data></_>
+  <_ type_id="opencv-matrix">
+    <rows>3</rows>
+    <cols>3</cols>
+    <dt>d</dt>
+    <data>
+      2.2204460492503131e-16 0. 0. 0. 2.2204460492503131e-16 0. 0. 0.
+      2.2204460492503131e-16</data></_>
+  <_ type_id="opencv-matrix">
+    <rows>3</rows>
+    <cols>3</cols>
+    <dt>d</dt>
+    <data>
+      2.2204460492503131e-16 0. 0. 0. 2.2204460492503131e-16 0. 0. 0.
+      2.2204460492503131e-16</data></_></covs>
+</opencv_storage>
