@@ -285,8 +285,8 @@ if(testing_on)
 			} // done going over pixels in image
 				cout<<endl<<"red barrel pixels detected= "<<countF<<endl;
 				namedWindow("Maskout", WINDOW_NORMAL);
-				imshow("Maskout", maskout);
-				waitKey(0);
+				//imshow("Maskout", maskout);
+				//waitKey(0);
 
 		        // CC testing now
 			labelImage = Mat::zeros(Size(imtest.rows,imtest.cols), CV_32S);
@@ -305,17 +305,30 @@ if(testing_on)
          }
      }
 	namedWindow("Connected Components",WINDOW_NORMAL);
-    imshow( "Connected Components", dst );
+    //imshow( "Connected Components", dst );
     //write label
-	string fldr = "Images/Labels/label";	
+	string fldri = "Images/Labels/label";	
+        	
+	string fldrnclusti(fldri+nClust);	
+	string symbli = "_";
+	string fldrnclustsymbli(fldrnclusti+symbli);
+	string labelimgfilei(fldrnclustsymbli+ent->d_name);
+	imwrite(labelimgfilei,labelImage);
+
+    // write label as matrix
+string fldr = "Images/Labels/xml/label";	
         	
 	string fldrnclust(fldr+nClust);	
 	string symbl = "_";
 	string fldrnclustsymbl(fldrnclust+symbl);
 	string labelimgfile(fldrnclustsymbl+ent->d_name);
-	imwrite(labelimgfile,dst);
-	cout<<endl<<"Labelimg written to"<<labelimgfile<<endl;
-waitKey(0);
+	string labelimgfileext(labelimgfile+".xml");
+	
+	cv::FileStorage file(labelimgfileext, cv::FileStorage::WRITE);
+	file<<"Matrix"<<labelImage;
+	
+	cout<<endl<<"Labelimg written to"<<labelimgfileext<<endl;
+//waitKey(0);
 
 
 
