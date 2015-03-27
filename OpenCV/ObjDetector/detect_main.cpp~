@@ -289,7 +289,7 @@ if(testing_on)
 				//waitKey(0);
 
 		        // CC testing now
-			labelImage = Mat::zeros(Size(imtest.rows,imtest.cols), CV_16U);
+			labelImage = Mat::zeros(Size(imtest.rows,imtest.cols), CV_32S);
 			nLabels = connectedComponentsWithStats(maskout, labelImage, stats, centroids,8);	
 			std::vector<Vec3b> colors(nLabels);
     			colors[0] = Vec3b(0, 0, 0);//background

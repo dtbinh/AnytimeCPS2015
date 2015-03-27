@@ -313,7 +313,7 @@ if(testing_on)
 	string symbli = "_";
 	string fldrnclustsymbli(fldrnclusti+symbli);
 	string labelimgfilei(fldrnclustsymbli+ent->d_name);
-	imwrite(labelimgfilei,labelImage);
+	imwrite(labelimgfilei,dst);
 
     // write label as matrix
 string fldr = "Images/Labels/xml/label";	
