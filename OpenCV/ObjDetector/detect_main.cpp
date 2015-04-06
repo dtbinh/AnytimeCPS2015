@@ -285,6 +285,11 @@ if(testing_on)
 			} // done going over pixels in image
 				cout<<endl<<"red barrel pixels detected= "<<countF<<endl;
 				namedWindow("Maskout", WINDOW_NORMAL);
+				// filtering 
+				//erosion	
+			cv::erode(maskout,maskout,Mat(),Point(-1,-1),2,BORDER_CONSTANT,morphologyDefaultBorderValue());				
+				//median
+			cv::medianBlur(maskout,maskout,3);
 				imshow("Maskout", maskout);
 				waitKey(0);
 
