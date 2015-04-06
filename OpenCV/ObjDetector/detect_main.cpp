@@ -285,8 +285,8 @@ if(testing_on)
 			} // done going over pixels in image
 				cout<<endl<<"red barrel pixels detected= "<<countF<<endl;
 				namedWindow("Maskout", WINDOW_NORMAL);
-				//imshow("Maskout", maskout);
-				//waitKey(0);
+				imshow("Maskout", maskout);
+				waitKey(0);
 
 		        // CC testing now
 			labelImage = Mat::zeros(Size(imtest.rows,imtest.cols), CV_32S);
@@ -305,7 +305,7 @@ if(testing_on)
          }
      }
 	namedWindow("Connected Components",WINDOW_NORMAL);
-    //imshow( "Connected Components", dst );
+    imshow( "Connected Components", dst );
     //write label
 	string fldri = "Images/Labels/label";	
         	
@@ -328,7 +328,7 @@ string fldr = "Images/Labels/xml/label";
 	file<<"Matrix"<<labelImage;
 	
 	cout<<endl<<"Labelimg written to"<<labelimgfileext<<endl;
-//waitKey(0);
+waitKey(0);
 
 
 

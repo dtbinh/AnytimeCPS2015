@@ -286,7 +286,7 @@ if(testing_on)
 				cout<<endl<<"red barrel pixels detected= "<<countF<<endl;
 				namedWindow("Maskout", WINDOW_NORMAL);
 				//imshow("Maskout", maskout);
-				//waitKey(0);
+				waitKey(0);
 
 		        // CC testing now
 			labelImage = Mat::zeros(Size(imtest.rows,imtest.cols), CV_32S);
@@ -313,7 +313,7 @@ if(testing_on)
 	string symbli = "_";
 	string fldrnclustsymbli(fldrnclusti+symbli);
 	string labelimgfilei(fldrnclustsymbli+ent->d_name);
-	imwrite(labelimgfilei,labelImage);
+	imwrite(labelimgfilei,dst);
 
     // write label as matrix
 string fldr = "Images/Labels/xml/label";	
@@ -328,7 +328,7 @@ string fldr = "Images/Labels/xml/label";
 	file<<"Matrix"<<labelImage;
 	
 	cout<<endl<<"Labelimg written to"<<labelimgfileext<<endl;
-//waitKey(0);
+waitKey(0);
 
 
 
