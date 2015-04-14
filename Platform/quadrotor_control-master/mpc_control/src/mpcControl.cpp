@@ -5,13 +5,14 @@
 #include "solver.h"
 #include <time.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 
 #include "ldl.c"
 #include "matrix_support.c"
 #include "solver.c"
 #include "util.c"
-
+#include "cowsay.c"
 
 Vars vars;
 Params params;
@@ -107,6 +108,16 @@ void mpcControl::calculateControl(const Eigen::Vector3f &des_pos,
  trpy_(1) = vars.u_0[1]; //roll
  trpy_(2) = vars.u_0[0]; //pitch
  trpy_(3) = 0; //yaw
+ 
+char **dummy = (char**) malloc(2 * sizeof(char*));
+dummy[1] = (char*) malloc(6 * sizeof(char));
+strcpy(dummy[1], "VaNcE");
+ cowsay(2, dummy);
+ free(dummy[1]);
+ free(dummy);
+
+
+
 // std::cout<<std::endl<<params.u_limit[0];  
 //reset_rand();
 /* set_defaults();
