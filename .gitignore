@@ -2,8 +2,9 @@ MATLAB\perceptionTtoolchain\codegen
 MATLAB\perceptionTtoolchain\coder
 MATLAB\perceptionTtoolchain\coder\*
 *.asv
-*.c
 *.mat
 MATLAB/perceptionTtoolchain/tempGMs.mat
 MATLAB/perceptionTtoolchain/trainedPerception.mat
 MATLAB/perceptionTtoolchain/tempGMs.mat
+*~
+*.~
