@@ -32,13 +32,13 @@ end
 F=[eye(size(A,2));zeros(size(B,2),size(A,2))]; %dist input matrix, constt. throughtout
 
 %% set for states
+
+% est error sets
 disturbance.A=[eye(size(A,1));-eye(size(A,1))];
-
-
 emptyPoly = Polyhedron();
 E_set = repmat(emptyPoly,numModes,1);
 
-%get inf norm reps
+% get inf norm reps
 
 for i=1:numModes
     disturbance.b=epsilons(i)*[ones(size(A,1),1);ones(size(A,1),1)];
@@ -46,6 +46,19 @@ for i=1:numModes
     E_set(i).minHRep;
 end
 
+% safety sets for states and inputs
 
+stateset.A=[eye(size(A,1));-eye(size(A,1))];
+stateset.b=repmat([100;100;100;10;10;10],2,1);
 
+StateSet = Polyhedron('A',stateset.A,'B',stateset.b);
+clear stateset emptyPoly disturbance 
 
+inpLim = [deg2rad(30);deg2rad(30);10]; %P,R,T
+inpset.A=[eye(size(B,2));-eye(size(B,2))];
+inpset.b=repmat(inpLim,2,1);
+
+InputSet = Polyhedron('A',inpset.A,'B',inpset.b);
+clear inptset inpLim
+
+S = StateSet*InputSet;  
