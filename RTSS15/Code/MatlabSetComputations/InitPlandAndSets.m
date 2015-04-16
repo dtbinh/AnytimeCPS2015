@@ -2,8 +2,11 @@ PlantModelQuadSimpleLinear; %get quad dynamics for high level control
 
 %modes of estimation
 deltas = (h/2)*rand(3,1);
-epsilons = rand(3,1);
+epsilons = [0.01;0.001;0.0005];
 numModes = numel(deltas);
+
+% MPC Horizon
+H = 10;
 
 %get plant models for these modes
 A_modes = zeros(size(sys_c.a,1),size(sys_c.a,2),numModes);
@@ -29,7 +32,7 @@ for i = 1:numModes
     
 end
 
-F=[eye(size(A,2));zeros(size(B,2),size(A,2))]; %dist input matrix, constt. throughtout
+Fhat=[eye(size(A,2));zeros(size(B,2),size(A,2))]; %dist input matrix, constt. throughtout
 
 %% set for states
 
@@ -52,7 +55,7 @@ stateset.A=[eye(size(A,1));-eye(size(A,1))];
 stateset.b=repmat([100;100;100;10;10;10],2,1);
 
 StateSet = Polyhedron('A',stateset.A,'B',stateset.b);
-clear stateset emptyPoly disturbance 
+clear stateset disturbance
 
 inpLim = [deg2rad(30);deg2rad(30);10]; %P,R,T
 inpset.A=[eye(size(B,2));-eye(size(B,2))];
@@ -61,4 +64,38 @@ inpset.b=repmat(inpLim,2,1);
 InputSet = Polyhedron('A',inpset.A,'B',inpset.b);
 clear inptset inpLim
 
-S = StateSet*InputSet;  
+S = StateSet*InputSet;  %Safe set of states and inputs
+
+% Robustt control inv set
+Cdelta = repmat(emptyPoly,numModes,1);
+
+for i = 1:numModes
+    Cdelta(i)=getTermSetCdelta_compute(A_modes(:,:,i),Acl(:,:,i), ...
+        Fhat,A_lift(:,:,i),B_lift(:,:,i),K(:,:,i),...
+        Kx(:,:,i),E_set(i),InputSet,S,epsilons(i),H);
+end
+
+% Feas sets for all possible k-1 and (k to k+H) period settings of modes
+Zj = repmat(emptyPoly,numModes,numModes,H+1);
+%Zf = repmat(emptyPoly,numModes,numModes); %term set
+
+for i = 1:numModes %all modes at k-1
+    for j = 1:numModes %all modes from k to k+H
+        for k = 0:H %for all in the horizon
+            [ZA, Zb] = getZj(A_modes(:,:,j),Acl(:,:,j),B_lift(:,:,j),Kx(:,:,j),Fhat,S,H,k,epsilons(i),epsilons(j));
+            Zj(i,j,k+1) = Polyhedron('A',ZA,'B',Zb);
+            Zj(i,j,k+1).minHRep;
+            if(Zj(i,j,k+1).isEmptySet)
+                exception = MException('Zj:empty', ...
+                    'Zj empty at i j k= %d %d %d',i,j,k);
+                throw(exception)
+            end
+        end
+        %Zf
+       
+    end
+end
+
+%% save stuff
+save('Data/Sets.mat','epsilons','deltas','A_lift','B_lift','Cdelta','Zj', ...
+    'Kx','E_set','K','A_modes','B1_modes','B2_modes','Acl','h','H','S','InputSet')
