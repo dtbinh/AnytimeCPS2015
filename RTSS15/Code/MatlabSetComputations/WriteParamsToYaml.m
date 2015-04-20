@@ -59,10 +59,37 @@ for i=1:numel(deltas)
         [rB0lift{i,j},cB0lift{i,j},valsB0lift{i,j}] = find(B_lift(:,:,i)); %this is A_lift for j = 0
         temp = reshape(valsB0lift{i,j},1,numel(valsB0lift{i,j}));
         X.(sprintf(strcat('B_lift_0_',num2str(i),num2str(j)))) = temp;
-        
+        clear temp;
         
     end
     
 end
 
+if(exist('sys_d','var')) %write the discrete normal dynamics too
+    Q = diag([10;10;10;1;1;1]);
+    Qf = eye(6);
+    R = diag([1;1;1]);
+    x_limit = 100*ones(6,1);
+    u_limit = [deg2rad(30);deg2rad(30);10];
+    
+    [rA,cA,vA] = find(sys_d.a);
+    temp = reshape(vA,1,numel(vA));
+    X.(sprintf('A')) = temp;
+    clear temp;
+    [rB,cB,vB] = find(sys_d.b);
+    temp = reshape(vB,1,numel(vB));
+    X.(sprintf('B')) = temp;
+    [rQ,cQ,vQ] = find(Q);
+    temp = reshape(vQ,1,numel(vQ));
+    X.(sprintf('Q')) = temp;
+    [rQf,cQf,vQf] = find(Qf);
+    temp = reshape(vQf,1,numel(vQf));
+    X.(sprintf('Qf')) = temp;
+    [rR,cR,vR] = find(R);
+    temp = reshape(vR,1,numel(vR));
+    X.(sprintf('R')) = temp;
+    X.(sprintf('x_limit')) = x_limit';
+    X.(sprintf('u_limit')) = u_limit';
+    
+end    
 WriteYaml('test.yaml',X)
