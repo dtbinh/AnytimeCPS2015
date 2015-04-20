@@ -1,0 +1,51 @@
+Reviewer 3 of CDC14 submission 1769
+
+Comments to the author
+======================
+
+This paper proposes a variation of robust model predictive
+control allowing for anytime estimation.  Specifically, the
+authors allow for a discrete set of modes of estimation,
+each incurring a different delay and offering a different
+accuracy of estimation.  As part of the MPC optimization,
+the best over the set of modes is evaluated.
+
+The paper is nicely written and the subject is interesting.
+ I've not verified the invariant set results but the other
+details do appear to be correct, including the important
+verification of robust feasibility.
+
+The paper is let down by its numerical example.  With no
+weighting on computation and apparently no active state
+constraints, it's hard to see the method's advantage.  The
+results do show it exercising the ability to choose
+different modes of estimation, but in this case that raises
+difficult questions.  Why, when there is no value on saving
+computation, would the optimizer ever choose a solution
+involving tighter constraints (i.e. not Mode 1) ?  I wonder
+if this only happens as the system converges and the
+different modes begin to have very little effect, close to
+the target point and well within the constraints.  To be
+convinced, I'd want to see an example in which the method
+could be seen to back away from a constraint so as to save
+on computation.  I'm not sure this method has much
+relevance if you don't weight computation, as then there's
+no trade at all with control effort.
+
+-> It will be hard to have an active constraint in any case study because of the disturbance set and mode switching. I don't see any work around to that.
+
+->  The reason why the optimizer may chose a solution involving tighter constraints is less actuation delay. The B1, B2 matrices change with delta, and there may be a lesser cost to the system with B1, B2 matrices of faster (less accurate modes).
+
+->	The point about switching happening when the system converges is a good one. On the same note, if the feasible set is huge and the disturbance set is small, as is in our case, we should also expect switching further away from the target point (as we do). 
+
+->	The computation effort was not weighed in this example as it was too sensitive to alpha. For different, non-zero, alpha values the system would remain in one mode only (either 1 or 3).
+This is a cause for concern, but maybe the example was too simple. A more realistic case study is needed, but so is a more realistic computation/estimation model.
+
+
+
+The linkage to literature is good but the authors may wish
+to explore links with the work of Agrawal, Cofer and Samad
+under the Software Enabled Control programme (see the SEC
+book from 2003).
+
+-> Will read before our meeting.

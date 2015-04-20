@@ -1,0 +1,27 @@
+Reviewer 7 of CDC14 submission 1769
+
+Comments to the author
+======================
+
+The paper addresses the communication bottleneck
+(computation delay) and the computational complexity
+present in the implementation of robust MPC with state
+estimation for system with fast dynamics and uncertainty.
+The paper focuses on the reducing computational complexity
+in the state estimation  part. The state estimator which is
+based on anytime estimation algorithm trades of computation
+time and accuracy in its algorithm. In this work anytime
+estimation functions as a block box system with estimation
+accuracy and computation delay as its inputs. Each 
+computation delay and estimation accuracy is consider as an
+estimation mode and Robust MPC calculates optimal input 
+for each estimation mode.  The estimation mode which gives
+minimum cost iand its corresponding input is implemented.
+The paper is well  written and the objective is clear
+however, the use of anytime estimation to reduce
+computational complexity is not convincing. An example
+comparing this to a fixed sampling time and fixed
+estimation could strengthen it.
+
+-> A better example would be a quick fix, but we need a justifiable computation model first.
+-> The switching shows that there is no fixed mode operation that is better than the switched one, but a comparision with 3-fixed mode runs could show the cost benefits of switching.

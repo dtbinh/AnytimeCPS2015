@@ -1,0 +1,35 @@
+Reviewer 8 of CDC14 submission 1769
+
+Comments to the author
+======================
+
+The proposed algorithm has the advantages of taking the
+state and control input constraints into account and
+offering a trade-off between the computation time and the
+estimation accuracy.  
+
+The paper is clearly written, well organized. In order to
+improve the paper, there are two questions listed in the
+following could be addressed.
+
+1) How do you find the modes (\delta, \epsilon) in
+practice? The authors explain a little bit about the
+realization of the modes in the case study section. It
+would be nice if the authors can provide something more to
+convince the reader about the values of the modes. 
+
+-> We need a better computation model/ realistic example.
+
+2) Is it possibile to jointly optimize the continuous
+variables (x and u) and the discrete variables (the modes)
+to obtain an optimal solution? Perhaps mixed-integer
+programming would help. 
+
+-> I'd say no, because the discrete variable is coupled with the continuous one in the dynamics equations. I was looking into the relaxation of the discrete variable and we came to the conclusion that the problem was intractable.
+
+It seems that as the modes are fixed, the problem becomes
+an ordinary robust MPC problem. Therefore, it might be very
+important to say something more about how to select and
+characterize the modes. 
+
+-> The switching between modes is what differentiates it from an ordinary robust MPC problem. Although it doesn't take away from the fact that computation model has to be justified.

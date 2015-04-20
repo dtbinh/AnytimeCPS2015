@@ -1,0 +1,78 @@
+Reviewer 6 of CDC14 submission 1769
+
+Comments to the author
+======================
+
+The paper addresses the important problem of developing
+control/estimation algorithms trading between accuracy and
+computation resources. In particular, the authors assume to
+have an anytime estimation algorithm whose accuracy and
+computation time can be scaled at will. They develop a
+robust model predictive control that uses the estimate
+provided by the anytime algorithm and that imposes, at each
+step, a required accuracy level to such algorithm.
+Overall, the paper is well written, but there are some
+doubts on the effectiveness and viability of the presented
+method.
+
+The main concern is about Assumption 1. The authors assume
+to have an anytime estimator characterized by a fixed
+number of possible accuracy levels. Each level depending on
+the computation time only.
+It sounds like a non realistic assumption. Indeed, except
+for the case of perfect knowledge of the system model, the
+estimation error should depend at each step also on the
+system state x. Assuming that the accuracy is a function of
+the computation time only is tantamount at assuming that
+the error evolution is uniform in e. If it is reasonable
+that the quality of the estimation increases when the
+computation time increases, the upper bound on the accuracy
+at each step should depend on x also. This is a prominent
+problem as the entire paper is based on such an assumption.
+Having an accuracy level independent of the state x seems
+to be essential in the development of the MPC and its
+stability/feasibility proof. Despite of its fundamental
+role, the authors do not provide any example of realistic
+estimation algorithm fitting their assumption. Nor they
+suggest how any classical observer can be adapted to work
+in their case. They should provide at least one convincing
+example of suitable observer.
+
+-> The biggest shortcoming of our method is pointed out here. Our computation model has to change/be more realistic so we can justify our assumptions. An implementation would be helpful here. If we have measurements to back up our model, it would be better.
+
+An interesting and crucial aspect of the anytime control
+algorithms in the references is that the control task has
+no possibility to fix the computation time for the next
+step. In fact, the availability of the computation time is
+unknown in advance and only a stochastic characterization
+is available. This is the main difficulty with anytime
+control: coping with varying and unpredictable computation
+time. In the present paper, instead, the computation time
+is imposed by the control task itself to the estimation
+algorithm. Such a strong simplification actually reduces
+the appeal of the present method.
+
+-> I do not agree with this assessment. Assuming tasks other than estimation/control have a lower priority, they will be scheduled around the control task. It's not the other low-priority tasks that will dictate how much time control task has.
+
+The final example is far from being convincing. Not only
+because of its triviality, but also for the adopted cost
+index. The goal of the paper is to develop a control
+algorithm for a variable precision observer in order to
+ensure some stability/convergence, while dynamically
+reducing the computation burden. But in the example the
+cost index does not account for the computation time at
+all!
+It is even more surprising that, despite the fact that the
+computation time does not appear in the index, the
+optimization algorithm switches among observers with
+different accuracy. Why should it prefer an approximated
+estimation, when it can have the full precision one? The
+example seems to suggest that sometimes an inaccurate
+estimation is better than a precise one. This is quite
+surprising (and doubtful). I cannot find any explanation in
+the paper for such puzzling phenomenon. The authors should
+clarify this point.
+
+
+-> Switching part has been discussed in 5682. And computation time shows up in B1, B2, leading to optimizations with different constraints (the dynamics) but the same cost.
+The key is to have a real(istic) implementation/ computation model.

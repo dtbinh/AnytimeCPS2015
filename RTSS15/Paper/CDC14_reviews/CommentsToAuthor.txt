@@ -1,0 +1,23 @@
+Reviewer 6 points out to a number of important issues in
+this paper. Moreover, most of the reviewers also point out
+that the numerical example is not convincing. 
+
+
+-> There are 2 main points in the reviews:
+
+1. Weak example.
+2. Unjustified computation model for the estimator.
+
+There is no quick fix. We need to have an implementation to get some measurements and have a computation time/estimation error model that we can justify with the measurements.
+
+About the weak example, there are again 2 main points
+
+a. Simple system: Given the limitations of the robust control invariant toolbox and MPT, we actually need an even simpler model where the robust control invariant subset can be computed with convergence, which we did not have even for this simple model. 
+
+b. No computation cost (alpha): This was due to the fact that for the example, any non-zero alpha value meant that the algorithm stayed on only one mode. The cost profiles of the modes in the example were very close as it is, adding the bias that alpha_i*delta_i adds to the curves resulted in one mode being better than the others throughout and there was no switching.
+
+Bottom line is we need to take a closer look at our anytime estimator assumptions and do something to justify them/ come up with new ones. This can be done with a more interesting example and an implementation.
+
+Positives:
+
+The problem is liked

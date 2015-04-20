@@ -1,6 +1,7 @@
 MATLAB\perceptionTtoolchain\codegen
 MATLAB\perceptionTtoolchain\coder
 MATLAB\perceptionTtoolchain\coder\*
+Data/QuadRotor/quad_recording/*
 *.asv
 *SFB.mat
 MATLAB/perceptionTtoolchain/tempGMs.mat
