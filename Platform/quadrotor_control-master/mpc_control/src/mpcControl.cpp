@@ -53,7 +53,7 @@ void mpcControl::setYaw(const float current_yaw)
 }
 
 void mpcControl::setMaxIntegral(const float max_integral)
-{
+{ // useless function for mpc
   max_pos_int_ = max_integral;
 }
 
@@ -63,10 +63,11 @@ void mpcControl::setOptParams( std::vector<double> A,
 			       std::vector<double> u_limit)
 			       
 { // use this function to get params through the parameter server
- set_defaults();
+ set_defaults(); //cvxgen functions
  setup_indexing();
  load_default_data();
  
+ // get the params needed for optimization
  params.A[0] = A[0];
  params.A[1] = A[1];
  params.A[2] = A[2];
@@ -95,9 +96,6 @@ void mpcControl::setOptParams( std::vector<double> A,
  params.u_limit[1] = u_limit[1];
  params.u_limit[2] = u_limit[2]; 
 
-
-
-
 }
 
 void mpcControl::calculateControl(const Eigen::Vector3f &des_pos,
@@ -109,7 +107,7 @@ void mpcControl::calculateControl(const Eigen::Vector3f &des_pos,
                                   const Eigen::Vector3f &ki,
                                   const float ki_yaw)
 {
-  Eigen::Vector3f e_pos = (des_pos - pos_);
+  Eigen::Vector3f e_pos = (des_pos - pos_); // code here not needed
   Eigen::Vector3f e_vel = (des_vel - vel_);
   for(int i = 0; i < 3; i++)
   {
@@ -124,7 +122,9 @@ void mpcControl::calculateControl(const Eigen::Vector3f &des_pos,
   }
  //std::cout<<params.A[0]<<" "<<params.A[1]<<std::endl;
   
- 
+ // update MPC
+
+ // reference point for mpc to drive to
  params.x_ref[0] = des_pos[0];
  params.x_ref[1] = des_pos[1];
  params.x_ref[2] = des_pos[2];
@@ -132,6 +132,7 @@ void mpcControl::calculateControl(const Eigen::Vector3f &des_pos,
  params.x_ref[4] = des_vel[1];
  params.x_ref[5] = des_vel[2];
  
+ // get the current state, make it initial for MPC
  params.x_0[0] = pos_[0];
  params.x_0[1] = pos_[1];
  params.x_0[2] = pos_[2];
@@ -139,14 +140,14 @@ void mpcControl::calculateControl(const Eigen::Vector3f &des_pos,
  params.x_0[4] = vel_[1];
  params.x_0[5] = vel_[2];
  
- solve();
+ solve(); // call MPC solver
  
  trpy_(0) = vars.u_0[2] + mass_*g_; //thrust
  trpy_(1) = vars.u_0[1]; //roll
  trpy_(2) = vars.u_0[0]; //pitch
  trpy_(3) = 0; //yaw
  
- if(0)
+ if(0) // VaNcE
  {
 char **dummy = (char**) malloc(2 * sizeof(char*));
 dummy[1] = (char*) malloc(6 * sizeof(char));
@@ -169,7 +170,7 @@ void mpcControl::resetIntegrals(void)
 }
 
 void load_default_data(void) {
-  
+  // Default data for MPC that doesn't change over time
   /* Make this a diagonal PSD matrix, even though it's not diagonal. */
   params.Q[0] = 10;
   params.Q[6] = 0;

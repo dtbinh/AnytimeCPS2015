@@ -173,7 +173,7 @@ void mpcControlNodelet::onInit(void)
 
   double kR[3], kOm[3];
   
-  // try reading some params
+  // try reading some params for optimization form the gains yaml file
   std::vector<double> A;
   std::vector<double> B;
   std::vector<double> x_limit;
