@@ -1,0 +1,9 @@
+[submodule "Platform/vision/kr_utils"]
+	path = Platform/vision/kr_utils
+	url = https://github.com/KumarRobotics/kr_utils.git
+[submodule "Platform/vision/fast"]
+	path = Platform/vision/fast
+	url = https://github.com/uzh-rpg/fast.git
+[submodule "Platform/vision/rpg_vikit"]
+	path = Platform/vision/rpg_vikit
+	url = https://github.com/uzh-rpg/rpg_vikit.git
