@@ -36,7 +36,7 @@ set(${PROJECT_NAME}_NODE_SOURCES
   src/error_calculator.cpp
   )
 
-add_definitions("-Wall -Werror -std=c++11")
+add_definitions("-Wall -std=c++11")
 
 # Build Node
 add_executable(${PROJECT_NAME}
