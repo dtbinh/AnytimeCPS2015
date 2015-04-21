@@ -9,3 +9,5 @@ MATLAB/perceptionTtoolchain/trainedPerception.mat
 MATLAB/perceptionTtoolchain/tempGMs.mat
 *~
 *.~
+*.swp
+spr
