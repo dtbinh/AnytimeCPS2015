@@ -3,13 +3,11 @@
 #include <nav_msgs/Odometry.h>
 #include <quadrotor_msgs/TRPYCommand.h>
 #include <quadrotor_msgs/PositionCommand.h>
-#include <std_msgs/Bool.h>
-#include <mpc_control/mpcControl.hpp>
-#include <Eigen/Geometry>
+#ry>
 #include <tf/transform_datatypes.h>
 #include <mpc_control/solver.h>
 #include <math.h>
-#include <vector>
+
 #define CLAMP(x,min,max) ((x) < (min)) ? (min) : ((x) > (max)) ? (max) : (x)
 
 class mpcControlNodelet : public nodelet::Nodelet
@@ -174,24 +172,17 @@ void mpcControlNodelet::onInit(void)
   double kR[3], kOm[3];
   
   // try reading some params
-  std::vector<double> A;
-  std::vector<double> B;
-  std::vector<double> x_limit;
-  std::vector<double> u_limit;
-
-
-  if((n.getParam("A",A)) && (n.getParam("B",B)) && (n.getParam("x_limit",x_limit)) && (n.getParam("u_limit",u_limit)))
- {
- ROS_INFO("Got all Params");
- controller_.setOptParams(A,B,x_limit,u_limit);
- }
- else
- { 
-  ROS_ERROR("Failed: Params not loaded");
- }
-
-
-   // back to everyday stuff 	
+  std::vector<double> tryp;
+  if(n.getParam("gains/try",tryp))
+  	{
+  	ROS_INFO("Got Param: %f",tryp[0]);
+  	}
+  	else
+  	{
+  	ROS_ERROR("Failed");
+  	}
+  	
+  // back to everyday stuff 	
   n.param("gains/rot/x", kR[0], 1.5);
   n.param("gains/rot/y", kR[1], 1.5);
   n.param("gains/rot/z", kR[2], 1.0);

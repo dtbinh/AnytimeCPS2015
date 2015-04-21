@@ -1,4 +1,4 @@
-# Produced by CVXGEN, 2015-04-10 21:15:45 -0400.
+# Produced by CVXGEN, 2015-04-19 21:15:14 -0400.
 # CVXGEN is Copyright (C) 2006-2012 Jacob Mattingley, jem@cvxgen.com.
 # The code in this file is Copyright (C) 2006-2012 Jacob Mattingley.
 # CVXGEN, or solvers produced by CVXGEN, cannot be used for commercial
@@ -14,11 +14,11 @@ dimensions
 end
 
 parameters
-  A (n,n)  # dynamics matrix.
-  B (n,m)  # controlled input matrix.
-  Q (n,n) psd  # state cost.
-  Q_final (n,n) psd  # final state cost.
-  R (m,m) psd  # input cost.
+  A (n,n) {1,1 2,2 3,3 1,4 4,4 2,5 5,5 3,6 6,6}# dynamics matrix.
+  B (n,m) {1,1 4,1 2,2 5,2 3,3 6,3} # controlled input matrix.
+  Q (n,n) psd symmetric #psd  symmetric {1,1 2,2 3,3 4,4 5,5 6,6} # state cost.
+  Q_final (n,n) psd symmetric #psd symmetric {1,1 2,2 3,3 4,4 5,5 6,6} # final state cost.
+  R (m,m) psd symmetric #{1,1 2,2 3,3} # input cost.
   x[0] (n)  # initial state. var param
   u_limit (m) nonnegative  # amplitude limit
   x_limit (n) nonnegative #state limits

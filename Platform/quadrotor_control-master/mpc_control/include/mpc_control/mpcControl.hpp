@@ -2,7 +2,7 @@
 #define __SO3_CONTROL_H__
 
 #include <Eigen/Geometry>
-
+#include <vector>
 class mpcControl
 {
  public:
@@ -15,7 +15,10 @@ class mpcControl
   void setYaw(const float current_yaw);
   void setMaxIntegral(const float max_integral);
   void resetIntegrals(void);
-
+  void setOptParams( std::vector<double> A,
+		     std::vector<double> B,
+		     std::vector<double> x_limit,
+	             std::vector<double> u_limit);
   void calculateControl(const Eigen::Vector3f &des_pos,
                         const Eigen::Vector3f &des_vel,
                         const Eigen::Vector3f &des_acc,
