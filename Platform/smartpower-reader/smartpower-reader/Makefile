@@ -3,7 +3,7 @@ FLAGS=
 HID_SRC=
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
-	FLAGS = -ludev
+	FLAGS = -ludev -pthread
 	HID_SRC = hid-linux.c
 endif
 ifeq ($(UNAME_S),Darwin)

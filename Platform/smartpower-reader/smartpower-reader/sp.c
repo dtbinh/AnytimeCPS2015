@@ -7,6 +7,7 @@
 #include <stdarg.h>
 #include <unistd.h>
 #include <assert.h>
+#include <pthread.h>
 
 // TODO: doesn't work if SmartPower is already on *and* recording.
 
@@ -52,6 +53,7 @@ void printData(unsigned char* b) {
   // characters in str are of the form:
   // 7?5.250V  1.298 A 6.828W  0.000W?X?%2?????2???銚	????,???
   fprintf(logFile, "%.5sV %.5sA %.6sW %.7sWh\n", &str[2], &str[10], &str[17], &str[24]);
+  fflush(logFile);
 }
 
 void CloseDevice() {
@@ -196,6 +198,12 @@ void OpenDevice() {
   }
 }
 
+void* pollingThread(void* _) {
+  while (TRUE) {
+    useconds_t sleeptime = PollUSB();
+    usleep(sleeptime);
+  }
+}
 
 int main(int argc, char** argv) {
 
@@ -213,7 +221,7 @@ int main(int argc, char** argv) {
   cur_dev = devs;
   while (cur_dev) {
     fprintf(logFile, "Device Found\n  type: %04hx %04hx\n  path: %s\n  serial_number: %ls\n",
-            cur_dev->vendor_id, cur_dev->product_id, cur_dev->path, cur_dev->serial_number);
+           cur_dev->vendor_id, cur_dev->product_id, cur_dev->path, cur_dev->serial_number);
     fprintf(logFile, "  Manufacturer: %ls\n", cur_dev->manufacturer_string);
     fprintf(logFile, "  Product:      %ls\n", cur_dev->product_string);
     fprintf(logFile, "\n");
@@ -221,10 +229,13 @@ int main(int argc, char** argv) {
   }
   hid_free_enumeration(devs);
 
+  pthread_t thread;
+  pthread_create(&thread, NULL, pollingThread, NULL);
+
+  char c = ' ';
   while (TRUE) {
     
-    char c;
-    scanf("input o(n/off) s(tart/stop): %c", &c);
+    scanf("%c", &c);
     switch (c) {
     case 'o':
       toggleOnOff = TRUE;
@@ -232,12 +243,10 @@ int main(int argc, char** argv) {
     case 's':
       toggleStartStop = TRUE;
       break;
-    default:
-      printf("Invalid input character.\n");
+      //default:
+      //printf("Invalid input character.\n");
     }
     
-    useconds_t sleeptime = PollUSB();
-    usleep(sleeptime);
   }
 
   return 0;
