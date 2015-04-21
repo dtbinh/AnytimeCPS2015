@@ -1,0 +1,30 @@
+<launch>
+  <!-- launch options -->
+  <arg name="bag" default="vicon_newest2/vicon_loop2"/>
+  <!--<arg name="bag" default="towne_new"/>-->
+  <!--<arg name="bag" default="vicon_newest2/vicon_fast"/>-->
+  <!--<arg name="bag" default="statefarm/small"/>-->
+  <!--<arg name="bag" default="vicon_fix/gareth4_2014-12-15-19-02-32"/>-->
+  <!--<arg name="bag" default="vicon_fix/gareth6_2014-12-15-19-04-46"/>-->
+  <arg name="bag_rate" value="1"/>
+  <arg name="bag_start" value="0"/>
+
+  <include file="$(find vo_mono)/launch/mono.launch">
+    <arg name="bag" value="$(arg bag)"/>
+    <arg name="bag_rate" value="$(arg bag_rate)"/>
+    <arg name="bag_start" value="$(arg bag_start)"/>
+    <arg name="vicon_tf" value="true"/>
+  </include>
+
+ <!-- Launch test node -->
+  <node
+    name="vo_test"
+    pkg="vo_test"
+    type="vo_test"
+    output="screen">
+    <param name="calculate_scale" type="bool" value="true"/>
+
+    <remap from="~vision_odom" to="/visual_odometry/odometry"/>
+    <remap from="~vicon_odom" to="/vicon/antares/odom"/>
+  </node>
+</launch>

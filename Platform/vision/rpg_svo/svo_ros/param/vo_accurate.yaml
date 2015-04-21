@@ -1,0 +1,12 @@
+grid_size: 10
+max_n_kfs: 50
+loba_num_iter: 10
+max_fts: 50
+
+quality_min_fts: 20
+quality_max_drop_fts: 250
+publish_world_in_cam_frame: false
+
+#init_rx: -1.5708
+#init_ry: 0.0
+#init_rz: -1.5708

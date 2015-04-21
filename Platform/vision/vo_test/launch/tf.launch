@@ -1,0 +1,45 @@
+<!-- TF for steadicam v5 only! -->
+
+<!-- These transformations are acquired by kalibr and verified by cad drawings -->
+<!-- static_transform_publisher x y z qx qy qz qw frame_id child_frame_id -->
+<!-- the vecotr (x,y,z) is a vector pointing from frame_id to child_frame_id expressed in framed_id -->
+<!-- the quaternion (qw,qx,qy,qz) is the rotation of child_frame_id in frame_id -->
+<!-- vicon transforms -->
+<!-- If use with vicon, a related node should publish a transform from vicon to base_link -->
+<!-- A typical tf tree with vicon: vicon(map) -> base_link -> imu -> laser -->
+<!-- A typical tf tree with gpskf: world(map) -> base_link -> imu -> laser -->
+
+<launch>
+  <!-- namespace for all static broadcaster -->
+  <!--<arg name="vicon" default="false"/>-->
+  <arg name="static_broadcaster" default="static_broadcaster"/>
+  <arg name="base_link" default="base_link"/>
+  <arg name="imu" default="imu"/>
+  <arg name="laser" default="laser"/>
+  <arg name="stereo" default="stereo"/>
+  <arg name="color" default="color"/>
+
+  <!-- imu is base_link -->
+  <node pkg="tf2_ros" type="static_transform_publisher"
+    name="base_link_imu_broadcaster" ns="$(arg static_broadcaster)"
+    args="0.0392 0.0156 -0.0063 -0.5 0.5 -0.5 0.5 $(arg base_link) $(arg imu)">
+  </node>
+
+  <!--imu_stereo_left-->
+  <node pkg="tf2_ros" type="static_transform_publisher"
+    name="imu_stereo_broadcaster" ns="$(arg static_broadcaster)"
+    args="-0.04695 0.0 0.016 0 0 0 1 $(arg imu) $(arg stereo)">
+  </node>
+
+  <!--stereo_left_color-->
+  <node pkg="tf2_ros" type="static_transform_publisher"
+    name="stereo_color_broadcaster" ns="$(arg static_broadcaster)"
+    args="0 0.05604 0.0 0 0 0 1 $(arg stereo) $(arg color)">
+  </node>
+
+  <!--imu_laser-->
+  <node pkg="tf2_ros" type="static_transform_publisher"
+    name="imu_laser_broadcaster" ns="$(arg static_broadcaster)"
+    args="0.06304 0.05604 0.03277 0.707107 0 0.707107 0 $(arg imu) $(arg laser)">
+  </node>
+</launch>
