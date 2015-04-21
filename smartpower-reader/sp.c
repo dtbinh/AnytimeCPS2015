@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdarg.h>
 #include <unistd.h>
 #include <assert.h>
 
@@ -34,6 +35,7 @@ int lastCommand = 0;
 int count = 0;
 
 hid_device *device = NULL;
+FILE* logFile = NULL;
 
 #define MAX_STR 65
 unsigned char buf[MAX_STR];
@@ -49,7 +51,7 @@ void printData(unsigned char* b) {
   char* str = (char*) b;
   // characters in str are of the form:
   // 7?5.250V  1.298 A 6.828W  0.000W?X?%2?????2???銚	????,???
-  printf("%.5sV %.5sA %.6sW %.7sWh\n", &str[2], &str[10], &str[17], &str[24]);
+  fprintf(logFile, "%.5sV %.5sA %.6sW %.7sWh\n", &str[2], &str[10], &str[17], &str[24]);
 }
 
 void CloseDevice() {
@@ -197,23 +199,43 @@ void OpenDevice() {
 
 int main(int argc, char** argv) {
 
+  if (argc != 2) {
+    fprintf(stderr, "usage: %s output-file\n", argv[0]);
+    return 1;
+  }
+
+  logFile = fopen(argv[1], "r");
+  
   // Enumerate and print the HID devices on the system
   struct hid_device_info *devs, *cur_dev;
   
   devs = hid_enumerate(0x0, 0x0);
   cur_dev = devs;
   while (cur_dev) {
-    printf("Device Found\n  type: %04hx %04hx\n  path: %s\n  serial_number: %ls",
+    fprintf(logFile, "Device Found\n  type: %04hx %04hx\n  path: %s\n  serial_number: %ls\n",
            cur_dev->vendor_id, cur_dev->product_id, cur_dev->path, cur_dev->serial_number);
-    printf("\n");
-    printf("  Manufacturer: %ls\n", cur_dev->manufacturer_string);
-    printf("  Product:      %ls\n", cur_dev->product_string);
-    printf("\n");
+    fprintf(logFile, "  Manufacturer: %ls\n", cur_dev->manufacturer_string);
+    fprintf(logFile, "  Product:      %ls\n", cur_dev->product_string);
+    fprintf(logFile, "\n");
     cur_dev = cur_dev->next;
   }
   hid_free_enumeration(devs);
 
   while (TRUE) {
+    
+    char c;
+    scanf("input o(n/off) s(tart/stop): %c", &c);
+    switch (c) {
+    case 'o':
+      toggleOnOff = TRUE;
+      break;
+    case 's':
+      toggleStartStop = TRUE;
+      break;
+    default:
+      printf("Invalid input character.\n");
+    }
+    
     useconds_t sleeptime = PollUSB();
     usleep(sleeptime);
   }
