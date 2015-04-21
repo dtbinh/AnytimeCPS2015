@@ -204,7 +204,7 @@ int main(int argc, char** argv) {
     return 1;
   }
 
-  logFile = fopen(argv[1], "r");
+  logFile = fopen(argv[1], "w+");
   
   // Enumerate and print the HID devices on the system
   struct hid_device_info *devs, *cur_dev;
@@ -213,7 +213,7 @@ int main(int argc, char** argv) {
   cur_dev = devs;
   while (cur_dev) {
     fprintf(logFile, "Device Found\n  type: %04hx %04hx\n  path: %s\n  serial_number: %ls\n",
-           cur_dev->vendor_id, cur_dev->product_id, cur_dev->path, cur_dev->serial_number);
+            cur_dev->vendor_id, cur_dev->product_id, cur_dev->path, cur_dev->serial_number);
     fprintf(logFile, "  Manufacturer: %ls\n", cur_dev->manufacturer_string);
     fprintf(logFile, "  Product:      %ls\n", cur_dev->product_string);
     fprintf(logFile, "\n");
