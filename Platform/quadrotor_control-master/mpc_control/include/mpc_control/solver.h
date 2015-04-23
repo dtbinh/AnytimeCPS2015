@@ -27,6 +27,10 @@
 #include <math.h>
 #define pm(A, m, n) printmatrix(#A, A, m, n, 1)
 #endif
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 typedef struct Params_t {
   double x_0[6];
   double x_ref[6];
@@ -238,5 +242,9 @@ float ran1(long*idum, int reset);
 float randn_internal(long *idum, int reset);
 double randn(void);
 void reset_rand(void);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

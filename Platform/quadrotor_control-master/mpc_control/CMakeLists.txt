@@ -17,7 +17,7 @@ catkin_package(
   CATKIN_DEPENDS roscpp nav_msgs quadrotor_msgs std_msgs nodelet tf
   DEPENDS Eigen)
 
-add_library(mpcControl src/mpcControl.cpp) # src/solver.c src/ldl.c src/matrix_support.c src/util.c)
+add_library(mpcControl src/mpcControl.cpp src/solver.c src/ldl.c src/matrix_support.c src/util.c)
 #add_library(solver src/solver.c)
 #add_library(util src/util.c)
 #add_library(ldl src/ldl.c)
