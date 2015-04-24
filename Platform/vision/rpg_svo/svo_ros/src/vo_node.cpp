@@ -40,6 +40,12 @@
 #include <vikit/user_input_thread.h>
 #include <image_geometry/pinhole_camera_model.h>
 #include <tf2_ros/transform_listener.h>
+#include <time.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+FILE* logFile = NULL;
 
 namespace svo {
 
@@ -99,6 +105,13 @@ void VoNode::imgCb(const sensor_msgs::ImageConstPtr& msg,
                    const sensor_msgs::CameraInfoConstPtr& info)
 {
   cv::Mat img;
+  // for timing
+  ros::Time begin_ct;
+  ros::Time end_ct;
+  ros::Duration duration_ct;
+  unsigned long time_taken;
+  // regular resumes
+
   try {
     img = cv_bridge::toCvShare(msg, "mono8")->image;
   } catch (cv_bridge::Exception& e) {
@@ -128,9 +141,19 @@ void VoNode::imgCb(const sensor_msgs::ImageConstPtr& msg,
   }
   
   processUserActions();
+  
+  // time here
+  begin_ct = ros::Time::now();
   const FrameHandlerBase::AddImageResult res = 
       vo_->addImage(img, msg->header.stamp.toSec());
-  
+  end_ct = ros::Time::now();
+  duration_ct = end_ct-begin_ct; 
+  time_taken = duration_ct.toNSec();
+  std::cout<<time_taken<<std::endl;
+  fprintf(logFile,"%lu \n",time_taken);
+  fflush(logFile);
+  // end
+
   visualizer_.publishMinimal(img, vo_->lastFrame(), *vo_, msg->header.stamp.toSec());
 
   if(publish_markers_ && vo_->stage() != FrameHandlerBase::STAGE_PAUSED)
@@ -187,7 +210,14 @@ typedef message_filters::sync_policies::ApproximateTime<
 typedef message_filters::Synchronizer<TimeSyncPolicy> Synchronizer;
 
 int main(int argc, char **argv)
-{
+{ 
+  logFile = fopen("/home/mlab-retro/log_time_f.txt","w");
+  if(logFile == NULL){
+  printf("\n file did not open \n");
+  }
+   
+
+
   ros::init(argc, argv, "svo");
   ros::NodeHandle nh;
   ros::NodeHandle pnh("~");
@@ -216,7 +246,8 @@ int main(int argc, char **argv)
     ros::spinOnce();
     // TODO check when last image was processed. when too long ago. publish warning that no msgs are received!
   }
-
+  if(logFile != NULL) {printf("crap");}
+  fclose(logFile);
   printf("SVO terminated.\n");
   return 0;
 }

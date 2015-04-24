@@ -77,7 +77,7 @@ void ErrorCalculator::recalculate() {
   
   //  calculate statistics about all three axes
   for (int j=0; j < 3; j++) {
-    pos_[j] = Statistics<>( std::move(pos[j]) );
+    pos_[j] = pos[j];//Statistics<>( std::move(pos[j]) );
     rot_[j] = Statistics<>( std::move(rot[j]) );
   }
 }

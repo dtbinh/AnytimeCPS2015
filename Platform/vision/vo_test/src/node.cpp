@@ -1,6 +1,13 @@
 #include "node.hpp"
 #include <vo_utils/pose.hpp>
 #include <fstream>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+FILE* logFile_x;
+FILE* logFile_y;
+FILE* logFile_z;
 
 namespace vo {
 namespace test {
@@ -136,6 +143,18 @@ void Node::callback(const nav_msgs::OdometryConstPtr& odom_vision,
       auto rms_x = errorCalc_.positionStats(0).rms();
       auto rms_y = errorCalc_.positionStats(1).rms();
       auto rms_z = errorCalc_.positionStats(2).rms();
+      
+      // write abs error into file(s)
+      logFile_x = fopen("/home/mlab-retro/data_log/logF_err_x.txt","a");
+      logFile_y = fopen("/home/mlab-retro/data_log/logF_err_y.txt","a");
+      logFile_z = fopen("/home/mlab-retro/data_log/logF_err_z.txt","a");
+      fprintf(logFile_x,"%f \n",rms_x);
+      fflush(logFile_x);
+      fprintf(logFile_y,"%f \n",rms_y);
+      fflush(logFile_y);
+      fprintf(logFile_z,"%f \n",rms_z);
+      fflush(logFile_z);
+
       auto rms_rx = errorCalc_.rotationStats(0).rms() * 180.0/M_PI;
       auto rms_ry = errorCalc_.rotationStats(1).rms() * 180.0/M_PI;
       auto rms_rz = errorCalc_.rotationStats(2).rms() * 180.0/M_PI;
