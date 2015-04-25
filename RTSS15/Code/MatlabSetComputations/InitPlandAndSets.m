@@ -8,7 +8,8 @@ numModes = numel(deltas);
 % MPC Horizon
 H = 10;
 
-%get plant models for these modes
+%get plant models for these modesls
+
 A_modes = zeros(size(sys_c.a,1),size(sys_c.a,2),numModes);
 B1_modes = zeros(size(sys_c.b,1),size(sys_c.b,2),numModes);
 B2_modes = zeros(size(B1_modes,1),size(B1_modes,2),numModes);
@@ -91,7 +92,7 @@ for i = 1:numModes %all modes at k-1
                 throw(exception)
             end
         end
-        %Zf
+        %Zfsiz
        
     end
 end
