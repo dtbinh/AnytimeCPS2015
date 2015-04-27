@@ -21,6 +21,6 @@ sys_c = ss(A,B,C,D);
 
 sys_d = c2d(sys_c,h);
 
-sys_d.a
+sys_d.a;
 
-sys_d.b
+sys_d.b;
