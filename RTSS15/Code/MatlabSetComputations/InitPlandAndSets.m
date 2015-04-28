@@ -8,7 +8,7 @@ numModes = numel(deltas);
 % MPC Horizon
 H = 10;
 
-%get plant models for these modesls
+%get plant models for 0these modesls
 
 A_modes = zeros(size(sys_c.a,1),size(sys_c.a,2),numModes);
 B1_modes = zeros(size(sys_c.b,1),size(sys_c.b,2),numModes);
