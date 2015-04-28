@@ -3,8 +3,8 @@
 
 % Params
 g = 9.8;
-m = 0.4;
-h = 1/100;
+m = 0.5;
+h = 1/20;
 % continuous
 
 

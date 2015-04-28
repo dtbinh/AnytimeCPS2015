@@ -1,7 +1,7 @@
 PlantModelQuadSimpleLinear; %get quad dynamics for high level control
 
 %modes of estimation
-deltas = [0.0125;0.0129;0.0139];%(h/2)*rand(3,1);
+deltas = [24 29 38]*(10^-3);%[0.0125;0.0129;0.0139];%(h/2)*rand(3,1);
 epsilons = [0.028;0.0237;0.0113];
 numModes = numel(deltas);
 
