@@ -143,14 +143,16 @@ void rmpcControl::calculateControl(const Eigen::Vector3f &des_pos,
  params.z_0[3] = vel_[0];
  params.z_0[4] = vel_[1];
  params.z_0[5] = vel_[2];
- 
- params.z_0[6] = 0; // find a way to get previous trp in here
- params.z_0[7] = 0;
- params.z_0[8] = 0;
 
+ //these are prev controls
+ params.z_0[6] = vars.u_0[0]; // or use trpy_(2)-m*g and so on
+ params.z_0[7] = vars.u_0[1];
+ params.z_0[8] = vars.u_0[2];
 
+ //std::cout<<std::endl<<vars.u_0[2]<<" ";
  solve();
- 
+ //std::cout<<trpy_(0)-mass_*g_<<" ";
+
  trpy_(0) = vars.u_0[2] + mass_*g_; //thrust
  trpy_(1) = vars.u_0[1]; //roll
  trpy_(2) = vars.u_0[0]; //pitch
