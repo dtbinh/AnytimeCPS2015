@@ -4,7 +4,7 @@ PlantModelQuadSimpleLinear; %get quad dynamics for high level control
 deltas = [24 29 38]*(10^-3);%[0.0125;0.0129;0.0139];%(h/2)*rand(3,1);
 epsilons = [0.028;0.0237;0.0113];
 numModes = numel(deltas);
-
+setComps = 0;
 % MPC Horizon
 H = 10;
 
@@ -36,7 +36,7 @@ end
 Fhat=[eye(size(A,2));zeros(size(B,2),size(A,2))]; %dist input matrix, constt. throughtout
 
 %% set for states
-
+if(setComps)
 % est error sets
 disturbance.A=[eye(size(A,1));-eye(size(A,1))];
 emptyPoly = Polyhedron();
@@ -100,3 +100,5 @@ end
 %% save stuff
 save('Data/Sets.mat','epsilons','deltas','A_lift','B_lift','Cdelta','Zj', ...
     'Kx','E_set','K','A_modes','B1_modes','B2_modes','Acl','h','H','S','InputSet')
+
+end
