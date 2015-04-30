@@ -18,7 +18,7 @@ Vars vars;
 Params params;
 Workspace work;
 Settings settings;
-
+float mode = 0.029; //computation delay in s here
 
 rmpcControl::rmpcControl()
   : mass_(0.5),
@@ -152,7 +152,7 @@ void rmpcControl::calculateControl(const Eigen::Vector3f &des_pos,
  //std::cout<<std::endl<<vars.u_0[2]<<" ";
  solve();
  //std::cout<<trpy_(0)-mass_*g_<<" ";
-
+ //mode = 38; //38ms delay mode
  trpy_(0) = vars.u_0[2] + mass_*g_; //thrust
  trpy_(1) = vars.u_0[1]; //roll
  trpy_(2) = vars.u_0[0]; //pitch
@@ -171,7 +171,7 @@ strcpy(dummy[1], "VaNcE");
 }
 const Eigen::Vector4f &rmpcControl::getControls(void)
 { 
- // ros::Duration(.038).sleep(); //add delay
+  ros::Duration(mode).sleep(); //add delay
   return trpy_;
 }
 
@@ -356,6 +356,7 @@ void load_default_data(void) {
   params.u_limit[1] = 0.012;
   params.u_limit[2] = 7;
   
+  if(mode==0.038) {
   params.A_0[0] = 1;
   params.A_0[1] = 0.05;
   params.A_0[2] = 0.0115;
@@ -407,6 +408,116 @@ void load_default_data(void) {
   params.B[6] = 1;
   params.B[7] = 1;
   params.B[8] = 1;
+  } // end 38 ms, or 200 corners
+
+  if(mode=0.029) { //100 features
+  params.A_0[0] = 1;
+  params.A_0[1] = 0.05;
+  params.A_0[2] = 0.0101;
+  params.A_0[3] = 1;
+  params.A_0[4] = 0.05;
+  params.A_0[5] = -0.0101;
+  params.A_0[6] = 1;
+  params.A_0[7] = 0.05;
+  params.A_0[8] = 0.0021;
+  params.A_0[9] = 1;
+  params.A_0[10] = 0.2842;
+  params.A_0[11] = 1;
+  params.A_0[12] = -0.2842;
+  params.A_0[13] = 1;
+  params.A_0[14] = 0.058;
+  
+  params.B_0[0] = 0.0022;
+  params.B_0[1] = -0.0022;
+  params.B_0[2] = 0.0004;
+  params.B_0[3] = 0.2058;
+  params.B_0[4] = -0.2058;
+  params.B_0[5] = 0.042;
+  params.B_0[6] = 1;
+  params.B_0[7] = 1;
+  params.B_0[8] = 1;
+  
+  params.A[0] = 1;
+  params.A[1] = 0.05;
+  params.A[2] = 0.0101;
+  params.A[3] = 1;
+  params.A[4] = 0.05;
+  params.A[5] = -0.0101;
+  params.A[6] = 1;
+  params.A[7] = 0.05;
+  params.A[8] = 0.0021;
+  params.A[9] = 1;
+  params.A[10] = 0.2842;
+  params.A[11] = 1;
+  params.A[12] = -0.2842;
+  params.A[13] = 1;
+  params.A[14] = 0.058;
+
+  params.B[0] = 0.0022;
+  params.B[1] = -0.0022;
+  params.B[2] = 0.0004;
+  params.B[3] = 0.2058;
+  params.B[4] = -0.2058;
+  params.B[5] = 0.042;
+  params.B[6] = 1;
+  params.B[7] = 1;
+  params.B[8] = 1;
+ } //end 29 ms delay, 100 features mode model
+
+  if(mode=0.024) { //50 features
+  params.A_0[0] = 1;
+  params.A_0[1] = 0.05;
+  params.A_0[2] = 0.0089;
+  params.A_0[3] = 1;
+  params.A_0[4] = 0.05;
+  params.A_0[5] = -0.0089;
+  params.A_0[6] = 1;
+  params.A_0[7] = 0.05;
+  params.A_0[8] = 0.0018;
+  params.A_0[9] = 1;
+  params.A_0[10] = 0.2352;
+  params.A_0[11] = 1;
+  params.A_0[12] = -0.2352;
+  params.A_0[13] = 1;
+  params.A_0[14] = 0.048;
+  
+  params.B_0[0] = 0.0033;
+  params.B_0[1] = -0.0033;
+  params.B_0[2] = 0.0007;
+  params.B_0[3] = 0.2548;
+  params.B_0[4] = -0.2548;
+  params.B_0[5] = 0.052;
+  params.B_0[6] = 1;
+  params.B_0[7] = 1;
+  params.B_0[8] = 1;
+  
+  params.A[0] = 1;
+  params.A[1] = 0.05;
+  params.A[2] = 0.0089;
+  params.A[3] = 1;
+  params.A[4] = 0.05;
+  params.A[5] = -0.0089;
+  params.A[6] = 1;
+  params.A[7] = 0.05;
+  params.A[8] = 0.0018;
+  params.A[9] = 1;
+  params.A[10] = 0.2352;
+  params.A[11] = 1;
+  params.A[12] = -0.2352;
+  params.A[13] = 1;
+  params.A[14] = 0.048;
+
+  params.B[0] = 0.0033;
+  params.B[1] = -0.0033;
+  params.B[2] = 0.0007;
+  params.B[3] = 0.2548;
+  params.B[4] = -0.2548;
+  params.B[5] = 0.052;
+  params.B[6] = 1;
+  params.B[7] = 1;
+  params.B[8] = 1;
+ } //end 24 ms delay, 50 features mode model
+
 
 
 
