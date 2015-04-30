@@ -1,0 +1,31 @@
+\section{outline}
+
+\begin{enumerate}
+	\item Introduction
+	
+	\item Motivating example: 
+	\subitem hexrotor that is unstable/poor-performing with MPC because of actuation delay
+	\subitem Operating at lowest delay (= worst performance) is not good either 
+	\subitem How can we reduce the actuation delay while keeping a handle on estimation error? 
+	Anytime control formulation explicity accounts for delay/error and optimizes over it.
+	\subitem A delay-error trade-off curve + control formulation that accounts for it
+	
+	\item Control problem and solution
+	\subitem MPC control formulation 
+	\subitem Solution
+	
+	\item Delay-error curve 
+	\subitem Perception and estimation toolchain. Each component has knobs that make it anytime.
+	\subitem Perception+estimation is a task with varying utility and execution time. The controller schedules the task with the best utility/execution time.
+	\subitem this is also a utility/computation power trade-off.
+	\subitem Example: corner detection for visual odometry
+	\subitem Example: Yash's OpenCV toolchain: flowgraph and potentially curves.
+	
+	\item Experiment
+	\subitem Show the curve on the quadrotor with ordroid (or maybe move to previous section)
+	\subitem Computation power
+	\subitem Experimental setup
+	\subitem Take system from intro and show results with RAMPC: better performance/ stable.
+	\subitem Degradation experiment: as we decrease control frequency and increase flying speed, performance degrades. How does degradation compare between the two.
+	
+\end{enumerate}
