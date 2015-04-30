@@ -18,13 +18,19 @@ Vars vars;
 Params params;
 Workspace work;
 Settings settings;
-float mode = 0.029; //computation delay in s here
+enum DelayMode
+{
+  FEAT_50, // 24 ms
+  FEAT_100, // 29 ms
+  FEAT_200, // 38 ms
+  NUM_DELAY_MODES
+};
+
+enum DelayMode mode = FEAT_50;
+float delay[NUM_DELAY_MODES] = {0.024, 0.029, 0.038}; // computation delay in s here
 
 rmpcControl::rmpcControl()
-  : mass_(0.5),
-    g_(9.81),
-    yaw_int_(0.0),
-    max_pos_int_(0.5)
+    : mass_(0.5), g_(9.81), yaw_int_(0.0), max_pos_int_(0.5)
 {
 }
 
@@ -58,64 +64,56 @@ void rmpcControl::setMaxIntegral(const float max_integral)
   max_pos_int_ = max_integral;
 }
 
-void rmpcControl::setOptParams( std::vector<double> A,
-                               std::vector<double> B,
-			       std::vector<double> x_limit,
-			       std::vector<double> u_limit)
-			       
+void rmpcControl::setOptParams(std::vector<double> A, std::vector<double> B,
+                               std::vector<double> x_limit,
+                               std::vector<double> u_limit)
+
 { // use this function to get params through the parameter server
- set_defaults();
- setup_indexing();
- load_default_data();
-/* ignore these guys for RMPC for now, no other choice son 
- params.A[0] = A[0];
- params.A[1] = A[1];
- params.A[2] = A[2];
- params.A[3] = A[3];
- params.A[4] = A[4];
- params.A[5] = A[5]; 
- params.A[6] = A[6];
- params.A[7] = A[7];
- params.A[8] = A[8];
- 
- params.B[0] = B[0];
- params.B[1] = B[1];
- params.B[2] = B[2];
- params.B[3] = B[3];
- params.B[4] = B[4];
- params.B[5] = B[5]; 
+  set_defaults();
+  setup_indexing();
+  load_default_data();
+  /* ignore these guys for RMPC for now, no other choice son
+   params.A[0] = A[0];
+   params.A[1] = A[1];
+   params.A[2] = A[2];
+   params.A[3] = A[3];
+   params.A[4] = A[4];
+   params.A[5] = A[5];
+   params.A[6] = A[6];
+   params.A[7] = A[7];
+   params.A[8] = A[8];
 
- params.x_limit[0] = x_limit[0];
- params.x_limit[1] = x_limit[1];
- params.x_limit[2] = x_limit[2];
- params.x_limit[3] = x_limit[3];
- params.x_limit[4] = x_limit[4];
- params.x_limit[5] = x_limit[5];
-*/ 
- params.u_limit[0] = u_limit[0];
- params.u_limit[1] = u_limit[1];
- params.u_limit[2] = u_limit[2]; 
+   params.B[0] = B[0];
+   params.B[1] = B[1];
+   params.B[2] = B[2];
+   params.B[3] = B[3];
+   params.B[4] = B[4];
+   params.B[5] = B[5];
 
-
-
-
+   params.x_limit[0] = x_limit[0];
+   params.x_limit[1] = x_limit[1];
+   params.x_limit[2] = x_limit[2];
+   params.x_limit[3] = x_limit[3];
+   params.x_limit[4] = x_limit[4];
+   params.x_limit[5] = x_limit[5];
+  */
+  params.u_limit[0] = u_limit[0];
+  params.u_limit[1] = u_limit[1];
+  params.u_limit[2] = u_limit[2];
 }
 
-void rmpcControl::calculateControl(const Eigen::Vector3f &des_pos,
-                                  const Eigen::Vector3f &des_vel,
-                                  const Eigen::Vector3f &des_acc,
-                                  const float des_yaw,
-                                  const Eigen::Vector3f &kx,
-                                  const Eigen::Vector3f &kv,
-                                  const Eigen::Vector3f &ki,
-                                  const float ki_yaw)
+void rmpcControl::calculateControl(
+    const Eigen::Vector3f &des_pos, const Eigen::Vector3f &des_vel,
+    const Eigen::Vector3f &des_acc, const float des_yaw,
+    const Eigen::Vector3f &kx, const Eigen::Vector3f &kv,
+    const Eigen::Vector3f &ki, const float ki_yaw)
 {
   Eigen::Vector3f e_pos = (des_pos - pos_);
   Eigen::Vector3f e_vel = (des_vel - vel_);
   for(int i = 0; i < 3; i++)
   {
     if(kx(i) != 0)
-      pos_int_(i) += ki(i)*e_pos(i);
+      pos_int_(i) += ki(i) * e_pos(i);
 
     // Limit integral term
     if(pos_int_(i) > max_pos_int_)
@@ -123,55 +121,46 @@ void rmpcControl::calculateControl(const Eigen::Vector3f &des_pos,
     else if(pos_int_(i) < -max_pos_int_)
       pos_int_(i) = -max_pos_int_;
   }
- //std::cout<<params.A[0]<<" "<<params.A[1]<<std::endl;
-  
- 
- params.z_ref[0] = des_pos[0];
- params.z_ref[1] = des_pos[1];
- params.z_ref[2] = des_pos[2];
- params.z_ref[3] = des_vel[0];
- params.z_ref[4] = des_vel[1];
- params.z_ref[5] = des_vel[2];
+  // std::cout<<params.A[0]<<" "<<params.A[1]<<std::endl;
 
- params.z_ref[6] = 0; // for the controls
- params.z_ref[7] = 0;
- params.z_ref[8] = 0;
+  params.z_ref[0] = des_pos[0];
+  params.z_ref[1] = des_pos[1];
+  params.z_ref[2] = des_pos[2];
+  params.z_ref[3] = des_vel[0];
+  params.z_ref[4] = des_vel[1];
+  params.z_ref[5] = des_vel[2];
 
- params.z_0[0] = pos_[0];
- params.z_0[1] = pos_[1];
- params.z_0[2] = pos_[2];
- params.z_0[3] = vel_[0];
- params.z_0[4] = vel_[1];
- params.z_0[5] = vel_[2];
+  params.z_ref[6] = 0; // for the controls
+  params.z_ref[7] = 0;
+  params.z_ref[8] = 0;
 
- //these are prev controls
- params.z_0[6] = vars.u_0[0]; // or use trpy_(2)-m*g and so on
- params.z_0[7] = vars.u_0[1];
- params.z_0[8] = vars.u_0[2];
+  params.z_0[0] = pos_[0];
+  params.z_0[1] = pos_[1];
+  params.z_0[2] = pos_[2];
+  params.z_0[3] = vel_[0];
+  params.z_0[4] = vel_[1];
+  params.z_0[5] = vel_[2];
 
- //std::cout<<std::endl<<vars.u_0[2]<<" ";
- solve();
- //std::cout<<trpy_(0)-mass_*g_<<" ";
- //mode = 38; //38ms delay mode
- trpy_(0) = vars.u_0[2] + mass_*g_; //thrust
- trpy_(1) = vars.u_0[1]; //roll
- trpy_(2) = vars.u_0[0]; //pitch
- trpy_(3) = 0; //yaw
- 
-/* if(0)
- {
-char **dummy = (char**) malloc(2 * sizeof(char*));
-dummy[1] = (char*) malloc(6 * sizeof(char));
-strcpy(dummy[1], "VaNcE");
- cowsay(2, dummy);
- free(dummy[1]);
- free(dummy);
-}*/
+  // these are prev controls
+  params.z_0[6] = vars.u_0[0]; // or use trpy_(2)-m*g and so on
+  params.z_0[7] = vars.u_0[1];
+  params.z_0[8] = vars.u_0[2];
 
+  solve();
+
+  // Need to transform these to the correct frame using the current yaw of robot
+  float pitch_des = vars.u_0[0];
+  float roll_des = vars.u_0[1];
+
+  trpy_(0) = vars.u_0[2] + mass_ * g_; // thrust
+  trpy_(1) = roll_des * cos(current_yaw_) + pitch_des * sin(current_yaw_);
+  trpy_(2) = pitch_des * cos(current_yaw_) - roll_des * sin(current_yaw_);
+  trpy_(3) = 0; // yaw
 }
+
 const Eigen::Vector4f &rmpcControl::getControls(void)
-{ 
-  ros::Duration(mode).sleep(); //add delay
+{
+  ros::Duration(delay[mode]).sleep(); // add delay
   return trpy_;
 }
 
@@ -181,10 +170,9 @@ void rmpcControl::resetIntegrals(void)
   yaw_int_ = 0;
 }
 
-void load_default_data(void) {
- 
-   
- /* Make this a diagonal PSD matrix, even though it's not diagonal. */
+void load_default_data(void)
+{
+  /* Make this a diagonal PSD matrix, even though it's not diagonal. */
   params.Q[0] = 10;
   params.Q[9] = 0;
   params.Q[18] = 0;
@@ -215,7 +203,7 @@ void load_default_data(void) {
   params.Q[3] = 0;
   params.Q[12] = 0;
   params.Q[21] = 0;
-  params.Q[30] = 1;
+  params.Q[30] = 0.1;
   params.Q[39] = 0;
   params.Q[48] = 0;
   params.Q[57] = 0;
@@ -225,7 +213,7 @@ void load_default_data(void) {
   params.Q[13] = 0;
   params.Q[22] = 0;
   params.Q[31] = 0;
-  params.Q[40] = 1;
+  params.Q[40] = 0.1;
   params.Q[49] = 0;
   params.Q[58] = 0;
   params.Q[67] = 0;
@@ -235,7 +223,7 @@ void load_default_data(void) {
   params.Q[23] = 0;
   params.Q[32] = 0;
   params.Q[41] = 0;
-  params.Q[50] = 1;
+  params.Q[50] = 0.1;
   params.Q[59] = 0;
   params.Q[68] = 0;
   params.Q[77] = 0;
@@ -245,7 +233,7 @@ void load_default_data(void) {
   params.Q[33] = 0;
   params.Q[42] = 0;
   params.Q[51] = 0;
-  params.Q[60] = 10;
+  params.Q[60] = 5;
   params.Q[69] = 0;
   params.Q[78] = 0;
   params.Q[7] = 0;
@@ -255,7 +243,7 @@ void load_default_data(void) {
   params.Q[43] = 0;
   params.Q[52] = 0;
   params.Q[61] = 0;
-  params.Q[70] = 10;
+  params.Q[70] = 5;
   params.Q[79] = 0;
   params.Q[8] = 0;
   params.Q[17] = 0;
@@ -265,10 +253,8 @@ void load_default_data(void) {
   params.Q[53] = 0;
   params.Q[62] = 0;
   params.Q[71] = 0;
-  params.Q[80] = .1; 
-  
-  
-  
+  params.Q[80] = 1;
+
   /* Make this a diagonal PSD matrix, even though it's not diagonal. */
   params.Q_final[0] = 10;
   params.Q_final[9] = 0;
@@ -300,7 +286,7 @@ void load_default_data(void) {
   params.Q_final[3] = 0;
   params.Q_final[12] = 0;
   params.Q_final[21] = 0;
-  params.Q_final[30] = 1;
+  params.Q_final[30] = 0.1;
   params.Q_final[39] = 0;
   params.Q_final[48] = 0;
   params.Q_final[57] = 0;
@@ -310,7 +296,7 @@ void load_default_data(void) {
   params.Q_final[13] = 0;
   params.Q_final[22] = 0;
   params.Q_final[31] = 0;
-  params.Q_final[40] = 1;
+  params.Q_final[40] = 0.1;
   params.Q_final[49] = 0;
   params.Q_final[58] = 0;
   params.Q_final[67] = 0;
@@ -320,7 +306,7 @@ void load_default_data(void) {
   params.Q_final[23] = 0;
   params.Q_final[32] = 0;
   params.Q_final[41] = 0;
-  params.Q_final[50] = 1;
+  params.Q_final[50] = 0.1;
   params.Q_final[59] = 0;
   params.Q_final[68] = 0;
   params.Q_final[77] = 0;
@@ -330,7 +316,7 @@ void load_default_data(void) {
   params.Q_final[33] = 0;
   params.Q_final[42] = 0;
   params.Q_final[51] = 0;
-  params.Q_final[60] = 10;
+  params.Q_final[60] = 5;
   params.Q_final[69] = 0;
   params.Q_final[78] = 0;
   params.Q_final[7] = 0;
@@ -340,7 +326,7 @@ void load_default_data(void) {
   params.Q_final[43] = 0;
   params.Q_final[52] = 0;
   params.Q_final[61] = 0;
-  params.Q_final[70] = 10;
+  params.Q_final[70] = 5;
   params.Q_final[79] = 0;
   params.Q_final[8] = 0;
   params.Q_final[17] = 0;
@@ -350,179 +336,173 @@ void load_default_data(void) {
   params.Q_final[53] = 0;
   params.Q_final[62] = 0;
   params.Q_final[71] = 0;
-  params.Q_final[80] = .1;
- 
-  params.u_limit[0] = 0.012; // 0.0052 works
-  params.u_limit[1] = 0.012;
+  params.Q_final[80] = 1;
+
+  params.u_limit[0] = 0.512; // 0.0052 works
+  params.u_limit[1] = 0.512;
   params.u_limit[2] = 7;
-  
-  if(mode==0.038) {
-  params.A_0[0] = 1;
-  params.A_0[1] = 0.05;
-  params.A_0[2] = 0.0115;
-  params.A_0[3] = 1;
-  params.A_0[4] = 0.05;
-  params.A_0[5] = -0.0115;
-  params.A_0[6] = 1;
-  params.A_0[7] = 0.05;
-  params.A_0[8] = 0.0024;
-  params.A_0[9] = 1;
-  params.A_0[10] = 0.3724;
-  params.A_0[11] = 1;
-  params.A_0[12] = -0.3724;
-  params.A_0[13] = 1;
-  params.A_0[14] = 0.076;
-  
-  params.B_0[0] = 0.0007;
-  params.B_0[1] = -0.0007;
-  params.B_0[2] = 0.0001;
-  params.B_0[3] = 0.1176;
-  params.B_0[4] = -0.1176;
-  params.B_0[5] = 0.024;
-  params.B_0[6] = 1;
-  params.B_0[7] = 1;
-  params.B_0[8] = 1;
-  
-  params.A[0] = 1;
-  params.A[1] = 0.05;
-  params.A[2] = 0.0115;
-  params.A[3] = 1;
-  params.A[4] = 0.05;
-  params.A[5] = -0.0115;
-  params.A[6] = 1;
-  params.A[7] = 0.05;
-  params.A[8] = 0.0024;
-  params.A[9] = 1;
-  params.A[10] = 0.3724;
-  params.A[11] = 1;
-  params.A[12] = -0.3724;
-  params.A[13] = 1;
-  params.A[14] = 0.076;  
 
-  params.B[0] = 0.0007;
-  params.B[1] = -0.0007;
-  params.B[2] = 0.0001;
-  params.B[3] = 0.1176;
-  params.B[4] = -0.1176;
-  params.B[5] = 0.024;
-  params.B[6] = 1;
-  params.B[7] = 1;
-  params.B[8] = 1;
+  if(mode == FEAT_200)
+  {
+    params.A_0[0] = 1;
+    params.A_0[1] = 0.05;
+    params.A_0[2] = 0.0115;
+    params.A_0[3] = 1;
+    params.A_0[4] = 0.05;
+    params.A_0[5] = -0.0115;
+    params.A_0[6] = 1;
+    params.A_0[7] = 0.05;
+    params.A_0[8] = 0.0024;
+    params.A_0[9] = 1;
+    params.A_0[10] = 0.3724;
+    params.A_0[11] = 1;
+    params.A_0[12] = -0.3724;
+    params.A_0[13] = 1;
+    params.A_0[14] = 0.076;
+
+    params.B_0[0] = 0.0007;
+    params.B_0[1] = -0.0007;
+    params.B_0[2] = 0.0001;
+    params.B_0[3] = 0.1176;
+    params.B_0[4] = -0.1176;
+    params.B_0[5] = 0.024;
+    params.B_0[6] = 1;
+    params.B_0[7] = 1;
+    params.B_0[8] = 1;
+
+    params.A[0] = 1;
+    params.A[1] = 0.05;
+    params.A[2] = 0.0115;
+    params.A[3] = 1;
+    params.A[4] = 0.05;
+    params.A[5] = -0.0115;
+    params.A[6] = 1;
+    params.A[7] = 0.05;
+    params.A[8] = 0.0024;
+    params.A[9] = 1;
+    params.A[10] = 0.3724;
+    params.A[11] = 1;
+    params.A[12] = -0.3724;
+    params.A[13] = 1;
+    params.A[14] = 0.076;
+
+    params.B[0] = 0.0007;
+    params.B[1] = -0.0007;
+    params.B[2] = 0.0001;
+    params.B[3] = 0.1176;
+    params.B[4] = -0.1176;
+    params.B[5] = 0.024;
+    params.B[6] = 1;
+    params.B[7] = 1;
+    params.B[8] = 1;
   } // end 38 ms, or 200 corners
+  else if(mode == FEAT_100)
+  { // 100 features
+    params.A_0[0] = 1;
+    params.A_0[1] = 0.05;
+    params.A_0[2] = 0.0101;
+    params.A_0[3] = 1;
+    params.A_0[4] = 0.05;
+    params.A_0[5] = -0.0101;
+    params.A_0[6] = 1;
+    params.A_0[7] = 0.05;
+    params.A_0[8] = 0.0021;
+    params.A_0[9] = 1;
+    params.A_0[10] = 0.2842;
+    params.A_0[11] = 1;
+    params.A_0[12] = -0.2842;
+    params.A_0[13] = 1;
+    params.A_0[14] = 0.058;
 
-  if(mode=0.029) { //100 features
-  params.A_0[0] = 1;
-  params.A_0[1] = 0.05;
-  params.A_0[2] = 0.0101;
-  params.A_0[3] = 1;
-  params.A_0[4] = 0.05;
-  params.A_0[5] = -0.0101;
-  params.A_0[6] = 1;
-  params.A_0[7] = 0.05;
-  params.A_0[8] = 0.0021;
-  params.A_0[9] = 1;
-  params.A_0[10] = 0.2842;
-  params.A_0[11] = 1;
-  params.A_0[12] = -0.2842;
-  params.A_0[13] = 1;
-  params.A_0[14] = 0.058;
-  
-  params.B_0[0] = 0.0022;
-  params.B_0[1] = -0.0022;
-  params.B_0[2] = 0.0004;
-  params.B_0[3] = 0.2058;
-  params.B_0[4] = -0.2058;
-  params.B_0[5] = 0.042;
-  params.B_0[6] = 1;
-  params.B_0[7] = 1;
-  params.B_0[8] = 1;
-  
-  params.A[0] = 1;
-  params.A[1] = 0.05;
-  params.A[2] = 0.0101;
-  params.A[3] = 1;
-  params.A[4] = 0.05;
-  params.A[5] = -0.0101;
-  params.A[6] = 1;
-  params.A[7] = 0.05;
-  params.A[8] = 0.0021;
-  params.A[9] = 1;
-  params.A[10] = 0.2842;
-  params.A[11] = 1;
-  params.A[12] = -0.2842;
-  params.A[13] = 1;
-  params.A[14] = 0.058;
+    params.B_0[0] = 0.0022;
+    params.B_0[1] = -0.0022;
+    params.B_0[2] = 0.0004;
+    params.B_0[3] = 0.2058;
+    params.B_0[4] = -0.2058;
+    params.B_0[5] = 0.042;
+    params.B_0[6] = 1;
+    params.B_0[7] = 1;
+    params.B_0[8] = 1;
 
-  params.B[0] = 0.0022;
-  params.B[1] = -0.0022;
-  params.B[2] = 0.0004;
-  params.B[3] = 0.2058;
-  params.B[4] = -0.2058;
-  params.B[5] = 0.042;
-  params.B[6] = 1;
-  params.B[7] = 1;
-  params.B[8] = 1;
- } //end 29 ms delay, 100 features mode model
+    params.A[0] = 1;
+    params.A[1] = 0.05;
+    params.A[2] = 0.0101;
+    params.A[3] = 1;
+    params.A[4] = 0.05;
+    params.A[5] = -0.0101;
+    params.A[6] = 1;
+    params.A[7] = 0.05;
+    params.A[8] = 0.0021;
+    params.A[9] = 1;
+    params.A[10] = 0.2842;
+    params.A[11] = 1;
+    params.A[12] = -0.2842;
+    params.A[13] = 1;
+    params.A[14] = 0.058;
 
-  if(mode=0.024) { //50 features
-  params.A_0[0] = 1;
-  params.A_0[1] = 0.05;
-  params.A_0[2] = 0.0089;
-  params.A_0[3] = 1;
-  params.A_0[4] = 0.05;
-  params.A_0[5] = -0.0089;
-  params.A_0[6] = 1;
-  params.A_0[7] = 0.05;
-  params.A_0[8] = 0.0018;
-  params.A_0[9] = 1;
-  params.A_0[10] = 0.2352;
-  params.A_0[11] = 1;
-  params.A_0[12] = -0.2352;
-  params.A_0[13] = 1;
-  params.A_0[14] = 0.048;
-  
-  params.B_0[0] = 0.0033;
-  params.B_0[1] = -0.0033;
-  params.B_0[2] = 0.0007;
-  params.B_0[3] = 0.2548;
-  params.B_0[4] = -0.2548;
-  params.B_0[5] = 0.052;
-  params.B_0[6] = 1;
-  params.B_0[7] = 1;
-  params.B_0[8] = 1;
-  
-  params.A[0] = 1;
-  params.A[1] = 0.05;
-  params.A[2] = 0.0089;
-  params.A[3] = 1;
-  params.A[4] = 0.05;
-  params.A[5] = -0.0089;
-  params.A[6] = 1;
-  params.A[7] = 0.05;
-  params.A[8] = 0.0018;
-  params.A[9] = 1;
-  params.A[10] = 0.2352;
-  params.A[11] = 1;
-  params.A[12] = -0.2352;
-  params.A[13] = 1;
-  params.A[14] = 0.048;
+    params.B[0] = 0.0022;
+    params.B[1] = -0.0022;
+    params.B[2] = 0.0004;
+    params.B[3] = 0.2058;
+    params.B[4] = -0.2058;
+    params.B[5] = 0.042;
+    params.B[6] = 1;
+    params.B[7] = 1;
+    params.B[8] = 1;
+  } // end 29 ms delay, 100 features mode model
+  else if(mode == FEAT_50)
+  { // 50 features
+    params.A_0[0] = 1;
+    params.A_0[1] = 0.05;
+    params.A_0[2] = 0.0089;
+    params.A_0[3] = 1;
+    params.A_0[4] = 0.05;
+    params.A_0[5] = -0.0089;
+    params.A_0[6] = 1;
+    params.A_0[7] = 0.05;
+    params.A_0[8] = 0.0018;
+    params.A_0[9] = 1;
+    params.A_0[10] = 0.2352;
+    params.A_0[11] = 1;
+    params.A_0[12] = -0.2352;
+    params.A_0[13] = 1;
+    params.A_0[14] = 0.048;
 
-  params.B[0] = 0.0033;
-  params.B[1] = -0.0033;
-  params.B[2] = 0.0007;
-  params.B[3] = 0.2548;
-  params.B[4] = -0.2548;
-  params.B[5] = 0.052;
-  params.B[6] = 1;
-  params.B[7] = 1;
-  params.B[8] = 1;
- } //end 24 ms delay, 50 features mode model
+    params.B_0[0] = 0.0033;
+    params.B_0[1] = -0.0033;
+    params.B_0[2] = 0.0007;
+    params.B_0[3] = 0.2548;
+    params.B_0[4] = -0.2548;
+    params.B_0[5] = 0.052;
+    params.B_0[6] = 1;
+    params.B_0[7] = 1;
+    params.B_0[8] = 1;
 
+    params.A[0] = 1;
+    params.A[1] = 0.05;
+    params.A[2] = 0.0089;
+    params.A[3] = 1;
+    params.A[4] = 0.05;
+    params.A[5] = -0.0089;
+    params.A[6] = 1;
+    params.A[7] = 0.05;
+    params.A[8] = 0.0018;
+    params.A[9] = 1;
+    params.A[10] = 0.2352;
+    params.A[11] = 1;
+    params.A[12] = -0.2352;
+    params.A[13] = 1;
+    params.A[14] = 0.048;
 
-
-
+    params.B[0] = 0.0033;
+    params.B[1] = -0.0033;
+    params.B[2] = 0.0007;
+    params.B[3] = 0.2548;
+    params.B[4] = -0.2548;
+    params.B[5] = 0.052;
+    params.B[6] = 1;
+    params.B[7] = 1;
+    params.B[8] = 1;
+  } // end 24 ms delay, 50 features mode model
 }
 
-
-
- 

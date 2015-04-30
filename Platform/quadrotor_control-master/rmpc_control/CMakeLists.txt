@@ -18,6 +18,8 @@ catkin_package(
   DEPENDS Eigen)
 
 add_library(rmpcControl src/rmpcControl.cpp src/solver.c src/ldl.c src/matrix_support.c src/util.c)
+target_link_libraries(rmpcControl ${catkin_LIBRARIES})
+
 #add_library(solver src/solver.c)
 #add_library(util src/util.c)
 #add_library(ldl src/ldl.c)

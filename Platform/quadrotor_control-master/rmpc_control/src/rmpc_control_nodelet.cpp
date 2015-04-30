@@ -20,6 +20,7 @@ class rmpcControlNodelet : public nodelet::Nodelet
       position_cmd_init_(false),
       des_yaw_(0),
       current_yaw_(0),
+      idle_motors_(false),
       enable_motors_(false),
       use_external_yaw_(false)
   {
@@ -47,7 +48,7 @@ class rmpcControlNodelet : public nodelet::Nodelet
   float current_yaw_;
   float ki_yaw_;
   float max_roll_pitch_;
-  bool enable_motors_;
+  bool enable_motors_, idle_motors_;
   bool use_external_yaw_;
 };
 
@@ -75,17 +76,23 @@ void rmpcControlNodelet::publishTRPYCommand(void)
     trpy_command->roll   = CLAMP(trpy(1), -max_roll_pitch_, max_roll_pitch_);
     trpy_command->pitch  = CLAMP(trpy(2), -max_roll_pitch_, max_roll_pitch_);
     trpy_command->yaw    = trpy(3);
-    trpy_command->kR[0] = kR_[0];    	  
+    trpy_command->kR[0] = kR_[0];
     trpy_command->kR[1] = kR_[1];
     trpy_command->kR[2] = kR_[2];
-    trpy_command->kOm[0] = kOm_[0];    	  
+    trpy_command->kOm[0] = kOm_[0];
     trpy_command->kOm[1] = kOm_[1];
     trpy_command->kOm[2] = kOm_[2];
+  }
+  else if(idle_motors_)
+  {
+    trpy_command->thrust = 0.001*9.81*1.01; // slightly above 1 gram
+    trpy_command->roll   = 0;
+    trpy_command->pitch  = 0;
+    trpy_command->yaw    = 0;
   }
   trpy_command->aux.current_yaw = current_yaw_;
   trpy_command->aux.enable_motors = enable_motors_;
   trpy_command->aux.use_external_yaw = use_external_yaw_;
-  ros::Duration(0.0).sleep(); //add delay
 
   trpy_command_pub_.publish(trpy_command);
 }
@@ -136,13 +143,25 @@ void rmpcControlNodelet::odom_callback(const nav_msgs::Odometry::ConstPtr &odom)
 void rmpcControlNodelet::enable_motors_callback(const std_msgs::Bool::ConstPtr &msg)
 {
   if(msg->data)
-    ROS_INFO("Enabling motors");
+  {
+    if(!idle_motors_)
+    {
+      ROS_INFO("Idling motors");
+      idle_motors_ = true;
+    }
+    else
+    {
+      ROS_INFO("Enabling motors2");
+      enable_motors_ = true;
+    }
+  }
   else
+  {
     ROS_INFO("Disabling motors");
+    enable_motors_ = false;
+    idle_motors_ = false;
+  }
 
-  enable_motors_ = msg->data;
-
-  // Reset integrals when toggling motor state
   controller_.resetIntegrals();
 }
 
@@ -174,7 +193,7 @@ void rmpcControlNodelet::onInit(void)
   ki_yaw_ = ki_yaw;
 
   double kR[3], kOm[3];
-  
+
   // try reading some params
   std::vector<double> A;
   std::vector<double> B;
@@ -183,17 +202,17 @@ void rmpcControlNodelet::onInit(void)
 
 
   if((n.getParam("A",A)) && (n.getParam("B",B)) && (n.getParam("x_limit",x_limit)) && (n.getParam("u_limit",u_limit)))
- {
- ROS_INFO("Got all Params");
- controller_.setOptParams(A,B,x_limit,u_limit);
- }
- else
- { 
-  ROS_ERROR("Failed: Params not loaded");
- }
+  {
+    ROS_INFO("Got all Params");
+    controller_.setOptParams(A,B,x_limit,u_limit);
+  }
+  else
+  {
+    ROS_ERROR("Failed: Params not loaded");
+  }
 
 
-   // back to everyday stuff 	
+   // back to everyday stuff
   n.param("gains/rot/x", kR[0], 1.5);
   n.param("gains/rot/y", kR[1], 1.5);
   n.param("gains/rot/z", kR[2], 1.0);

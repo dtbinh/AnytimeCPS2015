@@ -187,9 +187,9 @@ void load_default_data(void) {
   params.Q[23] = 0;
   params.Q[29] = 0;
   /* Make this a diagonal PSD matrix, even though it's not diagonal. */
-  params.R[0] = 1;
-  params.R[4] = 1;
-  params.R[8] = .1;
+  params.R[0] = 15;//1;
+  params.R[4] = 15;//1;
+  params.R[8] = 2;//.1;
   params.R[3] = 0;
   params.R[6] = 0;
   params.R[1] = 0;
