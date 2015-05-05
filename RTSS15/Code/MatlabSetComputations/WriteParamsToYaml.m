@@ -19,10 +19,6 @@ valsA0lift = cell(numel(deltas),numel(deltas));
 rB0lift = cell(numel(deltas),numel(deltas));
 cB0lift = cell(numel(deltas),numel(deltas));
 valsB0lift = cell(numel(deltas),numel(deltas));
-% rZA = cell(numel(deltas),numel(deltas));
-% cZA = cell(numel(deltas),numel(deltas));
-% valsZA = cell(numel(deltas),numel(deltas));
-% 
 
 
 for i=1:numel(deltas)
