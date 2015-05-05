@@ -11,6 +11,11 @@
 #include <stdio.h>
 #include <ros/console.h>
 #include <vector>
+#include <cstdlib>
+#include <ctime>
+
+
+
 //#include "ldl.c"
 //#include "matrix_support.c"
 //#include "solver.c"
@@ -18,7 +23,10 @@
 //#include "cowsay.c"
 //#include <ros/ros.h>
 
-static float prev_T;
+
+
+
+static float prev_T; // to store applied inputs for next mpc opt
 static float prev_R;
 static float prev_P;
 
@@ -60,7 +68,12 @@ enum DelayMode
 };
 
 enum DelayMode mode = FEAT_200_;
+float myerr[NUM_DELAY_MODES] ={0.028,0.0237,0.0113}; //myerr inf norm in m
 float delay[NUM_DELAY_MODES] = {0.024, 0.029, 0.038}; // computation delay in s here
+//float err[NUM_DELAY_MODES] = {0.028,0.0237,0.0113}; //err inf norm in m
+
+
+
 
 rmpcControl::rmpcControl()
     : mass_(0.5), g_(9.81), yaw_int_(0.0), max_pos_int_(0.5)
@@ -134,7 +147,24 @@ void rmpcControl::calculateControl(
     const Eigen::Vector3f &kx, const Eigen::Vector3f &kv,
     const Eigen::Vector3f &ki, const float ki_yaw)
 { 
-  //  optimization
+  
+//add err
+//std::cout<<std::endl<<NUM_DELAY_MODES;
+
+//std::cout<<std::endl<<myerr[mode]<<" "<<delay[mode];
+srand (static_cast <unsigned> (1235));
+float r;
+for (int j=0;j<3;j++) {
+r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+pos_[j]=pos_[j]+r*myerr[mode];
+r = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+vel_[j]=vel_[j]+r*myerr[mode];
+
+}
+
+//std::cout<<std::endl<<pos_[0]<<" "<<des_pos[0];
+
+//  optimization
   FEAT_50::UpdateAndsolveOpt(des_pos, des_vel, pos_, vel_, prev_T, prev_R, prev_P);
   FEAT_100::UpdateAndsolveOpt(des_pos, des_vel, pos_, vel_, prev_T, prev_R, prev_P);
   FEAT_200::UpdateAndsolveOpt(des_pos, des_vel, pos_, vel_, prev_T, prev_R, prev_P);
@@ -143,7 +173,7 @@ void rmpcControl::calculateControl(
 
   // optimal mode
   double costs[]={FEAT_50::work.optval,FEAT_100::work.optval+0.0001,FEAT_200::work.optval+0.000102};
-  int ill = indexofSmallestElement(costs,3);
+  int ill = indexofSmallestElement(costs,NUM_DELAY_MODES);
   std::cout<<std::endl<<"Mode: "<<ill<<" costs [50 100 200]: "<<costs[0]<<" "<<costs[1]<<" "<<costs[2];
  // std::cout<<std::endl<<"50: "<<FEAT_50::work.optval<<"   100: "<<FEAT_100::work.optval;
   
@@ -172,9 +202,7 @@ void rmpcControl::calculateControl(
    thrust_des = FEAT_200::vars.u_0[2];
    mode = FEAT_200_;
   }
-
-
-
+ 
   /*else
   {
    pitch_des = 0;
