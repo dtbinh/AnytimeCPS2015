@@ -18,7 +18,10 @@
 \usepackage{todonotes}                              
 \RequirePackage{graphicx}
 \graphicspath{ {figures/} }
-\usepackage[tight,footnotesize]{subfigure}
+%\usepackage[tight,footnotesize]{subfigure}
+
+\newcommand{\hatodo}[1]{\todo{HA: #1}}
+\newcommand{\hatodoin}[1]{\todo[inline]{HA: #1}}
 
 % See the \addtolength command later in the file to balance the column lengths
 % on the last page of the document
@@ -32,7 +35,7 @@
 %\usepackage{amssymb}  % assumes amsmath package installed
 
 \title{\LARGE \bf
-Bla
+Anytizzle Contrizzle
 }
 
 \author{Authors% <-this % stops a space
@@ -48,13 +51,14 @@ Bla
 \thispagestyle{empty}
 \pagestyle{empty}
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \input{outline}
-
+\input{introduction}
+\input{controlProblem}
+\input{delayErrorCurve}
+\input{experiments}
 
 \bibliographystyle{abbrv}
-\bibliography{}  
+\bibliography{rtss2015}  
 
 
 
