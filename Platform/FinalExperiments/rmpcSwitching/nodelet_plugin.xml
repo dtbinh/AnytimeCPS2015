@@ -1,0 +1,7 @@
+<library path="lib/librmpc_control_nodelet">
+  <class name="rmpc_control/rmpcControlNodelet" type="rmpcControlNodelet" base_class_type="nodelet::Nodelet">
+    <description>
+      pid_control
+    </description>
+  </class>
+</library>
