@@ -7,11 +7,18 @@ images = dir([folder,'/*.png']);
 trainingimages = [1,3,4,5,11]; 
 nbimages = length(trainingimages);
 % Pixel classifier knob
-listPC = [4,6,8];
+listPC = 6;%[4,6,8];
 % Connected components knob
-listNConnComp = [4,8];
+listNConnComp = 8;%[4,8];
 % Shape calssifier knob
-listShapeFeatures = [1,3];
+listShapeFeatures = 3;%[1,3];
+% Pixel classifier knob
+listPC = 6;%[4,6,8];
+% Connected components knob
+listNConnComp = 8;%[4,8];
+% Shape calssifier knob
+listShapeFeatures = 3;%[1,3];
+
 
 for nbGMcomp=listPC
     for nbconncomp=listNConnComp
@@ -174,7 +181,7 @@ for nbGMcomp=listPC
             disp('Training SVM')
             datestr(now)
             SVMModel = fitcsvm([featuresNegClass; featuresPosClass],[-ones(size(featuresNegClass,1),1); ones(size(featuresPosClass,1),1)],...
-		'ClassNames', [true false],...
+		'ClassNames', [-1 1],...
                 'KernelFunction','rbf','Standardize',true, ...
                 'PredictorNames', knobs.featuresList);
             SVMModel = fitSVMPosterior(SVMModel);
