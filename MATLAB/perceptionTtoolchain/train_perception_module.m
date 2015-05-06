@@ -6,18 +6,18 @@ images = dir([folder,'/*.png']);
 % This is the god set {'1.3','1.7','1.8','1.9','2.0'};
 trainingimages = [1,3,4,5,11]; 
 nbimages = length(trainingimages);
+% % Pixel classifier knob
+% listPC = [4,6,8];
+% % Connected components knob
+% listNConnComp = [4,8];
+% % Shape calssifier knob
+% listShapeFeatures = [1,3];
 % Pixel classifier knob
-listPC = 6;%[4,6,8];
+listPC = 4;
 % Connected components knob
-listNConnComp = 8;%[4,8];
+listNConnComp = 8;
 % Shape calssifier knob
-listShapeFeatures = 3;%[1,3];
-% Pixel classifier knob
-listPC = 6;%[4,6,8];
-% Connected components knob
-listNConnComp = 8;%[4,8];
-% Shape calssifier knob
-listShapeFeatures = 3;%[1,3];
+listShapeFeatures = 3; 
 
 
 for nbGMcomp=listPC
@@ -41,7 +41,7 @@ for nbGMcomp=listPC
             end
             knobs.minAcceptanceProbScalingFactor = 0.8;
             knobs.minInitialAcceptanceProb = 0.6;
-            knobs.minSignificanceProb = 0.5;
+            knobs.minSignificanceProb = 0.2;
             knobs.nbValidationFolds = 5;
             
             % pixels of interest (poi)
@@ -87,7 +87,7 @@ for nbGMcomp=listPC
                     nonk = size(nonpoi,1)+1;
                 end
                 regularizationValue = 0.01;
-                disp('Training POI GMM')
+                disp(['Training POI GMM with ',num2str(nbcomponentsPOI),' components'])
                 datestr(now)
                 %poiGM = fitgmdist(poi,nbcomponentsPOI, 'Start', 'randSample', 'Regularize',regularizationValue);
                 poiGM = fitgmdist(poi,nbcomponentsPOI, 'Start', 'plus', 'RegularizationValue',regularizationValue);
@@ -96,13 +96,13 @@ for nbGMcomp=listPC
                 end
                 disp('Training nonpoi GMM')
                 datestr(now)
-                nonpoiGM = fitgmdist(nonpoi,nbcomponentsNonPOI, 'Start', 'randSample', 'Regularize',regularizationValue);
-                %nonpoiGM = fitgmdist(nonpoi,nbcomponentsPOI, 'Start', 'plus', 'RegularizationValue',regularizationValue);
+                %nonpoiGM = fitgmdist(nonpoi,nbcomponentsNonPOI, 'Start', 'randSample', 'Regularize',regularizationValue);
+                nonpoiGM = fitgmdist(nonpoi,nbcomponentsPOI, 'Start', 'plus', 'RegularizationValue',regularizationValue);
                 if ~nonpoiGM.Converged
                     warning('non POI Did not converge')
                 end
                 datestr(now)
-                save('GMs.mat', 'poiGM', 'nonpoiGM')
+                %save('GMs.mat', 'poiGM', 'nonpoiGM')
             else
                 load('GMs.mat');
             end
@@ -129,12 +129,7 @@ for nbGMcomp=listPC
                 % For each pix, decide if it's best described by poi or non
                 d1 = sum(posteriorspoi.*repmat(poiGM.PComponents,b(1),1),2);
                 d2 = sum(posteriorsnon.*repmat(nonpoiGM.PComponents,b(1),1),2);
-                clusterObjOfInterest = 0; %initialize while
-                while (nnz(clusterObjOfInterest)==0 && minAcceptanceProb >= minSignificanceProb)
-                    minAcceptanceProb = minAcceptanceProb*minAcceptanceProbScalingFactor;
-                    clusterObjOfInterest = (d1 > max(d2,minAcceptanceProb));
-                end
-                %minAcceptanceProb                
+                clusterObjOfInterest = cluster_with_gmm(d1,d2,minAcceptanceProb,minSignificanceProb,minAcceptanceProbScalingFactor);                
                 % Extract features for the positive class, i.e. of barrel objects.
                 % We can either use the fact that we have manually extracted this
                 % object...
@@ -160,9 +155,10 @@ for nbGMcomp=listPC
                 % Extract features for the negative class
                 % currently the only way to do so is by using the stuff detected as
                 % being of class OOI (as determined by a thresholding on d1), but isn't
-                % (as determined by clusterObjOfInterest)
-                M = reshape((d1 > minSignificanceProb).*(~clusterObjOfInterest),a(1),a(2));
-                CC = bwconncomp(M,nbconncomp);
+                % (as determined by clusterObjOfInterest)                
+                NM = reshape(clusterObjOfInterest,a(1),a(2)).*(~M);
+                %NM = reshape((d1 > minSignificanceProb).*(~clusterObjOfInterest),a(1),a(2));
+                CC = bwconncomp(NM,nbconncomp);
                 statsNegClass = regionprops(CC, 'MajorAxisLength', 'MinorAxisLength', 'Eccentricity', 'Solidity');
                 nbFoundObjects = length(statsNegClass);
                 if ~isempty(statsNegClass)
@@ -181,14 +177,13 @@ for nbGMcomp=listPC
             disp('Training SVM')
             datestr(now)
             SVMModel = fitcsvm([featuresNegClass; featuresPosClass],[-ones(size(featuresNegClass,1),1); ones(size(featuresPosClass,1),1)],...
-		'ClassNames', [-1 1],...
+                'ClassNames', [-1 1],...
                 'KernelFunction','rbf','Standardize',true, ...
                 'PredictorNames', knobs.featuresList);
             SVMModel = fitSVMPosterior(SVMModel);
             datestr(now)
             matname = ['trained','I',num2str(nbimages), '_C',num2str(nbcolors),'_PC',num2str(nbcomponentsPOI),'_NPC',num2str(nbcomponentsNonPOI),'_NF',num2str(nbShapeFeatures),'_NCC',num2str(nbconncomp),'.mat'];
-            save(matname, 'poiGM', 'nonpoiGM', 'SVMModel', 'knobs');
-            
+            save(matname, 'poiGM', 'nonpoiGM', 'SVMModel', 'knobs', 'trainingimages');            
         end
     end
 end

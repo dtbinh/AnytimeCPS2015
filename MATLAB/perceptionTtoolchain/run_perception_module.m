@@ -30,11 +30,7 @@ b = size(candidate);
 % For each pix, decide if it's best described by poi or non
 d1 = sum(posteriorspoi.*repmat(poiGM.PComponents,b(1),1),2);
 d2 = sum(posteriorsnon.*repmat(nonpoiGM.PComponents,b(1),1),2);
-clusterObjOfInterest = 0; %initialize while
-while (nnz(clusterObjOfInterest)==0 && minAcceptanceProb >= minSignificanceProb)
-    minAcceptanceProb = minAcceptanceProb*minAcceptanceProbScalingFactor;
-    clusterObjOfInterest = (d1 > max(d2,minAcceptanceProb));
-end
+clusterObjOfInterest = cluster_with_gmm(d1,d2,minAcceptanceProb,minSignificanceProb,minAcceptanceProbScalingFactor);                
 % Filter out the smaller things
 M = imerode(reshape(clusterObjOfInterest,a(1),a(2)),strel('rectangle',[1,1]));
 M = medfilt2(M,'symmetric');
@@ -60,21 +56,32 @@ if ~isempty(statsPosClass)
     % If we know only one OOI is in the image, can choose the best-scoring
     % object...
     candidateObj = statsPosClass(label==1); % 1 is the positive class index
-    [~,mix] = max(score(label==1,2));
-    selectedObj = candidateObj(mix);
-    
-    elapsedtime = toc;
-    
-    % Error of estimatino toolchain is distance between true centroid and
-    % estimated centroid
-    centroid = cat(1, selectedObj.Centroid);
-    dasprops = regionprops(mask,'Centroid');
-    estimationError=norm(centroid - dasprops.Centroid);
-    %             figure
-    %             imshow(Im(:,:,1));
-    %             hold on
-    %             plot(centroid(:,1), centroid(:,2), 'b*')
-    %             plot(dasprops.Centroid(:,1), dasprops.Centroid(:,2), 'r*')
+    % 
+    if ~isempty(candidateObj)
+        [~,mix] = max(score(label==1,2));
+        selectedObj = candidateObj(mix);
+        
+        elapsedtime = toc;
+        
+        % Error of estimatino toolchain is distance between true centroid and
+        % estimated centroid
+        centroid = cat(1, selectedObj.Centroid);
+        dasprops = regionprops(mask,'Centroid');
+        estimationError=norm(centroid - dasprops.Centroid);
+        figure
+        imshow(Im(:,:,1));
+        hold on
+        plot(centroid(:,1), centroid(:,2), 'b*')
+        plot(dasprops.Centroid(:,1), dasprops.Centroid(:,2), 'r*')
+    else
+        warning('Did not find an OOI');
+        elapsedtime = inf;
+        estimationError = inf;
+    end
+else
+	warning('Did not find any POIs');
+	elapsedtime = inf;
+	estimationError = inf;
 end
 
 
