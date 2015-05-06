@@ -4,7 +4,7 @@ I = rgb2ycbcr(I);
 I = double(I);
 % Remove the NaNs to avoid weirdness when computing probabilities 
 S = isnan(I);
-I = S.*zeros(size(I)) + (~S).*I;
+J = S.*zeros(size(I)) + (~S).*I;
 % % Normalize
 % s = sum(I,3);
 % S = repmat((s == 0),1,1,3);
