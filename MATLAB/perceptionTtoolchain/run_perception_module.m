@@ -75,6 +75,10 @@ if ~isempty(statsPosClass)
     %             hold on
     %             plot(centroid(:,1), centroid(:,2), 'b*')
     %             plot(dasprops.Centroid(:,1), dasprops.Centroid(:,2), 'r*')
+else
+	warning('Did not find a positive class OOI');
+	elapsedtime = inf;
+	estimationError = inf;
 end
 
 
