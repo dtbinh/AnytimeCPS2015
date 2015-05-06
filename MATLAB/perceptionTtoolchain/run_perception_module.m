@@ -1,6 +1,6 @@
 function [elapsedtime, estimationError] = run_perception_module(inImgName, GMs, mask, nbfeatures)
 % run_perception_module(inImgName)
-% 
+%
 % Run the perception tool chain on input image whose name is inImgName
 %
 knobs       = GMs.knobs;
@@ -48,11 +48,11 @@ if ~isempty(statsPosClass)
         featuresPosClass(i,:) = [statsPosClass(i).MajorAxisLength/statsPosClass(i).MinorAxisLength, statsPosClass(i).Eccentricity, statsPosClass(i).Solidity];
     end
     if nbfeatures ==1
-    [label,score]=predict(SVMModel, featuresPosClass(:,3));
+        [label,score]=predict(SVMModel, featuresPosClass(:,3));
     else
-    [label,score]=predict(SVMModel, featuresPosClass);
-     end
- 
+        [label,score]=predict(SVMModel, featuresPosClass);
+    end
+    
     % Keep positively classified objects with high enough scores.
     % score(:,2) is a column of positive class scores = posterior
     % probabilities. For this to work, the SVMModel must have been passed
@@ -61,7 +61,7 @@ if ~isempty(statsPosClass)
     % object...
     candidateObj = statsPosClass(label==1); % 1 is the positive class index
     [~,mix] = max(score(label==1,2));
-    selectedObj = candidateObj(mix);   
+    selectedObj = candidateObj(mix);
     
     elapsedtime = toc;
     
@@ -70,11 +70,11 @@ if ~isempty(statsPosClass)
     centroid = cat(1, selectedObj.Centroid);
     dasprops = regionprops(mask,'Centroid');
     estimationError=norm(centroid - dasprops.Centroid);
-%             figure
-%             imshow(Im(:,:,1));
-%             hold on            
-%             plot(centroid(:,1), centroid(:,2), 'b*')
-%             plot(dasprops.Centroid(:,1), dasprops.Centroid(:,2), 'r*')
+    %             figure
+    %             imshow(Im(:,:,1));
+    %             hold on
+    %             plot(centroid(:,1), centroid(:,2), 'b*')
+    %             plot(dasprops.Centroid(:,1), dasprops.Centroid(:,2), 'r*')
 end
 
 

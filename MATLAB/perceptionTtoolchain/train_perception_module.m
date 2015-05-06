@@ -3,9 +3,14 @@ addpath(folder);
 load([folder,'/BarrelMasks.mat'])
 images = dir([folder,'/*.png']);
 
-nbimages = 30;
-listPC = [2,4,6];
+% This is the god set {'1.3','1.7','1.8','1.9','2.0'};
+trainingimages = [1,3,4,5,11]; 
+nbimages = length(trainingimages);
+% Pixel classifier knob
+listPC = [4,6,8];
+% Connected components knob
 listNConnComp = [4,8];
+% Shape calssifier knob
 listShapeFeatures = [1,3];
 
 for nbGMcomp=listPC
@@ -28,8 +33,8 @@ for nbGMcomp=listPC
                 error('nbShapeFeatures must be 1 or 3');
             end
             knobs.minAcceptanceProbScalingFactor = 0.8;
-            knobs.minInitialAcceptanceProb = 0.5;
-            knobs.minSignificanceProb = 0.2;
+            knobs.minInitialAcceptanceProb = 0.6;
+            knobs.minSignificanceProb = 0.5;
             knobs.nbValidationFolds = 5;
             
             % pixels of interest (poi)
@@ -43,8 +48,8 @@ for nbGMcomp=listPC
             nonk = 1;
             if ~exist('loadgmm', 'var') ||  ~loadgmm
                 datestr(now)
-                for m=1:nbimages
-                    disp(['For GMM, m=',num2str(m)])
+                for m=trainingimages
+                    disp(['For GMM, processing image ',num2str(m)])
                     M=bw(:,:,m);
                     Im=imread(images(m).name);
                     I = preprocess_img(Im);
@@ -77,10 +82,10 @@ for nbGMcomp=listPC
                 regularizationValue = 0.01;
                 disp('Training POI GMM')
                 datestr(now)
-                poiGM = fitgmdist(poi,nbcomponentsPOI, 'Start', 'randSample', 'Regularize',regularizationValue);
-                %poiGM = fitgmdist(poi,nbcomponentsPOI, 'Start', 'plus', 'RegularizationValue',regularizationValue);
+                %poiGM = fitgmdist(poi,nbcomponentsPOI, 'Start', 'randSample', 'Regularize',regularizationValue);
+                poiGM = fitgmdist(poi,nbcomponentsPOI, 'Start', 'plus', 'RegularizationValue',regularizationValue);
                 if ~poiGM.Converged
-                    warning('Did not converge')
+                    warning('POI Did not converge')
                 end
                 disp('Training nonpoi GMM')
                 datestr(now)
@@ -103,7 +108,7 @@ for nbGMcomp=listPC
             minInitialAcceptanceProb = knobs.minInitialAcceptanceProb ;
             mp = 1;
             mn = 1;
-            for m=1:nbimages
+            for m=trainingimages
                 disp(['For SVM, m=',num2str(m)])
                 minAcceptanceProb = minInitialAcceptanceProb/minAcceptanceProbScalingFactor; % allow for 1st iteration of while loop
                 Im=imread(images(m).name);
@@ -122,15 +127,16 @@ for nbGMcomp=listPC
                     minAcceptanceProb = minAcceptanceProb*minAcceptanceProbScalingFactor;
                     clusterObjOfInterest = (d1 > max(d2,minAcceptanceProb));
                 end
-                %minAcceptanceProb
-                % Filter out the smaller things
-                M = imerode(reshape(clusterObjOfInterest,a(1),a(2)),strel('rectangle',[1,1]));
-                M = medfilt2(M,'symmetric');
+                %minAcceptanceProb                
                 % Extract features for the positive class, i.e. of barrel objects.
                 % We can either use the fact that we have manually extracted this
                 % object...
-                % M=bw(:,:,m);
+                M=bw(:,:,m);                
                 % ...or pick it from the gmm
+                % First, filter out the smaller things
+%                 M = imerode(reshape(clusterObjOfInterest,a(1),a(2)),strel('rectangle',[1,1]));
+%                 M = medfilt2(M,'symmetric');
+
                 CC = bwconncomp(M,nbconncomp);
                 statsPosClass = regionprops(CC, 'MajorAxisLength', 'MinorAxisLength', 'Eccentricity', 'Solidity');
                 nbFoundObjects = length(statsPosClass);
