@@ -36,7 +36,7 @@ end
 Fhat=[eye(size(A,2));zeros(size(B,2),size(A,2))]; %dist input matrix, constt. throughtout
 
 %% set for states
-if(setComps)
+
 % est error sets
 disturbance.A=[eye(size(A,1));-eye(size(A,1))];
 emptyPoly = Polyhedron();
@@ -69,7 +69,7 @@ S = StateSet*InputSet;  %Safe set of states and inputs
 
 % Robustt control inv set
 Cdelta = repmat(emptyPoly,numModes,1);
-
+if(setComps)
 for i = 1:numModes
     Cdelta(i)=getTermSetCdelta_compute(A_modes(:,:,i),Acl(:,:,i), ...
         Fhat,A_lift(:,:,i),B_lift(:,:,i),K(:,:,i),...
