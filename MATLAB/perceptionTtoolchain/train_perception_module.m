@@ -138,7 +138,6 @@ for nbGMcomp=listPC
                 % First, filter out the smaller things
 %                 M = imerode(reshape(clusterObjOfInterest,a(1),a(2)),strel('rectangle',[1,1]));
 %                 M = medfilt2(M,'symmetric');
-
                 CC = bwconncomp(M,nbconncomp);
                 statsPosClass = regionprops(CC, 'MajorAxisLength', 'MinorAxisLength', 'Eccentricity', 'Solidity');
                 nbFoundObjects = length(statsPosClass);
