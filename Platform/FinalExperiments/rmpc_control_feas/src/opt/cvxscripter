@@ -1,0 +1,105 @@
+#Mode 11
+tar xzf cvxgen11.tar.gz
+mv cvxgen Mode11
+cd Mode11/
+rm *.m
+rm csol*
+rm test*
+rm Makefile
+mv solver.c solver.cpp
+mv util.c util.cpp
+mv ldl.c ldl.cpp
+mv matrix_support.c matrix_support.cpp
+
+
+sed -i '10i namespace FEAT_50 {' ldl.cpp
+sed -i '10i #define ZERO_LIBRARY_MODE' solver.cpp
+sed -i '11i namespace FEAT_50 {' solver.cpp
+sed -i '30i namespace FEAT_50 {' solver.h
+sed -i '13i namespace FEAT_50 {' util.cpp
+sed -i '10i namespace FEAT_50 {' matrix_support.cpp
+
+
+# to all
+sed -i '$a }' * 
+
+#tar xvzf cvxgen22.tar.gz
+#Mode 22
+cd ../
+tar xzf cvxgen22.tar.gz
+mv cvxgen Mode22
+cd Mode22/
+rm *.m
+rm csol*
+rm test*
+rm Makefile
+mv solver.c solver.cpp
+mv util.c util.cpp
+mv ldl.c ldl.cpp
+mv matrix_support.c matrix_support.cpp
+
+
+sed -i '10i namespace FEAT_100 {' ldl.cpp
+sed -i '10i #define ZERO_LIBRARY_MODE' solver.cpp
+sed -i '11i namespace FEAT_100 {' solver.cpp
+sed -i '30i namespace FEAT_100 {' solver.h
+sed -i '13i namespace FEAT_100 {' util.cpp
+sed -i '10i namespace FEAT_100 {' matrix_support.cpp
+
+
+# to all
+sed -i '$a }' * 
+
+#Mode 33
+cd ../
+tar xzf cvxgen33.tar.gz
+mv cvxgen Mode33
+cd Mode33/
+rm *.m
+rm csol*
+rm test*
+rm Makefile
+mv solver.c solver.cpp
+mv util.c util.cpp
+mv ldl.c ldl.cpp
+mv matrix_support.c matrix_support.cpp
+
+
+sed -i '10i namespace FEAT_150 {' ldl.cpp
+sed -i '10i #define ZERO_LIBRARY_MODE' solver.cpp
+sed -i '11i namespace FEAT_150 {' solver.cpp
+sed -i '30i namespace FEAT_150 {' solver.h
+sed -i '13i namespace FEAT_150 {' util.cpp
+sed -i '10i namespace FEAT_150 {' matrix_support.cpp
+
+
+# to all
+sed -i '$a }' * 
+
+#Mode 44
+cd ../
+tar xzf cvxgen44.tar.gz
+mv cvxgen Mode44
+cd Mode44/
+rm *.m
+rm csol*
+rm test*
+rm Makefile
+mv solver.c solver.cpp
+mv util.c util.cpp
+mv ldl.c ldl.cpp
+mv matrix_support.c matrix_support.cpp
+
+
+sed -i '10i namespace FEAT_200 {' ldl.cpp
+sed -i '10i #define ZERO_LIBRARY_MODE' solver.cpp
+sed -i '11i namespace FEAT_200 {' solver.cpp
+sed -i '30i namespace FEAT_200 {' solver.h
+sed -i '13i namespace FEAT_200 {' util.cpp
+sed -i '10i namespace FEAT_200 {' matrix_support.cpp
+
+
+# to all
+sed -i '$a }' * 
+
+
