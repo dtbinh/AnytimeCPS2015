@@ -1,8 +1,8 @@
 PlantModelQuadSimpleLinear; %get quad dynamics for high level control
 
 %modes of estimation
-deltas = [24 29 38]*(10^-3);%[0.0125;0.0129;0.0139];%(h/2)*rand(3,1);
-epsilons = [0.028;0.0237;0.0113];
+deltas = [24 30 34 39]*(10^-3);%[0.0125;0.0129;0.0139];%(h/2)*rand(3,1);
+epsilons = [0.028;0.0237;0.0231;0.0113];
 numModes = numel(deltas);
 setComps = 0;
 % MPC Horizon
@@ -36,7 +36,7 @@ end
 Fhat=[eye(size(A,2));zeros(size(B,2),size(A,2))]; %dist input matrix, constt. throughtout
 
 %% set for states
-if(setComps)
+
 % est error sets
 disturbance.A=[eye(size(A,1));-eye(size(A,1))];
 emptyPoly = Polyhedron();
@@ -69,7 +69,7 @@ S = StateSet*InputSet;  %Safe set of states and inputs
 
 % Robustt control inv set
 Cdelta = repmat(emptyPoly,numModes,1);
-
+if(setComps)
 for i = 1:numModes
     Cdelta(i)=getTermSetCdelta_compute(A_modes(:,:,i),Acl(:,:,i), ...
         Fhat,A_lift(:,:,i),B_lift(:,:,i),K(:,:,i),...
