@@ -1,8 +1,8 @@
-function [I, M]= read_img_and_mask(imgname, masks,maskfolder)
+function [I, M]= read_img_and_mask(imgname, masks,maskfolder, imgfolder)
 
 I = [];
 M = [];
-Im=imread(imgname);
+Im=imread([imgfolder, '/', imgname]);
 I = preprocess_img(Im);
 maskname = match_img_name(masks,imgname);
 if ~isempty(maskname)

@@ -1,8 +1,15 @@
 load('/home/mlab-retro/Documents/AnytimeCPS2015/RTSS15/Code/MatlabSetComputations/Data/Sets.mat');
 X = struct();
-rZfA = cell(numel(deltas),numel(deltas));
-cZfA = cell(numel(deltas),numel(deltas));
-valsZfA = cell(numel(deltas),numel(deltas));
+%rZfA = cell(numel(deltas),numel(deltas));
+%cZfA = cell(numel(deltas),numel(deltas));
+%valsZfA = cell(numel(deltas),numel(deltas));
+
+%re write fucking term sets
+for i = 1:4
+   Zf(i,i).A = Zj(i,i,end).A;
+   Zf(i,i).b = Zj(i,i,end).b;
+end
+
 
 rAlift = cell(numel(deltas),numel(deltas));
 cAlift = cell(numel(deltas),numel(deltas));
@@ -28,13 +35,19 @@ for i=1:numel(deltas)
             X.(sprintf(strcat('ZA_',num2str(i),num2str(j),num2str(k)))) = reshape(valsZA(i,j,k+1,:),...
                 1,numel(valsZA(i,j,k+1,:)));
             X.(sprintf(strcat('Zb_',num2str(i),num2str(j),num2str(k)))) = Zj(i,j,k+1).b';
+                           
+            
         end
+        X.(sprintf(strcat('ZfA_',num2str(i),num2str(j)))) = reshape(valsZA(i,j,k+1,:),...
+                1,numel(valsZA(i,j,k+1,:)));
+            X.(sprintf(strcat('Zfb_',num2str(i),num2str(j)))) = Zj(i,j,k+1).b';
         % write terminal set
-        [rZfA{i,j},cZfA{i,j},valsZfA{i,j}] = find(Zf(i,j).A);
-        temp = reshape(valsZfA{i,j},1,numel(valsZfA{i,j}));
-        X.(sprintf(strcat('ZfA_',num2str(i),num2str(j)))) = temp;
-        X.(sprintf(strcat('Zfb_',num2str(i),num2str(j)))) = Zf(i,j).b';
-        clear temp;
+        %[rZfA(i,j,end,:),cZfA(i,j,end,:),valsZfA(i,j,end,:)] = find(Zj(i,j,end).A);
+        %temp = reshape(valsZfA(i,j,end,:),...
+        %        1,numel(valsZfA(i,j,k+1,end,:)));%reshape(valsZfA{i,j},1,numel(valsZfA{i,j}));
+        %X.(sprintf(strcat('ZfA_',num2str(i),num2str(j)))) = temp;
+        %X.(sprintf(strcat('Zfb_',num2str(i),num2str(j)))) = Zj(i,j,end).b';
+        %clear temp;
         
         [rAlift{i,j},cAlift{i,j},valsAlift{i,j}] = find(A_lift(:,:,j)); %this is A_lift for all non-zero
         temp = reshape(valsAlift{i,j},1,numel(valsAlift{i,j}));
@@ -61,31 +74,5 @@ for i=1:numel(deltas)
     
 end
 
-if(exist('sys_d','var')) %write the discrete normal dynamics too
-    Q = diag([10;10;10;1;1;1]);
-    Qf = eye(6);
-    R = diag([1;1;1]);
-    x_limit = 100*ones(6,1);
-    u_limit = [deg2rad(30);deg2rad(30);10];
-    
-    [rA,cA,vA] = find(sys_d.a);
-    temp = reshape(vA,1,numel(vA));
-    X.(sprintf('A')) = temp;
-    clear temp;
-    [rB,cB,vB] = find(sys_d.b);
-    temp = reshape(vB,1,numel(vB));
-    X.(sprintf('B')) = temp;
-    [rQ,cQ,vQ] = find(Q);
-    temp = reshape(vQ,1,numel(vQ));
-    X.(sprintf('Q')) = temp;
-    [rQf,cQf,vQf] = find(Qf);
-    temp = reshape(vQf,1,numel(vQf));
-    X.(sprintf('Qf')) = temp;
-    [rR,cR,vR] = find(R);
-    temp = reshape(vR,1,numel(vR));
-    X.(sprintf('R')) = temp;
-    X.(sprintf('x_limit')) = x_limit';
-    X.(sprintf('u_limit')) = u_limit';
-    
-end    
+
 WriteYaml('/home/mlab-retro/Documents/AnytimeCPS2015/RTSS15/Code/MatlabSetComputations/Data/gains.yaml',X)

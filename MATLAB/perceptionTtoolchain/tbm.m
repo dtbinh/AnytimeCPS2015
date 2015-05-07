@@ -18,7 +18,7 @@ for i=1:length(mats)
     nbemptyframes  = 0;
     for m=testimages
         sprintf('Processing test image %d\n',m)
-        [I,M]= read_img_and_mask(images(m).name, masks,maskfolder);
+        [I,M]= read_img_and_mask(images(m).name, masks,maskfolder, folder);
         if isempty(M)
             sprintf('Skipping image %s because it has no matching mask\n',images(m).name);
             continue

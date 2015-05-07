@@ -1,0 +1,56 @@
+# Produced by CVXGEN, 2015-04-28 17:40:51 -0400.
+# CVXGEN is Copyright (C) 2006-2012 Jacob Mattingley, jem@cvxgen.com.
+# The code in this file is Copyright (C) 2006-2012 Jacob Mattingley.
+# CVXGEN, or solvers produced by CVXGEN, cannot be used for commercial
+# applications without prior written permission from Jacob Mattingley.
+
+# Filename: description.cvxgen.
+# Description: A description of the CVXGEN problem.
+
+dimensions
+  m = 3  # angles and thrust
+  n = 6  # states.
+  T = 10# horizon.
+  #F = 35 #no of constraints in Zf, the terminal set
+end
+
+parameters
+  A (n+m,n+m) {1,1 1,4 1,7 2,2 2,5 2,8 3,3 3,6 3,9 4,4 4,7 5,5 5,8 6,6 6,9} # dynamics matrix.
+  B (n+m,m) {1,1 2,2 3,3 4,1 5,2 6,3 7,1 8,2 9,3} # controlled input matrix.
+  A_0 (n+m,n+m) {1,1 1,4 1,7 2,2 2,5 2,8 3,3 3,6 3,9 4,4 4,7 5,5 5,8 6,6 6,9} # dynamics matrix.
+  B_0 (n+m,m) {1,1 2,2 3,3 4,1 5,2 6,3 7,1 8,2 9,3} # controlled input matrix.
+
+  Q (n+m,n+m) psd symmetric #{1,1 2,2 3,3 4,4 5,5 6,6 7,7 8,8 9,9} # state cost diag only.
+  Q_final (n+m,n+m) psd symmetric #{1,1 2,2 3,3 4,4 5,5 6,6 7,7 8,8 9,9} # final state cost diag only.
+  #R (m,m) psd {1,1 2,2 3,3} # input cost diag only.
+  z[0] (n+m)  # initial state. var param
+  u_limit (m) nonnegative  # amplitude limit
+  #x_limit (n) nonnegative #state limits
+  z_ref (n+m)  #trajectory desired
+
+  #H[t] (n+m+n+m,n+m) {1,1 2,2 3,3 4,4 5,5 6,6 7,7 8,8 9,9 10,1 11,2 12,3 13,4 14,5 15,6 16,7 17,8 18,9}, t=0..T
+  #g[t] (n+m+n+m), t=0..T
+  #Hf (F,n+m) {1,3 1,6 1,9 2,3 2,6 2,9 3,3 3,6 3,9 4,3 4,6 4,9 5,2 5,5 5,8 6,2 6,5 6,8 7,2 7,5 7,8 8,2 8,5 8,8 9,1 9,4 9,7 10,1 10,4 10,7 11,1 11,4 11,7 12,1 12,4 12,7 13,1 14,2 15,3 16,4 17,5 18,6 19,1}
+  #gf (F)
+
+end
+
+variables
+  z[t] (n+m), t=1..T+1  # state.
+  u[t] (m), t=0..T  # input.
+
+end
+
+minimize
+  sum[t=0..T](quad(z[t]-z_ref, Q) ) + quad(z[T+1]-z_ref, Q_final)
+
+subject to
+  #z[0] == z0 #init
+  z[1] == A_0*z[0] + B_0*u[0] #init dynamics from last mode
+  z[t+1] == A*z[t] + B*u[t] , t=0..T  # dynamics constraints.
+
+  abs(u[t])<=u_limit, t=0..T
+
+
+
+end
