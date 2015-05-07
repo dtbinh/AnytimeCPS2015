@@ -1,8 +1,8 @@
 PlantModelQuadSimpleLinear; %get quad dynamics for high level control
 
 %modes of estimation
-deltas = [24 29 38]*(10^-3);%[0.0125;0.0129;0.0139];%(h/2)*rand(3,1);
-epsilons = [0.028;0.0237;0.0113];
+deltas = [24 30 34 39]*(10^-3);%[0.0125;0.0129;0.0139];%(h/2)*rand(3,1);
+epsilons = [0.028;0.0237;0.0231;0.0113];
 numModes = numel(deltas);
 setComps = 0;
 % MPC Horizon
