@@ -1,4 +1,4 @@
-function [elapsedtime, estimationError] = run_perception_module(inImgName, GMs, mask, nbfeatures)
+function [elapsedtime, estimationError, nbemptyframes] = run_perception_module(inImgName, GMs, mask, nbfeatures)
 % run_perception_module(inImgName)
 %
 % Run the perception tool chain on input image whose name is inImgName
@@ -13,6 +13,7 @@ minSignificanceProb             = knobs.minSignificanceProb;
 minInitialAcceptanceProb        = knobs.minInitialAcceptanceProb;
 SVMModel                        = GMs.SVMModel;
 
+nbemptyframes = 0;
 
 % Cluster the data
 minAcceptanceProb = minInitialAcceptanceProb/minAcceptanceProbScalingFactor; % allow for 1st iteration of while loop
@@ -77,9 +78,11 @@ if ~isempty(statsPosClass)
         warning('Did not find an OOI');
         elapsedtime = inf;
         estimationError = inf;
+	nbemptyframes = nbemptyframes + 1;
     end
 else
 	warning('Did not find any POIs');
+	nbemptyframes = nbemptyframes + 1;
 	elapsedtime = inf;
 	estimationError = inf;
 end

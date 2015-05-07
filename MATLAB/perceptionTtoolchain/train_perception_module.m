@@ -7,14 +7,14 @@ images = dir([folder,'/*.png']);
 trainingimages = [1,3,4,5,11]; 
 nbimages = length(trainingimages);
 % % Pixel classifier knob
-% listPC = [4,6,8];
+ listPC = [4,6,8];
 % % Connected components knob
-% listNConnComp = [4,8];
+ listNConnComp = [4,8];
 % % Shape calssifier knob
-% listShapeFeatures = [1,3];
-listPC = 4;
-listNConnComp = 4;
-listShapeFeatures = 3; 
+ listShapeFeatures = [1,3];
+%listPC = 4;
+%listNConnComp = 4;
+%listShapeFeatures = 3; 
 
 
 for nbGMcomp=listPC
