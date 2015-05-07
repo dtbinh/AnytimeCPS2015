@@ -2,9 +2,9 @@ folder = '../../Data/Barrel';
 addpath(folder);
 load([folder,'/BarrelMasks.mat'])
 images = dir([folder,'/*.png']);
-
+nimgs = length(images);
 % This is the god set {'1.3','1.7','1.8','1.9','2.0'};
-trainingimages = [1,3,4,5,11]; 
+trainingimages = 1:12;
 nbimages = length(trainingimages);
 % % Pixel classifier knob
  listPC = [4,6,8];

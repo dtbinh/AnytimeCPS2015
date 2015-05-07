@@ -18,7 +18,7 @@ for i=1:length(mats)
         sprintf('Processing test image %d\n',m)
         imageName = [folder, '/',images(m).name];
         [elapsedtime,esterror, fie] = run_perception_module(imageName, GMs,bw(:,:,m), nbfeatures);
-        if ~isinf(elapsedtime) && ~isinf(esterror)
+        if ~fie
             time_error(m,1) = elapsedtime;
             time_error(m,2) = esterror;
         end
