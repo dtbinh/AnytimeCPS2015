@@ -12,11 +12,8 @@ nbimages = length(trainingimages);
 % listNConnComp = [4,8];
 % % Shape calssifier knob
 % listShapeFeatures = [1,3];
-% Pixel classifier knob
 listPC = 4;
-% Connected components knob
-listNConnComp = 8;
-% Shape calssifier knob
+listNConnComp = 4;
 listShapeFeatures = 3; 
 
 
