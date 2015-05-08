@@ -66,7 +66,7 @@ InputSet = Polyhedron('A',inpset.A,'B',inpset.b);
 clear inptset inpLim
 
 S = StateSet*InputSet;  %Safe set of states and inputs
-
+S.minHRep;
 % Robustt control inv set
 Cdelta = repmat(emptyPoly,numModes,1);
 if(setComps)
