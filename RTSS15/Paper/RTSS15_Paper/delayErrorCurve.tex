@@ -6,7 +6,7 @@ This curve is used at every time step by the controller to determine the operati
 In this section we demonstrate how such a curve may be obtained for particular applications. 
 Specifically, we consider a visual perception tool chain, where each tool of the tool chain has a knob that tunes its performance.
 These knobs can be used to profile the tool chain and obtain its error-delay curve on particular platforms.
-It is worth noting that because power consumption is correlated to computation time, the error-delay curve can also be viewed as an error-power curve.
+Because power consumption is correlated to computation time, the error-delay curve can also be viewed as an error-power curve.
 The power consumption of the estimator task can be modeled using the $\alpha$ term of Eq.??.
 Thus, the controller can save power by selecting operating modes $(\delta,\epsilon)$ that achieve the control objectives at a lower energy cost.
 
@@ -18,7 +18,7 @@ Generally speaking, detecting more corners requires a longer runtime, and result
 If the additional corners are of poor quality (i.e., hard to track across frames), then we can expect the self-localization error to actually increase.
 Thus the number $\#C$ of corners is a knob which can be varied to obtain an error-delay curve for self-localization with corner detection. 
 
-Fig.~\ref{fig:fast} shows the error-delay curve of the FAST corner detector~\cite{rosten_2006_machine}.
+Fig.~\ref{fig:fast} shows the error-delay curve of self-localization error using the FAST corner detector~\cite{rosten_2006_machine}.
 The curve was obtained on an Odroid U3 [??], which is a quadcore \hatodoin{complete odroid specs}.
 For each value of the knob $\#C$ (i.e., each requested number of corners), we ran the corner detector on a video sequence shot by a downward facing camera on-board a hexarotor while flying certain pre-set patterns.
 The corners and some auxiliary data are then fed to a self-localization algorithm.
@@ -26,15 +26,21 @@ Ground truth for computing the self-localization error was obtained from the Vic
 As we repeat each flight several times, this results in a distribution of $(\delta,\epsilon)$ values for each value of $\#C$. 
 We retained the $90^{th}$ percentile values for $\delta$ and $\epsilon$, since these are used as worst-case estimates by the controller of Section \ref{controlProblem}.
 It can be seen that a larger number of requested corners produces a smaller estimation error and longer runtime.
-Starting at ?? corners, the error increases, however.
+Starting at 250 corners, the error increases, however.
 We hypothesize this is due to the decreasing quality of the corners being returned by FAST.
-\hatodoin{What if we use the Harris detector or something like that?}
-
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.7\linewidth]{figures/placeHolder}
+\includegraphics[width=0.7\linewidth]{figures/init_eps_delta_90th}
 \caption{Error-delay curve for the FAST corner detector running on the Odroid U3}
 \label{fig:fast}
+\end{figure}
+
+Fig.~\ref{fig:fastErrVsPower} shows the power consumption vs estimation error, which correlates well with Fig.~\ref{fig:fast}.
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.7\linewidth]{figures/errVsPower}
+	\caption{Error-delay curve for the FAST corner detector running on the Odroid U3}
+	\label{fig:fastErrVsPower}
 \end{figure}
 
 Our second example is a more complete perception tool chain shown in Fig.~\ref{fig:chain}.
