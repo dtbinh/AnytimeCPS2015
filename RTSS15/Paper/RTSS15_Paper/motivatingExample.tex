@@ -15,12 +15,12 @@ These are detected by an on-board corner detector, and tracked across frames.
 This allows the robot to estimate its own position in the world.
 After each frame is acquired, the corner detector requires some computation time before producing its results, which are used in self-localization.
 Thus the control command which uses this estimate is delayed by the time necessary to run the estimation task to completion.
-This is illustrated in Fig.~\ref{fig:senseActuateDelay}.
+This is illustrated in Fig.~\ref{fig:senseActuate}.
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=0.7\linewidth]{figures/placeHolder}
+	\includegraphics[width=0.7\linewidth]{figures/senseActuate}
 	\caption{Sense-Estimate-Actuate cycle. The estimation task always runs to completion.}
-	\label{fig:senseActuateDelay}
+	\label{fig:senseActuate}
 \end{figure}
 The robot has a high-level controller which determines the desired pitch and roll angles, and desired rotor thrust. 
 In this implementation, we use a Model Predictive Controller (MPC) [???].
