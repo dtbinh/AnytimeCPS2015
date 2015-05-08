@@ -53,7 +53,7 @@ end
 % safety sets for states and inputs
 
 stateset.A=[eye(size(A,1));-eye(size(A,1))];
-stateset.b=repmat([100;100;100;10;10;10],2,1);
+stateset.b=repmat([5;5;5;5;5;5],2,1);
 
 StateSet = Polyhedron('A',stateset.A,'B',stateset.b);
 clear stateset disturbance
@@ -66,7 +66,7 @@ InputSet = Polyhedron('A',inpset.A,'B',inpset.b);
 clear inptset inpLim
 
 S = StateSet*InputSet;  %Safe set of states and inputs
-
+S.minHRep;
 % Robustt control inv set
 Cdelta = repmat(emptyPoly,numModes,1);
 if(setComps)

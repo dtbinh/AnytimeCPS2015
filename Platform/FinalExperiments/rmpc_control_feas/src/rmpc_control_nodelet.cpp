@@ -325,9 +325,9 @@ std::vector<double> ZA_4411;
     ROS_ERROR("Failed: Params not loaded");
   }
  //get term sets
-if(n.getParam("ZfA_11",ZfA_11))
-{ROS_INFO(" term params");}
-else {ROS_ERROR("No term  params");}
+  if(n.getParam("ZfA_11",ZfA_11))
+  {ROS_INFO(" term params");}
+  else {ROS_ERROR("No term  params");}
 
   n.getParam("ZfA_11",ZfA_11);
   n.getParam("Zfb_11",Zfb_11);
@@ -337,145 +337,145 @@ else {ROS_ERROR("No term  params");}
   n.getParam("Zfb_11",Zfb_33);
   n.getParam("ZfA_11",ZfA_44);
   n.getParam("Zfb_11",Zfb_44);
- //get other sets
- //mode 1,1
-if(n.getParam("ZA_110",ZA_110))
-{ROS_INFO(" Mode 1 params");}
-else {ROS_ERROR("No Mode 1 params");}
+  //get other sets
+  //mode 1,1
+  if(n.getParam("ZA_110",ZA_110))
+  {ROS_INFO(" Mode 1 params");}
+  else {ROS_ERROR("No Mode 1 params");}
 
 
   n.getParam("ZA_110",ZA_110);
   n.getParam("Zb_110",Zb_110);
-   n.getParam("ZA_110",ZA_111);
+  n.getParam("ZA_110",ZA_111);
   n.getParam("Zb_110",Zb_111);
- n.getParam("ZA_110",ZA_112);
+  n.getParam("ZA_110",ZA_112);
   n.getParam("Zb_110",Zb_112);
- n.getParam("ZA_110",ZA_113);
+  n.getParam("ZA_110",ZA_113);
   n.getParam("Zb_110",Zb_113);
- n.getParam("ZA_110",ZA_114);
+  n.getParam("ZA_110",ZA_114);
   n.getParam("Zb_110",Zb_114);
- n.getParam("ZA_110",ZA_115);
+  n.getParam("ZA_110",ZA_115);
   n.getParam("Zb_110",Zb_115);
- n.getParam("ZA_110",ZA_116);
+  n.getParam("ZA_110",ZA_116);
   n.getParam("Zb_110",Zb_116);
- n.getParam("ZA_110",ZA_117);
+  n.getParam("ZA_110",ZA_117);
   n.getParam("Zb_110",Zb_117);
- n.getParam("ZA_110",ZA_118);
+  n.getParam("ZA_110",ZA_118);
   n.getParam("Zb_110",Zb_118);
- n.getParam("ZA_110",ZA_119);
+  n.getParam("ZA_110",ZA_119);
   n.getParam("Zb_110",Zb_119);
- n.getParam("ZA_110",ZA_1110);
+  n.getParam("ZA_110",ZA_1110);
   n.getParam("Zb_110",Zb_1110);
- n.getParam("ZA_110",ZA_1111);
+  n.getParam("ZA_110",ZA_1111);
   n.getParam("Zb_110",Zb_1111);
-//mode 2,2
-if(n.getParam("ZA_220",ZA_220))
-{ROS_INFO(" Mode 2 params");}
-else {ROS_ERROR("No Mode 2 params");}
+  //mode 2,2
+  if(n.getParam("ZA_220",ZA_220))
+  {ROS_INFO(" Mode 2 params");}
+  else {ROS_ERROR("No Mode 2 params");}
 
   n.getParam("ZA_220",ZA_220);
   n.getParam("Zb_220",Zb_220);
-   n.getParam("ZA_220",ZA_221);
+  n.getParam("ZA_220",ZA_221);
   n.getParam("Zb_220",Zb_221);
- n.getParam("ZA_220",ZA_222);
+  n.getParam("ZA_220",ZA_222);
   n.getParam("Zb_220",Zb_222);
- n.getParam("ZA_220",ZA_223);
+  n.getParam("ZA_220",ZA_223);
   n.getParam("Zb_220",Zb_223);
- n.getParam("ZA_220",ZA_224);
+  n.getParam("ZA_220",ZA_224);
   n.getParam("Zb_220",Zb_224);
- n.getParam("ZA_220",ZA_225);
+  n.getParam("ZA_220",ZA_225);
   n.getParam("Zb_220",Zb_225);
- n.getParam("ZA_220",ZA_226);
+  n.getParam("ZA_220",ZA_226);
   n.getParam("Zb_220",Zb_226);
- n.getParam("ZA_220",ZA_227);
+  n.getParam("ZA_220",ZA_227);
   n.getParam("Zb_220",Zb_227);
- n.getParam("ZA_220",ZA_228);
+  n.getParam("ZA_220",ZA_228);
   n.getParam("Zb_220",Zb_228);
- n.getParam("ZA_220",ZA_229);
+  n.getParam("ZA_220",ZA_229);
   n.getParam("Zb_220",Zb_229);
- n.getParam("ZA_220",ZA_2210);
+  n.getParam("ZA_220",ZA_2210);
   n.getParam("Zb_220",Zb_2210);
- n.getParam("ZA_220",ZA_2211);
+  n.getParam("ZA_220",ZA_2211);
   n.getParam("Zb_220",Zb_2211);
 
-//mode 3,3
-if(n.getParam("ZA_330",ZA_330))
-{ROS_INFO(" Mode 3 params");}
-else {ROS_ERROR("No Mode 3 params");}
+  //mode 3,3
+  if(n.getParam("ZA_330",ZA_330))
+  {ROS_INFO(" Mode 3 params");}
+  else {ROS_ERROR("No Mode 3 params");}
 
   n.getParam("ZA_330",ZA_330);
   n.getParam("Zb_330",Zb_330);
-   n.getParam("ZA_330",ZA_331);
+  n.getParam("ZA_330",ZA_331);
   n.getParam("Zb_330",Zb_331);
- n.getParam("ZA_330",ZA_332);
+  n.getParam("ZA_330",ZA_332);
   n.getParam("Zb_330",Zb_332);
- n.getParam("ZA_330",ZA_333);
+  n.getParam("ZA_330",ZA_333);
   n.getParam("Zb_330",Zb_333);
- n.getParam("ZA_330",ZA_334);
+  n.getParam("ZA_330",ZA_334);
   n.getParam("Zb_330",Zb_334);
- n.getParam("ZA_330",ZA_335);
+  n.getParam("ZA_330",ZA_335);
   n.getParam("Zb_330",Zb_335);
- n.getParam("ZA_330",ZA_336);
+  n.getParam("ZA_330",ZA_336);
   n.getParam("Zb_330",Zb_336);
- n.getParam("ZA_330",ZA_337);
+  n.getParam("ZA_330",ZA_337);
   n.getParam("Zb_330",Zb_337);
- n.getParam("ZA_330",ZA_338);
+  n.getParam("ZA_330",ZA_338);
   n.getParam("Zb_330",Zb_338);
- n.getParam("ZA_330",ZA_339);
+  n.getParam("ZA_330",ZA_339);
   n.getParam("Zb_330",Zb_339);
- n.getParam("ZA_330",ZA_3310);
+  n.getParam("ZA_330",ZA_3310);
   n.getParam("Zb_330",Zb_3310);
- n.getParam("ZA_330",ZA_3311);
+  n.getParam("ZA_330",ZA_3311);
   n.getParam("Zb_330",Zb_3311);
 
-//mode 4,4
-if(n.getParam("ZA_440",ZA_440))
-{ROS_INFO(" Mode 4 params");}
-else {ROS_ERROR("No Mode 4 params");}
+  //mode 4,4
+  if(n.getParam("ZA_440",ZA_440))
+  {ROS_INFO(" Mode 4 params");}
+  else {ROS_ERROR("No Mode 4 params");}
 
   n.getParam("ZA_440",ZA_440);
   n.getParam("Zb_440",Zb_440);
-   n.getParam("ZA_440",ZA_441);
+  n.getParam("ZA_440",ZA_441);
   n.getParam("Zb_440",Zb_441);
- n.getParam("ZA_440",ZA_442);
+  n.getParam("ZA_440",ZA_442);
   n.getParam("Zb_440",Zb_442);
- n.getParam("ZA_440",ZA_443);
+  n.getParam("ZA_440",ZA_443);
   n.getParam("Zb_440",Zb_443);
- n.getParam("ZA_440",ZA_444);
+  n.getParam("ZA_440",ZA_444);
   n.getParam("Zb_440",Zb_444);
- n.getParam("ZA_440",ZA_445);
+  n.getParam("ZA_440",ZA_445);
   n.getParam("Zb_440",Zb_445);
- n.getParam("ZA_440",ZA_446);
+  n.getParam("ZA_440",ZA_446);
   n.getParam("Zb_440",Zb_446);
- n.getParam("ZA_440",ZA_447);
+  n.getParam("ZA_440",ZA_447);
   n.getParam("Zb_440",Zb_447);
- n.getParam("ZA_440",ZA_448);
+  n.getParam("ZA_440",ZA_448);
   n.getParam("Zb_440",Zb_448);
- n.getParam("ZA_440",ZA_449);
+  n.getParam("ZA_440",ZA_449);
   n.getParam("Zb_440",Zb_449);
- n.getParam("ZA_440",ZA_4410);
+  n.getParam("ZA_440",ZA_4410);
   n.getParam("Zb_440",Zb_4410);
- n.getParam("ZA_440",ZA_4411);
+  n.getParam("ZA_440",ZA_4411);
   n.getParam("Zb_440",Zb_4411);
 
- // send to the rmpc
- controller_.setOptParams(A,B,x_limit,u_limit, 
-                          ZfA_11, Zfb_11, ZfA_22, Zfb_22, ZfA_33, Zfb_33, ZfA_44, Zfb_44, 
-                          ZA_110, Zb_110, ZA_111, Zb_111, ZA_112, Zb_112, ZA_113,Zb_113,
-                          ZA_114, Zb_114, ZA_115, Zb_115, ZA_116, Zb_116, ZA_117,Zb_117,
-                          ZA_118, Zb_118, ZA_119, Zb_119, ZA_1110,Zb_1110,ZA_1111, Zb_1111,
-                          ZA_220, Zb_220, ZA_221, Zb_221, ZA_222, Zb_222, ZA_223,Zb_223,
-                          ZA_224, Zb_224, ZA_225, Zb_225, ZA_226, Zb_226, ZA_227,Zb_227,
-                          ZA_228, Zb_228, ZA_229, Zb_229, ZA_2210,Zb_2210,ZA_2211, Zb_2211,
-                          ZA_330, Zb_330, ZA_331, Zb_331, ZA_332, Zb_332, ZA_333,Zb_333,     
-                          ZA_334, Zb_334, ZA_335, Zb_335, ZA_336, Zb_336, ZA_337,Zb_337,
-                          ZA_338, Zb_338, ZA_339, Zb_339, ZA_3310,Zb_3310,ZA_3311, Zb_3311,
-                          ZA_440, Zb_440, ZA_441, Zb_441, ZA_442, Zb_442, ZA_443,Zb_443,
-                          ZA_444, Zb_444, ZA_445, Zb_445, ZA_446, Zb_446, ZA_447,Zb_447,
-                          ZA_448, Zb_448, ZA_449, Zb_449, ZA_4410,Zb_4410,ZA_4411, Zb_4411);
+  // send to the rmpc
+  controller_.setOptParams(A,B,x_limit,u_limit, 
+		  ZfA_11, Zfb_11, ZfA_22, Zfb_22, ZfA_33, Zfb_33, ZfA_44, Zfb_44, 
+		  ZA_110, Zb_110, ZA_111, Zb_111, ZA_112, Zb_112, ZA_113,Zb_113,
+		  ZA_114, Zb_114, ZA_115, Zb_115, ZA_116, Zb_116, ZA_117,Zb_117,
+		  ZA_118, Zb_118, ZA_119, Zb_119, ZA_1110,Zb_1110,ZA_1111, Zb_1111,
+		  ZA_220, Zb_220, ZA_221, Zb_221, ZA_222, Zb_222, ZA_223,Zb_223,
+		  ZA_224, Zb_224, ZA_225, Zb_225, ZA_226, Zb_226, ZA_227,Zb_227,
+		  ZA_228, Zb_228, ZA_229, Zb_229, ZA_2210,Zb_2210,ZA_2211, Zb_2211,
+		  ZA_330, Zb_330, ZA_331, Zb_331, ZA_332, Zb_332, ZA_333,Zb_333,     
+		  ZA_334, Zb_334, ZA_335, Zb_335, ZA_336, Zb_336, ZA_337,Zb_337,
+		  ZA_338, Zb_338, ZA_339, Zb_339, ZA_3310,Zb_3310,ZA_3311, Zb_3311,
+		  ZA_440, Zb_440, ZA_441, Zb_441, ZA_442, Zb_442, ZA_443,Zb_443,
+		  ZA_444, Zb_444, ZA_445, Zb_445, ZA_446, Zb_446, ZA_447,Zb_447,
+		  ZA_448, Zb_448, ZA_449, Zb_449, ZA_4410,Zb_4410,ZA_4411, Zb_4411);
 
 
-   // back to everyday stuff
+  // back to everyday stuff
   n.param("gains/rot/x", kR[0], 1.5);
   n.param("gains/rot/y", kR[1], 1.5);
   n.param("gains/rot/z", kR[2], 1.0);
@@ -486,12 +486,12 @@ else {ROS_ERROR("No Mode 4 params");}
   kOm_[0] = kOm[0], kOm_[1] = kOm[1], kOm_[2] = kOm[2];
 
   odom_sub_ = n.subscribe("odom", 10, &rmpcControlNodelet::odom_callback, this,
-                          ros::TransportHints().tcpNoDelay());
+		  ros::TransportHints().tcpNoDelay());
   position_cmd_sub_ = n.subscribe("position_cmd", 10, &rmpcControlNodelet::position_cmd_callback, this,
-                                  ros::TransportHints().tcpNoDelay());
+		  ros::TransportHints().tcpNoDelay());
 
   enable_motors_sub_ = n.subscribe("motors", 2, &rmpcControlNodelet::enable_motors_callback, this,
-                                   ros::TransportHints().tcpNoDelay());
+		  ros::TransportHints().tcpNoDelay());
 
   trpy_command_pub_ = n.advertise<quadrotor_msgs::TRPYCommand>("trpy_cmd", 10);
 }
