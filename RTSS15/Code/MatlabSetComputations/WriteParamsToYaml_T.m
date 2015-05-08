@@ -1,4 +1,4 @@
-load('/home/mlab-retro/Documents/AnytimeCPS2015/RTSS15/Code/MatlabSetComputations/Data/SetsT.mat');
+load('/home/mlab-retro/Documents/AnytimeCPS2015/RTSS15/Code/MatlabSetComputations/Data/SetsT_small.mat');
 X = struct();
 rZfA = cell(numel(deltas),numel(deltas));
 cZfA = cell(numel(deltas),numel(deltas));
