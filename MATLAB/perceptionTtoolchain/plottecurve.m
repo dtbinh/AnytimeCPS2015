@@ -8,10 +8,12 @@ misspenalty = M;
 for i=1:npts
     a(i,:) = tecurve{i,2};
     a(i,2) = a(i,2) + tecurve{i,3}*misspenalty;
-    sprintf('%d ,%d, %d\n',a(i,1),a(i,2),tecurve{i,3})
 end
 [st,six] = sort(a(:,1));
 se = a(six,2);
+for i=1:npts
+    sprintf('%s : %d ,%d, %d\n',tecurve{i,1}, a(i,1),a(i,2),tecurve{i,3})
+end
 figure
 plot(st,se,'ro');
 hold on
