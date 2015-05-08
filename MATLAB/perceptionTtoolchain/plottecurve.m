@@ -2,9 +2,7 @@ npts = size(tecurve,1);
 a = zeros(npts,2);
 M = 0;
 for i=1:npts
-    if tecurve{i,3}==0
-        M = max(M,tecurve{i,2}(2));
-    end
+    M = max(M,tecurve{i,2}(2));
 end
 misspenalty = M;
 for i=1:npts
@@ -14,8 +12,8 @@ for i=1:npts
 end
 [st,six] = sort(a(:,1));
 se = a(six,2);
+figure
 plot(st,se,'ro');
 hold on
 plot(st,se)
 
-    

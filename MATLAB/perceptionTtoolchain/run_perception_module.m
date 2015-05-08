@@ -95,11 +95,12 @@ if ~isempty(statsPosClass)
         dasprops = regionprops(mask,'Centroid');
         truecentroid = dasprops.Centroid;
         estimationError=norm(centroid - truecentroid);
-        %figure
-        %imshow(Im(:,:,1));
-        %hold on
-        %plot(centroid(:,1), centroid(:,2), 'b*')
-        %plot(truecentroid(:,1), truecentroid(:,2), 'r*')
+        figure
+        imshow(Im(:,:,1));
+        hold on
+        plot(centroid(:,1), centroid(:,2), 'b*')
+        plot(truecentroid(:,1), truecentroid(:,2), 'r*')
+        title(inImgName)
         1;
     else
         warning('Did not find an OOI');

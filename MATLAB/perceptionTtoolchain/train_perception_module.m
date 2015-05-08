@@ -8,7 +8,7 @@ masks = dir([maskfolder, '/*.png']);
 trainingimages = [1,3,4,5,11];
 nbimages = length(trainingimages);
 % % Pixel classifier knob
-%  listPC = [4,6,8];
+ listPC = [4,6,8];
 % Connected components knob
   listNConnComp = [4,8];
 % Shape calssifier knob
