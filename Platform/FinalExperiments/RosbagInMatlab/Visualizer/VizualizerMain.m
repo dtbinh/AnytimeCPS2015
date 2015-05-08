@@ -1,11 +1,13 @@
-%%
-%x='*.bag';
-%f = dir(x); %assuming one bag here
+%% read
+'folder info here'
+folder = '2015-05-08-15-26-49/'
+
+
 'loading file ...'
-odom_drop = importfile_odom_drop('2015-05-05-16-06-04_feat100/_slash_quadcloud2_slash_odom_drop.csv');
-odom = importfile_odom('2015-05-05-16-06-04_feat100/_slash_quadcloud2_slash_odom.csv');
-pos_cmd = importfile_position_cmd('2015-05-05-16-06-04_feat100/_slash_quadcloud2_slash_position_cmd.csv');
-trpy_cmd = importfile_trpy_cmd('2015-05-05-16-06-04_feat100/_slash_quadcloud2_slash_trpy_cmd.csv');
+odom_drop = importfile_odom_drop([folder,'_slash_quadcloud2_slash_odom_drop.csv']);
+%odom = importfile_odom('2015-05-05-16-06-04_feat100/_slash_quadcloud2_slash_odom.csv');
+pos_cmd = importfile_position_cmd([folder,'_slash_quadcloud2_slash_position_cmd.csv']);
+trpy_cmd = importfile_trpy_cmd([folder,'_slash_quadcloud2_slash_trpy_cmd.csv']);
 
 %%
 'Visualizing ...'
@@ -17,45 +19,53 @@ plot3(pos_cmd(:,9),pos_cmd(:,10),pos_cmd(:,11),'.r');xlabel('x');ylabel('y');zla
 legend('position','commanded traj');
 
 
-% %synchronize (assuming pos cmd after rest)
-% if(size(pos_cmd,1)~=size(odom_drop,1))
-%  
 
-%  [~,ix] = min(diffs);	
-%  if(size(odom_drop(ix:end,:),1)~=size(pos_cmd,1))
-%   temp = odom_drop(ix-(size(odom_drop(ix:end,:),1)-size(pos_cmd,1)) ,:);   
-%  else
-%   temp = odom_drop(ix:end,:);
-%   clear odom_drop;
-%   odom_drop = temp;
-% 
-%  end
-% 
-% 
-% end
+%manually size, dummy vars
+odorig = odom_drop;
+poscmdorig = pos_cmd;
+trpyorig = trpy_cmd;
 
-%manually size
-odom_drop = odom_drop(203:end-1,:);
-pos_cmd = pos_cmd(1:1611,:);
 
-% errs
+odom_drop = odorig(:,:);
+pos_cmd = poscmdorig(:,:);
+trpy_cmd = trpyorig(2:end,:);
+
+% commanded and actual positions
+figure
+subplot(311)
+plot(pos_cmd(:,9)); hold all;plot(odom_drop(:,12));grid on;
+ylabel('x');
+subplot(312)
+plot(pos_cmd(:,10)); hold all;plot(odom_drop(:,13));grid on;
+ylabel('y');
+subplot(313)
+plot(pos_cmd(:,11)); hold all;plot(odom_drop(:,14));grid on;
+ylabel('z');
+legend('cmd','actual');
+
+% errors in position
 err_pos_x = abs(pos_cmd(:,9)-odom_drop(:,12));
 err_pos_y = abs(pos_cmd(:,10)-odom_drop(:,13));
 err_pos_z = abs(pos_cmd(:,11)-odom_drop(:,14));
 
+% velocity from vicon 20hz
 vel_x = odom_drop(:,59); %vicon
 vel_y = odom_drop(:,60);
 vel_z = odom_drop(:,61);
 
+% error in velocities (commanded-vicon)
 err_vel_x = abs(pos_cmd(:,13)-vel_x);
 err_vel_y = abs(pos_cmd(:,14)-vel_y);
 err_vel_z = abs(pos_cmd(:,15)-vel_z);
 
-acc_r = odom_drop(:,63);
+% commanded acceleration
+acc_x = odom_drop(:,63);
 acc_y = odom_drop(:,64);
 acc_z = odom_drop(:,65);
 
+% vector of inputs (pitch, roll, thrust)
 u_vec = [trpy_cmd(:,10) trpy_cmd(:,9) trpy_cmd(:,8)-4.905]; %P,R,T-mg
+Mode = trpy_cmd(:,24); %mode 
 
 figure;
 plot(err_pos_x,'b');hold on;grid on;
