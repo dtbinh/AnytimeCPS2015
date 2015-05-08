@@ -19,16 +19,6 @@
 
 
 
-//#include "ldl.c"
-//#include "matrix_support.c"
-//#include "solver.c"
-//#include "util.c"
-//#include "cowsay.c"
-//#include <ros/ros.h>
-
-
-
-
 static float prev_T; // to store applied inputs for next mpc opt
 static float prev_R;
 static float prev_P;
@@ -36,36 +26,36 @@ static float prev_P;
 int indexofSmallestElement(double array[], int size); 
 
 namespace FEAT_200 {
-Vars vars;
-Params params;
-Workspace work;
-Settings settings;
-void UpdateAndsolveOpt(const Eigen::Vector3f des_pos, const Eigen::Vector3f des_vel, const Eigen::Vector3f pos_, const Eigen::Vector3f vel_, double prev_T, double prev_R, double prev_P);
+	Vars vars;
+	Params params;
+	Workspace work;
+	Settings settings;
+	void UpdateAndsolveOpt(const Eigen::Vector3f des_pos, const Eigen::Vector3f des_vel, const Eigen::Vector3f pos_, const Eigen::Vector3f vel_, double prev_T, double prev_R, double prev_P);
 }
 
 namespace FEAT_150 {
-Vars vars;
-Params params;
-Workspace work;
-Settings settings;
-void UpdateAndsolveOpt(const Eigen::Vector3f des_pos, const Eigen::Vector3f des_vel, const Eigen::Vector3f pos_, const Eigen::Vector3f vel_, double prev_T, double prev_R, double prev_P);
+	Vars vars;
+	Params params;
+	Workspace work;
+	Settings settings;
+	void UpdateAndsolveOpt(const Eigen::Vector3f des_pos, const Eigen::Vector3f des_vel, const Eigen::Vector3f pos_, const Eigen::Vector3f vel_, double prev_T, double prev_R, double prev_P);
 }
 
 
 namespace FEAT_100 {
-Vars vars;
-Params params;
-Workspace work;
-Settings settings;
-void UpdateAndsolveOpt(const Eigen::Vector3f des_pos, const Eigen::Vector3f des_vel, const Eigen::Vector3f pos_, const Eigen::Vector3f vel_, double prev_T, double prev_R, double prev_P);
+	Vars vars;
+	Params params;
+	Workspace work;
+	Settings settings;
+	void UpdateAndsolveOpt(const Eigen::Vector3f des_pos, const Eigen::Vector3f des_vel, const Eigen::Vector3f pos_, const Eigen::Vector3f vel_, double prev_T, double prev_R, double prev_P);
 }
 
 namespace FEAT_50 {
-Vars vars;
-Params params;
-Workspace work;
-Settings settings;
-void UpdateAndsolveOpt(const Eigen::Vector3f des_pos, const Eigen::Vector3f des_vel, const Eigen::Vector3f pos_, const Eigen::Vector3f vel_, double prev_T, double prev_R, double prev_P);
+	Vars vars;
+	Params params;
+	Workspace work;
+	Settings settings;
+	void UpdateAndsolveOpt(const Eigen::Vector3f des_pos, const Eigen::Vector3f des_vel, const Eigen::Vector3f pos_, const Eigen::Vector3f vel_, double prev_T, double prev_R, double prev_P);
 }
 
 
@@ -85,7 +75,7 @@ FEAT_200_, // 38 ms
 
 static enum DelayMode mode = FEAT_200_;
 const float myerr[NUM_DELAY_MODES] ={0.028,0.0237, 0.0231, 0.0113}; //myerr inf norm in m
-const float delay[NUM_DELAY_MODES] = {0.024-0.01, 0.029-0.01, 0.034-0.01, 0.038-0.01}; // computation delay in s here
+const float delay[NUM_DELAY_MODES] = {0.024-0.001, 0.029-0.001, 0.034-0.001, 0.038-0.001}; // computation delay in s here
 //float err[NUM_DELAY_MODES] = {0.028,0.0237,0.0113}; //err inf norm in m
 
 
@@ -257,274 +247,274 @@ int indexofSmallestElement(double array[], int size)
     return index;
 }
 
-  void rmpcControl::setOptParams( std::vector<double> A,
-		     std::vector<double> B,
-		     std::vector<double> x_limit,
-	             std::vector<double> u_limit,
-		     std::vector<double> ZfA_11, 	
-                     std::vector<double> Zfb_11,
-                     std::vector<double> ZfA_22, 	
-                     std::vector<double> Zfb_22,
-                     std::vector<double> ZfA_33, 	
-                     std::vector<double> Zfb_33,
-                     std::vector<double> ZfA_44, 	
-                     std::vector<double> Zfb_44,
-                     std::vector<double> ZA_110,                              
-                     std::vector<double> Zb_110,
-                     std::vector<double> ZA_111,
-                     std::vector<double> Zb_111,
-                     std::vector<double> ZA_112,
-                     std::vector<double> Zb_112,
-                     std::vector<double> ZA_113,
-                     std::vector<double> Zb_113,
-                     std::vector<double> ZA_114,
-                     std::vector<double> Zb_114,
-                     std::vector<double> ZA_115,
-                     std::vector<double> Zb_115,
-                     std::vector<double> ZA_116,
-                     std::vector<double> Zb_116,
-                     std::vector<double> ZA_117,
-                     std::vector<double> Zb_117,
-                     std::vector<double> ZA_118,
-                     std::vector<double> Zb_118,
-                     std::vector<double> ZA_119,
-                     std::vector<double> Zb_119,
-                     std::vector<double> ZA_1110,
-                     std::vector<double> Zb_1110,
-                     std::vector<double> ZA_1111,
-                     std::vector<double> Zb_1111,
-            std::vector<double> ZA_220, 
-            std::vector<double> Zb_220,
-            std::vector<double> ZA_221,
-            std::vector<double> Zb_221,
-            std::vector<double> ZA_222,
-            std::vector<double> Zb_222,
-            std::vector<double> ZA_223,
-            std::vector<double> Zb_223,
-            std::vector<double> ZA_224,
-            std::vector<double> Zb_224,
-            std::vector<double> ZA_225,
-            std::vector<double> Zb_225,
-            std::vector<double> ZA_226,
-            std::vector<double> Zb_226,
-            std::vector<double> ZA_227,
-            std::vector<double> Zb_227,
-            std::vector<double> ZA_228,
-            std::vector<double> Zb_228,
-            std::vector<double> ZA_229,
-            std::vector<double> Zb_229,
-            std::vector<double> ZA_2210,
-            std::vector<double> Zb_2210,          
-            std::vector<double> ZA_2211,
-            std::vector<double> Zb_2211,
-             std::vector<double> ZA_330, 
-             std::vector<double> Zb_330,
-             std::vector<double> ZA_331,
-             std::vector<double> Zb_331,
-             std::vector<double> ZA_332,
-             std::vector<double> Zb_332,
-             std::vector<double> ZA_333,
-             std::vector<double> Zb_333,
-             std::vector<double> ZA_334,
-             std::vector<double> Zb_334,
-             std::vector<double> ZA_335,
-             std::vector<double> Zb_335,
-             std::vector<double> ZA_336,
-             std::vector<double> Zb_336,
-             std::vector<double> ZA_337,
-             std::vector<double> Zb_337,
-             std::vector<double> ZA_338,
-             std::vector<double> Zb_338,
-             std::vector<double> ZA_339,
-             std::vector<double> Zb_339,
-             std::vector<double> ZA_3310,
-             std::vector<double> Zb_3310, 
-             std::vector<double> ZA_3311,
-             std::vector<double> Zb_3311,
-            std::vector<double> ZA_440, 
-            std::vector<double> Zb_440,
-            std::vector<double> ZA_441,
-            std::vector<double> Zb_441,
-            std::vector<double> ZA_442,
-            std::vector<double> Zb_442,
-            std::vector<double> ZA_443,
-            std::vector<double> Zb_443,
-            std::vector<double> ZA_444,
-            std::vector<double> Zb_444,
-            std::vector<double> ZA_445,
-            std::vector<double> Zb_445,
-            std::vector<double> ZA_446,
-            std::vector<double> Zb_446,
-            std::vector<double> ZA_447,
-            std::vector<double> Zb_447,
-            std::vector<double> ZA_448,
-            std::vector<double> Zb_448,
-            std::vector<double> ZA_449,
-            std::vector<double> Zb_449,
-            std::vector<double> ZA_4410,
-            std::vector<double> Zb_4410,
-            std::vector<double> ZA_4411,
-            std::vector<double> Zb_4411)
+void rmpcControl::setOptParams( std::vector<double> A,
+		std::vector<double> B,
+		std::vector<double> x_limit,
+		std::vector<double> u_limit,
+		std::vector<double> ZfA_11, 	
+		std::vector<double> Zfb_11,
+		std::vector<double> ZfA_22, 	
+		std::vector<double> Zfb_22,
+		std::vector<double> ZfA_33, 	
+		std::vector<double> Zfb_33,
+		std::vector<double> ZfA_44, 	
+		std::vector<double> Zfb_44,
+		std::vector<double> ZA_110,                              
+		std::vector<double> Zb_110,
+		std::vector<double> ZA_111,
+		std::vector<double> Zb_111,
+		std::vector<double> ZA_112,
+		std::vector<double> Zb_112,
+		std::vector<double> ZA_113,
+		std::vector<double> Zb_113,
+		std::vector<double> ZA_114,
+		std::vector<double> Zb_114,
+		std::vector<double> ZA_115,
+		std::vector<double> Zb_115,
+		std::vector<double> ZA_116,
+		std::vector<double> Zb_116,
+		std::vector<double> ZA_117,
+		std::vector<double> Zb_117,
+		std::vector<double> ZA_118,
+		std::vector<double> Zb_118,
+		std::vector<double> ZA_119,
+		std::vector<double> Zb_119,
+		std::vector<double> ZA_1110,
+		std::vector<double> Zb_1110,
+		std::vector<double> ZA_1111,
+		std::vector<double> Zb_1111,
+		std::vector<double> ZA_220, 
+		std::vector<double> Zb_220,
+		std::vector<double> ZA_221,
+		std::vector<double> Zb_221,
+		std::vector<double> ZA_222,
+		std::vector<double> Zb_222,
+		std::vector<double> ZA_223,
+		std::vector<double> Zb_223,
+		std::vector<double> ZA_224,
+		std::vector<double> Zb_224,
+		std::vector<double> ZA_225,
+		std::vector<double> Zb_225,
+		std::vector<double> ZA_226,
+		std::vector<double> Zb_226,
+		std::vector<double> ZA_227,
+		std::vector<double> Zb_227,
+		std::vector<double> ZA_228,
+		std::vector<double> Zb_228,
+		std::vector<double> ZA_229,
+		std::vector<double> Zb_229,
+		std::vector<double> ZA_2210,
+		std::vector<double> Zb_2210,          
+		std::vector<double> ZA_2211,
+		std::vector<double> Zb_2211,
+		std::vector<double> ZA_330, 
+		std::vector<double> Zb_330,
+		std::vector<double> ZA_331,
+		std::vector<double> Zb_331,
+		std::vector<double> ZA_332,
+		std::vector<double> Zb_332,
+		std::vector<double> ZA_333,
+		std::vector<double> Zb_333,
+		std::vector<double> ZA_334,
+		std::vector<double> Zb_334,
+		std::vector<double> ZA_335,
+		std::vector<double> Zb_335,
+		std::vector<double> ZA_336,
+		std::vector<double> Zb_336,
+		std::vector<double> ZA_337,
+		std::vector<double> Zb_337,
+		std::vector<double> ZA_338,
+		std::vector<double> Zb_338,
+		std::vector<double> ZA_339,
+		std::vector<double> Zb_339,
+		std::vector<double> ZA_3310,
+		std::vector<double> Zb_3310, 
+		std::vector<double> ZA_3311,
+		std::vector<double> Zb_3311,
+		std::vector<double> ZA_440, 
+		std::vector<double> Zb_440,
+		std::vector<double> ZA_441,
+		std::vector<double> Zb_441,
+		std::vector<double> ZA_442,
+		std::vector<double> Zb_442,
+		std::vector<double> ZA_443,
+		std::vector<double> Zb_443,
+		std::vector<double> ZA_444,
+		std::vector<double> Zb_444,
+		std::vector<double> ZA_445,
+		std::vector<double> Zb_445,
+		std::vector<double> ZA_446,
+		std::vector<double> Zb_446,
+		std::vector<double> ZA_447,
+		std::vector<double> Zb_447,
+		std::vector<double> ZA_448,
+		std::vector<double> Zb_448,
+		std::vector<double> ZA_449,
+		std::vector<double> Zb_449,
+		std::vector<double> ZA_4410,
+		std::vector<double> Zb_4410,
+		std::vector<double> ZA_4411,
+		std::vector<double> Zb_4411)
 
 { // use this function to get params through the parameter server
-  FEAT_50::set_defaults();
-  FEAT_50::setup_indexing();
-  FEAT_50::load_default_data();
- 
-  //FEAT_50::params.u_limit[0] = u_limit[0];
-  //FEAT_50::params.u_limit[1] = u_limit[1];
-  //FEAT_50::params.u_limit[2] = u_limit[2];
-  
-  FEAT_100::set_defaults();
-  FEAT_100::setup_indexing();
-  FEAT_100::load_default_data();
+	FEAT_50::set_defaults();
+	FEAT_50::setup_indexing();
+	FEAT_50::load_default_data();
 
-  FEAT_150::set_defaults();
-  FEAT_150::setup_indexing();
-  FEAT_150::load_default_data();
+	//FEAT_50::params.u_limit[0] = u_limit[0];
+	//FEAT_50::params.u_limit[1] = u_limit[1];
+	//FEAT_50::params.u_limit[2] = u_limit[2];
 
- 
-  //FEAT_100::params.u_limit[0] = u_limit[0];
-  //FEAT_100::params.u_limit[1] = u_limit[1];
-  //FEAT_100::params.u_limit[2] = u_limit[2];
+	FEAT_100::set_defaults();
+	FEAT_100::setup_indexing();
+	FEAT_100::load_default_data();
 
-  FEAT_200::set_defaults();
-  FEAT_200::setup_indexing();
-  FEAT_200::load_default_data();
- 
- // FEAT_200::params.u_limit[0] = u_limit[0];
- // FEAT_200::params.u_limit[1] = u_limit[1];
- // FEAT_200::params.u_limit[2] = u_limit[2];
-
-// get term sets
-int i; //use this in all loops
-
-  for (i=0; i<18; i++){//Mode 1,1
- FEAT_50::params.Hf[i] = ZfA_11[i];}
-  for (i=0;i<18;i++) {//Mode 1,1
- FEAT_50::params.gf[i] =Zfb_11[i];}
-
-  for (i=0; i<18; i++){//Mode 1,1
- FEAT_100::params.Hf[i] = ZfA_22[i];}
-  for (i=0;i<18;i++) {//Mode 1,1
- FEAT_100::params.gf[i] =Zfb_22[i];}
-
-  for (i=0; i<18; i++){//Mode 1,1
- FEAT_150::params.Hf[i] = ZfA_33[i];}
-  for (i=0;i<18;i++) {//Mode 1,1
- FEAT_150::params.gf[i] =Zfb_33[i];}
-
-  for (i=0; i<18; i++){//Mode 1,1
- FEAT_200::params.Hf[i] = ZfA_44[i];}
-  for (i=0;i<18;i++) {//Mode 1,1
- FEAT_200::params.gf[i] =Zfb_44[i];}
+	FEAT_150::set_defaults();
+	FEAT_150::setup_indexing();
+	FEAT_150::load_default_data();
 
 
+	//FEAT_100::params.u_limit[0] = u_limit[0];
+	//FEAT_100::params.u_limit[1] = u_limit[1];
+	//FEAT_100::params.u_limit[2] = u_limit[2];
+
+	FEAT_200::set_defaults();
+	FEAT_200::setup_indexing();
+	FEAT_200::load_default_data();
+
+	// FEAT_200::params.u_limit[0] = u_limit[0];
+	// FEAT_200::params.u_limit[1] = u_limit[1];
+	// FEAT_200::params.u_limit[2] = u_limit[2];
+
+	// get term sets
+	int i; //use this in all loops
+
+	for (i=0; i<18; i++){//Mode 1,1
+		FEAT_50::params.Hf[i] = ZfA_11[i];}
+	for (i=0;i<18;i++) {//Mode 1,1
+		FEAT_50::params.gf[i] =Zfb_11[i];}
+
+	for (i=0; i<18; i++){//Mode 1,1
+		FEAT_100::params.Hf[i] = ZfA_22[i];}
+	for (i=0;i<18;i++) {//Mode 1,1
+		FEAT_100::params.gf[i] =Zfb_22[i];}
+
+	for (i=0; i<18; i++){//Mode 1,1
+		FEAT_150::params.Hf[i] = ZfA_33[i];}
+	for (i=0;i<18;i++) {//Mode 1,1
+		FEAT_150::params.gf[i] =Zfb_33[i];}
+
+	for (i=0; i<18; i++){//Mode 1,1
+		FEAT_200::params.Hf[i] = ZfA_44[i];}
+	for (i=0;i<18;i++) {//Mode 1,1
+		FEAT_200::params.gf[i] =Zfb_44[i];}
 
 
-  
-//mode 1,1
-  for (i=0;i<18;i++){
-  FEAT_50::params.H_0[i] = ZA_110[i];
-  FEAT_50::params.g_0[i] = Zb_110[i];
-  FEAT_50::params.H_1[i] = ZA_111[i];
-  FEAT_50::params.g_1[i] = Zb_111[i];
-  FEAT_50::params.H_2[i] = ZA_112[i];
-  FEAT_50::params.g_2[i] = Zb_112[i];
-  FEAT_50::params.H_3[i] = ZA_113[i];
-  FEAT_50::params.g_3[i] = Zb_113[i];
-  FEAT_50::params.H_4[i] = ZA_114[i];
-  FEAT_50::params.g_4[i] = Zb_114[i];
-  FEAT_50::params.H_5[i] = ZA_115[i];
-  FEAT_50::params.g_5[i] = Zb_115[i];
-  FEAT_50::params.H_6[i] = ZA_116[i];
-  FEAT_50::params.g_6[i] = Zb_116[i];
-  FEAT_50::params.H_7[i] = ZA_117[i];
-  FEAT_50::params.g_7[i] = Zb_117[i];
-  FEAT_50::params.H_8[i] = ZA_118[i];
-  FEAT_50::params.g_8[i] = Zb_118[i];
-  FEAT_50::params.H_9[i] = ZA_119[i];
-  FEAT_50::params.g_9[i] = Zb_119[i];
-  FEAT_50::params.H_10[i] = ZA_1110[i];
-  FEAT_50::params.g_10[i] = Zb_1110[i];
-  }//end H,g assignment
-//mode 2,2
-for (i=0;i<18;i++){
-  FEAT_100::params.H_0[i] = ZA_220[i];
-  FEAT_100::params.g_0[i] = Zb_220[i];
-  FEAT_100::params.H_1[i] = ZA_221[i];
-  FEAT_100::params.g_1[i] = Zb_221[i];
-  FEAT_100::params.H_2[i] = ZA_222[i];
-  FEAT_100::params.g_2[i] = Zb_222[i];
-  FEAT_100::params.H_3[i] = ZA_223[i];
-  FEAT_100::params.g_3[i] = Zb_223[i];
-  FEAT_100::params.H_4[i] = ZA_224[i];
-  FEAT_100::params.g_4[i] = Zb_224[i];
-  FEAT_100::params.H_5[i] = ZA_225[i];
-  FEAT_100::params.g_5[i] = Zb_225[i];
-  FEAT_100::params.H_6[i] = ZA_226[i];
-  FEAT_100::params.g_6[i] = Zb_226[i];
-  FEAT_100::params.H_7[i] = ZA_227[i];
-  FEAT_100::params.g_7[i] = Zb_227[i];
-  FEAT_100::params.H_8[i] = ZA_228[i];
-  FEAT_100::params.g_8[i] = Zb_228[i];
-  FEAT_100::params.H_9[i] = ZA_229[i];
-  FEAT_100::params.g_9[i] = Zb_229[i];
-  FEAT_100::params.H_10[i] = ZA_2210[i];
-  FEAT_100::params.g_10[i] = Zb_2210[i];
-  }//end H,g assignment
 
-// mode 3,3
-for (i=0;i<18;i++){
-  FEAT_150::params.H_0[i] = ZA_330[i];
-  FEAT_150::params.g_0[i] = Zb_330[i];
-  FEAT_150::params.H_1[i] = ZA_331[i];
-  FEAT_150::params.g_1[i] = Zb_331[i];
-  FEAT_150::params.H_2[i] = ZA_332[i];
-  FEAT_150::params.g_2[i] = Zb_332[i];
-  FEAT_150::params.H_3[i] = ZA_333[i];
-  FEAT_150::params.g_3[i] = Zb_333[i];
-  FEAT_150::params.H_4[i] = ZA_334[i];
-  FEAT_150::params.g_4[i] = Zb_334[i];
-  FEAT_150::params.H_5[i] = ZA_335[i];
-  FEAT_150::params.g_5[i] = Zb_335[i];
-  FEAT_150::params.H_6[i] = ZA_336[i];
-  FEAT_150::params.g_6[i] = Zb_336[i];
-  FEAT_150::params.H_7[i] = ZA_337[i];
-  FEAT_150::params.g_7[i] = Zb_337[i];
-  FEAT_150::params.H_8[i] = ZA_338[i];
-  FEAT_150::params.g_8[i] = Zb_338[i];
-  FEAT_150::params.H_9[i] = ZA_339[i];
-  FEAT_150::params.g_9[i] = Zb_339[i];
-  FEAT_150::params.H_10[i] = ZA_3310[i];
-  FEAT_150::params.g_10[i] = Zb_3310[i];
-  }//end H,g assignment
 
-// mode 4,4
-for (i=0;i<18;i++){
-  FEAT_200::params.H_0[i] = ZA_440[i];
-  FEAT_200::params.g_0[i] = Zb_440[i];
-  FEAT_200::params.H_1[i] = ZA_441[i];
-  FEAT_200::params.g_1[i] = Zb_441[i];
-  FEAT_200::params.H_2[i] = ZA_442[i];
-  FEAT_200::params.g_2[i] = Zb_442[i];
-  FEAT_200::params.H_3[i] = ZA_443[i];
-  FEAT_200::params.g_3[i] = Zb_443[i];
-  FEAT_200::params.H_4[i] = ZA_444[i];
-  FEAT_200::params.g_4[i] = Zb_444[i];
-  FEAT_200::params.H_5[i] = ZA_445[i];
-  FEAT_200::params.g_5[i] = Zb_445[i];
-  FEAT_200::params.H_6[i] = ZA_446[i];
-  FEAT_200::params.g_6[i] = Zb_446[i];
-  FEAT_200::params.H_7[i] = ZA_447[i];
-  FEAT_200::params.g_7[i] = Zb_447[i];
-  FEAT_200::params.H_8[i] = ZA_448[i];
-  FEAT_200::params.g_8[i] = Zb_448[i];
-  FEAT_200::params.H_9[i] = ZA_449[i];
-  FEAT_200::params.g_9[i] = Zb_449[i];
-  FEAT_200::params.H_10[i] = ZA_4410[i];
-  FEAT_200::params.g_10[i] = Zb_4410[i];
-  }//end H,g assignment
+
+	//mode 1,1
+	for (i=0;i<18;i++){
+		FEAT_50::params.H_0[i] = ZA_110[i];
+		FEAT_50::params.g_0[i] = Zb_110[i];
+		FEAT_50::params.H_1[i] = ZA_111[i];
+		FEAT_50::params.g_1[i] = Zb_111[i];
+		FEAT_50::params.H_2[i] = ZA_112[i];
+		FEAT_50::params.g_2[i] = Zb_112[i];
+		FEAT_50::params.H_3[i] = ZA_113[i];
+		FEAT_50::params.g_3[i] = Zb_113[i];
+		FEAT_50::params.H_4[i] = ZA_114[i];
+		FEAT_50::params.g_4[i] = Zb_114[i];
+		FEAT_50::params.H_5[i] = ZA_115[i];
+		FEAT_50::params.g_5[i] = Zb_115[i];
+		FEAT_50::params.H_6[i] = ZA_116[i];
+		FEAT_50::params.g_6[i] = Zb_116[i];
+		FEAT_50::params.H_7[i] = ZA_117[i];
+		FEAT_50::params.g_7[i] = Zb_117[i];
+		FEAT_50::params.H_8[i] = ZA_118[i];
+		FEAT_50::params.g_8[i] = Zb_118[i];
+		FEAT_50::params.H_9[i] = ZA_119[i];
+		FEAT_50::params.g_9[i] = Zb_119[i];
+		FEAT_50::params.H_10[i] = ZA_1110[i];
+		FEAT_50::params.g_10[i] = Zb_1110[i];
+	}//end H,g assignment
+	//mode 2,2
+	for (i=0;i<18;i++){
+		FEAT_100::params.H_0[i] = ZA_220[i];
+		FEAT_100::params.g_0[i] = Zb_220[i];
+		FEAT_100::params.H_1[i] = ZA_221[i];
+		FEAT_100::params.g_1[i] = Zb_221[i];
+		FEAT_100::params.H_2[i] = ZA_222[i];
+		FEAT_100::params.g_2[i] = Zb_222[i];
+		FEAT_100::params.H_3[i] = ZA_223[i];
+		FEAT_100::params.g_3[i] = Zb_223[i];
+		FEAT_100::params.H_4[i] = ZA_224[i];
+		FEAT_100::params.g_4[i] = Zb_224[i];
+		FEAT_100::params.H_5[i] = ZA_225[i];
+		FEAT_100::params.g_5[i] = Zb_225[i];
+		FEAT_100::params.H_6[i] = ZA_226[i];
+		FEAT_100::params.g_6[i] = Zb_226[i];
+		FEAT_100::params.H_7[i] = ZA_227[i];
+		FEAT_100::params.g_7[i] = Zb_227[i];
+		FEAT_100::params.H_8[i] = ZA_228[i];
+		FEAT_100::params.g_8[i] = Zb_228[i];
+		FEAT_100::params.H_9[i] = ZA_229[i];
+		FEAT_100::params.g_9[i] = Zb_229[i];
+		FEAT_100::params.H_10[i] = ZA_2210[i];
+		FEAT_100::params.g_10[i] = Zb_2210[i];
+	}//end H,g assignment
+
+	// mode 3,3
+	for (i=0;i<18;i++){
+		FEAT_150::params.H_0[i] = ZA_330[i];
+		FEAT_150::params.g_0[i] = Zb_330[i];
+		FEAT_150::params.H_1[i] = ZA_331[i];
+		FEAT_150::params.g_1[i] = Zb_331[i];
+		FEAT_150::params.H_2[i] = ZA_332[i];
+		FEAT_150::params.g_2[i] = Zb_332[i];
+		FEAT_150::params.H_3[i] = ZA_333[i];
+		FEAT_150::params.g_3[i] = Zb_333[i];
+		FEAT_150::params.H_4[i] = ZA_334[i];
+		FEAT_150::params.g_4[i] = Zb_334[i];
+		FEAT_150::params.H_5[i] = ZA_335[i];
+		FEAT_150::params.g_5[i] = Zb_335[i];
+		FEAT_150::params.H_6[i] = ZA_336[i];
+		FEAT_150::params.g_6[i] = Zb_336[i];
+		FEAT_150::params.H_7[i] = ZA_337[i];
+		FEAT_150::params.g_7[i] = Zb_337[i];
+		FEAT_150::params.H_8[i] = ZA_338[i];
+		FEAT_150::params.g_8[i] = Zb_338[i];
+		FEAT_150::params.H_9[i] = ZA_339[i];
+		FEAT_150::params.g_9[i] = Zb_339[i];
+		FEAT_150::params.H_10[i] = ZA_3310[i];
+		FEAT_150::params.g_10[i] = Zb_3310[i];
+	}//end H,g assignment
+
+	// mode 4,4
+	for (i=0;i<18;i++){
+		FEAT_200::params.H_0[i] = ZA_440[i];
+		FEAT_200::params.g_0[i] = Zb_440[i];
+		FEAT_200::params.H_1[i] = ZA_441[i];
+		FEAT_200::params.g_1[i] = Zb_441[i];
+		FEAT_200::params.H_2[i] = ZA_442[i];
+		FEAT_200::params.g_2[i] = Zb_442[i];
+		FEAT_200::params.H_3[i] = ZA_443[i];
+		FEAT_200::params.g_3[i] = Zb_443[i];
+		FEAT_200::params.H_4[i] = ZA_444[i];
+		FEAT_200::params.g_4[i] = Zb_444[i];
+		FEAT_200::params.H_5[i] = ZA_445[i];
+		FEAT_200::params.g_5[i] = Zb_445[i];
+		FEAT_200::params.H_6[i] = ZA_446[i];
+		FEAT_200::params.g_6[i] = Zb_446[i];
+		FEAT_200::params.H_7[i] = ZA_447[i];
+		FEAT_200::params.g_7[i] = Zb_447[i];
+		FEAT_200::params.H_8[i] = ZA_448[i];
+		FEAT_200::params.g_8[i] = Zb_448[i];
+		FEAT_200::params.H_9[i] = ZA_449[i];
+		FEAT_200::params.g_9[i] = Zb_449[i];
+		FEAT_200::params.H_10[i] = ZA_4410[i];
+		FEAT_200::params.g_10[i] = Zb_4410[i];
+	}//end H,g assignment
 
 }
 
