@@ -89,4 +89,4 @@ end
 %     X.(sprintf('u_limit')) = u_limit';
 %     
 % end    
-WriteYaml('/home/mlab-retro/Documents/AnytimeCPS2015/RTSS15/Code/MatlabSetComputations/Data/gains_T.yaml',X)
+WriteYaml('/home/mlab-retro/Documents/AnytimeCPS2015/RTSS15/Code/MatlabSetComputations/Data/gains_T_small.yaml',X)

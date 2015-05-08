@@ -1,5 +1,5 @@
 %% init and get sets
-computation = 0;
+computation = 1;
 InitPlandAndSets;
 
 set_comps = 0;
@@ -49,6 +49,7 @@ for i = 1:numel(deltas)
     assert(~CD{i}.isEmptySet);
     Z_final{i} = CD{i} - ((A_lift(:,:,i)+B_lift(:,:,i)*K(:,:,i))^(Ns))*Fhat*tempW;
     Zf_box{i} = FitBoxZf(Z_final{i},S);
+    assert(~Zf_box{i}.isEmptySet);
 end
 
 for i = 1:numel(deltas)
@@ -59,6 +60,7 @@ for i = 1:numel(deltas)
         
     end
 end
-save('~/Documents/AnytimeCPS2015/RTSS15/Code/MatlabSetComputations/Data/SetsT.mat');
+
+save('~/Documents/AnytimeCPS2015/RTSS15/Code/MatlabSetComputations/Data/SetsT_small.mat');
 
 
