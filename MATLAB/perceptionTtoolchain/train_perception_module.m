@@ -66,7 +66,7 @@ for nbGMcomp=listPC
                 datestr(now)
                 for m=trainingimages
                     disp(['For GMM, processing image ',num2str(m)])
-                    [I,M]= read_img_and_mask(images(m).name, masks,maskfolder);
+                    [I,M]= read_img_and_mask(images(m).name, masks,maskfolder, folder);
                     if isempty(M)
                         sprintf('Skipping image %s because it has no matching mask\n',imgname);
                         continue
@@ -129,7 +129,7 @@ for nbGMcomp=listPC
             for m=trainingimages
                 disp(['Extracting shape features from m=',num2str(m)])
                 minAcceptanceProb = minInitialAcceptanceProb/minAcceptanceProbScalingFactor; % allow for 1st iteration of while loop
-                [I,M]= read_img_and_mask(images(m).name, masks,maskfolder);
+                [I,M]= read_img_and_mask(images(m).name, masks,maskfolder, folder);
                 if isempty(M)
                     sprintf('Skipping image %s because it has no matching mask\n',imgname);
                     continue
