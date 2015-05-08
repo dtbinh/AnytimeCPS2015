@@ -1,18 +1,26 @@
 %%
 %x='*.bag';
 %f = dir(x); %assuming one bag here
+foldername = '/Users/mlab/Downloads/CSV_Files_05_05/2015-05-05-15-59-43_feat200';
 'loading file ...'
-odom_drop = importfile_odom_drop('2015-05-05-16-06-04_feat100/_slash_quadcloud2_slash_odom_drop.csv');
-odom = importfile_odom('2015-05-05-16-06-04_feat100/_slash_quadcloud2_slash_odom.csv');
-pos_cmd = importfile_position_cmd('2015-05-05-16-06-04_feat100/_slash_quadcloud2_slash_position_cmd.csv');
-trpy_cmd = importfile_trpy_cmd('2015-05-05-16-06-04_feat100/_slash_quadcloud2_slash_trpy_cmd.csv');
+% odometry at 20Hz from Vicon
+% 1st column is timestamp always
+odom_drop = importfile_odom_drop([foldername,'/_slash_quadcloud2_slash_odom_drop.csv']);
+% odometry at 100 Hz
+odom = importfile_odom([foldername,'/_slash_quadcloud2_slash_odom.csv']);
+% commanded position from trajetory generator
+pos_cmd = importfile_position_cmd([foldername,'/_slash_quadcloud2_slash_position_cmd.csv']);
+% generated trpy command 
+trpy_cmd = importfile_trpy_cmd([foldername,'/_slash_quadcloud2_slash_trpy_cmd.csv']);
 
 %%
 'Visualizing ...'
 % actual pos
 figure;
+% x,y,z
 plot3(odom_drop(:,12),odom_drop(:,13),odom_drop(:,14),'.b');xlabel('x');ylabel('y');zlabel('z');
 hold on;grid on;
+% x,y,z
 plot3(pos_cmd(:,9),pos_cmd(:,10),pos_cmd(:,11),'.r');xlabel('x');ylabel('y');zlabel('z');
 legend('position','commanded traj');
 
@@ -35,8 +43,10 @@ legend('position','commanded traj');
 % end
 
 %manually size
-odom_drop = odom_drop(203:end-1,:);
-pos_cmd = pos_cmd(1:1611,:);
+N = 1000;
+odom_drop = odom_drop(1:N,:);
+pos_cmd = pos_cmd(1:N,:);
+trpy_cmd = trpy_cmd(1:N,:);
 
 % errs
 err_pos_x = abs(pos_cmd(:,9)-odom_drop(:,12));
