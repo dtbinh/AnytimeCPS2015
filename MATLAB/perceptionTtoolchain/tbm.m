@@ -1,6 +1,6 @@
 folder = '../../Data/Barrel';
 images = dir([folder,'/*.png']);
-testimages = [2,6,7,8,9,10,12,13:20];
+testimages = [2,6,7:10,12:50];
 mats = dir('trained*.mat');
 maskfolder = '../../OpenCV/ObjDetector/Images/Train/Masks';
 masks = dir([maskfolder, '/*.png']);
@@ -32,7 +32,7 @@ for i=1:length(mats)
         nbemptyframes = nbemptyframes + fie;
     end
     tecurve{i,1} = mats(i).name;
-    tecurve{i,2}=mean(time_error);
+    tecurve{i,2} = mean(time_error);
     tecurve{i,3} = nbemptyframes;
     
     time_error = zeros(length(trainingimages),2);
