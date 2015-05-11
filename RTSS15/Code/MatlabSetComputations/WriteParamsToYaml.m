@@ -88,4 +88,4 @@ if(exist('sys_d','var')) %write the discrete normal dynamics too
     X.(sprintf('u_limit')) = u_limit';
     
 end    
-WriteYaml('/home/mlab-retro/Documents/AnytimeCPS2015/RTSS15/Code/MatlabSetComputations/Data/gains.yaml',X)
+WriteYaml('/home/mlab-retro/Documents/AnytimeCPS2015/RTSS15/Code/MatlabSetComputations/Data/gains_T_10cube.yaml',X)

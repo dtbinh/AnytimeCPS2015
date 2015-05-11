@@ -43,9 +43,10 @@ end
 Z_final= cell(numel(deltas),1);
 Zf_box = cell(numel(deltas),1);
 CD = cell(numel(deltas),1);
-for i = 1:numel(deltas)
+for i = 4:-1:1%1:numel(deltas)
     tempW = sys.A*E_set(i) + (-E_set(i));
     CD{i} = Polyhedron('A',Cdeltas{i}.H,'B',Cdeltas{i}.K);
+    
     assert(~CD{i}.isEmptySet);
     Z_final{i} = CD{i} - ((A_lift(:,:,i)+B_lift(:,:,i)*K(:,:,i))^(Ns))*Fhat*tempW;
     Zf_box{i} = FitBoxZf(Z_final{i},S);
@@ -61,6 +62,6 @@ for i = 1:numel(deltas)
     end
 end
 
-save('~/Documents/AnytimeCPS2015/RTSS15/Code/MatlabSetComputations/Data/SetsT_small.mat');
+save('~/Documents/AnytimeCPS2015/RTSS15/Code/MatlabSetComputations/Data/SetsT_10cube.mat');
 
 
