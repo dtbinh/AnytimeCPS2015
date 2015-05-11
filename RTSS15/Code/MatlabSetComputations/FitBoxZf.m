@@ -7,10 +7,17 @@ setInsc = S.minHRep;
 
 %dim = size(setBig.A,2);
 
+% for what?
+%posstep=[.1;.1;.1];
+%velstep=[.1;.1;.1];
+%inpstep=[deg2rad(1);deg2rad(1);.1];
 
-posstep=[.2;.2;.2];
-velstep=[.1;.1;.1];
-inpstep=[deg2rad(1);deg2rad(1);.1];
+
+%for cube 10
+posstep = [.5;.5;.5];
+velstep = [.5;.5;.5];
+inpstep = [deg2rad(1);deg2rad(1);.5];
+
 
 step=[posstep;velstep;posstep;velstep;inpstep;inpstep];
 %setBig.A = [eye(dim);-eye(dim)];
