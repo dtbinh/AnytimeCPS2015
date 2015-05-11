@@ -1,0 +1,58 @@
+
+If any of the constraint sets in the RMPC optimization~\eqref{RMPC1}
+is empty then clearly the optimization is infeasible. Therefore a
+necessary feasibility condition for $\MPCProb{\sDelay,\sAccu}(\hat{x}_{k_{0}},\sDelay[k_{0}],\sAccu[k_{0]},u_{k_{0}-1})$
+is that all the constraint sets are non-empty. As we have shown in
+\secref{implementation}, particularly in \eqref{impl-Zj-linear},
+for each $\left(\sDelay,\sAccu\right)$, these sets depend linearly
+on $\sAccu[k]$. It follows that for each mode $\left(\sDelay,\sAccu\right)$,
+there exists a threshold $\gamma_{\sDelay,\sAccu}$ such that if $\sAccu[k]\geq\gamma_{\sDelay,\sAccu}$
+then $\MPCProb{\sDelay,\sAccu}(\hat{x}_{k_{0}},\sDelay[k_{0]},\sAccu[k_{0]},u_{k_{0}-1})$
+is infeasible; in other words, $\sAccu[k]<\gamma_{\sDelay,\sAccu}$
+is necessary for $\MPCProb{\sDelay,\sAccu}(\hat{x}_{k_{0}},\sDelay[k_{0]},\sAccu[k_{0]},u_{k_{0}-1})$
+to be feasible. This threshold can be computed by solving the following
+feasibility problem derived from the RMPC optimization
+\begin{align*}
+ & \gamma_{\sDelay,\sAccu}=\max\sAccu[k]\\
+ & \text{subject to, }\forall j\in\left\{ 0,\dots,N\right\} \\
+ & \sAccu[k]\geq0\\
+ & z_{j}\in\ZSet_{j}\left(\sAccu[k],\sAccu\right)\\
+ & z_{N+1}\in\ZSet_{f}\left(\sAccu[k],\sAccu\right)
+\end{align*}
+ which is a linear program due to the linear dependency of the constraint
+sets on $\sAccu[k]$. If this LP is infeasible or $\gamma_{\sDelay,\sAccu}=0$
+then this mode $\left(\sDelay,\sAccu\right)$ is invalid and needs
+to be removed from $\Delta$. Because of the robust feasibility of
+the RMPC optimization (\thmref{robust-feasible-RMPC}), if mode $\left(\sDelay,\sAccu\right)$
+is valid we must have that 
+\begin{equation}
+\sAccu<\gamma_{\sDelay,\sAccu}\text{.}\label{eq:necessary-threshold-self-loop}
+\end{equation}
+ 
+
+A consequence of this necessary feasibility condition is that if the
+current estimation mode at the current time step $k$ is $\left(\sDelay[k],\sAccu[k]\right)$
+then in the Anytime Control RMPC Algorithm, we only need to solve
+$\MPCProb{\sDelay,\sAccu}(\hat{x}_{k_{0}},\sDelay[k_{0]},\sAccu[k_{0]},u_{k_{0}-1})$
+for which $\sAccu[k]<\gamma_{\sDelay,\sAccu}$. Therefore, the Anytime
+Control RMPC Algorithm~\ref{algo:RMPC-algo} can be improved as in
+\algoref{RMPC-algo-improved}.
+\begin{algorithm}
+\begin{algorithmic}[1]
+\State $\left(\sDelay[0], \sAccu[0]\right)$ and $u_{-1}$ specified by designer
+\State Apply $u_{-1}$
+\For{$k=0,1,\dots$}
+	\State Estimate $\hat{x}_{k}$ with mode $\left(\sDelay[k], \sAccu[k]\right)$
+	\For{each $\left( \sDelay,\sAccu \right) \in \Delta$ such that $\sAccu[k]<\gamma_{\sDelay,\sAccu}$}
+		\State Solve $\MPCProb{\sDelay,\sAccu}(\hat{x}_{k},\sDelay[k],\sAccu[k],u_{k-1})$
+		\State Calculate cost $J_{\sDelay,\sAccu}^{\mathrm{total}} = J_{\sDelay,\sAccu}^{\star} + \alpha \pi(\sDelay)$
+	\EndFor
+	\State $\left( \sDelay^{\star}, \sAccu^{\star}, u_{k \Given k}^{\star} \right) \gets \argmin_{\sDelay,\sAccu} J_{\sDelay,\sAccu}^{\mathrm{total}}$
+	\State Wait until $t_{a,k}$
+	\State Apply control input $u_{k} = u_{k \Given k}^{\star}$ and estimation mode $\left( \sDelay[k+1], \sAccu[k+1] \right) = \left( \sDelay^{\star}, \sAccu^{\star} \right)$
+\EndFor
+\end{algorithmic} 
+
+\caption{Improved Anytime Control RMPC algorithm.}
+\label{algo:RMPC-algo-improved}
+\end{algorithm}

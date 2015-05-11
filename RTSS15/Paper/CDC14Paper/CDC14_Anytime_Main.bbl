@@ -1,0 +1,98 @@
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{#1}
+\csname url@rmstyle\endcsname
+\providecommand{\newblock}{\relax}
+\providecommand{\bibinfo}[2]{#2}
+\providecommand\BIBentrySTDinterwordspacing{\spaceskip=0pt\relax}
+\providecommand\BIBentryALTinterwordstretchfactor{4}
+\providecommand\BIBentryALTinterwordspacing{\spaceskip=\fontdimen2\font plus
+\BIBentryALTinterwordstretchfactor\fontdimen3\font minus
+  \fontdimen4\font\relax}
+\providecommand\BIBforeignlanguage[2]{{%
+\expandafter\ifx\csname l@#1\endcsname\relax
+\typeout{** WARNING: IEEEtran.bst: No hyphenation pattern has been}%
+\typeout{** loaded for the language `#1'. Using the pattern for}%
+\typeout{** the default language instead.}%
+\else
+\language=\csname l@#1\endcsname
+\fi
+#2}}
+
+\bibitem{balas}
+R.~Bhattacharya and G.~J. Balas, ``Anytime control algorithm: Model reduction
+  approach,'' \emph{Journal of Guidance and Control}, vol.~27, no.~5, pp.
+  767--776, 2004.
+
+\bibitem{richardsetal05rmp}
+A.~Richards and J.~How, ``Robust model predictive control with imperfect
+  information,'' in \emph{American Control Conference}, 2005, pp. 268--273.
+
+\bibitem{boddy}
+M.~Boddy and T.~Dean, ``{Solving Time-dependent Planning Problems},''
+  \emph{Joint Conf. on AI}, pp. 979--984, 1989.
+
+\bibitem{horvitz}
+E.~J. Horvitz, H.~J. Suermondt, and G.~F. Cooper, ``{Bounded Conditioning:
+  Flexible inference for decision under scarce resources},'' \emph{Workshop on
+  Uncertainty in AI}, 1989.
+
+\bibitem{zilberstein}
+S.~Zilberstein and S.~Russel, ``{Anytime sensing, planning and action: A
+  Practical model for robot control},'' \emph{Joint Conf. on AI}, pp.
+  1402--1407, 1993.
+
+\bibitem{planningalgorithms}
+S.~M. LaValle, \emph{Planning algorithms}.\hskip 1em plus 0.5em minus
+  0.4em\relax Cambridge university press, 2006.
+
+\bibitem{maxim}
+M.~Likhachev, D.~Ferguson, G.~Gordon, A.~Stentz, and S.~Thrun, ``{Anytime
+  Search in Dynamic Graphs},'' \emph{Artif. Intell.}, vol. 172, no.~14, pp.
+  1613--1643, 2008.
+
+\bibitem{wellman}
+M.~Wellman and C.~L. Liu, ``{State-Space Abstraction for Anytime Evaluation of
+  Probabilistic Networks},'' \emph{Conf. on Uncertainty in AI}, 1994.
+
+\bibitem{RTSSanytime}
+R.~Mangharam and A.~Saba, ``{Anytime Algorithms for GPU Architectures},'' in
+  \emph{Proc. of the IEEE Real-Time Systems Symposium}, 2011.
+
+\bibitem{sequence}
+D.~Quevedo and V.~Gupta, ``Sequence-based anytime control,'' \emph{{IEEE}
+  Trans. Automat. Contr.}, vol.~58, no.~2, pp. 377--390, Feb 2013.
+
+\bibitem{fontanelli}
+D.~Fontanelli, L.~Greco, and A.~Bicchi, ``Anytime control algorithms for
+  embedded real-time systems,'' in \emph{Hybrid Systems: Computation and
+  Control}.\hskip 1em plus 0.5em minus 0.4em\relax Springer, 2008, pp.
+  158--171.
+
+\bibitem{chiscietal01swp}
+L.~Chisci, J.~A. Rossiter, and G.~Zappa, ``Systems with persistent
+  disturbances: predictive control with restricted constraints,''
+  \emph{Automatica}, vol.~37, no.~7, pp. 1019--1028, 2001.
+
+\bibitem{kerrigan00rcs}
+E.~C. Kerrigan, ``Robust constraint satisfaction: Invariant sets and predictive
+  control,'' Ph.D. dissertation, University of Cambridge, 2000.
+
+\bibitem{setcomp}
+I.~Kolmanovsky and E.~G. Gilbert, ``Theory and computation of disturbance
+  invariant sets for discrete-time linear systems,'' \emph{Mathematical
+  Problems in Engineering}, vol.~4, pp. 317--367, 1998.
+
+\bibitem{invset}
+E.~C. Kerrigan, ``Matlab invariant set toolbox, version 0.10.5,''
+  \url{http://www-control.eng.cam.ac.uk/eck21/matlab/invsetbox/}, Apr 2005.
+
+\bibitem{cvx}
+M.~Grant and S.~Boyd, ``{CVX}: Matlab software for disciplined convex
+  programming, version 2.0 beta,'' \url{http://cvxr.com/cvx}, Sept. 2013.
+
+\bibitem{cvx2}
+------, ``Graph implementations for nonsmooth convex programs,'' in
+  \emph{Recent Advances in Learning and Control}.\hskip 1em plus 0.5em minus
+  0.4em\relax Springer-Verlag, 2008, pp. 95--110.
+
+\end{thebibliography}

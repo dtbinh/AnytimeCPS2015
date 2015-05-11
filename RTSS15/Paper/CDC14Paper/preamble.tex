@@ -1,0 +1,224 @@
+%\usepackage{xparse}
+\usepackage{xifthen}
+\usepackage{xargs}[2008/03/08]
+
+% Redefine citation commands compatible with natbib
+\def\citep{\cite}
+\def\citet{\cite}
+
+% *** MATH PACKAGES ***
+\usepackage[cmex10]{amsmath}
+\interdisplaylinepenalty=2500
+\usepackage{amsfonts,amssymb}
+
+% Also, note that the amsmath package sets \interdisplaylinepenalty to 10000
+% thus preventing page breaks from occurring within multiline equations. Use:
+\interdisplaylinepenalty=2500
+% after loading amsmath to restore such page breaks
+
+\usepackage{bm} % for bold symbols like \bm{\alpha} or {\bm \alpha\beta}
+%\usepackage{amsthm}
+\usepackage{mathtools}  % Fixes and additional commands for amsmath
+\usepackage{cases}  % Better than amsmath's cases environment
+%\usepackage{mleftright}  % Commands \mleft and \mright
+
+% SI Unit support: should always use to typeset numeric data
+% With option per-mode=symbol: kW/s, without it: kW s^{-1}
+% Quick usage:
+%   \num{1+-2i}
+%   \num{.3e45}
+%   \SI{number}{unit} or \si{unit}
+% where unit is like:
+%   kg.m.s^{-1} or \kilogram\metre\per\second
+%   \si[per-mode=symbol]{\kilogram\metre\per\ampere\per\second} for
+%        kg m / (A s)
+%\usepackage[per-mode=symbol,binary-units]{siunitx}
+\usepackage[per-mode=symbol]{siunitx}
+
+
+% *** GRAPHICS RELATED PACKAGES ***
+%
+\usepackage{graphicx}
+% declare the path(s) where your graphic files are
+\graphicspath{{figs/}}
+% and their extensions so you won't have to specify these with
+% every instance of \includegraphics
+% \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+
+
+% PGF/TikZ
+% \usepackage{tikz}
+% \usetikzlibrary{decorations,arrows,shapes,positioning}
+% \usetikzlibrary{fit,backgrounds,calc}
+% \usetikzlibrary{automata,matrix}
+% \usetikzlibrary{circuits.logic.US,circuits.ee.IEC}
+% \usetikzlibrary{shapes.geometric,shapes.symbols,shapes.arrows}
+
+% \usepackage{pgfplots}
+% \pgfplotsset{compat=newest}
+
+
+% Theorem-like environments
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{assumption}{Assumption}
+
+
+% \theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{problem}{Problem}
+
+% \theoremstyle{remark}
+\newtheorem{example}{Example}
+\newtheorem{remark}{Remark}
+
+
+
+% *** SPECIALIZED LIST PACKAGES ***
+\usepackage{algorithm}
+\usepackage{algpseudocode}  % Of the algorithmicx package, flexible, more math-like
+
+% Define some convenient commands for algorithms
+% \algnewcommand\algorithmicinput{\textbf{Input:}}
+% \algnewcommand\Input{\item[\algorithmicinput]}
+% \algnewcommand\algorithmicoutput{\textbf{Output:}}
+% \algnewcommand\Output{\item[\algorithmicoutput]}
+
+
+
+% *** ALIGNMENT PACKAGES ***
+%
+\usepackage{array}
+% Frank Mittelbach's and David Carlisle's array.sty patches and improves
+% the standard LaTeX2e array and tabular environments to provide better
+% appearance and additional user controls. As the default LaTeX2e table
+% generation code is lacking to the point of almost being broken with
+% respect to the quality of the end results, all users are strongly
+% advised to use an enhanced (at the very least that provided by array.sty)
+% set of table tools. array.sty is already installed on most systems. The
+% latest version and documentation can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/required/tools/
+
+\usepackage{booktabs}
+
+%\usepackage{mdwmath}
+%\usepackage{mdwtab}
+% Also highly recommended is Mark Wooding's extremely powerful MDW tools,
+% especially mdwmath.sty and mdwtab.sty which are used to format equations
+% and tables, respectively. The MDWtools set is already installed on most
+% LaTeX systems. The lastest version and documentation is available at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/mdwtools/
+
+
+%\usepackage{eqparbox}
+% Also of notable interest is Scott Pakin's eqparbox package for creating
+% (automatically sized) equal width boxes - aka "natural width parboxes".
+% Available at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/eqparbox/
+
+
+
+
+% *** SUBFIGURE PACKAGES ***
+%\usepackage[font=footnotesize]{subcaption}  % For sub-figures, etc.
+
+\usepackage[caption=false,font=footnotesize]{subfig}
+% subfig.sty, also written by Steven Douglas Cochran, is the modern
+% replacement for subfigure.sty.
+
+
+% *** FLOAT PACKAGES ***
+%
+\usepackage{fixltx2e}
+% fixltx2e, the successor to the earlier fix2col.sty, was written by
+% Frank Mittelbach and David Carlisle. This package corrects a few problems
+% in the LaTeX2e kernel, the most notable of which is that in current
+% LaTeX2e releases, the ordering of single and double column floats is not
+% guaranteed to be preserved. Thus, an unpatched LaTeX2e can allow a
+% single column figure to be placed prior to an earlier double column
+% figure. The latest version and documentation can be found at:
+% http://www.ctan.org/tex-archive/macros/latex/base/
+
+
+
+% *** PDF, URL AND HYPERLINK PACKAGES ***
+%
+\usepackage{url}
+% url.sty was written by Donald Arseneau. It provides better support for
+% handling and breaking URLs. url.sty is already installed on most LaTeX
+% systems. The latest version can be obtained at:
+% http://www.ctan.org/tex-archive/macros/latex/contrib/misc/
+% Read the url.sty source comments for usage information. Basically,
+% \url{my_url_here}.
+
+
+\usepackage[reviewmark]{truonglatexdefs}
+
+
+% The glossaries and acronyms
+% Remove option acronym if want to combine acronyms and glossaries (terms)
+% The option shortcuts allows using shortcut commands \acrs and \acrl, that
+% makes it easier to switch to package acronym if necessary.
+%\usepackage[nomain,nonumberlist,acronym,shortcuts,description]{glossaries}
+%\makeglossaries
+
+\usepackage{paralist}
+\usepackage{todonotes}
+%\newcommand{\todo}[][a]{}
+
+\usepackage{verbatim}  % For comments
+
+% If tikz externalization is enabled, we need to disable it just for todo notes because
+% these notes use tikz, which will either cause errors or produce a lot of unnecessary files.
+\ifdefined\tikzexternalenable
+\makeatletter
+\renewcommand{\todo}[2][]{\tikzexternaldisable\@todo[#1]{#2}\tikzexternalenable}
+\renewcommand{\missingfigure}[2][]{\tikzexternaldisable\@missingfigure[#1]{#2}\tikzexternalenable}
+\makeatother
+\else
+% If not, no need to fix.
+\fi
+
+% When I don't want to show the todo notes.
+% \renewcommand{\todohilite}[1]{}
+% \renewcommand{\todo}[2][]{}
+
+% Common definitions for this paper
+\input{defs}
+%\input{glossaries}  % The list of glossaries
+
+% Clever references -- SHOULD BE LOADED LAST
+% Generic commands: \cref and \Cref
+% Seems incompatible with `algorithmic' from algorithms bundle, but can be used with `algorithmicx' (e.g. `algpseudocode').
+\usepackage[capitalise]{cleveref}
+\newcommand{\vref}[1]{\cref{#1}}
+% When using \namecref, cleveref capitalizes the first character if the option capitalise is used, which I don't want.  So use \lcnamecref instead.
+
+\newcommand{\figref}[1]{\cref{fig:#1}}
+\renewcommand{\eqref}[1]{\cref{eq:#1}}
+\newcommand{\algoref}[1]{\cref{algo:#1}}
+\newcommand{\thmref}[1]{\cref{thm:#1}}
+\newcommand{\secref}[1]{\cref{sec:#1}}
+
+\newcommandx\sDelay[1][usedefault, addprefix=\global, 1=]{\delta_{#1}}
+\newcommandx\sAccu[1][usedefault, addprefix=\global, 1=]{\epsilon_{#1}}
+
+
+\global\long\def\XSet{\SSS}
+\global\long\def\USet{\UUU}
+\global\long\def\WSet{\WWW}
+\global\long\def\WhSet{\widehat{\WSet}}
+\global\long\def\ESet{\EEE}
+\global\long\def\MPCProb#1{\PP_{#1}}
+\global\long\def\ZSet{\ZZZ}
+\global\long\def\Nom#1{\overbar{#1}}
+
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "CDC14_Anytime_Main"
+%%% End: 

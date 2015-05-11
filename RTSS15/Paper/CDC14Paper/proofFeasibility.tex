@@ -1,0 +1,151 @@
+\noindent\textbf{Proof of \thmref{robust-feasible-RMPC}:}
+%
+We will prove the theorem by recursion. We will show that if at any
+time step $k$ the RMPC problem $\MPCProb{\sDelay,\sAccu}(\hat{x}_{k},\sDelay[k],\sAccu[k],u_{k-1})$
+is feasible and feasible control input $u_{k}=u_{k\Given k}^{\star}$
+is applied with estimation mode $\left(\sDelay[k+1],\sAccu[k+1]\right)=\left(\sDelay,\sAccu\right)$
+then $u_{k}$ is admissible and at the next time step $k+1$, the
+actual plant's state $x_{k+1}$ is inside $\XSet$ and the optimization
+$\MPCProb{\sDelay,\sAccu}(\hat{x}_{k+1},\sDelay[k+1],\sAccu[k+1],u_{k})$
+is feasible for all disturbances. Then we can conclude the theorem
+because, by recursion, feasibility at time step $k_{0}$ implies robust
+constraint satisfaction and feasibility at time step $k_{0}+1$, and
+so on at all subsequent time steps.
+
+Suppose $\MPCProb{\sDelay,\sAccu}(\hat{x}_{k},\sDelay[k],\sAccu[k],u_{k-1})$
+is feasible. Then it has a feasible solution $\left(\{ \overbar{z}_{k+j\Given k}^{\star}\} _{j=0}^{N+1},\{ u_{k+j\Given k}^{\star}\} _{j=0}^{N}\right)$
+that satisfies all the constraints in \eqref{RMPC1}. Now we will
+construct a feasible candidate solution for $\MPCProb{\sDelay,\sAccu}(\hat{x}_{k+1},\sDelay[k+1],\sAccu[k+1],u_{k})$
+at the next time step by shifting the above solution by one step.
+Consider the following candidate solution for $\MPCProb{\sDelay,\sAccu}(\hat{x}_{k+1},\sDelay[k+1],\sAccu[k+1],u_{k})$:
+\begin{subequations}
+\label{eq:proofs:candidate-solution}
+\begin{align}
+\Nom z_{k+j+1\Given k+1} & =\Nom z_{k+j+1\Given k}^{\star}+L_{j}\hat{F}\hat{w}_{k}\label{eq:proofs:candidate-solution:zj}\\
+\Nom z_{k+N+2\Given k+1} & =\hat{A}\left(\sDelay\right)\Nom z_{k+N+1\Given k+1}+\hat{B}\left(\sDelay\right)u_{k+N+1\Given k+1}\label{eq:proofs:candidate-solution:zN}\\
+u_{k+i+1\Given k+1} & =u_{k+i+1\Given k}^{\star}+K_{i}\left(\sDelay\right)L_{i}\hat{F}\hat{w}_{k}\label{eq:proofs:candidate-solution:uj}\\
+u_{k+N+1\Given k+1} & =\kappa\left(\Nom z_{k+N+1\Given k+1}\right)\label{eq:proofs:candidate-solution:uN}
+\end{align}
+\end{subequations} in which
+$j\in\left\{ 0,\dots,N\right\} $, $i\in\left\{ 0,\dots,N-1\right\} $,
+and $\kappa\left(\cdot\right)$ is the feedback control law for the
+invariant set $\CCC(\sDelay,\sAccu)$ that is used in the terminal
+set in \secref{RMPC-Formulation}. We first show that the input and
+state constraints are satisfied for $u_{k}$ and $x_{k+1}$, then
+we will prove the feasibility of the above candidate solution for
+$\MPCProb{\sDelay,\sAccu}(\hat{x}_{k+1},\sDelay[k+1],\sAccu[k+1],u_{k})$.
+
+
+\noindent\textit{Validity of the applied input and the next state:}
+%
+The next plant's state is 
+\begin{align*}
+x_{k+1} & =Ax_{k}+B_{1}\left(\sDelay[k]\right)u_{k-1}+B_{2}\left(\sDelay[k]\right)u_{k}+w_{k}\\
+ & =A\left(\hat{x}_{k}+e_{k}\right)+B_{1}\left(\sDelay[k]\right)u_{k-1}+B_{2}\left(\sDelay[k]\right)u_{k\Given k}^{\star}+w_{k}\\
+ & =\begin{bmatrix}A & B_{1}\left(\sDelay[k]\right)\end{bmatrix}\begin{bmatrix}\hat{x}_{k}\\
+u_{k-1}
+\end{bmatrix}+B_{2}\left(\sDelay[k]\right)u_{k\Given k}^{\star} \\
+&\qquad\qquad + e_{k+1}+\left(w_{k}+Ae_{k}-e_{k+1}\right)
+\end{align*}
+in which $e_{k+1}\in\ESet\left(\sAccu\right)$ and $\left(w_{k}+Ae_{k}-e_{k+1}\right)\in\WhSet\left(\sAccu[k],\sAccu\right)$.
+Note that $\Nom z_{k\Given k}^{\star}=\left[\hat{x}_{k}^{T},u_{k-1}^{T}\right]^{T}$.
+Hence we have
+\begin{align*}
+\begin{bmatrix}x_{k+1}\\
+u_{k}
+\end{bmatrix} & =\hat{A}(\sDelay[k])\Nom z_{k\Given k}^{\star}+\hat{B}(\sDelay[k])u_{k\Given k}^{\star}\\
+&\qquad\qquad +\hat{F}e_{k+1}+\hat{F}\left(w_{k}+Ae_{k}-e_{k+1}\right)\\
+ & =\Nom z_{k+1\Given k}^{\star}+\hat{F}e_{k+1}+\hat{F}\left(w_{k}+Ae_{k}-e_{k+1}\right)
+\end{align*}
+where we use the dynamics in \eqref{RMPC1-dyn}. From \eqref{RMPC1-zset}
+and \eqref{RMPC1-Z}, $\Nom z_{k+1\Given k}^{\star}$ satisfies $\Nom z_{k+1\Given k}^{\star}\in\ZSet_{1}\left(\sAccu[k],\sAccu\right)=\ZSet\ominus\hat{F}\ESet\left(\sAccu\right)\ominus\hat{F}\WhSet\left(\sAccu[k],\sAccu\right)$.
+It follows that
+\(
+\left[ x_{k+1}^{T}, u_{k}^{T} \right]^{T} \in \ZSet = \XSet\times\USet\text{,}
+\)
+% which allows us to conclude that
+therefore  $x_{k+1}\in\XSet$ and $u_{k}\in\USet$.
+
+
+\noindent\textit{Initial condition:}
+%
+We have from \eqref{estimator-std-dynamics} that $\hat{z}_{k+1}=\hat{A}(\sDelay[k])\hat{z}_{k}+\hat{B}(\sDelay[k])u_{k}+\hat{F}\hat{w}_{k}$.
+On the other hand, by \eqref{proofs:candidate-solution:zj},
+\begin{align*}
+\Nom z_{k+1\Given k+1} & =\Nom z_{k+1\Given k}^{\star}+L_{0}\hat{F}\hat{w}_{k}\\
+ & =\hat{A}(\sDelay[k])\Nom z_{k\Given k}^{\star}+\hat{B}(\sDelay[k])u_{k\Given k}^{\star}+L_{0}\hat{F}\hat{w}_{k}\text{.}
+\end{align*}
+Note that $\Nom z_{k\Given k}^{\star}=\hat{z}_{k}$, $u_{k}=u_{k\Given k}^{\star}$,
+and $L_{0}=\IdentityMatrix$. Therefore $\Nom z_{k+1\Given k+1}=\hat{z}_{k+1}$,
+hence the initial condition is satisfied.
+
+
+\noindent\textit{Dynamics:}
+%
+We show that the candidate solution satisfies the dynamics constraint
+in \eqref{RMPC1-dyn}. For $0\leq j<N$ we have
+\begin{align*}
+&\Nom z_{k+j+2\Given k+1} \\
+=\, & \Nom z_{k+j+2\Given k}^{\star}+L_{j+1}\hat{F}\hat{w}_{k}\\
+=\, &\hat{A}\left(\sDelay\right)\Nom z_{k+j+1\Given k}^{\star}+\hat{B}(\sDelay)u_{k+j+1\Given k}^{\star}+L_{j+1}\hat{F}\hat{w}_{k}\\
+=\, &\hat{A}\left(\sDelay\right)\left(\Nom z_{k+j+1\Given k+1}-L_{j}\hat{F}\hat{w}_{k}\right) \\
+&+\hat{B}(\sDelay)\left(u_{k+j+1\Given k+1}-K_{j}\left(\sDelay\right)L_{j}\hat{F}\hat{w}_{k}\right) +L_{j+1}\hat{F}\hat{w}_{k} \\
+=\, &\hat{A}\left(\sDelay\right)\Nom z_{k+j+1\Given k+1}+\hat{B}(\sDelay)u_{k+j+1\Given k+1} \\
+&-\left(\hat{A}\left(\sDelay\right) + \hat{B}(\sDelay)K_{j}\left(\sDelay\right)\right)L_{j}\hat{F}\hat{w}_{k}+L_{j+1}\hat{F}\hat{w}_{k}\\
+=\, &\hat{A}\left(\sDelay\right)\Nom z_{k+j+1\Given k+1}+\hat{B}(\sDelay)u_{k+j+1\Given k+1}
+\end{align*}
+where the equality in \eqref{RMPC1-Lj} is used to derive the last
+equality. % from the previous one.
+Therefore the dynamics constraint
+is satisfied for all $0\leq j<N$. For $j=N$, the constraint is satisfied
+by construction by \eqref{proofs:candidate-solution:zN}.
+
+
+\noindent\textit{State constraints:}
+%
+We need to show that $\Nom z_{(k+1)+j\Given k+1}\in\ZSet_{j}\text{\ensuremath{\left(\sAccu,\sAccu\right)}}$
+for all $j\in\left\{ 0,\dots,N\right\} $. Consider any $0\leq j<N$.
+\eqref{RMPC1-Zj} states that $\ZSet_{j+1}\left(\sAccu[k],\sAccu\right)=\ZSet_{j}\left(\sAccu,\sAccu\right)\ominus L_{j}\hat{F}\WhSet\left(\sAccu[k],\sAccu\right)$.
+From the construction of the candidate solution we have $\Nom z_{k+j+1\Given k+1}=\Nom z_{k+j+1\Given k}^{\star}+L_{j}\hat{F}\hat{w}_{k}$,
+where $\hat{w}_{k}\in\WhSet\left(\sAccu[k],\sAccu\right)$ and $\Nom z_{k+j+1\Given k}^{\star}\in\ZSet_{j+1}\left(\sAccu[k],\sAccu\right)$.
+By definition of the Pontryagin difference, we conclude that $\Nom z_{k+j+1\Given k+1}\in\ZSet_{j}\left(\sAccu,\sAccu\right)$
+for all $j\in\left\{ 0,\dots,N-1\right\} $.
+
+At $j=N$ the candidate solution in \eqref{proofs:candidate-solution:zj}
+gives us $\Nom z_{(k+1)+N\Given k+1}=\Nom z_{k+N+1\Given k}^{\star}+L_{N}\hat{F}\hat{w}_{k}$.
+Because $\Nom z_{k+N+1\Given k}^{\star}\in\ZSet_{f}\left(\sAccu[k],\sAccu\right)=\CCC\left(\sDelay,\sAccu\right)\ominus L_{N}\hat{F}\WhSet\left(\sAccu[k],\sAccu\right)$
+and $\hat{w}_{k}\in\WhSet\left(\sAccu[k],\sAccu\right)$, we have
+$\Nom z_{(k+1)+N\Given k+1}\in\CCC\left(\sDelay,\sAccu\right)$. The
+definition of $\CCC\left(\sDelay,\sAccu\right)$ in \eqref{RMPC1-Zf-invariant}
+implies $\CCC\left(\sDelay,\sAccu\right)\subseteq\ZSet_{N}\left(\sAccu,\sAccu\right)$.
+Therefore $\Nom z_{(k+1)+N\Given k+1}\in\ZSet_{N}\left(\sAccu,\sAccu\right)$.
+
+
+\noindent\textit{Terminal constraint:}
+%
+We need to show that $\Nom z_{k+N+2\Given k+1}\in\ZSet_{f}\left(\sAccu,\sAccu\right)=\CCC\left(\sDelay,\sAccu\right)\ominus L_{N}\hat{F}\WhSet\left(\sAccu,\sAccu\right)$.
+Add $L_{N}\hat{F}\hat{w}$, for any $w\in\WhSet\left(\sAccu,\sAccu\right)$,
+to both sides of \eqref{proofs:candidate-solution:zN} and note that
+$u_{k+N+1\Given k+1}=\kappa\left(\Nom z_{k+N+1\Given k+1}\right)$,
+we have 
+\begin{multline*}
+  \Nom z_{k+N+2\Given
+    k+1}+L_{N}\hat{F}\hat{w}=\hat{A}\left(\sDelay\right)\Nom
+  z_{k+N+1\Given k+1} \\
+  +\hat{B}\left(\sDelay\right)\kappa\left(\Nom
+    z_{k+N+1\Given k+1}\right)+L_{N}\hat{F}\hat{w}\text{.}
+\end{multline*}
+
+
+ It follows from $\Nom z_{k+N+1\Given k+1}\in\CCC\left(\sDelay,\sAccu\right)$
+and from the definition of the invariant control invariant admissible
+set $\CCC\left(\sDelay,\sAccu\right)$ (\eqref{RMPC1-Zf-invariant})
+that $\Nom z_{k+N+2\Given k+1}+L_{N}\hat{F}\hat{w}\in\CCC\left(\sDelay,\sAccu\right)$
+for all $w\in\WhSet\left(\sAccu,\sAccu\right)$. Then by definition
+of the Pontryagin difference, we conclude that $\Nom z_{k+N+2\Given k+1}\in\CCC\left(\sDelay,\sAccu\right)\ominus L_{N}\hat{F}\WhSet\left(\sAccu,\sAccu\right)=\ZSet_{f}\left(\sAccu,\sAccu\right)$.
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "CDC14_Anytime_Main"
+%%% End: 

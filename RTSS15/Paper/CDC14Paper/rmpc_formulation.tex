@@ -1,0 +1,98 @@
+%\section{RMPC Formulation}
+
+We formulate the RMPC optimization $\MPCProb{\sDelay,\sAccu}(\hat{x}_{k},\sDelay[k],\sAccu[k],u_{k-1})$
+with respect to the nominal dynamics, which is the original dynamics
+in \eqref{estimator-std-dynamics} but the disturbances are either
+removed or replaced by nominal disturbances. To ensure robust feasibility
+and safety, the state constraint set is tightened after each step
+using a candidate stabilizing state feedback control, and a terminal
+constraint is derived. In this RMPC formulation, we extend the approach
+in \cite{richardsetal05rmp, chiscietal01swp}. At time step $k$, given
+$(\hat{x}_{k},\sDelay[k],\sAccu[k],u_{k-1})$ and for a fixed $(\sDelay,\sAccu)$,
+we solve the following optimization $\MPCProb{\sDelay,\sAccu}(\hat{x}_{k},\sDelay[k],\sAccu[k],u_{k-1})$:
+\begin{subequations}
+\label{eq:RMPC1}
+\begin{align}
+ & J_{\sDelay,\sAccu}^{\star}\left(\hat{x}_{k},\sDelay[k],\sAccu[k],u_{k-1}\right)=\min_{\boldsymbol{u},\boldsymbol{x}}\sum_{j=0}^{N}\ell(\Nom x_{k+j\Given k},u_{k+j\Given k})\\
+ & \text{subject to, }\forall j\in\left\{ 0,\dots,N\right\} \nonumber \\
+ & \Nom z_{k+j+1\Given k}=\hat{A}(\sDelay[k+j\Given k])\Nom z_{k+j\Given k}+\hat{B}(\sDelay[k+j\Given k])u_{k+j\Given k}\label{eq:RMPC1-dyn}\\
+ & ( \sDelay[k+j+1\Given k],\sAccu[k+j+1\Given k] ) \!=\! (\sDelay,\sAccu ), (\sDelay[k\Given k],\sAccu[k\Given k]) \!=\! (\sDelay[k],\sAccu[k])  \label{eq:RMPC1-delay}\\
+ & \Nom x_{k+j\Given k}=\begin{bmatrix}\IdentityMatrix_{n} & \bm{0}_{n\times m}\end{bmatrix}\Nom z_{k+j\Given k}\label{eq:RMPC1-z2x}\\
+ & \Nom z_{k\Given k}=\left[\hat{x}_{k}^{T},u_{k-1}^{T}\right]^{T} \label{eq:RMPC1-z0}\\
+ & \Nom z_{k+j\Given k}\in\ZSet_{j}\left(\sAccu[k],\sAccu\right)\label{eq:RMPC1-zset}\\
+ & \Nom z_{k+N+1\Given k}\in\ZSet_{f}\left(\sAccu[k],\sAccu\right)\label{eq:RMPC1-zfinalset}
+\end{align}
+\end{subequations} in which $\Nom z$ and $\Nom x$
+are the variables of the nominal dynamics. The constraints of the
+optimization are explained below.
+\begin{itemize}
+\item \eqref{RMPC1-dyn} is the nominal dynamics.
+\item \eqref{RMPC1-delay} states that the estimation mode is fixed at $\left(\sDelay,\sAccu\right)$
+except for the first time step when it is $\left(\sDelay[k],\sAccu[k]\right)$.
+\item \eqref{RMPC1-z2x} extracts the nominal state $\Nom x$ of the plant
+from the nominal expanded state $\Nom z$.
+\item \eqref{RMPC1-z0} initializes the nominal expanded state at time step
+$k$ by stacking the current state estimate and the previous control
+input.
+\item \eqref{RMPC1-zset} tightens the admissible set of the nominal expanded
+states by a sequence of shrinking sets.
+\item \eqref{RMPC1-zfinalset} constrains the terminal expanded state to
+the terminal constraint set $\ZSet_{f}$.
+\end{itemize}
+
+\noindent\textit{The state constraint $\ZSet_{j}$:}
+%
+The tightened state constraint sets $\ZSet_{j}\left(\sAccu[k],\sAccu\right)$
+are parameterized with two parameters $\sAccu[k]$ and $\sAccu$.
+They are defined as follows, for all $j\in\left\{ 0,\dots,N\right\} $\begin{subequations}
+\begin{gather}
+\ZSet_{0}(\sAccu[k],\sAccu)=\ZSet\ominus\hat{F}\ESet(\sAccu[k])\label{eq:RMPC1-Z0}\\
+\ZSet_{j+1}(\sAccu[k],\sAccu)=\ZSet_{j}(\sAccu,\sAccu)\ominus L_{j}\hat{F}\WhSet(\sAccu[k],\sAccu)\label{eq:RMPC1-Zj}
+\end{gather}
+\label{eq:RMPC1-Z}\end{subequations} in which the symbol $\ominus$
+denotes the Pontryagin difference between two sets. The set $\ZSet$
+combines the constraints for both the plant's state and the control
+input: $\ZSet=\XSet\times\USet$. The matrix $L_{j}$ is the state
+transition matrix for the nominal dynamics in \eqref{RMPC1-dyn} under
+a candidate state feedback gain $K_{j}(\sDelay)$, for $j\in\left\{ 0,\dots,N\right\}$
+\begin{subequations}
+\label{eq:RMPC1-L}
+\begin{gather}
+L_{0}=\IdentityMatrix\label{eq:RMPC1-L0}\\
+L_{j+1}=(\hat{A}(\sDelay)+\hat{B}(\sDelay)K_{j}(\sDelay))L_{j}\label{eq:RMPC1-Lj}
+\end{gather} 
+\end{subequations}
+Note that the possibly time-varying sequence $K_{j}(\sDelay)$ is designed for each choice of $\sDelay$ (\ie the system matrices $\hat{A}(\sDelay)$ and $\hat{B}(\sDelay)$), hence $L_{j}$ depends on $\sDelay$; however we write $L_{j}$ for brevity. The candidate control $K_{j}(\sDelay)$ is designed to stabilize the nominal system (\ref{eq:RMPC1-dyn}), desirably as fast as possible so that the sets $\ZSet_{j}$ are shrunk as little as possible. In particular, if $K_{j}(\sDelay)$ renders the nominal system nilpotent after $M<N$ steps then $L_{j}=\bm{0}$ for all $j\geq M$, therefore $\ZSet_{j}\left(\sAccu[k],\sAccu\right)=\ZSet_{M}\left(\sAccu[k],\sAccu\right)$ for all $j>M$.
+
+
+\noindent\textit{The terminal constraint $\ZSet_{f}$:}
+%
+$\ZSet_{f}$ is given by %the Pontryagin difference
+\begin{equation}
+\label{eq:RMPC1-Zf}
+\ZSet_{f}\left(\sAccu[k],\sAccu\right)=\CCC(\sDelay,\sAccu)\ominus L_{N}\hat{F}\WhSet(\sAccu[k],\sAccu)
+\end{equation}
+where $\CCC(\sDelay,\sAccu)$ is a robust control invariant admissible
+set for $\sDelay$ \cite{kerrigan00rcs}, \ie there exists a feedback control law $u=\kappa(z)$
+such that $\forall z\in\CCC(\sDelay,\sAccu)$
+\begin{subequations}
+\label{eq:RMPC1-Zf-invariant}
+\begin{align}
+& \hat{A}(\sDelay)z \!+\! \hat{B}(\sDelay)\kappa(z) \!+\! L_{N}\hat{F}w\in\CCC(\sDelay,\sAccu), \forall w\in\WhSet(\sAccu,\sAccu)\label{eq:RMPC1-Zf-invariant-dyn}\\
+& z\in\ZSet_{N}\left(\sAccu,\sAccu\right)\label{eq:RMPC1-Zf-invariant-z}
+\end{align}
+\end{subequations}
+We remark that $\CCC(\sDelay,\sAccu)$ does not depend on $\left(\sDelay[k],\sAccu[k]\right)$, therefore it can be computed offline for each mode $\left(\sDelay,\sAccu\right)$.
+
+
+\subsection{Robust Feasibility}
+\input{RobustFeasibility}
+
+
+% \subsection{RMPC with Time-invariant Candidate Feedback Control}
+% \input{RMPCwithFBctril}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "CDC14_Anytime_Main"
+%%% End: 
