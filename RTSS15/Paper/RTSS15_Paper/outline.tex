@@ -5,21 +5,22 @@ In autonomous cars, find numbers for power consumption of the perception chain.
 \begin{enumerate}
 	\item Introduction
 	
-	\item Motivating example: 
-	\begin{itemize}
-			\item hexrotor that is unstable/poor-performing with MPC because of actuation delay
-			\item Operating at lowest delay (= worst performance) is not good either 
-			\item How can we reduce the actuation delay while keeping a handle on estimation error? 			
-	\end{itemize}
-	Anytime control formulation explicity accounts for delay/error and optimizes over it.
-	\\\quad A delay-error trade-off curve + control formulation that accounts for it
-	
-	\item Control problem and solution
+%	\item Motivating example: 
+%	\begin{itemize}
+%			\item hexrotor that is unstable/poor-performing with MPC because of actuation delay
+%			\item Operating at lowest delay (= worst performance) is not good either 
+%			\item How can we reduce the actuation delay while keeping a handle on estimation error? 			
+%	\end{itemize}
+%	Anytime control formulation explicity accounts for delay/error and optimizes over it.
+%	\\\quad A delay-error trade-off curve + control formulation that accounts for it
+
+	\item Architecture of the solution: estimation and control talking to each other
+		
+	\item Control problem and solution (in a tutorial tone)
 	\begin{itemize}
 		\item MPC control formulation 
 		\item Solution
 	\end{itemize}
-	
 	
 	\item Delay-error curve 
 	\begin{enumerate}
@@ -27,7 +28,7 @@ In autonomous cars, find numbers for power consumption of the perception chain.
 		\item Perception+estimation is a task with varying utility and execution time. The controller schedules the task with the best utility/execution time.
 		\item this is also a utility/computation power trade-off.
 		\item Example: corner detection for visual odometry
-		\item Example: Yash's OpenCV toolchain: flowgraph and potentially curves.
+		\item Example: Matlab toolchain and decision tree that effectively removes decision points from the curve
 	\end{enumerate}
 	
 	
