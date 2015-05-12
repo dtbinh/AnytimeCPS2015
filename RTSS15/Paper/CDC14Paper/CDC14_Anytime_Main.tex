@@ -1,0 +1,124 @@
+\documentclass[letterpaper, 10pt, conference]{ieeeconf}
+
+% To compress the paper
+%\addtolength{\textheight}{1ex}
+%\addtolength{\voffset}{-.5ex}
+% \renewcommand\topfraction{0.85}
+% \renewcommand\bottomfraction{0.85}
+% \renewcommand\floatpagefraction{0.85}
+
+\usepackage{fixltx2e}
+\usepackage[protrusion=true,expansion=true]{microtype}
+
+
+\IEEEoverridecommandlockouts        % This command is only needed if you want to
+                                                          % use the \thanks command
+\overrideIEEEmargins
+% See the \addtolength command later in the file to balance the column lengths
+% on the last page of the document
+
+\input{preamble}
+
+% correct bad hyphenation here
+%\hyphenation{op-tical net-works semi-conduc-tor}
+
+%
+% \LARGE \bf
+%\title{Co-design of Anytime Computation and Control for Cyber Physical Systems}
+%\title{Robust Model Predictive Control of Cyber Physical Systems with Anytime Estimation}
+%\title{Co-design of Anytime Estimation and Control for Cyber Physical Systems}
+\title{Robust Model Predictive Control with Anytime Estimation}
+
+\author{Truong~X.~Nghiem, Yash~V.~Pant and Rahul~Mangharam \\
+Department of Electrical and Systems Engineering\\ University of Pennsylvania
+\\ \{nghiem, yashpant, rahulm\}@seas.upenn.edu %
+\thanks{This work was supported by STARnet -- a Semiconductor Research Corporation program sponsored by MARCO and DARPA -- and %also funded 
+by the US Department of Transportation University Transportation Center Program.}
+%\thanks{This material is based upon work supported by the DoE Energy Efficient Buildings (EEB) HUB sponsored by the U.S. Department of Energy under Award Number DE-EE0004261.}}
+}
+
+
+\begin{document}
+%\bstctlcite{IEEEexample:BSTcontrol}
+\maketitle
+
+\begin{abstract}
+With an increasing autonomy in modern control systems %a developing trend is that there is a a huge
+comes an increasing amount of sensor data to be processed, leading to overloaded computation and communication in the systems.
+For example, a vision-based robot controller processes large image data from cameras at high frequency to observe the robot's state in the surrounding environment, which is used to compute control commands.
+In real-time control systems where large volume of data is processed for feedback control, the data-dependent state estimation can become a computation and communication bottleneck, resulting in potentially degraded control performance.
+%Consequently, designs of such systems where either speed or accuracy of the estimator is the main criteria and this can result in degraded control performance in many cases.
+Anytime algorithms, which offer a trade-off between execution time and accuracy of computation, can be leveraged in such systems.
+We present a Robust Model Predictive Control approach with an Anytime State Estimation Algorithm, % for closed loop control in overloaded systems. Our control algorithm
+which computes both the optimal control signal for the plant and the (time-varying) deadline/accuracy constraint for the anytime estimator.
+Our approach improves the system's performance (concerning both the control performance and the estimation cost) over conventional controllers, which are designed for and operate at a fixed computation time/accuracy setting.
+We numerically evaluate our approach in an idealized motion model for navigation with both state and control constraints.
+\end{abstract}
+
+\section{Introduction}
+\input{intro}
+
+\section{Related Work} \label{sec:related}
+\input{related}
+
+\section{System Model} \label{sec:model}
+\input{model}
+
+\section{Robust MPC with Anytime Estimation}
+\label{sec:RMPC}%change section name?
+\input{anytime_rmpc}
+
+\section{Robust MPC Formulation}
+\label{sec:RMPC-Formulation}
+\input{rmpc_formulation}
+
+\section{Implementation Details} \label{sec:implementation}
+\input{implementation}
+
+%\section{Necessary Feasibility Condition for RMPC} \label{sec:necessary}
+%\input{NecFeas}
+
+\section{Case study} \label{sec:case} %or numerical problem
+\input{case}
+
+
+\section{Conclusions and future work} \label{sec:conclusion}
+\input{conclusions}
+
+\appendix
+
+
+\input{proofFeasibility}
+
+% 
+% The following two commands are all you need in the
+% initial runs of your .tex file to
+% produce the bibliography for the citations in your paper.
+%\vspace{-6pt}
+
+\bibliographystyle{IEEEtran}
+\bibliography{IEEEabrv,anytime_ref}
+%\bibliography{IEEEabrv,references,Case_bib}  % sigproc.bib is the name of the Bibliography in this case
+
+% You must have a proper ".bib" file
+%  and remember to run:
+% latex bibtex latex latex
+% to resolve all references
+%
+%APPENDICES are optional
+%\balancecolumns
+%\appendix
+
+%Appendix A
+% \section*{Appendix}
+% \label{sec:proofs}
+
+
+
+\end{document}
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 

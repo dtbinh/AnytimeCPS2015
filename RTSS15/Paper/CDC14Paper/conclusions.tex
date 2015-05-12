@@ -1,0 +1,18 @@
+In this paper we presented an RMPC algorithm for a control system, with state and input constraints, where the state estimator is an anytime algorithm with multiple operation modes.
+The modes represent different trade-offs between computation time and estimation accuracy.
+The proposed RMPC algorithm computes both the control input to the plant as well as the mode for the anytime estimator. % for the next time step.
+%In the RMPC algorithm, 
+Robust feasibility and robust satisfiability of the constraints are ensured by tightening the constraints %at time step
+corresponding to the estimation mode, and by a terminal set based on robust control invariance.
+%The feasibility of the RMPC algorithm, and operation with multiple anytime estimator modes is proved in Theorems \ref{thm:robust-feasible-RMPC}, \ref{thm:robust-feasible-anytime-RMPC} respectively.
+As a case study, we applied our scheme to an idealized motion model with three estimation modes and showed the benefits of switching between modes.
+
+Ongoing research focuses on reducing the computational burden of solving the RMPC optimization for each estimation mode at each time step.
+This can be achieved by developing conditions that eliminate certain modes which are either infeasible at the current time step or are suboptimal.
+Another branch of ongoing work, which is beyond the scope of this paper, is on developing anytime estimators for vision-based control.
+This will enable us to apply our approach to real systems.
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "CDC14_Anytime_Main"
+%%% End: 

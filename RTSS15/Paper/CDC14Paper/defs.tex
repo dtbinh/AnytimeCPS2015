@@ -1,0 +1,43 @@
+% Some useful math definitions, but not popular enough to be included in my official definition package.
+% Copyright 2014 by Truong X. Nghiem (nghiem@seas.upenn.edu)
+
+% \usepackage{xifthen}
+
+%%%%%%%% Mathematical notations
+
+\DeclareMathOperator{\diag}{diag}
+\def\ones{\bm{1}}  % vector of 1's
+\def\zeros{\bm{0}}  % vector of 0's
+\def\IdentityMatrix{\mathbbm I}
+
+\def\BallSet{\ensuremath{\BBBB}}  % Open ball
+
+\DeclareMathOperator{\interior}{int}  % Interior
+
+\DeclareMathOperator{\convhull}{co}  % Convex hull
+
+\newcommand{\nullspace}[1]{\ensuremath{\ker\mleft(#1\mright)}}
+
+\DeclareMathOperator{\dist}{dist}
+
+\def\Given{\,|\,}
+
+% This may conflict with the txfonts, pxfonts packages.
+\def\coloneqq{\mathrel{\mathop:}=}
+\def\definedas{\coloneqq}  % Alternatively, use \equiv for \definedas
+
+\def\SuchThat{\,:\,}
+
+
+%%%%%%%% Other definitions
+
+\def\MATLAB{MATLAB\xspace}
+\def\SIMULINK{SIMULINK\xspace}
+\def\YALMIP{YALMIP\xspace}
+\def\IPOPT{IPOPT\xspace}
+\def\fmincon{\texttt{fmincon}\xspace}
+\def\BMIBNB{BMIBNB\xspace}
+\def\TrueTime{TrueTime\xspace}
+
+%%%%%%%% Hyphenation rule
+\hyphenation{MATLAB SIMULINK YALMIP IPOPT BMIBNB}

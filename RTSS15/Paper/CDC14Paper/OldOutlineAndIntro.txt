@@ -1,0 +1,67 @@
+
+In many real-world systems, e.g. autonomous navigation, there is a lot of real-time data being logged through sensors to be used for control. In such systems, the computational bottleneck is the state-estimation from sensor data (e.g. position and velocity estimates) while computing the control takes significantly less time than the estimation.
+%Co-design of computation and control has been a topic that has garnered a lot of research interest \cite{}
+A common underlying assumption in most studies on co-design of computation and control (that do consider discrete time implementations) has been that the state-estimator has a fixed sampling rate and/or has either a no/fixed computation time as well has a fixed (constant upper bound or distribution) estimation error. In overloaded systems with limited computation power, the computation time for estimation may be too high to neglect or to even be able to have a stabilizing controller. Anytime algorithms, which have multiple computation time and error operating points (based on different implementations to perform the same function), have a computation time/accuracy trade-off which offers much needed flexibility for overloaded systems and can be potentially used for the estimation algorithms in overloaded systems. But when an anytime algorithm is used for estimation, then the static computation time/estimation error representation of an estimator becomes either too conservative for the setup at hand (operating at a fixed time/error setting) or is no longer applicable (if the entire operating range of the anytime algorithm is to be used).
+
+  
+
+In this paper we present a Robust Model Predictive Controller based algorithm, that computes both the control signal and the operating point for the estimator, for a system where the state estimation is done by an anytime algorithm. Our work differs from existing research on anytime algorithms for control, where the control algorithm itself is an anytime algorithm,  on the fundamental point that the anytime part in our case is the estimator (which has both a computation time and estimation error component)and we develop a Robust Model Predictive Controller which takes state estimates from such an estimator and has a fixed computation time. The main contributions of this paper are:
+
+\begin{itemize}
+	\item We take into account an anytime algorithm based estimator and its computation time (delay)/accuracy dependency (resulting in different operating points) and formulate a Robust MPC for the system.
+	\item We treat the computation delay (and the corresponding estimation error) as a variable to be optimized over and present an algorithm which finds the best operating point for the estimator and also uses the Robust MPC to compute the optimal control signal.
+	\item We formulate the Robust MPC problem with an anytime state estimator as a parametric optimization problem to get an computationally cheap, off-line explicit solution for the algorithm above.
+\end{itemize}
+
+
+
+
+
+
+Contributions
+
+\begin{itemize}
+	\item Take into account abstracted estimator model which has a computation time (delay)/accuracy dependency (and controllable trade-off) into MPC formulation
+	\item Delay as an optimization variable (solved heuristically) (by solving multiple robust MPCs)
+	\item Explicit solution to the MPC problem which gives both control law and estimator operating point (delay/accuracy).
+\end{itemize}
+
+General points:
+
+\begin{itemize}
+\item The computation for estimation/control trade-off (in overloaded systems?) with an example (e.g. autonomous navigation).
+\item Anytime algorithms and possible application to vision based estimation 
+\item Inability of existing control methods to handle this
+\end{itemize}
+
+\section{Related Work}
+
+\begin{itemize}
+	\item Anytime Algorithm refs
+	\item Anytime Control Refs (V. Gupta, Bhattacharya and Balas etc.)
+	\item Robust MPC refs
+	\item MS Green
+\end{itemize}
+
+\section{Problem setup}
+
+\begin{itemize}
+		\item Anytime estimation accuracy vs computation time
+		\item Effect of accuracy/time on the robust MPC problem with input/output/state constraints
+		\item Problem of having estimator time as a variable
+		\item Brute force algorithm to search over time as variable (multiple MPCs at a time)
+		\end{itemize}
+
+\section{Anytime Algorithms for estimation}
+
+\begin{itemize}
+	\item Anytime flow figure
+	\item Possible applications 
+\end{itemize}
+
+\section{MPC with anytime estimation for state feedback}
+
+\begin{itemize}
+	\item Online MPC formulation
+	\item Explicit MPC formulation
+\end{itemize}

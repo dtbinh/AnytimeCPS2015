@@ -1,0 +1,27 @@
+%begin introduction
+Data-driven control systems, such as autonomous navigation and radar-based missile defense, generate a deluge of sensor data which often overload the real-time processing system. In such cases, the computational bottleneck is the state-estimation from sensor data (e.g. position and velocity estimates), while computing the control takes significantly less time, which is often well-bounded.
+A common underlying assumption in most studies on co-design of computation and control, 
+%which consider discrete time implementations, 
+has been that the state-estimator has a fixed sampling rate, and/or has either no/fixed computation time \cite{balas}, as well has a fixed estimation error (constant upper bound or distribution) \cite{richardsetal05rmp}. In reality, for overloaded systems with limited computation power, the computation time for estimation may be too high to neglect or too long to support a stabilizing controller. 
+
+Anytime algorithms \cite{boddy}, which have multiple computation time and error operating points, have a computation time/accuracy trade-off which offers much needed flexibility for overloaded systems. This is often achieved by having  different implementations to perform the same function with varying levels of effort and accuracy. This paper investigates the design of robust controllers with the use of such anytime algorithms for estimation in overloaded systems. A key challenge is that when an anytime algorithm is used for estimation the static computation time/estimation error representation of an estimator is either too conservative for the setup at hand (operating at a fixed time/error setting) or is no longer applicable (if the entire operating range of the anytime algorithm is to be used).
+
+In this paper, we present a Robust Model Predictive Controller (RMPC) based algorithm, that computes both the control signal and the operating point for the estimator, for a system where the state estimation is done by an anytime algorithm. %Our work differs from existing research on anytime algorithms for control, where the control algorithm itself is an anytime algorithm,  on the fundamental point that the anytime part in our closed loop control is the estimator (which has both a computation time and estimation error component)and we develop a Robust Model Predictive Controller which takes state estimates from such an estimator and has a fixed computation time. 
+The focus of this paper is on the RMPC algorithm and the anytime state estimator is abstracted away to its computation time/estimation error characteristics. 
+%and the development of such algorithms is beyond the scope of this paper. 
+The main contributions of this paper are:
+
+\begin{itemize}
+\item We treat the computation delay (and the corresponding estimation error) as a variable to be optimized over and present an algorithm which finds the best operating point for the estimator and also uses the RMPC to compute the optimal control signal.
+	\item We take into account an anytime algorithm based estimator and its computation time (delay) vs. accuracy dependency (resulting in different operating points) and formulate a RMPC for the system. Unlike existing work on anytime control, our approach handles both state and input constraints.
+	\item We have developed a computationally-light method for set operations specific to our problem, providing a significant speedup compared to using existing toolboxes. This allows our method to be applied to systems with many states and also have for longer horizon lengths for the optimization leading to better over all performance.
+\end{itemize}
+
+\noindent\emph{Organization:} We describe the components of the system we consider in our study and the goal for our control algorithm in  \secref{model}. We then introduce our RMPC algorithm In \secref{RMPC}. In \secref{RMPC-Formulation}, we formulate the optimization problem which is central to our algorithm and also the tightened set constraints to ensure robust feasibility of the RMPC algorithm. In \secref{implementation}, we show how to explicitly compute the set constraints for the RMPC algorithm in order to reduce the computation time needed. %Based on these set computations, we get a necessary condition for feasibility of estimator modes at a given time steps, which allow us to get an improved, faster version of the RMPC algorithm, which is covered in section \secref{necessary}. 
+We finally present a case study, in \secref{case},  where we apply our RMPC algorithm (with multiple estimator modes) to an idealized motion model for constrained navigation in a 2D plane. 
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "CDC14_Anytime_Main"
+%%% End: 

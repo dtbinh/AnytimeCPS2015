@@ -1,0 +1,150 @@
+Efficient computation of the constraint sets necessary for the RMPC formulation can be achieved for some special cases of disturbances and estimation errors as explained below.
+
+\subsection{Compute State Constraint Sets}
+\label{sec:ComputePontryagin}
+
+If the error set $\ESet$ and the disturbance set $\WSet$ are defined
+by vector norms, while the other sets are polytopes in H-representation
+form, then it is possible to compute the Pontryagin difference in
+the above equations efficiently \cite{setcomp}.%. See excerpts in \secref{Excerpts}.
+\begin{itemize}
+\item If $\ESet(\sAccu)\definedas\left\{ e\in\RR^{n}\SuchThat\norm{e}_{p}\leq\sAccu\right\} $
+for some norm $p\in\left\{ 1,2,\infty\right\} $ then its support function
+is $h_{\sAccu}(\eta)=\sAccu\norm{\eta}_{q}$ with $p^{-1}+q^{-1}=1$.
+Similarly we also have $h_{w}(\eta)$.
+\item Suppose $\ZSet=\left\{ z\SuchThat H_{\ZSet}z\leq b_{\ZSet}\right\} $
+is a polytope in H-representation form (\ie intersection of a finite number
+of half-planes). The rows of $H_{\ZSet}$ are $H_{\ZSet,i}^{T}$.
+% \end{itemize}
+% Then we can compute the constraint sets of the RMPC optimization efficiently.
+%For example, to compute the shrinking state constraint sets in \eqref{RMPC1-Z}:
+%\noindent\textit{Using \eqref{RMPC1-Z}:}
+%\begin{itemize}
+\item The most demanding computation in computing the constraint sets of the RMPC optimization is the Pontryagin difference.  If a set $V$ has support function $h_{V}$ then $\ZSet \ominus V$ can be computed as:
+\begin{equation*}
+      \ZSet \ominus V
+      =\left\{ z\SuchThat H_{\ZSet}z\leq b_{\ZSet} -
+       \begin{bmatrix}h_{V}\left(H_{\ZSet,1}\right)\\
+         \vdots\\
+         h_{V}\left(H_{\ZSet,m}\right)
+       \end{bmatrix}\right\} 
+ \end{equation*}
+%
+\item The support function $h_{\sAccu[k],\sAccu}$ for $\WhSet\left(\sAccu[k],\sAccu\right)$ is
+\begin{equation*}
+h_{\sAccu[k],\sAccu}(\eta)=h_{w}(\eta)+h_{\sAccu[k]}\left(A^{T}\eta\right)+h_{\sAccu}\left(-\eta\right)
+\end{equation*}
+%
+% \item Compute 
+%   \begin{equation*}
+%     \begin{split}
+%      \ZSet_{0}\left(\sAccu[k],\sAccu\right) 
+%      &=\ZSet\ominus\hat{F}\ESet\left(\sAccu[k]\right) \\
+%      &=\left\{ z\SuchThat H_{\ZSet}z\leq b_{\ZSet} -
+%        \begin{bmatrix}h_{\sAccu[k]}\left(H_{\ZSet,1}\right)\\
+%          \vdots\\
+%          h_{\sAccu[k]}\left(H_{\ZSet,m}\right)
+%        \end{bmatrix}\right\} 
+%    \end{split}
+%  \end{equation*}
+%
+% \item It is straightforward to show that
+% \begin{equation*}
+% \ZSet_{j}\left(\sAccu,\sAccu\right)= z\SuchThat H_{\ZSet}z\leq b_{\ZSet}-\begin{bmatrix}h_{\sAccu}\left(H_{\ZSet,1}\right)\\
+% \vdots\\
+% h_{\sAccu}\left(H_{\ZSet,m}\right)
+% \end{bmatrix} \\
+% -\sum_{i=0}^{j-1}\begin{bmatrix}h_{\sAccu,\sAccu}\left(\left(L_{j}\hat{F}\right)^{T}H_{\ZSet,1}\right)\\
+% \vdots\\
+% h_{\sAccu,\sAccu}\left(\left(L_{j}\hat{F}\right)^{T}H_{\ZSet,m}\right)
+% \end{bmatrix}
+% \end{equation*}
+%
+% \item Then we can compute
+% %\begin{align}
+% {\footnotesize
+% \begin{equation}
+% \begin{split}
+% &\ZSet_{j+1}\left(\sAccu[k],\sAccu\right) =\ZSet_{j}\left(\sAccu,\sAccu\right)\ominus L_{j}\hat{F}\WhSet\left(\sAccu[k],\sAccu\right)\\
+% &= z\SuchThat H_{\ZSet}z\leq b_{\ZSet}-\begin{bmatrix}h_{\sAccu}\left(H_{\ZSet,1}\right)\\
+% \vdots\\
+% h_{\sAccu}\left(H_{\ZSet,m}\right)
+% \end{bmatrix} \\
+% &-\sum_{i=0}^{j-1}\begin{bmatrix}h_{\sAccu,\sAccu}\left(\left(L_{i}\hat{F}\right)^{T}H_{\ZSet,1}\right)\\
+% \vdots\\
+% h_{\sAccu,\sAccu}\left(\left(L_{i}\hat{F}\right)^{T}H_{\ZSet,m}\right)
+% \end{bmatrix}-\begin{bmatrix}h_{\sAccu[k],\sAccu}\left(\left(L_{j}\hat{F}\right)^{T}H_{\ZSet,1}\right)\\
+% \vdots\\
+% h_{\sAccu[k],\sAccu}\left(\left(L_{j}\hat{F}\right)^{T}H_{\ZSet,m}\right)
+% \end{bmatrix}%\right\} 
+% %\end{align}
+% \end{split}
+% \end{equation}
+% }
+\end{itemize}
+
+\begin{comment}
+\noindent\textit{Using \eqref{RMPC2-Yj-tight}:}
+\begin{itemize}
+\item We first derive the support function $h_{\YYY,j}$ of $\YYY_{j}\left(\sAccu[k],\sAccu\right)$:
+%\[
+{\footnotesize
+\begin{equation}
+h_{\YYY,j}\left(\eta\right)=\begin{cases}
+h_{\sAccu[k]}\left(\begin{bmatrix}\IdentityMatrix_{n} & \bm{0}_{m}\end{bmatrix}\eta\right) & \text{\text{\text{if \ensuremath{j=0}}}}\\
+\sum_{i=1}^{j}h_{w}\left(\left(\Phi^{j-i}\hat{F}\right)^{T}\eta\right)\\
++h_{\sAccu[k]}\left(\left(\Phi^{j-1}\hat{F}A\right)^{T}\eta\right)\\ +\sum_{i=2}^{j}h_{\sAccu}\left(\left(-\Phi^{j-i}\hat{B}K_{x}\right)^{T}\eta\right) & \text{if \ensuremath{j\geq1}}
+\end{cases}
+\end{equation}
+}
+%\]
+
+\item And $Z_{j}$ can be computed as:
+\[
+\ZSet_{j}\left(\sAccu[k],\sAccu\right)=\left\{ z\SuchThat H_{\ZSet}z\leq b_{\ZSet}-\begin{bmatrix}h_{\YYY,j}\left(H_{\ZSet,1}\right)\\
+\vdots\\
+h_{\YYY,j}\left(H_{\ZSet,m}\right)
+\end{bmatrix}\right\} 
+\]
+
+\end{itemize}
+\end{comment}
+
+The computation of $Z_{j}$ therefore involves only simple linear
+algebra: matrix and vector multiplications, additions and substractions,
+as well as vector norms. It is not difficult to see that we can write
+\begin{equation}
+\ZSet_{j}\left(\sAccu[k],\sAccu\right)=\left\{ z\SuchThat H_{\ZSet}z\leq b_{\ZSet}-\sAccu d_{j}-\sAccu[k]g_{j}\right\} \label{eq:impl-Zj-linear}
+\end{equation}
+where $d_{j}$ and $g_{j}$ are constant vectors, % whose elements are non-negative.
+%Note that $d_{j}$ and $g_{j}$ 
+which depend only on $\sDelay$. %
+%the estimation mode $\left(\sDelay,\sAccu\right)$.
+Therefore we can improve %the performance of
+these computations further by pre-computing offline
+these vectors; then once $\sAccu[k]$ is given, we can compute $Z_{j}$
+in real time very fast.
+%
+The terminal set $Z_{f}$ can be computed in the same way.
+
+
+\subsection{Compute Robust Control Invariant Set}
+
+To compute the set $\CCC\left(\sDelay,\sAccu\right)$ in \eqref{RMPC1-Zf-invariant}:
+\begin{enumerate}
+\item Compute $\Omega=\ZSet_{N}\left(\sAccu,\sAccu\right)$ and
+$\WhSet\left(\sAccu,\sAccu\right)$ (see above).
+\item Call the Matlab Invariant Set Toolbox \cite{invset} to compute the maximal robust
+control invariant set $\CCC\left(\sDelay,\sAccu\right)$ inside $\Omega$ subject to the disturbance
+set $\WhSet\left(\sAccu,\sAccu\right)$. 
+% We note that the control
+% input is implicitly constrained via the constraint on the expanded
+% state $z$, therefore we do not need to specify the input constraint
+% explicitly (though we can use $\USet$ if we want).
+\end{enumerate}
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "CDC14_Anytime_Main"
+%%% End: 

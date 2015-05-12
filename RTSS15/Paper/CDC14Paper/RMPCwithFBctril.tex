@@ -1,0 +1,83 @@
+In the case when the candidate state feedback control $K_{j}(\sDelay)$
+for each $\sDelay$ is time-invariant, \ie $K_{j}(\sDelay)=K(\sDelay)$
+for all $0\leq j\leq N$, then the RMPC formulation~(\ref{eq:RMPC1})
+can be specialized so that its feasibility set can be enlarged. In
+particular, the shrinking state constraint sets $\ZSet_{j}$ in \eqref{RMPC1-Z}
+are reformulated to be less tight.
+
+Let $\Phi$ be the state transition matrix: $\Phi=\hat{A}(\sDelay)+\hat{B}(\sDelay)K(\sDelay)$.
+Note that $\Phi$ depends on $\sDelay$; however we omit $\sDelay$
+for brevity. We split $K(\sDelay)$ column-wise: $K(\sDelay)=\begin{bmatrix}K_{x}(\sDelay) & K_{u}(\sDelay)\end{bmatrix}$
+where $K_{x}$ corresponds to the state component in $\Nom z$ and
+$K_{u}$ corresponds to the input component in $\Nom z$ (again we
+omit $\sDelay$ for brevity). Then the state constraint sets are defined
+as follows, for all $j\in\left\{ 0,\dots,N\right\} $: \begin{subequations}
+%\begin{gather}
+\begin{align}
+\ZSet_{j}\left(\sAccu[k],\sAccu\right)&=\ZSet\ominus\YYY_{j}\left(\sAccu[k],\sAccu\right)\label{eq:RMPC2-Zj}\\
+\YYY_{j}\left(\sAccu[k],\sAccu\right)&= \hat{F}e_{k+j}+\sum_{i=1}^{j}\Phi^{j-i}\hat{F}\hat{w}_{k+i-1} 
+\SuchThat \nonumber \\
+e_{k+j}&\in\ESet(\sAccu[k+j\Given k]),\nonumber \\
+\hat{w}_{k+i-1}&\in\WhSet(\sAccu[k+i-1\Given k],\sAccu[k+i\Given k])\,\forall i=1\dots j \label{eq:RMPC2-Yj}
+\end{align}
+%\end{gather}
+\label{eq:RMPC2-Z}\end{subequations}
+
+\begin{comment}
+\begin{subequations}
+\begin{gather}
+%\begin{align}
+\ZSet_{j}\left(\sAccu[k],\sAccu\right)=\ZSet\ominus\YYY_{j}\left(\sAccu[k],\sAccu\right)\label{eq:RMPC2-Zj}\\
+\YYY_{j}\left(\sAccu[k],\sAccu\right)=\left\{ \hat{F}e_{k+j}+\sum_{i=1}^{j}\Phi^{j-i}\hat{F}\hat{w}_{k+i-1} \\
+\SuchThat e_{k+j}\in\ESet(\sAccu[k+j\Given k]),\hat{w}_{k+i-1}\in\WhSet(\sAccu[k+i-1\Given k],\sAccu[k+i\Given k])\,\forall i=1\dots j\right\} \label{eq:RMPC2-Yj}
+%\end{align}
+\end{gather}
+\label{eq:RMPC2-Z}\end{subequations}
+\end{comment}
+
+
+The definition in \eqref{RMPC1-Z}
+corresponds to the following computation of $\YYY_{j}\left(\sAccu[k],\sAccu\right)$:  \begin{equation}
+\begin{split}
+\YYY_{j}\left(\sAccu[k],\sAccu\right)&=\left(\ESet(\sAccu[[k+j\Given k])\times\left\{ \bm{0}_{m}\right\} \right) \\
+&\oplus\sum_{i=1}^{j}\Phi^{j-i}\hat{F}\WhSet(\sAccu[k+i-1\Given k],\sAccu[k+i\Given k])\label{eq:RMPC2-Yj-loose}
+\end{split}
+\end{equation}
+where the sum operator means the Minkowski sum of sets.
+
+To obtain a tighter approximation of $\YYY_{j}$, we first replace
+$\hat{w}_{k+i-1}=w_{k+i-1}+Ae_{k+i-1}-e_{k+i}$ then expand the expression
+to get, for $j\geq1$, \begin{equation}
+\begin{split}
+\hat{F}e_{k+j}+\sum_{i=1}^{j}\Phi^{j-i}\hat{F}\hat{w}_{k+i-1}=\sum_{i=1}^{j}\Phi^{j-i}\hat{F}w_{k+i-1} \\
++\Phi^{j-1}\hat{F}Ae_{k}+\sum_{i=2}^{j}\Phi^{j-i}\left(\hat{F}A-\Phi\hat{F}\right)e_{k+i-1}
+\end{split}
+\end{equation}
+%\]
+Then substitute the matrices from (\ref{eq:lifted-matrices}) and
+with some straightforward algebraic and linear algebra manipulations,
+we have for $j\geq1$, \begin{equation} 
+\begin{split}
+\hat{F}e_{k+j}+\sum_{i=1}^{j}\Phi^{j-i}\hat{F}\hat{w}_{k+i-1}=\sum_{i=1}^{j}\Phi^{j-i}\hat{F}w_{k+i-1} \\ 
++\Phi^{j-1}\hat{F}Ae_{k}-\sum_{i=2}^{j}\Phi^{j-i}\hat{B}K_{x}e_{k+i-1}
+\end{split}
+\end{equation}
+
+%\]
+ Therefore $\YYY_{j}$ can be computed as
+{\small 
+\begin{equation}
+\YYY_{j}\left(\sAccu[k],\sAccu\right)=\begin{cases}
+\ESet(\sAccu[k])\times\left\{ \bm{0}_{m}\right\}  & \text{\text{\text{if \ensuremath{j=0}}}}\\
+\sum_{i=1}^{j}\Phi^{j-i}\hat{F}\WSet\oplus\Phi^{j-1}\hat{F}A\ESet(\sAccu[k]) \\ 
+\oplus\sum_{i=2}^{j}\left(-\Phi^{j-i}\hat{B}K_{x}\right)\ESet(\sAccu) & \text{if \ensuremath{j\geq1}}
+\end{cases}\label{eq:RMPC2-Yj-tight}
+\end{equation}}
+ in which the sum operator means the Minkowski sum of sets. It is
+straightforward to show that the sets $\YYY_{j}\left(\sAccu[k],\sAccu\right)$
+computed by \eqref{RMPC2-Yj-tight} are contained in (\ie tighter
+than) the corresponding sets computed by \eqref{RMPC2-Yj-loose},
+therefore by properties of the Pontryagin difference, the state constraint
+sets $\ZSet_{j}\left(\sAccu[k],\sAccu\right)$ computed using \eqref{RMPC2-Yj-tight}
+will be at least as large as %, and may be larger than, 
+ those computed using \eqref{RMPC2-Yj-loose}.

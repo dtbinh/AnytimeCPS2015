@@ -1,0 +1,289 @@
+% This file contains utility LaTeX definitions and commands that I
+% commonly use in my LaTeX writings.
+%
+% (C) by Truong Nghiem (nghiem@seas.upenn.edu)
+%
+% Last update 2012-04-04
+
+% CHANGES:
+%   2012-07-31  Added math function \sgn for signum/sign function.
+%   2012-07-06  Added \overbar, better than \bar but a bit shorter than \overline
+%   2012-06-16  Removed the superscripts th, st, rd... because of seemingly conflicts.
+%   2012-06-13  Fixed some bugs and renamed \todo to \todohilite, for compatibility.
+%   2012-06-09  Required package 'bbm'; changed definition of \dblone;
+%                         If the 'cool' package is loaded, do not define certain commands
+%                         such as \pderiv (the cool's version is better), and also re-define
+%                         some default symbols: identity matrix symbol to I instead of 1.
+%   2012-04-04  Added \coloneqq := and \definedas
+%   2011-10-18  Added \ceil, \floor, \abs, \norm
+%   2011-07-19  Removed unit macros (use siunitx instead)
+%   2011-02-28  Removed amsthm package from default.
+%   2011-02-09  Added "double one" math symbol (not in mathbb)
+%               Added option to enable/disable todo/change marks
+
+
+%% Name of package
+\ProvidesPackage{truonglatexdefs}[2012/06/09]
+
+%% Options
+\DeclareOption{reviewmark}{%
+  \def\truonglatexdefs@reviewmark{}%
+}
+
+\ProcessOptions
+
+
+%% List of used packages
+\RequirePackage{xspace}    % a very handy package
+
+% AMS math packages are too good to be always included
+\RequirePackage{amsmath}
+\RequirePackage{amsfonts}
+\RequirePackage{amssymb}
+
+\RequirePackage{bbm}  % Alternative blackboard style symbols
+
+
+%%%%%%%%%% COMMON %%%%%%%%%%
+% Define commonly used words
+\newcommand{\eg}{e.g.,\xspace}
+\newcommand{\ie}{i.e.,\xspace}
+\newcommand{\etc}{etc.\xspace}
+\newcommand{\cf}{cf.~}
+
+% Some commonly used math functions/operators
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\minimize}{minimize}
+\DeclareMathOperator*{\maximize}{maximize}
+\DeclareMathOperator{\sgn}{sgn}  % the signum/sign function
+
+% Commonly used mathematical functions
+% The 'cool' package uses capitalized command names (Ceiling, Floor, Abs)
+\DeclareMathOperator{\tr}{tr}
+\newcommand{\ceil}[1]{\ensuremath{\left\lceil #1 \right\rceil}}
+\newcommand{\floor}[1]{\ensuremath{\left\lfloor #1 \right\rfloor}}
+\newcommand{\abs}[1]{\ensuremath{\left\lvert #1 \right\rvert}}
+\newcommand{\norm}[1]{\ensuremath{\left\lVert #1 \right\rVert}}
+
+
+%%%%%%%%%% MATH EXTRA %%%%%%%%%%
+% These macros are taken from the article "Typesetting mathematics for
+% science and technology according to ISO 31 XI" by Claudio Beccari
+% These macros are used to typeset upright mathematical symbols and
+% operators, such as the constant e, the imaginary number i/j, the
+% derivative d.  Using these macros or not depends on your style.
+
+% The unit macros are provided by siunitx package
+%\providecommand*{\degree}{\ensuremath{^\circ}}
+%\providecommand*{\celsius}{\ensuremath{\mathrm{^\circ C}}}
+%\providecommand*{\micro}{\ensuremath{\mu}}
+
+% Unit: argument is the name of unit, e.g. $10\unit{V}$
+%\providecommand*{\unit}[1]{\ensuremath{\mathrm{\,#1}}}
+
+% The number e (for exponential)
+% If 'cool' is loaded, use \Exp for exp()
+\providecommand*{\eu}{\ensuremath{\mathrm{e}}}
+% The imaginary unit
+\providecommand*{\iu}{\ensuremath{\mathrm{j}}}
+
+% Superscript and subscript in upright text
+% Can be used to typeset: 1\ap{st}, 2\ap{nd}, 4\ap{th}
+% \ap is superseded by \textsuperscript, but it is shorter
+\providecommand*{\ped}[1]{\ensuremath{_{\mathrm{#1}}}}
+\providecommand*{\ap}[1]{\ensuremath{^{\mathrm{#1}}}}
+
+% \providecommand*{\st}{\ensuremath{^{\mathrm{st}}}}
+% \providecommand*{\nd}{\ensuremath{^{\mathrm{nd}}}}
+% \providecommand*{\rd}{\ensuremath{^{\mathrm{rd}}}}
+% \providecommand*{\th}{\ensuremath{^{\mathrm{th}}}}
+
+
+% Double 1, used as symbol of the unit matrix or vector
+% (whose entries are all 1's)
+% \def\dblone{\hbox{$1\hskip -1.2pt\vrule depth 0pt height 1.6ex width 0.7pt
+%                   \vrule depth 0pt height 0.3pt width 0.12em$}}
+\def\dblone{\mathbbm{1}}
+
+
+% The \overbar command, similar to \bar and \overline. It scales with the content as does \overline, but it's a bit shorter than \overline. It's actually \overline shortened by 1.5mu in each side
+\newcommand*{\overbar}[1]{\mkern 2.0mu\overline{\mkern-2.0mu#1\mkern-1.0mu}\mkern 1.0mu}
+
+
+%% Derivative operators
+% Another option is to use the package "cool" package, which provides
+% more powerful commands for more sophisticated derivatives
+
+% The derivative operator dx (command: \diff)
+% \makeatletter
+\providecommand*{\diff}{\@ifnextchar^{\DIfF}{\DIfF^{}}}
+\def\DIfF^#1{%
+  \mathop{\mathrm{\mathstrut d}}%
+  \nolimits^{#1}\gobblespace}
+\def\gobblespace{\futurelet\diffarg\opspace}
+\def\opspace{%
+  \let\DiffSpace\!%
+  \ifx\diffarg(%
+  \let\DiffSpace\relax\
+  \else
+  \ifx\diffarg[%
+  \let\DiffSpace\relax
+  \else
+  \ifx\diffarg[%
+  \let\DiffSpace\relax
+  \fi\fi\fi\DiffSpace}
+% \makeatother
+
+% derivative dx/dt, does not conflict with 'cool' which uses \D
+% Usage: first optional arg is the order, second arg is the function,
+% third arg is the variable. E.g. \deriv[2]{y}{x} d^2 y/dx^2
+\providecommand*{\deriv}[3][]{\frac{\diff^{#1}#2}{\diff #3^{#1}}}
+
+\@ifpackageloaded{cool}{%
+  % Re-define some symbols used by 'cool'
+  \Style{IdentityMatrixSymb={\mathrm I}}   % Alternative: \mathbbm I
+  %\renewcommand{\COOL@notation@IdentityMatrixSymb}{\mathbbm{I}}
+
+  % Re-define the derivative operator symbol (upright d)
+  \Style{DSymb={\mathrm d}}
+  %\renewcommand{\COOL@notation@DSymb}{\diff}
+}{%
+  % Simple partial derivative, conflict with 'cool'
+  \providecommand*{\pderiv}[3][]{%
+    \frac{\partial^{#1}#2}{\partial #3^{#1}}}
+}
+
+
+%%%%%%%%%%% CHARACTERS IN DIFFERENT FONTS %%%%%%%%%%%%%
+% Mathematical characters (Blackboard font)
+\ifdefined\mathbb
+\newcommand{\RR}{\mathbb{R}\xspace}  % Real set
+\newcommand{\NN}{\mathbb{N}\xspace}  % Natural number set
+\newcommand{\QQ}{\mathbb{Q}\xspace}  % Rational number set
+\newcommand{\CC}{\mathbb{C}\xspace}  % Complex number set
+\newcommand{\ZZ}{\mathbb{Z}\xspace}  % Integer number set
+\newcommand{\EE}{\mathbb{E}\xspace}  % Expectation
+\newcommand{\PP}{\mathbb{P}\xspace}  % Probability
+\newcommand{\BB}{\mathbb{B}\xspace}  % Logic set {true, false}
+\def\One{\dblone}
+
+\newcommand{\RRplus}{\ensuremath{\RR^{+}}}   % non-negative (>=0) reals
+\newcommand{\NNplus}{\ensuremath{\NN^\star}}  % non-zero natural numbers
+\newcommand{\ZZplus}{\ensuremath{\ZZ^{+}}}  % non-negative (>=0) integers
+
+% Less commonly used symbols
+%\newcommand{\AA}{\mathbb{A}\xspace}
+\newcommand{\DD}{\mathbb{D}\xspace}
+\newcommand{\FF}{\mathbb{F}\xspace}
+\newcommand{\GG}{\mathbb{G}\xspace}
+\newcommand{\HH}{\mathbb{H}\xspace}
+\newcommand{\II}{\mathbb{I}\xspace}
+\newcommand{\JJ}{\mathbb{J}\xspace}
+\newcommand{\KK}{\mathbb{K}\xspace}
+\newcommand{\LL}{\mathbb{L}\xspace}
+\newcommand{\MM}{\mathbb{M}\xspace}
+\newcommand{\OO}{\mathbb{O}\xspace}
+%\newcommand{\SS}{\mathbb{S}\xspace}
+\newcommand{\TT}{\mathbb{T}\xspace}
+\newcommand{\UU}{\mathbb{U}\xspace}
+\newcommand{\VV}{\mathbb{V}\xspace}
+\newcommand{\WW}{\mathbb{W}\xspace}
+\newcommand{\XX}{\mathbb{X}\xspace}
+\newcommand{\YY}{\mathbb{Y}\xspace}
+\fi
+
+
+% Mathematical symbols (Caligraphic font)
+\ifdefined\mathcal
+\newcommand{\AAA}{\mathcal{A}\xspace}
+\newcommand{\BBB}{\mathcal{B}\xspace}
+\newcommand{\CCC}{\mathcal{C}\xspace}
+\newcommand{\DDD}{\mathcal{D}\xspace}
+\newcommand{\EEE}{\mathcal{E}\xspace}
+\newcommand{\FFF}{\mathcal{F}\xspace}
+\newcommand{\GGG}{\mathcal{G}\xspace}
+\newcommand{\HHH}{\mathcal{H}\xspace}
+\newcommand{\III}{\mathcal{I}\xspace}
+\newcommand{\JJJ}{\mathcal{J}\xspace}
+\newcommand{\KKK}{\mathcal{K}\xspace}
+\newcommand{\LLL}{\mathcal{L}\xspace}
+\newcommand{\MMM}{\mathcal{M}\xspace}
+\newcommand{\NNN}{\mathcal{N}\xspace}
+\newcommand{\OOO}{\mathcal{O}\xspace}
+\newcommand{\PPP}{\mathcal{P}\xspace}
+\newcommand{\QQQ}{\mathcal{Q}\xspace}
+\newcommand{\RRR}{\mathcal{R}\xspace}
+\newcommand{\SSS}{\mathcal{S}\xspace}
+\newcommand{\TTT}{\mathcal{T}\xspace}
+\newcommand{\UUU}{\mathcal{U}\xspace}
+\newcommand{\VVV}{\mathcal{V}\xspace}
+\newcommand{\WWW}{\mathcal{W}\xspace}
+\newcommand{\XXX}{\mathcal{X}\xspace}
+\newcommand{\YYY}{\mathcal{Y}\xspace}
+\newcommand{\ZZZ}{\mathcal{Z}\xspace}
+\fi
+
+
+% Mathematical symbols (Old German font)
+\ifdefined\mathfrak
+\newcommand{\AAAA}{\mathfrak{A}\xspace}
+\newcommand{\BBBB}{\mathfrak{B}\xspace}
+\newcommand{\CCCC}{\mathfrak{C}\xspace}
+\newcommand{\DDDD}{\mathfrak{D}\xspace}
+\newcommand{\EEEE}{\mathfrak{E}\xspace}
+\newcommand{\FFFF}{\mathfrak{F}\xspace}
+\newcommand{\GGGG}{\mathfrak{G}\xspace}
+\newcommand{\HHHH}{\mathfrak{H}\xspace}
+\newcommand{\IIII}{\mathfrak{I}\xspace}
+\newcommand{\JJJJ}{\mathfrak{J}\xspace}
+\newcommand{\KKKK}{\mathfrak{K}\xspace}
+\newcommand{\LLLL}{\mathfrak{L}\xspace}
+\newcommand{\MMMM}{\mathfrak{M}\xspace}
+\newcommand{\NNNN}{\mathfrak{N}\xspace}
+\newcommand{\OOOO}{\mathfrak{O}\xspace}
+\newcommand{\PPPP}{\mathfrak{P}\xspace}
+\newcommand{\QQQQ}{\mathfrak{Q}\xspace}
+\newcommand{\RRRR}{\mathfrak{R}\xspace}
+\newcommand{\SSSS}{\mathfrak{S}\xspace}
+\newcommand{\TTTT}{\mathfrak{T}\xspace}
+\newcommand{\UUUU}{\mathfrak{U}\xspace}
+\newcommand{\VVVV}{\mathfrak{V}\xspace}
+\newcommand{\WWWW}{\mathfrak{W}\xspace}
+\newcommand{\XXXX}{\mathfrak{X}\xspace}
+\newcommand{\YYYY}{\mathfrak{Y}\xspace}
+\newcommand{\ZZZZ}{\mathfrak{Z}\xspace}
+\fi
+
+
+% Macros for reviews (only if option "reviewmark" is used)
+% In final version, either remove the commands from the text, or
+% simple re-define the commands to be #1, e.g.,
+%        \renewcommand{\markchange}[1]{#1}
+\ifdefined\truonglatexdefs@reviewmark
+\ifdefined\textcolor
+\newcommand{\todohilite}[1]{\textcolor{red}{\texttt{\bfseries TODO: #1}}}
+\newcommand{\markchange}[1]{{\textcolor{blue}{#1} \marginpar{\bfseries Change!}}}
+\else
+\newcommand{\todohilite}[1]{\texttt{\bfseries TODO: #1}}
+\newcommand{\markchange}[1]{{#1 \marginpar{\bfseries Change!}}}
+\fi
+\fi
+
+% Various symbols
+% danger sign
+\font\manual=manfnt
+\def\dbend{{\manual\char127}} % dangerous bend sign
+% Danger, Will Robinson!
+\def\danger{\begin{trivlist}\item[]\noindent%
+\begingroup\hangindent=3pc\hangafter=-2%\clubpenalty=10000%
+\def\par{\endgraf\endgroup}%
+\hbox to0pt{\hskip-\hangindent\dbend\hfill}\ignorespaces}
+\def\enddanger{\par\end{trivlist}}
+% Danger! Danger!
+\def\ddanger{\begin{trivlist}\item[]\noindent%
+\begingroup\hangindent=3pc\hangafter=-2%\clubpenalty=10000%
+\def\par{\endgraf\endgroup}%
+\hbox to0pt{\hskip-\hangindent\dbend\kern2pt\dbend\hfill}\ignorespaces}
+\def\endddanger{\par\end{trivlist}}
+

@@ -1,0 +1,20 @@
+%The term ``Anytime algorithm'' was introduced by Dean and Boddy\cite{boddy} in their work on time-dependent planning during the late 1980's. Horvitz\cite{horvitz} introduced the flexible computing model for time-critical decision making and planning algorithms in Artificial Intelligence. Following this, several studies in the AI community focused on composing anytime algorithms to more complex systems for sensor interpretation and path planning\cite{zilberstein, planningalgorithms}, search\cite{maxim},  and evaluation of belief networks~\cite{wellman}.
+
+%paraphrase
+
+Dean and Boddy \cite{boddy} introduced the term ``Anytime algorithm'' in the late 1980s. In \cite{horvitz}, Horvitz et al. introduced the flexible computing model for time-critical decision making and planning algorithms in Artificial Intelligence. Anytime algorithms for sensor interpretation and path planning in more complex systems were studied in \cite{zilberstein, planningalgorithms}. Anytime algorithms have also been studied for graph search \cite{maxim}, evaluation of belief networks \cite{wellman} and GPU architectures \cite{RTSSanytime}.
+
+As overloaded real-time systems are becoming increasingly common, anytime algorithms for control have become a topic of research interest. Most notably, Quevedo and Gupta \cite{sequence}, Bhattacharya and Balas \cite{balas}, and Fontanelli et al. \cite{fontanelli} have contributed on the topic. In \cite{sequence}, the authors presented an algorithm that computes control input sequences for time steps into the future when given processor availability and use the previously computed inputs when there is no processor availability.
+In \cite{fontanelli}, a switching condition was developed to switch among multiple feedback controllers with different worst case execution times for a single plant.
+The authors in \cite{balas} proposed a methodology to get reduced order controllers with different computation requirements for a given linear time invariant (LTI) plant and a switching scheme to chose which controller to use.
+
+Our approach differs significantly from these works as the anytime computation assumption is on the state estimator and our controller is a robust controller which can switch between different modes of the anytime estimator.
+Also, while most of these works require either access to the full state of the system or have a fast estimator giving them the state estimate \cite{balas}, our algorithm accounts for the computation time/error of the estimation algorithm.
+Furthermore, an advantage of the proposed RMPC is that it can handle both state and input constraints.
+However, our RMPC formulation differs from related RMPC formulations \cite{chiscietal01swp,richardsetal05rmp} as it can work with time-varying error bound and execution time (delay) of the state estimator.
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "CDC14_Anytime_Main"
+%%% End: 

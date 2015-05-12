@@ -13,92 +13,92 @@ A = params.A;
 A_0 = params.A_0;
 B = params.B;
 B_0 = params.B_0;
-% H_0 = params.H_0;
-% H_1 = params.H_1;
-% H_2 = params.H_2;
-% H_3 = params.H_3;
-% H_4 = params.H_4;
-% H_5 = params.H_5;
-% H_6 = params.H_6;
-% H_7 = params.H_7;
-% H_8 = params.H_8;
-% H_9 = params.H_9;
-% H_10 = params.H_10;
-% Hf = params.Hf;
+H_0 = params.H_0;
+H_1 = params.H_1;
+H_2 = params.H_2;
+H_3 = params.H_3;
+H_4 = params.H_4;
+H_5 = params.H_5;
+H_6 = params.H_6;
+H_7 = params.H_7;
+H_8 = params.H_8;
+H_9 = params.H_9;
+H_10 = params.H_10;
+Hf = params.Hf;
 Q = params.Q;
 Q_final = params.Q_final;
-% g_0 = params.g_0;
-% if isfield(params, 'g_1')
-%   g_1 = params.g_1;
-% elseif isfield(params, 'g')
-%   g_1 = params.g{1};
-% else
-%   error 'could not find g_1'
-% end
-% if isfield(params, 'g_2')
-%   g_2 = params.g_2;
-% elseif isfield(params, 'g')
-%   g_2 = params.g{2};
-% else
-%   error 'could not find g_2'
-% end
-% if isfield(params, 'g_3')
-%   g_3 = params.g_3;
-% elseif isfield(params, 'g')
-%   g_3 = params.g{3};
-% else
-%   error 'could not find g_3'
-% end
-% if isfield(params, 'g_4')
-%   g_4 = params.g_4;
-% elseif isfield(params, 'g')
-%   g_4 = params.g{4};
-% else
-%   error 'could not find g_4'
-% end
-% if isfield(params, 'g_5')
-%   g_5 = params.g_5;
-% elseif isfield(params, 'g')
-%   g_5 = params.g{5};
-% else
-%   error 'could not find g_5'
-% end
-% if isfield(params, 'g_6')
-%   g_6 = params.g_6;
-% elseif isfield(params, 'g')
-%   g_6 = params.g{6};
-% else
-%   error 'could not find g_6'
-% end
-% if isfield(params, 'g_7')
-%   g_7 = params.g_7;
-% elseif isfield(params, 'g')
-%   g_7 = params.g{7};
-% else
-%   error 'could not find g_7'
-% end
-% if isfield(params, 'g_8')
-%   g_8 = params.g_8;
-% elseif isfield(params, 'g')
-%   g_8 = params.g{8};
-% else
-%   error 'could not find g_8'
-% end
-% if isfield(params, 'g_9')
-%   g_9 = params.g_9;
-% elseif isfield(params, 'g')
-%   g_9 = params.g{9};
-% else
-%   error 'could not find g_9'
-% end
-% if isfield(params, 'g_10')
-%   g_10 = params.g_10;
-% elseif isfield(params, 'g')
-%   g_10 = params.g{10};
-% else
-%   error 'could not find g_10'
-% end
-% gf = params.gf;
+g_0 = params.g_0;
+if isfield(params, 'g_1')
+  g_1 = params.g_1;
+elseif isfield(params, 'g')
+  g_1 = params.g{1};
+else
+  error 'could not find g_1'
+end
+if isfield(params, 'g_2')
+  g_2 = params.g_2;
+elseif isfield(params, 'g')
+  g_2 = params.g{2};
+else
+  error 'could not find g_2'
+end
+if isfield(params, 'g_3')
+  g_3 = params.g_3;
+elseif isfield(params, 'g')
+  g_3 = params.g{3};
+else
+  error 'could not find g_3'
+end
+if isfield(params, 'g_4')
+  g_4 = params.g_4;
+elseif isfield(params, 'g')
+  g_4 = params.g{4};
+else
+  error 'could not find g_4'
+end
+if isfield(params, 'g_5')
+  g_5 = params.g_5;
+elseif isfield(params, 'g')
+  g_5 = params.g{5};
+else
+  error 'could not find g_5'
+end
+if isfield(params, 'g_6')
+  g_6 = params.g_6;
+elseif isfield(params, 'g')
+  g_6 = params.g{6};
+else
+  error 'could not find g_6'
+end
+if isfield(params, 'g_7')
+  g_7 = params.g_7;
+elseif isfield(params, 'g')
+  g_7 = params.g{7};
+else
+  error 'could not find g_7'
+end
+if isfield(params, 'g_8')
+  g_8 = params.g_8;
+elseif isfield(params, 'g')
+  g_8 = params.g{8};
+else
+  error 'could not find g_8'
+end
+if isfield(params, 'g_9')
+  g_9 = params.g_9;
+elseif isfield(params, 'g')
+  g_9 = params.g{9};
+else
+  error 'could not find g_9'
+end
+if isfield(params, 'g_10')
+  g_10 = params.g_10;
+elseif isfield(params, 'g')
+  g_10 = params.g{10};
+else
+  error 'could not find g_10'
+end
+gf = params.gf;
 z0 = params.z0;
 z_ref = params.z_ref;
 cvx_begin quiet
@@ -141,24 +141,21 @@ cvx_begin quiet
     z_9 == A*z_8 + B*u_8;
     z_10 == A*z_9 + B*u_9;
     z_11 == A*z_10 + B*u_10;
-    z_12 == A*z_11 + B*u_11;
-    z_13 == A*z_12 + B*u_12;
-    z_14 == A*z_13 + B*u_13;
+  
     
     
-    
-%     H_0*z_0 <= g_0;
-%     H_1*z_1 <= g_1;
-%     H_2*z_2 <= g_2;
-%     H_3*z_3 <= g_3;
-%     H_4*z_4 <= g_4;
-%     H_5*z_5 <= g_5;
-%     H_6*z_6 <= g_6;
-%     H_7*z_7 <= g_7;
-%     H_8*z_8 <= g_8;
-%     H_9*z_9 <= g_9;
-%     H_10*z_10 <= g_10;
-%     Hf*z_11 <= gf;
+    H_0*z_0 <= g_0;
+    H_1*z_1 <= g_1;
+    H_2*z_2 <= g_2;
+    H_3*z_3 <= g_3;
+    H_4*z_4 <= g_4;
+    H_5*z_5 <= g_5;
+    H_6*z_6 <= g_6;
+    H_7*z_7 <= g_7;
+    H_8*z_8 <= g_8;
+    H_9*z_9 <= g_9;
+    H_10*z_10 <= g_10;
+    Hf*z_11 <= gf;
 cvx_end
 vars.u_0 = u_0;
 vars.u_1 = u_1;
