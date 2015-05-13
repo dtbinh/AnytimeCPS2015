@@ -2,27 +2,49 @@
 
 \section{Co-design of computation and control}
 
-In the traditional design of the perception estimation and control algorithms in closed loop control systems, the controller is unaware of the implementation details of the perception module and the perception module is unaware of the requirements of the controller. In order to improve performance of over-loaded closed loop systems, we propose the co-design of both computation and control. The co-design involves modelling the perception tool-chain as a contract time algorithm which can choose its execution paths adaptively in order to realize a deadline given to it by the control algorithm. In addition, the controller is designed with the knowledge of the resulting operation modes of the perception algorithm, i.e. the performance versus computation time modes which the contract time perception algorithm can realize. This gives the controller the ability to leverage the flexible nature of the perception algorithm to maximize a performance measure while not being concerned about the internal workings of the perception algorithm. This allows a co-design of control and perception/estimation without violating the separability principle which is key to the design of closed loop control systems.
+In the traditional design of the perception estimation and control algorithms in closed loop control systems, the controller is unaware of the implementation details of the perception module and the perception module is unaware of the requirements of the controller. In order to improve performance of over-loaded closed loop systems, we propose the co-design of both computation and control. The co-design involves modelling the perception tool-chain as a contract based algorithm which can choose its execution paths adaptively in order to realize a deadline given to it by the control algorithm. In addition, the controller is designed with the knowledge of the resulting operation modes of the perception algorithm, i.e. the performance versus computation time modes which the contract based perception algorithm can realize. This gives the controller the ability to leverage the flexible nature of the perception algorithm to maximize a performance measure while not being concerned about the internal workings of the perception algorithm. This allows a co-design of control and perception/estimation without violating the separability principle which is key to the design of closed loop control systems.
 
-Figure \ref{} shows the closed loop architecture in a system with co-design of the perception and control algorithms. Unlike a closed loop system where the perception module is designed to operate at a fixed operating point, in the co-designed system, the controller can make the estimation algorithm switch to lower time/energy consuming modes based on the control objective at the current time. The main components of the co-design architecture are a contract time perception algorithm, a robust control algorithm that computes an input to be sent to the plant as well as the operating mode for the contract time perception algorithm, and the interface between them. More details on these components are in the following sections.
+Figure \ref{fig:codesignarch}. shows the closed loop architecture in a system with co-design of the perception and control algorithms. Unlike a closed loop system where the perception module is designed to operate at a fixed operating point, in the co-designed system, the controller can make the estimation algorithm switch to lower time/energy consuming modes based on the control objective at the current time. The main components of the co-design architecture are a contract based perception algorithm, a robust control algorithm that computes an input to be sent to the plant as well as the operating mode for the contract based perception algorithm, and the interface between them. More details on these components are in the following sections.
 
-\subsection{Contract time perception algorithms}
 
-In order to maximize the efficiency of the computation and control system, a contract time perception algorithm can operate at different deadlines and provide a usable solution for the control algorithm to operate on. This flexible operation of the generally run-to-completion algorithms is achieved by composing the algorithm of functional blocks that have different computation times and result in different qualities of outputs. Note that this problem is different from that of composing anytime algorithms together. Anytime algorithms have a well defined computation time versus quality tradeoff, but in our case we are composing together blocks that are individually run-to-completion and in most cases do not have a well defined intermediate measurable quality.
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.7\linewidth]{figures/placeHolder}
+	\caption{Co-design of.}
+	\label{fig:codesignarch}
+\end{figure}
+
+\subsection{contract based perception algorithms}
+
+In order to maximize the efficiency of the computation and control system, a contract based perception algorithm can operate at different deadlines and provide a usable solution for the control algorithm to operate on. This flexible operation of the generally run-to-completion algorithms is achieved by composing the algorithm of functional blocks that have different computation times and result in different qualities of outputs. Note that this problem is different from that of composing anytime algorithms together. Anytime algorithms have a well defined computation time versus quality tradeoff, but in our case we are composing together blocks that are individually run-to-completion and in most cases do not have a well defined intermediate measurable quality.
 
 Figure \ref{} shows an example where an object recognition algorithm is composed of different functional blocks of varying computation time and result in a different accuracy when linked provide the functionality of an object recognition algorithm, e.g. the pixel classifier could be a Gaussian Mixture Model with 3, 5, or 7 components, with more components providing better classification performance at the cost of more computation time. The output of the .... \textbf{<more details here>}. 
 
-This composition of individual components can be represented as a decision tree where edges are blocks of code and nodes are their intermediate outputs/input to the next stage. An extensive profiling stage at design time helps assign distributions for execution times to the edges and distributions for output quality to paths alont the tree. At run-time, this knowledge of execution times and output quality distributions can be used to generate a composition to realize a given criteria. An example of a criteria is to maximise the expected quality while meeting the given deadline with a high probability $\eta$.  
+%This composition of individual components can be represented as a decision tree where edges are blocks of code and nodes are their intermediate outputs/input to the next stage. An extensive profiling stage at design time helps assign distributions for execution times to the edges and distributions for output quality to paths along the tree. At run-time, this knowledge of execution times and output quality distributions can be used to generate a composition to realize a given criteria. An example of a criteria is to maximise the expected quality while meeting the given deadline with a high probability $\eta$.  
 
-\textbf{<more details on the optimization here>}
 
-\subsection{Interface between contract time perception and robust control}
 
-For the control algorithm to be able to leverage the flexible nature of the contract time perception algorithm, it must have information about the computation time versus output quality tradeoff that the contract time perception algorithm offers, but should not be exposed to or made dependent on to too much detail on how the tradeoff is obtained. An interface that achieves this is to simply represent the profiled behaviour of the contract time algorithm, e.g. to varying $T_d$ in equation \ref{} \textbf{<optimization equation>}, as points on a perception quality versus deadline plot. The control algorithm can be made at design stage to pick the best operating point based on the current state of the dyanmic system to maximize a performance measure while being robust to the varying computation time, which shows up as a delay to the control algorith, and the varying quality of output, which are varying estimation errors to the controller.
+%Given a decision tree with pre-profiled information about execution time distributions for edges and quality for paths, this optimization can be mapped to an integer programming problem for edge selection in the tree. This problem can be solved in a 
 
-\subsection{Robust Control with Contract time perception algorithm}
+%\textbf{<more details on the optimization here>}
+
+\subsection{Interface between contract based perception and robust control}
+
+For the control algorithm to be able to leverage the flexible nature of the contract based perception algorithm, it must have information about the computation time versus output quality trade-off that the contract based perception algorithm offers, but should not be exposed to or made dependent on to too much detail on how the trade-off is obtained. An interface that achieves this is to simply represent the profiled behaviour of the contract based algorithm to varying deadlines, as points on a perception quality versus deadline ($\delta, \epsilon$) curve, e.g. in figure \ref{fig:eps_delta_toy}. 
+With this profiled curve available to the controller at runtime, the exchange of information between the contract based perception algorithm and the control algorithm consists of the controller assigning a deadline ($\delta$), or a contract to the perception algorithm with an expected bound on the quality ($\epsilon$) of its output. The perception algorithm then returns an output after internally deciding the composition to best meet the deadline and the expected quality requirement. While in many systems, assigning a contract for time and simultaneously expecting a minimum quality output may be an infeasible proposition, in this paper we only consider settings where neither the $\delta$ contract nor the $\epsilon$ bound are violated. This helps in formulating a control algorithm that provides mathematical guarantees on the feasibility of constraints for the safe operation of the closed loop dynamic system.
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.7\linewidth]{figures/placeHolder}
+	\caption{Profiled perception versus computation time curve.}
+	\label{fig:eps_delta_toy}
+\end{figure}
+
+\subsection{Robust Control with contract based perception algorithm}
 
 \textbf{<Talk about control requirements, cost function, constraints, and mpc/rmpc here>}
+The control algorithm designed to pick the best operating point based on the current state of the dynamic system to maximize a performance measure while being robust to the varying computation time, which shows up as a delay to the control algorithm, and the varying quality of output, which are varying estimation errors to the controller.
+
 
 
 
