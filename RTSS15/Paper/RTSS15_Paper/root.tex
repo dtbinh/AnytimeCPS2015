@@ -12,16 +12,18 @@
 \newcommand{\ub}{\bar{u}}
 \newcommand{\yb}{\bar{y}}
 \newcommand{\wb}{\bar{w}}
-\newcommand{\Hc}{\mathcal{H}}
 \newcommand{\figref}[1]{Fig.~\ref{fig:#1}}
 \overrideIEEEmargins       
 \usepackage{todonotes}                              
 \RequirePackage{graphicx}
+\usepackage{subfigure}
 \graphicspath{ {figures/} }
 %\usepackage[tight,footnotesize]{subfigure}
+\usepackage{fainekos-macros}
 
 \newcommand{\hatodo}[1]{\todo{HA: #1}}
 \newcommand{\hatodoin}[1]{\todo[inline]{HA: #1}}
+\newcommand{\de}{(\delta,\epsilon)}
 
 % See the \addtolength command later in the file to balance the column lengths
 % on the last page of the document
@@ -31,8 +33,8 @@
 %\usepackage{epsfig} % for postscript graphics files
 %\usepackage{mathptmx} % assumes new font selection scheme installed
 %\usepackage{times} % assumes new font selection scheme installed
-%\usepackage{amsmath} % assumes amsmath package installed
-%\usepackage{amssymb}  % assumes amsmath package installed
+\usepackage{amsmath} % assumes amsmath package installed
+\usepackage{amssymb}  % assumes amsmath package installed
 
 \title{\LARGE \bf
 Anytime
@@ -51,12 +53,14 @@ Anytime
 \thispagestyle{empty}
 \pagestyle{empty}
 
-\input{outline}
+%\input{outline}
 \input{introduction}
 \input{codesign}
 \input{controlProblem}
 \input{delayErrorCurve}
 \input{experiments}
+\input{discussion}
+\input{conclusion}
 
 \bibliographystyle{abbrv}
 \bibliography{rtss2015}  

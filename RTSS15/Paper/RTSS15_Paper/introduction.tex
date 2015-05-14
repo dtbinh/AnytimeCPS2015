@@ -35,13 +35,23 @@ Our contributions:
 the formulation and solution of an RMPC problem where the controller receives noisy state estimates from a contract-based estimation algorithm.
 \\
 a procedure to make any perception tool chain contract-based 
-\\
-set computations? or are those borrowed from [14]?
 
 
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=0.7\linewidth]{figures/placeHolder}
-	\caption{Control with anytime estimation}
+	\begin{subfigure}%[t]{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.7\linewidth]{placeHolder}
+		\label{fig:traditionalCE}
+		\caption{Control and estimation operating independently.}		
+	\end{subfigure}
+	\begin{subfigure}%{0.5\textwidth}
+		\centering
+		\includegraphics[width=0.7\linewidth]{placeHolder}
+		\label{fig:codesignedCE}
+		\caption{Contract-based co-designed controller and estimator.}
+	\end{subfigure}
 	\label{fig:feedbackloop}
 \end{figure}
+
+\input{motivatingExample}
