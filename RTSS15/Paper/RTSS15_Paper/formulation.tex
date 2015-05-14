@@ -1,12 +1,17 @@
 \subsection{Problem formulation}
 \label{formulation}
 
-Recapitulate main elements of setup: controller chooses which $(\delta,\epsilon)$ to operate at next.
+Consider a hexarotor, which is an autonomous flying robot with six rotors, shown in Fig.~\ref{fig:hexarotor}.
+The state $\stPt$ of the hexarotor is made of its 3D position and 3D linear velocity.
+The input $\inpPt$ consists of the desired pitch and roll angles, and the desired thrust.
+The dynamics of the hexarotor, relating the time-evolution of its state to the current state and input, can be approximated by the following Linear Time-Invariant (LTI) ODE [??]:
+\begin{equation}
+\dot{x}(t)  =A_{c}x(t)+B_{c}u(t)+w_{c}(t)  \label{eq:plant-cont-model}
+\end{equation}
+where $x\in \Re^{n}$ is the state, $\inpPt\in\Re^{m}$ is the control input,
+and $w_{c}\in\Re^{n}$ is the process noise. 
+LTIs model a wide range of systems, and our results apply to arbitrary LTIs of the form given in \eqref{eq:plant-cont-model}.
 
-System model: linear ODE. 
-This models a wide range of systems, including hexarotor at a certain level of approximation.
-E.g. the hexarotor's state vector is $[x,y,z,\dot{x},\dot{y},\dot{z}]$,
-its inputs are desired pitch, roll and thrust.
 The specific hexarotor equations are in [??].
 The system is usually constrained to be in some safe set $S$, e.g. $\{Ax \leq b\}$.
 
@@ -17,6 +22,14 @@ This estimate is fed to the controller which produces a control action $u$ based
 This control is input to the linear system dynamics.
 
 Sensing, estimation and actuation happen at discrete time instants, which produces de facto discretized dynamics.
+
+The controller we use is a RMPC that takes into account estimation delays and errors: 
+\\
+- first, explain MPC
+\\
+- then augment with Robust feasible sets and delay modeling for full RAMPC formulation
+
+
 
 
 
