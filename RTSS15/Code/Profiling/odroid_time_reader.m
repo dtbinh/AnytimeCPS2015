@@ -1,5 +1,5 @@
 
-fid = fopen('p50.txt');
+fid = fopen('log_time_f_550.txt');
 c = fread(fid);
 
 
@@ -16,3 +16,8 @@ for i = 1:numel(c)
     end
     
 end
+
+data = data*(10^-6); %to ms
+hold all;grid on;
+ecdf(data(100:end));
+axis([0 60 0 1]);

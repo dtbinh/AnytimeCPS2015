@@ -10,10 +10,15 @@ sys = ss(A,B,C,D);
 sys_d = c2d(sys,h);
 
 a = 0;
-for t = 1:5:26
+clear del err track_err est_error
+for t = [0 2 25]
 a = a+1;
 del(a) = (t*h/4);
-err(a) = 0;%(1/del(a))*(1/100);
+if(del(a)~=0)
+err(a) = (1/del(a))*(1/1000);
+else
+    err(a) = 0.001;
+end
 delay = del(a);
 est_error = err(a);
 sim('pointmassim.slx');
@@ -28,7 +33,7 @@ plot(plant.time,plant.signals(3).values(:,2),'r');
 hold all;
 plot(plant.time,plant.signals(4).values(:,1));
 end
-figure(2);%semilogy(del,track_err,'so');grid on;
+figure;%semilogy(del,track_err,'so');grid on;
 semilogy(del,track_err,'--gs',...
     'LineWidth',2,...
     'MarkerSize',10,...
