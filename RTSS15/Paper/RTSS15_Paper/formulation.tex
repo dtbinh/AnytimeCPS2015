@@ -3,7 +3,8 @@
 
 Consider a hexarotor, which is an autonomous flying robot with six rotors, shown in Fig.~\ref{fig:hexarotor}.
 The state $\stPt$ of the hexarotor is made of its 3D position and 3D linear velocity.
-The input $\inpPt$ consists of the desired pitch and roll angles, and the desired thrust.
+The input $\inpPt$ to the robot consists of the desired pitch and roll angles, and the desired thrust.
+The hexarotor's mission is to fly a pre-defined pattern $\stPt_{ref}$. 
 The dynamics of the hexarotor, relating the time-evolution of its state to the current state and input, can be approximated by the following Linear Time-Invariant (LTI) ODE [??]:
 \begin{equation}
 \dot{x}(t) = A_{c}x(t)+B_{c}u(t)+w_{c}(t)  \label{eq:plant-cont-model}
@@ -11,16 +12,10 @@ The dynamics of the hexarotor, relating the time-evolution of its state to the c
 where $x\in \Re^{n}$ is the state constrained to lie in a set $\stSet \subset \Re^n$, 
 $\inpPt\in\Re^{m}$ is the control input constrained to lie in a set $\inpSet \subset \Re^m$,
 and $w_{c}\in\Re^{n}$ is the process noise assumed to lie in a set $\Wc \subset \Re^n$. 
-LTIs model a wide range of systems, and our results apply to arbitrary LTIs of the form given in \eqref{eq:plant-cont-model} with the constraints $\stSet,\inpSet$ and $\Wc$.
-
-For flight the hexarotor needs to determine its current position and speed, i.e., it needs to produce an \emph{estimate} of its current state $\stPt$.
-It does so by taking a video during flight through a downward facing camera, detecting and tracking features across frames, and deducing its own position relative to these features.
-This produces a state estimate $\hat{\stPt}$, which differs from the true state $\stPt$ by some (time-varying) error $e$: $\hat{\stPt} = \stPt + e$.
-This estimate is fed to the controller which produces a control action $\inpPt$ based on it.
-This control is input to the linear system dynamics according to \eqref{eq:plant-cont-model}.
+LTIs model a wide range of systems, and our results apply to arbitrary LTIs of the form given in \eqref{eq:plant-cont-model} with polyhedral constraint sets $\stSet,\inpSet$ and $\Wc$.
 
 \subsection{Control Performance}
-The hexarotor's mission is to fly a pre-defined pattern. 
+The hexarotor's mission is to fly a pre-defined pattern $\stPt_{ref}$. 
 The goal of the controller is twofold: it needs to ensure that the reference pattern is adhered to as closely as possible, and that the energy consumed to fly this pattern is minimized.
 Thus we may define two (stage) cost functions: first, $\ell(\stPt, \inpPt) = (\stPt - \stPt_{ref})^TQ(\stPt - \stPt_{ref})$ defines a weighted error between the actual state and the reference state $\stPt_{ref}$, and $Q$ is a positive semidefinite matrix.
 Second, $\pi(\sDelay)$ captures the average power consumed to perform an estimation of duration $\sDelay$. 
@@ -33,6 +28,13 @@ The paper's formulation holds for much more general stage cost functions.
 These stage cost functions are chosen by the designer to achieve a desired control performance.
 
 \subsection{Time-Triggered Actuation and Discretized Dynamics}
+
+For flight the hexarotor needs to determine its current position and speed, i.e., it needs to produce an \emph{estimate} of its current state $\stPt$.
+It does so by taking a video during flight through a downward facing camera, detecting and tracking features across frames, and deducing its own position relative to these features.
+This produces a state estimate $\hat{\stPt}$, which differs from the true state $\stPt$ by some (time-varying) error $e$: $\hat{\stPt} = \stPt + e$.
+This estimate is fed to the controller which produces a control action $\inpPt$ based on it.
+This control is input to the linear system dynamics according to \eqref{eq:plant-cont-model}.
+
 We consider a discrete time implementation of the controller and the estimator, in which the estimator receives sensor measurements periodically at instants $t_{s,k}=kT$,
 where $k\in\Ne$ and $T>0$ is a predefined sampling period.
 See Fig.~\ref{fig:senseActuate}.
@@ -67,7 +69,7 @@ The controller also chooses
 the next desired accuracy $\sAccu_{k+1}$ and delay $\sDelay_{k+1}$
 to be used in the next step $k+1$. 
 In the first step $k=0$, the
-initial accuracy $\sAccu[0]$, the initial delay $\sDelay[0]$, and
+initial accuracy $\sAccu_0$, the initial delay $\sDelay_0$, and
 the initial control input $u_{-1}$ are chosen by the designer.
 
 
