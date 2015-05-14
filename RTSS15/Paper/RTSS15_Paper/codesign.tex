@@ -1,5 +1,6 @@
-<<<<<<< HEAD
+
 \section{Co-design of estimation and control}
+\label{sec:codesign}
 In a traditional control system, such as the one shown in Fig.~\ref{fig:traditionalCE}, the controller is unaware of the implementation details of the estimation module and the estimation module is unaware of the requirements of the controller. 
 For example, the design of the controller might not take into account the fact that obtaining a state estimate from a video feed will take a non-negligible amount of time, which we refer to as the estimation delay.
 Conversely, the design of the estimator might not take into account the varying real-time constraints that the controlled system must satisfy, and instead always use a fixed amount of time to compute its estimates.
@@ -17,7 +18,7 @@ Namely, the estimator's parameters are varied and for each setting of the parame
 This yields a set of $(\delta,\epsilon)$ values, each one corresponding to a setting of the parameters.
 These values can be plotted on a curve, which we call the \emph{error-delay curve}, an example of which is shown in Fig.??.
 The detailed procedure for obtaining such a curve for a wide range of visual state estimation algorithms is given in Section \ref{delayErrorCurve}.
-Section \ref{discussion} discusses the applicability of this contract-based approach to state estimation and further extensions.
+%Section \ref{discussion} discusses the applicability of this contract-based approach to state estimation and further extensions.
 
 Online, when the estimator receives a $\de$ contract request from the controller, it can adapt its execution paths to respect the contract, namely, to provide a state estimate within the requested error bound $\epsilon$, and within the requested deadline $\delta$.
 
@@ -35,23 +36,6 @@ The main components of the co-design architecture are a contract time perception
 		\includegraphics[width=0.7\linewidth]{placeHolder}
 		\label{fig:fullcodesignedCE}
 		\caption{Co-design of contract-based controller and estimator.}			
-\end{figure}
-=======
-
-
-\section{Co-design of computation and control}
-
-In the traditional design of the perception estimation and control algorithms in closed loop control systems, the controller is unaware of the implementation details of the perception module and the perception module is unaware of the requirements of the controller. In order to improve performance of over-loaded closed loop systems, we propose the co-design of both computation and control. The co-design involves modelling the perception tool-chain as a contract based algorithm which can choose its execution paths adaptively in order to realize a deadline given to it by the control algorithm. In addition, the controller is designed with the knowledge of the resulting operation modes of the perception algorithm, i.e. the performance versus computation time modes which the contract based perception algorithm can realize. This gives the controller the ability to leverage the flexible nature of the perception algorithm to maximize a performance measure while not being concerned about the internal workings of the perception algorithm. This allows a co-design of control and perception/estimation without violating the separability principle which is key to the design of closed loop control systems.
-
-Figure \ref{fig:codesignarch}. shows the closed loop architecture in a system with co-design of the perception and control algorithms. Unlike a closed loop system where the perception module is designed to operate at a fixed operating point, in the co-designed system, the controller can make the estimation algorithm switch to lower time/energy consuming modes based on the control objective at the current time. The main components of the co-design architecture are a contract based perception algorithm, a robust control algorithm that computes an input to be sent to the plant as well as the operating mode for the contract based perception algorithm, and the interface between them. More details on these components are in the following sections.
->>>>>>> 4989f553c373a6d564bc9b5eefebc8a73a3dcc25
-
-
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=0.7\linewidth]{figures/placeHolder}
-	\caption{Co-design of.}
-	\label{fig:codesignarch}
 \end{figure}
 
 \subsection{contract based perception algorithms}
