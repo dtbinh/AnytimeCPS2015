@@ -11,3 +11,5 @@ MATLAB/perceptionTtoolchain/tempGMs.mat
 *.~
 *.swp
 spr
+.DS_Store
+
