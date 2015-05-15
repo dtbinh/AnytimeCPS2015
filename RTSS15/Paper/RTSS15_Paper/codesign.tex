@@ -14,8 +14,8 @@ For example, it can detect when an estimate is needed fast (but usually with hig
 A high-level view of this setup is shown in Fig.~\ref{fig:codesignedCE}.
 
 To ensure that the estimator can respect the contract (alternatively, that the controller is only requesting contracts that can be fulfilled by the estimator), the estimator is profiled off-line.
-Namely, the estimator's parameters are varied and for each setting of the parameters, it is run on a \emph{profiling data set}.
-This yields a set of $(\delta,\epsilon)$ values, each one corresponding to a setting of the parameters.
+Namely, the estimator's parameters are varied and for each setting of the parameters, it is run on a \emph{profiling data set}. 
+This yields a finite set of $(\delta,\epsilon)$ values, each one corresponding to a setting of the parameters.
 These values can be plotted on a curve, which we call the \emph{error-delay curve}, an example of which is shown in Fig.??.
 The detailed procedure for obtaining such a curve for a wide range of visual state estimation algorithms is given in Section \ref{delayErrorCurve}.
 %Section \ref{discussion} discusses the applicability of this contract-based approach to state estimation and further extensions.
