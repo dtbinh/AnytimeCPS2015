@@ -19,7 +19,7 @@ Note that since we have access to the true position of the hexrotor with the VIC
 
 
 Figure \ref{fig:CostAndEnergyVsAlpha} shows the degradation in tracking performance and improvement in energy efficiency as the weight for the energy in the cost function, $\alpha$ is increased (see equation \ref{}). This is expected as with more weight to the energy consumption, the RAMPC switches more often to the low energy (and faster) but less accurate mode 0, as is seen in table \ref{tbl:RAMPC_ModeTime} which shows the fraction of time spent in the 4 modes with RAMPC as $\alpha$ changes.
-\hatodoin{keep 3 decimals}
+
 
 \begin{figure}[t]
 	\centering
@@ -31,9 +31,9 @@ Figure \ref{fig:CostAndEnergyVsAlpha} shows the degradation in tracking performa
 
 
 \begin{table}[htb]
-\label{tbl:RAMPC_ModeTime}
 \begin{center}
 \caption{Fraction of time spent in different estimator modes as $\alpha$ changes for RAMPC}
+\label{tbl:RAMPC_ModeTime}
 \begin{tabular} {|c|c|c|c|c|}
 	\hline
 	$\pmb{\alpha}$ & \textbf{Mode 0} & \textbf{Mode 1} & \textbf{Mode 2} & \textbf{Mode 3} \\ \hline
