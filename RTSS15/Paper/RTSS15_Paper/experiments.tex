@@ -1,10 +1,14 @@
 \section{Case Study: Real-time feedback control of a hexrotor with contract based estimation and robust control}
-\label{experiments}
-
-To evaluate our methodology on a real platform, we applied it to a hexrotor tasked with following a given trajectory. The hexrotor flies using pose estimates from the visual odometry with the downward facing camera and our Robust Model Predictive Algorithm for both the position control of the hexrotor and setting the time deadline for the visual odometry computations. For the contract based perception and estimation algorithm we use the FAST corner detector (as in section \ref{}) providing measurements to an Unscented Kalman Filter that also uses measurements from an Inertial Measurement Unit (IMU) to provide a state estimate for the control algorithm to use.
-In the following section we show how our approach dynamically schedules different modes of the contract-based perception and estimation algorithm at run-time and also controls the dynamic system in an energy efficient order while providing good tracking performance. In the evaluation subsection we will compare our results to a baseline Model Predictive Control algorithm that does not leverage co-design and operates at fixed ($\delta,\epsilon$) points of the perception/estimation algorithm which provides a state estimate to the controller.
+\label{sec:experiments}
 
 \subsection{Experimental setup}
+To evaluate our methodology on a real platform, we applied it to a hexrotor tasked with following a given trajectory.
+As can be seen in Fig.~\ref{fig:time_ecdf}, the visual odometry algorithm can at times take a long time to get a pose estimate. In our formulation we have assumed that the estimator satisfies the $(\delta, \epsilon)$ contract requested by the controller. Thus, to ensure that the estimator fulfills the contract, instead of using the visual odometry algorithm to fly the robot, we injected delays and errors into the measurements from the Vicon system. These delays and errors were selected from the $(\delta,\epsilon)$ curve obtained by profiling the SVO algorithm (see Section \ref{sec:visual_odometry}).
+The hexrotor flies using these pose estimates and our Robust Model Predictive Algorithm for both the position control of the hexrotor and setting the time deadline for the next estimate.
+%For the contract based perception and estimation algorithm we use the FAST corner detector (as in section \ref{}) providing measurements to an Unscented Kalman Filter that also uses measurements from an Inertial Measurement Unit (IMU) to provide a state estimate for the control algorithm to use.
+In the following section we show how our approach dynamically schedules different modes of the contract-based perception and estimation algorithm at run-time and also controls the dynamic system in an energy efficient order while providing good tracking performance. In the evaluation subsection we will compare our results to a baseline Model Predictive Control algorithm that does not leverage co-design and operates at fixed ($\delta,\epsilon$) points of the perception/estimation algorithm which provides a state estimate to the controller.
+
+\todo[author=KM,inline]{Do we want an architecture diagram of the way the hexrotor is controlled using ROS?}
 \todo[inline]{details about hexrotor and odroid and the visual odometry. Figure for control/percpetion architecture of hexrotor here, cvxgen based rampc}
 %Hexrotor \textbf{<specs here>} using visual odometry from a downward facing camera. Figure for hexrotor, figure for images from hexrotor downward facing, and figure for hexrotor control architecture.
 \todo[inline]{Plant model and estimation here}
@@ -13,10 +17,10 @@ In the following section we show how our approach dynamically schedules differen
 %We implemented the RAMPC controller of Section \ref{controlProblem}, and used the error-delay curves of Section \ref{delayErrorCurve}.
 
 
-\subsection{Profiling the perception and algorithm toolchain}
+\subsection{Profiling the perception and estimation pipeline}
 
-Recall that in section \ref{}, the control algorithm needs the profiled ($\delta,\epsilon$) curve for the perception and estimation algorithm. In this setup, as described in figure \ref{}, we need to the performance of the FAST detector based visual odometry. Figure \ref{} shows the bound on estimation error and the $90^{th}$ percentile execution times for a different number of maximum corners in the FAST detector through extensive flying over a relatively feature rich environment (figure \ref{}). The estimation error is computed with the help of ground truth obtained through the VICON system. We can profile the performance for the same flights with different settings of the odometry offline by logging images and IMU data in-flight, and then running the visual odometry code on the odroid offline and playing back the camera and IMU data in the form of a ROSBAG (\ref{}) from a separate machine running ROS. \todo[inline]{more details here, Kartik?}
-This accurately recreates the in flight environment that is present for the FAST corner detector based visual odometry and this profiling done offline is then used online for making in flight decisionsby the control algorithm.
+Recall that in section \ref{}, the control algorithm needs the profiled ($\delta,\epsilon$) curve for the perception and estimation algorithm. In this setup, as described in figure \ref{}, we need to the performance of the SVO algorithm. Figure \ref{} shows the bound on estimation error and the $90^{th}$ percentile execution times for a different number of maximum corners in the SVO algorithm through extensive flying over a relatively feature rich environment (figure \ref{}). The estimation error is computed with the help of ground truth obtained through the Vicon motion capture system. We profiled the performance for the same trajectory with different settings of the odometry offline by logging images and IMU data in-flight, and then running the visual odometry code on the Odroid-U3 offline.
+This accurately recreates the in flight environment that is present for the visual odometry algorithm and this profiling is then used online for making in flight decisions by the control algorithm.
 
 Also needed for the control optimization as stated in equation \ref{} is a measure of the power consumption by the visual odometry while at different settings on maximum number of corner. This is obtained again by running the visual odomery code offline for different knob settings and measuring the power consumed by the Odroid to perform these computations. Power measurements are made using the Odroid Smart Power meter \cite{OdroidSmartPower}, which measures consumption at 10Hz to milliwatt precision. We measure the power consumption of the entire Odroid board, including CPU and DRAM power consumption. To avoid the physical challenges of fitting the power meter onto our hex-copter platform, we measure the power consumption of the Odroid board on the ground, running the same controller and vision workloads as it does during flight as explained above.
 
@@ -26,7 +30,7 @@ This offline profiling now allows us to formulate the co-design problem for the 
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.9\columnwidth]{figures/time_ecdf_millisec.pdf}
-  \caption{Cumulative distribution of profiled execution times for visual odometry running on the Odroid U-3 for varying maximum number of corners from the FAST detector.}
+  \caption{Cumulative distribution of profiled execution times for visual odometry running on the Odroid-U3 for varying maximum number of corners from the SVO algorithm.}
   \label{fig:time_ecdf}
 \end{figure}
 
