@@ -25,10 +25,7 @@ Assume that the current contract (under which the current estimate $\hat{\stPt}_
 To compute the new input value $\inpPt_{k}$ and next contract $\dek{k+1}$, the proposed \textbf{Robust Adaptive Model Predictive Control (RAMPC)} seeks to solve the following optimization problem which we denote by $\RAMPCProb{\Delta}{k}$:
 \begin{eqnarray}
 \label{eq:fullOptim}
-&& \min_{\inpSig,\sttraj,\sDelayV,\sAccuV} J[0:N]
-\\
-= && \min_{\inpSig,\sttraj,\sDelayV,\sAccuV}\sum_{j=0}^{N}\left(\ell(\Nom \stPt_{k+j},\inpPt_{k+j})+\pi(\sDelay_k)\right)
-\nonumber
+J^*[0:N]= \min_{\inpSig,\sttraj,\sDelayV,\sAccuV}\sum_{j=0}^{N}\left(\ell(\stPt_{k+j},\inpPt_{k+j})+\pi(\sDelay_k)\right)
 \end{eqnarray}
 I.e., RMPC needs to find the optimal length-$N$ input sequence  $\inpSig^* = (\inpPt_k^*,\ldots,\inpPt_{k+N}^*) \in \inpSet^N$, corresponding state sequence $\sttraj = (\stPt_k,\ldots,\stPt_{k+N}) \in \stSet^N$, delay sequence $\sDelayV = (\sDelay_k,\ldots,\sDelay_{k+N})$ and error sequence $\sAccuV = (\sAccu_k,\ldots,\sAccu_{k+N})$ such that $\dek{k} \in \Delta$, which minimize the $N$-step cost $J[0:N]$.
 In the remainder of this section we discuss how to make this problem tractable.
@@ -36,7 +33,7 @@ As in regular MPC, once a solution $\inpSig^*$ is found, only the \emph{first} i
 At the next time step $k+1$, RAMPC sets up the new optimization $\RAMPCProb{\Delta}{k+1}$ and solves it again.
 
 To make this problem tractable, we first assume that the mode is fixed throughout the $N$-step horizon, i.e. $\dek{k+j} = \de$ for all $1 \leq j \leq N$.
-Thus for every value $\de$ in $\Delta$, we can setup a different problem \eqref{eq:fullOptim}, which we denote by $\RAMPCProb{\de}{k}$, and solve it.
+Thus for every value $\de$ in $\Delta$, we can setup a different problem \eqref{eq:fullOptim} and solve it.
 Let $J_{\de}^*$ be the corresponding optimum.
 The solution with the smallest objective function value yields the input value $\inpPt^*_k$ to be applied.
 
@@ -51,19 +48,34 @@ Because RAMPC only has access to the state estimate, we extend the RMPC approach
 Namely, the problem is solved for the \emph{nominal dynamics} which assume zero process and observation noise ($w_{k+j} = 0)$ and zero estimation error ($\hat{\stPt}_{k+j}=\stPt_{k+j}$) over the prediction horizon.
 Let $\Nom \stPt$ be the state of the system under nominal conditions.
 To compensate for the use of nominal dynamics, RMPC replaces the constraint $(\Nom\stPt_{k+j},\inpPt_{k-1+j}) \in \stSet \times \inpSet \defeq \ZSet$ 
-by $(\Nom \stPt_{k+j},\inpPt_{k+j}) \in \stSet_{k+j} \times \inpSet_{k+j} \defeq \Zc_{k+j}$,
-where $\Zc_{k+j} \subset \ZSet$ is $\ZSet$ `shrunk' by an amount corresponding to $\sAccu_k$, as explained in the Appendix.
-Intuitively, by forcing $(\Nom\stPt_{k+j},\inpPt_{k-1+j})$ to lie in the reduced set $\ZSet_{k+j}$, the bounded estimation error and process noise are guaranteed not to cause the true state and input to exit the constraint sets $\stSet$ and $\inpSet$.
+by $(\Nom \stPt_{k+j},\inpPt_{k+j}) \in \ZSet_{j}(\sAccu_k,\sAccu)$,
+where $\ZSet_{j}(\sAccu_k,\sAccu) \subset \ZSet$ is $\ZSet$ `shrunk' by an amount corresponding to $\sAccu$, as explained in the Appendix.
+Intuitively, by forcing $(\Nom\stPt_{k+j},\inpPt_{k-1+j})$ to lie in the reduced set $\ZSet_{j}(\sAccu_k,\sAccu)$, the bounded estimation error and process noise are guaranteed not to cause the true state and input to exit the constraint sets $\stSet$ and $\inpSet$.
+
+The tractable optimization, denoted by $\RAMPCProb{\de}{k}$, is then 
+\begin{eqnarray}
+\label{eq:tractableOptim}
+J^*_{\de} &=& \min_{\inpSig,\sttraj,\de \in \Delta}\sum_{j=0}^{N}\left(\ell(\Nom \stPt_{k+j},\inpPt_{k+j})+\pi(\sDelay_k)\right)
+\\
+\textrm{s.t.} &&\forall j \in \{0,\ldots,N\}
+\nonumber
+\\
+&&\Nom \stPt_{k+1}=A \Nom \stPt_{k}+B_{1}(\sDelay_k)\inpPt_{k-1}+B_{2}(\sDelay_k)\inpPt_{k}
+\nonumber
+\\
+&& (\Nom \stPt_{k+j},\inpPt_{k+j}) \in \ZSet_{j}(\sAccu_k,\sAccu)
+\nonumber
+\end{eqnarray}
 
 Algorithm \ref{algo:RMPC-algo} summarizes the RAMPC algorithm.
 \begin{algorithm}
 	\begin{algorithmic}[1]
 		\State $\dek{0}$ and $u_{-1}$ specified by designer
 		\State Apply $u_{-1}$
-		\For{$k=0,1,\dots$}
+		\For{$k=0,1,\dots,M$}
 		\State Estimate $\hat{\stPt}_{k}$ with guarantee $\left(\sDelay_k, \sAccu_k\right)$
 		\For{each $\left( \sDelay,\sAccu \right) \in \Delta$}
-		\State $J_{\sDelay,\sAccu}^* \leftarrow $ Solve $\RAMPCProb{\de}{k}$		
+		\State $J_{\de}^* \leftarrow $ Solve $\RAMPCProb{\de}{k}$		
 		\EndFor
 		\State $( \sDelay^{*}, \sAccu^{*}, u_{k | k}^{*} ) \gets \argmin_{\sDelay,\sAccu} J_{\de}^*$
 		%\State Wait until $t_{a,k}$

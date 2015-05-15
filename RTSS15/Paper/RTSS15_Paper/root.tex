@@ -15,6 +15,7 @@
 \usepackage{todonotes}
 \RequirePackage{graphicx}
 \usepackage{subfigure}
+%\usepackage{subequation}
 \graphicspath{ {figures/} }
 %\usepackage[tight,footnotesize]{subfigure}
 \usepackage{fainekos-macros}
@@ -27,11 +28,12 @@
 \newcommand{\hWc}{\widehat{\Wc}}
 \newcommand{\sDelayV}{\underline{\sDelay}}
 \newcommand{\sAccuV}{\underline{\sAccu}}
-\newcommand{\ESet}{\Epsilon}
+\newcommand{\ESet}{\mathcal{E}}
 \newcommand{\bm}{\hat{B}}
 \newcommand{\MPCProb}[1]{\mathbb{P_{#1}}}
 \newcommand{\RAMPCProb}[2]{\mathbb{P}_{#1}(\hat{\stPt}_{#2},\sDelay_{#2},\sAccu_{#2},\inpPt_{#2 -1})}
 \global\long\def\ZSet{\Zc}
+\global\long\def\Cc{\mathcal{C}}
 \global\long\def\Nom#1{\overline{#1}}
 \newcommand{\bla}[1]{\overbar{#1}}
 \newcommand{\bli}[1]{\overline{BLI #1}}
@@ -75,7 +77,7 @@ Co-Design of Anytime Computation and Robust Control
 \input{experiments}
 \input{discussion}
 \input{conclusion}
-\appendix
+%\appendix
 \input{appendix}
 
 \bibliographystyle{abbrv}
