@@ -26,7 +26,7 @@ Assume that the current contract (under which the current estimate $\hat{\stPt}_
 To compute the new input value $\inpPt_{k}$ and next contract $\dek{k+1}$, the proposed \textbf{Robust Adaptive Model Predictive Control (RAMPC)} seeks to solve the following optimization problem which we denote by $\RAMPCProb{\Delta}{k}$:
 \begin{eqnarray}
 \label{eq:fullOptim}
-J^*[0:N]= \min_{\inpSig,\sttraj,\sDelayV,\sAccuV}\sum_{j=0}^{N}\left(\ell(\stPt_{k+j},\inpPt_{k+j})+\pi(\sDelay_k)\right)
+J^*[0:N]= \min_{\inpSig,\sttraj,\sDelayV,\sAccuV}\sum_{j=0}^{N}\left(\ell(\stPt_{k+j},\inpPt_{k+j})+\alpha\pi(\sDelay_k)\right)
 \end{eqnarray}
 I.e., RMPC needs to find the optimal length-$N$ input sequence  $\inpSig^* = (\inpPt_k^*,\ldots,\inpPt_{k+N}^*) \in \inpSet^N$, corresponding state sequence $\sttraj = (\stPt_k,\ldots,\stPt_{k+N}) \in \stSet^N$, delay sequence $\sDelayV = (\sDelay_k,\ldots,\sDelay_{k+N})$ and error sequence $\sAccuV = (\sAccu_k,\ldots,\sAccu_{k+N})$ such that $\dek{k} \in \Delta$, which minimize the $N$-step cost $J[0:N]$.
 In the remainder of this section we discuss how to make this problem tractable.
@@ -56,7 +56,7 @@ Intuitively, by forcing $(\Nom\stPt_{k+j},\inpPt_{k-1+j})$ to lie in the reduced
 The tractable optimization, denoted by $\RAMPCProb{\de}{k}$, is then 
 \begin{eqnarray}
 \label{eq:tractableOptim}
-J^*_{\de} &=& \min_{\inpSig,\sttraj,\de \in \Delta}\sum_{j=0}^{N}\left(\ell(\Nom \stPt_{k+j},\inpPt_{k+j})+\pi(\sDelay_k)\right)
+J^*_{\de} &=& \min_{\inpSig,\sttraj,\de \in \Delta}\sum_{j=0}^{N}\left(\ell(\Nom \stPt_{k+j},\inpPt_{k+j})+\alpha\pi(\sDelay_k)\right)
 \\
 \textrm{s.t.} &&\forall j \in \{0,\ldots,N\}
 \nonumber
