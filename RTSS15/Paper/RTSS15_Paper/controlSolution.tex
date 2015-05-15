@@ -23,9 +23,10 @@ Fix the \emph{prediction horizon} $N \geq 1$.
 Assume that the current contract (under which the current estimate $\hat{\stPt}_k$ was obtained) is $\dek{k}$, and that the previously applied input is $\inpPt_{k-1}$.
 To compute the new input value $\inpPt_{k}$ and next contract $\dek{k+1}$, Robust Model Predictive Control (RMPC) assumes that the contract value is fixed at $\de$ for the next $N$ steps, and also that the noise $w_{k+j}$ is zero for all $j \in \{0,\ldots,N\}$.
 I.e., it considers the nominal (noise-free) dynamics.
-To compensate for the use of nominal dynamics, it replaces the constraint $(\stPt_k,\inpPt_{k-1})\defeq z_k \in \stSet \times \inpSet \defeq \ZSet$ 
+Let $\Nom \stPt$ be the state of the system under zero noise conditions.
+To compensate for the use of nominal dynamics, it replaces the constraint $(\Nom\stPt_k,\inpPt_{k-1})\defeq z_k \in \stSet \times \inpSet \defeq \ZSet$ 
 by $(\Nom \stPt_k,\inpPt_k) \in \stSet_k \times \inpSet_k \defeq \Zc_k$,
-where $\Zc_k$ is $\ZSet$ `shrunk' by an amount corresponding to $\sAccu_k$, as we now explain. 
+where $\Zc_k$ is $\ZSet$ `shrunk' by an amount corresponding to $\sAccu_k$, as we now explain . 
 
 RMPC then solves the following optimization, which returns a sequence $\inpSig = (\inpPt_k,\ldots,\inpPt_{k+N})$
 Under these assumptions, RMPC computes an input sequence by solving the following optimization, which we refer to as $\MPCProb{\sDelay,\sAccu}(\hat{\stPt}_{k},\sDelay_k,\sAccu_k,u_{k-1})$:
