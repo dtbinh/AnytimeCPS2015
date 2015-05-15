@@ -14,10 +14,10 @@ At every time step $k$, the controller receives a state estimate $\hat{\stPt}_k$
 first is the control input $\inpPt_{k}$ to be applied to the physical system at time $t_{a,k}$.
 The second is the contract $(\sDelay_{k+1}, \sAccu_{k+1}) \in \Delta$ that will be requested from the estimator at the next step.
 At $k+1$, the estimator provides an estimate with error at most $\sAccu_{k+1}$ and within delay $\sDelay_{k+1}$.
-Finally, recall that $J = \sum_{k=0}^{\infty}\left(\ell(\stPt_k,\inpPt_k)+ \alpha \pi(\sDelay_k)\right)$ combines tracking error and input power in the $\ell$ terms, and estimation power consumption in the $\pi$ terms.
+Finally, recall that \todo[inline]{Do we want to keep the $\infty$?}$J = \sum_{k=0}^{\infty}\left(\ell(\stPt_k,\inpPt_k)+ \alpha \pi(\sDelay_k)\right)$ combines tracking error and input power in the $\ell$ terms, and estimation power consumption in the $\pi$ terms.
 
 The contract-based controller's task is to find a sequence of inputs $u_k \in \inpSet$ and of contracts $(\sDelay_k, \sAccu_k) \in \Delta$ such that the cost $J$ is minimized, and the state $\stPt_k$ is always in the set $\stSet$.
-The challenge in finding the control inputs is that the controller does not have access to the real state $\stPt_k$, but only to an estimate $\hat{\stPt}_k$. 
+The challenge in finding the control inputs is that the controller does not have access to the real state $\stPt_k$, but only to an estimate $\hat{\stPt}_k$.
 The norm of the error $e_k = \hat{\stPt}_k - \stPt_k$ is bounded by the contractual $\sAccu_k$, which varies at each time step.
 
 Fix the \emph{prediction horizon} $N \geq 1$.
