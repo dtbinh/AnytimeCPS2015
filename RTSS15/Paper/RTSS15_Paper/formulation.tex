@@ -32,13 +32,8 @@ to compute the control input $u_{k}$ as well as decide on the
 state estimate's delay and accuracy contract $(\sDelay_{k+1},\sAccu_{k+1})$ for the next step.
 This control is applied to the physical system according to \eqref{eq:plant-cont-model} at instant $t_{a,k} = t_{s,k}+\sDelay_k + \tau_k$, where $\tau_k$ is the time it takes to compute the input.
 
-<<<<<<< HEAD
 In our setting, the controller has access to the delay-error curve $\Delta$ of the estimator, and makes contract selections \emph{from that curve}. 
 This curve is obtained offline as explained in Section \ref{sec:codesign}, and detailed in Section \ref{delayErrorCurve}.
-=======
-In our setting, the controller has access to the delay-error curve $\Delta$ of the estimator, and makes contract selections \emph{from that curve}.
-This curve is obtained offline as explained in Section \ref{codesign}, and detailed in Section \ref{delayErrorCurve}.
->>>>>>> 60ce0998acdf01f3cad606d2251ccf8c7cb3e59e
 We remark that in each step $k\geq0$, the estimation accuracy $\sAccu_k$
 and hence the delay $\sDelay_k$ are already decided in the previous
 step and known to the controller.
@@ -57,9 +52,9 @@ These stage cost functions are chosen by the designer to achieve a desired contr
 
 The total cost function that the controller minimizes is then
 \(
-J=\sum_{k=0}^{\infty}\left(\ell(\stPt_k,\inpPt_k)+ \alpha \pi(\sDelay_k)\right)
-\).
-\todo[inline]{Is the above sum meant to be up to $\infty$?}
+J=\sum_{k=0}^{M}\left(\ell(\stPt_k,\inpPt_k)+ \alpha \pi(\sDelay_k)\right)
+\),
+where $M \geq 0$ is a deadline on the system's operation.
 
 \subsection{Discretized Dynamics}
 Because of time-triggered sensing and actuation, from time $t_{s,k}$ to $t_{a,k}$, the  previous control input $u_{k-1}$
