@@ -3,6 +3,8 @@
 
 \emph{The performance and execution time of data-driven control systems depends on the data being processed.}
 
+\emph{The controller's requirements (hard limits on response rate, etc) are specified as part of the design}.
+
 The various tasks in a control system, and in particular the state estimation task, will have an execution time that depends heavily on the current data.
 For example, an autonomous robot equipped with a camera needs to self-localize by processing, among other things, the video feed. 
 The robot tries to detect and track known objects in the frames to determine its current position.
@@ -39,19 +41,9 @@ a procedure to make any perception tool chain contract-based
 
 \begin{figure}[t]
 	\centering
-	\begin{subfigure}%[t]{0.5\textwidth}
-		\centering
-		\includegraphics[width=0.7\linewidth]{placeHolder}
-		\label{fig:traditionalCE}
-		\caption{Control and estimation operating independently.}		
-	\end{subfigure}
-	\begin{subfigure}%{0.5\textwidth}
-		\centering
-		\includegraphics[width=0.7\linewidth]{placeHolder}
-		\label{fig:codesignedCE}
+		\includegraphics[scale=0.2]{figures/omnigraffle_figures/high_level_figure.pdf}		
 		\caption{Contract-based co-designed controller and estimator.}
-	\end{subfigure}
-	\label{fig:feedbackloop}
+		\label{fig:codesignedCE}
 \end{figure}
 
 \input{motivatingExample}

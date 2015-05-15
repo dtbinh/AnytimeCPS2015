@@ -9,9 +9,7 @@
 \IEEEoverridecommandlockouts                              % This command is only needed if 
                                                           % you want to use the \thanks command
 
-\newcommand{\ub}{\bar{u}}
-\newcommand{\yb}{\bar{y}}
-\newcommand{\wb}{\bar{w}}
+\newcommand{\eu}{\textrm{e}}
 \newcommand{\figref}[1]{Fig.~\ref{fig:#1}}
 \overrideIEEEmargins       
 \usepackage{todonotes}                              
@@ -26,6 +24,17 @@
 \newcommand{\sAccu}{\epsilon}
 \newcommand{\sDelay}{\delta}
 \newcommand{\de}{(\sDelay,\sAccu)}
+\newcommand{\dek}[1]{(\sDelay_{#1},\sAccu_{#1)}
+\newcommand{\hWc}{\widehat{\Wc}}
+\newcommand{\ESet}{\Epsilon}
+\newcommand{\bm}{\hat{B}}
+\newcommand{\MPCProb}[2]{\mathbb{P_{#1,#2}}}
+\newcommand{\sDelayV}{\mathbf{\sDelay}}
+\newcommand{\sAccuV}{\mathbf{\sAccu}}
+\global\long\def\ZSet{\Zc}
+\global\long\def\Nom#1{\overline{#1}}
+\newcommand{\bla}[1]{\overbar{#1}}
+\newcommand{\bli}[1]{\overline{BLI #1}}
 
 % See the \addtolength command later in the file to balance the column lengths
 % on the last page of the document
@@ -39,7 +48,7 @@
 \usepackage{amssymb}  % assumes amsmath package installed
 
 \title{\LARGE \bf
-Anytime
+Co-Design of Anytime Computation and Robust Control
 }
 
 \author{Authors% <-this % stops a space
@@ -59,13 +68,14 @@ Anytime
 \input{introduction}
 \input{codesign}
 \input{controlProblem}
+\input{controlSolution}
 \input{delayErrorCurve}
 \input{experiments}
 \input{discussion}
 \input{conclusion}
 
 \bibliographystyle{abbrv}
-\bibliography{rtss2015}  
+\bibliography{rtss2015,cdc14,anytime_ref}  
 
 
 

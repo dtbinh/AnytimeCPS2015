@@ -1,0 +1,46 @@
+\section{Robust Model Predictive Control Solution}
+\label{robustMPC}
+
+In this section we give an overview of the Robust Model Predictive Controller (RMPC) that we use in the contract-based setup of Fig.~\ref{fig:fullcodesignedCE}.
+The mathematical details and derivations are available in the Appendix.
+Experiments confirm that the following controller can be run in real-time, and uses a negligible amount of time to compute relative to the estimation delay $\sDelay$ (see Fig.~\ref{fig:senseActuate}).
+
+\subsection{Solution overview}
+Recall the operation of the contract-based control and estimation framework as presented in Section \ref{sec:codesign} and Fig.~\ref{fig:fullcodesignedCE}.
+First, the estimator is profiled offline to obtain its delay-error curve, which we denote by $\Delta$.
+$\Delta$ represents a finite number of $\de$ contracts that the estimator can satisfy.
+At every time step $k$, the controller receives a state estimate $\hat{\stPt}_k$ and uses it to compute two things:
+first is the control input $\inpPt_{k}$ to be applied to the physical system at time $t_{a,k}$.
+The second is the contract $(\sDelay_{k+1}, \sAccu_{k+1}) \in \Delta$ that will be requested from the estimator at the next step.
+At $k+1$, the estimator provides an estimate with error at most $\sAccu_{k+1}$ and within delay $\sDelay_{k+1}$.
+Finally, recall that $J = \sum_{k=0}^{\infty}\left(\ell(\stPt_k,\inpPt_k)+ \alpha \pi(\sDelay_k)\right)$ combines tracking error and input power in the $\ell$ terms, and estimation power consumption in the $\pi$ terms.
+
+The contract-based controller's task is to find a sequence of inputs $u_k \in \inpSet$ and of contracts $(\sDelay_k, \sAccu_k) \in \Delta$ such that the cost $J$ is minimized, and the state $\stPt_k$ is always in the set $\stSet$.
+The challenge in finding the control inputs is that the controller does not have access to the real state $\stPt_k$, but only to an estimate $\hat{\stPt}_k$. 
+The norm of the error $e_k = \hat{\stPt}_k - \stPt_k$ is bounded by the contractual $\sAccu_k$, which varies at each time step.
+
+Fix the \emph{prediction horizon} $N \geq 1$.
+Assume that the current contract (under which the current estimate $\hat{\stPt}_k$ was obtained) is $\dek{k}$, and that the previously applied input is $\inpPt_{k-1}$.
+To compute the new input value $\inpPt_{k}$ and next contract $\dek{k+1}$, Robust Model Predictive Control (RMPC) assumes that the contract value is fixed at $\de$ for the next $N$ steps, and also that the noise $w_{k+j}$ is zero for all $j \in \{0,\ldots,N\}$.
+I.e., it considers the nominal (noise-free) dynamics.
+To compensate for the use of nominal dynamics, it replaces the constraint $(\stPt_k,\inpPt_{k-1})\defeq z_k \in \stSet \times \inpSet \defeq \ZSet$ 
+by $(\Nom \stPt_k,\inpPt_k) \in \stSet_k \times \inpSet_k \defeq \Zc_k$,
+where $\Zc_k$ is $\ZSet$ `shrunk' by an amount corresponding to $\sAccu_k$, as we now explain. 
+
+RMPC then solves the following optimization, which returns a sequence $\inpSig = (\inpPt_k,\ldots,\inpPt_{k+N})$
+Under these assumptions, RMPC computes an input sequence by solving the following optimization, which we refer to as $\MPCProb{\sDelay,\sAccu}(\hat{\stPt}_{k},\sDelay_k,\sAccu_k,u_{k-1})$:
+\begin{eqnarray}
+\min_{\inpSig,\sttraj} && J_{\sDelay,\sAccu} = \min_{\inpSig,\sttraj }\sum_{j=0}^{N}\left(\ell(\stPt_{k+j},\inpPt_{k+j})+\pi(\sDelay_k)\right)
+\\
+\textrm{s.t. } && \forall j = 0,1,\ldots, N, 
+\\
+&& (\stPt_{k+j},\inpPt_{k+j-1}) \in \ZSet_j(\epsilon_k,\epsilon)
+\\
+\end{eqnarray}
+where $\inpSig = (\inpPt_k,\ldots,\inpPt_{k+N})$ is a length-$N$ input sequence, and $\sttraj = (\stPt_k,\ldots,\stPt_{k+N})$ is the corresponding state sequence.
+Roughly speaking, the set $\ZSet_j(\epsilon_k,\epsilon) \subset \ZSet$ is a reduced constraint set, where the amount of reduction takes into account the error bound on the current estimate $\epsilon_k$, and the assumed error bound on all future estimates $\epsilon$.
+By requiring that the 
+Let $\inpPt^*_k$
+
+
+

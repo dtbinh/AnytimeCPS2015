@@ -1,6 +1,6 @@
-
 \section{Co-design of estimation and control}
 \label{sec:codesign}
+
 In a traditional control system, such as the one shown in Fig.~\ref{fig:traditionalCE}, the controller is unaware of the implementation details of the estimation module and the estimation module is unaware of the requirements of the controller. 
 For example, the design of the controller might not take into account the fact that obtaining a state estimate from a video feed will take a non-negligible amount of time, which we refer to as the estimation delay.
 Conversely, the design of the estimator might not take into account the varying real-time constraints that the controlled system must satisfy, and instead always use a fixed amount of time to compute its estimates.
@@ -33,11 +33,10 @@ The main components of the co-design architecture are a contract time perception
 
 \begin{figure}[t]
 	\centering
-		\includegraphics[width=0.7\linewidth]{placeHolder}
-		\label{fig:fullcodesignedCE}
-		\caption{Co-design of contract-based controller and estimator.}			
+	\includegraphics[scale=0.2]{figures/omnigraffle_figures/mid_level_figure2}
+	\caption{Contract-based estimator and controller}
+	\label{fig:fullcodesignedCE}
 \end{figure}
-
 \subsection{contract based perception algorithms}
 
 In order to maximize the efficiency of the computation and control system, a contract based perception algorithm can operate at different deadlines and provide a usable solution for the control algorithm to operate on. This flexible operation of the generally run-to-completion algorithms is achieved by composing the algorithm of functional blocks that have different computation times and result in different qualities of outputs. Note that this problem is different from that of composing anytime algorithms together. Anytime algorithms have a well defined computation time versus quality tradeoff, but in our case we are composing together blocks that are individually run-to-completion and in most cases do not have a well defined intermediate measurable quality.

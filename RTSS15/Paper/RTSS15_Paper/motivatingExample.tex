@@ -28,19 +28,8 @@ As the robot is commanded to fly the pattern faster and faster, the estimator de
 \todo[inline]{Pending experiemental confirmation about the effect of speed of flight on control performance }
 The control performance, as measured by a function that factors in the error in following the flight path and the cost of control, is shown in Fig.~\ref{fig:degradingPerformance}.
 (The details of this cost function are given in Section \ref{formulation}).
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=0.7\linewidth]{figures/placeHolder}
-	\caption{Degrading performance as the control objectives become more stringent.}
-	\label{fig:degradingPerformance}
-\end{figure}
-Running an estimation task with a fixed smaller delay but larger estimation error does not necessarily solve the problem of degraded performance, as shown in Fig.~\ref{fig:degradingPerformanceSmallDelta}.
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=0.7\linewidth]{figures/placeHolder}
-	\caption{Degrading performance at a smaller fixed delay.}
-	\label{fig:degradingPerformanceSmallDelta}
-\end{figure}
+
+Running an estimation task with a fixed smaller delay but larger estimation error does not necessarily solve the problem of degraded performance.
 
 Therefore, there is a need to rigorously quantify the trade-off between computation time and estimation error, then exploit that trade-off intelligently to achieve the best control performance under the problem constraints.
 Rather than always run the estimation task to completion, it is useful to have several estimation tasks with varying utilities (i.e., varying delay/error trade-offs).
