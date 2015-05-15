@@ -29,7 +29,7 @@ u_{k+N+1\Given k+1} & =\kappa\left(\Nom z_{k+N+1\Given k+1}\right)\label{eq:proo
 $j\in\left\{ 0,\dots,N\right\} $, $i\in\left\{ 0,\dots,N-1\right\} $,
 and $\kappa\left(\cdot\right)$ is the feedback control law for the
 invariant set $\Cc(\sDelay,\sAccu)$ that is used in the terminal
-set in Section~\ref{RMPC-Formulation}. We first show that the input and
+set. We first show that the input and
 state constraints are satisfied for $u_{k}$ and $x_{k+1}$, then
 we will prove the feasibility of the above candidate solution for
 $\MPCProb{\sDelay,\sAccu}(\hat{x}_{k+1},\sDelay[k+1],\sAccu[k+1],u_{k})$.
@@ -55,8 +55,8 @@ u_{k}
 &\qquad\qquad +\hat{F}e_{k+1}+\hat{F}\left(w_{k}+Ae_{k}-e_{k+1}\right)\\
  & =\Nom z_{k+1\Given k}^{\star}+\hat{F}e_{k+1}+\hat{F}\left(w_{k}+Ae_{k}-e_{k+1}\right)
 \end{align*}
-where we use the dynamics in \eqref{RMPC1-dyn}. From \eqref{RMPC1-zset}
-and \eqref{RMPC1-Z}, $\Nom z_{k+1\Given k}^{\star}$ satisfies $\Nom z_{k+1\Given k}^{\star}\in\ZSet_{1}\left(\sAccu[k],\sAccu\right)=\ZSet\ominus\hat{F}\ESet\left(\sAccu\right)\ominus\hat{F}\hWc\left(\sAccu[k],\sAccu\right)$.
+where we use the dynamics in \eqref{eq:RMPC1-dyn}. From \eqref{eq:RMPC1-zset}
+and \eqref{eq:RMPC1-Z}, $\Nom z_{k+1\Given k}^{\star}$ satisfies $\Nom z_{k+1\Given k}^{\star}\in\ZSet_{1}\left(\sAccu[k],\sAccu\right)=\ZSet\ominus\hat{F}\ESet\left(\sAccu\right)\ominus\hat{F}\hWc\left(\sAccu[k],\sAccu\right)$.
 It follows that
 \(
 \left[ x_{k+1}^{T}, u_{k}^{T} \right]^{T} \in \ZSet = \stSet\times\inpSet\text{,}
@@ -67,8 +67,8 @@ therefore  $x_{k+1}\in\stSet$ and $u_{k}\in\inpSet$.
 
 \noindent\textit{Initial condition:}
 %
-We have from \eqref{estimator-std-dynamics} that $\hat{z}_{k+1}=\hat{A}(\sDelay[k])\hat{z}_{k}+\hat{B}(\sDelay[k])u_{k}+\hat{F}\hat{w}_{k}$.
-On the other hand, by \eqref{proofs:candidate-solution:zj},
+We have from \eqref{eq:estimator-std-dynamics} that $\hat{z}_{k+1}=\hat{A}(\sDelay[k])\hat{z}_{k}+\hat{B}(\sDelay[k])u_{k}+\hat{F}\hat{w}_{k}$.
+On the other hand, by \eqref{eq:proofs:candidate-solution:zj},
 \begin{align*}
 \Nom z_{k+1\Given k+1} & =\Nom z_{k+1\Given k}^{\star}+L_{0}\hat{F}\hat{w}_{k}\\
  & =\hat{A}(\sDelay[k])\Nom z_{k\Given k}^{\star}+\hat{B}(\sDelay[k])u_{k\Given k}^{\star}+L_{0}\hat{F}\hat{w}_{k}\text{.}
@@ -92,29 +92,29 @@ in \eqref{RMPC1-dyn}. For $0\leq j<N$ we have
 &-\left(\hat{A}\left(\sDelay\right) + \hat{B}(\sDelay)K_{j}\left(\sDelay\right)\right)L_{j}\hat{F}\hat{w}_{k}+L_{j+1}\hat{F}\hat{w}_{k}\\
 =\, &\hat{A}\left(\sDelay\right)\Nom z_{k+j+1\Given k+1}+\hat{B}(\sDelay)u_{k+j+1\Given k+1}
 \end{align*}
-where the equality in \eqref{RMPC1-Lj} is used to derive the last
+where the equality in \eqref{eq:RMPC1-Lj} is used to derive the last
 equality. % from the previous one.
 Therefore the dynamics constraint
 is satisfied for all $0\leq j<N$. For $j=N$, the constraint is satisfied
-by construction by \eqref{proofs:candidate-solution:zN}.
+by construction by \eqref{eq:proofs:candidate-solution:zN}.
 
 
 \noindent\textit{State constraints:}
 %
 We need to show that $\Nom z_{(k+1)+j\Given k+1}\in\ZSet_{j}\text{\ensuremath{\left(\sAccu,\sAccu\right)}}$
 for all $j\in\left\{ 0,\dots,N\right\} $. Consider any $0\leq j<N$.
-\eqref{RMPC1-Zj} states that $\ZSet_{j+1}\left(\sAccu[k],\sAccu\right)=\ZSet_{j}\left(\sAccu,\sAccu\right)\ominus L_{j}\hat{F}\hWc\left(\sAccu[k],\sAccu\right)$.
+\eqref{eq:RMPC1-Zj} states that $\ZSet_{j+1}\left(\sAccu[k],\sAccu\right)=\ZSet_{j}\left(\sAccu,\sAccu\right)\ominus L_{j}\hat{F}\hWc\left(\sAccu[k],\sAccu\right)$.
 From the construction of the candidate solution we have $\Nom z_{k+j+1\Given k+1}=\Nom z_{k+j+1\Given k}^{\star}+L_{j}\hat{F}\hat{w}_{k}$,
 where $\hat{w}_{k}\in\hWc\left(\sAccu[k],\sAccu\right)$ and $\Nom z_{k+j+1\Given k}^{\star}\in\ZSet_{j+1}\left(\sAccu[k],\sAccu\right)$.
 By definition of the Pontryagin difference, we conclude that $\Nom z_{k+j+1\Given k+1}\in\ZSet_{j}\left(\sAccu,\sAccu\right)$
 for all $j\in\left\{ 0,\dots,N-1\right\} $.
 
-At $j=N$ the candidate solution in \eqref{proofs:candidate-solution:zj}
+At $j=N$ the candidate solution in \eqref{eq:proofs:candidate-solution:zj}
 gives us $\Nom z_{(k+1)+N\Given k+1}=\Nom z_{k+N+1\Given k}^{\star}+L_{N}\hat{F}\hat{w}_{k}$.
 Because $\Nom z_{k+N+1\Given k}^{\star}\in\ZSet_{f}\left(\sAccu[k],\sAccu\right)=\Cc\left(\sDelay,\sAccu\right)\ominus L_{N}\hat{F}\hWc\left(\sAccu[k],\sAccu\right)$
 and $\hat{w}_{k}\in\hWc\left(\sAccu[k],\sAccu\right)$, we have
 $\Nom z_{(k+1)+N\Given k+1}\in\Cc\left(\sDelay,\sAccu\right)$. The
-definition of $\Cc\left(\sDelay,\sAccu\right)$ in \eqref{RMPC1-Zf-invariant}
+definition of $\Cc\left(\sDelay,\sAccu\right)$ in \eqref{eq:RMPC1-Zf-invariant}
 implies $\Cc\left(\sDelay,\sAccu\right)\subseteq\ZSet_{N}\left(\sAccu,\sAccu\right)$.
 Therefore $\Nom z_{(k+1)+N\Given k+1}\in\ZSet_{N}\left(\sAccu,\sAccu\right)$.
 
@@ -123,7 +123,7 @@ Therefore $\Nom z_{(k+1)+N\Given k+1}\in\ZSet_{N}\left(\sAccu,\sAccu\right)$.
 %
 We need to show that $\Nom z_{k+N+2\Given k+1}\in\ZSet_{f}\left(\sAccu,\sAccu\right)=\Cc\left(\sDelay,\sAccu\right)\ominus L_{N}\hat{F}\hWc\left(\sAccu,\sAccu\right)$.
 Add $L_{N}\hat{F}\hat{w}$, for any $w\in\hWc\left(\sAccu,\sAccu\right)$,
-to both sides of \eqref{proofs:candidate-solution:zN} and note that
+to both sides of \eqref{eq:proofs:candidate-solution:zN} and note that
 $u_{k+N+1\Given k+1}=\kappa\left(\Nom z_{k+N+1\Given k+1}\right)$,
 we have 
 \begin{multline*}

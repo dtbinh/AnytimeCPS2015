@@ -1,51 +1,74 @@
 \section{Introduction}
 \label{introduction}
 
-\emph{The performance and execution time of data-driven control systems depends on the data being processed.}
+Real-time control of physical systems, like autonomous robots, raises a number of timing and control-related issues at the interface between the controller that's providing the actuation and the estimator that's providing periodic state estimates to the controller.
+See Fig.~\ref{fig:codesignedCE}.
+More issues arise in relation to the inaccuracies introduced by the software implementation of both controller and estimator on a given hardware platform.
+Specifically, controllers are typically designed to accomplish the functional goals of the system under simplifying assumptions on the quality of the state estimate (e.g., no or fixed error), the estimation delay (e.g., no or fixed delay), or the actuation jitter (e.g., no jitter).
+Note that the first effect (estimate error) is due to the estimation algorithm itself regardless of implementation, whereas the last two effects (delay and jitter) have to do with the software implementation and its characteristics on the hardware platform.
+As the real-time requirements on the closed-loop system become more stringent, these assumptions are no longer valid, and a violation of the assumptions can lead to degraded performance, as we show in the example at the end of this Introduction.
+It becomes important to explicitly account for (varying) estimation delays and estimation errors. 
+In this paper, we take this a step further and take \emph{advantage} of the varying delay/error behavior of the estimation software to accomplish the control goals at a reduced energy cost.
 
-\emph{The controller's requirements (hard limits on response rate, etc) are specified as part of the design}.
-
-The various tasks in a control system, and in particular the state estimation task, will have an execution time that depends heavily on the current data.
-For example, an autonomous robot equipped with a camera needs to self-localize by processing, among other things, the video feed.
-The robot tries to detect and track known objects in the frames to determine its current position.
-The amount of time this visually-guided estimator will take to process each frame depends on the contents of the frame [???], as well as on the settings used for the computer vision algorithms.
-To guarantee that the control objectives are achieved, the system is typically over-engineered to complete, in a timely manner, all computation and control tasks based on a Worst-Case estimate of their Execution Time (WCET).
-
-Whether computed offline [??] or online \cite{hendsethB12_OnlineWCET} the WCET generally provides a pessimistic view of system performance.
-That's because in many cases, worst-case runtimes are not typical of the system's operation.
-I.e., worst-case is not the average case.
-To illustrate this point, consider the execution times shown in Fig.~\ref{fig:time_ecdf} for a self-localization algorithm which we study in Section \ref{delayErrorCurve}.
-It can be seen that the average can differ significantly from the worst-case.
-Since computation time typically correlates with consumed energy, much energy is therefore wasted on computations that are not necessary for the current data input.
-%\todo[inline]{HA: Yash, plz change the axis on fig \figref{time_ecdf} from ns to ms or sec}
-%\begin{figure}[t]
-%\centering
-%\includegraphics[width=0.9\columnwidth]{figures/time_ecdf}
-%\caption{Cumulative Distribution Function $F(x)$ for the execution time of a
-%visually guided self-localization algorithm, obtained at different settings of
-%the algorithm. The variability in times is captured by the spread of the CDF.}
-%\label{fig:time_ecdf}
-%\end{figure}
-
-In this paper we focus on the execution time of state estimators used in control systems.
-While prior work leverages the \emph{inherent} data-dependent variability of certain algorithms' execution time to do ??? [???], in this paper, we \emph{introduce} variability into the execution time, guided by the fact that the best estimates are not always required for good control performance.
-Rather, the control algorithm can decide, based on its objectives, what quality of state estimate is sufficient at the current time step.
-\todo[inline]{HA: was it the right choice then to start by talking about data-dependent variability? doesn't seem relevant to what we do.}
-Since computation time and energy are usually negatively correlated with quality of estimate, choosing a poorer quality estimate where appropriate usually results in energy savings.
-
-Specifically, we investigate the design of robust controllers with the use of contract-based state estimation algorithms.
-
-Our contributions:
-the formulation and solution of an RMPC problem where the controller receives noisy state estimates from a contract-based estimation algorithm.
-\\
-a procedure to make any perception tool chain contract-based
-
-
+Similarly, estimation algorithms are typically designed without regard to how their estimates will be used and under what operating conditions.
+In particular, an estimator will often \emph{run to completion}: that is, its stopping criteria are designed to provide the best estimate, regardless of runtime or energy consumption.
+%For example, the Computer Vision-based estimator we introduce in Section \ref{delayErrorCurve} uses a corner detector.
+%In general, the corner detector will find the largest number of corners in a frame for best performance. 
+Typical design practice determines the Worst-Case Execution Time (WCET) of the estimation task, and engineers the system to satisfy deadlines under WCET conditions.
+However, the actual runtime of such estimators is heavily dependent on the actual data being processed. 
+So WCET considerations, whether computed online or offline, produce a conservative design.
+Moreover, classical timing analysis does not guarantee \emph{functional} correctness of the controlled system.
+Indeed, even if the set of tasks of a control system is so-called schedulable, it may still fail to achieve its control objectives.
+In addition, the best estimate is not always needed:
+sometimes a lower quality estimate, obtained with a smaller energy cost, is sufficient to achieve the control objectives.
+Finally, when obtaining better estimates requires longer runtimes of the estimation task, it may actually be detrimental to ask for the best estimate.
+For example, when the computational resources are overloaded, there may be a need to spend less time computing a state estimate. 
+In this paper, we provide a rigorous framework where real-time adaptation of the estimation task execution time and estimate quality allows the system to better achieve its functional goals while reducing energy consumption.
 \begin{figure}[t]
 	\centering
-		\includegraphics[width=0.9\columnwidth]{figures/omnigraffle_figures/high_level_figure.pdf}
-		\caption{Contract-based co-designed controller and estimator.}
-		\label{fig:codesignedCE}
+	\includegraphics[width=0.9\columnwidth]{figures/omnigraffle_figures/high_level_figure.pdf}
+	\caption{Contract-based co-designed controller and estimator.}
+	\label{fig:codesignedCE}
 \end{figure}
 
 \input{motivatingExample}
+
+In this work, we develop the above remarks into a co-design framework for a real-time control system, where the controller and estimator communicate via \emph{contracts}.
+A contract is a guarantee requested by the controller, and fulfilled by the estimator, that the latter can provide an estimate with a certain maximum error $\sAccu$, and within a certain deadline $\sDelay$.
+Both the accuracy and the delay are part of the contract.
+Using these contracts, we show how the controller can throttle the execution time of the estimation task (i.e., estimation delay) to preserve good performance and to reduce energy consumption.
+%This allows the controller to:
+%1) trade-off accuracy for energy in real-time, while still being cognizant of control performance.
+%2) choose the best operating mode in terms of balancing the detrimental effects of delay and accuracy on the performance.
+Contract algorithms are one class of \emph{anytime} algorithms.%: algorithms that have a range of runtimes, and each runtime is associated with some quality of the algorithm's output.
+Another class of anytime algorithms is called \emph{interruptible}: these are algorithms that can be interrupted at any time during their execution, and they return a usable output.[?? zilberstein]
+The difference between contract and interruptible algorithms is that when the latter are interrupted, the accuracy of the output is not known beforehand to the interruptor.
+Contract algorithms, on the other hand, offer a \emph{finite} number of (accuracy, delay) operating points, which constitute the `contracts'. 
+When the \emph{requestor} (e.g., the controller) requests a contract, it therefore knows the accuracy with which the answer is returned.
+This is important for controllers, which need to know a bound on the estimate error in order to \emph{guarantee} stability of the system and achieve functional goals.
+
+Approximate computing approaches \cite{loop-perf,rely,npu} seek time or energy
+savings by performing a computation approximately instead of precisely. While
+anytime algorithms and approximate computing share a high-level goal,
+approximate computing approaches are run-to-completion and also lack a feedback
+mechanism to permit computation and resources to be balanced dynamically.
+
+Recent work \cite{FrehseHQW14_Formal} uses Typical Worst Case Analysis of the software and Logical Execution Time semantics to provide the controller with knowledge of the timing characteristics of the implementation.
+Our work, by contrast, profiles the estimation software directly to obtain timing and accuracy information. 
+Whereas \cite{FrehseHQW14_Formal} is concerned with formal verification of a given controller, we \emph{design} controllers to take advantage of delay/accuracy trade-offs in real-time.
+\todo[inline]{anthony, others?}
+
+\textbf{Summary of contributions}.
+In this work, we present a contract-based framework for the co-design of controller and estimator algorithms, consisting of:
+\begin{itemize}
+	\item a well-defined interface between control and estimation in 
+\end{itemize}
+Contributions: 
+a framework for the co-design of controller and estimator which consists of:
+
+1) an interface between controller and estimator, which is a set of operating modes or contracts that hte estimator can guarantee
+2) a widely applicable way of computing the interface for visual perception toolchains
+3) a controller design that takes advantage of knowing the interface to achieve better performance for same cost, or same performance at smaller cost.
+
+
+
