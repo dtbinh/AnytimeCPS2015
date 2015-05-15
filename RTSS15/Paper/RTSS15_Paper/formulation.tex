@@ -1,24 +1,25 @@
 \subsection{System Model}
 \label{formulation}
 
-Consider a hexarotor, which is an autonomous flying robot with six rotors, shown in Fig.~\ref{fig:hexarotor}.
-The state $\stPt$ of the hexarotor is made of its 3D position and 3D velocity.
+Consider a hexrotor, which is an autonomous flying robot with six rotors, shown in Fig.~\ref{fig:hexrotor}.
+The state $\stPt$ of the hexrotor is made of its 3D position and 3D velocity.
 The input $\inpPt$ to the robot consists of the desired pitch and roll angles, and the desired thrust.
-The hexarotor's mission is to fly a pre-defined pattern $\stPt_{ref}$, such as the one shown in Fig.~\ref{fig:hexarotor}.
-The dynamics of the hexarotor, relating the time-evolution of its state to the current state and input, can be approximated by the following Linear Time-Invariant (LTI) ODE [??]:
+The hexrotor's mission is to fly a pre-defined pattern $\stPt_{ref}$, such as the one shown in Fig.~\ref{fig:hexrotor}.
+The dynamics of the hexrotor, relating the time-evolution of its state to the current state and input, can be approximated by the following Linear Time-Invariant (LTI) ODE [??]:
 \begin{equation}
 \dot{x}(t) = A_{c}x(t)+B_{c}u(t)+w_{c}(t)  \label{eq:plant-cont-model}
 \end{equation}
 where $x\in \Re^{n}$ is the state constrained to lie in a set $\stSet \subset \Re^n$, 
 $\inpPt\in\Re^{m}$ is the control input constrained to lie in a set $\inpSet \subset \Re^m$,
-and $w_{c}\in\Re^{n}$ is the process noise assumed to lie in a set $\Wc \subset \Re^n$. 
-LTIs model a wide range of systems, and our results apply to arbitrary LTIs of the form given in \eqref{eq:plant-cont-model} with compact and convex constraint sets $\stSet,\inpSet$ and $\Wc$.
+and $w_{c}\in\Re^{n}$ is the bounded process noise assumed to lie in a set $\Wc_c \subset \Re^n$. 
+$A_c \in \Re^{n\times n}$ and $B_c \in \Re^{m\times n}$ are matrices.
+LTIs model a wide range of systems, and our results apply to arbitrary LTIs of the form given in \eqref{eq:plant-cont-model} with compact and convex constraint sets $\stSet,\inpSet$ and $\Wc_c$.
 The sets $\stSet$ and $\inpSet$ are part of the problem statement and are either chosen by the designer or determined by physical constraints of the physical plant and the actuators.
-For the hexarotor, $\stSet$ captures limits on the state such that the LTI dynamics provide a good approximation of the true nonlinear dynamics. 
+For the hexrotor, $\stSet$ captures limits on the state such that the LTI dynamics provide a good approximation of the true nonlinear dynamics. 
 The set $\inpSet$ restricts the inputs to values that can be supported by the rotors.
 
 \subsection{Time-Triggered Sensing and Actuation}
-For flight the hexarotor needs to determine its current position and speed, i.e., it needs to produce an \emph{estimate} of its current state $\stPt$.
+For flight the hexrotor needs to determine its current position and speed, i.e., it needs to produce an \emph{estimate} of its current state $\stPt$.
 It does so by taking a video during flight through a downward facing camera, detecting and tracking features across frames, and deducing its own position relative to these features.
 The camera captures a new frame every $T > 0$ seconds, thus resulting in periodic measurements at instants $t_{s,k}=kT$,
 where $k\in\Ne$.
@@ -32,7 +33,7 @@ state estimate's delay and accuracy contract $(\sDelay_{k+1},\sAccu_{k+1})$ for 
 This control is applied to the physical system according to \eqref{eq:plant-cont-model} at instant $t_{a,k} = t_{s,k}+\sDelay_k + \tau_k$, where $\tau_k$ is the time it takes to compute the input. 
 
 In our setting, the controller has access to the delay-error curve $\Delta$ of the estimator, and makes contract selections \emph{from that curve}. 
-This curve is obtained offline as explained in Section \ref{codesign}, and detailed in Section \ref{delayErrorCurve}.
+This curve is obtained offline as explained in Section \ref{sec:codesign}, and detailed in Section \ref{delayErrorCurve}.
 We remark that in each step $k\geq0$, the estimation accuracy $\sAccu_k$
 and hence the delay $\sDelay_k$ are already decided in the previous
 step and known to the controller. 
@@ -60,7 +61,7 @@ is still used.
 Then at $t_{a,k}$ the new control input $u_{k}$
 is computed and applied by the controller. 
 See Fig.~\ref{fig:senseActuate}.
-In the appendix we show that the discretized dynamics are given by 
+The discretized dynamics are given by 
 \begin{equation}
 \label{eq:disc-dynamics}
 x_{k+1}=Ax_{k}+B_{1}(\sDelay_k)u_{k-1}+B_{2}(\sDelay_k)u_{k}+w_{k}, k\geq0
