@@ -1,14 +1,14 @@
-\section{Case Study: Real-time feedback control of a hex-rotor with contract based estimation and robust control}
+\section{Case Study: Real-time feedback control of a hexrotor with contract based estimation and robust control}
 \label{experiments}
 
-To evaluate our methodology on a real platform, we applied it to a hex-rotor tasked with following a given trajecotory. The hex-rotor flies using visual odometry from a downward facting camera for self-localization and using our Robust Model Predictive Algorithm for both the position control of the hex-rotor and setting the time deadline for the visual odometry computations. For the contract based perception and estimation algorithm we use the FAST corner detector (as in section \ref{}) providing measurements to an Unscented Kalman Filter that also uses measurements from an Inertial Measurement Unit (IMU) to provide a state estimate for the control algorithm to use.
-In the following section we show how our approach dynamically schedules different modes of the contract-based perception and estimation algorithm at run-time and also controls the dynamic system in an energy efficient order while providing good tracking performance. In the evaluation subsection we will compare our results to a baseline Model Predictive Control algorithm that does not leverage co-design and operates at fixed ($\delta,\epsilon$) points of the perception/estimation algorithm which provides a state estimate to the controller. 
+To evaluate our methodology on a real platform, we applied it to a hexrotor tasked with following a given trajectory. The hexrotor flies using pose estimates from the visual odometry with the downward facing camera and our Robust Model Predictive Algorithm for both the position control of the hexrotor and setting the time deadline for the visual odometry computations. For the contract based perception and estimation algorithm we use the FAST corner detector (as in section \ref{}) providing measurements to an Unscented Kalman Filter that also uses measurements from an Inertial Measurement Unit (IMU) to provide a state estimate for the control algorithm to use.
+In the following section we show how our approach dynamically schedules different modes of the contract-based perception and estimation algorithm at run-time and also controls the dynamic system in an energy efficient order while providing good tracking performance. In the evaluation subsection we will compare our results to a baseline Model Predictive Control algorithm that does not leverage co-design and operates at fixed ($\delta,\epsilon$) points of the perception/estimation algorithm which provides a state estimate to the controller.
 
 \subsection{Experimental setup}
-\todo[inline]{details about hex-rotor and odroid and the visual odometry. Figure for control/percpetion architecture of hex-rotor here, cvxgen based rampc}
-%Hexrotor \textbf{<specs here>} using visual odometry from a downward facing camera. Figure for hexrotor, figure for images from hexrotor downward facing, and figure for hexrotor control architecture.  
+\todo[inline]{details about hexrotor and odroid and the visual odometry. Figure for control/percpetion architecture of hexrotor here, cvxgen based rampc}
+%Hexrotor \textbf{<specs here>} using visual odometry from a downward facing camera. Figure for hexrotor, figure for images from hexrotor downward facing, and figure for hexrotor control architecture.
 \todo[inline]{Plant model and estimation here}
-%We illustrate the foregoing results on the hexarotor example from Section \ref{motivatingExample}.
+%We illustrate the foregoing results on the hexrotor example from Section \ref{motivatingExample}.
 %Recall that we found the control performance, as measured by $J$ of Eq.??, to degrade as the robot's speed was increased.
 %We implemented the RAMPC controller of Section \ref{controlProblem}, and used the error-delay curves of Section \ref{delayErrorCurve}.
 
@@ -20,21 +20,20 @@ This accurately recreates the in flight environment that is present for the FAST
 
 Also needed for the control optimization as stated in equation \ref{} is a measure of the power consumption by the visual odometry while at different settings on maximum number of corner. This is obtained again by running the visual odomery code offline for different knob settings and measuring the power consumed by the Odroid to perform these computations. Power measurements are made using the Odroid Smart Power meter \cite{OdroidSmartPower}, which measures consumption at 10Hz to milliwatt precision. We measure the power consumption of the entire Odroid board, including CPU and DRAM power consumption. To avoid the physical challenges of fitting the power meter onto our hex-copter platform, we measure the power consumption of the Odroid board on the ground, running the same controller and vision workloads as it does during flight as explained above.
 
-This offline profiling now allows us to formulate the co-design problem for the hex-rotor and experimentally evaluate our methods.
-
-
+This offline profiling now allows us to formulate the co-design problem for the hexrotor and experimentally evaluate our methods.
 
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=0.45\textwidth]{figures/time_ecdf_millisec.pdf}
+  \includegraphics[width=0.9\columnwidth]{figures/time_ecdf_millisec.pdf}
   \caption{Cumulative distribution of profiled execution times for visual odometry running on the Odroid U-3 for varying maximum number of corners from the FAST detector.}
+  \label{fig:time_ecdf}
 \end{figure}
 
 Fig.~\ref{fig:modeSwitching} shows that the RAMPC indeed chooses different modes, indicating that awareness of the error/delay trade-off does lead to improved performance.
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=0.7\linewidth]{figures/placeHolder}
+	\includegraphics[width=0.9\columnwidth]{figures/placeHolder}
 	\caption{Mode switches of RAMPC.}
 	\label{fig:modeSwitching}
 \end{figure}
