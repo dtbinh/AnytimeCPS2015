@@ -82,10 +82,9 @@ Here $w_{k}$ is the accumulated process noise during the interval, and is constr
 Note that both the current control $u_{k}$ and the previous
 control $u_{k-1}$ appear in \eqref{eq:disc-dynamics}.
 Furthermore, the input matrices $B_{1}(\sDelay_k)$ and $B_{2}(\sDelay_k)$
-depend on the delay $\sDelay_k$; hence $\sDelay_k$ is also an
-input to the dynamics.
+depend on the delay $\sDelay_k$.
 The estimation accuracy $\sAccu_k$ affects the state estimate
-$\hat{x}_{k}$ %which is
+$\hat{\stPt}_{k}$ %which is
 used by the controller to compute $u_{k}$;
 therefore $\sAccu_k$ indirectly affects the dynamics via the control
 input.
