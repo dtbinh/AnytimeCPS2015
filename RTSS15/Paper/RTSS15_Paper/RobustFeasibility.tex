@@ -1,14 +1,13 @@
 \subsection{Proofs of Feasibility}
-The RMPC formulation in \eqref{RMPC1}, with a fixed estimation mode
-$\left(\sDelay,\sAccu\right)\in\Delta$, is designed to ensure that
-it is robustly feasible, as stated in Thm. \ref{robust-feasible-RMPC}.
+The RMPC formulation of the previous section, with a fixed estimation mode
+$\left(\sDelay,\sAccu\right)\in\Delta$, is designed to ensure that the control problem is robustly feasible, as stated in the following theorem.
 \begin{thm}
-[Robust Feasibility of RMPC]\label{thm:robust-feasible-RMPC} For
-any estimation mode $\left(\sDelay,\sAccu\right)$, if $\MPCProb{\sDelay,\sAccu}(\hat{x}_{k_{0}},\sDelay[k_{0}],\sAccu[k_{0}],u_{k_{0}-1})$
+[Robust Feasibility of RAMPC]\label{thm:robust-feasible-RMPC} For
+any estimation mode $\left(\sDelay,\sAccu\right)$, if $\RAMPCProb{\de}{k}$
 is feasible then the system (\ref{eq:disc-dynamics}) controlled by
-the RMPC and subjected to disturbances constrained by \eqref{disturb-constraint}
-robustly satisfies the state constraint (\ref{eq:state-constraint})
-and the control input constraint (\ref{eq:input-constraint}), and
+the RAMPC and subjected to disturbances constrained by $w_k \in \Wc$
+robustly satisfies the state constraint $\stPt \in \stSet$
+and the control input constraint $\inpPt \in \inpSet$, and
 all subsequent optimizations $\MPCProb{\sDelay,\sAccu}(\hat{x}_{k},\sDelay[k],\sAccu[k],u_{k-1})$,
 $\forall k>k_{0}$, are feasible.
 \end{thm}
