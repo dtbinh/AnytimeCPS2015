@@ -6,26 +6,40 @@
 
 %\documentclass[a4paper, 10pt, conference]{ieeeconf}      % Use this line for a4 paper
 
-\IEEEoverridecommandlockouts                              % This command is only needed if 
+\IEEEoverridecommandlockouts                              % This command is only needed if
                                                           % you want to use the \thanks command
 
-\newcommand{\ub}{\bar{u}}
-\newcommand{\yb}{\bar{y}}
-\newcommand{\wb}{\bar{w}}
+\newcommand{\eu}{\textrm{e}}
 \newcommand{\figref}[1]{Fig.~\ref{fig:#1}}
-\overrideIEEEmargins       
-\usepackage{todonotes}                              
+\overrideIEEEmargins
+\usepackage{todonotes}
 \RequirePackage{graphicx}
 \usepackage{subfigure}
+\usepackage{bm}
+%\usepackage{subequation}
 \graphicspath{ {figures/} }
 %\usepackage[tight,footnotesize]{subfigure}
 \usepackage{fainekos-macros}
-
 \newcommand{\hatodo}[1]{\todo{HA: #1}}
 \newcommand{\hatodoin}[1]{\todo[inline]{HA: #1}}
 \newcommand{\sAccu}{\epsilon}
 \newcommand{\sDelay}{\delta}
 \newcommand{\de}{(\sDelay,\sAccu)}
+\newcommand{\dek}[1]{(\sDelay_{#1},\sAccu_{#1})}
+\newcommand{\hWc}{\widehat{\Wc}}
+\newcommand{\sDelayV}{\underline{\sDelay}}
+\newcommand{\sAccuV}{\underline{\sAccu}}
+\newcommand{\ESet}{\mathcal{E}}
+%\newcommand{\bm}{\hat{B}}
+\newcommand{\MPCProb}[1]{\mathbb{P_{#1}}}
+\newcommand{\RAMPCProb}[2]{\mathbb{P}_{#1}(\hat{\stPt}_{#2},\sDelay_{#2},\sAccu_{#2},\inpPt_{#2 -1})}
+\global\long\def\ZSet{\Zc}
+\global\long\def\Cc{\mathcal{C}}
+\global\long\def\Nom#1{\overline{#1}}
+\newcommand{\bla}[1]{\overbar{#1}}
+\newcommand{\bli}[1]{\overline{BLI #1}}
+
+\newcommand{\Given}{|}
 
 % See the \addtolength command later in the file to balance the column lengths
 % on the last page of the document
@@ -39,7 +53,7 @@
 \usepackage{amssymb}  % assumes amsmath package installed
 
 \title{\LARGE \bf
-Anytime
+Co-Design of Anytime Computation and Robust Control
 }
 
 \author{Authors% <-this % stops a space
@@ -59,13 +73,17 @@ Anytime
 \input{introduction}
 \input{codesign}
 \input{controlProblem}
+\input{controlSolution}
 \input{delayErrorCurve}
 \input{experiments}
 \input{discussion}
+\input{related}
 \input{conclusion}
+%\appendix
+\input{appendix}
 
 \bibliographystyle{abbrv}
-\bibliography{rtss2015}  
+\bibliography{rtss2015,cdc14,anytime_ref}
 
 
 
