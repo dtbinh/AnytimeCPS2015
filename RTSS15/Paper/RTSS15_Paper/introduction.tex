@@ -40,8 +40,8 @@ Using these contracts, we show how the controller can throttle the execution tim
 %This allows the controller to:
 %1) trade-off accuracy for energy in real-time, while still being cognizant of control performance.
 %2) choose the best operating mode in terms of balancing the detrimental effects of delay and accuracy on the performance.
-Contract algorithms are one class of \emph{anytime} algorithms.%: algorithms that have a range of runtimes, and each runtime is associated with some quality of the algorithm's output.
-Another class of anytime algorithms is called \emph{interruptible}: these are algorithms that can be interrupted at any time during their execution, and they return a usable output.[?? zilberstein]
+Contract time algorithms \cite{zilbersteinAImag} are one class of \emph{anytime} algorithms \cite{boddy}. %: algorithms that have a range of runtimes, and each runtime is associated with some quality of the algorithm's output.
+Another class of anytime algorithms is called \emph{interruptible}: these are algorithms that can be interrupted at any time during their execution, and they return a usable output.
 The difference between contract and interruptible algorithms is that when the latter are interrupted, the accuracy of the output is not known beforehand to the interruptor.
 Contract algorithms, on the other hand, offer a \emph{finite} number of (accuracy, delay) operating points, which constitute the `contracts'. 
 When the \emph{requestor} (e.g., the controller) requests a contract, it therefore knows the accuracy with which the answer is returned.
