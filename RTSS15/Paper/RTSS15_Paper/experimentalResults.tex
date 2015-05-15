@@ -16,7 +16,7 @@ Note that since we have access to the true position and velocities ($x(t)$) of t
 \end{figure}
 
 
-Figure \ref{fig:CostAndModes} shows a zoomed in view of how the tracking cost ($J_{true}$) evolves over time for RAMPC (with $\alpha=0$) and MPC (fixed mode 0). Also overlayed on tese two are the estimator modes being selected by RAMPC. Note, that RAMPC does better than MPC for these settings (lower tracking cost), as is also clear from table \ref{tbl:RAMPC_MPC_performance} and that there is dynamic switching of estimator modes at runtime with RAMPC leading to improved control performance.  
+Figure \ref{fig:CostAndModes} shows a zoomed in view of how the tracking cost ($J_{true}$) evolves over time for RAMPC (with $\alpha=0$) and MPC (fixed mode 0). Also overlayed on tese two are the estimator modes being selected by RAMPC. It is clear from this figure that RAMPC does better than MPC for this setting (lower tracking cost) and that there is dynamic switching of estimator modes at runtime with RAMPC leading to improved control performance. Note, RAMPC does better throughout and not just in this zoomed view, and also does better than MPC at any mode (see table \ref{tbl:RAMPC_MPC_performance}) but only MPC with one  mode and RAMPC for one value of $\alpha$ are showed in a small section of the experimental run in figure \ref{fig:CostAndModes} to reduce clutter.
 Also noticeable in figure \ref{fig:TrackingVsEnergy} is how the RAMPC provides better tracking performance, or a lower tracking cost while using lesser energy to do so. This shows that switching between estimation modes improves not only the control performance but also energy efficiency by switching estimator modes at runtime. 
 
 
@@ -27,7 +27,7 @@ Also noticeable in figure \ref{fig:TrackingVsEnergy} is how the RAMPC provides b
 	\label{fig:TrackingVsEnergy}
 \end{figure}
 
-\small{
+
 \begin{table}[htb]
 \begin{center}
 \caption{Tracking performance and computation energy}
@@ -48,11 +48,10 @@ Also noticeable in figure \ref{fig:TrackingVsEnergy} is how the RAMPC provides b
 \end{tabular}	
 	\end{center}
 \end{table}
-}
 
 
 
-Figure \ref{fig:CostAndEnergyVsAlpha} shows the degradation in tracking performance and improvement in energy efficiency as the weight for the energy in the cost function, $\alpha$ is increased (see equation \ref{}). This is expected as with more weight to the energy consumption, the RAMPC switches more often to the low energy (and faster) but less accurate mode 0, as is seen in table \ref{tbl:RAMPC_ModeTime} which shows the fraction of time spent in the 4 modes with RAMPC as $\alpha$ changes.
+Figure \ref{fig:CostAndEnergyVsAlpha} shows the degradation (increased mean $J_true$) in tracking performance and improvement (reduction) in energy consumption as the weight for the computation power consumption in the cost function, $\alpha$ is increased (see equation \ref{}). This is expected as with more weight to the energy consumption, the RAMPC switches more often to the low energy (and faster) but less accurate mode 0, as is seen in table \ref{tbl:RAMPC_ModeTime} which shows the fraction of time spent in the 4 modes with RAMPC as $\alpha$ changes.
 
 
 \begin{figure}[t]
