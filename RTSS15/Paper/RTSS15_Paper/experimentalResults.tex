@@ -6,7 +6,7 @@ Once the flights are complete, to get a more accurate picture of how the control
 	J_{true}(t) =  (x(t)-x_{ref}(t))^{T}Q(x(t)-x_{ref}(t)) + u(t)^{T}Ru(t)
 \end{equation}
 
-Note that since we have access to the true position and velocities ($x(t)$) of the hexrotor with the VICON system, we can obtain the true tracking cost. Table \ref{tbl:RAMPC_MPC_performance} shows the mean of the above function over the 10 flights for both MPC across all fixed modes and RAMPC with different values of $\alpha$. It also shows the estimated energy consumption based on the time spent in each mode (which can be seen in table \ref{tbl:RAMPC_ModeTime} for RAMPC). RAMPC shows better tracking performance (lower mean $J_{true}$) than the MPC with either of the 4 fixed modes, showing the improved control performance that can be obtained by dynamically switching between estimation modes in-flight at runtime. 
+Note that since we have access to the true position and velocities ($x(t)$) of the hexrotor with the VICON system, we can obtain the true tracking cost. Table \ref{tbl:RAMPC_MPC_performance} shows the mean of the above function over the 10 flights for both MPC across all fixed modes and RAMPC with different values of $\alpha$. It also shows the estimated energy consumption based on the time spent in each mode (which can be seen in Table \ref{tbl:RAMPC_ModeTime} for RAMPC). RAMPC shows better tracking performance (lower mean $J_{true}$) than the MPC with either of the 4 fixed modes, showing the improved control performance that can be obtained by dynamically switching between estimation modes in-flight at runtime. 
 
 \begin{figure}[tbh]
 	\centering
@@ -16,14 +16,15 @@ Note that since we have access to the true position and velocities ($x(t)$) of t
 \end{figure}
 
 
-Figure \ref{fig:CostAndModes} shows a zoomed in view of how the tracking cost ($J_{true}$) evolves over time for RAMPC (with $\alpha=0$) and MPC (fixed mode 0). Also overlayed on tese two are the estimator modes being selected by RAMPC. It is clear from this figure that RAMPC does better than MPC for this setting (lower tracking cost) and that there is dynamic switching of estimator modes at runtime with RAMPC leading to improved control performance. Note, RAMPC does better throughout and not just in this zoomed view, and also does better than MPC at any mode (see table \ref{tbl:RAMPC_MPC_performance}) but only MPC with one  mode and RAMPC for one value of $\alpha$ are showed in a small section of the experimental run in figure \ref{fig:CostAndModes} to reduce clutter.
-Also noticeable in figure \ref{fig:TrackingVsEnergy} is how the RAMPC provides better tracking performance, or a lower tracking cost while using lesser energy to do so. This shows that switching between estimation modes improves not only the control performance but also energy efficiency by switching estimator modes at runtime. 
+Figure \ref{fig:CostAndModes} shows how the tracking cost ($J_{true}$) evolves over time for RAMPC (with $\alpha=0$) and MPC (fixed mode 0) for a portion of the hexrotor flight. The estimator modes selected by RAMPC are overlaid in orange. Figure \ref{fig:CostAndModes} demonstrates that RAMPC has uniformly lower tracking cost than MPC, enabled by RAMPC's dynamic switching of estimator modes at runtime. Note that RAMPC exhibits better tracking performance throughout the flight and not just in this portion, and also outperforms MPC at other modes (see Table \ref{tbl:RAMPC_MPC_performance}).
+
+Figure \ref{fig:TrackingVsEnergy} shows that RAMPC provides better tracking performance while using less energy to do so. For any fixed energy budget (a point on the x-axis), RAMPC delivers lower tracking cost (y-axis) than MPC. While MPC's tracking error is relatively constant across modes, RAMPC is able to balance tracking error with energy consumption by varying the $\alpha$ parameter. RAMPC's switching between estimation modes improves not only the control performance but also energy efficiency.
 
 
 \begin{figure}[tbh]
 	\centering
 	\includegraphics[width=0.49\textwidth]{figures/TrackingVsEnergy}
-	\caption{Tracking cost vs estimated computation energy for executing the perception and estimation algorithm. Note for MPC, different energies are realized only by operating at different fixed modes of the perception and estimation algorithm. Using RAMPC as the controller, the different energies are due to run-time scheduling of different modes based on the optimal value of the cost function \ref{eq: } at each time step based on different values of $\alpha$. It is worth noting that RAMPC with co-design outperforms standard MPC on a tracking performance per unit energy throughout.}
+	\caption{Tracking cost vs estimated computation energy for executing the perception and estimation algorithm. Note for MPC, different energies are realized only by operating at different fixed modes of the perception and estimation algorithm. Using RAMPC as the controller, the different energies are due to run-time scheduling of different modes based on the optimal value of the cost function \ref{eq: } at each time step based on different values of $\alpha$. It is worth noting that RAMPC with co-design outperforms standard MPC on tracking performance across the entire range of energy consumption.}
 	\label{fig:TrackingVsEnergy}
 \end{figure}
 
@@ -51,7 +52,7 @@ Also noticeable in figure \ref{fig:TrackingVsEnergy} is how the RAMPC provides b
 
 
 
-Figure \ref{fig:CostAndEnergyVsAlpha} shows the degradation (increased mean $J_{true}$) in tracking performance and improvement (reduction) in energy consumption as the weight for the computation power consumption in the cost function, $\alpha$ is increased. This is expected as with more weight to the energy consumption, the RAMPC switches more often to the low energy (and faster) but less accurate mode 0, as is seen in table \ref{tbl:RAMPC_ModeTime} which shows the fraction of time spent in the 4 modes with RAMPC as $\alpha$ changes.
+Figure \ref{fig:CostAndEnergyVsAlpha} shows the degradation (increased mean $J_{true}$) in tracking performance and reduction in energy consumption as the weight $\alpha$ for the computation power consumption in the cost function is increased. As energy becomes more important, RAMPC smoothly balances tracking cost and energy consumption. Table \ref{tbl:RAMPC_ModeTime} quantifies how RAMPC makes this trade-off, by showing the fraction of time spent in the 4 modes with RAMPC as $\alpha$ changes. While time is split between modes 0 and 3 with $\alpha=0$, more and more time is spent in the low-power (but less accurate) mode 0 as $\alpha$ increases.
 
 
 \begin{figure}[t]
