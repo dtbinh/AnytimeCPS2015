@@ -17,15 +17,8 @@ Starting at 250 corners, the error increases, however.
 We hypothesize this is due to the decreasing quality of the corners being returned by the corner detection algorithm.
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.9\columnwidth]{figures/errVsTime}
+\includegraphics[width=0.99\columnwidth]{figures/errVsTime}
 \caption{Error-delay curve for the SVO algorithm running on the Odroid-U3 - ?? Label where we stop choosing delays}
 \label{fig:svo_error_delay}
 \end{figure}
 
-Fig.~\ref{fig:svoErrVsPower} shows the power consumption vs estimation error, which correlates well with Fig.~\ref{fig:svo_error_delay}.
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=0.9\columnwidth]{figures/errVsPower}
-	\caption{Error vs power curve for the SVO algorithm running on the Odroid-U3}
-	\label{fig:svoErrVsPower}
-\end{figure}
