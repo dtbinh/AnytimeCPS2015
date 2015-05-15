@@ -1,10 +1,10 @@
 \subsection{FAST corner detector for visual odometry}
 
-The first perception algorithm we consider is the FAST corner detector~\cite{rosten_2006_machine} which we use for the visual odometry on a hex-rotor with a downward facing camera in the case study (see section \ref{sec:experiments} .
+Another algorithm we consider is the FAST corner detector~\cite{rosten_2006_machine} which we use for the visual odometry on a hex-rotor with a downward facing camera in the case study (see section \ref{sec:experiments} .
 FAST detects corners in an image can be tracked across video frames to perform self-localization by a moving robot \cite{}. 
 In real-time this closed loop control system that flies the hex-rotor, it is important to detect corners at frame rate or faster in order to provide a timely state estimate to the control algorithm.
 The number $\#C$ and quality of corners detected in a frame directly affects the runtime of the corner detector and the resulting quality of the state estimate. Generally speaking, detecting more corners requires a longer runtime, and results in better self-localization as long as we are analysing a feature rich scene, i.e., \emph{assuming acceptable quality of the detected corners}. Thus the number $\#C$ of corners is a knob which can be varied to obtain an error-delay curve for self-localization with FAST corner detection based visual odometry. 
-If the scene is not rich enough in features, and a sizeable fraction of the $\#C$ corners are of poor quality (i.e., unstable or hard to track across frames), then we can expect the self-localization error to actually increase as the poor quality, unstable corners detected add noise to the odometry process. 
+If the scene is not rich enough in features, and a sizeable fraction of the $\#C$ corners are of poor quality (i.e., unstable or hard to track across frames), then we can expect the self-localization error to actually increase as the poor quality of the unstable corners detected add noise to the odometry process. 
 
 
 Fig.~\ref{fig:fast} shows the error-delay curve of self-localization error using the FAST corner detector~\cite{rosten_2006_machine}.
