@@ -14,8 +14,8 @@ $\forall k>k_{0}$, are feasible.
 \begin{proof}
 \input{proofFeasibility}
 \end{proof}
-The control algorithm in Alg.~\ref{algo:RMPC-algo}, in each time step $k$, solves $\MPCProb{\de}(\hat{x}_{k},\sDelay[k],\sAccu[k],u_{k-1})$ for each estimation mode $\left(\sDelay,\sAccu\right)\in\Delta$ and selects the control input $u_{k}$ and the next estimation mode $\left(\sDelay[k+1],\sAccu[k+1]\right)$
-corresponding to the best total cost $J_{\sDelay,\sAccu}^{\mathrm{total}}$.
+The control algorithm in Alg.~\ref{algo:RMPC-algo}, in each time step $k$, solves $\RAMPCProb{\de}{k}$ for each estimation mode $\de \in\Delta$ and selects the control input $u_{k}$ and the next estimation mode $\dek{k+1}$
+corresponding to the best total cost $J_{\de}$.
 Therefore, during the course of control, the algorithm may switch between the estimation modes in $\Delta$ depending on the system's state. Thm.~\ref{thm:robust-feasible-anytime-RMPC} states that if the control algorithm Alg.~\ref{algo:RMPC-algo} is feasible in its first time step then it will be robustly feasible and the state and control input constraints are also robustly satisfied.
 \begin{thm}%[Robust Feasibility of RMPC with Anytime Estimation]
 \label{thm:robust-feasible-anytime-RMPC}
@@ -31,7 +31,7 @@ and all subsequent iterations of the algorithm are feasible.
 The Theorem can be proved by recursively applying Thm.~\ref{thm:robust-feasible-RMPC}.
 Indeed, suppose at time step $k$ the algorithm
 is feasible and results in control input $u_{k}$ and next estimation
-mode $\left(\sDelay[k+1],\sAccu[k+1]\right)$, then $\MPCProb{\sDelay[k+1],\sAccu[k+1]}(\hat{x}_{k},\sDelay[k],\sAccu[k],u_{k-1})$
+mode $\dek{k+1}$, then $\RAMPCProb{\dek{k+1}}{k}$
 is feasible. By Thm.~\ref{thm:robust-feasible-RMPC}, $u_{k}\in\inpSet$ and
 at the next time step $k+1$, $\stPt_{k+1}\in\stSet$ and $\RAMPCProb{\dek{k+1}}{k+1}$
 is also feasible, hence the algorithm is feasible.

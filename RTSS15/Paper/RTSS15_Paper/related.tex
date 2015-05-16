@@ -1,8 +1,20 @@
 \section{Related Work}
 \label{related}
 
+Contract time algorithms \cite{zilbersteinAImag} are one class of \emph{anytime} algorithms \cite{boddy}. %: algorithms that have a range of runtimes, and each runtime is associated with some quality of the algorithm's output.
+Another class of anytime algorithms is called \emph{interruptible}: these are algorithms that can be interrupted at any time during their execution, and they return a usable output.
+The difference between contract and interruptible algorithms is that when the latter are interrupted, the accuracy of the output is not known beforehand to the interruptor.
+Contract algorithms, on the other hand, offer a \emph{finite} number of (accuracy, delay) operating points, which constitute the `contracts'. 
+When the \emph{requestor} (e.g., the controller) requests a contract, it therefore knows the accuracy with which the answer is returned.
+This is important for controllers, which need to know a bound on the estimate error in order to \emph{guarantee} stability of the system and achieve functional goals.
+
 Approximate computing approaches \cite{loop-perf,rely,npu} seek time or energy
 savings by performing a computation approximately instead of precisely. While
 anytime algorithms and approximate computing share a high-level goal,
 approximate computing approaches are run-to-completion and also lack a feedback
 mechanism to permit computation and resources to be balanced dynamically.
+
+Recent work \cite{FrehseHQW14_Formal} uses Typical Worst Case Analysis of the software and Logical Execution Time semantics to provide the controller with knowledge of the timing characteristics of the implementation.
+Our work, by contrast, profiles the estimation software directly to obtain timing and accuracy information. 
+Whereas \cite{FrehseHQW14_Formal} is concerned with formal verification of a given controller, we \emph{design} controllers to take advantage of delay/accuracy trade-offs in real-time.
+\todo[inline]{anthony, others?}

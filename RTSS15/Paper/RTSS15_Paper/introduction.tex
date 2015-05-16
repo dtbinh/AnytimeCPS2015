@@ -2,28 +2,25 @@
 \label{introduction}
 
 Real-time control of physical systems, like autonomous robots, raises a number of timing and control-related issues at the interface between the controller that's providing the actuation and the estimator that's providing periodic state estimates to the controller.
-See Fig.~\ref{fig:codesignedCE}.
-More issues arise in relation to the inaccuracies introduced by the software implementation of both controller and estimator on a given hardware platform.
-Specifically, controllers are typically designed to accomplish the functional goals of the system under simplifying assumptions on the quality of the state estimate (e.g., no or fixed error), the estimation delay (e.g., no or fixed delay), or the actuation jitter (e.g., no jitter).
-Note that the first effect (estimate error) is due to the estimation algorithm itself regardless of implementation, whereas the last two effects (delay and jitter) have to do with the software implementation and its characteristics on the hardware platform.
-As the real-time requirements on the closed-loop system become more stringent, these assumptions are no longer valid, and a violation of the assumptions can lead to degraded performance, as we show in the example at the end of this Introduction.
-It becomes important to explicitly account for (varying) estimation delays and estimation errors. 
-In this paper, we take this a step further and take \emph{advantage} of the varying delay/error behavior of the estimation software to accomplish the control goals at a reduced energy cost.
-
-Similarly, estimation algorithms are typically designed without regard to how their estimates will be used and under what operating conditions.
+Some of these issues have to do with the inaccuracies introduced by the software implementation of both controller and estimator on a given hardware platform.
+Specifically, controllers are typically designed to accomplish the functional goals of the system under simplifying assumptions on the quality of the state estimate (e.g., no or fixed error), the estimation delay (e.g., no or fixed delay), and the actuation jitter (e.g., no jitter).
+Conversely, estimation algorithms are typically designed without regard to how their estimates will be used and under what operating conditions.
 In particular, an estimator will often \emph{run to completion}: that is, its stopping criteria are designed to provide the best estimate, regardless of runtime or energy consumption.
+The problem addressed here is that as the real-time requirements on the closed-loop system become more stringent, this separation in the design and execution of controller and estimator can lead to degraded performance, as will be shown in Example \ref{motivatingExample}.
+The goal of this paper is to present a rigorous framework for the joint design of the controller and estimator, in which the estimator explicitly presents a range of execution time/estimate error operating modes, and the controller switches between these modes in real-time to maintain control performance and reduce energy consumption.
+%Note that the first effect (estimate error) is due to the estimation algorithm itself regardless of implementation, whereas the last two effects (delay and jitter) have to do with the software implementation and its characteristics on the hardware platform.
+
 %For example, the Computer Vision-based estimator we introduce in Section \ref{delayErrorCurve} uses a corner detector.
 %In general, the corner detector will find the largest number of corners in a frame for best performance. 
 Typical design practice determines the Worst-Case Execution Time (WCET) of the estimation task, and engineers the system to satisfy deadlines under WCET conditions.
-However, the actual runtime of such estimators is heavily dependent on the actual data being processed. 
+However, the actual execution time of such estimators is heavily dependent on the actual data being processed. 
 So WCET considerations, whether computed online or offline, produce a conservative design.
-Moreover, classical timing analysis does not guarantee \emph{functional} correctness of the controlled system.
-Indeed, even if the set of tasks of a control system is schedulable, the system may still fail to achieve its control objectives.
+Moreover, classical timing analysis does not guarantee \emph{functional} correctness of the closed-loop system.
 In addition, the best estimate is not always needed:
 sometimes a lower quality estimate, obtained with a smaller energy cost, is sufficient to achieve the control objectives.
 Finally, when obtaining better estimates requires longer runtimes of the estimation task, it may actually be detrimental to ask for the best estimate.
 For example, when the computational resources are overloaded, there may be a need to spend less time computing a state estimate. 
-In this paper, we provide a rigorous framework where real-time adaptation of the estimation task execution time and estimate quality allows the system to better achieve its functional goals while reducing energy consumption.
+
 \begin{figure}[t]
 	\centering
 	\includegraphics[scale=0.3]{figures/omnigraffle_figures/high_level_figure.pdf}
@@ -33,33 +30,20 @@ In this paper, we provide a rigorous framework where real-time adaptation of the
 
 \input{motivatingExample}
 
-In this work, we develop the above remarks into a co-design framework for a real-time control system, where the controller and estimator communicate via \emph{contracts}.
+In this work, we develop the above remarks into a \emph{co-design framework} for a real-time control systems, where the controller and estimator communicate via \emph{contracts}.
 A contract is a guarantee requested by the controller, and fulfilled by the estimator, that the latter can provide an estimate with a certain maximum error $\sAccu$, and within a certain deadline $\sDelay$.
-Both the accuracy and the delay are part of the contract.
-Using these contracts, we show how the controller can throttle the execution time of the estimation task (i.e., estimation delay) to preserve good performance and to reduce energy consumption.
-%This allows the controller to:
-%1) trade-off accuracy for energy in real-time, while still being cognizant of control performance.
-%2) choose the best operating mode in terms of balancing the detrimental effects of delay and accuracy on the performance.
-Contract time algorithms \cite{zilbersteinAImag} are one class of \emph{anytime} algorithms \cite{boddy}. %: algorithms that have a range of runtimes, and each runtime is associated with some quality of the algorithm's output.
-Another class of anytime algorithms is called \emph{interruptible}: these are algorithms that can be interrupted at any time during their execution, and they return a usable output.
-The difference between contract and interruptible algorithms is that when the latter are interrupted, the accuracy of the output is not known beforehand to the interruptor.
-Contract algorithms, on the other hand, offer a \emph{finite} number of (accuracy, delay) operating points, which constitute the `contracts'. 
-When the \emph{requestor} (e.g., the controller) requests a contract, it therefore knows the accuracy with which the answer is returned.
-This is important for controllers, which need to know a bound on the estimate error in order to \emph{guarantee} stability of the system and achieve functional goals.
+Both the deadline and the error bound are part of the contract.
+Using these contracts, we show how the controller can throttle the execution time of the estimation task to preserve good performance and to reduce energy consumption.
+Our work focuses on estimators that incorporate computationally intensive Computer Vision (CV) algorithms, such as those used in autonomous robot navigation. 
+We refer to these as \emph{perception-based estimators}.
+Our experiments validate that the execution time of these algorithms is significant and far exceeds the computation time of the control software, and can have an effect on control performance.
 
-Approximate computing approaches \cite{loop-perf,rely,npu} seek time or energy
-savings by performing a computation approximately instead of precisely. While
-anytime algorithms and approximate computing share a high-level goal,
-approximate computing approaches are run-to-completion and also lack a feedback
-mechanism to permit computation and resources to be balanced dynamically.
-
-Recent work \cite{FrehseHQW14_Formal} uses Typical Worst Case Analysis of the software and Logical Execution Time semantics to provide the controller with knowledge of the timing characteristics of the implementation.
-Our work, by contrast, profiles the estimation software directly to obtain timing and accuracy information. 
-Whereas \cite{FrehseHQW14_Formal} is concerned with formal verification of a given controller, we \emph{design} controllers to take advantage of delay/accuracy trade-offs in real-time.
-\todo[inline]{anthony, others?}
+Fig.~\ref{fig:codesignedCE} presents the proposed structure of contract-based estimation and control.
+It shows a traditional feedback loop incorporating estimator, controller and the physical system, augmented with the (Delay, Error) contract between controller and estimator.
+This contract forms the basis of the proposed approach.
 
 \textbf{Summary of contributions}.
-In this work, we present a contract-based framework for the co-design of controller and estimator algorithms, consisting of:
+We present a contract-based framework for the co-design of real-time controller and estimator algorithms, consisting of:
 \begin{itemize}
 	\item a well-defined interface between control and estimation, in the form of operating modes or \emph{contracts} on the accuracy and delay provided by the estimator (Section \ref{sec:codesign}),
 	\item a controller design that can vary the accuracy and delay of the estimation to achieve control objectives at a lower energy cost (Section \ref{controlProblem}), and
@@ -68,7 +52,7 @@ In this work, we present a contract-based framework for the co-design of control
 \end{itemize}
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=0.7\linewidth]{figures/nanohex}
+	\includegraphics[width=0.7\linewidth]{figures/nanohex2}
 	\caption{Autonomous hexrotor with downward-facing camera flying over synthetic features.}
 	\label{fig:nanohex}
 \end{figure}
