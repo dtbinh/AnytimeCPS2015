@@ -81,7 +81,7 @@ hence the initial condition is satisfied.
 \noindent\textit{Dynamics:}
 %
 We show that the candidate solution satisfies the dynamics constraint
-in \eqref{RMPC1-dyn}. For $0\leq j<N$ we have
+in Eq. \eqref{eq:RMPC1-dyn}. For $0\leq j<N$ we have
 \begin{align*}
 &\Nom z_{k+j+2\Given k+1} \\
 =\, & \Nom z_{k+j+2\Given k}^{\star}+L_{j+1}\hat{F}\hat{w}_{k}\\
@@ -137,7 +137,7 @@ we have
 
  It follows from $\Nom z_{k+N+1\Given k+1}\in\Cc\left(\sDelay,\sAccu\right)$
 and from the definition of the invariant control invariant admissible
-set $\Cc\left(\sDelay,\sAccu\right)$ (\eqref{RMPC1-Zf-invariant})
+set $\Cc\left(\sDelay,\sAccu\right)$ (Eq.\eqref{eq:RMPC1-Zf-invariant})
 that $\Nom z_{k+N+2\Given k+1}+L_{N}\hat{F}\hat{w}\in\Cc\left(\sDelay,\sAccu\right)$
 for all $w\in\hWc\left(\sAccu,\sAccu\right)$. Then by definition
 of the Pontryagin difference, we conclude that $\Nom z_{k+N+2\Given k+1}\in\Cc\left(\sDelay,\sAccu\right)\ominus L_{N}\hat{F}\hWc\left(\sAccu,\sAccu\right)=\ZSet_{f}\left(\sAccu,\sAccu\right)$.

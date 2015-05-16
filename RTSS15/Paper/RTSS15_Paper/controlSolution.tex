@@ -3,7 +3,7 @@
 
 In this section we give an overview of the \emph{Robust Adaptive Model Predictive Controller} (RAMPC) that we use in the contract-based setup of Fig.~\ref{fig:fullcodesignedCE}.
 The mathematical details and derivations are available in the Appendix.
-Experiments confirm that the following controller can be run in real-time, and uses a negligible amount of time to compute relative to the estimation delay $\sDelay$ (see Fig.~\ref{fig:senseActuate}).
+Experiments confirm that the following controller (formulation details in \ref{sec:experiments}) can be run in real-time, and uses a negligible amount of time to compute relative to the estimation delay.
 
 \subsection{Solution overview}
 Recall the operation of the contract-based control and estimation framework as presented in Section \ref{sec:codesign} and Fig.~\ref{fig:fullcodesignedCE}.
@@ -37,13 +37,6 @@ To make this problem tractable, we first assume that the mode is fixed throughou
 Thus for every value $\de$ in $\Delta$, we can setup a different problem \eqref{eq:fullOptim} and solve it.
 Let $J_{\de}^*$ be the corresponding optimum.
 The solution with the smallest objective function value yields the input value $\inpPt^*_k$ to be applied.
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.7\linewidth]{figures/placeHolder}
-\caption{RAMPC algorithm: at every step, the constraint set is reduced to guarantee satisfaction of the original constraints.}
-\label{fig:placeHolder}
-\end{figure}
 
 Because RAMPC only has access to the state estimate, we extend the RMPC approach in \cite{richardsetal05rmp, chiscietal01swp}.
 Namely, the problem is solved for the \emph{nominal dynamics} which assume zero process and observation noise ($w_{k+j} = 0)$ and zero estimation error ($\hat{\stPt}_{k+j}=\stPt_{k+j}$) over the prediction horizon.

@@ -18,7 +18,7 @@ Typical design practice determines the Worst-Case Execution Time (WCET) of the e
 However, the actual runtime of such estimators is heavily dependent on the actual data being processed. 
 So WCET considerations, whether computed online or offline, produce a conservative design.
 Moreover, classical timing analysis does not guarantee \emph{functional} correctness of the controlled system.
-Indeed, even if the set of tasks of a control system is so-called schedulable, it may still fail to achieve its control objectives.
+Indeed, even if the set of tasks of a control system is schedulable, the system may still fail to achieve its control objectives.
 In addition, the best estimate is not always needed:
 sometimes a lower quality estimate, obtained with a smaller energy cost, is sufficient to achieve the control objectives.
 Finally, when obtaining better estimates requires longer runtimes of the estimation task, it may actually be detrimental to ask for the best estimate.
@@ -26,8 +26,8 @@ For example, when the computational resources are overloaded, there may be a nee
 In this paper, we provide a rigorous framework where real-time adaptation of the estimation task execution time and estimate quality allows the system to better achieve its functional goals while reducing energy consumption.
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=0.9\columnwidth]{figures/omnigraffle_figures/high_level_figure.pdf}
-	\caption{Contract-based co-designed controller and estimator.}
+	\includegraphics[scale=0.3]{figures/omnigraffle_figures/high_level_figure.pdf}
+	\caption{Contract-based controller and estimator.}
 	\label{fig:codesignedCE}
 \end{figure}
 
@@ -40,8 +40,8 @@ Using these contracts, we show how the controller can throttle the execution tim
 %This allows the controller to:
 %1) trade-off accuracy for energy in real-time, while still being cognizant of control performance.
 %2) choose the best operating mode in terms of balancing the detrimental effects of delay and accuracy on the performance.
-Contract algorithms are one class of \emph{anytime} algorithms.%: algorithms that have a range of runtimes, and each runtime is associated with some quality of the algorithm's output.
-Another class of anytime algorithms is called \emph{interruptible}: these are algorithms that can be interrupted at any time during their execution, and they return a usable output.[?? zilberstein]
+Contract time algorithms \cite{zilbersteinAImag} are one class of \emph{anytime} algorithms \cite{boddy}. %: algorithms that have a range of runtimes, and each runtime is associated with some quality of the algorithm's output.
+Another class of anytime algorithms is called \emph{interruptible}: these are algorithms that can be interrupted at any time during their execution, and they return a usable output.
 The difference between contract and interruptible algorithms is that when the latter are interrupted, the accuracy of the output is not known beforehand to the interruptor.
 Contract algorithms, on the other hand, offer a \emph{finite} number of (accuracy, delay) operating points, which constitute the `contracts'. 
 When the \emph{requestor} (e.g., the controller) requests a contract, it therefore knows the accuracy with which the answer is returned.
@@ -62,7 +62,13 @@ Whereas \cite{FrehseHQW14_Formal} is concerned with formal verification of a giv
 In this work, we present a contract-based framework for the co-design of controller and estimator algorithms, consisting of:
 \begin{itemize}
 	\item a well-defined interface between control and estimation, in the form of operating modes or \emph{contracts} on the accuracy and delay provided by the estimator (Section \ref{sec:codesign}),
-	\item a controller design that can vary the accuracy and delay of the estimation to achieve control objectives at a lower energy cost, and
-	\item a general procedure to compose run-to-completion estimation algorithms into a contract-based estimator,
-	\item We illustrate our approach on an autonomous flying robot and demonstrate performance and energy gains using our approach over a classical controller
+	\item a controller design that can vary the accuracy and delay of the estimation to achieve control objectives at a lower energy cost (Section \ref{controlProblem}), and
+	\item a general procedure to compose run-to-completion estimation algorithms into a contract-based estimator (Section \ref{delayErrorCurve}).
+	\item We illustrate our approach on an autonomous flying robot (shown in Fig.~\ref{fig:nanohex}) and demonstrate performance and energy gains using our approach over a classical controller (Section \ref{sec:experiments}).
 \end{itemize}
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.7\linewidth]{figures/nanohex}
+	\caption{Autonomous hexrotor with downward-facing camera flying over synthetic features.}
+	\label{fig:nanohex}
+\end{figure}

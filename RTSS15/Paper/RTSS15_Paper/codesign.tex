@@ -17,7 +17,7 @@ A high-level view of this setup is shown in Fig.~\ref{fig:codesignedCE}.
 To ensure that the estimator can respect the contract (alternatively, that the controller is only requesting contracts that can be fulfilled by the estimator), the estimator is profiled off-line.
 Namely, the estimator's parameters are varied and for each setting of the parameters, it is run on a \emph{profiling data set}. 
 This yields a finite set of $(\delta,\epsilon)$ values, each one corresponding to a setting of the parameters.
-These values can be plotted on a curve, which we call the \emph{error-delay curve}, an example of which is shown in figure \ref{fig:SVO_errordelay}
+These values can be plotted on a curve, which we call the \emph{error-delay curve}, examples of which are shown in figures \ref{fig:eps_delta_toy} and \ref{fig:svo_error_delay}.
 The detailed procedure for obtaining such a curve for a perception based algorithms is given in Section \ref{delayErrorCurve}.
 %Section \ref{discussion} discusses the applicability of this contract-based approach to state estimation and further extensions.
 
@@ -35,7 +35,7 @@ The main components of the co-design architecture are a contract time perception
 
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=0.49\textwidth]{figures/omnigraffle_figures/mid_level_figure2}
+	\includegraphics[width=0.49\textwidth]{figures/omnigraffle_figures/process_figure}
 	\caption{Contract-based estimator and controller}
 	\label{fig:fullcodesignedCE}
 \end{figure}
