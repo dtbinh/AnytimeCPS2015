@@ -1,10 +1,12 @@
 \subsection{System Model}
 \label{formulation}
 
-Consider a hexrotor, which is an autonomous flying robot with six rotors, shown in Fig.~\ref{fig:hexrotor}.
+Consider a hexrotor, which is an autonomous flying robot with six rotors, shown in Fig.~\ref{fig:nanohex}.
 The state $\stPt$ of the hexrotor is made of its 3D position and 3D velocity.
 The input $\inpPt$ to the robot consists of the desired pitch and roll angles, and the desired thrust.
-The hexrotor's mission is to fly a pre-defined pattern $\stPt_{ref}$, such as the one shown in Fig.~\ref{fig:hexrotor}.
+The robot has a high-level controller which determines the desired pitch and roll angles, and desired rotor thrust.
+In this implementation, we use a Model Predictive Controller (MPC) \cite{camachoetal04mpc}.
+The hexrotor's mission is to fly a pre-defined pattern $\stPt_{ref}$.
 The dynamics of the hexrotor, relating the time-evolution of its state to the current state and input, can be approximated by the following Linear Time-Invariant (LTI) ODE:
 \begin{equation}
 \dot{x}(t) = A_{c}x(t)+B_{c}u(t)+w_{c}(t)  \label{eq:plant-cont-model}
@@ -24,6 +26,13 @@ It does so by taking a video during flight through a downward facing camera, det
 The camera captures a new frame every $T > 0$ seconds, thus resulting in periodic measurements at instants $t_{s,k}=kT$,
 where $k\in\Ne$.
 See Fig.~\ref{fig:senseActuate}.
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.7\linewidth]{figures/senseActuate}
+\caption{Time-triggered sensing and actuation.}
+\label{fig:senseActuate}
+\end{figure}
+
 The sampled measurement is fed to the estimator that computes the state
 estimate $\hat{x}_{k}\defeq\hat{x}(t_{s,k})$ with the desired
 accuracy $\sAccu_k$ \emph{determined by the controller in the previous time step}.

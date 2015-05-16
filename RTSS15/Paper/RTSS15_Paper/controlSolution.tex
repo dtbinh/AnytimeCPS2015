@@ -38,13 +38,6 @@ Thus for every value $\de$ in $\Delta$, we can setup a different problem \eqref{
 Let $J_{\de}^*$ be the corresponding optimum.
 The solution with the smallest objective function value yields the input value $\inpPt^*_k$ to be applied.
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.7\linewidth]{figures/placeHolder}
-\caption{RAMPC algorithm: at every step, the constraint set is reduced to guarantee satisfaction of the original constraints.}
-\label{fig:placeHolder}
-\end{figure}
-
 Because RAMPC only has access to the state estimate, we extend the RMPC approach in \cite{richardsetal05rmp, chiscietal01swp}.
 Namely, the problem is solved for the \emph{nominal dynamics} which assume zero process and observation noise ($w_{k+j} = 0)$ and zero estimation error ($\hat{\stPt}_{k+j}=\stPt_{k+j}$) over the prediction horizon.
 Let $\Nom \stPt$ be the state of the system under nominal conditions.

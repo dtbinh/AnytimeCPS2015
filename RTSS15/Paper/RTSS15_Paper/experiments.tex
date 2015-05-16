@@ -10,12 +10,8 @@ Later in this section we show how our approach dynamically schedules different m
 
 \todo[author=KM,inline]{Do we want an architecture diagram of the way the hexrotor is controlled using ROS?}
 \todo[author=YVP,inline]{Yes, the trajectory generator to MPC/RAMPC to low level part would be good to show and make for a nice fig.}
-%\todo[inline]{details about hexrotor and odroid and the visual odometry. Figure for control/percpetion architecture of hexrotor here, cvxgen based rampc}
-%Hexrotor \textbf{<specs here>} using visual odometry from a downward facing camera. Figure for hexrotor, figure for images from hexrotor downward facing, and figure for hexrotor control architecture.
-%\todo[inline]{Plant model and estimation here}
-%We illustrate the foregoing results on the hexrotor example from Section \ref{motivatingExample}.
-%Recall that we found the control performance, as measured by $J$ of Eq.??, to degrade as the robot's speed was increased.
-%We implemented the RAMPC controller of Section \ref{controlProblem}, and used the error-delay curves of Section \ref{delayErrorCurve}.
+%The control performance, as measured by a function that factors in the error in following the flight path and the cost of control, is shown in Fig.~\ref{fig:CostAndModes}.
+%(The details of this cost function are given in Section \ref{formulation}).
 
 
 \subsection{Profiling the perception and estimation pipeline}
