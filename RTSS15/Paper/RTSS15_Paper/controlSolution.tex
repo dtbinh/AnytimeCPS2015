@@ -45,7 +45,7 @@ Namely, the problem is solved for the \emph{nominal dynamics} which assume zero 
 Let $\Nom \stPt$ be the state of the system under nominal conditions.
 To compensate for the use of nominal dynamics, RMPC replaces the constraint $(\Nom\stPt_{k+j},\inpPt_{k-1+j}) \in \stSet \times \inpSet \defeq \ZSet$ 
 by $(\Nom \stPt_{k+j},\inpPt_{k+j}) \in \ZSet_{j}(\sAccu_k,\sAccu)$,
-where $\ZSet_{j}(\sAccu_k,\sAccu) \subset \ZSet$ is $\ZSet$ `shrunk' by an amount corresponding to $\sAccu$, as explained in the Appendix.
+where $\ZSet_{j}(\sAccu_k,\sAccu) \subset \ZSet$ is $\ZSet$ `shrunk' by an amount corresponding to $\sAccu$, as explained in the technical report \cite{RTSS15TechRpt324}.
 Intuitively, by forcing $(\Nom\stPt_{k+j},\inpPt_{k-1+j})$ to lie in the reduced set $\ZSet_{j}(\sAccu_k,\sAccu)$, the bounded estimation error and process noise are guaranteed not to cause the true state and input to exit the constraint sets $\stSet$ and $\inpSet$.
 %
 The tractable optimization for a given $\de$, denoted by $\RAMPCProb{\de}{k}$, is then 
