@@ -46,7 +46,7 @@ This contract forms the basis of the proposed approach.
 We present a contract-based framework for the co-design of real-time controller and estimator algorithms, consisting of:
 \begin{itemize}
 	\item a well-defined interface between control and estimation, in the form of operating modes or \emph{contracts} on the accuracy and delay provided by the estimator (Section \ref{sec:codesign}),
-	\item a controller design that can vary the accuracy and delay of the estimation to achieve control objectives at a lower energy cost (Section \ref{controlProblem}), and
+	\item a controller design that can vary the accuracy and delay of the estimation to achieve control objectives at a lower energy cost (Sections \ref{controlProblem}, \ref{robustMPC}), and
 	\item a general procedure to compose run-to-completion estimation algorithms into a contract-based estimator (Section \ref{delayErrorCurve}).
 	\item We illustrate our approach on an autonomous flying robot (shown in Fig.~\ref{fig:nanohex}) and demonstrate performance and energy gains using our approach over a classical controller (Section \ref{sec:experiments}).
 \end{itemize}
