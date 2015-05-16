@@ -6,8 +6,8 @@ $\left(\sDelay,\sAccu\right)\in\Delta$, is designed to ensure that the control p
 any estimation mode $\left(\sDelay,\sAccu\right)$, if $\RAMPCProb{\de}{k}$
 is feasible then the system (\ref{eq:disc-dynamics}) controlled by
 the RAMPC and subjected to disturbances constrained by $w_k \in \Wc$
-robustly satisfies the state constraint $\stPt \in \stSet$
-and the control input constraint $\inpPt \in \inpSet$, and
+robustly satisfies the state constraint $\stPt_k \in \stSet$
+and the control input constraint $\inpPt_k \in \inpSet$, and
 all subsequent optimizations $\MPCProb{\sDelay,\sAccu}(\hat{x}_{k},\sDelay[k],\sAccu[k],u_{k-1})$,
 $\forall k>k_{0}$, are feasible.
 \end{thm}
@@ -20,11 +20,11 @@ Therefore, during the course of control, the algorithm may switch between the es
 \begin{thm}%[Robust Feasibility of RMPC with Anytime Estimation]
 \label{thm:robust-feasible-anytime-RMPC}
 If at the initial time step there exists $\left(\sDelay,\sAccu\right)\in\Delta$
-such that $\MPCProb{\sDelay,\sAccu}(\hat{x}_{0},\sDelay[0],\sAccu[0],u_{-1})$
-is feasible then the system (\ref{eq:disc-dynamics}) controlled by
+such that $\RAMPCProb{\de}{0}$
+is feasible then the system Eq.~\ref{eq:estimator-dynamics} controlled by
 Alg.~\ref{algo:RMPC-algo} and subjected to disturbances constrained
-by $w \in \Wc$ robustly satisfies the state constraint
-$\stPt \in \stSet$ and the control input constraint $\inpPt \in \inpSet$,
+s.t. $w_k\in \Wc,\forall k\geq0$ robustly satisfies the state constraint
+$x_k\in\stSet,\forall k\geq0$ and the control input constraint $u_k\in\inpSet,\forall k\geq0$,
 and all subsequent iterations of the algorithm are feasible.
 \end{thm}
 \begin{proof}
@@ -33,7 +33,7 @@ Indeed, suppose at time step $k$ the algorithm
 is feasible and results in control input $u_{k}$ and next estimation
 mode $\left(\sDelay[k+1],\sAccu[k+1]\right)$, then $\MPCProb{\sDelay[k+1],\sAccu[k+1]}(\hat{x}_{k},\sDelay[k],\sAccu[k],u_{k-1})$
 is feasible. By Thm.~\ref{thm:robust-feasible-RMPC}, $u_{k}\in\inpSet$ and
-at the next time step $k+1$, $x_{k+1}\in\stSet$ and $\RAMPCProb{\dek{k+1}}{k+1}$
+at the next time step $k+1$, $\stPt_{k+1}\in\stSet$ and $\RAMPCProb{\dek{k+1}}{k+1}$
 is also feasible, hence the algorithm is feasible.
 Therefore, the Theorem holds by induction.
 \end{proof}
