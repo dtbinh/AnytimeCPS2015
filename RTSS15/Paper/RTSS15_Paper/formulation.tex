@@ -5,7 +5,7 @@ Consider a hexrotor, which is an autonomous flying robot with six rotors, shown 
 The state $\stPt$ of the hexrotor is made of its 3D position and 3D velocity.
 The input $\inpPt$ to the robot consists of the desired pitch and roll angles, and the desired thrust.
 The hexrotor's mission is to fly a pre-defined pattern $\stPt_{ref}$, such as the one shown in Fig.~\ref{fig:hexrotor}.
-The dynamics of the hexrotor, relating the time-evolution of its state to the current state and input, can be approximated by the following Linear Time-Invariant (LTI) ODE [??]:
+The dynamics of the hexrotor, relating the time-evolution of its state to the current state and input, can be approximated by the following Linear Time-Invariant (LTI) ODE:
 \begin{equation}
 \dot{x}(t) = A_{c}x(t)+B_{c}u(t)+w_{c}(t)  \label{eq:plant-cont-model}
 \end{equation}
