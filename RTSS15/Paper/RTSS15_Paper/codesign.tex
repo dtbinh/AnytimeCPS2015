@@ -4,34 +4,31 @@
 In a traditional control system, %such as the one shown in Fig.~\ref{fig:traditionalCE}, 
 the controller is unaware of the implementation details of the estimation module and the estimation module is unaware of the requirements of the controller.
 For example, the design of a feedback controller might not take into account the fact that obtaining a state estimate from a video feed will take a non-negligible amount of time, which we refer to as the estimation delay.
-Conversely, the design of the perception and estimation might in general take into account the varying real-time constraints that the controlled system must satisfy, and instead always run-to-completion compute its estimates.
+Conversely, the design of the perception and estimation might not in general take into account the varying real-time constraints that the controlled system must satisfy. %, and instead always run-to-completion compute its estimates.
 In order to improve performance of real-time closed loop systems using computationally and power limited platforms, we propose the \emph{co-design} of estimation and control.
 The co-design involves using a \emph{contract-based framework} for both estimator and controller.
 Namely, the controller requests the estimator to provide a state estimate within a certain deadline $\delta$ seconds and with a certain error bound $\epsilon$.
 We refer to the tuple $(\delta,\epsilon)$ as the \emph{contract} between controller and estimator. 
 The estimator then provides an estimate that respects the contract.
-By requesting estimates with varying contracts during system operation, the controller is able to do real-time adaptation of the closed-loop system performance to the current condition of the physical system.
-For example, it can detect when an estimate is needed fast (but usually with higher error), and when a more accurate estimate is needed (but with greater delay). Note, the $(\delta,\epsilon)$ contract can also be thought of as setting an operating point for perception and estimation algorithm, which we refer to as a mode for estimator later in the paper.
-A high-level view of this setup is shown in Fig.~\ref{fig:codesignedCE}.
+By requesting estimates with varying contracts during system operation, the controller is able to adapt the closed-loop system performance in real-time according to the current condition of the physical system.
+For example, it can decide when an estimate is needed fast (but usually with higher error), and when a more accurate estimate is needed (but with greater delay). Note, the $(\delta,\epsilon)$ contract can also be thought of as setting an operating mode for the perception-and-estimation algorithm. A high-level view of this setup is shown in Fig.~\ref{fig:codesignedCE}.
 
 To ensure that the estimator can respect the contract (alternatively, that the controller is only requesting contracts that can be fulfilled by the estimator), the estimator is profiled off-line.
 Namely, the estimator's parameters are varied and for each setting of the parameters, it is run on a \emph{profiling data set}. 
 This yields a finite set of $(\delta,\epsilon)$ values, each one corresponding to a setting of the parameters.
-These values can be plotted on a curve, which we call the \emph{error-delay curve}, examples of which are shown in figures \ref{fig:eps_delta_toy} and \ref{fig:svo_error_delay}.
+These values can be plotted on a curve, which we call the \emph{error-delay curve} made up of discrete points, $\de$, represented by the set $\Delta$. Examples of such a curve are shown in figures \ref{fig:eps_delta_toy} and \ref{fig:svo_error_delay}.
 The detailed procedure for obtaining such a curve for a perception based algorithms is given in Section \ref{delayErrorCurve}.
 %Section \ref{discussion} discusses the applicability of this contract-based approach to state estimation and further extensions.
 
 At run-time, when the estimator receives a $\de$ contract request from the controller, it can adapt its execution paths to respect the contract, namely, to provide a state estimate in real-time within the requested error bound $\epsilon$, and within the requested deadline $\delta$.
 
 In addition, the controller is designed with the knowledge of the error-delay curve of the estimation algorithm, and requests contracts from that curve.
-Thus, the error-delay curve constitutes the interface between controller and estimator.
-This gives the controller the ability to leverage the flexible nature of the estimation algorithm to maximize some performance measure while not being concerned about the internal workings of the estimator.
-This allows a co-design of the controller and estimator where both are aware of the requirements of the other but can be designed separately.
-%\todo[inline]{Might want to avoid mentioning \emph{separability principle}}
+Thus, the error-delay curve constitutes the \textit{interface} between controller and estimator.
+This gives the controller the ability to leverage the flexible nature of the estimation algorithm to maximize some performance measure of control performance. %\todo[inline]{Might want to avoid mentioning \emph{separability principle}}
 
-Fig.~\ref{fig:fullcodesignedCE} shows the closed loop architecture in a system with co-design of the perception and control algorithms.
-Unlike a closed loop system where the perception module is designed to operate at a fixed operating point, in the co-designed system, the controller can make the estimation algorithm switch to lower time/energy consuming modes based on the control objective at the current time step.
-The main components of the co-design architecture are a contract time perception algorithm, a robust control algorithm that computes an input to be sent to the plant as well as the operating mode for the contract time perception algorithm, and the interface between them. More details on these components are in the following sections.
+Fig.~\ref{fig:fullcodesignedCE} shows the closed loop architecture in a system with co-design of the estimator and controller.
+In the co-designed system as presented in this paper, the controller can make the estimation algorithm switch to lower or higher time (and/or energy) consuming modes based on the control objective at the current time step.
+The main components of the co-design architecture are a contract based perception-and-estimation algorithm, a robust control algorithm that computes an input to be sent to the physical system being controller as well as the operating mode for the contract time estimator, and the interface between them. More details on these components are in the following sections.
 
 \begin{figure}[t]
 	\centering
@@ -41,9 +38,14 @@ The main components of the co-design architecture are a contract time perception
 \end{figure}
 \subsection{Contract based perception algorithms}
 
-In order to maximize the efficiency of the computation and control system, a contract based perception algorithm can operate at different deadlines and provide a usable solution for the control algorithm to operate on. This flexible operation of the generally run-to-completion algorithms is achieved by composing the algorithm of functional blocks that have different computation times and result in different qualities of outputs. Note that this problem is different from that of composing multiple anytime algorithms together \cite{zilbersteinAImag}. Anytime algorithms \cite{boddy} have a well defined computation time versus quality tradeoff, but in our case we are composing together blocks that are individually run-to-completion and in most cases do not have a well defined intermediate measurable quality.
+%In order to maximize the efficiency of the computation and control system,
+A contract based perception-and-estimation algorithm can operate at different deadlines and provide a usable solution for the control algorithm to operate on. This flexible operation is achieved by composing the algorithm of functional blocks that have different execution times and result in different qualities of outputs. 
 
-Figure \ref{fig:RT_bs} shows an example where an object recognition algorithm is composed of different functional blocks of varying computation time and result in a different accuracy when linked together to provide the functionality of an object recognition algorithm, e.g. the pixel classifier in the first stage could be a Gaussian Mixture Model with 2, 4, or 6 components, with more components providing better classification performance (over-fitting is ruled out by cross-validation) at the cost of more computation time. Functions with similar characteristics like example above, when profiled extensively offline and composed in the right order at run-time can be used to compose a contract time anytime perception and estimation algorithm. More details follow in section \ref{delayErrorCurve}.
+% MOVE TO RELATED
+%Note that this problem is different from that of composing multiple anytime algorithms together \cite{zilbersteinAImag}. Anytime algorithms \cite{boddy} have a well defined computation time versus quality tradeoff, but in our case we are composing together blocks that are individually run-to-completion and in most cases do not have a well defined intermediate measurable quality.
+
+%Figure \ref{fig:RT_bs} shows 
+An example is a Computer Vision (CV) based Object recognition algorithm which is composed of different functional blocks of varying execution time which result in a different accuracy when linked together to provide the functionality of an object recognition algorithm. E.g. the pixel classifier in the first stage of such a CV algorithm could be a Gaussian Mixture Model with 2, 4, or 6 components, with more components providing better classification performance (over-fitting is ruled out by cross-validation) at the cost of more computation time. Functions with similar characteristics like example above, when profiled extensively offline and composed in the right order at run-time can be used to compose a contract time anytime perception and estimation algorithm. More details follow in section \ref{delayErrorCurve}.
 
 %The output of the pixel classifier, which is a binary image, can then be filtered and connected into objects using a variety of filters and connected component methods. Finally the connected objects have to pass through a shape classifier to ensure that we detect only the object of interest.
 
@@ -59,8 +61,10 @@ Figure \ref{fig:RT_bs} shows an example where an object recognition algorithm is
 
 \subsection{Interface between contract based perception and robust control}
 
-For the control algorithm to be able to leverage the flexible nature of the contract based perception algorithm, it must have information about the computation time versus output quality trade-off that the contract based perception algorithm offers, but should not be exposed to too much detail or made dependent on how the trade-off is obtained. An interface that achieves this is obtained by simply representing the profiled behaviour of the contract based algorithm to varying deadlines, as points on a perception quality versus deadline ($\delta, \epsilon$) curve, e.g. in figure \ref{fig:eps_delta_toy}.
-With this profiled curve available to the controller at runtime, the exchange of information between the contract based perception algorithm and the control algorithm consists of the controller assigning a deadline ($\delta$), or a contract to the perception algorithm with an expected bound on the quality ($\epsilon$) of its output. The perception algorithm then returns an output after internally deciding the composition to best meet the deadline and the expected quality requirement. While in many systems, assigning a contract for time and simultaneously expecting a minimum quality output may be an infeasible proposition, in this paper we only consider settings where neither the $\delta$ contract nor the $\epsilon$ bound are violated. This helps in formulating a control algorithm that provides mathematical guarantees on the feasibility of constraints for the safe operation and stability of the closed loop dynamic system as is covered in section \ref{robustMPC}.
+For the control algorithm to be able to leverage the flexible nature of the contract based perception algorithm, it must have information about the computation time versus output quality trade-off that the contract based perception algorithm offers. An interface that achieves this is obtained by representing the profiled behaviour of the contract based algorithm to varying deadlines, as points on a perception quality versus deadline ($\delta, \epsilon$) curve, e.g. in figure \ref{fig:eps_delta_toy}.
+With this profiled curve available to the controller at runtime, the exchange of information between the contract based perception-and-estimation algorithm and the control algorithm consists of the controller assigning a deadline ($\delta$), or a contract to the perception algorithm while expecting a bound on the error ($\epsilon$) of its output. The perception algorithm then returns an output after internally deciding the composition to best meet the deadline and the expected quality requirement. 
+%While in many systems, assigning a contract for time and simultaneously expecting a minimum quality output may be an infeasible proposition, in this paper we only consider settings where neither the $\delta$ contract nor the $\epsilon$ bound are violated.
+Through extensive offline profiling, we guarantee with a high degree of confidence that the contract based estimator does not violate the contract.This in particular helps in formulating a control algorithm that provides mathematical guarantees on the feasibility of constraints for the safe operation and stability of the closed loop dynamic system as is covered in section \ref{robustMPC}.
 
 \begin{figure}[t]
 	\centering
@@ -71,7 +75,7 @@ With this profiled curve available to the controller at runtime, the exchange of
 
 \subsection{Robust Control with contract based perception algorithm}
 
-The control algorithm is designed to pick the best operating point for the estimator, or the right $\de$ contract to request the perception and estimation algorithm to meet. This is done based on the current state of the dynamic system to maximize a performance measure while being robust to the varying computation time, which shows up as a delay to the control algorithm, and the varying quality of output, which are varying estimation errors to the controller. In section \ref{robustMPC} we present a control algorithm that achieves this while also guaranteeing feasibility of system constraints the stability of the closed loop system.
+The control algorithm is designed to pick the best operating point for the estimator, or the right $\de$ contract to request from the perception and estimation algorithm. This is done based on the current state of the physical system to maximize a performance measure while being robust to the varying computation time and the varying estimation errors of the estimator with different contracts as is provides estimates to the controller. In section \ref{robustMPC} we present a control algorithm that achieves this while also guaranteeing feasibility of system constraints the stability of the closed loop system.
 
 
 
