@@ -1,21 +1,25 @@
 %toy problem
 
-h = 1/20;
-A = [zeros(2,4);1 0 0 0;0 1 0 0];
-B = [1 0;0 1;zeros(2,2)];
+h = 1/100;
+% A = [zeros(2,4);1 0 0 0;0 1 0 0];
+% B = [1 0;0 1;zeros(2,2)];
+B = [-.1 0;0 -1;zeros(2,2)];
+A = [zeros(2,4);-1 0 0 0;0 -1 0 0];
 C = eye(4);
 D = zeros(4,2);
 sys = ss(A,B,C,D);
+R = 15;
 
 sys_d = c2d(sys,h);
 close all
 a = 0;
-colors = {'k','b','m'};
-delays = [1 2 8]*h/(4*5);
+colors = {'k','m', 'b'};
+delays = [1 2 8]*h/(4);
 clear del err track_err est_error
-for t = delays%[1 2 8]/5
-    a = a+1;
-    del(a) = t;%(t*h/4);
+for i = [1,3]
+    t = delays(i);
+    a = i;% a+1;
+    del(a) = t;
     if(del(a)~=0)
         err(a) = (1/del(a))*(1/1000);
 %         err(a) = errors(a);
@@ -32,10 +36,6 @@ for t = delays%[1 2 8]/5
     
     figure(1);    
     hold on;
-    R = 15;
-%     y = decimate(plant.signals(4).values(:,1),R);
-%     y = decimate(y,R);
-%     ts = plant.time(1:2*R:end);
     y = downsample(plant.signals(4).values(:,1),R);
     ts = downsample(plant.time,R);
     plot(ts,y,colors{a})
