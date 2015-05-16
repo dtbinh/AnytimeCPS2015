@@ -2,7 +2,7 @@
 \label{robustMPC}
 
 In this section we give an overview of the \emph{Robust Adaptive Model Predictive Controller} (RAMPC) that we use in the contract-based setup of Fig.~\ref{fig:fullcodesignedCE}.
-The mathematical details and derivations are available in the online technical report.
+The mathematical details and derivations are available in the online technical report \cite{RTSS15TechRpt324}.
 Experiments confirm that the following controller can be run in real-time, and its computation uses a negligible amount of time relative to the estimation delay.
 
 \subsection{Solution overview}
@@ -83,7 +83,7 @@ Algorithm \ref{algo:RMPC-algo} summarizes the RAMPC algorithm.
 	\label{algo:RMPC-algo}
 \end{algorithm}
 
-We prove the following result in the technical report:
+We prove the following result in the technical report \cite{RTSS15TechRpt324}:
 \begin{thm}%[Robust Feasibility of RMPC with Anytime Estimation]
 	\label{thm:robust-feasible-anytime-RMPC}
 	If at the initial time step there exists a contract value $\de \in \Delta$, 
