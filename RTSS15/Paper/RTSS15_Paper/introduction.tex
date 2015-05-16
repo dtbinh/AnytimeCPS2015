@@ -18,7 +18,7 @@ Typical design practice determines the Worst-Case Execution Time (WCET) of the e
 However, the actual runtime of such estimators is heavily dependent on the actual data being processed. 
 So WCET considerations, whether computed online or offline, produce a conservative design.
 Moreover, classical timing analysis does not guarantee \emph{functional} correctness of the controlled system.
-Indeed, even if the set of tasks of a control system is so-called schedulable, it may still fail to achieve its control objectives.
+Indeed, even if the set of tasks of a control system is schedulable, the system may still fail to achieve its control objectives.
 In addition, the best estimate is not always needed:
 sometimes a lower quality estimate, obtained with a smaller energy cost, is sufficient to achieve the control objectives.
 Finally, when obtaining better estimates requires longer runtimes of the estimation task, it may actually be detrimental to ask for the best estimate.
