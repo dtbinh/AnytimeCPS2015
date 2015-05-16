@@ -4,10 +4,8 @@
 Consider a hexrotor, which is an autonomous flying robot with six rotors, shown in Fig.~\ref{fig:nanohex}.
 The state $\stPt$ of the hexrotor is made of its 3D position and 3D velocity.
 The input $\inpPt$ to the robot consists of the desired pitch and roll angles, and the desired thrust.
-The robot has a high-level controller which determines the desired pitch and roll angles, and desired rotor thrust.
-In this implementation, we use a Model Predictive Controller (MPC) \cite{camachoetal04mpc}.
-The hexrotor's mission is to fly a pre-defined pattern $\stPt_{ref}$.
-The dynamics of the hexrotor, relating the time-evolution of its state to the current state and input, can be approximated by the following Linear Time-Invariant (LTI) ODE:
+The hexrotor's mission is to fly a pre-defined pattern given by $\stPt_{ref}$, where $\stPt_{ref}(t)$ gives the desired position at each time $t$.
+The dynamics of the hexrotor, relating the time-evolution of its state to the current state and input, can be linearized and approximated by the following Linear Time-Invariant (LTI) ODE:
 \begin{equation}
 \dot{x}(t) = A_{c}x(t)+B_{c}u(t)+w_{c}(t)  \label{eq:plant-cont-model}
 \end{equation}
@@ -25,7 +23,6 @@ For flight the hexrotor needs to determine its current position and speed, i.e.,
 It does so by taking a video during flight through a downward facing camera, detecting and tracking features across frames, and deducing its own position relative to these features.
 The camera captures a new frame every $T > 0$ seconds, thus resulting in periodic measurements at instants $t_{s,k}=kT$,
 where $k\in\Ne$.
-See Fig.~\ref{fig:senseActuate}.
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.7\linewidth]{figures/senseActuate}
@@ -39,10 +36,11 @@ accuracy $\sAccu_k$ \emph{determined by the controller in the previous time step
 The controller then uses this state estimate
 to compute the control input $u_{k}$ as well as decide on the
 state estimate's delay and accuracy contract $(\sDelay_{k+1},\sAccu_{k+1})$ for the next step.
-This control is applied to the physical system according to \eqref{eq:plant-cont-model} at instant $t_{a,k} = t_{s,k}+\sDelay_k + \tau_k$, where $\tau_k$ is the time it takes to compute the input.
+This control is applied to the physical system according to \eqref{eq:plant-cont-model} at instant $t_{a,k} = t_{s,k}+\sDelay_k + \tau_k$, where $\tau_k$ is the time it takes to compute the input. 
+See Fig.~\ref{fig:senseActuate}.
 
 In our setting, the controller has access to the delay-error curve $\Delta$ of the estimator, and makes contract selections \emph{from that curve}.
-This curve is obtained offline as explained in Section \ref{sec:codesign}, and detailed in Section \ref{delayErrorCurve}.
+This curve is obtained offline as explained in Section \ref{sec:codesign}, and exemplified in Section \ref{delayErrorCurve}.
 We remark that in each step $k\geq0$, the estimation accuracy $\sAccu_k$
 and hence the delay $\sDelay_k$ are already decided in the previous
 step and known to the controller.
@@ -63,14 +61,13 @@ The total cost function that the controller minimizes is then
 \(
 J=\sum_{k=0}^{M}\left(\ell(\stPt_k,\inpPt_k)+ \alpha \pi(\sDelay_k)\right)
 \),
-where $M \geq 0$ is a deadline on the system's operation.
+where $M \geq 0$ is the duration of the system's operation.
 
 \subsection{Discretized Dynamics}
 Because of time-triggered sensing and actuation, from time $t_{s,k}$ to $t_{a,k}$, the  previous control input $u_{k-1}$
 is still used.
 Then at $t_{a,k}$ the new control input $u_{k}$
-is computed and applied by the controller.
-See Fig.~\ref{fig:senseActuate}.
+is computed and applied by the controller (see Fig.~\ref{fig:senseActuate}).
 The discretized dynamics are given by
 \begin{equation}
 \label{eq:disc-dynamics}

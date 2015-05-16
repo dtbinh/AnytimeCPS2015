@@ -62,13 +62,6 @@ Figure \ref{fig:RT_bs} shows an example where an object recognition algorithm is
 For the control algorithm to be able to leverage the flexible nature of the contract based perception algorithm, it must have information about the computation time versus output quality trade-off that the contract based perception algorithm offers, but should not be exposed to too much detail or made dependent on how the trade-off is obtained. An interface that achieves this is obtained by simply representing the profiled behaviour of the contract based algorithm to varying deadlines, as points on a perception quality versus deadline ($\delta, \epsilon$) curve, e.g. in figure \ref{fig:eps_delta_toy}.
 With this profiled curve available to the controller at runtime, the exchange of information between the contract based perception algorithm and the control algorithm consists of the controller assigning a deadline ($\delta$), or a contract to the perception algorithm with an expected bound on the quality ($\epsilon$) of its output. The perception algorithm then returns an output after internally deciding the composition to best meet the deadline and the expected quality requirement. While in many systems, assigning a contract for time and simultaneously expecting a minimum quality output may be an infeasible proposition, in this paper we only consider settings where neither the $\delta$ contract nor the $\epsilon$ bound are violated. This helps in formulating a control algorithm that provides mathematical guarantees on the feasibility of constraints for the safe operation and stability of the closed loop dynamic system as is covered in section \ref{robustMPC}.
 
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=0.49\textwidth]{figures/chainErrorDelay}
-	\caption{Profiled perception versus computation time curve for an object detection algorithm run at different parameter settings.}
-	\label{fig:eps_delta_toy}
-\end{figure}
-
 \subsection{Robust Control with contract based perception algorithm}
 
 The control algorithm is designed to pick the best operating point for the estimator, or the right $\de$ contract to request the perception and estimation algorithm to meet. This is done based on the current state of the dynamic system to maximize a performance measure while being robust to the varying computation time, which shows up as a delay to the control algorithm, and the varying quality of output, which are varying estimation errors to the controller. In section \ref{robustMPC} we present a control algorithm that achieves this while also guaranteeing feasibility of system constraints the stability of the closed loop system.
