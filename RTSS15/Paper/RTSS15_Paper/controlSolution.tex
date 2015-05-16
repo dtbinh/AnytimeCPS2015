@@ -3,7 +3,7 @@
 
 In this section we give an overview of the \emph{Robust Adaptive Model Predictive Controller} (RAMPC) that we use in the contract-based setup of Fig.~\ref{fig:fullcodesignedCE}.
 The mathematical details and derivations are available in the Appendix.
-Experiments confirm that the following controller (formulation details in \ref{sec:experiments}) can be run in real-time, and uses a negligible amount of time to compute relative to the estimation delay.
+Experiments confirm that the following controller can be run in real-time, and its computation uses a negligible amount of time relative to the estimation delay.
 
 \subsection{Solution overview}
 Recall the operation of the contract-based control and estimation framework as presented in Section \ref{sec:codesign} and Fig.~\ref{fig:fullcodesignedCE}.
@@ -14,8 +14,10 @@ At every time step $k$, the controller receives a state estimate $\hat{\stPt}_k$
 first is the control input $\inpPt_{k}$ to be applied to the physical system at time $t_{a,k}$.
 The second is the contract $(\sDelay_{k+1}, \sAccu_{k+1}) \in \Delta$ that will be requested from the estimator at the next step.
 At $k+1$, the estimator provides an estimate with error at most $\sAccu_{k+1}$ and within delay $\sDelay_{k+1}$.
-Finally, recall that $J = \sum_{k=0}^{M}\left(\ell(\stPt_k,\inpPt_k)+ \alpha \pi(\sDelay_k)\right)$ 
+Finally, recall that 
+$J = \sum_{k=0}^{M}\left(\ell(\stPt_k,\inpPt_k)+ \alpha \pi(\sDelay_k)\right)$ 
 combines tracking error and input power in the $\ell$ terms, and estimation power consumption in the $\pi$ terms.
+The scalar $\alpha$ quantifies the importance of power consumption to the overall performance of the system.
 
 The contract-based controller's task is to find a sequence of inputs $u_k \in \inpSet$ and of contracts $(\sDelay_k, \sAccu_k) \in \Delta$ such that the cost $J$ is minimized, and the state $\stPt_k$ is always in the set $\stSet$.
 The challenge in finding the control inputs is that the controller does not have access to the real state $\stPt_k$, but only to an estimate $\hat{\stPt}_k$.
@@ -28,15 +30,15 @@ To compute the new input value $\inpPt_{k}$ and next contract $\dek{k+1}$, the p
 \label{eq:fullOptim}
 J^*[0:N]= \min_{\inpSig,\sttraj,\sDelayV,\sAccuV}\sum_{j=0}^{N}\left(\ell(\stPt_{k+j},\inpPt_{k+j})+\alpha\pi(\sDelay_k)\right)
 \end{eqnarray}
-I.e., RMPC needs to find the optimal length-$N$ input sequence  $\inpSig^* = (\inpPt_k^*,\ldots,\inpPt_{k+N}^*) \in \inpSet^N$, corresponding state sequence $\sttraj = (\stPt_k,\ldots,\stPt_{k+N}) \in \stSet^N$, delay sequence $\sDelayV = (\sDelay_k,\ldots,\sDelay_{k+N})$ and error sequence $\sAccuV = (\sAccu_k,\ldots,\sAccu_{k+N})$ such that $\dek{k} \in \Delta$, which minimize the $N$-step cost $J[0:N]$.
+Here, RAMPC needs to find the optimal length-$N$ input sequence  $\inpSig^* = (\inpPt_k^*,\ldots,\inpPt_{k+N}^*) \in \inpSet^N$, corresponding state sequence $\sttraj = (\stPt_k,\ldots,\stPt_{k+N}) \in \stSet^N$, delay sequence $\sDelayV = (\sDelay_k,\ldots,\sDelay_{k+N})$ and error sequence $\sAccuV = (\sAccu_k,\ldots,\sAccu_{k+N})$ such that $\dek{k} \in \Delta$, which minimize the $N$-step cost $J[0:N]$.
 In the remainder of this section we discuss how to make this problem tractable.
-As in regular MPC, once a solution $\inpSig^*$ is found, only the \emph{first} input value $u_k^*$ is applied to the physical system, thus yielding the next state $\stPt_{k+1}$ as per \eqref{eq:disc-dynamics}.
+As in regular MPC \cite{camachoetal04mpc}, once a solution $\inpSig^*$ is found, only the \emph{first} input value $u_k^*$ is applied to the physical system, thus yielding the next state $\stPt_{k+1}$ as per \eqref{eq:disc-dynamics}.
 At the next time step $k+1$, RAMPC sets up the new optimization $\RAMPCProb{\Delta}{k+1}$ and solves it again.
 
 To make this problem tractable, we first assume that the mode is fixed throughout the $N$-step horizon, i.e. $\dek{k+j} = \de$ for all $1 \leq j \leq N$.
 Thus for every value $\de$ in $\Delta$, we can setup a different problem \eqref{eq:fullOptim} and solve it.
 Let $J_{\de}^*$ be the corresponding optimum.
-The solution with the smallest objective function value yields the input value $\inpPt^*_k$ to be applied.
+The solution with the smallest objective function value yields the input value $\inpPt^*_k$ to be applied and the next contract $(\sDelay^*,\sAccu^*)$.
 
 Because RAMPC only has access to the state estimate, we extend the RMPC approach in \cite{richardsetal05rmp, chiscietal01swp}.
 Namely, the problem is solved for the \emph{nominal dynamics} which assume zero process and observation noise ($w_{k+j} = 0)$ and zero estimation error ($\hat{\stPt}_{k+j}=\stPt_{k+j}$) over the prediction horizon.
@@ -45,11 +47,11 @@ To compensate for the use of nominal dynamics, RMPC replaces the constraint $(\N
 by $(\Nom \stPt_{k+j},\inpPt_{k+j}) \in \ZSet_{j}(\sAccu_k,\sAccu)$,
 where $\ZSet_{j}(\sAccu_k,\sAccu) \subset \ZSet$ is $\ZSet$ `shrunk' by an amount corresponding to $\sAccu$, as explained in the Appendix.
 Intuitively, by forcing $(\Nom\stPt_{k+j},\inpPt_{k-1+j})$ to lie in the reduced set $\ZSet_{j}(\sAccu_k,\sAccu)$, the bounded estimation error and process noise are guaranteed not to cause the true state and input to exit the constraint sets $\stSet$ and $\inpSet$.
-
-The tractable optimization, denoted by $\RAMPCProb{\de}{k}$, is then 
+%
+The tractable optimization for a given $\de$, denoted by $\RAMPCProb{\de}{k}$, is then 
 \begin{eqnarray}
 \label{eq:tractableOptim}
-J^*_{\de} &=& \min_{\inpSig,\sttraj,\de \in \Delta}\sum_{j=0}^{N}\left(\ell(\Nom \stPt_{k+j},\inpPt_{k+j})+\alpha\pi(\sDelay_k)\right)
+J^*_{\de} &=& \min_{\inpSig,\sttraj}\sum_{j=0}^{N}\left(\ell(\Nom \stPt_{k+j},\inpPt_{k+j})+\alpha\pi(\sDelay_k)\right)
 \\
 \textrm{s.t.} &&\forall j \in \{0,\ldots,N\}
 \nonumber
@@ -71,9 +73,9 @@ Algorithm \ref{algo:RMPC-algo} summarizes the RAMPC algorithm.
 		\For{each $\left( \sDelay,\sAccu \right) \in \Delta$}
 		\State $J_{\de}^* \leftarrow $ Solve $\RAMPCProb{\de}{k}$		
 		\EndFor
-		\State $( \sDelay^{*}, \sAccu^{*}, u_{k | k}^{*} ) \gets \argmin_{\sDelay,\sAccu} J_{\de}^*$
+		\State $( \sDelay^{*}, \sAccu^{*}, u_{k }^{*} ) \gets \argmin_{\de} J_{\de}^*$
 		%\State Wait until $t_{a,k}$
-		\State Apply control input $u_{k} = u_{k | k}^{*}$ and estimation mode $\dek{k+1} = \left( \sDelay^{*}, \sAccu^{*} \right)$
+		\State Apply control input $u_{k} = u_{k}^{*}$ and estimation mode $\dek{k+1} = \left( \sDelay^{*}, \sAccu^{*} \right)$
 		\EndFor
 	\end{algorithmic} 
 	
