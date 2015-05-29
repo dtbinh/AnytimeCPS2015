@@ -39,7 +39,8 @@
 \global\long\def\Nom#1{\overline{#1}}
 \newcommand{\bla}[1]{\overbar{#1}}
 \newcommand{\bli}[1]{\overline{BLI #1}}
-
+\newboolean{TECH_REPORT}
+\setboolean{TECH_REPORT}{TRUE}
 \newcommand{\Given}{|}
 
 % See the \addtolength command later in the file to balance the column lengths
@@ -80,24 +81,30 @@ Co-Design of Anytime Computation and Robust Control
 \thispagestyle{empty}
 \pagestyle{empty}
 
-\input{abstract}
-\input{introduction}
-\input{related}
-\input{codesign}
-\input{controlProblem}
-\input{controlSolution}
-\input{delayErrorCurve}
-\input{experiments}
-\input{conclusion}
+\ifthenelse{\boolean{TECH_REPORT}}
+{
+	\input{appendix}
+	\bibliographystyle{IEEEtran}%abbrv}
+	\bibliography{IEEEabrv,rtss2015,cdc14,anytime_ref}	
+}
+{
+	\input{abstract}
+	\input{introduction}
+	\input{related}
+	\input{codesign}
+	\input{controlProblem}
+	\input{controlSolution}
+	\input{delayErrorCurve}
+	\input{experiments}
+	\input{conclusion}
+	
+	\section*{Acknowledgements}
+	We would like to thank Kuk Jang for his help in creating several of the diagrams in this paper.
+	\bibliographystyle{IEEEtran}%abbrv}
+	\bibliography{IEEEabrv,rtss2015,cdc14,anytime_ref}
 
-\section*{Acknowledgements}
-We would like to thank Kuk Jang for his help in creating several of the diagrams in this paper.
-
-\bibliographystyle{IEEEtran}%abbrv}
-\bibliography{IEEEabrv,rtss2015,cdc14,anytime_ref}
-
-\input{appendix}
-
+	\input{appendix}
+}
 
 
 

@@ -4,7 +4,7 @@ $\left(\sDelay,\sAccu\right)\in\Delta$, is designed to ensure that the control p
 \begin{thm}
 [Robust Feasibility of RAMPC]\label{thm:robust-feasible-RMPC} For
 any estimation mode $\left(\sDelay,\sAccu\right)$, if $\RAMPCProb{\de}{k}$
-is feasible then the system (\ref{eq:disc-dynamics}) controlled by
+is feasible then the system \discDynEeq controlled by
 the RAMPC and subjected to disturbances constrained by $w_k \in \Wc$
 robustly satisfies the state constraint $\stPt_k \in \stSet$
 and the control input constraint $\inpPt_k \in \inpSet$, and
@@ -14,15 +14,15 @@ $\forall k>k_{0}$, are feasible.
 \begin{proof}
 \input{proofFeasibility}
 \end{proof}
-The control algorithm in Alg.~\ref{algo:RMPC-algo}, in each time step $k$, solves $\RAMPCProb{\de}{k}$ for each estimation mode $\de \in\Delta$ and selects the control input $u_{k}$ and the next estimation mode $\dek{k+1}$
+The control algorithm in Alg. \algoref, in each time step $k$, solves $\RAMPCProb{\de}{k}$ for each estimation mode $\de \in\Delta$ and selects the control input $u_{k}$ and the next estimation mode $\dek{k+1}$
 corresponding to the best total cost $J_{\de}$.
-Therefore, during the course of control, the algorithm may switch between the estimation modes in $\Delta$ depending on the system's state. Thm.~\ref{thm:robust-feasible-anytime-RMPC} states that if the control algorithm Alg.~\ref{algo:RMPC-algo} is feasible in its first time step then it will be robustly feasible and the state and control input constraints are also robustly satisfied.
+Therefore, during the course of control, the algorithm may switch between the estimation modes in $\Delta$ depending on the system's state. Thm.~\ref{thm:robust-feasible-anytime-RMPC} states that if the control algorithm Alg. \algoref is feasible in its first time step then it will be robustly feasible and the state and control input constraints are also robustly satisfied.
 \begin{thm}%[Robust Feasibility of RMPC with Anytime Estimation]
 \label{thm:robust-feasible-anytime-RMPC}
 If at the initial time step there exists $\left(\sDelay,\sAccu\right)\in\Delta$
 such that $\RAMPCProb{\de}{0}$
 is feasible then the system Eq.~\ref{eq:estimator-dynamics} controlled by
-Alg.~\ref{algo:RMPC-algo} and subjected to disturbances constrained
+Alg. \algoref and subjected to disturbances constrained
 s.t. $w_k\in \Wc,\forall k\geq0$ robustly satisfies the state constraint
 $x_k\in\stSet,\forall k\geq0$ and the control input constraint $u_k\in\inpSet,\forall k\geq0$,
 and all subsequent iterations of the algorithm are feasible.
