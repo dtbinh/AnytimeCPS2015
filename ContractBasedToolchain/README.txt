@@ -37,3 +37,5 @@ INSTRUCTIONS
 8. Results stored in results/
 9. Use plotHist.m to plot histograms
 ********************************************
+
+Link to the KITTI dataset for object detection: http://www.cvlibs.net/datasets/kitti/eval_object.php
