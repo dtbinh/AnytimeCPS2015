@@ -1,0 +1,17 @@
+THIS FORMAT IS TO BE STRICTLY FOLLOWED
+************************************************************
+Parameters ::
+************************************************************
+OTSH : ObjectTrainingSizeHieght
+TSW : ObjectTrainingSizeWidth
+NSF : NegativeSamplesFactor
+NCS : NumCacadedStages
+FAR : FalseAlarmRate
+TPR : TruePoistiveRate
+************************************************************
+Please refer MATLAB help for description of these parameters
+************************************************************
+Enter '0' to use the deafult value in training
+************************************************************
+OTSH	OTSW	NSF	NCS	FAR	TPR
+0	0	0	0	0	0
