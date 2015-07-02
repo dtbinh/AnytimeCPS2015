@@ -1,0 +1,21 @@
+PARAMS_TEST: THIS FORMAT IS TO BE STRICTLY FOLLOWED
+************************************************************
+Parameters ::
+************************************************************
+SF : scale factor (specifying how much the image size is reduced at each image scale) (default=1.1)
+MN : minimum neighbours (how many neighbors each candidate rectangle should have to retain it) (default=3)
+MIN : minimum size of the sliding window (minimum size of the object. size less than these are ignored)
+    MNW: minimum width
+    MNH: minimum height
+MAX : maximum size of the sliding window (maximum size of the object. size greater than these are ignored)
+    MXW: maximum width
+    MXH: maximum height
+************************************************************
+Please refer openCV docs for description of these parameters 
+(http://docs.opencv.org/modules/objdetect/doc/cascade_classification.html)
+************************************************************
+Enter '0' to use the default value
+************************************************************
+SF  MN  MNW MNH MXW MXH
+0	0	0	0	0	0
+1.05	0	0	0	0	0

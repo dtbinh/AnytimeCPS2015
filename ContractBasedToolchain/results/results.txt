@@ -1,0 +1,2 @@
+vehDetector_1	0.0027	0.2255
+vehDetector_2	-0.0746	0.3160
