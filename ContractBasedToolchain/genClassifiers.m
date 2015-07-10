@@ -1,12 +1,12 @@
 % all generated classifiers are copied to the directory 'classifiers'
 % classifiers are trained using haar features
-% parameters are read from 'params.txt'
+% parameters are read from 'params_train.txt'
 % all negative images are in a folder called 'negativeFolder'
 
 load posMat.mat
 
 % read from 14th line (row 1), coz the first 13 lines are description
-params = dlmread('params.txt','\t',16,0);
+params = dlmread('params_train.txt','\t',16,0);
 
 % create a parallel pool
 % fprintf('creating Parallel Pool\n');
