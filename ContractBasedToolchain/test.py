@@ -1,6 +1,6 @@
 import numpy as np
 import sys
-sys.path.append('/home/dhruva/Documents/Tools/opencv/build/lib')
+#sys.path.append('/home/dhruva/Documents/Tools/opencv/build/lib')
 import cv2
 import time
 import os
