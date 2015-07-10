@@ -1,1 +1,1 @@
-python test_params.py
+python test.py
