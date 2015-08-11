@@ -1,0 +1,34 @@
+\documentclass{article}[14pt]
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{array}
+\usepackage{tikz}
+\usepackage{latexsym}
+\usepackage{xspace}
+\usepackage{algorithm2e}
+\setlength{\textheight}{9in}
+\setlength{\textwidth}{6.5in}
+\setlength{\columnsep}{0.3125in}
+\setlength{\topmargin}{-0in}
+\setlength{\headheight}{-0in}
+\setlength{\headsep}{0in}
+\setlength{\parindent}{1pc}
+\setlength{\oddsidemargin}{0in}
+
+%\parindent=0pt
+
+\title{Title here:}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+	Real-time control software of autonomous robots is generally designed to be run-to-completion and tuned to work at a fixed operating point to provide acceptable timing and closed loop control performance. Such implementations mostly have little or no regard for the power consumed by the computational tasks, which is mostly considered small compared to the power draw of electro-mechanical components, e.g. the motors. In many such systems, such an implementation is an over-engineered solution, and the use of flexible computation algorithms e.g. Anytime algorithms, along with a robust control algorithm can provide acceptable or even better performance while taking computation power into account. Another level of flexibility in order to lower computation power comes from hardware level adaptations such as Dynamic Voltage and Frequency Scaling (DVFS). The effect of such hardware level adaptations has never been explored in the context of closed loop control systems. In particular, we focus on the closed loop system where the estimator is a perception based (e.g. computer vision) algorithm. In this paper, we aim to study the effect of leveraging both hardware level adaptions and algorithm level flexibility in the perception algorithm and their effect on the performance of the control algorithm. As an outcome of this exploration, we would have both and hardware and software level knobs to throttle the performance, computation time, and power consumption for an off-the-shelf the perception algorithm and an initial direction for the development of control algorithms that can use these knobs and leverage the trade-offs in an optimal way given a mixed (control performance and computational power consumption) cost function to optimize over.
+
+\end{abstract}
+
+
+\end{document}
