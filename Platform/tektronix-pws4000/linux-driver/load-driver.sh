@@ -24,3 +24,5 @@ if [ $? -eq 0 ]; then
 else
     echo "Driver not loaded!"
 fi
+
+chmod 666 /dev/usbtmc0
