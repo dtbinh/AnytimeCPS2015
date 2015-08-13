@@ -22,13 +22,13 @@
 #define TRUE 1
 #define FALSE 0
 
-const uint64_t BILLION = 1000000000;
-const uint64_t MILLION = 1000000;
+static const uint64_t BILLION = 1000000000;
+static const uint64_t MILLION = 1000000;
 
 // Tektronix PWS 4000 series power supply commands
-const char* MEASURE_VOLTAGE = "MEAS:VOLT?";
-const char* MEASURE_CURRENT = "MEAS:CURR?";
-const char* HELLO = "*IDN?";
+static const char* MEASURE_VOLTAGE = "MEAS:VOLT?";
+static const char* MEASURE_CURRENT = "MEAS:CURR?";
+static const char* HELLO = "*IDN?";
 
 static int PowerSupply_fd = -1;
 static int Log_fd = -1;
@@ -38,11 +38,11 @@ static pthread_t BackgroundThread;
 static pthread_barrier_t Barrier;
 static pthread_mutex_t DoMeasurementLock = PTHREAD_MUTEX_INITIALIZER;
 
-uint64_t get_us(struct timeval* tval) {
+static uint64_t get_us(struct timeval* tval) {
   return (tval->tv_sec * MILLION) + tval->tv_usec;
 }
 
-uint64_t interval(struct timeval* start, struct timeval* end) {
+static uint64_t interval(struct timeval* start, struct timeval* end) {
   uint64_t elapsed = 0;
   if ((end->tv_usec - start->tv_usec)<0) {
     elapsed = (end->tv_sec - start->tv_sec - 1) * MILLION;
@@ -54,7 +54,7 @@ uint64_t interval(struct timeval* start, struct timeval* end) {
   return elapsed;
 }
 
-double readCurrent() {
+static double readCurrent() {
 
   const char* msg = MEASURE_CURRENT;
   const int msg_len = strlen(msg);
@@ -84,28 +84,28 @@ double readCurrent() {
   return amps;
 }
 
-uint64_t cpuStateTimes[2][10];
-const int USER = 0;
-const int NICE = 1;
-const int SYSTEM = 2;
-const int IDLE = 3;
-const int IOWAIT = 4;
-const int IRQ = 5;
-const int SOFTIRQ = 6;
-const int STEAL = 7;
-const int GUEST = 8;
-const int GUEST_NICE = 9;
+static uint64_t cpuStateTimes[2][10];
+static const int USER = 0;
+static const int NICE = 1;
+static const int SYSTEM = 2;
+static const int IDLE = 3;
+static const int IOWAIT = 4;
+static const int IRQ = 5;
+static const int SOFTIRQ = 6;
+static const int STEAL = 7;
+static const int GUEST = 8;
+static const int GUEST_NICE = 9;
 
-int currentSlots = 0;
+static int currentSlots = 0;
 
-void printCpuStates(uint64_t arr[10]) {
+static void printCpuStates(uint64_t arr[10]) {
   for (int i = 0; i < 10; i++) {
     printf("%llu ", arr[i]);
   }
   printf("\n");
 }
 
-void parseCpuStateTimes(char* times, uint64_t output[10]) {
+static void parseCpuStateTimes(char* times, uint64_t output[10]) {
   for (int i = 0; i < 10; i++) {
     char* endptr;
     errno = 0; // to be able to tell when strtoll() fails
@@ -114,7 +114,7 @@ void parseCpuStateTimes(char* times, uint64_t output[10]) {
     if ((errno == ERANGE && (t == LONG_MAX || t == LONG_MIN))
         || (errno != 0 && t == 0)) {
       perror("strtol");
-      assert(0);
+      assert(FALSE);
     }
 
     output[i] = t;
@@ -123,7 +123,7 @@ void parseCpuStateTimes(char* times, uint64_t output[10]) {
   }
 }
 
-double computeCpuUtilization(uint64_t curr[10], uint64_t prev[10]) {
+static double computeCpuUtilization(uint64_t curr[10], uint64_t prev[10]) {
   // NB: we ignore GUEST and GUEST_NICE since we aren't in a virtualized environment
   // hat tip to http://stackoverflow.com/questions/23367857/accurate-calculation-of-cpu-usage-given-in-percentage-in-linux for this code
   uint64_t PrevIdle = prev[IDLE] + prev[IOWAIT];
@@ -141,7 +141,7 @@ double computeCpuUtilization(uint64_t curr[10], uint64_t prev[10]) {
   }
 }
 
-double readCpuUtilization() {
+static double readCpuUtilization() {
 
     char statBuf[256];
     
@@ -157,10 +157,7 @@ double readCpuUtilization() {
     statBuf[bytesRead] = '\0';
     //printf("statBuf: %s\n", statBuf);
 
-    int rv = close(cpufd);
-    if (rv < 0) {
-      perror("close cpufd");
-    }
+    ERROR_CHECK( close(cpufd); )
 
     parseCpuStateTimes(statBuf+3/*skip "cpu" prefix*/, cpuStateTimes[currentSlots]);
     //printCpuStates(cpuStateTimes[currentSlots]);
@@ -170,7 +167,7 @@ double readCpuUtilization() {
     return cpuUtil;
 }
 
-void* poll(void* _) {
+static void* poll(void* _) {
 
   // check in with main thread's setup()
   int r = pthread_barrier_wait(&Barrier);
@@ -182,7 +179,7 @@ void* poll(void* _) {
   const int BUFSIZE = 256;
   char buf[BUFSIZE];
 
-  while (1) {
+  while (TRUE) {
 
     // if we get blocked on the lock, we shouldn't be measuring anymore
     ERROR_CHECK( pthread_mutex_lock( &DoMeasurementLock ); )
@@ -209,8 +206,9 @@ void* poll(void* _) {
     //printf("USER_HZ = %ld\n", sysconf(_SC_CLK_TCK));
 
     usleep( 1000 * PollingInterval_ms );
-  }
+  } // end while(TRUE)
 
+  return NULL;
 }
 
 // below: public API
