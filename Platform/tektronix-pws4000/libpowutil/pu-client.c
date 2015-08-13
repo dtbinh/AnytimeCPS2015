@@ -6,7 +6,13 @@ int main(int argc, char* argv[]) {
   setup("log.times", 100);
 
   startMeasuring();
-  sleep( 5/*seconds*/ );
+  sleep( 1/*seconds*/ );
+  stopMeasuring();
+
+  sleep( 2 );
+
+  startMeasuring();
+  sleep( 1/*seconds*/ );
   stopMeasuring();
 
   teardown();
