@@ -213,9 +213,6 @@ static void* poll(void* _) {
 
 // below: public API
 
-/** @param log name of file to log measurements to
-    @param pollingInterval_ms time to wait between measurements, in milliseconds
- */
 int setup(const char* log, unsigned int pollingInterval_ms) {
   PollingInterval_ms = pollingInterval_ms;
 
@@ -269,13 +266,3 @@ int teardown() {
   return 0;
 }
 
-int main(int argc, char* argv[]) {
-
-  setup("log.times", 100);
-
-  startMeasuring();
-  sleep( 5/*seconds*/ );
-  stopMeasuring();
-
-  teardown();
-}

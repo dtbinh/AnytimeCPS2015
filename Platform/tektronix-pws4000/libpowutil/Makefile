@@ -1,8 +1,11 @@
 
+libpowutil.so: powutil.c parsec_barrier.c
+	gcc -Wall -O3 -g -std=c99 -pthread -fpic $^ -c
+	gcc -shared -o $@ $(^:.c=.o)
 
-pu: powutil.c parsec_barrier.c
-	gcc -Wall -O3 -std=c99 -pthread $^ -o $@
+client: pu-client.c
+	gcc -Wall -O3 -g -std=c99 -L. -pthread $^ -lpowutil -o $@
 
 clean:
-	rm -f pu
+	rm -f *.o libpowutil.so client
 
