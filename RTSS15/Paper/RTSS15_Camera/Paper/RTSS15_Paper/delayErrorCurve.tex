@@ -1,0 +1,79 @@
+\section{Contract based perception algorithms}
+\label{delayErrorCurve}
+
+In Section \ref{sec:codesign}, we postulated the existence of an Estimation Error vs Computation Delay curve $\Delta$. % (the `error-delay curve').
+This curve is used at every time step by the controller to determine the operating point $(\delta,\epsilon)$ for the next time step.
+In this section we demonstrate in detail how such a curve may be obtained for particular applications and how points along the curve are realized at runtime by the contract based perception algorithms.
+
+\subsection{Profiling And Creating an Anytime Contract Based Perception-and-Estimation Algorithm}
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.49\textwidth]{figures/omnigraffle_figures/real_time_figure}
+	\caption{Illustration of the various components used to compose the contract based perception algorithm and their representation as real-time tasks. For a given $\de$ contract, knob settings are chosen at run-time resulting a schedule to execute these sequential components, or tasks to respect the contract.}
+	\label{fig:RT_bs}
+\end{figure}
+The first step towards profiling a contract-based estimator is to identify the individual components (or algorithms) of the perception tool chain. 
+The second step is to identify parameters of each component, such that modifying the values of these parameters leads to a change in the execution time and accuracy of the component's output.
+This may be as simple as changing the number of iterations in a loop \cite{loop-perf} or finding alternate implementations with different resultant execution times $\sDelay$ and estimation error $\sAccu$.
+We call these parameters \emph{knobs} of the component.
+The tool chain 
+We implement this procedure on a Computer Vision (CV)-based object recognition tool chain. 
+An overview of the tool chain is shown in Fig. \ref{fig:RT_bs}.
+
+The CV tool chain takes in a video stream and tracks an Object Of Interest (OOI) across the frames. 
+The first stage of the chain is a pixel classifier that assigns to each pixel of the image (after potential pre-processing) the probability of its being a pixel of interest, i.e., of belonging to an OOI or being a part of the background. 
+A binary image is then obtained which assigns the value 1 to pixels of interest, and 0 to all others. 
+Next, filtering and a Connected Components (CC) algorithm is run on the binary image to get rid of noise in the classification process and segment its 1-valued pixels into disconnected objects. 
+A shape classifier is then run on each object to determine whether it is an object of interest or not.
+%A knob here in the pixel classification stage is to realize different computation time and performance profiles, is the complexity of the probabilistic model used to detect whether a pixel belongs to the object of interest. The knob in this case is whether we choose a Gaussian Mixture Model (GMM) with fewer components, which would be faster but less accurate, versus a GMM with more components which will take more computation time but provide better classification performance. Knobs where we over fit the training data are removed by cross-validation stage as is standard.
+
+In our implementation, the pixel classifier is a Gaussian Mixture Model (GMM) classifier, whose knob is the number of components in the GMM. 
+Fewer Gaussians in the GMM yield a faster but less accurate classifier while more Gaussians will result in a higher execution time but provide better classification performance. 
+Knob values that cause data overfit are discarded by a cross-validation stage as is standard.
+
+The filtering and Connected Components algorithm are lumped into one stage and have a two-valued knob to choose between a 4-connected and 8-connected component implementation. 
+The shape classifier is also a GMM, but the knob for it is the number of shape features (like eccentricity and lengths of major and minor axes).
+%, resulting in Gaussians in different dimensions being fit, and hence resulting in different computation time and classification accuracy.
+% The number of Gaussian components for the shape classifier is fixed since we know in advance the number of objects in the training and test sets.
+In our experiments the number of knob settings for the entire chain is $K$ = (\#Gaussians for pixel classifier, \#neighbors for CC, \#features for shape classifier), and has a total of $3 \times 2 \times 2 = 12$ values.
+
+Note that for any given component in the chain, the relation between knob value and quality of output is not necessarily monotonic. The pixel and shape classifiers are machine learning algorithms that need to be trained on a training set before being used and like all machine learning algorithms, their output quality for a given knob setting will depend on the actual data set.
+The same is a fortiori true of the quality of the output of the entire chain. This is also reflected in Fig.~\ref{fig:eps_delta_toy} which shows the mean perception error\footnote{Error is the distance between the true centroid and the estimated centroid of the OOI} and the $90^{th}$ percentile execution time for the different knob settings. 
+
+The final step is to profile all the possible combinations of knobs by running the tool chain on a test data set.
+This profiling gives us: a) the output quality (or accuracy) of the perception-and-estimation tool chain under consideration, and b) information about execution times for the stages of the perception tool chain under different knob settings. 
+This information gathered offline is useful for making decisions at run-time. 
+Fig. \ref{fig:eps_delta_toy} shows the profiled performance of the CV tool chain.
+
+%Note, since intermediate qualities are not easily measurable or assignable for some of the blocks of the tool chain (e.g. Connected Components) and for many other algorithms in general, we assign quality (or accuracy) distributions to the realizations of the complete tool chain by composing together different knob settings. Note, this profiling stage is done at offline at design time and provides us information that we use at runtime.
+
+\subsection{Run-time execution of the contract based perception algorithm}
+
+After the contract based perception algorithm has been composed and the execution time distributions of its individual components and the quality distributions from composing together various knob settings have been profiled, we can make run-time decisions for knob settings in order to realize a given $\de$ contract. 
+
+%The decision of selecting which knob setting to use for a particular stage for a given criteria can now be posed as an optimization problem for edge selection in the decision tree. For example, consider the case where we want to minimize the perception error while meeting a time deadline with a given high probability, the problem can be written as a constrained minimum cost path selection problem where timing information of the edges and quality information about paths can easily be encoded. This problem can be re-solved after each stage is executed with a recalculated time remaining and smaller decision tree structure for subsequent remaining stages. This allows the algorithm the flexibility to re-optimize its execution path (or knob settings) after obtaining updated information on time consumed in the past stages. For problems that do not have an excessively large number of knobs, such an optimization can be solved very quickly.
+
+This is the equivalent of selecting different versions of tasks (knobs for stages) and scheduling them in sequential order to best perform the object recognition task while maximizing utilization (or estimation accuracy) and meeting the given time contract or deadline. Fig. \ref{fig:RT_bs} shows the different task versions for each knob in the different stages and the resulting schedule based on the knob settings for the stages. The offline profiling allows us to set the knobs such that we can achieve a feasible schedule for the given deadline, $\delta$ while maximizing the utility, or the expected accuracy of the perception algorithm. 
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[trim = 0 30mm 0 30mm, width=0.49\textwidth]{figures/chainErrorDelay}
+	\caption{Profiled delay-error curve for the object detection tool chain run at different parameter settings.}
+	\label{fig:eps_delta_toy}
+\end{figure}
+
+
+
+
+%Specifically, we consider two different visual perception tool chains, where each tool of the chain has a knob that tunes its performance.%
+%These knobs can be used to profile the tool chain and obtain its error-delay curve on particular platforms.
+%Because power consumption is correlated to computation time, the error-delay curve can also be viewed as an error-power curve.
+%The power consumption of the estimator task can be included in the control cost function using the $\alpha$ term of Eq.??.
+%Thus, the controller can save power by selecting operating modes $(\delta,\epsilon)$ that achieve the control objectives at a lower energy cost.
+
+
+
+% subsection
+\input{visualOdometry}
+% subsection
+%\input{objectRecognition}
