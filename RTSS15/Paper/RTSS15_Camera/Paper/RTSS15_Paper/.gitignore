@@ -4,3 +4,10 @@
 *.log
 root.pdf
 *.*.gz
+README
+bare_conf.tex
+changelog.txt
+IEEEtransBST/*.bib
+IEEEtransBST/*.pdf
+IEEEtransBST/README
+
