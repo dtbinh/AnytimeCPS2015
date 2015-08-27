@@ -2,8 +2,9 @@
 %2345678901234567890123456789012345678901234567890123456789012345678901234567890
 %        1         2         3         4         5         6         7         8
 
-\documentclass[final,letterpaper, 10 pt, conference]{ieeeconf}  % Comment this line out if you need a4paper
+%\documentclass[final,letterpaper, 10 pt, conference]{ieeeconf}  % Comment this line out if you need a4paper
 
+\documentclass[10pt, conference, compsocconf]{IEEEtran}
 %\documentclass[a4paper, 10pt, conference]{ieeeconf}      % Use this line for a4 paper
 
 \IEEEoverridecommandlockouts                              % This command is only needed if
@@ -40,7 +41,7 @@
 \newcommand{\bla}[1]{\overbar{#1}}
 \newcommand{\bli}[1]{\overline{BLI #1}}
 \newboolean{TECH_REPORT}
-\setboolean{TECH_REPORT}{TRUE}
+\setboolean{TECH_REPORT}{FALSE}
 \newcommand{\Given}{|}
 
 % See the \addtolength command later in the file to balance the column lengths
@@ -53,7 +54,7 @@
 %\usepackage{times} % assumes new font selection scheme installed
 \usepackage{amsmath} % assumes amsmath package installed
 \usepackage{amssymb}  % assumes amsmath package installed
-
+\begin{document}
 \title{\LARGE \bf
 Co-Design of Anytime Computation and Robust Control
 }
@@ -65,17 +66,30 @@ Co-Design of Anytime Computation and Robust Control
 %        {\tt\small
 %        \{yashpant,kmohta,habbas,nghiem,rahulm\}@seas.upenn.edu, devietti@cis.upenn.edu}}%
 %}
-
-
-\author{Yash Vardhan Pant, Kartik Mohta, Houssam Abbas, Truong X. Nghiem, Joseph Devietti, Rahul Mangharam% <-this % stops a space
-	\thanks{*This work was supported by STARnet a Semiconductor Research
-		Corporation program sponsored by MARCO and DARPA.}% <-this % stops a space
-	\thanks{The Departments of Electrical and Systems Engineering and Computer and Information Sciences, University of Pennsylvania, Philadelphia, U.S.A.
-		{\tt\small
-			\{yashpant,kmohta,habbas,
-			nghiem,rahulm\}@seas.upenn.edu, devietti@cis.upenn.edu}}%
+\author{\IEEEauthorblockN{Yash Vardhan Pant, Kartik Mohta, \\ Houssam Abbas,  Rahul Mangharam}
+\IEEEauthorblockA{The Department of Electrical  \\ and Systems Engineering, \\
+University of Pennsylvania, \\
+Philadelphia, U.S.A\\
+yashpant@seas.upenn.edu, kmohta@seas.upenn.edu, \\habbas@seas.upenn.edu, rahulm@seas.upenn.edu}
+\and
+\IEEEauthorblockN{Joseph Devietti}
+\IEEEauthorblockA{The Department of Computer\\  and Information Sciences, \\
+University of Pennsylvania, \\
+Philadelphia, U.S.A\\
+devietti@cis.upenn.edu}
 }
-\begin{document}
+
+
+
+%\author{Yash Vardhan Pant, Kartik Mohta, Houssam Abbas, Truong X. Nghiem, Joseph Devietti, Rahul Mangharam% <-this % stops a space
+%	\thanks{*This work was supported by STARnet a Semiconductor Research
+%		Corporation program sponsored by MARCO and DARPA.}% <-this % stops a space
+%	\thanks{The Departments of Electrical and Systems Engineering and Computer and Information Sciences, University of Pennsylvania, Philadelphia, U.S.A.
+%		{\tt\small
+%			\{yashpant,kmohta,habbas,
+%			nghiem,rahulm\}@seas.upenn.edu, devietti@cis.upenn.edu}}%
+%}
+%\begin{document}
 
 \maketitle
 \thispagestyle{empty}

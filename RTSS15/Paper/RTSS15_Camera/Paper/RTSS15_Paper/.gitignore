@@ -6,8 +6,9 @@ root.pdf
 *.*.gz
 README
 bare_conf.tex
+bare_conf.pdf
 changelog.txt
-IEEEtransBST/*.bib
-IEEEtransBST/*.pdf
-IEEEtransBST/README
+IEEEtranBST/*.bib
+IEEEtranBST/*.pdf
+IEEEtranBST/README
 
