@@ -26,10 +26,13 @@ The norm of the error $e_k = \hat{\stPt}_k - \stPt_k$ is bounded by the contract
 Fix the \emph{prediction horizon} $N \geq 1$.
 Assume that the current contract (under which the current estimate $\hat{\stPt}_k$ was obtained) is $\dek{k}$, and that the previously applied input is $\inpPt_{k-1}$.
 To compute the new input value $\inpPt_{k}$ and next contract $\dek{k+1}$, the proposed \textbf{Robust Adaptive Model Predictive Control (RAMPC)} seeks to solve the following optimization problem which we denote by $\RAMPCProb{\Delta}{k}$:
+
+\vspace{-10pt}
 \begin{eqnarray}
 \label{eq:fullOptim}
 J^*[0:N]= \min_{\inpSig,\sttraj,\sDelayV,\sAccuV}\sum_{j=0}^{N}\left(\ell(\stPt_{k+j},\inpPt_{k+j})+\alpha\pi(\sDelay_k)\right)
 \end{eqnarray}
+
 Here, RAMPC needs to find the optimal length-$N$ input sequence  $\inpSig^* = (\inpPt_k^*,\ldots,\inpPt_{k+N}^*) \in \inpSet^N$, corresponding state sequence $\sttraj = (\stPt_k,\ldots,\stPt_{k+N}) \in \stSet^N$, delay sequence $\sDelayV = (\sDelay_k,\ldots,\sDelay_{k+N})$ and error sequence $\sAccuV = (\sAccu_k,\ldots,\sAccu_{k+N})$ such that $\dek{k} \in \Delta$, which minimize the $N$-step cost $J[0:N]$.
 In the remainder of this section we discuss how to make this problem tractable.
 As in regular MPC \cite{camachoetal04mpc}, once a solution $\inpSig^*$ is found, only the \emph{first} input value $u_k^*$ is applied to the physical system, thus yielding the next state $\stPt_{k+1}$ as per \eqref{eq:disc-dynamics}.

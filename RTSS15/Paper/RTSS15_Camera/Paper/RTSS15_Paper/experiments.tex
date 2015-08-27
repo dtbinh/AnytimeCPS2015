@@ -2,7 +2,7 @@
 \label{sec:experiments}
 
 \subsection{Experimental setup}
-To evaluate our methodology on a real platform, we applied it to a hexrotor tasked with repeatedly following a given circular trajectory. We use SVO (Section \ref{delayErrorCurve}) as estimator and RAMPC as the controller. The obtained execution time distributions for SVO are shown in Fig.\ref{fig:time_ecdf}. Details of the experimental setup are in the online technical report \cite{}.
+To evaluate our methodology on a real platform, we applied it to a hexrotor tasked with repeatedly following a given circular trajectory. We use SVO (Section \ref{delayErrorCurve}) as estimator and RAMPC as the controller. The obtained execution time distributions for SVO are shown in Fig.\ref{fig:time_ecdf}. Details of the experimental setup are in the online technical report \cite{RTSS15TechRpt324}.
 
 
 
@@ -10,8 +10,10 @@ To evaluate our methodology on a real platform, we applied it to a hexrotor task
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.9\columnwidth]{figures/time_ecdf_millisec.pdf}
+  \vspace{-10pt}
   \caption{Cumulative distribution of profiled execution times for visual odometry running on the Odroid-U3 for varying maximum number of corners from the SVO algorithm.}
   \label{fig:time_ecdf}
+  \vspace{-10pt}
 \end{figure}
 
 \input{experimentalEval}

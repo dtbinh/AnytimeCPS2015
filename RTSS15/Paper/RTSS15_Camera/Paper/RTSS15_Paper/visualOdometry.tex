@@ -1,5 +1,8 @@
 \subsection{Visual Odometry} \label{sec:visual_odometry}
 
+
+
+
 Another algorithm we consider and later use in Section  \ref{sec:experiments} is the Semi-Direct Monocular Visual Odometry (SVO) \cite{forster2014svo}.
 The visual odometry algorithm detects corners in an image and tracks them across video frames to perform self-localization of a moving robot.
 These estimates are used in the closed loop control system that flies the hexrotor, hence it is important for the visual odometry to run at or faster than frame rate in order to provide a timely state estimate to the control algorithm
@@ -14,12 +17,4 @@ We retained the $90^{th}$ percentile values for $\delta$ and $\epsilon$, since t
 It can be seen that a larger number of requested corners produces a smaller estimation error and longer runtime.
 Starting at 250 corners, the error increases, however.
 We hypothesize this is due to the decreasing quality of the corners being returned by the corner detection algorithm. 
-
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.99\columnwidth]{figures/errVsTime}
-\caption{Error-delay curve for the SVO algorithm running on the Odroid-U3 with different settings of maximum number of features ($\#C$) to detect and track. The vertical line shows the cut-off for maximum delay and the SVO settings that are allowable for closed loop control of a hexrotor at 20Hz.}
-\label{fig:svo_error_delay}
-\vspace{-20pt}
-\end{figure}
 
