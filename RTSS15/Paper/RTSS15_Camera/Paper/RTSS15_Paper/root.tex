@@ -44,6 +44,12 @@
 \setboolean{TECH_REPORT}{FALSE}
 \newcommand{\Given}{|}
 
+\usepackage{array}
+\usepackage{url}
+
+\newcommand\Mark[1]{\textsuperscript#1}
+
+
 % See the \addtolength command later in the file to balance the column lengths
 % on the last page of the document
 
@@ -59,36 +65,31 @@
 Co-Design of Anytime Computation and Robust Control
 }
 %
-%\author{Yash Vardhan Pant, Kartik Mohta, Houssam Abbas, Truong X. Nghiem, Joseph Devietti, Rahul Mangharam% <-this % stops a space
-%\thanks{*This work was supported by STARnet a Semiconductor Research
-%Corporation program sponsored by MARCO and DARPA.}% <-this % stops a space
-%\thanks{The Departments of Electrical and Systems Engineering and Computer and Information Sciences, University of Pennsylvania, Philadelphia, U.S.A.
-%        {\tt\small
-%        \{yashpant,kmohta,habbas,nghiem,rahulm\}@seas.upenn.edu, devietti@cis.upenn.edu}}%
-%}
-\author{\IEEEauthorblockN{Yash Vardhan Pant, Kartik Mohta, \\ Houssam Abbas,  Rahul Mangharam}
-\IEEEauthorblockA{The Department of Electrical  \\ and Systems Engineering, \\
-University of Pennsylvania, \\
-Philadelphia, U.S.A\\
-yashpant@seas.upenn.edu, kmohta@seas.upenn.edu, \\habbas@seas.upenn.edu, rahulm@seas.upenn.edu}
-\and
-\IEEEauthorblockN{Joseph Devietti}
-\IEEEauthorblockA{The Department of Computer\\  and Information Sciences, \\
-University of Pennsylvania, \\
-Philadelphia, U.S.A\\
-devietti@cis.upenn.edu}
+\author{Yash Vardhan Pant, Kartik Mohta, Houssam Abbas, Truong X. Nghiem, Joseph Devietti, Rahul Mangharam% <-this % stops a space
+\thanks{*This work was supported by STARnet a Semiconductor Research
+Corporation program sponsored by MARCO and DARPA.}% <-this % stops a space
+\thanks{The Departments of Electrical and Systems Engineering and Computer and Information Sciences, University of Pennsylvania, Philadelphia, U.S.A.
+        {\tt\small
+        \{yashpant,kmohta,habbas,nghiem,rahulm\}@seas.upenn.edu, devietti@cis.upenn.edu}}%
 }
 
 
-
-%\author{Yash Vardhan Pant, Kartik Mohta, Houssam Abbas, Truong X. Nghiem, Joseph Devietti, Rahul Mangharam% <-this % stops a space
-%	\thanks{*This work was supported by STARnet a Semiconductor Research
-%		Corporation program sponsored by MARCO and DARPA.}% <-this % stops a space
-%	\thanks{The Departments of Electrical and Systems Engineering and Computer and Information Sciences, University of Pennsylvania, Philadelphia, U.S.A.
-%		{\tt\small
-%			\{yashpant,kmohta,habbas,
-%			nghiem,rahulm\}@seas.upenn.edu, devietti@cis.upenn.edu}}%
+%\author{\IEEEauthorblockN{Yash Vardhan Pant, Houssam Abbas, Kartik Mohta, Rahul Mangharam}
+%\IEEEauthorblockA{The Department of Electrical  \\ and Systems Engineering, \\
+%University of Pennsylvania, \\
+%Philadelphia, U.S.A\\
+%yashpant@seas.upenn.edu, kmohta@seas.upenn.edu, \\habbas@seas.upenn.edu, rahulm@seas.upenn.edu}
+%\and
+%\IEEEauthorblockN{Joseph Devietti}
+%\IEEEauthorblockA{The Department of Computer\\  and Information Sciences, \\
+%University of Pennsylvania, \\
+%Philadelphia, U.S.A\\
+%devietti@cis.upenn.edu}
 %}
+
+
+
+
 %\begin{document}
 
 \maketitle
@@ -117,7 +118,7 @@ devietti@cis.upenn.edu}
 	\bibliographystyle{IEEEtran}%abbrv}
 	\bibliography{IEEEabrv,rtss2015,cdc14,anytime_ref}
 
-	\input{appendix}
+	%\input{appendix} %not in camera ready 
 }
 
 
