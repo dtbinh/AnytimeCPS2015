@@ -6,6 +6,12 @@ if [ $UID -ne 0 ]; then
     exit 1
 fi
 
+# check if /dev/usbtmc0 already exists
+if [ -e /dev/usbtmc0 ]; then
+    chmod 666 /dev/usbtmc0
+    exit 0
+fi
+
 # check kernel version
 if [ `uname -r` != "3.10.40-grinch-21.3.4" ]; then
     echo "Incompatible kernel version, aborting."
