@@ -1,0 +1,9 @@
+\section{Profiling performance and power consumption}
+
+For the perception algorithm, with the hardware level knobs as specified in the previous section, the first stage of our method is profiling the performance (both timing and quality, if available) and power consumption of the computation. To do this profiling, we first log videos (at a high frame-rate) of the robot navigating (under manual control) in corridors. This information is logged in the form of a ROSBAG, which is then played back offline so that we can recreate the run-time inputs to the Vanishing point algorithm in order to profile it with different CPU-GPU schedules for the tasks and different frequencies of the CPU and GPU offline without having to re-do the video collection every time. i
+
+We wrote a custom C-code library to log power measurements from a Tektronix PWS4205 Programmable DC power supply at 100Hz. For this we communicate with the power supply over USB using the USB Test and Measurement Class (USB-TMC) communication protocol. 
+
+In order to profile the timing performance of the Vanishing point algorithm with different schedules for the three tasks we allocate on either the CPU or the GPU, and the different clock frequencies for the CPU and the GPU, we have a script that runs the vanishing point algorithm for all settings offline and logs the update rate in Hz as well as individual execution times of the components and the power consumption. Note, since for an algorithm like vanishing point, there is no well defined notion of ground truth, we do not have a measure of accuracy of the algorithm. The update rate instead is used as a performance measure, since with faster updates the controller can apply input signals to the plant faster, resulting in better control performance. 
+
+Figures \ref{}[?] show the profiling results.
