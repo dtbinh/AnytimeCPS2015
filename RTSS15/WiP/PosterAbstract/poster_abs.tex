@@ -1,4 +1,17 @@
-In recent years, autonomous cars have become more and more prolific and increasingly capable \cite{}. For the perception and control software of these systems, there are stringent real-time requirements that have to be met for the safe performance of the system. In order for these requirements to be met, autonomous systems (both their hardware and software) are overengineered, resulting in a power consumption for the computation tasks that is not negligible. Also, while the focus of reducing power consumption in the design of such systems has been mostly on the power consumed by the actuators, computational platforms have been consuming more and more power. It is worth noting that over the past two decades, the power consumption of processors has increased by more than double, while battery energy density has only improved by about a quarter $\%$ \cite{}. 
+\begin{itemize}
+	\item Why anytime algorithms for control performance and power reduction
+	\item in RTSS full paper, we present algorithmic trade-offs and study their effects on closed-loop control peformance.
+	\item in this wip, we present platform-level trade-offs and power consumption effects
+	\item experimental setup: car with GPU, CPU, sensors = ..., running Vanishing point, PID controller
+	\item first knob: frequency
+	\item second knob: GPU vs CPU
+	\item results: 2 graphs
+	\item future work
+\end{itemize}
+
+
+In recent years, autonomous cars have become more and more prolific and increasingly capable \cite{}. For the perception and control software of these systems, there are stringent real-time requirements that have to be met for the safe performance of the system. In order for these requirements to be met, autonomous systems (both their hardware and software) are overengineered, resulting in a power consumption for the computation tasks that is not negligible. Also, while the focus of reducing power consumption in the design of such systems has been mostly on the power consumed by the actuators, computational platforms have been consuming more and more power. 
+It is worth noting that over the past few decades, the power consumption of processors has increased by more than double, while battery energy density has only improved by about a quarter $\%$ [??Rajkumar??]. 
 
 In this poster, we present a method to obtain more energy efficient computations for the perception and estimation algorithms used in autonomous systems by exploiting hardware and algorithm level knobs. These knobs allow us to leverage a tradeoff between power consumption and a measure of quality of the perception and estimation algorithms. On-going work focuses also on coming up with a supervisory algorithm and control algorithms that are aware of this trade-off and choose an optimal operating point (or knobs settings) such that the performance of the overall closed-loop system is safe as well as energy efficient.
 
