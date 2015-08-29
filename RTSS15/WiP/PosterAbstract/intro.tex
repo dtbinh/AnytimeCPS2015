@@ -11,7 +11,9 @@ A second, related, challenge is that the perception algorithms on-board these ve
 This is especially true for autonomous vehicles (AVs) since they carry multiple sensors (cameras, LIDAR, radars, ultrasound radars, etc) whose data must be processed in real-time.
 
 As a result of the variability in the environment, the control and perception systems are over-engineered to operate as if the worst-case conditions always hold. 
-This results in unnecessarily high power consumption.
+This results in unnecessarily high power consumption from the computation platform. It is worth noting that over the past few decades, the power consumption of processors has increased by more than double, while battery energy density has only improved by about a quarter \cite{Lahiri}. 
+
+
 
 In this work, we explore the idea of trading-off computation time and power for quality of output, and how this trade-off affects \emph{control performance}.
 We start from the observation that the best quality output from the perception algorithm is not always required for the system to achieve the desired control performance.
@@ -21,21 +23,18 @@ Therefore we focus on \emph{anytime perception algorithms} that have a pre-defin
 In general, the earlier the algorithm is interrupted, the worse is the quality of its output. 
 On the other hand, that quality may be sufficient for the control algorithm to achieve its goal.
 
-In ??\cite{} we proposed a way in which a standard perception algorithm can be turned into an anytime algorithm via off-line profiling, and thus can offer a time/power/quality trade-off.
+In \cite{RTSS15} we proposed a way in which a standard perception algorithm can be turned into an anytime algorithm via off-line profiling, and thus can offer a time/power/quality trade-off.
 We also designed a model predictive controller than can make use of the trade-off offered by the anytime perception algorithm.
 To achieve the time/power/quality trade-off, we produced multiple versions of the algorithm.
-Every version ran for longer, and produced a higher quality output. 
-E.g., ??
+For the localization algorithm considered in that work, up to a point, every version ran for longer, and produced a higher quality output. 
 
 In this work, we turn our attention to achieving the time/power/quality trade-off using platform-level optimizations.
 Specifically, we work with an autonomous car $1/10^{th}$ the size of a regular car. 
-It is equipped with a camera and runs the Vanishing Point algorithm ??\cite{}. 
-The latter detects two dominant straight lines in the scene. 
-The car's controller tries to navigate the car to be in the center of the lane defined by the two dominant lines.
-The car is equipped with a CPU and Nvidia Jetson TK1 GPU.
+It is equipped with a front facing monocular camera and runs the Vanishing Point algorithm \cite{VP1}. 
+The latter detects two dominant straight lines in the scene.  The car's controller tries to navigate the car to be in the center of the lane defined by the two dominant lines. The car is equipped with a CPU and Nvidia Jetson TK1 GPU. More details of the experimental setup are in a later section.
 The platform-level optimization divides the Vanishing Point algorithm into components, and decides whether to run each component on the CPU or GPU, and at what frequency.
 The assignment to CPU or GPU is not static: every time the algorithm is executed, a different assignment may result, at a different frequency.
-The assignment is dictated by the controller: based on off-line profiling of each processor's performance on each component, the controller decides what quality is acceptable while minimizing power consumption.
+The assignment is dictated by the controller: based on off-line profiling of each processor's performance on each component, the controller decides what quality is acceptable while minimizing power consumption. The profiling is described in more detail in a later section.
 In the present paper, we present initial results of partitioning the Vanishing Point algorithm and running different components on CPU and GPU, and at different frequencies.
 We also provide the related power numbers, demonstrating that a meaningful difference in runtime and power consumption exists depending on the assignment and frequency.
 In future work, we design a controller to make use of this and other optimizations, and relate the current results to the control performance.

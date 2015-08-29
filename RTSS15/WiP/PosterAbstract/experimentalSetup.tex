@@ -1,6 +1,6 @@
 \section{Experiment setup}
 
-In this work, we focus on the particular case of autonomous corridor navigation. For this purpose we use the vanishing point algorithm [??] and PID control to maintain heading parallel to the corridor and stay in the middle of it. We implement our algorithm on a $1/10^{th}$ scale car we developed. This section covers the hardware, the algorithm, and the hardware level knobs which affect the performance of the closed loop system and energy consumption of the computation platform.
+In this work, we focus on the particular case of autonomous corridor navigation. For this purpose we use the vanishing point algorithm and PID control to maintain heading parallel to the corridor and stay in the middle of it. We implement our algorithm on a $1/10^{th}$ scale car we developed. This section covers the hardware, the algorithm, and the hardware level knobs which affect the performance of the closed loop system and energy consumption of the computation platform.
 
 \subsection{The hardware}
 
@@ -8,13 +8,13 @@ For our experiments, we converted a Radio controlled Traxxas Rally car into an a
 
 \subsection{Vanishing point based corridor navigation}
 
-The Vanishing point algorithm \cite{}[?] has been used extensively in indoor settings for navigation corridors autonomously \cite{}[?][?]. Our experimental setup also relies on the Vanishing point algorithm, implement in OpenCV \cite{}[opencv] to provide feedback to the control algorithm. The vanishing point algorithm outputs the horizontal distance of the vanishing point from the center of the image frame, this feedback is used by the controller to orient the robot such that the distance of the vanishing point from the center of the image frame become zero, i.e. the robot is aligned with the corridor. 
+The Vanishing point algorithm \cite{VP1} has been used extensively in indoor settings for navigation corridors autonomously \cite{VP2, VP3}. Our experimental setup also relies on the Vanishing point algorithm, implement in OpenCV \cite{}[opencv] to provide feedback to the control algorithm. The vanishing point algorithm outputs the horizontal distance of the vanishing point from the center of the image frame, this feedback is used by the controller to orient the robot such that the distance of the vanishing point from the center of the image frame become zero, i.e. the robot is aligned with the corridor. 
 
-For brevity, we will not explain in detail the workings of the vanishing point algorithm (the interested reader can refer to \cite{}[?]), but will focus on the major computational tasks that comprise the vanishing point algorithm. As shown in figure \ref{}[?], the major computational tasks of the vanishing point algorithm are (sequentially)
+For brevity, we will not explain in detail the workings of the vanishing point algorithm (the interested reader can refer to \cite{VP1}), but will focus on the major computational tasks that comprise the vanishing point algorithm. As shown in figure \ref{}[?], the major computational tasks of the vanishing point algorithm are (sequentially)
 
 \begin{itemize}
 \item Blur: A Gaussian blur is applied on the image for de-noising.
-\item Edge detection: We use the Canny Edge detector \cite{}[?] to find edges in the image.
+\item Edge detection: We use the Canny Edge detector to find edges in the image.
 \item Hough Transform: In our implementation, the Hough transform is used to detect lines in the image.
 \item Random sample consensus (RANSAC): RANSAC is used to find the lines which best describe the parallel lines which represent the sides of the corridor. These lines intersect in the image plane at the Vanishing Point.
 \end{itemize}
