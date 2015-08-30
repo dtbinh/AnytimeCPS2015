@@ -11,17 +11,5 @@ For this we communicate with the power supply over USB using the USB Test and Me
 Since for an algorithm like Vanishing point there is no well-defined notion of ground truth, we do not have a measure of accuracy of the algorithm. 
 Instead, the vanishing point algorithm's update rate is used as a performance measure, since with faster updates the controller can apply input signals to the car faster, resulting in better control performance. 
 
-Figures \ref{fig:diff freq same assignment}, \ref{fig:same freq diff assignment} show the profiling results.
-\begin{figure}[t]
-\centering
-\includegraphics[scale=0.2]{Figs/placeHolder}
-\caption{Update rate for different frequencies and a given CPU-GPU assignment.}
-\label{fig:diff freq same assignment}
-\end{figure}
 
-\begin{figure}[t]
-	\centering
-	\includegraphics[scale=0.2]{Figs/placeHolder}
-	\caption{Update rate for different CPU-GPU assignments at fixed frequencies.}
-	\label{fig:same freq diff assignment}
-\end{figure}
+\input{results}

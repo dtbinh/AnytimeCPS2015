@@ -101,7 +101,7 @@ legend(legendmatrix1);
 cost_analysis = 0;
 
 if(cost_analysis)
-
+close all;
 Througput_norm = Throughput/(max(Throughput(:)));
 MeanPower_norm = MeanPower/max(MeanPower(:));
 
