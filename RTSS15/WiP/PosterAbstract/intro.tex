@@ -4,7 +4,7 @@
 Autonomous vehicles promise significant benefits to society, from reduced accident rates to greater mobility for the elderly. 
 The biggest challenge in the design of autonomous vehicles comes from the uncertainty of the environment in which they will operate. 
 Their control algorithms must be able to cope with driving events that occur on widely ranging time scales. 
-For example, relaxed highway driving requires planning actions every few seconds, while imminent collision avoidance requires planning and actuation on the order of a few milliseconds.
+For example, relaxed rural driving can accommodate planning actions every few seconds, while imminent collision avoidance requires planning and actuation on the order of a few milliseconds.
 Thus `real-time' performance will imply different things depending on the context. 
 
 A second, related, challenge is that the perception algorithms on-board these vehicles (like object detection based on video feed) must handle a very large amount of data, leading to increased power consumption. 
@@ -30,7 +30,7 @@ In this work, we turn our attention to achieving the time/power/quality trade-of
 Specifically, we work with an autonomous car $1/10^{th}$ the size of a regular car (Fig. \ref{fig:traxxas}).
 \begin{figure}[t]
 	\centering
-	\includegraphics[scale=0.3]{ourChasis_front.png}
+	\includegraphics[scale=0.08]{traxxas.jpg}
 	\caption{Traxxas autonomous car with camera.}
 		\label{fig:traxxas}
 \end{figure}  
@@ -38,7 +38,7 @@ It is equipped with a front facing monocular camera and runs the Vanishing Point
 The on-board computation platform has both a CPU and GPU. More details of the experimental setup are in a later section.
 The platform-level optimization divides the Vanishing Point algorithm into components, and decides whether to run each component on the CPU or GPU, and at what frequency.
 The assignment to CPU or GPU is not static: every time the algorithm is executed, a different assignment may result, at a different frequency.
-The assignment is dictated by the controller: based on off-line profiling of each processor's performance on each component, the controller decides what quality is acceptable while minimizing power consumption. The profiling is described in more detail in a later section.
+The assignment is dictated by the controller: based on off-line profiling of each processor's performance on each component, the controller decides what quality is currently acceptable while minimizing power consumption. The profiling is described in more detail in a later section.
 In the present paper, we present initial results of partitioning the Vanishing Point algorithm and running different components on CPU and GPU, and at different frequencies.
 We also provide the related power numbers, demonstrating that a meaningful difference in runtime and power consumption exists depending on the assignment and frequency.
 In future work, we design a controller to make use of this and other optimizations, and relate the current results to the control performance.
