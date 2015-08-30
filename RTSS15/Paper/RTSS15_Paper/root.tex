@@ -16,11 +16,14 @@
 \RequirePackage{graphicx}
 \usepackage{subfigure}
 \usepackage{bm}
-%\usepackage{subequation}
 \graphicspath{ {figures/} }
 \usepackage{url}
-%\usepackage[tight,footnotesize]{subfigure}
 \usepackage{fainekos-macros}
+\usepackage[printwatermark]{xwatermark}
+%\usepackage{xcolor}
+\newwatermark[allpages,color=red!50,angle=45,scale=3,xpos=0,ypos=0]{DRAFT}
+
+
 \newcommand{\hatodo}[1]{\todo{HA: #1}}
 \newcommand{\hatodoin}[1]{\todo[inline]{HA: #1}}
 \newcommand{\sAccu}{\epsilon}
@@ -40,7 +43,7 @@
 \newcommand{\bla}[1]{\overbar{#1}}
 \newcommand{\bli}[1]{\overline{BLI #1}}
 \newboolean{TECH_REPORT}
-\setboolean{TECH_REPORT}{TRUE}
+\setboolean{TECH_REPORT}{FALSE}
 \newcommand{\Given}{|}
 
 % See the \addtolength command later in the file to balance the column lengths

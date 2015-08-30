@@ -8,14 +8,12 @@ For example, relaxed highway driving requires planning actions every few seconds
 Thus `real-time' performance will imply different things depending on the context. 
 
 A second, related, challenge is that the perception algorithms on-board these vehicles (like object detection based on video feed) must handle a very large amount of data, leading to increased power consumption. 
-This is especially true for autonomous vehicles (AVs) since they carry multiple sensors (cameras, LIDAR, radars, ultrasound radars, etc) whose data must be processed in real-time.
+This is especially true for autonomous vehicles (AVs) since they carry multiple sensors (cameras, LIDAR, radars, ultrasound radars, etc) whose data must be processed in real-time to avoid accidents.
 
 As a result of the variability in the environment, the control and perception systems are over-engineered to operate as if the worst-case conditions always hold. 
 This results in unnecessarily high power consumption from the computation platform. It is worth noting that over the past few decades, the power consumption of processors has increased by more than double, while battery energy density has only improved by about a quarter \cite{Lahiri}. 
 
-
-
-In this work, we explore the idea of trading-off computation time and power for quality of output, and how this trade-off affects \emph{control performance}.
+In the current work, we explore the idea of trading-off computation time and power for quality of output, and how this trade-off affects \emph{control performance}.
 We start from the observation that the best quality output from the perception algorithm is not always required for the system to achieve the desired control performance.
 For example, the control objective might be to follow the center of a driving lane, and control performance is measured by the deviation from that center.
 At slow speeds, poor quality of position estimate may be tolerated since it won't lead to excessive deviations from the center.
@@ -25,13 +23,13 @@ On the other hand, that quality may be sufficient for the control algorithm to a
 
 In \cite{RTSS15} we proposed a way in which a standard perception algorithm can be turned into an anytime algorithm via off-line profiling, and thus can offer a time/power/quality trade-off.
 We also designed a model predictive controller than can make use of the trade-off offered by the anytime perception algorithm.
-To achieve the time/power/quality trade-off, we produced multiple versions of the algorithm.
-For the localization algorithm considered in that work, up to a point, every version ran for longer, and produced a higher quality output. 
+To achieve the time/power/quality trade-off, we produced multiple versions of the perception algorithm.
+Broadly speaking, a version that ran for longer produced a higher quality output. 
 
-In this work, we turn our attention to achieving the time/power/quality trade-off using platform-level optimizations.
+In this work, we turn our attention to achieving the time/power/quality trade-off using \emph{platform-level} optimizations.
 Specifically, we work with an autonomous car $1/10^{th}$ the size of a regular car. 
-It is equipped with a front facing monocular camera and runs the Vanishing Point algorithm \cite{VP1}. 
-The latter detects two dominant straight lines in the scene.  The car's controller tries to navigate the car to be in the center of the lane defined by the two dominant lines. The car is equipped with a CPU and Nvidia Jetson TK1 GPU. More details of the experimental setup are in a later section.
+It is equipped with a front facing monocular camera and runs the Vanishing Point perception algorithm \cite{VP1}. 
+The car is equipped with a CPU and GPU. More details of the experimental setup are in a later section.
 The platform-level optimization divides the Vanishing Point algorithm into components, and decides whether to run each component on the CPU or GPU, and at what frequency.
 The assignment to CPU or GPU is not static: every time the algorithm is executed, a different assignment may result, at a different frequency.
 The assignment is dictated by the controller: based on off-line profiling of each processor's performance on each component, the controller decides what quality is acceptable while minimizing power consumption. The profiling is described in more detail in a later section.
