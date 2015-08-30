@@ -35,7 +35,7 @@ Specifically, we work with an autonomous car $1/10^{th}$ the size of a regular c
 		\label{fig:traxxas}
 \end{figure}  
 It is equipped with a front facing monocular camera and runs the Vanishing Point perception algorithm \cite{VP1}. 
-The car is equipped with a CPU and GPU. More details of the experimental setup are in a later section.
+The on-board computation platform has both a CPU and GPU. More details of the experimental setup are in a later section.
 The platform-level optimization divides the Vanishing Point algorithm into components, and decides whether to run each component on the CPU or GPU, and at what frequency.
 The assignment to CPU or GPU is not static: every time the algorithm is executed, a different assignment may result, at a different frequency.
 The assignment is dictated by the controller: based on off-line profiling of each processor's performance on each component, the controller decides what quality is acceptable while minimizing power consumption. The profiling is described in more detail in a later section.
