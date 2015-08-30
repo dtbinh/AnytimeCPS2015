@@ -17,7 +17,17 @@ Finally, the vanishing point algorithm implemented in OpenCV \cite{opencv} gets 
 
 The Vanishing point algorithm \cite{VP1} has been used extensively in indoor settings for navigating corridors autonomously \cite{VP2, VP3} and for outdoor lane detection \cite{gallagher2002ground}. 
 The algorithm outputs the horizontal distance of the frame's vanishing point from the center of the frame. 
-This distance is used by our car's controller to align the robot with the corridor. 
+This distance is used by our car's controller to align the robot with the corridor. Figure \ref{fig:vp_viz} shows visualization of the vanishing point algorithm operating on a frame collected from navigating in a corridor.
+
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[scale=0.26]{Figs/image_176.png}
+\caption{Visualization of the Vanishing point algorithm. The green dot shows the vanishing point.}
+\label{fig:vp_viz} %diff freq same assignment}
+\end{figure}
+
+
 
 We focus on the major computational tasks that comprise the vanishing point algorithm, shown in Fig. \ref{fig:vanishing}.
 They are:
