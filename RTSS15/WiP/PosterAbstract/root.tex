@@ -38,9 +38,6 @@
 \global\long\def\Nom#1{\overline{#1}}
 \newcommand{\bla}[1]{\overbar{#1}}
 \newcommand{\bli}[1]{\overline{BLI #1}}
-%\newboolean{TECH_REPORT}
-%\setboolean{TECH_REPORT}{FALSE}
-\newcommand{\Given}{|}
 
 \usepackage{array}
 \usepackage{url}
@@ -50,6 +47,7 @@
 % on the last page of the document
 \usepackage{amsmath} % assumes amsmath package installed
 \usepackage{amssymb}  % assumes amsmath package installed
+\renewcommand{\thefigure}{\arabic{figure}}
 \title{\LARGE \bf
 Poster Abstract: Hardware optimizations for anytime perception and control
 }

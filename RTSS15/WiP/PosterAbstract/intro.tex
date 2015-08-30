@@ -27,7 +27,13 @@ To achieve the time/power/quality trade-off, we produced multiple versions of th
 Broadly speaking, a version that ran for longer produced a higher quality output. 
 
 In this work, we turn our attention to achieving the time/power/quality trade-off using \emph{platform-level} optimizations.
-Specifically, we work with an autonomous car $1/10^{th}$ the size of a regular car. 
+Specifically, we work with an autonomous car $1/10^{th}$ the size of a regular car (Fig. \ref{fig:traxxas}).
+\begin{figure}[t]
+	\centering
+	\includegraphics[scale=0.3]{ourChasis_front.png}
+	\caption{Traxxas autonomous car with camera.}
+		\label{fig:traxxas}
+\end{figure}  
 It is equipped with a front facing monocular camera and runs the Vanishing Point perception algorithm \cite{VP1}. 
 The car is equipped with a CPU and GPU. More details of the experimental setup are in a later section.
 The platform-level optimization divides the Vanishing Point algorithm into components, and decides whether to run each component on the CPU or GPU, and at what frequency.

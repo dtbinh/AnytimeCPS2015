@@ -6,12 +6,7 @@ For this purpose we use the vanishing point algorithm and PID control to maintai
 \subsection{The hardware}
 
 For our experiments, we converted a Radio controlled Traxxas Rally car into an autonomous robot shown in Fig. \ref{fig:traxxas}, similar to the ones used in \cite{racecar_mit}.
-\begin{figure}
-	\centering
-	\label{fig:traxxas}
-	\includegraphics[scale=0.3]{ourChasis_front.png}
-	\caption{Traxxas autonomous car with camera.}
-\end{figure} 
+
 The computation platform is a NVIDIA Jetson TK1. 
 The Jetson has a quad-core ARM Cortex-A15 CPU and a NVIDIA Kepler GPU. 
 This setup allows us to schedule tasks on the CPU or GPU while observing the effect of this on power consumption and timing of the algorithm. 
@@ -36,9 +31,9 @@ They are:
 
 \begin{figure}
 	\centering
-	\label{fig:vanishing}
 	\includegraphics[scale=0.3]{vanishing}
 	\caption{The vanishing point algorithm with components running on either CPU or GPU at various frequencies, resulting in different power consumptions.}
+	\label{fig:vanishing}		
 \end{figure}
 \subsection{Exploiting hardware level knobs}
 With the vanishing point algorithm, we can execute the Blur, the Edge detection and the Hough transform on either the CPU or the GPU. 
