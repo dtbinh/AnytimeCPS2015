@@ -59,7 +59,7 @@ J^*_{\de} &=& \min_{\inpSig,\sttraj}\sum_{j=0}^{N}\left(\ell(\Nom \stPt_{k+j},\i
 \textrm{s.t.} &&\forall j \in \{0,\ldots,N\}
 \nonumber
 \\
-&&\Nom \stPt_{k+1}=A \Nom \stPt_{k}+B_{1}(\sDelay_k)\inpPt_{k-1}+B_{2}(\sDelay_k)\inpPt_{k}
+&&\Nom \stPt_{k+j+1}=A \Nom \stPt_{k+j}+B_{1}(\sDelay_k)\inpPt_{k+j-1}+B_{2}(\sDelay_k)\inpPt_{k+j}
 \nonumber
 \\
 && (\Nom \stPt_{k+j},\inpPt_{k+j}) \in \ZSet_{j}(\sAccu_k,\sAccu)

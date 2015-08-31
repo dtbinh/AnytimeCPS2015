@@ -9,7 +9,7 @@ In this section we demonstrate in detail how such a curve may be obtained for pa
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.49\textwidth]{figures/omnigraffle_figures/real_time_figure}
-	\caption{Illustration of the various components used to compose the contract based perception algorithm and their representation as real-time tasks. For a given $\de$ contract, knob settings are chosen at run-time resulting a schedule to execute these sequential components, or tasks to respect the contract.}
+	\caption{Illustration of the various components used to compose the contract based perception algorithm and their representation as real-time tasks. For a given $\de$ contract, knob settings are chosen at run-time resulting in a schedule to execute these sequential components, or tasks, to respect the contract.}
 	\label{fig:RT_bs}
 \end{figure}
 The first step towards profiling a contract-based estimator is to identify the individual components (or algorithms) of the perception tool chain. 
@@ -47,13 +47,11 @@ Fig. \ref{fig:eps_delta_toy} shows the profiled performance of the CV tool chain
 
 %Note, since intermediate qualities are not easily measurable or assignable for some of the blocks of the tool chain (e.g. Connected Components) and for many other algorithms in general, we assign quality (or accuracy) distributions to the realizations of the complete tool chain by composing together different knob settings. Note, this profiling stage is done at offline at design time and provides us information that we use at runtime.
 
-\subsection{Run-time execution of the contract based perception algorithm}
+\subsection{Run-time execution of the contract-based perception algorithm}
 
-After the contract based perception algorithm has been composed and the execution time distributions of its individual components and the quality distributions from composing together various knob settings have been profiled, we can make run-time decisions for knob settings in order to realize a given $\de$ contract. 
+Having profiled the components of the contract-based perception algorithm, we can make run-time decisions for knob settings in order to realize a given $\de$ contract. 
 
-%The decision of selecting which knob setting to use for a particular stage for a given criteria can now be posed as an optimization problem for edge selection in the decision tree. For example, consider the case where we want to minimize the perception error while meeting a time deadline with a given high probability, the problem can be written as a constrained minimum cost path selection problem where timing information of the edges and quality information about paths can easily be encoded. This problem can be re-solved after each stage is executed with a recalculated time remaining and smaller decision tree structure for subsequent remaining stages. This allows the algorithm the flexibility to re-optimize its execution path (or knob settings) after obtaining updated information on time consumed in the past stages. For problems that do not have an excessively large number of knobs, such an optimization can be solved very quickly.
-
-This is the equivalent of selecting different versions of tasks (knobs for stages) and scheduling them in sequential order to best perform the object recognition task while maximizing utilization (or estimation accuracy) and meeting the given time contract or deadline. Fig. \ref{fig:RT_bs} shows the different task versions for each knob in the different stages and the resulting schedule based on the knob settings for the stages. The offline profiling allows us to set the knobs such that we can achieve a feasible schedule for the given deadline, $\delta$ while maximizing the utility, or the expected accuracy of the perception algorithm. 
+This is the equivalent of selecting different versions of tasks (knobs for stages) and scheduling them in sequential order to best perform the object recognition task while meeting the given time contract or deadline. Fig. \ref{fig:RT_bs} shows the different task versions for each knob in the different stages and the resulting schedule based on the knob settings for the stages. The offline profiling allows us to set the knobs such that we can achieve a feasible schedule for the given deadline, $\delta$ while maximizing the utility, or the expected accuracy of the perception algorithm. 
 
 \begin{figure}[t]
 	\centering
@@ -71,7 +69,7 @@ This is the equivalent of selecting different versions of tasks (knobs for stage
 \vspace{-20pt}
 \caption{Error-delay curve for the SVO algorithm running on the Odroid-U3 with different settings of maximum number of features ($\#C$) to detect and track. The vertical line shows the cut-off for maximum delay and the SVO settings that are allowable for closed loop control of a hexrotor at 20Hz.}
 \label{fig:svo_error_delay}
-\vspace{-40pt}
+\vspace{-20pt}
 \end{figure}
 
 %Specifically, we consider two different visual perception tool chains, where each tool of the chain has a knob that tunes its performance.%
