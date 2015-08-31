@@ -12,7 +12,7 @@ The dynamics of the hexrotor, relating the time-evolution of its state to the cu
 where $x\in \Re^{n}$ is the state constrained to lie in a set $\stSet \subset \Re^n$,
 $\inpPt\in\Re^{m}$ is the control input constrained to lie in a set $\inpSet \subset \Re^m$,
 and $w_{c}\in\Re^{n}$ is the bounded process noise assumed to lie in a set $\Wc_c \subset \Re^n$.
-$A_c \in \Re^{n\times n}$ and $B_c \in \Re^{m\times n}$ are matrices.
+$A_c \in \Re^{n\times n}$ and $B_c \in \Re^{n\times m}$ are matrices.
 LTIs model a wide range of systems, and our results apply to arbitrary LTIs of the form given in \eqref{eq:plant-cont-model} with compact and convex constraint sets $\stSet,\inpSet$ and $\Wc_c$.
 The sets $\stSet$ and $\inpSet$ are part of the problem statement and are either chosen by the designer or determined by physical constraints.% of the physical plant and the actuators.
 For the hexrotor, $\stSet$ captures limits on the state such that the LTI dynamics provide a good approximation of the true nonlinear dynamics.
@@ -67,7 +67,7 @@ where $M \geq 0$ is the duration of the system's operation.
 Because of time-triggered sensing and actuation, from time $t_{s,k}$ to $t_{a,k}$, the  previous control input $u_{k-1}$
 is still used.
 Then at $t_{a,k}$ the new control input $u_{k}$
-is computed and applied by the controller (see Fig.~\ref{fig:senseActuate}).
+is computed and applied by the controller (see Fig.~\ref{fig:senseActuate}). For simplification, we assume the computation time for the controller ($\tau$) to be constant and lump it with the time for the estimator ($\delta$). This is justified experimentally for our problem (in Sec.\ref{sec:exp_eval}) where the time for the controller is negligible compared to the time taken by the estimation algorithm.
 The discretized dynamics are given by
 \begin{equation}
 \label{eq:disc-dynamics}
