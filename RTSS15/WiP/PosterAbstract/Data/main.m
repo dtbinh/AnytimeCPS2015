@@ -98,7 +98,7 @@ legend(legendmatrix1);
  
 
 %% normalized stuff
-cost_analysis = 0;
+cost_analysis = 1;
 
 if(cost_analysis)
 close all;
