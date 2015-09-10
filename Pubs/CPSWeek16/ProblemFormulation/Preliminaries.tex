@@ -1,0 +1,169 @@
+\documentclass{article}[14pt]
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{array}
+\usepackage{tikz}
+\usepackage{latexsym}
+\usepackage{xspace}
+\usepackage{algorithm2e}
+\setlength{\textheight}{9in}
+\setlength{\textwidth}{6.5in}
+\setlength{\columnsep}{0.3125in}
+\setlength{\topmargin}{-0in}
+\setlength{\headheight}{-0in}
+\setlength{\headsep}{0in}
+\setlength{\parindent}{1pc}
+\setlength{\oddsidemargin}{0in}
+
+\newcommand\independent{\protect\mathpalette{\protect\independenT}{\perp}}
+\def\independenT#1#2{\mathrel{\rlap{$#1#2$}\mkern2mu{#1#2}}}
+%\newcommand{\distas}[1]{\mathbin{\overset{#1}{\kern\z@\sim}}}%
+
+%\parindent=0pt
+
+\title{Anytime Estimation and mode switching with Stochastic Model Predictive Control}
+
+\begin{document}
+\maketitle
+
+\section{Problem Setup}
+
+\subsection{Peception and Estimation modes}
+Given by:
+\begin{equation}
+\Delta = \{\delta_i, (\mu^i_0, \Sigma^i_0), (\mu^i_1, \Sigma^i_1), P_i(\gamma_k)\}, \quad \forall i = 1,\dotsc, M \nonumber
+\label{eq:modes}
+\end{equation}
+
+Where, $\delta_i$ is $90^{th}$ percentile computation time for the perception and estimation algorithm in mode $i$. $\gamma_k$ is a variable which denotes whether the perception algorithm failed or not in time step $k$, e.g. losing tracking of keyframes in SVO. Define $\gamma_k$ as:
+
+\begin{equation}
+%\[
+    \gamma_k  = 
+\begin{cases}
+    0,& \text{if no failure in perception at time $k$}\\
+    1,              & \text{otherwise}
+\end{cases}
+%\]
+\end{equation}
+
+Now that $\gamma_k$ is defined, the estimation error for mode $i$ at time $k$ is given (as a conditional pdf) as:
+
+ \begin{equation}
+%\[
+    e_k  \sim
+\begin{cases}
+    \mathcal{N}(\mu^i_0,\Sigma^i_0) ,& \text{if } \gamma_k = 0\\
+    \mathcal{N}(\mu^i_1,\Sigma^i_1), & \text{if } \gamma_k = 1
+\end{cases}
+\label{eq:ek_pdf_cond}
+%\]
+\end{equation}
+
+Note, while in reality $\mu^i_0$ and $\Sigma^i_1$ are hard to estimate, given that many perception algorithms have heuristics that allow them to start re-initialization (and eventually regain tracking) after a failure (e.g. ORB-SLAM) and do recover from it, these two parameters can be considered as worst case errors under failure from the output of the Estimation algorithm that uses the output of the perception algorithm and can be reasonably bounded for most operating situations.
+
+\subsection{Markov assumption on $\gamma$}
+
+Since we are interested in a predictive, receding horizon formulation, $\gamma_{k+i}$ needs to be known $\forall$ $i=0,\dotsc,N$, i.e. we need predictions of $\gamma_{k+i}$ through the horizon. While for some (most) perception algorithms, it is possible to know $\gamma_k$ at time $k$, the future values of $\gamma_{k+i}$ are dependent on extenal factors (e.g. envionment, occlusions etc.). With this in mind, it is clear $\gamma_{k+i}$ can be considered a random variable $\forall$ $i=1,\dotsc,N$. For notational simplicity, assume $\gamma_k$ is a random variable $\forall k$. 
+
+For our purposes, we assume the evolution of $\gamma_k$ is a Markov process. Practically this makes sense for many perception algorithms (see monologue/discussion above). Given this, the density function for $\gamma_k$ becomes
+
+\begin{equation}
+P(\gamma_k=i|\gamma_{k-1}=j) = \pi_{ji}, \quad \forall i=0,1,\quad \forall j=0,1
+\label{eq:gamma_pdf}
+\end{equation}
+
+Given eq. \ref{eq:ek_pdf_cond} we can re-write eq. \ref{eq:gamma_pdf} to get the following expression for the pdf of $e_k$
+
+\begin{equation}
+P(e_k) = P(\gamma_k=0)\mathcal{N}(\mu^i_0,\Sigma^i_0) + P(\gamma_k=1)\mathcal{N}(\mu^i_1,\Sigma^i_1)
+\label{eq:ek_pdf_exp}
+\end{equation}
+
+\subsection{Plant dynamics and error dynamics under mode $i$}
+Similar to previous setups, given that the sensors are periodically sampled, the plant dynamics under mode $i$ are given by
+
+\begin{equation}
+\hat{x}_k = A\hat{x_k} + Bu_k
+\label{eq:est_dynamics_simple}
+\end{equation}
+
+Note, $\hat{x}_k$ is the lifted state (estimate) as defined in [RTSS] (called $\hat{z}_k$ there) and $A$, $B$ are the system matrices which account for the computation delay $\delta_i$. 
+
+Given that the true state is $x_k$ and estimation error at time step $k$ is $e_k$, we can write
+
+\begin{subequations}
+\begin{align}
+\hat{x_{k+1}} &= x_{k+1} + e_{k+1} \nonumber \\
+&= A(\hat{x_k}-e_k) + Bu_k + w_k + e_{k+1} \nonumber \\
+&= A\hat{x_k}+ Bu_k + (-Ae_{k}+e_{k+1}+w_k)
+\label{eq:est_dynamics}
+\end{align}
+\end{subequations}
+
+Here, $w_k$ is process noise, which we conveniently assume to be Gaussian (again) $w_k\sim\mathcal{N}(\mu_w,\Sigma_w),\forall k$. Now in order to get a Stochastic MPC formulation from the given error distributions and dynamics, we make a couple of simplifying assumptions.
+
+\textbf{Assumption 1:} Markov process $\gamma$ is at its steady state probabilities
+\begin{equation}
+P(\gamma_k=j) =  \pi_j ,\quad \forall j=0,1
+\label{eq:gamma_pdf_ss}
+\end{equation}
+
+This allows us to write a simpler pdf for estimation error (by combining eq. \ref{eq:gamma_pdf_ss} and eq. \ref{eq:ek_pdf_exp})
+
+\begin{equation}
+P(e_k) = \pi_0\mathcal{N}(\mu_0,\Sigma_0) + \pi_i\mathcal{N}(\mu_1,\Sigma_1)
+\label{eq:ek_pdf_ss}
+\end{equation}
+An important consequence of this assumption is that now $P(e_k)$ is a Gaussian pdf. This is because $\pi_0$ and $\pi_1$ are positive constants, and remember that linear (and affine combinations) of Gaussian (independent) random variables result in a Gaussian random variable whose mean and covariance can be explicity computed. 
+For notational simplicity, going forward we drop the superscript/subscript $i$ from any variables that have it since all the formulation that follows is for a fixed mode $i$.
+
+
+\textbf{Assumption 2:} $w_k \independent e_k \forall{k}$, which is reasonable. Also, note that from Assumption 1, we have $e_k \independent e_{k+1}$.
+Note, the disturbance terms in eq. \ref{eq:est_dynamics}, call them $\epsilon_{k+1} = -Ae_{k}+e_{k+1}+w_k$. With Assumption 1 and 2, $\epsilon_{k+1}$ is the sum of 3 independent Gaussian random variables, hence a Gaussian RV itself, therefore,
+\begin{equation}
+ -Ae_{k}+e_{k+1}+w_k = \epsilon_{k+1}  \sim \mathcal{N}(\mu_{\epsilon_{k+1}},\Sigma_{\epsilon_{k+1}})
+\label{eq:distr_pdf}
+\end{equation}
+Note, $\mu_{\epsilon_{k+1}}$ and $\Sigma_{\epsilon_{k+1}}$ can be explicity calculated. This is left to the Appendix.
+
+With these simplifying assumptions and their consequences, we can write the dynamics of the state estimate as (combining eq. \ref{eq:est_dynamics}, eq. \ref{eq:distr_pdf}) as
+\begin{subequations}
+\begin{align}
+\hat{x}_{k+1} &= A\hat{x_k}+ Bu_k + (-Ae_{k}+e_{k+1}+w_k) \nonumber \\
+							&= A\hat{x_k}+ Bu_k + \epsilon_{k+1} \nonumber \\
+							&\sim \mathcal{N}(E[A\hat{x_k}+Bu_k], \Sigma_{\hat{x}_{k+1}}) \nonumber \\
+\hat{x}_{k=1} &\sim \mathcal{N}(\mu_{x_{k+1}}, \Sigma_{\hat{x}_{k+1}})						
+\end{align}
+\end{subequations}
+
+Note, this is again because $\hat{x}_{k=1}$ is a sum of independent Gaussian RVs (and deterministic term $Bu_k$). Note, $\mu_{x_{k+1}}$ and $\Sigma_{\hat{x}_{k+1}}$ can be computed explcitly again (and left to the appendix). To be more PREcISE, $\mu_{\hat{x}_{k+1}} = E[A\hat{x_k}+Bu_k] = AE[\hat{x_k}]+Bu_k$, which is linear in $E[\hat{x}_k]$ and $u_k$.
+
+\section{Probablistic constraints for SA-MPC}
+With this definition of the system (estimate) dynamics as a Gaussian random variable, we can deal with state constraints that are probabilistic (state being in a set with high probability). We restrict ourselves to state constraints of the following forms:
+
+\begin{subequations}
+\begin{align}
+P(H\hat{x}_{k+1}\leq g ) &\geq 1-\alpha \nonumber \\
+P(H\hat{x}_{k+1}-g\leq 0) &\geq 1-\alpha \nonumber \\
+P(\hat{z}_{k+1}) &\geq 1-\alpha \nonumber \\
+\end{align}
+\end{subequations}
+
+here $0\leq\alpha\leq1$ and, 
+
+\begin{subequations}
+\begin{align}
+\hat{z}_{k+1} &= H\hat{x}_{k+1}-g \nonumber \\
+\hat{z}_{k+1} &\sim \mathcal{N}(E[H\hat{x}_{k+1}-g],H\Sigma_{\hat{x}_{k+1}}H^{T}) \nonumber \\
+\hat{z}_{k+1} &\sim \mathcal{N}(H\mu_{\hat{x}_{k+1}}-g,H\Sigma_{\hat{x}_{k+1}}H^{T})
+\end{align}
+\label{eq:pdf_constraint}
+\end{subequations}
+
+
+\end{document}
