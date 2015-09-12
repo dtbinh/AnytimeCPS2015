@@ -107,7 +107,7 @@ Througput_norm = Throughput/(max(Throughput(:)));
 MeanPower_norm = MeanPower/max(MeanPower(:));
 
 
-for alpha1 = 0.1
+for alpha1 = 0
     
 alpha2 = 1-alpha1;
 

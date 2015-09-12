@@ -2,8 +2,9 @@ function [op] = mfun(vp,mp)
 load('Data.mat'); %load the profiled data
 
 
-
+%% 
 alpha = func_it_up(vp,mp);
+%alpha = 0.001;
 %alpha = 0;
 cost = alpha*Throughput_norm + (1-alpha)*(1./MeanPower_norm);
 
@@ -15,6 +16,7 @@ for i = 1:size(Throughput_norm,3) % for all schedules
     
  Temp(i) = max(max(cost(:,:,i)));   
  [a, b] =  find(cost(:,:,i)==Temp(i));
+ [a b]
  gpu_index(i) = a(1);
  cpu_index(i) = b(1); %row is gpu. col is cpu
 end
