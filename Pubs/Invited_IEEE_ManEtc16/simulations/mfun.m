@@ -16,7 +16,7 @@ for i = 1:size(Throughput_norm,3) % for all schedules
     
  Temp(i) = max(max(cost(:,:,i)));   
  [a, b] =  find(cost(:,:,i)==Temp(i));
- [a b]
+ [a b];
  gpu_index(i) = a(1);
  cpu_index(i) = b(1); %row is gpu. col is cpu
 end
@@ -27,7 +27,7 @@ gpu_index_best = gpu_index(ix);
 Schedule_best = str2num(Schedule(ix,:));
 
 tdel = Delta_90th(gpu_index_best,cpu_index_best,ix);
-op = [tdel/1000 cpu_index_best gpu_index_best Schedule_best alpha]
+op = [tdel/1000 cpu_index_best gpu_index_best Schedule_best alpha];
 
 
 
