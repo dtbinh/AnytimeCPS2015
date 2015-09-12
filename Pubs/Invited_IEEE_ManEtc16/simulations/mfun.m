@@ -25,7 +25,7 @@ gpu_index_best = gpu_index(ix);
 Schedule_best = str2num(Schedule(ix,:));
 
 tdel = Delta_90th(gpu_index_best,cpu_index_best,ix);
-op = [tdel/1000 cpu_index_best gpu_index_best Schedule_best alpha];
+op = [tdel/1000 cpu_index_best gpu_index_best Schedule_best alpha]
 
 
 
