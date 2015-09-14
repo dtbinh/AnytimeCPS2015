@@ -1,0 +1,88 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%2345678901234567890123456789012345678901234567890123456789012345678901234567890
+%        1         2         3         4         5         6         7         8
+
+%\documentclass[final,letterpaper, 10 pt, conference]{ieeeconf}  % Comment this line out if you need a4paper
+
+%\documentclass[10pt, conference, compsocconf]{IEEEtran}
+\documentclass[a4paper, 10pt, conference]{ieeeconf}      % Use this line for a4 paper
+
+\IEEEoverridecommandlockouts                              % This command is only needed if
+                                                          % you want to use the \thanks command
+
+\newcommand{\eu}{\textrm{e}}
+\newcommand{\figref}[1]{Fig.~\ref{fig:#1}}
+\overrideIEEEmargins
+\usepackage[obeyFinal]{todonotes}
+\RequirePackage{graphicx}
+\usepackage{subfigure}
+\usepackage{bm}
+%\usepackage{subequation}
+\graphicspath{ {Figs/} }
+\usepackage{url}
+%\usepackage[tight,footnotesize]{subfigure}
+\usepackage{fainekos-macros}
+\newcommand{\sAccu}{\epsilon}
+\newcommand{\sDelay}{\delta}
+\newcommand{\de}{(\sDelay,\sAccu)}
+\newcommand{\dek}[1]{(\sDelay_{#1},\sAccu_{#1})}
+\newcommand{\hWc}{\widehat{\Wc}}
+\newcommand{\sDelayV}{\underline{\sDelay}}
+\newcommand{\sAccuV}{\underline{\sAccu}}
+\newcommand{\ESet}{\mathcal{E}}
+%\newcommand{\bm}{\hat{B}}
+\newcommand{\MPCProb}[1]{\mathbb{P_{#1}}}
+\newcommand{\RAMPCProb}[2]{\mathbb{P}_{#1}(\hat{\stPt}_{#2},\sDelay_{#2},\sAccu_{#2},\inpPt_{#2 -1})}
+\global\long\def\ZSet{\Zc}
+\global\long\def\Cc{\mathcal{C}}
+\global\long\def\Nom#1{\overline{#1}}
+\newcommand{\bla}[1]{\overbar{#1}}
+\newcommand{\bli}[1]{\overline{BLI #1}}
+
+\usepackage{array}
+\usepackage{url}
+
+
+% See the \addtolength command later in the file to balance the column lengths
+% on the last page of the document
+\usepackage{amsmath} % assumes amsmath package installed
+\usepackage{amssymb}  % assumes amsmath package installed
+\renewcommand{\thefigure}{\arabic{figure}}
+\title{\LARGE \bf
+Hardware optimizations for anytime perception and control
+}
+
+\author{ Nischal K.N., Paritosh Kelkar, Dhruva Kumar, Yash Vardhan Pant, Houssam Abbas\\
+	 Joseph Devietti, Rahul Mangharam% <-this % stops a space
+\thanks{*This work was supported by STARnet a Semiconductor Research
+Corporation program sponsored by MARCO and DARPA, NSF MRI-0923518 and the US Department of Transportation University Transportation Center Program}% <-this % stops a space
+\thanks{The Departments of Electrical and Systems Engineering and Computer and Information Sciences, University of Pennsylvania, Philadelphia, U.S.A.
+        {\small
+        \{nischal,paritosh,dhruvak,yashpant,habbas,rahulm\}@seas.upenn.edu, devietti@cis.upenn.edu}}%
+}
+
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+\pagestyle{empty}
+
+\input{intro}
+%\input{experimentalSetup}
+%\input{profiling}
+%\input{future}
+\input{simulations}
+
+%\input{poster_abs}%
+\section*{Acknowledgments}
+We would like to thank Kuk Jang for his help in creating diagrams in this paper.
+\bibliographystyle{IEEEtran}%abbrv}
+	\bibliography{IEEEabrv,rtss2015,cdc14,anytime_ref,rtss_wip_ref}
+
+	%\input{appendix} %not in camera ready 
+
+	
+
+
+\end{document}

@@ -11,7 +11,7 @@ y = unique(M(:,2));
            
             if(x(i)==M(k,1) && y(j)==M(k,2))
                Throughput(i,j) = M(k,3); 
-               MeanPower(i,j) = M(k,9);
+               MeanPower(i,j) = 12.001*M(k,9);
                Delta_90th(i,j) = M(k,4);
             end
             

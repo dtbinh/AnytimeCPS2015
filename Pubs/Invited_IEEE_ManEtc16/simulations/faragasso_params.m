@@ -26,14 +26,14 @@ L2 = -100.2*10^2;
 %nl st fb
 kp = 1.1;
 
-%lin matrices for x,theta
-A = [0 v;0 0];
-B = [0;1];
-C = [0 k1;k2 k3];
-D = zeros(2,1);
-sys = ss(A,B,C,D);
-%LQG
-QXU = blkdiag(.01*eye(1),.00001*eye(1),10000000000*eye(1));
-QWV = .001*eye(4);
-QI = blkdiag(.0001*eye(1),.000001*eye(1));
-LQ = lqg(sys,QXU,QWV,QI);
+% %lin matrices for x,theta
+% A = [0 v;0 0];
+% B = [0;1];
+% C = [0 k1;k2 k3];
+% D = zeros(2,1);
+% sys = ss(A,B,C,D);
+% %LQG
+% QXU = blkdiag(.01*eye(1),.00001*eye(1),10000000000*eye(1));
+% QWV = .001*eye(4);
+% QI = blkdiag(.0001*eye(1),.000001*eye(1));
+% LQ = lqg(sys,QXU,QWV,QI);

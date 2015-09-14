@@ -1,0 +1,38 @@
+\section{Simulations for closed loop control and hardware optimization}
+
+After profiling the performance and energy consumption of the Vanishing Point based perception algorithm, the next step is to leverage this information at run-time and close the loop with control based on the perception while being efficient with respect to computation energy.
+%In the closed loop system, the computation time for the perception algorithm shows up as a delay to the control algorithm. 
+
+\subsection{Robot dynamics and control}
+
+In order to simulate the closed loop behaviour of the robot, we use a unicycle model for the dynamic and a non-linear feedback controller as explained in \cite{VP2}. The unicycle dynamics are:
+
+\begin{subequations}
+\begin{align}
+\dot{x} &= v\sin\theta \nonumber \\
+\dot{y} &= v\cos\theta \nonumber \\
+\dot{\theta} &= \omega 
+\end{align}
+\label{eq:plant}
+\end{subequations}
+
+Here, $v$ is the velocity of the robot, which we treat as a constant parameter for our setup. The co-ordinate frame is defined such that $x$ is the distance of the robot from the middle of the corridor. Fig. \ref{}[figureofunicycle] shows this. The goal of the closed loop controller is to navigate this robot along the middle of the corridor.
+
+With the vanishing point based perception algorithm, the measurements from this system are the vanishing point and middle point abscissas as measured from processing the images from a front facing camera mounted on the robot. Using the geometry of the image frame as explained in \cite{VP2}, these measurements are
+
+\begin{subequations}
+\begin{align}
+x_v &= k_1\tan\theta \nonumber \\
+x_m &= k_2\frac{x}{\cos\theta} + k_3\tan\theta
+\end{align}
+\label{eq:measurements}
+\end{subequations}
+
+Note, Eq. \ref{eq:measurements} shows that the vanishing point depends only on the orientation of the robot and the middle point depends on both orientation and position. The objective of our robot is to traverse a corridor while being as close to the middle of the corridor. In order to realize this, we need to bring both $x_v$ and $x_m$ to converge to zero. A non-linear controller based on the non-linear dynamics of the robot (Eq. \ref{eq:plant} and the measurements of $x_v$ and $x_m$ to achieve this is (from \cite{VP2})
+
+\begin{equation}
+\omega = \frac{k_1}{k_1k_3+x_mx_v}(-\frac{k_2v}{k_1}x_v -k_px_m)
+\label{eq:controller}
+\end{equation}
+
+Here, $k_p$ is a positive proportional constant. To this controller, the time taken for computation of the vanishing point and middle point is a delay. In general, less delay means better control performance but as seen from the profiling of the vanishing point algorithm, this also means more computation power. Our goal is to achieve a trade-off where the control performance is acceptable (robot converges to the middle of the corridor) while the computation energy is minimized. 

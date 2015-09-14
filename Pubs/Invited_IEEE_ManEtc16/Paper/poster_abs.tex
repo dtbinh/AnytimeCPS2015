@@ -1,0 +1,90 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%2345678901234567890123456789012345678901234567890123456789012345678901234567890
+%        1         2         3         4         5         6         7         8
+
+%\documentclass[final,letterpaper, 10 pt, conference]{ieeeconf}  % Comment this line out if you need a4paper
+
+%\documentclass[10pt, conference, compsocconf]{IEEEtran}
+\documentclass[a4paper, 10pt, conference]{ieeeconf}      % Use this line for a4 paper
+
+\IEEEoverridecommandlockouts                              % This command is only needed if
+% you want to use the \thanks command
+
+\newcommand{\eu}{\textrm{e}}
+\newcommand{\figref}[1]{Fig.~\ref{fig:#1}}
+\overrideIEEEmargins
+\usepackage[obeyFinal]{todonotes}
+\RequirePackage{graphicx}
+\usepackage{subfigure}
+\usepackage{bm}
+%\usepackage{subequation}
+\graphicspath{ {Figs/} }
+\usepackage{url}
+%\usepackage[tight,footnotesize]{subfigure}
+\usepackage{fainekos-macros}
+\newcommand{\sAccu}{\epsilon}
+\newcommand{\sDelay}{\delta}
+\newcommand{\de}{(\sDelay,\sAccu)}
+\newcommand{\dek}[1]{(\sDelay_{#1},\sAccu_{#1})}
+\newcommand{\hWc}{\widehat{\Wc}}
+\newcommand{\sDelayV}{\underline{\sDelay}}
+\newcommand{\sAccuV}{\underline{\sAccu}}
+\newcommand{\ESet}{\mathcal{E}}
+%\newcommand{\bm}{\hat{B}}
+\newcommand{\MPCProb}[1]{\mathbb{P_{#1}}}
+\newcommand{\RAMPCProb}[2]{\mathbb{P}_{#1}(\hat{\stPt}_{#2},\sDelay_{#2},\sAccu_{#2},\inpPt_{#2 -1})}
+\global\long\def\ZSet{\Zc}
+\global\long\def\Cc{\mathcal{C}}
+\global\long\def\Nom#1{\overline{#1}}
+\newcommand{\bla}[1]{\overbar{#1}}
+\newcommand{\bli}[1]{\overline{BLI #1}}
+
+\usepackage{array}
+\usepackage{url}
+
+
+% See the \addtolength command later in the file to balance the column lengths
+% on the last page of the document
+\usepackage{amsmath} % assumes amsmath package installed
+\usepackage{amssymb}  % assumes amsmath package installed
+\renewcommand{\thefigure}{\arabic{figure}}
+\title{\LARGE \bf
+	Poster Abstract: Hardware optimizations for anytime perception and control
+}
+
+\author{ Nischal K.N., Paritosh Kelkar, Dhruva Kumar, Yash Vardhan Pant, Houssam Abbas\\
+	Joseph Devietti, Rahul Mangharam% <-this % stops a space
+	\thanks{*This work was supported by STARnet a Semiconductor Research
+		Corporation program sponsored by MARCO and DARPA, NSF MRI-0923518 and the US Department of Transportation University Transportation Center Program}% <-this % stops a space
+	\thanks{The Departments of Electrical and Systems Engineering and Computer and Information Sciences, University of Pennsylvania, Philadelphia, U.S.A.
+		{\small
+			 \{nischal,paritosh,dhruvak,yashpant,habbas,rahulm\}@seas.upenn.edu, devietti@cis.upenn.edu}}%
+}
+
+
+\begin{document}
+	
+\maketitle
+\thispagestyle{empty}
+\pagestyle{empty}
+
+In recent years, the development of autonomous vehicles (AVs) has become a major component of the roadmaps of most large automotive manufacturers. 
+The perception and control software of these systems have stringent real-time requirements that have to be met for their safe and correct operation.
+The uncertain environment in which the AV operates and its complete reliance on sensor data leads to over-engineering, where the system is designed to operate as if the worst-case conditions always hold.
+This leads to unnecessarily high power consumption, especially when we consider the large amount of data produced and processed in an AV (from on-board cameras, LIDAR, radars, ultrasonic sensors, high precision GPS, etc). 
+
+In this poster, we present early results of our experiments on a $1/10^{th}$ scale autonomous car. 
+The objective of the experiments is to obtain more energy-efficient computations for the perception and estimation algorithms used in autonomous systems by exploiting hardware-level knobs. 
+These knobs allow us to leverage a trade-off between computation time, power consumption and output quality of the perception and estimation algorithms. 
+In this case, we use a Vanishing Point algorithm to navigate a corridor. 
+Vanishing Point is decomposed into four sequential components, and we study how its runtime and power consumption are affected by whether each component is run on a GPU or CPU, and the frequency at which it is executed.
+Results highlight CPU/GPU allocation and execution frequencies which achieve better throughput or better power.
+
+Our general method is concerned with how these time/power/quality trade-offs affect control performance. 
+We seek to design controllers that can leverage this trade-off to maintain control performance at a lower power cost, or react to a very dynamic driving situation intelligently by obtaining lower quality but more timely estimates of the system's state.   
+In the case of the Vanishing Point algorithm, for example, the controller decides at run-time, and for each time step, whether to schedule each of the algorithms's components on the CPU or GPU and at what frequency, to achieve control performance at minimal power.
+	%\bibliographystyle{IEEEtran}%abbrv}
+	%\bibliography{IEEEabrv,rtss2015,cdc14,anytime_ref,rtss_wip_ref}
+	
+\end{document}
+

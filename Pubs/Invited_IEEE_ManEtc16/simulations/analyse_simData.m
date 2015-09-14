@@ -44,5 +44,5 @@ ControlCost = sum(SysOut.signals(3).values.^2)
 kk = reshape(ScopeData.signals(3).values,numel(ScopeData.time),1);
 'Energy'
 kk(end)
-
+length(SysOut.time)
 
