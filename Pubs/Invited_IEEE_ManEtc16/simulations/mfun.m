@@ -28,8 +28,8 @@ for i = 1:size(Throughput_norm,3) % for all schedules
  %gpu_index(i) =min(a);
  %cpu_index(i) =min(b);
  
- %gpu_index(i) =min(b);
- %cpu_index(i) =min(a);
+ gpu_index(i) = b(1);%min(b);
+ cpu_index(i) = a(1);%min(a);
 end
 
 [~,ix] = max(Temp);
@@ -37,16 +37,16 @@ cpu_index_best = cpu_index(ix);
 gpu_index_best = gpu_index(ix);
 Schedule_best = str2num(Schedule(ix,:));
 
-tdel = Delta_90th(gpu_index_best,cpu_index_best,ix); %works
+%tdel = Delta_90th(gpu_index_best,cpu_index_best,ix); %works
 MP = MeanPower(cpu_index_best,gpu_index_best,ix); %
-%tdel = Delta_90th(cpu_index_best,gpu_index_best,ix);
+tdel = Delta_90th(cpu_index_best,gpu_index_best,ix);
 op = [tdel/1000 cpu_index_best gpu_index_best Schedule_best alpha MP];
 end
 %% if fixed mode
 
 if(mode_fix)
-   cpuf = 6;
-   gpuf = 6;
+   cpuf = 1;
+   gpuf = 1;
    sched = 1;
    tdel = Delta_90th(cpuf,gpuf,sched);
    Schedule_best = str2num(Schedule(sched,:));
