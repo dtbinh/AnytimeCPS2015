@@ -16,7 +16,7 @@ In order to simulate the closed loop behaviour of the robot, we use a unicycle m
 \label{eq:plant}
 \end{subequations}
 
-Here, $v$ is the velocity of the robot, which we treat as a constant parameter for our setup. The co-ordinate frame is defined such that $x$ is the distance of the robot from the middle of the corridor. Fig. \ref{}[figureofunicycle] shows this. The goal of the closed loop controller is to navigate this robot along the middle of the corridor.
+Here, $v$ is the velocity of the robot, which we treat as a constant parameter for our setup. The co-ordinate frame is defined such that $x$ is the distance of the robot from the middle of the corridor. Fig. \ref{}[figureofunicycle] shows this. The goal of the closed loop controller is to navigate this robot along the middle of the corridor. Note, the controlled variable is $\omega$, the desired angular velocity of the robot.
 
 With the vanishing point based perception algorithm, the measurements from this system are the vanishing point and middle point abscissas as measured from processing the images from a front facing camera mounted on the robot. Using the geometry of the image frame as explained in \cite{VP2}, these measurements are
 
@@ -36,3 +36,38 @@ Note, Eq. \ref{eq:measurements} shows that the vanishing point depends only on t
 \end{equation}
 
 Here, $k_p$ is a positive proportional constant. To this controller, the time taken for computation of the vanishing point and middle point is a delay. In general, less delay means better control performance but as seen from the profiling of the vanishing point algorithm, this also means more computation power. Our goal is to achieve a trade-off where the control performance is acceptable (robot converges to the middle of the corridor) while the computation energy is minimized. 
+
+\subsection{Online scheduling and mode selection}
+
+With the feedback in form of the vanishing point abscissa ($x_v$) and middle point abscissa ($x_m$), we can experiment with different functions to map the feedback to the weight $\alpha(t)$ in order to maximize the cost function of Eq.\ref{eq:cost_runtime} and hence choose a schedule for the perception algorithm tasks and the CPU-GPU frequencies (see Sec. \ref{sec:scheduling}). 
+Since we know that higher values of $x_v$ and $x_m$ imply more work has to be done to align to the corridor and/or get to the center of the corridor, we can have functions for $\alpha(t)$ that are monotonically increasing with $x_v(t)$ and $x_m(t)$. Note, for our simulations we scale $x_v$ and $x_m$ to be between -1 and 1. For the simulations, we try out
+
+\begin{equation}
+\alpha(t) = f_1(x_v(t)) \text{ s.t.,} \\
+\begin{cases}
+\alpha(t) = 0,&\text{if }x_v(t)\in[-d,d]\\
+\alpha(t) = x_v(t)+d,&\text{if }x_v<-d\\
+\alpha(t) = x_v(t)-d,&\text{if }x_v>d
+\end{cases}
+\label{eq:f1}
+\end{equation}
+
+This function depends only on the vanishing point abscissa $x_v$. The dead-zone magnitude, $d$ is chosen to be 0.15 for our setup. Alternatively, we can try a similar function that depends only on the middle point abscissa.
+
+\begin{equation}
+\alpha(t) = f_2(x_m(t)) \text{ s.t.,} \\
+\begin{cases}
+\alpha(t) = 0,&\text{if }x_m(t)\in[-d,d]\\
+\alpha(t) = x_m(t)+d,&\text{if }x_m<-d\\
+\alpha(t) = x_m(t)-d,&\text{if }x_m>d
+\end{cases}
+\label{eq:f2}
+\end{equation}
+
+
+
+
+
+
+
+
