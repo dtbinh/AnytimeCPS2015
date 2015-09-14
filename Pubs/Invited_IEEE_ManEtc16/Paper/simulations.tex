@@ -42,6 +42,7 @@ Here, $k_p$ is a positive proportional constant. To this controller, the time ta
 With the feedback in form of the vanishing point abscissa ($x_v$) and middle point abscissa ($x_m$), we can experiment with different functions to map the feedback to the weight $\alpha(t)$ in order to maximize the cost function of Eq.\ref{eq:cost_runtime} and hence choose a schedule for the perception algorithm tasks and the CPU-GPU frequencies (see Sec. \ref{sec:scheduling}). 
 Since we know that higher values of $x_v$ and $x_m$ imply more work has to be done to align to the corridor and/or get to the center of the corridor, we can have functions for $\alpha(t)$ that are monotonically increasing with $x_v(t)$ and $x_m(t)$. Note, for our simulations we scale $x_v$ and $x_m$ to be between -1 and 1. For the simulations, we try out
 
+{\footnotesize{
 \begin{equation}
 \alpha(t) = f_1(x_v(t)) \text{ s.t.,} \\
 \begin{cases}
@@ -51,9 +52,12 @@ Since we know that higher values of $x_v$ and $x_m$ imply more work has to be do
 \end{cases}
 \label{eq:f1}
 \end{equation}
+}}
+
 
 This function depends only on the vanishing point abscissa $x_v$. The dead-zone magnitude, $d$ is chosen to be 0.15 for our setup. Alternatively, we can try a similar function that depends only on the middle point abscissa.
 
+\footnotesize{
 \begin{equation}
 \alpha(t) = f_2(x_m(t)) \text{ s.t.,} \\
 \begin{cases}
@@ -63,6 +67,7 @@ This function depends only on the vanishing point abscissa $x_v$. The dead-zone 
 \end{cases}
 \label{eq:f2}
 \end{equation}
+}
 
 
 
