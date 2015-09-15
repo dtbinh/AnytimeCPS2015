@@ -1,6 +1,11 @@
 *.aux
 *.log
-*.pdf
+root.pdf
 *.bbl
 *.gz
 *.blg
+root.bbl
+root.blg
+root.aux
+root.log
+*.synctex.gz

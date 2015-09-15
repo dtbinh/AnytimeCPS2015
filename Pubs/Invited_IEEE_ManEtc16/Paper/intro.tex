@@ -31,12 +31,12 @@ Other control systems can benefit from these trade-offs, especially power-limite
 In this paper, we illustrate our approach on an autonomous car $1/10^{th}$ the size of a regular car (Fig. \ref{fig:traxxas}), which uses Vanishing Point navigation \cite{VP1}.
 \begin{figure}[t]
 	\centering
-	\includegraphics[scale=0.08]{carImages/im4.jpeg}
+	\includegraphics[scale=0.12]{carImages/im4.jpeg}
 	\caption{Traxxas autonomous car with camera.}
 		\label{fig:traxxas}
 \end{figure}  
 The setup, including the navigation algorithm, are presented in Section \ref{sec:problemSetup}.
-Section \ref{sec:twoStage} describes the offline profiling of Vanishing Point, which gives us Throughput vs Power curves for various processor frequencies and various scheduling of the navigation code on CPU and GPU.
+Section \ref{sec:twoStage} describes the offline profiling of Vanishing Point, which gives us Throughput versus Power curves for various processor frequencies and various scheduling of the navigation code on CPU and GPU.
 In Section \ref{sec:evaluation} we combine power and throughput into one objective function, and design a supervisor what will determine the frequency and CPU/GPU allocation to maximize the objective.
 Section \ref{sec:simResults} presents experimental results that demonstrate the effect of the trade-off on control performance.
 %\todo[inline]{give example nb}
