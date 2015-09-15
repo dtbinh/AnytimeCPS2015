@@ -103,7 +103,7 @@ cost_analysis = 1;
 
 if(cost_analysis)
 close all;
-Througput_norm = Throughput/(max(Throughput(:)));
+Throughput_norm = Throughput/(max(Throughput(:)));
 MeanPower_norm = MeanPower/max(MeanPower(:));
 
 
@@ -113,7 +113,7 @@ alpha2 = 1-alpha1;
 
 [alpha1 alpha2]
 
-Cost = alpha1*Througput_norm + alpha2*(1./MeanPower_norm);
+Cost = alpha1*Throughput_norm + alpha2*(1./MeanPower_norm);
 
  figure;
  legendmatrix =cell(ct,1);

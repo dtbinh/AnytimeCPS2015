@@ -7,7 +7,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.27"
+    ComputedModelVersion    "1.28"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -65,9 +65,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "root"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Sep 14 22:46:01 2015"
-  RTWModifiedTimeStamp	  364171383
-  ModelVersionFormat	  "1.%<AutoIncrement:27>"
+  LastModifiedDate	  "Mon Sep 14 23:03:29 2015"
+  RTWModifiedTimeStamp	  364172531
+  ModelVersionFormat	  "1.%<AutoIncrement:28>"
   ConfigurationManager	  "none"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -2112,9 +2112,28 @@ Model {
       ZOrder		      103
       SrcBlock		      "Demux1"
       SrcPort		      1
-      Points		      [0, -10; 78, 0; 0, -35; 337, 0]
-      DstBlock		      "Scope2"
-      DstPort		      1
+      Points		      [0, -10; 45, 0]
+      Branch {
+	ZOrder			171
+	Points			[0, -80]
+	Branch {
+	  ZOrder		  173
+	  Points		  [0, -27; -351, 0; 0, -33]
+	  DstBlock		  "Variable\nTime Delay"
+	  DstPort		  2
+	}
+	Branch {
+	  ZOrder		  172
+	  DstBlock		  "Variable\nTime Delay1"
+	  DstPort		  2
+	}
+      }
+      Branch {
+	ZOrder			170
+	Points			[33, 0; 0, -35; 337, 0]
+	DstBlock		"Scope2"
+	DstPort			1
+      }
     }
     Line {
       ZOrder		      104
@@ -2213,23 +2232,6 @@ Model {
 	  DstBlock		  "Mux"
 	  DstPort		  1
 	}
-      }
-    }
-    Line {
-      ZOrder		      163
-      SrcBlock		      "Constant"
-      SrcPort		      1
-      Points		      [9, 0; 0, -145]
-      Branch {
-	ZOrder			165
-	Points			[0, -60]
-	DstBlock		"Variable\nTime Delay"
-	DstPort			2
-      }
-      Branch {
-	ZOrder			164
-	DstBlock		"Variable\nTime Delay1"
-	DstPort			2
       }
     }
     Line {

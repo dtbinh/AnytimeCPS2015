@@ -2,7 +2,7 @@ function [op] = mfun(vp,mp)
 load('Data.mat'); %load the profiled data
 % for fixed mode, makes this 1 and enter mode info later, else 0 for
 % regular
-mode_fix = 0;
+mode_fix = 1;
 alpha = 0 ; %default
 %% 
 if(~mode_fix)
@@ -45,9 +45,9 @@ end
 %% if fixed mode
 
 if(mode_fix)
-   cpuf = 1;
-   gpuf = 2;
-   sched = 1;
+   cpuf = 6;
+   gpuf = 6;
+   sched = 2;
    tdel = Delta_90th(cpuf,gpuf,sched);
    Schedule_best = str2num(Schedule(sched,:));
    MP = MeanPower(cpuf,gpuf,sched);
