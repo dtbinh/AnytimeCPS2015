@@ -31,6 +31,15 @@ A.~Faragasso, G.~Oriolo, A.~Paollilo, and M.~Vendittelli, ``Vision-based
   corridor navigation for humanoid robots,'' \emph{IEEE International
   Conference on Robotics and Automation}, 2013.
 
+\bibitem{VP3}
+J.~M. Toibero, C.~M. Soria, F.~Roberti, R.~Carelli, and P.~Fiorini,
+  ``{Switching Visual Servoing Approach for Stable Corridor Navigation},''
+  \emph{IEEE International Conference on Advanced Robotics}, 2009.
+
+\bibitem{gallagher2002ground}
+A.~C. Gallagher, ``A ground truth based vanishing point detection algorithm,''
+  \emph{Pattern Recognition}, vol.~35, no.~7, pp. 1527--1543, 2002.
+
 \bibitem{racecar_mit}
 \BIBentryALTinterwordspacing
 {MIT IAP class}, ``{RACECAR},'' 2015. [Online]. Available:
@@ -47,14 +56,5 @@ A.~Faragasso, G.~Oriolo, A.~Paollilo, and M.~Vendittelli, ``Vision-based
 \BIBentryALTinterwordspacing
 {Itseez}, ``{OpenCV},'' 2015. [Online]. Available: \url{www.opencv.org}
 \BIBentrySTDinterwordspacing
-
-\bibitem{VP3}
-J.~M. Toibero, C.~M. Soria, F.~Roberti, R.~Carelli, and P.~Fiorini,
-  ``{Switching Visual Servoing Approach for Stable Corridor Navigation},''
-  \emph{IEEE International Conference on Advanced Robotics}, 2009.
-
-\bibitem{gallagher2002ground}
-A.~C. Gallagher, ``A ground truth based vanishing point detection algorithm,''
-  \emph{Pattern Recognition}, vol.~35, no.~7, pp. 1527--1543, 2002.
 
 \end{thebibliography}
