@@ -29,14 +29,7 @@ In order to trade-off computation power and throughput of the perception algorit
 \item RANSAC: used to select the parallel straight lines that best describe the sides of the corridor. These lines intersect in the image plane at the Vanishing Point.
 \end{itemize}
 
-Note, on the Jetson, we can schedule any of these tasks to be run on either the CPU or the GPU as shown in Fig. \ref{fig:vanishing} In addition, we can also change the CPU and GPU frequencies during run-time, resulting in different execution times for the vanishing point algorithm and different power consumption for the Jetson. Let the schedules for the tasks on the CPU or the GPU be denoted by 
-
-\begin{subequations}
-\begin{align}
-\sigma&\in\Sigma\text{ where,} \nonumber \\
-\Sigma&=\{\text{CCC, CCG, CGC, CGG, GCC, GCG, GGC, GGG}\} \nonumber
-\end{align}
-\end{subequations}
+Note, on the Jetson, we can schedule any of these tasks to be run on either the CPU or the GPU as shown in Fig. \ref{fig:vanishing} In addition, we can also change the CPU and GPU frequencies during run-time, resulting in different execution times for the vanishing point algorithm and different power consumption for the Jetson. Let the schedules for the tasks on the CPU or the GPU be denoted by $\sigma\in\Sigma$, where, $\Sigma=\{\text{CCC, CCG, CGC, CGG, GCC, GCG, GGC, GGG}\}$ is the set of all possible schedules.
 
 Here, schedule $\sigma=\text{CCC}$ implies that the Blur tasks is done on the CPU, the Edge detection is done on the CPU and the Hough Transform is done the CPU, $\sigma=\text{CCG}$ implies that the Blur tasks is on the CPU, Edge detection is on the CPU and the Hough Transform is done on the GPU, and so on. Note, since RANSAC took a negligible amount of time compared to the other tasks, we always execute it on the CPU.
 Also, denote $F_c$ and $F_g$ to be the frequency of the CPU and the GPU respectively. The hardware level knobs to trade-off throughput and computation power for an execution of the vanishing point algorithm are now $\sigma$, $F_c$ and $F_g$. The throughput and computation power, functions  of all three knobs are denoted by $T(\sigma,F_c,F_g)$ and $P(\sigma,F_c,F_g)$ respectively.
