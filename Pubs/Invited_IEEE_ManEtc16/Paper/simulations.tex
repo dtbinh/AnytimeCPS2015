@@ -52,26 +52,39 @@ Since we know that higher values of $x_v$ and $x_m$ imply more work has to be do
 
 {\footnotesize{
 \begin{equation}
-\alpha(t) = f_1(x_v(t)) \text{ s.t.,} \\
+\alpha(t) = f_1(x_v(t)) = \\
 \begin{cases}
-\alpha(t) = 0.001,&\text{if }x_v(t)\in[-d,d]\\
-\alpha(t) = x_v(t)+d,&\text{if }x_v<-d\\
-\alpha(t) = x_v(t)-d,&\text{if }x_v>d
+0.001,&\text{if }x_v(t)\in[-d,d]\\
+x_v(t)+d,&\text{if }x_v(t)<-d\\
+x_v(t)-d,&\text{if }x_v(t)>d
 \end{cases}
 \label{eq:f1}
 \end{equation}
 }}
 
 
-This function depends only on the vanishing point abscissa $x_v$. The dead-zone magnitude, $d$ is chosen to be 0.15 for our setup. Alternatively, we can try a similar function that depends only on the middle point abscissa.
+This function depends only on the vanishing point abscissa $x_v$. The dead-zone magnitude, $d$ is chosen experimentally. Alternatively, we can try a similar function that depends only on the middle point abscissa.
 
 \footnotesize{
 \begin{equation}
-\alpha(t) = f_2(x_m(t)) \text{ s.t.,} \\
+\alpha(t) = f_2(x_m(t)) = \\
 \begin{cases}
-\alpha(t) = 0.001,&\text{if }x_m(t)\in[-d,d]\\
-\alpha(t) = x_m(t)+d,&\text{if }x_m<-d\\
-\alpha(t) = x_m(t)-d,&\text{if }x_m>d
+0.001,&\text{if }x_m(t)\in[-d,d]\\
+x_m(t)+d,&\text{if }x_m(t)<-d\\
+x_m(t)-d,&\text{if }x_m(t)>d
+\end{cases}
+\label{eq:f2}
+\end{equation}
+}
+
+Finally, we try another function that depends on both $x_m$ and $x_v$
+
+\footnotesize{
+\begin{equation}
+\alpha(t) = f_3(x_m(t),x_v(t)) = \\
+\begin{cases}
+0.001,\text{if }|x_m(t)|+|x_v(t)|<d\\
+|x_m(t)|+|x_v(t)|-d,\text{otherwise}\\
 \end{cases}
 \label{eq:f2}
 \end{equation}
