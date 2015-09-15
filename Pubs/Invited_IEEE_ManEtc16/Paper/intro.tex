@@ -1,47 +1,45 @@
 \section{Motivation}
 \label{sec:motivation}
 
-Autonomous vehicles promise significant benefits to society, from reduced accident rates to greater mobility for the elderly. 
-The biggest challenge in the design of autonomous vehicles comes from the uncertainty of the environment in which they will operate. 
-Their control algorithms must be able to cope with driving events that occur on widely ranging time scales. 
-For example, relaxed rural driving can accommodate planning actions every few seconds, while imminent collision avoidance requires planning and actuation on the order of a few milliseconds.
-Thus `real-time' performance will imply different things depending on the context. 
+Real-time control of autonomous vehicles requires the processing of a large amount of sensor data, which is used by the vehicle to determine its position in the world and to calculate its next move.
+Examples include data from cameras, LIDAR, radars and ultrasound radars, and possibly information communicated by other vehicles or the road infrastructure.
+The perception algorithms that process this data must do so fast enough for the control algorithm to compute the next input within the time constraints imposed by the environment.
+These time constraints are variable: for example, relaxed rural driving can accommodate planning actions every few seconds, while imminent collision avoidance requires planning and actuation on the order of a few milliseconds.
+As a result of the variability in the environment, and to guarantee adequate performance in the most demanding conditions, the control and perception systems are over-engineered to operate as if the worst-case conditions always hold. 
+Namely, the hardware processors always execute the perception code at a frequency that guarantees the fastest completion time.
+This results in unnecessarily high power consumption from the computation platform, as computation power increases with frequency.
+Note that over the past few decades, the power consumption of processors has increased by more than double, while battery energy density has only improved by about a quarter \cite{Lahiri}. 
 
-A second, related, challenge is that the perception algorithms on-board these vehicles (like object detection based on video feed) must handle a very large amount of data, leading to increased power consumption. 
-This is especially true for autonomous vehicles (AVs) since they carry multiple sensors (cameras, LIDAR, radars, ultrasound radars, etc) whose data must be processed in real-time to avoid accidents.
-
-As a result of the variability in the environment, the control and perception systems are over-engineered to operate as if the worst-case conditions always hold. 
-This results in unnecessarily high power consumption from the computation platform. It is worth noting that over the past few decades, the power consumption of processors has increased by more than double, while battery energy density has only improved by about a quarter \cite{Lahiri}. 
-
-In the current work, we explore the idea of trading-off computation time and power for quality of output, and how this trade-off affects \emph{control performance}.
-We start from the observation that the best quality output from the perception algorithm is not always required for the system to achieve the desired control performance.
-For example, the control objective might be to follow the center of a driving lane, and control performance is measured by the deviation from that center.
+The usage of \emph{anytime perception algorithms} allows us to perform a trade-off between the computation time of the algorithms, their power consumption, and the quality of their output.
+An anytime algorithm has a pre-defined set of interruption times. 
+The earlier the algorithm is interrupted, the less power it consumes, but the worse is the quality of its output in general. 
+On the other hand, that quality may be sufficient for the control algorithm to achieve its goal \emph{in the current circumstances}.
+For example, in this paper, the control objective is to follow the center of a driving lane, and control performance is measured by the deviation from that center.
 At slow speeds, poor quality of position estimate may be tolerated since it won't lead to excessive deviations from the center.
-Therefore we focus on \emph{anytime perception algorithms} that have a pre-defined set of interruption times. 
-In general, the earlier the algorithm is interrupted, the worse is the quality of its output. 
-On the other hand, that quality may be sufficient for the control algorithm to achieve its goal.
+Therefore, the perception algorithm might be interrupted early thus saving on computation power, \emph{provided it gives a good enough estimate of position. }
 
 In \cite{RTSS15} we proposed a way in which a standard perception algorithm can be turned into an anytime algorithm via off-line profiling, and thus can offer a time/power/quality trade-off.
 We also designed a model predictive controller than can make use of the trade-off offered by the anytime perception algorithm.
 To achieve the time/power/quality trade-off, we produced multiple versions of the perception algorithm.
 Broadly speaking, a version that ran for longer produced a higher quality output. 
 
-In this work, we turn our attention to achieving the time/power/quality trade-off using \emph{platform-level} optimizations.
-Specifically, we work with an autonomous car $1/10^{th}$ the size of a regular car (Fig. \ref{fig:traxxas}).
+In this work, we turn our attention to the time/power trade-off \emph{for a fixed quality of output} and how it can be achieved using \emph{platform-level} optimizations.
+Even when the output quality is fixed, the computation delay (equivalently, throughput) is known to affect control performance. 
+Thus in this paper, we study how platform-level optimizations affect the computation throughout and power, and how to use this trade-off to save computation power without overly degrading throughput.
+
+Note that the study of how computation delay affects control performance, and the design of anytime perception and control algorithms for power saving, are not specific to autonomous vehicles.
+Other control systems can benefit from these trade-offs, especially power-limited consumer robots.
+In this paper, we illustrate our approach on an autonomous car $1/10^{th}$ the size of a regular car (Fig. \ref{fig:traxxas}), which uses Vanishing Point navigation \cite{VP1}.
 \begin{figure}[t]
 	\centering
-	\includegraphics[scale=0.08]{traxxas.jpg}
+	\includegraphics[scale=0.08]{carImages/im4.jpeg}
 	\caption{Traxxas autonomous car with camera.}
 		\label{fig:traxxas}
 \end{figure}  
-It is equipped with a front facing monocular camera and runs the Vanishing Point perception algorithm \cite{VP1}. 
-The on-board computation platform has both a CPU and GPU. More details of the experimental setup are in a later section.
-The platform-level optimization divides the Vanishing Point algorithm into components, and decides whether to run each component on the CPU or GPU, and at what frequency.
-The assignment to CPU or GPU is not static: every time the algorithm is executed, a different assignment may result, at a different frequency.
-The assignment is dictated by the controller: based on off-line profiling of each processor's performance on each component, the controller decides what quality is currently acceptable while minimizing power consumption. The profiling is described in more detail in a later section.
-In the present paper, we present initial results of partitioning the Vanishing Point algorithm and running different components on CPU and GPU, and at different frequencies.
-We also provide the related power numbers, demonstrating that a meaningful difference in runtime and power consumption exists depending on the assignment and frequency.
-In future work, we design a controller to make use of this and other optimizations, and relate the current results to the control performance.
+The setup, including the navigation algorithm, are presented in Section ??
+Section ?? describes the offline profiling of Vanishing Point, which gives us Throughput vs Power curves for various processor frequencies and various scheduling of the navigation code on CPU and GPU.
+In Section ?? we combine power and throughput into one objective function, and design a supervisor what will determine the frequency and CPU/GPU allocation to maximize the objective.
+Section ?? presents experimental results that demonstrate the effect of the trade-off on control performance.
 %\todo[inline]{give example nb}
 %
 %
