@@ -1,4 +1,4 @@
-simulate = 0;
+simulate = 1;
 
 %analyse data
 load Data.mat
@@ -52,12 +52,12 @@ title('Schedule');
 stairs(Scheduler.time,reshape(Scheduler.signals(4).values, numel(Scheduler.time),1));
 hold all;grid on;
 
-
+% 
 % ControlCost = sum(abs(SysOut.signals(3).values))/numel(SysOut.signals(3).values)
 % controlcostInt = ScopeData.signals(1).values(end)
 % kk = reshape(ScopeData.signals(3).values,numel(ScopeData.time),1);
 % 'Energy'
 % kk(end)
 % length(SysOut.time)
-
-
+% 
+% 

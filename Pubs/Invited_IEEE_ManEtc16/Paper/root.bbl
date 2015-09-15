@@ -21,20 +21,6 @@
 \providecommand{\BIBdecl}{\relax}
 \BIBdecl
 
-\bibitem{Lahiri}
-K.~Lahiri, A.~Raghunathan, S.~Dey, and D.~Panigrahi, ``Battery-driven system
-  design: A new frontier in low power design,'' \emph{VLSI Design}, 2002.
-
-\bibitem{RTSS15}
-Y.~V. Pant, H.~Abbas, K.~Mohta, T.~X. Nghiem, J.~Devietti, and R.~Mangharam,
-  ``{Co-design of Anytime Computation and Robust Control},'' \emph{To be
-  published, Proc. of Real Time Systems Symposium}, 2015.
-
-\bibitem{VP1}
-R.~F. Vasallo, H.~J. Schneebeli, and J.~Santos-Victor, ``Visual navigation:
-  Combining visual servoing and appearance based methods,'' \emph{6th Intl.
-  Symp. on Intelligent Robotic Systems}, 1998.
-
 \bibitem{VP2}
 A.~Faragasso, G.~Oriolo, A.~Paollilo, and M.~Vendittelli, ``Vision-based
   corridor navigation for humanoid robots,'' \emph{IEEE International

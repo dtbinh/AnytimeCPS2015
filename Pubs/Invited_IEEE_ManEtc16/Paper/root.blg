@@ -17,44 +17,44 @@ Database file #5: rtss_wip_ref.bib
 -- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
 
 Done.
-You've used 4 entries,
+You've used 1 entry,
             4039 wiz_defined-function locations,
-            1233 strings with 15655 characters,
-and the built_in function-call counts, 1973 in all, are:
-= -- 136
-> -- 72
+            1215 strings with 15103 characters,
+and the built_in function-call counts, 562 in all, are:
+= -- 33
+> -- 17
 < -- 0
-+ -- 34
-- -- 17
-* -- 105
-:= -- 343
-add.period$ -- 8
-call.type$ -- 4
-change.case$ -- 4
++ -- 8
+- -- 4
+* -- 40
+:= -- 106
+add.period$ -- 2
+call.type$ -- 1
+change.case$ -- 1
 chr.to.int$ -- 0
-cite$ -- 4
-duplicate$ -- 162
-empty$ -- 167
-format.name$ -- 21
-if$ -- 414
+cite$ -- 1
+duplicate$ -- 40
+empty$ -- 42
+format.name$ -- 5
+if$ -- 103
 int.to.chr$ -- 0
-int.to.str$ -- 4
-missing$ -- 33
-newline$ -- 35
-num.names$ -- 4
-pop$ -- 95
+int.to.str$ -- 1
+missing$ -- 8
+newline$ -- 26
+num.names$ -- 1
+pop$ -- 23
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 138
+skip$ -- 34
 stack$ -- 0
-substring$ -- 4
-swap$ -- 94
+substring$ -- 1
+swap$ -- 23
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 5
-type$ -- 4
+type$ -- 1
 warning$ -- 0
-while$ -- 4
-width$ -- 5
-write$ -- 54
+while$ -- 1
+width$ -- 2
+write$ -- 30
