@@ -42,10 +42,14 @@ hold all; grid on;
 stairs(Scheduler.time,GPU_F);hold all
 figure(3);
 plot(SysOut.signals(3).values,SysOut.signals(4).values);hold all; grid on;
-ControlCost = sum(abs(SysOut.signals(3).values))/numel(SysOut.signals(3).values)
-controlcostInt = ScopeData.signals(1).values(end)
-kk = reshape(ScopeData.signals(3).values,numel(ScopeData.time),1);
-'Energy'
-kk(end)
-length(SysOut.time)
+
+
+
+
+% ControlCost = sum(abs(SysOut.signals(3).values))/numel(SysOut.signals(3).values)
+% controlcostInt = ScopeData.signals(1).values(end)
+% kk = reshape(ScopeData.signals(3).values,numel(ScopeData.time),1);
+% 'Energy'
+% kk(end)
+% length(SysOut.time)
 

@@ -36,7 +36,7 @@ if(f==2)
 end
 
 if(f==3)
-    deadz = 0.052; %0.152 %deadzone
+    deadz = 0.102; %0.152 %deadzone
     I = deadzone('ZeroInterval',[-deadz deadz]);
     vp = evaluate(I,.5*(1/5.6)*10^5*mp+.5*10^7*vp); %scale VP to bring it close to [-1,1]
     %vp = evaluate(I,.33*10^5*mp); %mp only
