@@ -1,12 +1,12 @@
 \section{Problem Setup}
-\label{sec:problemSetup}
+
 In this work, we focus on the particular case of autonomous corridor navigation. For this purpose we use the vanishing point algorithm \cite{VP1}, \cite{VP2} and feedback control to maintain heading parallel to the corridor and stay in the middle of it. We implement the algorithm on a $1/10^{th}$ scale car we developed. The robot is equipped with a front facing camera which feeds image frames to the vanishing point algorithm for processing.The computation platform on board the car is a Nvidia Jetson, which has a quad-core ARM CPU and a 192 core Nvidia Tegra GPU.
 
 
 \subsection{Vanishing point-based corridor navigation}
 
 The Vanishing point algorithm \cite{VP1} has been used extensively in indoor settings for navigating corridors autonomously \cite{VP2, VP3} and for outdoor lane detection \cite{gallagher2002ground}.
-For each image frame processed, the algorithm outputs the horizontal distance of the vanishing point and middle point (for details, refer to \cite{VP1}) from the center of the frame. These two measurement signals are used as feedback by the controller to center and align the robot along the corridor. For more details see Sec. \ref{}[experimental]. Figure \ref{fig:vp_viz} shows a visualization of Vanishing point operating on a frame collected from our robot navigating in a corridor.
+For each image frame processed, the algorithm outputs the horizontal distance of the vanishing point and middle point (for details, refer to \cite{VP1}) from the center of the frame. These two measurement signals are used as feedback by the controller to center and align the robot along the corridor. For more details see Sec. \ref{sec:robotDynamics}. Figure \ref{fig:vp_viz} shows a visualization of Vanishing point operating on a frame collected from our robot navigating in a corridor.
 
 \begin{figure}[hbtp]
 \centering
@@ -20,7 +20,7 @@ For each image frame processed, the algorithm outputs the horizontal distance of
 
 \subsection{Exploiting hardware knobs to trade-off computation power and throughput}
 
-In order to trade-off computation power and throughput of the perception algorithm, we rely on the insight that scheduling some tasks on the GPU can in general result in a speed up over executing them on the CPU while consuming more power (see Sec. \ref{}[profiling]. Also, we can also get a speed up by increasing CPU and GPU frequencies, but at the cost of increased power draw by the computation platform. In order to achieve a wide range of trade-offs we focus on the major computational tasks that comprise the vanishing point algorithm, which are briefly explained below:
+In order to trade-off computation power and throughput of the perception algorithm, we rely on the insight that scheduling some tasks on the GPU can in general result in a speed up over executing them on the CPU while consuming more power (see Sec. \ref{sec:profiling}). Also, we can also get a speed up by increasing CPU and GPU frequencies, but at the cost of increased power draw by the computation platform. In order to achieve a wide range of trade-offs we focus on the major computational tasks that comprise the vanishing point algorithm, which are briefly explained below:
 
 \begin{itemize}
 \item Blur: A Gaussian blur is applied on the image for de-noising.
