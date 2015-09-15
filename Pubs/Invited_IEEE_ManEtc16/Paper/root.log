@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.4.24)  15 SEP 2015 14:04
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.4.24)  15 SEP 2015 14:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -669,53 +669,69 @@ File: Figs/vanishing.pdf Graphic file (type pdf)
 Package pdftex.def Info: Figs/vanishing.pdf used on input line 3.
 (pdftex.def)             Requested size: 232.16916pt x 140.0242pt.
 
-<Figs/surf_Rate.pdf, id=6, 845.1575pt x 597.23125pt>
-File: Figs/surf_Rate.pdf Graphic file (type pdf)
- <use Figs/surf_Rate.pdf>
-Package pdftex.def Info: Figs/surf_Rate.pdf used on input line 10.
-(pdftex.def)             Requested size: 232.71278pt x 164.44414pt.
-
-<Figs/surf_Power.pdf, id=7, 845.1575pt x 597.23125pt>
-File: Figs/surf_Power.pdf Graphic file (type pdf)
-
-<use Figs/surf_Power.pdf>
-Package pdftex.def Info: Figs/surf_Power.pdf used on input line 18.
-(pdftex.def)             Requested size: 232.71278pt x 164.44414pt.
-) (./scheduling.tex
-
-LaTeX Warning: Reference `' on page 1 undefined on input line 3.
-
 [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
- <./Figs/vpmpimages/image_23_-30_-51.png (PNG copy)>]
+ <./Figs/vpmpimages/image_23_-30_-51.png (PNG copy)>] (./profilingResults.tex
+<Figs/surf_Rate.pdf, id=19, 845.1575pt x 597.23125pt>
+File: Figs/surf_Rate.pdf Graphic file (type pdf)
+ <use Figs/surf_Rate.pdf>
+Package pdftex.def Info: Figs/surf_Rate.pdf used on input line 13.
+(pdftex.def)             Requested size: 232.71278pt x 164.44414pt.
 
-LaTeX Warning: Reference `fig:' on page 2 undefined on input line 10.
+<Figs/RateHist.pdf, id=20, 845.1575pt x 597.23125pt>
+File: Figs/RateHist.pdf Graphic file (type pdf)
+ <use Figs/RateHist.pdf>
+Package pdftex.def Info: Figs/RateHist.pdf used on input line 20.
+(pdftex.def)             Requested size: 253.54921pt x 179.17075pt.
+
+Overfull \hbox (7.8311pt too wide) in paragraph at lines 20--21
+ [][] 
+ []
+
+<Figs/surf_Power.pdf, id=21, 845.1575pt x 597.23125pt>
+File: Figs/surf_Power.pdf Graphic file (type pdf)
+
+<use Figs/surf_Power.pdf>
+Package pdftex.def Info: Figs/surf_Power.pdf used on input line 30.
+(pdftex.def)             Requested size: 232.71278pt x 164.44414pt.
+
+<Figs/PowerHist.pdf, id=22, 845.1575pt x 597.23125pt>
+File: Figs/PowerHist.pdf Graphic file (type pdf)
+ <use Figs/PowerHist.pdf>
+Package pdftex.def Info: Figs/PowerHist.pdf used on input line 37.
+(pdftex.def)             Requested size: 232.71278pt x 164.44414pt.
+)) (./scheduling.tex
+
+LaTeX Warning: Reference `' on page 2 undefined on input line 3.
+
+[2 <./Figs/vanishing.pdf> <./Figs/surf_Rate.pdf> <./Figs/RateHist.pdf>]
+
+LaTeX Warning: Reference `fig:' on page 3 undefined on input line 10.
 
 
-LaTeX Warning: Reference `' on page 2 undefined on input line 10.
+LaTeX Warning: Reference `' on page 3 undefined on input line 10.
 
 )) (./simulations.tex
 
-LaTeX Warning: Reference `' on page 2 undefined on input line 19.
+LaTeX Warning: Reference `' on page 3 undefined on input line 19.
 
-[2 <./Figs/vanishing.pdf> <./Figs/surf_Rate.pdf> <./Figs/surf_Power.pdf>])
-(./simResults.tex
-<../simulations/figs/CPUF.pdf, id=3045, 845.1575pt x 597.23125pt>
+[3 <./Figs/surf_Power.pdf> <./Figs/PowerHist.pdf>]) (./simResults.tex
+<../simulations/figs/CPUF.pdf, id=3085, 845.1575pt x 597.23125pt>
 File: ../simulations/figs/CPUF.pdf Graphic file (type pdf)
 
 <use ../simulations/figs/CPUF.pdf>
 Package pdftex.def Info: ../simulations/figs/CPUF.pdf used on input line 5.
 (pdftex.def)             Requested size: 232.71278pt x 164.44414pt.
 
-<../simulations/figs/GPUF.pdf, id=3046, 845.1575pt x 597.23125pt>
+<../simulations/figs/GPUF.pdf, id=3086, 845.1575pt x 597.23125pt>
 File: ../simulations/figs/GPUF.pdf Graphic file (type pdf)
 
 <use ../simulations/figs/GPUF.pdf>
 Package pdftex.def Info: ../simulations/figs/GPUF.pdf used on input line 13.
 (pdftex.def)             Requested size: 232.71278pt x 164.44414pt.
 
-<../simulations/figs/schedule.pdf, id=3047, 845.1575pt x 597.23125pt>
+<../simulations/figs/schedule.pdf, id=3087, 845.1575pt x 597.23125pt>
 File: ../simulations/figs/schedule.pdf Graphic file (type pdf)
 
 <use ../simulations/figs/schedule.pdf>
@@ -723,13 +739,14 @@ Package pdftex.def Info: ../simulations/figs/schedule.pdf used on input line 20
 .
 (pdftex.def)             Requested size: 232.71278pt x 164.44414pt.
 
-<../simulations/figs/power.pdf, id=3048, 845.1575pt x 597.23125pt>
+<../simulations/figs/power.pdf, id=3088, 845.1575pt x 597.23125pt>
 File: ../simulations/figs/power.pdf Graphic file (type pdf)
 
 <use ../simulations/figs/power.pdf>
 Package pdftex.def Info: ../simulations/figs/power.pdf used on input line 27.
 (pdftex.def)             Requested size: 232.71278pt x 164.44414pt.
-) (./root.bbl)
+) (./root.bbl [4 <../simulations/figs/CPUF.pdf> <../simulations/figs/GPUF.pdf> 
+<../simulations/figs/schedule.pdf>])
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -741,19 +758,18 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the US letter (8.5in X 11in) paper size.
 
-[3 <../simulations/figs/CPUF.pdf> <../simulations/figs/GPUF.pdf>] [4
+[5
 
- <../simulations/figs/schedule.pdf> <../simulations/figs/power.pdf>] (./root.au
-x)
+ <../simulations/figs/power.pdf>] (./root.aux)
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 13335 strings out of 493304
- 235547 string characters out of 6139871
- 293859 words of memory out of 5000000
- 16464 multiletter control sequences out of 15000+600000
+ 13351 strings out of 493304
+ 235847 string characters out of 6139871
+ 292887 words of memory out of 5000000
+ 16475 multiletter control sequences out of 15000+600000
  41827 words of font info for 92 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  63i,9n,57p,1821b,307s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -774,10 +790,10 @@ e/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf
 onts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/ty
 pe1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/u
 tmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on root.pdf (4 pages, 8630176 bytes).
+Output written on root.pdf (5 pages, 8640740 bytes).
 PDF statistics:
- 3212 PDF objects out of 3580 (max. 8388607)
- 1702 compressed objects within 18 object streams
+ 3251 PDF objects out of 3580 (max. 8388607)
+ 1738 compressed objects within 18 object streams
  0 named destinations out of 1000 (max. 500000)
- 53 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 63 words of extra memory for PDF output out of 10000 (max. 10000000)
 
