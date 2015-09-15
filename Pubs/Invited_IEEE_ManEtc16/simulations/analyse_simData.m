@@ -1,12 +1,13 @@
-
+simulate = 0;
 
 %analyse data
 load Data.mat
 
 %stairs(Scheduler.time,reshape(Scheduler.signals(2).values,numel(Scheduler.time),1));
+if(simulate)
 faragasso_params;
 sim('sim_ieee');
-
+end
 %which schedule
 Schedule_pick = reshape(Scheduler.signals(4).values,numel(Scheduler.time),1);
 CPUF_pick = reshape(Scheduler.signals(2).values,numel(Scheduler.time),1);
@@ -34,22 +35,29 @@ for t = 1:length(Scheduler.time) % for all sim times
     GPU_F(t) = GPU_freq(j(t),1);
 end
 
-figure(1)
+figure(1);
+title('Power (W)');
 stairs(Scheduler.time,Power); hold all;grid on;
 figure(2);
+title('CPU freq (GHz)');
 stairs(Scheduler.time,CPU_F); 
 hold all; grid on;
-stairs(Scheduler.time,GPU_F);hold all
 figure(3);
-plot(SysOut.signals(3).values,SysOut.signals(4).values);hold all; grid on;
-
-
+title('GPU freq (GHz)');
+grid on;
+stairs(Scheduler.time,GPU_F);hold all
+figure(4);
+%plot(SysOut.signals(3).values,SysOut.signals(4).values);hold all; grid on;
+title('Schedule');
+stairs(Scheduler.time,reshape(Scheduler.signals(4).values, numel(Scheduler.time),1));
+hold all;grid on;
 
 
 % ControlCost = sum(abs(SysOut.signals(3).values))/numel(SysOut.signals(3).values)
- controlcostInt = ScopeData.signals(1).values(end)
- kk = reshape(ScopeData.signals(3).values,numel(ScopeData.time),1);
- 'Energy'
- kk(end)
+% controlcostInt = ScopeData.signals(1).values(end)
+% kk = reshape(ScopeData.signals(3).values,numel(ScopeData.time),1);
+% 'Energy'
+% kk(end)
 % length(SysOut.time)
+
 
