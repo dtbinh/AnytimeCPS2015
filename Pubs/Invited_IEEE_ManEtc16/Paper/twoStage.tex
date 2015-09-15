@@ -1,4 +1,5 @@
 \section{Two stage approach for hardware optimizations}
+<<<<<<< HEAD
 
 To solve the problem of selecting the mode in which to run the perception algorithm to minimize computation energy without having a significant impact on the control performance, we propose a two stage solution. The first stage is offline and is concerned with thoroughly profiling the perception algorithm's throughput ($T(\sigma,F_c,F_g)$) and power consumption ($P(\sigma,F_c,F_g)$) as functions of the hardware knobs ($\sigma$, $F_c$ and $F_g$). The second stage is using this profiled information at run-time to choose a trade-off between computation power and throughput based on the feedback from the controlled system and then picking the task resource allocation schedule $\sigma$ and CPU-GPU ($F_c,F_g$) frequencies which help us best realize this trade-off. A high-level view of this approach is shown in Fig. \ref{fig: }More details follow.
 
@@ -10,6 +11,10 @@ To solve the problem of selecting the mode in which to run the perception algori
 	\label{fig:juicyj}%same freq diff assignment}
 \end{figure*}
 
+=======
+\label{sec:twoStage}
+To solve the problem of selecting the mode in which to run the perception algorithm to minimize computation energy without having a significant impact on the control performance, we propose a two stage solution. The first stage is offline and is concerned with thoroughly profiling the perception algorithm's throughput ($T(\sigma,F_c,F_g)$) and power consumption ($P(\sigma,F_c,F_g)$) as functions of the hardware knobs ($\sigma$, $F_c$ and $F_g$). The second stage is using this profiled information at run-time to choose a trade-off between computation power and throughput based on the feedback from the controlled system and then picking the task resource allocation schedule $\sigma$ and CPU-GPU ($F_c,F_g$) frequencies which help us best realize this trade-off. More details follow.
+>>>>>>> 696735219f61d7aaea956fb3a0752a06b804a1c9
 
 \subsection{Offline profiling of performance and power consumption of the perception algorithm}
 \label{sec:profiling}

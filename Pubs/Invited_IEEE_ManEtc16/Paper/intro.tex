@@ -4,11 +4,10 @@
 Real-time control of autonomous vehicles requires the processing of a large amount of sensor data, which is used by the vehicle to determine its position in the world and to calculate its next move.
 Examples include data from cameras, LIDAR, radars and ultrasound radars, and possibly information communicated by other vehicles or the road infrastructure.
 The perception algorithms that process this data must do so fast enough for the control algorithm to compute the next input within the time constraints imposed by the environment.
-These time constraints are variable: for example, relaxed rural driving can accommodate planning actions every few seconds, while imminent collision avoidance requires planning and actuation on the order of a few milliseconds.
+These time constraints are variable: for example, relaxed rural driving can accommodate planning actions every tens of milliseconds, while imminent collision avoidance requires planning and actuation on the order of a few milliseconds.
 As a result of the variability in the environment, and to guarantee adequate performance in the most demanding conditions, the control and perception systems are over-engineered to operate as if the worst-case conditions always hold. 
-Namely, the hardware processors always execute the perception code at a frequency that guarantees the fastest completion time.
-This results in unnecessarily high power consumption from the computation platform, as computation power increases with frequency.
-Note that over the past few decades, the power consumption of processors has increased by more than double, while battery energy density has only improved by about a quarter \cite{Lahiri}. 
+This results in unnecessarily high power consumption from the computation platform.
+%Note that over the past few decades, the power consumption of processors has increased by more than double, while battery energy density has only improved by about a quarter \cite{Lahiri}. 
 
 The usage of \emph{anytime perception algorithms} allows us to perform a trade-off between the computation time of the algorithms, their power consumption, and the quality of their output.
 An anytime algorithm has a pre-defined set of interruption times. 
@@ -36,10 +35,10 @@ In this paper, we illustrate our approach on an autonomous car $1/10^{th}$ the s
 	\caption{Traxxas autonomous car with camera.}
 		\label{fig:traxxas}
 \end{figure}  
-The setup, including the navigation algorithm, are presented in Section ??
-Section ?? describes the offline profiling of Vanishing Point, which gives us Throughput vs Power curves for various processor frequencies and various scheduling of the navigation code on CPU and GPU.
-In Section ?? we combine power and throughput into one objective function, and design a supervisor what will determine the frequency and CPU/GPU allocation to maximize the objective.
-Section ?? presents experimental results that demonstrate the effect of the trade-off on control performance.
+The setup, including the navigation algorithm, are presented in Section \ref{sec:problemSetup}.
+Section \ref{sec:twoStage} describes the offline profiling of Vanishing Point, which gives us Throughput vs Power curves for various processor frequencies and various scheduling of the navigation code on CPU and GPU.
+In Section \ref{sec:evaluation} we combine power and throughput into one objective function, and design a supervisor what will determine the frequency and CPU/GPU allocation to maximize the objective.
+Section \ref{sec:simResults} presents experimental results that demonstrate the effect of the trade-off on control performance.
 %\todo[inline]{give example nb}
 %
 %
