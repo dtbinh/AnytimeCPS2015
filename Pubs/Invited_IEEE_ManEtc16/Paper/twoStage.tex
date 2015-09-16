@@ -1,4 +1,4 @@
-\section{Two stage approach for hardware optimizations}
+\section{Two stage trade-off}
 \label{sec:twoStage}
 To solve the Mode Selection problem (Section \ref{sec:mode selection}), we propose a two stage solution. 
 The first stage is offline (Fig. \ref{fig:juicyj} left): in it, we thoroughly profile the perception algorithm's throughput $T(\sigma,F_c,F_g)$ and power consumption $P(\sigma,F_c,F_g)$ for various values of the hardware knobs $\sigma$, $F_c$ and $F_g$. 
@@ -11,6 +11,6 @@ We next detail each stage.
 \label{sec:profiling}
 \input{profilingVP}
 
-\subsection{Feedback driven online scheduling and hardware mode selection}
+\subsection{Feedback driven online scheduling and mode selection}
 \label{sec:scheduling}
 \input{scheduling}

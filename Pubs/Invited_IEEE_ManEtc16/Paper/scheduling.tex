@@ -1,16 +1,52 @@
-%\subsection{Feedback driven scheduling and hardware mode selection}
 
-The profiling results of the previous section indicate that the knobs $\sigma, F_c$ and $F_g$ allow us to trade-off throughput for power, as expected.
+The profiling results indicate that the knobs $\sigma, F_c$ and $F_g$ allow us to trade-off throughput for power, as expected.
 At runtime, we must decide which knob setting to choose at every time step. 
 This is done by maximizing the following objective function at every time step $t$:
 
 \begin{equation}
-\max_{\sigma,F_{c},F_{g}} \alpha(t)\mathbf{\bar{T}}(\sigma,F_{c},F_{g}) + \frac{1-\alpha(t)}{\mathbf{E[\bar{P}]}(\sigma,F_{c},F_{g})}
+\max_{\sigma,F_{c},F_{g}} \alpha(x_m,x_v)\mathbf{\bar{T}}(\sigma,F_{c},F_{g}) + \frac{1-\alpha(x_m,x_v)}{\mathbf{E[\bar{P}]}(\sigma,F_{c},F_{g})}
 \label{eq:cost_runtime}
 \end{equation}
 
-Recall that $\mathbf{\bar{T}}(\sigma,F_{c},F_{g})$ is the normalized throughput of the vanishing point algorithm under schedule $\sigma$ and with the CPU and GPU at frequencies $F_c$ and $F_g$ respectively. 
-Also, $\mathbf{\bar{E[P]}}(\sigma,F_{c},F_{g})$ is the normalized mean power consumed by the computation platform.
-Finally, $\alpha(t) \in [0,1]$ is a time-varying weight that decides how much to weigh throughput versus performance at time step $t$. 
-Note, higher $\alpha(t)$ is, more throughput is weighed. 
-This varying $\alpha(t)$ results in different schedules and CPU-GPU frequencies for different times. It is worth noting that for a particular value of $\alpha(t)$, the optimal solution to Eq. \ref{eq:cost_runtime} can be computed by composing the cost function from the profiled data and doing a search across parameters. In order to tie this to control performance, we can make $\alpha(t)$ a function of some feedback that reflects control performance, e.g. vanishing point abscissa or middle point abscissa or both. The function $\alpha(t)$ can now be composed such that as the vanishing point/middle point abscissas take on high values, $\alpha(t)$ also increases, resulting in a lower delay at the cost of more computation power. On the other hand, when the closed loop system is near or at steady state (vanishing point/middle point abscissas are small), we can trade-off computation delay (higher) in order to lower the computation power consumption. 
+Recall that $\mathbf{\bar{T}}(\sigma,F_{c},F_{g})$ is the normalized throughput of VP, and $\mathbf{E[\bar{P}]}(\sigma,F_{c},F_{g})$ is the mean normalized power consumed by the computation platform.
+The parameter $\alpha(x_m,x_v) \in [0,1]$ determines how much to weigh throughput versus performance at every time step. 
+It is computed as a function of the abscissa $x_m,x_v$: recall that non-zero values of either indicates deviation from the center line of the corridor (Section \ref{sec:vp}). 
+Since $x_m,x_v$ are time-varying, $\alpha$ is also time-varying.
+As $x_m$ or $x_v$ deviates further away from 0, $\alpha$ increases to more heavily weigh throughput, thus skewing the optimization towards larger throughput and better control performance.
+This translates as different CPU-GPU schedules and different frequencies.
+In this paper, we use three different functions for $\alpha$, where $d >0$:
+
+{\footnotesize{
+		\begin{equation}
+		\alpha= f_1(x_v(t)) = \\
+		\begin{cases}
+		0.001,&\text{if }x_v(t)\in[-d,d]\\
+		x_v(t)+d,&\text{if }x_v(t)<-d\\
+		x_v(t)-d,&\text{if }x_v(t)>d
+		\end{cases}
+		\label{eq:f1}
+		\end{equation}
+	}}
+	
+	{\footnotesize{
+			\begin{equation}
+			\alpha = f_2(x_m(t)) = \\
+			\begin{cases}
+			0.001,&\text{if }x_m(t)\in[-d,d]\\
+			x_m(t)+d,&\text{if }x_m(t)<-d\\
+			x_m(t)-d,&\text{if }x_m(t)>d
+			\end{cases}
+			\label{eq:f2}
+			\end{equation}
+		}}
+		
+{\footnotesize{
+		\begin{equation}
+		\alpha = f_3(x_m(t),x_v(t)) \\
+		\begin{cases}
+		0.001,\text{if }|x_m(t)|+|x_v(t)|<d\\
+		|x_m(t)|+|x_v(t)|-d,\text{otherwise}\\
+		\end{cases}
+		\label{eq:f3}
+		\end{equation}
+	}}
