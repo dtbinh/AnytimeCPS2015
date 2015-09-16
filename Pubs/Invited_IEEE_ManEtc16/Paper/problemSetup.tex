@@ -1,14 +1,14 @@
 \section{Problem Setup}
 \label{sec:problemSetup}
 In this section, we present the setup in which we study the throughput/power trade-off and its effect on control performance. 
-We developed a $1/10^{th}$ scale autonomous car equipped with a front facing monocular camera.
+Specifically, we developed a $1/10^{th}$ scale autonomous car equipped with a front facing monocular camera.
 The car runs the Vanishing Point algorithm \cite{VP1,VP2} and a feedback controller to navigate a corridor and stay in its middle.
 The car is equipped with a front facing monocular camera which feeds image frames to the vanishing point algorithm for processing.
 The computation platform on board the car is a Nvidia Jetson, which has a quad-core ARM CPU and a 192 core Nvidia Tegra GPU.
 
 
 \subsection{Vanishing point for corridor navigation}
-
+\label{sec:vp}
 The Vanishing Point algorithm (VP) \cite{VP1} has been used extensively in indoor settings for navigating corridors autonomously \cite{VP2, VP3} and for outdoor lane detection \cite{gallagher2002ground}.
 For each image frame, the algorithm outputs the horizontal distances $x_v$ of the vanishing point and $x_m$ of the middle point from the center of the frame. 
 The vanishing point is the intersection point of any two parallel lines in the environment, and the middle point indicates the center of the corridor. 
@@ -34,10 +34,10 @@ Figure \ref{fig:vp_viz} shows a sample processed frame.
   
 
 \subsection{Exploiting hardware knobs to trade-off power and throughput}
-
+\label{sec:knobs}
 In order to trade-off computation power and throughput of the perception algorithm, we rely on the insight that the GPU can execute some tasks faster than a CPU, albeit at a greater power cost.
 Also, executing a task at a higher frequency (on either CPU or GPU) increases throughput, but again at a greater power cost.
-Thus, in our implementation, we found that running VP on the CPU alone resulted in a low throughput (~8Hz) and low power consumption (~5.2W). 
+Thus, in our setup, we found that running VP on the CPU alone resulted in a low throughput (about 8Hz) and low power consumption (about 5W). 
 On the other hand running it on the GPU allowed us to get a throughput in excess of 20Hz, but resulted in a power consumption of over 7W. 
 In this section, we describe how to divide VP into tasks and profile VP's performance as we vary the execution frequencies of these tasks and their scheduling on either CPU or GPU.
 These tasks are (see Fig. \ref{fig:vanishing}):
@@ -68,5 +68,6 @@ The throughput and computation power, functions  of all three knobs, are denoted
 	\label{fig:vanishing}		
 \end{figure}
 
-\subsection{Problem statement}
+\subsection{The Mode Selection problem}
+\label{sec:mode selection}
 The problem we solve is that of picking the best operating mode ($\sigma$, $F_c$ and $F_g$) for the perception algorithm VP in order to minimize computation power $P(\sigma,F_c,F_g)$ without overly affecting the closed loop control performance of the system, quantified by the throughput $T(\sigma,F_c,F_g)$. 

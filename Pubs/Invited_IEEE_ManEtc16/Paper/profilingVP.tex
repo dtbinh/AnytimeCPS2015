@@ -1,13 +1,17 @@
-For the perception algorithm, the first stage of our method is profiling the performance (timing and, if available, quality) and power consumption of the computation. With the vanishing point algorithm, we can execute the Blur, the Edge detection and the Hough transform on either the CPU or the GPU (Fig. \ref{fig:vanishing}). RANSAC runs fast enough to not have a significant impact on the total execution time, so we do not consider running it on the GPU. Execution on the GPU results, in general, in a speed-up over the CPU but at the cost of higher power draw from the Jetson. Additionally, on the Jetson, we can control the performance of the CPU and GPU by changing the clock frequencies at which they operate. This gives us multi-dimensional knobs on the hardware level that we can control to trade-off computation speed and power consumption.
-
-To do this profiling offline, we first navigate the robot manually in corridors and log video from the on-board camera at a high frame-rate (60Hz). 
-We run Vanishing point algorithm on this video offline and profile it with different scheduling of the three components (Blur, Canny and Hough) on the CPU and GPU, and at different frequencies of both processors.
-
+For the Vanishing Point (VP) algorithm, the first stage of our method is profiling the timing and power consumption of the computation.
+Namely, we vary the schedule and frequency knobs described in Section \ref{sec:knobs}.
+For each value of the knobs, we run VP on a video sequence previously acquired by the robot while navigating a corridor. 
 We wrote a custom C-code library to log power measurements from a Tektronix PWS4205 Programmable DC power supply at 100Hz. 
 For this we communicate with the power supply over USB using the USB Test and Measurement Class (USB-TMC) communication protocol. 
  
-Since for an algorithm like Vanishing point there is no well-defined notion of ground truth, we do not have a measure of accuracy of the algorithm. 
-Instead, Vanishing point's update rate (which is the inverse of the computation time) is used as a performance measure, since with faster updates the controller has less delay, resulting in better control performance. 
+Since for an algorithm like VP there is no well-defined notion of output quality, we use the update rate as a performance measure, since faster updates mean that the car controller has less delay, resulting in better control performance. 
 
-\subsubsection{Experimental results for profiling}
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.46\textwidth]{Figs/bigFig.pdf}
+	\caption{Two stage approach.}
+	\label{fig:juicyj}%same freq diff assignment}
+\end{figure} 
+
+%\subsubsection{Experimental results for profiling}
 \input{profilingResults}
