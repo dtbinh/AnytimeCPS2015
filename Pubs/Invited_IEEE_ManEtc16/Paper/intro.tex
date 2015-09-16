@@ -5,7 +5,7 @@ Examples include data from cameras, LIDAR, radars and ultrasound radars, and pos
 Google's autonomous vehicles generate over 750MB/s of sensor data ~\cite{diamandis2015bold} which must be processed by the perception pipeline fast enough with run-to-completion algorithms. 
 To guarantee safety and meet the driving performance requirements, such run-to-completion algorithms require the hardware to be over-engineered for the worst-case: i.e., it always executes the software as if the worst-case conditions hold.
 This leads to a requirement of over 4KW in computational power. 
-This is a significant drain on the vehicle's lithium-ion battery capacity, which is 24kWh in a Nissan Leaf for example, and a significant percentage of the power drawn by the drive motors, which is 30kW in a small electric vehicle modeled in ADVISOR \cite{nreladvisor}.
+This is a significant drain on the vehicle's lithium-ion battery capacity, which is 24kWh in a Nissan Leaf for example, and a significant percentage of the average power drawn by the drive motors, which is 30kW in a small electric vehicle modeled in ADVISOR \cite{nreladvisor} going through the Urban Dynamometer Drive Cycle.
 %Note that over the past few decades, the power consumption of processors has increased by more than double, while battery energy density has only improved by about a quarter \cite{Lahiri}. 
 
 The usage of \emph{anytime perception algorithms} allows us to perform a trade-off between the computation time of the algorithms, their power consumption, and the quality of their output.
@@ -35,6 +35,7 @@ Section \ref{sec:simResults} presents experimental results that demonstrate the 
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=0.46\textwidth]{Figs/bigFig.pdf}
+	\vspace{-10pt}
 	\caption{Two stage approach.}
 	\label{fig:juicyj}%same freq diff assignment}
 \end{figure} 
