@@ -23,6 +23,7 @@ It is worth noting that only the trajectory of $x$ for the lowest power, or high
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.49\textwidth]{../simulations/figs/xvst.pdf}
+\vspace{-20pt}
 \caption{$x$ position of the robot. Note, for modes other than the lowest power (most delay), the trajectory of x is very similar. This is also shown in table \ref{tbl:performance}}.
 \label{fig:xvst} 
 \end{figure}
@@ -36,36 +37,37 @@ At checkpoint \textbf{b} $x$ has a small magnitude and is near settling the midd
 
 Checkpoints \textbf{c}, \textbf{d}, and \textbf{e} show how the system responds to a pulse like disturbance in the steering (lasting from 10s to 12s) and settles (centers and aligns to the corridor) afterwards. It is interesting to see how the different supervisory functions $f_i$ result in different switching between schedule $\sigma=CCC$ and $\sigma=CCG$ and different CPU and GPU frequencies.
 
-
-
-
  
-\begin{figure}[hbtp]
+\begin{figure}[t]
 \centering
 \includegraphics[width=0.49\textwidth]{../simulations/figs/CPUF.pdf}
+\vspace{-20pt}
 \caption{CPU Frequency selected versus time.}
 \label{fig:cpuf} 
 \end{figure}
 
 
-\begin{figure}[hbtp]
+\begin{figure}[t]
 \centering
 \includegraphics[width=0.49\textwidth]{../simulations/figs/GPUF.pdf}
+\vspace{-20pt}
 \caption{GPU Frequency selected versus time. Note, for the lowest power mode, the GPU is at its second lowest frequency and not the lowest (while the schedule is $\sigma=CCC$). This is because of the noise in power data while the GPU frequency is being changed while it is not computing any tasks.}
 \label{fig:gpuf} 
 \end{figure}
 
 
-\begin{figure}[hbtp]
+\begin{figure}[t]
 \centering
 \includegraphics[width=0.49\textwidth]{../simulations/figs/schedule.pdf}
+\vspace{-20pt}
 \caption{Resource allocation schedule for the vanishing point algorithm. Note, the schedule switches between only two allocations. This is because the allocation $\alpha=CCG$ has the best throughput while having a relatively low power consumption, while $\alpha=CCC$ has the lowest power consumption. See the results in section \ref{sec:profiling} to get a better idea.}
 \label{fig:schedule} 
 \end{figure}
 
-\begin{figure}[hbtp]
+\begin{figure}[t]
 \centering
 \includegraphics[width=0.49\textwidth]{../simulations/figs/power.pdf}
+\vspace{-20pt}
 \caption{Average computation power for running VP.}
 \label{fig:power} 
 \end{figure}
