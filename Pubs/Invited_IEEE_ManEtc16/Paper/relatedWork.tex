@@ -1,0 +1,10 @@
+\section{Related Work}
+
+The focus of perception based algorithm for autonomous systems has been on computation speed and performance with very little regard for power consumption, e.g. \cite{forster2014svo}, \cite{CUDASLAM}. In particular, computationally powerful but expensive GPUs are now becoming popular for implementing perception algorithms for autonomous navigation \cite{CUDASLAM}. In this paper, our work focuses on trade-offs on performance of the perception algorithm to minimize computation power based on the feedback used for closed-loop control of the system. Unlike most implementations that rely on the GPU, we do not always schedule tasks to run on the GPU and vary GPU and CPU frequency at run-time in order to be power efficient without overly affecting control performance.
+
+The effect of increasing computation time of a task on performance has been explored in \cite{overbook} by using a resource allocation algorithm similar to QRAM \cite{qram}. Our work differs from this as we vary the resource allocation and execution time for the tasks that compose the perception algorithm at run-time while considering control performance and we also do not drop any tasks in order to meet the control requirements.
+
+Also, in the field of computer architecture approximate computing approaches \cite{loop-perf,rely,npu} have been studied, seeking time or energy
+savings by performing a computation approximately instead of precisely. While
+our approach and approximate computing share a high-level goal,
+approximate computing approaches lack a feedback mechanism to permit computation and resources to be balanced dynamically. Additionally the time and energy scale that our approach works at is much higher than what approximate computing looks at.
