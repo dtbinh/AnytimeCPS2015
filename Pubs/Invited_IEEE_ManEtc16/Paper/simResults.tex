@@ -12,7 +12,7 @@ To simulate the closed loop performance of the robot using the vanishing point a
 \label{fig:simSetup} %diff freq same assignment}
 \end{figure}
 
-For the simulations, we initialize the robot aligned to the corridor $\theta=0$ but off from the center by 0.25m, i.e. $x=0.25$. Note, velocity ($v$) is a constant parameter in our simulations. The controller will now attempt to bring the robot to the middle of the corridor and align it with the corridor while the supervisor decides the hardware operating mode ($\sigma,F_c,F_g$)for the vanishing point algorithm based on the online optimization of Sec. \ref{sec:scheduling}. At a simulation time of 10 seconds, we perturb the system with a steering disturbance which is a pulse of magnitude 3 degrees per second and a duration of 2 seconds. The controller again tries to recover from this disturbance while the supervisor picks the best operating mode for the perception algorithm. Since the controller's objective is to bring the robot to the middle of the corridor and keep it there (i.e. align it with the corridor), the closed loop control performance can be measured for a simulation time of $T$ seconds as follows
+For the simulations, we initialize the robot aligned to the corridor $\theta=0$ but off from the center by 0.25m, i.e. $x=0.25$. Note, velocity ($v$) is a constant parameter in our simulations. The controller will now attempt to bring the robot to the middle of the corridor and align it with the corridor while the supervisor decides the hardware operating mode ($\sigma,F_c,F_g$) for the vanishing point algorithm based on the online optimization of Sec. \ref{sec:scheduling}. At a simulation time of 10 seconds, we perturb the system with a steering disturbance which is a pulse of magnitude 3 degrees per second and a duration of 2 seconds. The controller again tries to recover from this disturbance while the supervisor picks the best operating mode for the perception algorithm. Since the controller's objective is to bring the robot to the middle of the corridor and keep it there (i.e. align it with the corridor), the closed loop control performance can be measured for a simulation time of $T$ seconds as follows
 
 \begin{equation}
 L = \int_0^T |x(t)|dt
@@ -40,7 +40,7 @@ Fig. \ref{fig:power} show the computation power vs time, while Fig. \ref{fig:sch
 \begin{figure}[hbtp]
 \centering
 \includegraphics[width=0.46\textwidth]{../simulations/figs/schedule.pdf}
-\caption{Resource allocation schedule for the vanishing point algorithm.}
+\caption{Resource allocation schedule for the vanishing point algorithm. Note, the schedule switches between only two allocations. This is because the allocation $\alpha=CCG$ has the best throughput while having a relatively low power consumption, while $\alpha=CCC$ has the lowest power consumption. See the results in section \ref{sec:profiling} to get a better idea.}
 \label{fig:schedule} 
 \end{figure}
 
@@ -51,7 +51,7 @@ Fig. \ref{fig:power} show the computation power vs time, while Fig. \ref{fig:sch
 \label{fig:power} 
 \end{figure}
 
-Fig. \ref{fig:xvst} shows the trajectory of $x$ versus time. Note, how $x$ settles to zero (middle of the corridor) after an initial displacement of 0.25m, and how it again increases from 10s to 12s due to the disturbance before settling again. It is also worth nothing that only the trajectory of $x$ for the lowest power, or highest delay mode differs significantly enough from the others so as to be different visually in this plot.
+Fig. \ref{fig:xvst} shows the trajectory of $x$ versus time. Note, how $x$ settles to zero (middle of the corridor) after an initial displacement of 0.25m, and how it again increases from 10s to 12s due to the disturbance before settling again. It is also worth nothing that only the trajectory of $x$ for the lowest power, or highest delay mode differs significantly enough from the others so as to be different visually in this plot. It is worth noting how the run-time optimizations vary frequencies and the schedule as $x$ evolves over time.
 
 
 \begin{figure}[hbtp]
