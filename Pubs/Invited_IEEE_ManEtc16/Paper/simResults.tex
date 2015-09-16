@@ -1,12 +1,30 @@
 \section{Simulation results with profiled data}
 \label{sec:simResults}
 
+To simulate the closed loop performance of the robot using the vanishing point algorithm for feedback, we implemented the robot dynamics, vanishing point measurements and control in Simulink. Since the execution time of the vanishing point algorithm is a delay to the controller, we also model the delay and power consumption for the vanishing mode chosen by the supervisory algorithm as a time varying delay to the input of the controller based on the profiled experimental data. With this setup, as shown in Fig. \ref{fig:simSetup}, we can accurately simulate both the closed loop behaviour of the system as well as the schedules, frequencies and power consumption of the computation platform.
 
+
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=0.46\textwidth]{Figs/SimulationSetup_scissored.pdf}
+\caption{A high-level view of the simulation setup. Note, the actual state of the system ($x,y,\theta$) and the chosen hardware mode at each time step $\sigma,F_c,F_g$ are used to measure the performance of the closed loop system and the expected power and energy consumption of the computation platform.}
+\label{fig:simSetup} %diff freq same assignment}
+\end{figure}
+
+For the simulations, we initialize the robot aligned to the corridor $\theta=0$ but off from the center by 0.25m, i.e. $x=0.25$. Note, velocity ($v$) is a constant parameter in our simulations. The controller will now attempt to bring the robot to the middle of the corridor and align it with the corridor while the supervisor decides the hardware operating mode ($\sigma,F_c,F_g$)for the vanishing point algorithm based on the online optimization of Sec. \ref{sec:scheduling}. At a simulation time of 10 seconds, we perturb the system with a steering disturbance which is a pulse of magnitude 3 degrees per second and a duration of 2 seconds. The controller again tries to recover from this disturbance while the supervisor picks the best operating mode for the perception algorithm. Since the controller's objective is to bring the robot to the middle of the corridor and keep it there (i.e. align it with the corridor), the closed loop control performance can be measured for a simulation time of $T$ seconds as follows
+
+\begin{equation}
+L = \int_0^T |x(t)|dt
+\label{eq:ControlPerf}
+\end{equation}
+
+Also, the expected energy consumed by the computation platform can be achieved by simply integrating the expected power based on the selected operating mode of the algorithm during each time step. We evaluate the closed loop system to obtain these two metrics for a) the highest power (lowest delay) fixed operating mode, b) the lowest power (highest delay) fixed operating mode c) With switching between different modes based on the optimization of Eq.\ref{eq:cost_runtime} and the three functions for choosing $\alpha(t)$ as in Eqs \ref{eq:f1}, \ref{eq:f2}, \ref{eq:f3}. For these 5 cases, Figs. \ref{fig:cpuf} and \ref{fig:gpuf} show the selected CPU and GPU frequency versus time respectively.  
 \begin{figure}[hbtp]
 \centering
 \includegraphics[width=0.46\textwidth]{../simulations/figs/CPUF.pdf}
 \caption{CPU Frequency selected versus time.}
-\label{fig:cpuf} %diff freq same assignment}
+\label{fig:cpuf} 
 \end{figure}
 
 
@@ -14,22 +32,53 @@
 \centering
 \includegraphics[width=0.46\textwidth]{../simulations/figs/GPUF.pdf}
 \caption{GPU Frequency selected versus time.}
-\label{fig:gpuf} %diff freq same assignment}
+\label{fig:gpuf} 
 \end{figure}
+
+Fig. \ref{fig:power} show the computation power vs time, while Fig. \ref{fig:schedule} shows the schedule $\sigma$ of CPU-GPU allocation for tasks.
 
 \begin{figure}[hbtp]
 \centering
 \includegraphics[width=0.46\textwidth]{../simulations/figs/schedule.pdf}
 \caption{Resource allocation schedule for the vanishing point algorithm.}
-\label{fig:schedule} %diff freq same assignment}
+\label{fig:schedule} 
 \end{figure}
 
 \begin{figure}[hbtp]
 \centering
 \includegraphics[width=0.46\textwidth]{../simulations/figs/power.pdf}
 \caption{Expected computation power for running the vanishing point on the Jetson.}
-\label{fig:power} %diff freq same assignment}
+\label{fig:power} 
 \end{figure}
 
+Fig. \ref{fig:xvst} shows the trajectory of $x$ versus time. Note, how $x$ settles to zero (middle of the corridor) after an initial displacement of 0.25m, and how it again increases from 10s to 12s due to the disturbance before settling again. It is also worth nothing that only the trajectory of $x$ for the lowest power, or highest delay mode differs significantly enough from the others so as to be different visually in this plot.
+
+
+\begin{figure}[hbtp]
+\centering
+\includegraphics[width=0.46\textwidth]{../simulations/figs/xvst.pdf}
+\caption{x position of the robot. Note, for modes other than the lowest power (most delay), the trajectory of x is very similar. This is also shown in table \ref{tbl:performance}}.
+\label{fig:xvst} 
+\end{figure}
+
+A summary of the control performance and computation energy consumed for these five cases is shown in table \ref{tbl:performance}
+
+\begin{table}[htb]
+\begin{center}
+\caption{Control performance and computation energy}
+\label{tbl:performance}
+\begin{tabular} {|c|c|c|}
+	\hline
+	\textbf{Supervisor} & \textbf{Control perf.}(L) & \textbf{Energy}(J) \\ \hline
+	Lowest power (mode fixed) & 0.3245 & 106.12  \\ \hline
+	Highest power (mode fixed) & 0.3010 & 140.13  \\ \hline
+	 $f_1(x_v)$ & 0.3025 & 113.16  \\ \hline
+	 $f_2(x_m)$ & 0.3023 & 112.3962 \\ \hline
+	 $f_3(x_v,x_m)$ & 0.3018 & 113.0754 \\ \hline
+	 
+\end{tabular}
+	\vspace{-10pt}	
+	\end{center}
+\end{table}
 
 
