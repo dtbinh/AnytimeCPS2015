@@ -11,13 +11,11 @@ We initialize the robot aligned to the corridor $\theta=0$ but off from the cent
 The controller attempts to bring the robot to the middle of the corridor and align it with the corridor while the supervisor decides the hardware operating mode ($\sigma,F_c,F_g$) as per Sec. \ref{sec:scheduling}. 
 At 10 seconds, we apply a steering disturbance to the system, which is a pulse of magnitude 3 degrees per second and a duration of 2 seconds. 
 The controller again tries to recover from this disturbance while the supervisor picks the best operating mode for the perception algorithm. 
-The closed loop control performance can be measured over a simulation time of $T$ seconds as $L = \int_0^T |x(t)|dt$, 
-and the expected energy consumed can be calculated by integrating the expected power based on the selected operating mode. 
+
 Figs. \ref{fig:cpuf} and \ref{fig:gpuf} show the selected CPU and GPU frequency versus time respectively. 
 Fig. \ref{fig:power} show the computation power vs time, while Fig. \ref{fig:schedule} shows the schedule $\sigma$ of CPU-GPU allocation for tasks.
-
 Fig. \ref{fig:xvst} shows the trajectory of $x$ versus time.  
-It is worth noting that only the trajectory of $x$ for the lowest power, or highest delay mode differs significantly enough from the others so as to be different visually in this plot.
+Note that only the trajectory of $x$ for the lowest power, or highest delay mode differs enough from the others so as to be different visually in this plot.
 
 
 \begin{figure}[t]
@@ -27,18 +25,14 @@ It is worth noting that only the trajectory of $x$ for the lowest power, or high
 \label{fig:xvst} 
 \end{figure}
 
-
-
 To better understand these figures, let us go through 5 checkpoints (\textbf{a}, \textbf{b},\textbf{c}, \textbf{d} and \textbf{e}) in time common to Figs. \ref{fig:xvst}, \ref{fig:cpuf}, \ref{fig:gpuf}, \ref{fig:schedule} ,\ref{fig:power}.
-At checkpoint \textbf{a} the controller starts to stabilize $x$ initial displacement of 0.25m. At this time, both $x_v$ and $x_m$ have high magnitudes, implying $\alpha$ takes a high value (close to 1) for all $f_i,\text{ }i=1,2,3$. Due to this, fig. \ref{fig:schedule} shows that $\sigma$ becomes $CCG$ and Figs. \ref{fig:cpuf} and \ref{fig:gpuf} show that CPU and GPU frequencies are high, this implies the vanishing point algorithm is near its highest throughput. Correspondingly, Fig. \ref{fig:power} shows that the computation power is also high.
+At checkpoint \textbf{a} the controller starts to stabilize $x$ initial displacement of 0.25m. 
+At this time, both $x_v$ and $x_m$ have high magnitudes, implying $\alpha$ takes a high value (close to 1) for all $f_i,\text{ }i=1,2,3$. 
+Due to this, Fig. \ref{fig:schedule} shows that $\sigma$ becomes $CCG$ and Figs. \ref{fig:cpuf} and \ref{fig:gpuf} show that CPU and GPU frequencies are high, this implies the vanishing point algorithm is near its highest throughput. Correspondingly, Fig. \ref{fig:power} shows that the computation power is also high.
 
 At checkpoint \textbf{b} $x$ has a small magnitude and is near settling the middle of the corridor. Because of this, both $x_v$ and $x_m$ have smaller magnitudes, and so $\alpha$ is small and the requested CPU and GPU frequencies start to decrease. $\sigma$ is still $CCG$ for all supervisory functions except $f_2$, but settles to $CCC$ for all 3 as $x$ settles to zero shortly after checkpoint \textbf{b}.
 
-Checkpoints \textbf{c}, \textbf{d}, and \textbf{e} show how the system responds to a pulse like disturbance in the steering (lasting from 10s to 12s) and settles (centers and aligns to the corridor) afterwards. It is interesting to see how the different supervisory functions $f_i$ result in different switching between schedule $\sigma=CCC$ and $\sigma=CCG$ and different CPU and GPU frequencies.
-
-
-
-
+Checkpoints \textbf{c}, \textbf{d}, and \textbf{e} show how the system responds to a pulse-like disturbance in the steering (lasting from 10s to 12s). It is interesting to see how the different supervisory functions $f_i$ result in different switching between schedules CCC and CCG and different CPU and GPU frequencies.
  
 \begin{figure}[hbtp]
 \centering
@@ -70,6 +64,8 @@ Checkpoints \textbf{c}, \textbf{d}, and \textbf{e} show how the system responds 
 \label{fig:power} 
 \end{figure}
 
+The closed loop control performance can be measured over a simulation time of $T$ seconds as $L = \int_0^T |x(t)|dt$, 
+and the expected energy consumed is calculated as the sum of powers over $T$ seconds.
 A summary of the control performance and computation energy consumed for these five cases is shown in table \ref{tbl:performance}. It is clear that operating with the highest power/lowest delay mode for the vanishing point results in the best control performance, but the computation energy is high. On the other hand, lowest power/highest delay mode results predictably in low power consumption and the worst control performance. With out two stage approach, control performance is very similar (less than $1\%$ degradation) to the highest power mode, while the computation energy is significantly (about $20\%$) lower. This clearly shows the benefit of our approach.
 
 \begin{table}[htb]
