@@ -31,7 +31,7 @@ Also, the expected energy consumed by the computation platform can be achieved b
 \begin{figure}[hbtp]
 \centering
 \includegraphics[width=0.46\textwidth]{../simulations/figs/GPUF.pdf}
-\caption{GPU Frequency selected versus time.}
+\caption{GPU Frequency selected versus time. Note, for the lowest power mode, the GPU is at its second lowest frequency and not the lowest (while the schedule is $\sigma=CCC$). This is because of the noise in power data while the GPU frequency is being changed while it is not computing any tasks.}
 \label{fig:gpuf} 
 \end{figure}
 
@@ -61,7 +61,7 @@ Fig. \ref{fig:xvst} shows the trajectory of $x$ versus time. Note, how $x$ settl
 \label{fig:xvst} 
 \end{figure}
 
-A summary of the control performance and computation energy consumed for these five cases is shown in table \ref{tbl:performance}
+A summary of the control performance and computation energy consumed for these five cases is shown in table \ref{tbl:performance}. It is clear that operating with the highest power/lowest delay mode for the vanishing point results in the best control performance, but the computation energy is high. On the other hand, lowest power/highest delay mode results predictably in low power consumption and the worst control performance. With out two stage approach, control performance is very similar (less than $1\%$ degradation) to the highest power mode, while the computation energy is significantly (about $20\%$) lower. This clearly shows the benefit of our approach.
 
 \begin{table}[htb]
 \begin{center}
