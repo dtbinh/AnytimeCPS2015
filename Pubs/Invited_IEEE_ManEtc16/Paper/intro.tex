@@ -4,7 +4,8 @@ Real-time control of autonomous vehicles requires the processing of a large amou
 Examples include data from cameras, LIDAR, radars and ultrasound radars, and possibly information communicated by other vehicles or the road infrastructure.
 Google's autonomous vehicles generate over 750MB/s of sensor data ~\cite{diamandis2015bold} which must be processed by the perception pipeline fast enough with run-to-completion algorithms. 
 To guarantee safety and meet the driving performance requirements, such run-to-completion algorithms require the hardware to be over-engineered for the worst-case: i.e., it always executes the software as if the worst-case conditions hold.
-This leads to a requirement of over 4KW in computational power consumption that is a significant drain on the vehicle's lithium-ion battery capacity, which, for example, is 24kWh in a Nissan Leaf.
+This leads to a requirement of over 4KW in computational power. 
+This is a significant drain on the vehicle's lithium-ion battery capacity, which is 24kWh in a Nissan Leaf for example, and a significant percentage of the power drawn by the drive motors, which is 30kW in a small electric vehicle modeled in ADVISOR \cite{nreladvisor}.
 %Note that over the past few decades, the power consumption of processors has increased by more than double, while battery energy density has only improved by about a quarter \cite{Lahiri}. 
 
 The usage of \emph{anytime perception algorithms} allows us to perform a trade-off between the computation time of the algorithms, their power consumption, and the quality of their output.
@@ -26,15 +27,15 @@ Thus in this paper, we study how platform-level optimizations affect the computa
 
 Note that the study of how computation delay affects control performance, and the design of anytime perception and control algorithms for power saving, are not specific to autonomous vehicles.
 Other control systems can benefit from these trade-offs, especially power-limited consumer robots.
-In this paper, we illustrate our approach on an autonomous car $1/10^{th}$ the size of a regular car (Fig. \ref{fig:traxxas}), which uses Vanishing Point navigation \cite{VP1}.
-\begin{figure}[t]
-	\centering
-	\includegraphics[scale=0.12]{carImages/car_labeled.png}
-	\caption{Autonomous car ($1/10^{th}$ scale) developed using a Traxxas chassis. The car is capable of speeds of up to 40 miles per hour.}
-		\label{fig:traxxas}
-\end{figure}  
+In this paper, we illustrate our approach on an autonomous car $1/10^{th}$ the size of a regular car (Fig. \ref{fig:traxxas}), which uses Vanishing Point navigation \cite{VP1}. 
 The setup, including the navigation algorithm, are presented in Section \ref{sec:problemSetup}.
 Section \ref{sec:twoStage} describes the offline profiling of Vanishing Point, which gives us Throughput versus Power curves for various processor frequencies and various scheduling of the navigation code on CPU and GPU.
 In Section \ref{sec:evaluation} we combine power and throughput into one objective function, and design a supervisor what will determine the frequency and CPU/GPU allocation to maximize the objective.
 Section \ref{sec:simResults} presents experimental results that demonstrate the effect of the trade-off on control performance.
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.46\textwidth]{Figs/bigFig.pdf}
+	\caption{Two stage approach.}
+	\label{fig:juicyj}%same freq diff assignment}
+\end{figure} 
 

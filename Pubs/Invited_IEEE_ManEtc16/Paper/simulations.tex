@@ -14,7 +14,7 @@ The online control procedure performs the following calculations at ever time st
 		\item For each value of $(\sigma,F_c,F_g)$, computes the objective value \eqref{eq:cost_runtime}. $\bar{P}$ and $\mathbf{E[\bar{P}]}$ are obtained from the offline profiling stage.
 		\item Selects the value of $(\sigma^*,F_c^*,F_g^*)$ that maximizes the objective. This is provided to VP.
 	\end{enumerate}
-	\item The controller computes the input value as described in the next subsection.
+	\item The Controller computes the input value as described in Section \ref{sec:vp}.
 	\item VP executes with the CPU/GPU schedule $\sigma^*$ and frequencies $F_c^*,F_g^*$. Goto \ref{begin}.
 \end{enumerate}
 
