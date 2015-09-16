@@ -11,18 +11,48 @@ The computation platform on board the car is a Nvidia Jetson, which has a quad-c
 The Vanishing Point algorithm (VP) \cite{VP1} has been used extensively in indoor settings for navigating corridors autonomously \cite{VP2, VP3} and for outdoor lane detection \cite{gallagher2002ground}.
 For each image frame, the algorithm outputs the horizontal distances $x_v$ of the vanishing point and $x_m$ of the middle point from the center of the frame. 
 The vanishing point is the intersection point of any two parallel lines in the environment, and the middle point indicates the center of the corridor. 
+See Fig. \ref{fig:vp_viz}.
 These two measurements are used by the feedback controller to center the robot in the corridor and align it with the walls. 
-It does so by driving the abcissa $x_v$ and $x_m$ to zero. 
-See Fig. \ref{fig:juicyj}.
-Figure \ref{fig:vp_viz} shows a sample processed frame.
+It does so by driving the abscissa $x_v$ and $x_m$ to zero using the following feedback law for the steering rate $\omega$ \cite{VP2}:
+\begin{equation}
+\omega = \frac{k_1}{k_1k_3+x_mx_v}(-\frac{k_2v}{k_1}x_v -k_px_m)
+\label{eq:controller}
+\end{equation}
+where $k_p,k_1,k_2,k_3 > 0$ are parameters, and the car dynamics are modeled as follows:
+\begin{equation}
+\dot{x} = v\sin\theta,\; \dot{y} = v\cos\theta, \;\dot{\theta} = \omega 
+\end{equation}
+where $x$ is the car's horizontal position (referenced to an origin in the middle of the corridor), $y$ is its vertical position, and $\theta$ is the steering angle.
+The car's velocity $v$ is fixed.
+The VP computation time appears as a delay to this controller. 
+In general, less delay means better control performance but larger computation power. 
+Our goal is to achieve a trade-off where the control performance is acceptable (robot drives along the middle of the corridor) while the computation energy is minimized. 
 
 \begin{figure}[tb]
-\centering
-\includegraphics[width=0.49\textwidth]{Figs/vpmpimages/labelled_corridor_2.png}
-\caption{Visualization of the Vanishing point algorithm overlaid on the corridor image. The green (upper) dot shows the vanishing point while the red (lower) dot shows the middle point. These are computed from the intersection of the detected corridor guidelines.}
-\label{fig:vp_viz} %diff freq same assignment}
+	\centering
+	\includegraphics[width=0.49\textwidth]{Figs/vpmpimages/labelled_corridor_2.png}
+	\caption{Vanishing point algorithm output overlaid on the corridor image. The green (upper) dot shows the vanishing point while the red (lower) dot shows the middle point. These are computed from the intersection of the detected corridor guidelines. (Color in online version)}
+	\label{fig:vp_viz} %diff freq same assignment}
 \end{figure}
 
+%\label{sec:robotDynamics}
+%In order to simulate the closed loop behaviour of the robot, we use a unicycle model for the dynamic and a non-linear feedback controller as explained in \cite{VP2}. The unicycle dynamics are:
+%
+%Here, $v$ is the velocity of the robot, which we treat as a constant parameter for our setup. The co-ordinate frame is defined such that $x$ is the distance of the robot from the middle of the corridor. The goal of the closed loop controller is to navigate this robot along the middle of the corridor. Note, the controlled variable is $\omega$, the desired angular velocity of the robot.
+%
+%With the vanishing point based perception algorithm, the measurements from this system are the vanishing point and middle point abscissas as measured from processing the images from a front facing camera mounted on the robot. Using the geometry of the image frame as explained in \cite{VP2}, these measurements are
+%
+%\begin{subequations}
+%	\begin{align}
+%	x_v &= k_1\tan\theta \nonumber \\
+%	x_m &= k_2\frac{x}{\cos\theta} + k_3\tan\theta
+%	\end{align}
+%	\label{eq:measurements}
+%\end{subequations}
+%
+%Note, Eq. \ref{eq:measurements} shows that the vanishing point depends only on the orientation of the robot and the middle point depends on both orientation and position. The objective of our robot is to traverse a corridor while being as close to the middle of the corridor. In order to realize this, we need to bring both $x_v$ and $x_m$ to converge to zero. A non-linear controller based on the non-linear dynamics of the robot (Eq. \ref{eq:plant} and the measurements of $x_v$ and $x_m$ to achieve this is (from \cite{VP2})
+
+%================================================================
  We define \textit{throughput} as the update rate of VP, which is the inverse of its execution time. 
  The faster VP executes, the better the control performance of the closed loop system since the controller sees a small delay. 
  Hence, throughput acts as a proxy for control performance. 

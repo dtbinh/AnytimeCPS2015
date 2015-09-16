@@ -1,4 +1,4 @@
-\section{Two stage trade-off}
+\section{Two stage optimization}
 \label{sec:twoStage}
 To solve the Mode Selection problem (Section \ref{sec:mode selection}), we propose a two stage solution. 
 The first stage is offline (Fig. \ref{fig:juicyj} left): in it, we thoroughly profile the perception algorithm's throughput $T(\sigma,F_c,F_g)$ and power consumption $P(\sigma,F_c,F_g)$ for various values of the hardware knobs $\sigma$, $F_c$ and $F_g$. 
@@ -14,3 +14,7 @@ We next detail each stage.
 \subsection{Feedback driven online scheduling and mode selection}
 \label{sec:scheduling}
 \input{scheduling}
+
+\subsection{Feedback control of vehicle}
+\label{sec:evaluation}
+\input{simulations}
