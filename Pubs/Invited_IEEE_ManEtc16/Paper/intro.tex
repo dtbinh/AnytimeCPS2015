@@ -1,12 +1,10 @@
 \section{Motivation}
 \label{sec:motivation}
-
 Real-time control of autonomous vehicles requires the processing of a large amount of sensor data, which is used by the vehicle to determine its position in the world and to calculate its next move.
 Examples include data from cameras, LIDAR, radars and ultrasound radars, and possibly information communicated by other vehicles or the road infrastructure.
-The perception algorithms that process this data must do so fast enough for the control algorithm to compute the next input within the time constraints imposed by the environment.
-These time constraints are variable: for example, relaxed rural driving can accommodate planning actions every tens of milliseconds, while imminent collision avoidance requires planning and actuation on the order of a few milliseconds.
-As a result of the variability in the environment, and to guarantee adequate performance in the most demanding conditions, the control and perception systems are over-engineered to operate as if the worst-case conditions always hold. 
-This results in unnecessarily high power consumption from the computation platform.
+Google's autonomous vehicles generate over 750MB/s of sensor data ~\cite{diamandis2015bold} which must be processed by the perception pipeline fast enough with run-to-completion algorithms. 
+To guarantee safety and meet the driving performance requirements, such run-to-completion algorithms require the hardware to be over-engineered for the worst-case: i.e., it always executes the software as if the worst-case conditions hold.
+This leads to a requirement of over 4KW in computational power consumption that is a significant drain to the vehicle's lithium-ion battery capacity, which, for example, is 24kWh in a Nissan Leaf.
 %Note that over the past few decades, the power consumption of processors has increased by more than double, while battery energy density has only improved by about a quarter \cite{Lahiri}. 
 
 The usage of \emph{anytime perception algorithms} allows us to perform a trade-off between the computation time of the algorithms, their power consumption, and the quality of their output.
@@ -32,7 +30,7 @@ In this paper, we illustrate our approach on an autonomous car $1/10^{th}$ the s
 \begin{figure}[t]
 	\centering
 	\includegraphics[scale=0.12]{carImages/im4.jpeg}
-	\caption{Traxxas autonomous car with camera.}
+	\caption{Autonomous car using the Traxxas chassis.}
 		\label{fig:traxxas}
 \end{figure}  
 The setup, including the navigation algorithm, are presented in Section \ref{sec:problemSetup}.
