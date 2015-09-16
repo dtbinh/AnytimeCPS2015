@@ -21,6 +21,7 @@ Note that only the trajectory of $x$ for the lowest power, or highest delay mode
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.49\textwidth]{../simulations/figs/xvst.pdf}
+\vspace{-20pt}
 \caption{$x$ position of the robot. Note, for modes other than the lowest power (most delay), the trajectory of x is very similar. This is also shown in table \ref{tbl:performance}}.
 \label{fig:xvst} 
 \end{figure}
@@ -33,33 +34,38 @@ Due to this, Fig. \ref{fig:schedule} shows that $\sigma$ becomes $CCG$ and Figs.
 At checkpoint \textbf{b} $x$ has a small magnitude and is near settling the middle of the corridor. Because of this, both $x_v$ and $x_m$ have smaller magnitudes, and so $\alpha$ is small and the requested CPU and GPU frequencies start to decrease. $\sigma$ is still $CCG$ for all supervisory functions except $f_2$, but settles to $CCC$ for all 3 as $x$ settles to zero shortly after checkpoint \textbf{b}.
 
 Checkpoints \textbf{c}, \textbf{d}, and \textbf{e} show how the system responds to a pulse-like disturbance in the steering (lasting from 10s to 12s). It is interesting to see how the different supervisory functions $f_i$ result in different switching between schedules CCC and CCG and different CPU and GPU frequencies.
+
  
-\begin{figure}[hbtp]
+\begin{figure}[t]
 \centering
 \includegraphics[width=0.49\textwidth]{../simulations/figs/CPUF.pdf}
+\vspace{-20pt}
 \caption{CPU Frequency selected versus time.}
 \label{fig:cpuf} 
 \end{figure}
 
 
-\begin{figure}[hbtp]
+\begin{figure}[t]
 \centering
 \includegraphics[width=0.49\textwidth]{../simulations/figs/GPUF.pdf}
+\vspace{-20pt}
 \caption{GPU Frequency selected versus time. Note, for the lowest power mode, the GPU is at its second lowest frequency and not the lowest (while the schedule is $\sigma=CCC$). This is because of the noise in power data while the GPU frequency is being changed while it is not computing any tasks.}
 \label{fig:gpuf} 
 \end{figure}
 
 
-\begin{figure}[hbtp]
+\begin{figure}[t]
 \centering
 \includegraphics[width=0.49\textwidth]{../simulations/figs/schedule.pdf}
+\vspace{-20pt}
 \caption{CPU/GPU schedule for VP. Note that the schedule switches between only two allocations: CCG which has the best throughput with a relatively low power consumption,  and CCC has the lowest power consumption (See Section \ref{sec:profiling})}
 \label{fig:schedule} 
 \end{figure}
 
-\begin{figure}[hbtp]
+\begin{figure}[t]
 \centering
 \includegraphics[width=0.49\textwidth]{../simulations/figs/power.pdf}
+\vspace{-20pt}
 \caption{Average computation power for running VP.}
 \label{fig:power} 
 \end{figure}
