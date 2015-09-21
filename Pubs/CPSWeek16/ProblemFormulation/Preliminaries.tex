@@ -108,7 +108,7 @@
 	Similar to previous setups, given that the sensors are periodically sampled, the plant dynamics under mode $i$ are given by
 
 	\begin{equation}
-		\hat{x}_k = A\hat{x_k} + Bu_k
+		\hat{x}_{k+1} = A\hat{x_k} + Bu_k + \hat{F}\hat{w}_k
 		\label{eq:est_dynamics_simple}
 	\end{equation}
 
@@ -118,7 +118,7 @@
 
 	\begin{subequations}
 		\begin{align}
-			\hat{x_{k+1}} &= x_{k+1} + e_{k+1} \nonumber \\
+			\hat{x}_{k+1} &= x_{k+1} + e_{k+1} \nonumber \\
 			       &= A(\hat{x_k}-e_k) + Bu_k + w_k + e_{k+1} \nonumber \\
 	  &= A\hat{x_k}+ Bu_k + (-Ae_{k}+e_{k+1}+w_k)
 			\label{eq:est_dynamics}
@@ -136,7 +136,7 @@
 	This allows us to write a simpler pdf for estimation error (by combining eq. \ref{eq:gamma_pdf_ss} and eq. \ref{eq:ek_pdf_exp})
 
 	\begin{equation}
-		P(e_k) = \pi_0\mathcal{N}(\mu_0,\Sigma_0) + \pi_i\mathcal{N}(\mu_1,\Sigma_1)
+		P(e_k) = \pi_0\mathcal{N}(\mu_0,\Sigma_0) + \pi_1\mathcal{N}(\mu_1,\Sigma_1)
 		\label{eq:ek_pdf_ss}
 	\end{equation}
 	An important consequence of this assumption is that now $P(e_k)$ is a Gaussian pdf. This is because $\pi_0$ and $\pi_1$ are positive constants, and remember that linear (and affine combinations) of Gaussian (independent) random variables result in a Gaussian random variable whose mean and covariance can be explicity computed. 
@@ -156,21 +156,21 @@
 		\begin{align}
 			\hat{x}_{k+1} &= A\hat{x_k}+ Bu_k + (-Ae_{k}+e_{k+1}+w_k) \nonumber \\
 									 &= A\hat{x_k}+ Bu_k + \epsilon_{k+1} \nonumber \\
-							   &\sim \mathcal{N}(E[A\hat{x_k}+Bu_k], \Sigma_{\hat{x}_{k+1}}) \nonumber \\
-			\hat{x}_{k=1} &\sim \mathcal{N}(\mu_{x_{k+1}}, \Sigma_{\hat{x}_{k+1}})						
+			\hat{x}_{k+1}\mid\hat{x}_k &\sim \mathcal{N}(E[A\hat{x_k}+Bu_k], \Sigma_{\hat{x}_{k+1}}) \nonumber \\
+			\hat{x}_{k+1}\mid\hat{x}_k &\sim \mathcal{N}(\mu_{x_{k+1}}, \Sigma_{\hat{x}_{k+1}})						
 		\end{align}
 	\end{subequations}
 
-	Note, this is again because $\hat{x}_{k=1}$ is a sum of independent Gaussian RVs (and deterministic term $Bu_k$). Note, $\mu_{x_{k+1}}$ and $\Sigma_{\hat{x}_{k+1}}$ can be computed explcitly again (and left to the appendix). To be more PREcISE, $\mu_{\hat{x}_{k+1}} = E[A\hat{x_k}+Bu_k] = AE[\hat{x_k}]+Bu_k$, which is linear in $E[\hat{x}_k]$ and $u_k$.
+	Note, this is again because $\hat{x}_{k+1}$ is a sum of independent Gaussian RVs (and deterministic term $Bu_k$). Note, $\mu_{x_{k+1}}$ and $\Sigma_{\hat{x}_{k+1}}$ can be computed explcitly again (and left to the appendix). To be more PREcISE, $\mu_{\hat{x}_{k+1}} = E[A\hat{x_k}+Bu_k] = AE[\hat{x_k}]+Bu_k$, which is linear in $E[\hat{x}_k]$ and $u_k$.
 
 	\section{Probablistic constraints for SA-MPC}
 	With this definition of the system (estimate) dynamics as a Gaussian random variable, we can deal with state constraints that are probabilistic (state being in a set with high probability). We restrict ourselves to state constraints of the following forms:
 
 	\begin{subequations}
 		\begin{align}
-			P(H\hat{x}_{k+1}\leq g ) &\geq 1-\alpha \nonumber \\
-			P(H\hat{x}_{k+1}-g\leq 0) &\geq 1-\alpha \nonumber \\
-			P(\hat{z}_{k+1}\leq0) &\geq 1-\alpha \nonumber \\
+			P(H\hat{x}_{k+1}\leq g\mid\hat{x}_k ) &\geq 1-\alpha \nonumber \\
+			P(H\hat{x}_{k+1}-g\leq 0\mid\hat{x}_k) &\geq 1-\alpha \nonumber \\
+			P(\hat{z}_{k+1}\leq0\mid\hat{x}_k) &\geq 1-\alpha \nonumber \\
 		\end{align}
 		\label{eq:constraint_form}	
 	\end{subequations}
@@ -180,8 +180,8 @@
 	\begin{subequations}
 		\begin{align}
 			\hat{z}_{k+1} &= H\hat{x}_{k+1}-g \nonumber \\
-			\hat{z}_{k+1} &\sim \mathcal{N}(E[H\hat{x}_{k+1}-g],H\Sigma_{\hat{x}_{k+1}}H^{T}) \nonumber \\
-			\hat{z}_{k+1} &\sim \mathcal{N}(H\mu_{\hat{x}_{k+1}}-g,H\Sigma_{\hat{x}_{k+1}}H^{T})
+			\hat{z}_{k+1}\mid\hat{x}_k &\sim \mathcal{N}(E[H\hat{x}_{k+1}-g],H\Sigma_{\hat{x}_{k+1}}H^{T}) \nonumber \\
+			\hat{z}_{k+1}\mid\hat{x}_k &\sim \mathcal{N}(H\mu_{\hat{x}_{k+1}}-g,H\Sigma_{\hat{x}_{k+1}}H^{T})
 		\end{align}
 		\label{eq:pdf_constraint}
 	\end{subequations}
