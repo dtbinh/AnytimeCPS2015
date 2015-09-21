@@ -30,7 +30,8 @@ We also designed a model predictive controller than can make use of the trade-of
 To achieve the time/power/quality trade-off, we produced multiple versions of the perception algorithm.
 Broadly speaking, a version that ran for longer produced a higher quality output. 
 
-In this work, we turn our attention to achieving the time/power/quality trade-off using \emph{platform-level} optimizations.
+In this work, we turn our attention to achieving the time/power/control performance trade-off \emph{at a fixed level of output quality}, using \emph{platform-level} optimizations.
+Even if the output quality of the perception algorithm is fixed, the \emph{speed} at which the output is computed affects control performance: in general, the longer the computation delay, the worse the control performance.
 Specifically, we work with an autonomous car $1/10^{th}$ the size of a regular car (Fig. \ref{fig:traxxas}).
 \begin{figure}[t]
 	\centering
@@ -39,25 +40,13 @@ Specifically, we work with an autonomous car $1/10^{th}$ the size of a regular c
 		\label{fig:traxxas}
 \end{figure}  
 It is equipped with a front facing monocular camera and runs the Vanishing Point perception algorithm \cite{VP1}. 
-The on-board computation platform has both a CPU and GPU. More details of the experimental setup are in a later section.
+The on-board computation platform has both a CPU and GPU. 
+More details of the experimental setup are in Section \ref{sec:experimentalSetup}.
 The platform-level optimization divides the Vanishing Point algorithm into components, and decides whether to run each component on the CPU or GPU, and at what frequency.
 The assignment to CPU or GPU is not static: every time the algorithm is executed, a different assignment may result, at a different frequency.
-The assignment is dictated by the controller: based on off-line profiling of each processor's performance on each component, the controller decides what quality is currently acceptable while minimizing power consumption. The profiling is described in more detail in a later section.
+The assignment is dictated by the controller: based on off-line profiling of each processor's performance on each component, the controller decides what quality is currently acceptable while minimizing power consumption. 
+The profiling is described in more detail in Section \ref{sec:profiling}.
 In the present paper, we present initial results of partitioning the Vanishing Point algorithm and running different components on CPU and GPU, and at different frequencies.
 We also provide the related power numbers, demonstrating that a meaningful difference in runtime and power consumption exists depending on the assignment and frequency.
-In future work, we design a controller to make use of this and other optimizations, and relate the current results to the control performance.
-%\todo[inline]{give example nb}
-%
-%
-%Traditionally, perception algorithms were designed without consideration for the context in which their outputs will be produced
-%Since the ultimaSince the meaning of real-time depends on the context, and 
-%
-%One impediment to achieving this real-time scalability variability 
-%  presents In recent years, autonomous cars have become more and more prolific and increasingly capable \cite{}. For the perception and control software of these systems, there are stringent real-time requirements that have to be met for the safe performance of the system. In order for these requirements to be met, autonomous systems (both their hardware and software) are overengineered, resulting in a power consumption for the computation tasks that is not negligible. Also, while the focus of reducing power consumption in the design of such systems has been mostly on the power consumed by the actuators, computational platforms have been consuming more and more power. 
-%It is worth noting that over the past few decades, the power consumption of processors has increased by more than double, while battery energy density has only improved by about a quarter [??Rajkumar??]. 
-%
-%In this poster, we present a method to obtain more energy efficient computations for the perception and estimation algorithms used in autonomous systems by exploiting hardware and algorithm level knobs. These knobs allow us to leverage a tradeoff between power consumption and a measure of quality of the perception and estimation algorithms. On-going work focuses also on coming up with a supervisory algorithm and control algorithms that are aware of this trade-off and choose an optimal operating point (or knobs settings) such that the performance of the overall closed-loop system is safe as well as energy efficient.
-%
-%Our method consists of a two-phase approach. The first involves extensively profiling the perception and estimation algorithm offline with all knob settings for timing, quality of output (if available) and power consumption. It also involves developing a control rule which chooses the best operating point for the perception and estimation algorithm while ideally providing mathematical guarantees on the safe performance of the system, e.g. as in \cite{} . The second, online stage, involves picking the best operating mode and control setting and run-time monitoring of the system performance. 
-%
-%We have developed an $1/10^{th}$ scale autonomous car testbed on which we evaluate our methods. In this particular work, we focus on a vanishing point algorithm based autonomous corridor navigation. We look at the algorithm level knobs, which are scheduling the sequential tasks of the vanishing point based algorithm on either the CPU or GPU; and the hardware level knobs which are frequencies of the CPU and GPU. Scheduling the tasks on different resources along with the different hardware settings result in a wide variety of timing and power distributions obtained.   
+In future work, we design a controller to make use of this and other optimizations, and relate the current results to the control algorithm.
+

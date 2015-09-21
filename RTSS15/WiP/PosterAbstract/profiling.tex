@@ -1,5 +1,5 @@
 \section{Profiling performance and power consumption}
-
+\label{sec:profiling}
 For the perception algorithm, the first stage of our method is profiling the performance (timing and, if available, quality) and power consumption of the computation. 
 To do this profiling, we first navigate the robot manually in corridors and log video from the on-board camera at a high frame-rate. 
 We run Vanishing point on this video offline and profile it with different scheduling of the three components (Blur, Canny and Hough) on the CPU and GPU, and at different frequencies of both processors (Fig. \ref{fig:vanishing}).
