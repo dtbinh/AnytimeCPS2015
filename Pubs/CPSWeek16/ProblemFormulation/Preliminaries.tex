@@ -199,15 +199,15 @@
 
 	\end{lemma}
 	\begin{proof}
-		The proof is based on the simple fact that the probability of a union of events is less than or equal to the sum of the probabilities of the individual events. Given $n$ scalar constraints $P(z_i\leq0)\geq1-\alpha_i$ being true (where $\alpha_i$ as defined above, the probability of the event $z>0$ (the vector constraint being violated), or $P(z>0)$ be written as:
+		The proof is based on the simple fact that the probability of a union of events is less than or equal to the sum of the probabilities of the individual events. Given $n$ scalar constraints $P(z_i\leq0)\geq1-\alpha_i$ being true (where $\alpha_i$ as defined above, the probability of the vector constraint being violated, or $1-P(z\leq0)$ be written as:
 		\begin{subequations}
 			\begin{align}
-				P(z>0)&=P(\bigcup_{i=1}^n(z_i>0)) \nonumber \\
+				1-P(z\leq0)&=P(\bigcup_{i=1}^n(z_i>0)) \nonumber \\
 			       &\leq \sum_{i=1}^nP(z_i>0) \nonumber \\
-				      &=\sum_{i=1}^n\alpha_i \nonumber \\
-				      &=\alpha \nonumber \\
-				\Rightarrow P(z>0) &\leq \alpha \nonumber \\
-				      \Rightarrow P(z\leq0) &= 1-P(z>0) \geq 1-\alpha 
+				      &\leq\sum_{i=1}^n\alpha_i \nonumber \\
+				      &\leq\alpha \nonumber \\
+				\Rightarrow P(z\leq0) &\geq 1-\alpha
+%				      \Rightarrow P(z\leq0) &= 1-P(z>0) \geq 1-\alpha 
 			\end{align}
 		\end{subequations}
 	\end{proof}
