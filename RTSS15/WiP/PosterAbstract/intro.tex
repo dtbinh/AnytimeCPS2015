@@ -11,7 +11,11 @@ A second, related, challenge is that the perception algorithms on-board these ve
 This is especially true for autonomous vehicles (AVs) since they carry multiple sensors (cameras, LIDAR, radars, ultrasound radars, etc) whose data must be processed in real-time to avoid accidents.
 
 As a result of the variability in the environment, the control and perception systems are over-engineered to operate as if the worst-case conditions always hold. 
-This results in unnecessarily high power consumption from the computation platform. It is worth noting that over the past few decades, the power consumption of processors has increased by more than double, while battery energy density has only improved by about a quarter \cite{Lahiri}. 
+This results in unnecessarily high power consumption from the computation platform. 
+For example, an autonomous research vehicle has two 4KW power inverters dedicated to computation.
+Compare this to the average power drawn by the drivetrain of a small electric vehicle, which is 2.4KW, when modeled  in ADVISOR \cite{nreladvisor} going through the Urban Dynamometer Drive Cycle.
+(The peak power draw in the same test is 30 KW).
+It is also worth noting that over the past few decades, the power consumption of processors has increased by more than double, while battery energy density has only improved by about a quarter \cite{Lahiri}. 
 
 In the current work, we explore the idea of trading-off computation time and power for quality of output, and how this trade-off affects \emph{control performance}.
 We start from the observation that the best quality output from the perception algorithm is not always required for the system to achieve the desired control performance.
