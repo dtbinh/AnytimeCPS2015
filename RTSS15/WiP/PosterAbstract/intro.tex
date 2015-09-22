@@ -26,7 +26,7 @@ In general, the earlier the algorithm is interrupted, the worse is the quality o
 On the other hand, that quality may be sufficient for the control algorithm to achieve its goal.
 
 In \cite{RTSS15} we proposed a way in which a standard perception algorithm can be turned into an anytime algorithm via off-line profiling, and thus can offer a time/power/quality trade-off.
-We also designed a model predictive controller than can make use of the trade-off offered by the anytime perception algorithm.
+We also designed a model predictive controller that can make use of the trade-off offered by the anytime perception algorithm.
 To achieve the time/power/quality trade-off, we produced multiple versions of the perception algorithm.
 Broadly speaking, a version that ran for longer produced a higher quality output. 
 
@@ -35,8 +35,8 @@ Even if the output quality of the perception algorithm is fixed, the \emph{speed
 Specifically, we work with an autonomous car $1/10^{th}$ the size of a regular car (Fig. \ref{fig:traxxas}).
 \begin{figure}[t]
 	\centering
-	\includegraphics[scale=0.08]{traxxas.jpg}
-	\caption{Traxxas autonomous car with camera.}
+	\includegraphics[scale=0.162]{car_labeled.png}
+	\caption{Autonomous car ($1/10^{th}$ scale) developed using a Traxxas chassis.The car is capable of speeds of up to 40 miles per hour.}
 		\label{fig:traxxas}
 \end{figure}  
 It is equipped with a front facing monocular camera and runs the Vanishing Point perception algorithm \cite{VP1}. 
