@@ -1,0 +1,10 @@
+\begin{abstract}
+	Real-time navigation of autonomous vehicles requires the processing of a large amount of sensor data by the perception algorithms onboard the vehicle, like object detection and localization.
+	To meet the driving performance and safety requirements, these algorithms require the hardware to be over-engineered to always operate for the worst-case.
+	This leads to excessive power consumption by the computation platform.
+	In this paper, we study how platform-level optimizations affect the computation throughput and power, and how to use this trade-off to save computation power without overly degrading throughput and control performance.
+	The approach uses an offline profiling stage of the perception algorithm, which gives us Throughput versus Power curves for various processor frequencies and various scheduling of the perception code on CPU and GPU.
+	At runtime, we combine power and throughput into one objective function, and design a supervisor what will determine the frequency and CPU/GPU allocation to maximize the objective.
+	We illustrate our approach on a scaled-down autonomous car which uses Vanishing Point navigation.
+	Experimental results demonstrate that we can achieve an energy savings of upto $20\%$ while degrading control performance by less than $1\%$.	
+\end{abstract}

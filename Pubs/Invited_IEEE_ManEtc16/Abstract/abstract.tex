@@ -26,9 +26,22 @@
 \maketitle
 
 \begin{abstract}
+Need new abstract, see RTSS WiP.
+	
 	Real-time control software of autonomous robots is generally designed to be run-to-completion and tuned to work at a fixed operating point to provide acceptable timing and closed loop control performance. Such implementations mostly have little or no regard for the power consumed by the computational tasks, which is mostly considered small compared to the power draw of electro-mechanical components, e.g. the motors. In many such systems, such an implementation is an over-engineered solution, and the use of flexible computation algorithms e.g. Anytime algorithms, along with a robust control algorithm can provide acceptable or even better performance while taking computation power into account. Another level of flexibility in order to lower computation power comes from hardware level adaptations such as Dynamic Voltage and Frequency Scaling (DVFS). The effect of such hardware level adaptations has never been explored in the context of closed loop control systems. In particular, we focus on the closed loop system where the estimator is a perception based (e.g. computer vision) algorithm. In this paper, we aim to study the effect of leveraging both hardware level adaptions and algorithm level flexibility in the perception algorithm and their effect on the performance of the control algorithm. As an outcome of this exploration, we would have both and hardware and software level knobs to throttle the performance, computation time, and power consumption for an off-the-shelf the perception algorithm and an initial direction for the development of control algorithms that can use these knobs and leverage the trade-offs in an optimal way given a mixed (control performance and computational power consumption) cost function to optimize over.
 
 \end{abstract}
 
+\begin{itemize}
+	\item Motivation/Introduction: High level overview of problem. Hardware and algorithm level knobs, closing the loop with control etc. Make it clear that focus is only on hardware level knobs in this paper.
+	\item Problem statemement and our approach: Identifying and Exploiting knobs. Two stage approach: Offline profiling, Online adaptation with control performance to close the loop. Introduction to experimental evaluation with vanishing point algorithm and corridor navigation. 
+	
+	\item Experimental setup for leveraging hardware knobs: Autonomous navigation using vanishing point. Explain vanishing point algorithm and steps required. The platform and Jetson. Talk about knobs in the hardware now that problem and platform are clear. 
+	\item Experimental results from profiling VP on the Jetson.
+	\item Simulations for closed loop with hardware optimizations: Talk about unicycle model for car, vanishing point dynamics and the delay due to computation time. Control of closed loop system. Functions to tradeoff rate and computation power. All in simulation
+	\item Results
+	\item Future and conclusions: Do closed loop on the platform		
+		
+\end{itemize}
 
 \end{document}

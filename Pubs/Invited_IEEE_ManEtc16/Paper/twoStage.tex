@@ -1,0 +1,20 @@
+\section{Two stage optimization}
+\label{sec:twoStage}
+To solve the Mode Selection problem (Section \ref{sec:mode selection}), we propose a two stage solution. 
+The first stage is offline (Fig. \ref{fig:juicyj} left): in it, we thoroughly profile the perception algorithm's throughput $T(\sigma,F_c,F_g)$ and power consumption $P(\sigma,F_c,F_g)$ for various values of the hardware knobs $\sigma$, $F_c$ and $F_g$. 
+The second stage is at runtime (Fig. \ref{fig:juicyj} right): based on the current control error, a supervisor chooses a weighting of throughput and power; intuitively, the larger the error, the more weight throughput receives, and vice-versa.
+The supervisor then picks the task schedule $\sigma$ and CPU-GPU frequencies $F_c,F_g$ that best maximize the weighted combination of throughput and power.
+A high-level view of this approach is shown in Fig. \ref{fig:juicyj}. 
+We next detail each stage.
+
+\subsection{Offline profiling of performance and power consumption of the perception algorithm}
+\label{sec:profiling}
+\input{profilingVP}
+
+\subsection{Feedback driven online scheduling and mode selection}
+\label{sec:scheduling}
+\input{scheduling}
+
+\subsection{Feedback control of vehicle}
+\label{sec:evaluation}
+\input{simulations}

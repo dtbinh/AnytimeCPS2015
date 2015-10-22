@@ -38,9 +38,6 @@
 \global\long\def\Nom#1{\overline{#1}}
 \newcommand{\bla}[1]{\overbar{#1}}
 \newcommand{\bli}[1]{\overline{BLI #1}}
-%\newboolean{TECH_REPORT}
-%\setboolean{TECH_REPORT}{FALSE}
-\newcommand{\Given}{|}
 
 \usepackage{array}
 \usepackage{url}
@@ -50,8 +47,9 @@
 % on the last page of the document
 \usepackage{amsmath} % assumes amsmath package installed
 \usepackage{amssymb}  % assumes amsmath package installed
+\renewcommand{\thefigure}{\arabic{figure}}
 \title{\LARGE \bf
-Poster Abstract: Hardware optimizations for anytime perception and control
+Hardware optimizations for anytime perception and control
 }
 
 \author{ Nischal K.N., Paritosh Kelkar, Dhruva Kumar, Yash Vardhan Pant, Houssam Abbas\\
@@ -60,7 +58,7 @@ Poster Abstract: Hardware optimizations for anytime perception and control
 Corporation program sponsored by MARCO and DARPA, NSF MRI-0923518 and the US Department of Transportation University Transportation Center Program}% <-this % stops a space
 \thanks{The Departments of Electrical and Systems Engineering and Computer and Information Sciences, University of Pennsylvania, Philadelphia, U.S.A.
         {\small
-        \{yashpant,habbas,kmohta,nghiem,rahulm\}@seas.upenn.edu, devietti@cis.upenn.edu}}%
+        \{nischal,paritosh,dhruvak,yashpant,habbas,rahulm\}@seas.upenn.edu, devietti@cis.upenn.edu}}%
 }
 
 
@@ -77,7 +75,8 @@ Corporation program sponsored by MARCO and DARPA, NSF MRI-0923518 and the US Dep
 
 
 %\input{poster_abs}%
-
+\section*{Acknowledgments}
+We would like to thank Kuk Jang for his help in creating diagrams in this paper.
 \bibliographystyle{IEEEtran}%abbrv}
 	\bibliography{IEEEabrv,rtss2015,cdc14,anytime_ref,rtss_wip_ref}
 

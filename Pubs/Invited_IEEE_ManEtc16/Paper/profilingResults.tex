@@ -1,0 +1,24 @@
+%profilingresults
+Figure \ref{fig:sfda} shows the profiling results for the throughput of 
+VP at different CPU-GPU allocations of the 3 tasks and different frequencies of the CPU and the GPU. 
+Note, the CPU can be clocked upto 2.32 GHz (on all 4 cores), while the GPU can be clocked upto 0.852 GHz. 
+We select 6 operating frequencies evenly spaced between the minimum and maximum CPU and GPU frequencies. 
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.46\textwidth]{Figs/surf_Rate.pdf}
+	\vspace{-20pt}
+	\caption{VP throughput. Each surface corresponds to a particular schedule (see legend). For a given schedule, different CPU and GPU frequencies yields a different throughput. (Color in online version).}
+	\label{fig:sfda}%same freq diff assignment}
+\end{figure}
+
+Figure \ref{fig:sfda_pow} shows the profiling of average power consumed by VP over all frames in the video for the same combinations of the knobs.
+
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=0.46\textwidth]{Figs/surf_Power.pdf}
+	\vspace{-20pt}
+	\caption{Mean power consumed by the Jetson. Each surface corresponds to a particular schedule (see legend). For a given schedule, different CPU and GPU frequencies yields a different power. (Color in online version).}
+	\label{fig:sfda_pow}%same freq diff assignment}
+\end{figure}
+
