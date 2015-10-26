@@ -153,11 +153,12 @@
 
 	With these simplifying assumptions and their consequences, we can write the dynamics of the state estimate as (combining eq. \ref{eq:est_dynamics}, eq. \ref{eq:distr_pdf}) as
 	\begin{subequations}
+	\label{eq:xkp1_distr}
 		\begin{align}
 			\hat{x}_{k+1} &= A\hat{x_k}+ Bu_k + (-Ae_{k}+e_{k+1}+w_k) \nonumber \\
 									 &= A\hat{x_k}+ Bu_k + \epsilon_{k+1} \nonumber \\
 			\hat{x}_{k+1}\mid\hat{x}_k &\sim \mathcal{N}(E[A\hat{x_k}+Bu_k], \Sigma_{\hat{x}_{k+1}}) \nonumber \\
-			\hat{x}_{k+1}\mid\hat{x}_k &\sim \mathcal{N}(\mu_{x_{k+1}}, \Sigma_{\hat{x}_{k+1}})						
+			\hat{x}_{k+1}\mid\hat{x}_k &\sim \mathcal{N}(\mu_{\hat{x}_{k+1}}, \Sigma_{\hat{x}_{k+1}})						
 		\end{align}
 	\end{subequations}
 
@@ -216,6 +217,7 @@
 
 Given Eqs. \ref{eq:constraint_form},\ref{eq:pdf_constraint} and constraint separation (Lemma \ref{lem:constr_sep_lemma}), we can now formulate a Stochastic MPC problem for the system being in mode $\Delta_i$ (with corresponding dynamics and error/failure distributions):
 
+\input{SAMPC_formulation}
 
 
 	\end{document}

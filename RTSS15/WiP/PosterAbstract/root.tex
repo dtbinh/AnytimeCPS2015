@@ -4,15 +4,15 @@
 
 %\documentclass[final,letterpaper, 10 pt, conference]{ieeeconf}  % Comment this line out if you need a4paper
 
-%\documentclass[10pt, conference, compsocconf]{IEEEtran}
-\documentclass[a4paper, 10pt, conference]{ieeeconf}      % Use this line for a4 paper
+\documentclass[10pt, conference, compsocconf]{IEEEtran}
+%\documentclass[a4paper, 10pt, conference]{ieeeconf}      % Use this line for a4 paper
 
-\IEEEoverridecommandlockouts                              % This command is only needed if
+%\IEEEoverridecommandlockouts                              % This command is only needed if
                                                           % you want to use the \thanks command
 
 \newcommand{\eu}{\textrm{e}}
 \newcommand{\figref}[1]{Fig.~\ref{fig:#1}}
-\overrideIEEEmargins
+%\overrideIEEEmargins
 \usepackage[obeyFinal]{todonotes}
 \RequirePackage{graphicx}
 \usepackage{subfigure}
@@ -42,24 +42,43 @@
 \usepackage{array}
 \usepackage{url}
 
-
 % See the \addtolength command later in the file to balance the column lengths
 % on the last page of the document
 \usepackage{amsmath} % assumes amsmath package installed
 \usepackage{amssymb}  % assumes amsmath package installed
+%\usepackage{authblk}
+
 \renewcommand{\thefigure}{\arabic{figure}}
 \title{\LARGE \bf
 Hardware optimizations for anytime perception and control
 }
 
-\author{ Nischal K.N., Paritosh Kelkar, Dhruva Kumar, Yash Vardhan Pant, Houssam Abbas\\
-	 Joseph Devietti, Rahul Mangharam% <-this % stops a space
-\thanks{*This work was supported by STARnet a Semiconductor Research
-Corporation program sponsored by MARCO and DARPA, NSF MRI-0923518 and the US Department of Transportation University Transportation Center Program}% <-this % stops a space
-\thanks{The Departments of Electrical and Systems Engineering and Computer and Information Sciences, University of Pennsylvania, Philadelphia, U.S.A.
-        {\small
-        \{nischal,paritosh,dhruvak,yashpant,habbas,rahulm\}@seas.upenn.edu, devietti@cis.upenn.edu}}%
+%\author{ Nischal K.N., Paritosh Kelkar, Dhruva Kumar, Yash Vardhan Pant, Houssam Abbas\\
+%	 Joseph Devietti, Rahul Mangharam% <-this % stops a space
+%\thanks{*This work was supported by STARnet a Semiconductor Research
+%Corporation program sponsored by MARCO and DARPA, NSF MRI-0923518 and the US Department of Transportation University Transportation Center Program}% <-this % stops a space
+%\thanks{The Departments of Electrical and Systems Engineering and Computer and Information Sciences, University of Pennsylvania, Philadelphia, U.S.A.
+%        {\small
+%        \{nischal,paritosh,dhruvak,yashpant,habbas,rahulm\}@seas.upenn.edu, devietti@cis.upenn.edu}}%
+%}
+
+\author{\IEEEauthorblockN{Nischal K.N.$^1$, Paritosh Kelkar$^1$, Dhruva Kumar$^1$, Yash Vardhan Pant$^1$, \\
+Houssam Abbas$^1$, Joseph Devietti$^2$, Rahul Mangharam$^1$}
+\IEEEauthorblockA{$^1$The Department of Electrical and Systems Engineering, \\
+$^2$ The Department of Computer and Information Sciences
+University of Pennsylvania, \\
+Philadelphia, U.S.A\\}
+%{nischal,paritosh,dhruvak,yashpant,habbas,rahulm\}@seas.upenn.edu
+%yashpant@seas.upenn.edu, \\habbas@seas.upenn.edu, rahulm@seas.upenn.edu}
+%\and
+%\IEEEauthorblockN{Joseph Devietti}
+%\IEEEauthorblockA{The Department of Computer\\  and Information Sciences, \\
+%University of Pennsylvania, \\
+%Philadelphia, U.S.A\\
+%devietti@cis.upenn.edu}
 }
+
+
 
 
 \begin{document}
@@ -76,7 +95,8 @@ Corporation program sponsored by MARCO and DARPA, NSF MRI-0923518 and the US Dep
 
 %\input{poster_abs}%
 \section*{Acknowledgments}
-We would like to thank Kuk Jang for his help in creating diagrams in this paper.
+This work was supported by STARnet a Semiconductor Research Corporation program sponsored by MARCO and DARPA, NSF MRI-0923518 and the US Department of Transportation University Transportation Center Program. 
+The authors would like to thank Kuk Jang for his help in creating diagrams in this paper and Matthew Brady for the high quality pictures of the test-bed.
 \bibliographystyle{IEEEtran}%abbrv}
 	\bibliography{IEEEabrv,rtss2015,cdc14,anytime_ref,rtss_wip_ref}
 
