@@ -27,7 +27,7 @@
 \section{University Services Overview}
 \subsection{Overview}
 
-The course focuses on the state-of-the-art algorithms for autonomous navigation and their implementation on low power computation platforms with energy budgets. An emphasis will be on the computation requirements of the algorithms and how the use of parallel computing, especially how GPU implementations can improve computation performance and the closed-loop performance of the system. Of particular interest is the Nvidia Jetson, where computation tasks can be deployed on the CPU (low throughput, low power) or the GPU (high throughput high power). In order to understand the implementation details and benefits/trade-offs offfered by deploying tasks on the GPU, a part of the course material will be on \emph{<Joe?>} and will scale to platforms other than the Jetson. The course will cover topics ranging from processing the data from various sensors on an autonomous car (IMU, Camera, Lidar) in the Robot Operating System (ROS), localization, mapping, path planning and Control of the car for tracking planned trajectories.  The course will have regular projects based on the algorithms covered and implementation on a $1/10^{th}$ scale autonomous racing platform with a host of sensors and the Nvidia Jetson computation platform. The final project will be an autonomous car navigation with focus on not only perfomance of the car but also on energy consumption by the computation platform.
+The course focuses on the state-of-the-art algorithms for autonomous navigation and their implementation on low power computation platforms with energy budgets. An emphasis will be on the computation requirements of the algorithms and how the use of parallel computing, especially how GPU implementations can improve computation performance and the closed-loop performance of the system. Of particular interest is the Nvidia Jetson, where computation tasks can be deployed on the CPU (low throughput, low power) or the GPU (high throughput high power). In order to understand the implementation details and benefits/trade-offs offered by deploying tasks on the GPU, a part of the course material will cover the CUDA programming model for GPGPU programs and will scale to Nvidia GPU platforms other than the Jetson. The course will cover topics ranging from processing the data from various sensors on an autonomous car (IMU, Camera, Lidar) in the Robot Operating System (ROS), localization, mapping, path planning and Control of the car for tracking planned trajectories.  The course will have regular projects based on the algorithms covered and implementation on a $1/10^{th}$ scale autonomous racing platform with a host of sensors and the Nvidia Jetson computation platform. The final project will be an autonomous car navigation with focus on not only performance of the car but also on energy consumption by the computation platform.
 \subsection{Schedule}
 
 \begin{center}
@@ -105,7 +105,8 @@ Modules & .. \\
 \hline
 2 & ROS Introduction and Advanced topics, introduction to the Jetson \\
 \hline
-3 & GPU programming \emph{<Joe?>} \\
+3 & GPGPU programming with CUDA \\
+ \\
 \hline
 .. & ..\\
 \hline
@@ -143,5 +144,16 @@ UNIVERSITY Deliverables & Delivery Date \\
 \end{center}
 
 \subsection{Detailed Deliverable Descriptions and Requirements}
+
+% from joe:
+CUDA GPGPU Programming
+\begin{itemize}
+\item setting up a GPU instance on Amazon Web Services
+\item basic GPU programming: dot product
+\item basic performance measurement
+\item hardware architecture
+\item optimizing use of special GPU memories
+\item understanding GPU memory consistency models
+\end{itemize}
 
 \end{document}
