@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.8.18)  6 NOV 2015 14:01
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.8.18)  6 NOV 2015 16:57
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -231,9 +231,6 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-
-LaTeX Warning: Citation `rtss15' on page 1 undefined on input line 355.
-
 <car_labeled.png, id=1, 1193.258pt x 963.6pt>
 File: car_labeled.png Graphic file (type png)
  <use car_labeled.png>
@@ -255,25 +252,21 @@ Before submitting the final camera ready copy, remember to:
 
 
  <./car_labeled.png>]
-(./bare_conf.aux)
-
-LaTeX Warning: There were undefined references.
-
- ) 
+(./bare_conf.aux) ) 
 Here is how much of TeX's memory you used:
- 2354 strings out of 493304
- 38593 string characters out of 6139871
+ 2352 strings out of 493304
+ 38579 string characters out of 6139871
  106419 words of memory out of 5000000
- 5812 multiletter control sequences out of 15000+600000
- 34114 words of font info for 63 fonts, out of 8000000 for 9000
+ 5811 multiletter control sequences out of 15000+600000
+ 33007 words of font info for 62 fonts, out of 8000000 for 9000
  960 hyphenation exceptions out of 8191
  37i,8n,23p,917b,246s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
-e/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fo
-nts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/
-times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.p
-fb>
-Output written on bare_conf.pdf (1 page, 1900395 bytes).
+{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}<
+/usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist
+/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/ur
+w/times/utmri8a.pfb>
+Output written on bare_conf.pdf (1 page, 1900004 bytes).
 PDF statistics:
  28 PDF objects out of 1000 (max. 8388607)
  18 compressed objects within 1 object stream
