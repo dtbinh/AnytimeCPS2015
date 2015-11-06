@@ -326,9 +326,9 @@ University of Pennsylvania}
 
 % As a general rule, do not put math, special symbols or citations
 % in the abstract
-%\begin{abstract}
-%The abstract goes here.
-%\end{abstract}
+\begin{abstract}
+The research on autonomous cars has been around for a while. A lot of algorithms are readily available for navigation at low update rates, however none of them have been targeted at high speeds. This work aims to execute similar tasks at high speeds while maintaining most optimized race lines and avoiding dynamic obstacles using minimalistic hardware. The concept would be demonstrated on a 1/10th scale RC race car.\\
+\end{abstract}
 
 % no keywords
 
@@ -346,16 +346,13 @@ University of Pennsylvania}
 \IEEEpeerreviewmaketitle
 
 
-
-The research on autonomous cars has been around for a while. A lot of algorithms are readily available for navigation at low update rates, however none of them have been targeted at high speeds. This work aims to execute similar tasks at high speeds while maintaining most optimized race lines and avoiding dynamic obstacles using minimalistic hardware. The concept would be demonstrated on a 1/10th scale RC race car.\\
-
-The platform used here is from a Traxxas 74076 Rally car which can achieve speeds of 40mph+ powered by a Velineon 3500 Brushless Motor and a 7 cell NiMH battery. Low Center of Gravity and 4WD enable precise control of position and velocity. The sensor system on board consists of a Firefly MV 0.3 MP USB camera and an Razor IMU. The camera is coupled with a wide angle lens mounted on the front of the car with update rates of upto 60Hz. The Razor IMU has 9DOF(3 axis gyro, 3 axis accelerometer and 3 axis magnetometer) with an update rate of 10Hz. \\
+The platform used is a Traxxas 74076 Rally car which can achieve speeds of 40mph+ powered by a Velineon 3500 Brushless Motor and a 7 cell NiMH battery. Low Center of Gravity and 4WD enable precise control of position and velocity. The sensor system on board consists of a Firefly MV 0.3 MP USB camera, Hokuyu URG-04lx Lidar and an Razor IMU. The camera is coupled with a wide angle lens mounted on the front of the car with update rates of upto 60Hz. Lidar is mounted at the rear of the car and provides with a 2D laser scan at a rate of 10Hz. The Razor IMU has 9DOF(3 axis gyro, 3 axis accelerometer and 3 axis magnetometer) with an update rate of 50Hz. \\
 
 The processor on board is a Quad-Core ARM Cortex-A15 Nvidea Tegra K1 supplemented by a 192 core GPU and 2GB of RAM. The processor operates over a range of 204MHz to 2.3GHz based on the demand for accuracy needed. The GPU has a frequency range of 72MHz to 852MHz. The processor handles most of the control algorithms whereas the GPU handles the computer vision algorithms. \\
 
-The software structure of the car can be broken down into mapping, localization, path planning and control. Here we are using ORB SLAM for mapping through the front mounted wide angle camera. It performs a monocular SLAM at real time and generates a 3D map of the environment with large loop closures. The pose and localization is estimated through ORB SLAM supplemented by an IMU. The Ethzasl multi sensor fusion framework (based on EKF) is used for fusing localization data from the camera and IMU readings. \textcolor{red}{Have to write about path planner algorithm and control algorithm.} \\
+The software structure of the car can be broken down into mapping, localization, path planning and control. Here we are using ORB SLAM\cite{ORB} for mapping through the front mounted wide angle camera. It performs a monocular SLAM at real time and generates a 3D map of the environment with large loop closures. The pose and localization is estimated through ORB SLAM supplemented by an IMU. The Ethzasl multi sensor fusion\cite{MSF} framework (based on EKF) is used for fusing localization data from the camera and IMU readings. \textcolor{red}{Have to write about path planner algorithm and control algorithm.} \\
 
-To train the controller on various knobs available for it to optimize based on the circumstances, a offline profiling of performance vs power is performed. For a pre recorded data sequence (camera and IMU), the performance of the car is compared with the ground truth obtained through an Vicon motion capture system at various GPU and CPU clock speeds along with the other parameters that can be tuned at various stages of the algorithm. \\
+To train the controller on various knobs available for it to optimize based on the circumstances, a offline profiling of performance vs power is performed. For a pre recorded data sequence (camera and IMU), the performance of the car is compared with the ground truth obtained through an Vicon motion capture system at various GPU and CPU clock speeds along with the other parameters that can be tuned at various stages of the algorithm. Fig.  \\
 
 \textcolor{red}{What do we demo???? Im not sure}
 
@@ -396,13 +393,14 @@ The authors would like to thank...
 % <OR> manually copy in the resultant .bbl file
 % set second argument of \begin to the number of references
 % (used to reserve space for the reference number labels box)
-%\begin{thebibliography}{1}
-%
-%\bibitem{IEEEhowto:kopka}
-%H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
-%  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
-%
-%\end{thebibliography}
+\begin{thebibliography}{1}
+
+\bibitem{ORB}
+Ra\'{u}l Mur-Artal, J. M. M. Montiel and Juan D. Tard\'{o}s, \emph{ORB-SLAM: A Versatile and Accurate Monocular SLAM System}, IEEE Transactions on Robotics, vol. 31, no. 5, pp. 1147-1163, 2015.
+\bibitem{MSF}
+S Lynen and M Achtelik and S Weiss and M Chli and R Siegwart, \emph{A Robust and Modular Multi-Sensor Fusion Approach Applied to MAV Navigation}, Proc. of the IEEE/RSJ Conference on Intelligent Robots and Systems (IROS), 2013
+
+\end{thebibliography}
 
 
 
