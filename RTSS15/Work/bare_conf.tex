@@ -9,7 +9,7 @@
 
 \usepackage{color}
 \usepackage{graphicx}
-
+%\usepackage[top=0.5in,bottom=0.5in]{geometry}
 % Some very useful LaTeX packages include:
 % (uncomment the ones you want to load)
 
@@ -267,7 +267,7 @@
 % not capitalized unless they are the first or last word of the title.
 % Linebreaks \\ can be used within to get better formatting as desired.
 % Do not put math or special symbols in the title.
-\title{TITLE}
+\title{Experimental Evaluation of Co-design of Computation and Control for Autonomous Navigation \vspace{-0.3cm}}
 
 
 % author names and affiliations
@@ -298,13 +298,12 @@
 % for over three affiliations, or if they all won't fit within the width
 % of the page, use this alternative format:
 % 
-\author{\IEEEauthorblockN{Author 1\IEEEauthorrefmark{1},
-Author 2\IEEEauthorrefmark{2},
-Author 3\IEEEauthorrefmark{3}, 
-Author 4\IEEEauthorrefmark{3} and
-Author 5\IEEEauthorrefmark{4}}
-\IEEEauthorblockA{\IEEEauthorrefmark{1}The Department of Electrical and Systems Engineering,\\
-University of Pennsylvania}
+
+\author{
+\IEEEauthorblockN{Nischal K. N., Paritosh Kelkar, Yash Vardhan Pant, Houssam Abbas, \\
+	 Joseph Devietti, Rahul Mangharam}
+\IEEEauthorblockA{The Departments of Electrical and Systems Engineering and Computer and Information Sciences, \\ University of Pennsylvania, Philadelphia, U.S.A.}
+\vspace{-0.9cm}
 %Atlanta, Georgia 30332--0250\\ Email: see http://www.michaelshell.org/contact.html}
 %\IEEEauthorblockA{\IEEEauthorrefmark{2}Twentieth Century Fox, Springfield, USA\\
 %Email: homer@thesimpsons.com}
@@ -326,8 +325,10 @@ University of Pennsylvania}
 
 % As a general rule, do not put math, special symbols or citations
 % in the abstract
+
 \begin{abstract}
-The research on autonomous cars has been around for a while. A lot of algorithms are readily available for navigation at low update rates, however none of them have been targeted at high speeds. This work aims to execute similar tasks at high speeds while maintaining most optimized race lines and avoiding dynamic obstacles using minimalistic hardware. The concept would be demonstrated on a 1/10th scale RC race car.\\
+The research on autonomous cars has been around for a while. A lot of algorithms are readily available for navigation at low update rates, however none of them have been targeted at high speeds. This work aims to execute similar tasks at high speeds while maintaining most optimized race lines and avoiding dynamic obstacles using minimalistic hardware. The concept is demonstrated on a 1/10th scale RC race car.
+\vspace{0.05cm}
 \end{abstract}
 
 % no keywords
@@ -345,15 +346,14 @@ The research on autonomous cars has been around for a while. A lot of algorithms
 % creates the second title. It will be ignored for other modes.
 \IEEEpeerreviewmaketitle
 
-
-The platform used is a Traxxas 74076 Rally car which can achieve speeds of 40mph+ powered by a Velineon 3500 Brushless Motor and a 7 cell NiMH battery. Low Center of Gravity and 4WD enable precise control of position and velocity. The sensor system on board consists of a Firefly MV 0.3 MP USB camera, Hokuyu URG-04lx Lidar and an Razor IMU. The camera is coupled with a wide angle lens mounted on the front of the car with update rates of upto 60Hz. Lidar is mounted at the rear of the car and provides with a 2D laser scan at a rate of 10Hz. The Razor IMU has 9DOF(3 axis gyro, 3 axis accelerometer and 3 axis magnetometer) with an update rate of 50Hz. 
+The platform used is a Traxxas 74076 Rally car which can achieve speeds of 40mph+ powered by a Velineon 3500 Brushless Motor and a 7 cell NiMH battery. Low Center of Gravity and 4WD enable precise control of position and velocity. The sensor system on board consists of a Firefly MV 0.3 MP USB camera, Hokuyu URG-04lx Lidar and an Razor IMU. The camera is coupled with a wide angle lens mounted on the front with update rates of upto 60Hz. Lidar is mounted at the rear and provides with a 2D laser scan at a rate of 10Hz. The Razor IMU has 9DOF (3 axis gyro, 3 axis accelerometer and 3 axis magnetometer) with an update rate of 50Hz. 
 
 The processor on board is a Quad-Core ARM Cortex-A15 Nvidea Tegra K1 supplemented by a 192 core GPU and 2GB of RAM. The processor operates over a range of 204MHz to 2.3GHz based on the demand for accuracy needed. The GPU has a frequency range of 72MHz to 852MHz. The processor handles most of the control algorithms whereas the GPU handles the computer vision algorithms. 
 
-The software structure of the car can be broken down into mapping, localization, path planning and control. Here we are using ORB SLAM\cite{ORB} for mapping through the front mounted wide angle camera. It performs a monocular SLAM at real time and generates a 3D map of the environment with large loop closures. The pose and localization is estimated through ORB SLAM supplemented by an IMU. The Ethzasl multi sensor fusion (MSF)\cite{MSF} framework (based on the EKF) is used for fusing localization data from the camera and IMU readings. A state-lattice based path planner generatates multiple trajectories, taking in information from the state estimation for localization and the Lidar for obstacle detection to form a cost map. The best (optimal, and safe) trajectory is selected to be followed. Trajectory tracking is done by a feedback based controller. The path planner also runs at 10Hz.
+The software structure of the car can be broken down into mapping, localization, path planning and control. Here we are using ORB SLAM\cite{ORB} for mapping through the front mounted wide angle camera. It performs a monocular SLAM in real time and generates a 3D map of the environment with large loop closures. The pose and localization is estimated through ORB SLAM supplemented by an IMU. The Ethzasl multi sensor fusion (MSF)\cite{MSF} framework (based on the EKF) is used for fusing localization data from the camera and IMU readings. A state-lattice based path planner generatates multiple trajectories, taking in information from the state estimation for localization and the Lidar for obstacle detection to form a cost map. The best (optimal, and safe) trajectory is selected to be followed. Trajectory tracking is done by a feedback based controller. The path planner also runs at 10Hz.
 
 In order to operate at high speeds, computationally heavy tasks in the toolchain, namely ORB SLAM and the path planner need execute faster than is possible with out-of-the box implementations on the current hardware. In order to overcome this limitation we propose contract based co-design for the perception and control as detailed in \cite{rtss15}. %The focus of demo and poster following this write-up will be on the expertimental evaluation of contract based execution of the perception/estimaion and path planning impacts the control performance (with and without a co-designed controller). 
-It is worth noting that in out-of-the box implementations, the planner, perception (ORB SLAM), state estimation (MSF), and the control algorithm all compete for the same execution resources, the CPU. In our experimental evaluation for a simpler perception based indoor corridor navigation algorithm with non-linear feedback control \cite{complex15}, we show how scheduling computation tasks on the CPU or the GPU on the Nvidia Jetson and varying the computation frequency of the CPU/GPU can result in either faster and more power hungry or slower but more power efficient implementations. A feedback based supervisory algorithm decides the resource allocation for computational tasks and CPU/GPU frequencies in order to be efficient with computation power but also provide fast enough feedback updates for the controller when needed. Ongoing work focuses on applying co-design for the entire percpetion, estimation, planning and control toolchain.
+It is worth noting that in out-of-the box implementations, the planner, perception (ORB SLAM), state estimation (MSF), and the control algorithm all compete for the same execution resources, the CPU. In our experimental evaluation perception based corridor navigation with non-linear feedback control \cite{complex15}, we show how scheduling computation tasks on the CPU or the GPU and varying the computation frequency of the CPU/GPU can result in either faster and more power-hungry or slower but more power efficient execution. A feedback based supervisory algorithm decides the resource allocation and CPU/GPU frequencies in order to be efficient with computation power but also provide fast enough feedback updates for the controller. Ongoing work focuses on applying co-design for the entire percpetion, estimation, planning and control toolchain.
 
 
 %\textcolor{red}{Have to write about path planner algorithm and control algorithm.} \\
@@ -366,8 +366,9 @@ It is worth noting that in out-of-the box implementations, the planner, percepti
 
 \begin{figure}[bt]
 \centering
-\includegraphics[scale=0.2]{car_labeled.png}
+\includegraphics[scale=0.15]{car_labeled.png}
 \caption{Race car platform with various sensors onboard}
+\vspace{-0.7cm}
 \end{figure}
 
 %\section*{Acknowledgment}
@@ -400,8 +401,8 @@ It is worth noting that in out-of-the box implementations, the planner, percepti
 % <OR> manually copy in the resultant .bbl file
 % set second argument of \begin to the number of references
 % (used to reserve space for the reference number labels box)
-\begin{thebibliography}{1}
 
+\begin{thebibliography}{1}
 \bibitem{ORB}
 R. Mur-Artal, J. M. M. Montiel and J. D. Tard\'{o}s, \emph{ORB-SLAM: A Versatile and Accurate Monocular SLAM System}, IEEE Transactions on Robotics, vol. 31, no. 5, pp. 1147-1163, 2015.
 \bibitem{MSF}

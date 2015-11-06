@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.4.24)  6 NOV 2015 10:45
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2015.8.18)  6 NOV 2015 14:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -231,22 +231,6 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-LaTeX Font Info:    Calculating math sizes for size <11> on input line 325.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <11> on input line 325.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7.69997> on input line 325.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5.5> on input line 325.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 325.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 325.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 325.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 325.
-
 
 LaTeX Warning: Citation `rtss15' on page 1 undefined on input line 355.
 
@@ -254,11 +238,8 @@ LaTeX Warning: Citation `rtss15' on page 1 undefined on input line 355.
 File: car_labeled.png Graphic file (type png)
  <use car_labeled.png>
 Package pdftex.def Info: car_labeled.png used on input line 369.
-(pdftex.def)             Requested size: 238.64737pt x 192.71658pt.
- [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
+(pdftex.def)             Requested size: 178.98097pt x 144.53375pt.
 
-
- <./car_labeled.png>]
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -270,30 +251,32 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[2
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
-] (./bare_conf.aux)
+
+ <./car_labeled.png>]
+(./bare_conf.aux)
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 2387 strings out of 493304
- 39036 string characters out of 6139871
+ 2354 strings out of 493304
+ 38593 string characters out of 6139871
  106419 words of memory out of 5000000
- 5839 multiletter control sequences out of 15000+600000
- 37360 words of font info for 73 fonts, out of 8000000 for 9000
+ 5812 multiletter control sequences out of 15000+600000
+ 34114 words of font info for 63 fonts, out of 8000000 for 9000
  960 hyphenation exceptions out of 8191
- 37i,12n,27p,975b,328s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 37i,8n,23p,917b,246s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/share/texlive/texmf
--dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/typ
-e1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/u
-tmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on bare_conf.pdf (2 pages, 1909082 bytes).
+e/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fo
+nts/type1/urw/times/utmbi8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/
+times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.p
+fb>
+Output written on bare_conf.pdf (1 page, 1900395 bytes).
 PDF statistics:
- 35 PDF objects out of 1000 (max. 8388607)
- 23 compressed objects within 1 object stream
+ 28 PDF objects out of 1000 (max. 8388607)
+ 18 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 
