@@ -192,7 +192,7 @@ The next definition we need is for the set on input values that we can use for c
 \bar{V} = \{v\,|\forall v\in \bar{V},\forall x\in X, u\in U\}
 \end{equation}
 
-This set can be computed using interval arithmetic if needed. Also now define $\Omega=\hat{Z}_N$, where $\hat{z}_n$ is defined similar to Eq.\ref{eq:set_RTSS}, but with $\tilde{E}_{k+i|k}$ replaced the $E_max$ as defined above, i.e. a the most conservative approximation of $Z_N$. Also compute $\hat{W}$ as $\tilde{W}$ is defined in sec \ref{sec:Recap}, only with $E_{max}$ replacing the error sets.
+This set can be computed using interval arithmetic if needed. Also now define $\Omega=\hat{Z}_N$, where $\hat{Z}_n$ is defined similar to Eq.\ref{eq:set_RTSS}, but with $\tilde{E}_{k+i|k}$ replaced by $E_{max}$ as defined above, i.e. a the most conservative approximation of $Z_N$. Also compute $\hat{W}$ as $\tilde{W}$ is defined in sec \ref{sec:Recap}, only with $E_{max}$ replacing the error sets.
 
 With these sets defined, we can compute $C$ (using e.g. invset toolbox or MPT) s.t. $\exists$ a control law $v=K(z)$ s.t $\forall z \in C$.
 \begin{subequations}
