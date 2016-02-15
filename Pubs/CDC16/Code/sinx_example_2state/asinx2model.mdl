@@ -6,7 +6,7 @@ Model {
     NumRootInports	    0
     NumRootOutports	    0
     ParameterArgumentNames  ""
-    ComputedModelVersion    "1.4"
+    ComputedModelVersion    "1.5"
     NumModelReferences	    0
     NumTestPointedSignals   0
   }
@@ -27,9 +27,9 @@ Model {
   ModifiedByFormat	  "%<Auto>"
   LastModifiedBy	  "mLab"
   ModifiedDateFormat	  "%<Auto>"
-  LastModifiedDate	  "Mon Feb 15 12:19:42 2016"
+  LastModifiedDate	  "Mon Feb 15 14:07:43 2016"
   RTWModifiedTimeStamp	  377438412
-  ModelVersionFormat	  "1.%<AutoIncrement:4>"
+  ModelVersionFormat	  "1.%<AutoIncrement:5>"
   ConfigurationManager	  "None"
   SampleTimeColors	  off
   SampleTimeAnnotations	  off
@@ -763,6 +763,21 @@ Model {
       SampleTime	      "-1"
     }
     Block {
+      BlockType		      Saturate
+      UpperLimitSource	      "Dialog"
+      UpperLimit	      "0.5"
+      LowerLimitSource	      "Dialog"
+      LowerLimit	      "-0.5"
+      LinearizeAsGain	      on
+      ZeroCross		      on
+      SampleTime	      "-1"
+      OutMin		      "[]"
+      OutMax		      "[]"
+      OutDataTypeStr	      "Inherit: Same as input"
+      LockScale		      off
+      RndMeth		      "Floor"
+    }
+    Block {
       BlockType		      Scope
       ModelBased	      off
       TickLabels	      "OneTimeTick"
@@ -833,7 +848,7 @@ Model {
   }
   System {
     Name		    "asinx2model"
-    Location		    [-716, 272, -180, 573]
+    Location		    [-930, 334, -394, 635]
     Open		    on
     ModelBrowserVisibility  off
     ModelBrowserWidth	    200
@@ -847,7 +862,7 @@ Model {
     ShowPageBoundaries	    off
     ZoomFactor		    "100"
     ReportName		    "simulink-default.rpt"
-    SIDHighWatermark	    "45"
+    SIDHighWatermark	    "46"
     Block {
       BlockType		      SubSystem
       Name		      "Feedback Linearizer"
@@ -1056,6 +1071,17 @@ Model {
       ParamDataTypeStr	      "Inherit: Inherit via internal rule"
       OutDataTypeStr	      "Inherit: Inherit via internal rule"
       SaturateOnIntegerOverflow	off
+    }
+    Block {
+      BlockType		      Saturate
+      Name		      "Input \nSaturation"
+      SID		      "46"
+      Ports		      [1, 1]
+      Position		      [60, 35, 90, 65]
+      ZOrder		      -15
+      InputPortMap	      "u0"
+      UpperLimit	      "u_max"
+      LowerLimit	      "u_min"
     }
     Block {
       BlockType		      Mux
@@ -1437,7 +1463,7 @@ Model {
       ZOrder		      -3
       BlockMirror	      on
       Floating		      off
-      Location		      [5, 45, 1605, 853]
+      Location		      [-2, 47, 1598, 855]
       Open		      on
       NumInputPorts	      "2"
       List {
@@ -1545,14 +1571,20 @@ Model {
     Line {
       SrcBlock		      "Feedback Linearizer"
       SrcPort		      1
-      Points		      [-10, 0]
+      Points		      [-70, 0; 0, -105]
+      DstBlock		      "Input \nSaturation"
+      DstPort		      1
+    }
+    Line {
+      SrcBlock		      "Input \nSaturation"
+      SrcPort		      1
+      Points		      [5, 0]
       Branch {
-	Points			[0, -105]
 	DstBlock		"NL Plant"
 	DstPort			1
       }
       Branch {
-	Points			[0, 50]
+	Points			[0, 155]
 	DstBlock		"u and v"
 	DstPort			1
       }

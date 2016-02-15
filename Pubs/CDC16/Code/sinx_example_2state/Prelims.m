@@ -7,6 +7,7 @@
 % beta(x) = a*cos(x2)
 % u = alpha(x) + (1/beta(x))*v
 %% linearized dynamics
+% z = T(x) = [x1;a*sin(x2)];
 A=[0 1;0 0];
 B=[0; 1];
 C=eye(2);
@@ -15,8 +16,8 @@ R = eye(size(B,2));
 K_lqr = lqr(A,B,Q,R,[]);
 
 %% nl model param and init states
-x1_0 = pi/4;
-x2_0 = pi/8;
+x1_0 = pi/2;
+x2_0 = pi/4;
 a = 1;
 %% set limits
 % states
@@ -41,7 +42,22 @@ w2_max = +(pi/180)*10^(-3);
 W = Polyhedron('lb',[w1_min;w2_min],'ub',[w1_max;w2_max]);
 
 % input
-u_min = -10;
-u_max = 10;
+u_min = -1.2;
+u_max = 1.2;
 U = Polyhedron('lb',u_min,'ub',u_max);
+
+% after state transform Z = T(X)
+% z1 = x1 \in [x1_min, x2_max]
+% z2 = a*sin(x2) \in [a_sin(x2_min),a_sin(x2_max)] since x2 domain is nice
+
+% state limits Z for state after fb linearization
+z1_min = x1_min;
+z1_max = x1_max;
+z2_min = a*sin(x2_min);
+z2_max = a*sin(x2_max);
+Z = Polyhedron('lb',[z1_min;z2_min],'ub',[z1_max;z2_max]);
+
+
+%% run simlunk mdl
+sim('asinx2model');
 
