@@ -33,6 +33,13 @@ e2_min = -pi/180;
 e2_max = +pi/180;
 E = Polyhedron('lb',[e1_min;e2_min],'ub',[e1_max;e2_max]);
 
+% disturbance in state (xkp1 = Axk + bk + wk)
+w1_min = -(pi/180)*10^(-3);
+w1_max = +(pi/180)*10^(-3);
+w2_min = -(pi/180)*10^(-3);
+w2_max = +(pi/180)*10^(-3);
+W = Polyhedron('lb',[w1_min;w2_min],'ub',[w1_max;w2_max]);
+
 % input
 u_min = -10;
 u_max = 10;
