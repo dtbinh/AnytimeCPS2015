@@ -151,14 +151,14 @@ With this convex over-approximation of the additive error term in Eq.\ref{eq:Zer
 This section has a quick overview of the \textbf{[RTSS15]} algorithm. For the feedback linearized dynamics that will be used for the RMPC formulation in this work, consider the state propagation of the measured estimate at time step $k$, $\hat{z}_{k|k}$ and the estimation errors in $\hat{z}_{k+i|k}$, i.e. $\tilde{e}_{k+i},\,\forall i=0,\dotsc,N$ through the linearized dynamics:
 \begin{subequations}
 \begin{align}
-\hat{z}_{k+1|k}&=z_{k+1}+\tilde{e}_k \\
+        \hat{z}_{k+1|k}&=z_{k+1}+\tilde{e}_{k+1} \\
 \hat{z}_{k+1|k}&=A{z}_{k}+Bv_k+w_k+\tilde{e}_{k+1} \\
 \hat{z}_{k+1|k}&=A\hat{z}_{k|k}+Bv_k+w_k+\tilde{e}_{k+1}-A\tilde{e}_k \\
 \hat{z}_{k+1|k}&=A\hat{z}_{k|k}+Bv_k+\hat{w}_k
 \end{align}
 \end{subequations}
 
-Here, $w_k\in W$ is a modeling error and $\hat{w}_k=w_k+\tilde{e}_{k+1}-A\tilde{e}_k$. Note that by definition of the estimation and modeling error, $\hat{w}_k$ is bounded s.t. $\hat{w}_k\in\hat{W}_k\,\text{where }\hat{W}_k=W\oplus\bar{E}_{k|k}\oplus\bar{E}_{k+1|k}$. Note, we can in general write these dynamics now as $\hat{z}_{k+i+1|k}=A\hat{z}_{k+i|k}+Bv_{k+i}+\hat{w}_{k+i},\,\forall i=0,\dotsc,N+1$. 
+Here, $w_k\in W$ is a modeling error and $\hat{w}_k=w_k+\tilde{e}_{k+1}-A\tilde{e}_k$. Note that by definition of the estimation and modeling error, $\hat{w}_k$ is bounded s.t. $\hat{w}_k\in\hat{W}_k\,\text{where }\hat{W}_k=W\oplus(-A\bar{E}_{k|k})\oplus\bar{E}_{k+1|k}$. Note, we can in general write these dynamics now as $\hat{z}_{k+i+1|k}=A\hat{z}_{k+i|k}+Bv_{k+i}+\hat{w}_{k+i},\,\forall i=0,\dotsc,N+1$. 
 
 For the framework of \textbf{[RTSS15]} where error sets were not time varying (unlike in our setup), a set shrinking of the form as defined below s.t. $\bar{z}_{k+i|k}\in Z_{i}\,\forall i=0,\dotsc,N+1$ (where $\bar{z}_{k+i|k}=\hat{z}_{k+i|k}-\hat{w}_{k-1}$ is the nominal state) results in a robust feasible, recursively feasible and stable MPC algorithm:
 \begin{subequations}
