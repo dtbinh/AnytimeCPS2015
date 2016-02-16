@@ -1,4 +1,4 @@
-function [Cdelta,status] = GetTerminalSetZ(A,B,K_lqr,N,Z,V_inner_global,E_max,W)
+function [Cdelta_MPT,Z_f_worst,status] = GetTerminalSetZ(A,B,K_lqr,N,Z,V_inner_global,E_max,W)
 
 %% standalone for testing
 L_N = (A-B*K_lqr)^N;
@@ -22,8 +22,10 @@ tmax = 20;
 lambda = 1;
 tol = [];
 
-[Cdelta,tstar,fd] = kinfset(A,B,E,X,U,Wset,T,tmax,lambda,tol);
-status = fd*(~Zsets{N+1}.isEmptySet);
+[Cdelta,tstar,fd] = kinfset(A,B,E,X,U,Wset,T,tmax,lambda,tol); %robust inv set
+Cdelta_MPT = Polyhedron('A',Cdelta(:,1:size(A,2)),'b',Cdelta(:,size(A,2)+1:end));
+Z_f_worst = Cdelta_MPT - L_N*What;
+status = fd*(~Zsets{N+1}.isEmptySet)*(~Cdelta_MPT.isEmptySet)*(~Z_f_worst.isEmptySet);
 if(status~=1)
    if(~Zsets{N+1}.isEmptySet)
       'Z_N is empty' 
