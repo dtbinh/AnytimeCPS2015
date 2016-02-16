@@ -86,7 +86,8 @@ E_max = Polyhedron('lb',[e1_min;a*cos(0)*e2_min],'ub',[e1_max;a*cos(0)*e2_max]);
 x2_idx=x2_min:.001:x2_max;
 v_upper = a*(u_max+tan(x2_idx)).*cos(x2_idx);
 figure;
-title('Limits on v');
+t1=strcat('Limits on v when:  ',num2str(u_min),' <=u<= ',num2str(u_max))
+title(t1);
 hold on;plot(x2_idx,v_upper);
 v_lower = a*(u_min+tan(x2_idx)).*cos(x2_idx);
 hold on;plot(x2_idx,v_lower,'r');grid on;
@@ -101,16 +102,17 @@ legend('Actual upper limit','Actual lower limit','Global Inner approx lower', ..
 %sim('asinx2model');
 
 %% compute term set
-N = 15; %Horizon
-[Cdelta_MPT,Z_f_worst,status] = GetTerminalSetZ(A,B,K_lqr,N,Z,V_inner_global,E_max,W);
-if(status==1)
-    figure;
-    Z.plot('Color','Blue')
-    hold on
-    Cdelta_MPT.plot('Color','yellow')
-    hold on
-    Z_f_worst.plot('Color','red')
-    legend('Z','C_{\delta}','Z_f');
-end
+% N = 15; %Horizon
+% [Cdelta_MPT,Z_f_worst,status] = GetTerminalSetZ(A,B,K_lqr,N,Z,V_inner_global,E_max,W);
+% if(status==1)
+%     figure;
+%     Z.plot('Color','Blue')
+%     hold on
+%     Cdelta_MPT.plot('Color','yellow')
+%     hold on
+%     Z_f_worst.plot('Color','red')
+%     legend('Z','C_{\delta}','Z_f');
+%     xlabel('x_1');ylabel('x_2');
+% end
 
 %%

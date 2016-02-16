@@ -189,22 +189,99 @@ This set, $E_{max}$ is the worst case over approximation of the estimation error
 The next definition we need is for the set on input values that we can use for computation of the robust control invariant terminal set $C$. Note, for the computation of this set, we need an inner approximation of the possible values of $v$ which for all time steps $k+i$ in the MPC horizon. For this we use a global convex inner approximation of the set, define it
 
 \begin{equation}
-\bar{V} = \{v\,|\forall v\in \bar{V},\forall x\in X, u\in U\}
+\label{eq:V_inner}
+\underline{V} = \{v\,|\forall v\in \underline{V},\forall x\in X, u\in U\}
 \end{equation}
 
-This set can be computed using interval arithmetic if needed. Also now define $\Omega=\hat{Z}_N$, where $\hat{Z}_N$ is defined similar to Eq.\ref{eq:set_RTSS}, but with $\tilde{E}_{k+i|k}$ replaced by $E_{max}$ as defined above, i.e. a the most conservative approximation of $Z_N$. Also compute $\hat{W}$ as $\tilde{W}$ is defined in sec \ref{sec:Recap}, only with $E_{max}$ replacing the error sets.
+This set can (can not!) be computed using interval arithmetic if needed. Also now define $\Omega=\hat{Z}_N$, where $\hat{Z}_N$ is defined similar to Eq.\ref{eq:set_RTSS}, but with $\tilde{E}_{k+i|k}$ replaced by $E_{max}$ as defined above, i.e. a the most conservative approximation of $Z_N$. Also compute $\hat{W}$ as $\tilde{W}$ is defined in sec \ref{sec:Recap}, only with $E_{max}$ replacing the error sets.
 
 With these sets defined, we can compute $C$ (using e.g. invset toolbox or MPT) s.t. $\exists$ a control law $v=K(z)$ s.t $\forall z \in C$.
 \begin{subequations}
 \begin{align}
-Az+BK(z)+L_N\hat{w}\in C,\, K(z)\in \bar{V}, \,\forall \hat{w} \in \hat{W}
+Az+BK(z)+L_N\hat{w}\in C,\, K(z)\in \underline{V}, \,\forall \hat{w} \in \hat{W}
 \end{align}
 \end{subequations}
 
 Now the terminal set can be computed as 
 \begin{equation}
-Z_{N+1}=C\ominus L_N\hat{W}
+Z_{N+1}=C\ominus L_N\hat{W}=Z_f
 \end{equation}
+
+\section{Example}
+
+As an example, consider the system given by:
+
+\begin{subequations}
+\begin{align}
+\dot{x_1}&=a\sin(x_2) \\
+\dot{x_2}&=-x_1^2 + u
+\end{align}
+\end{subequations}
+
+Assume $a>0$. For the measurement $y=h(x)=x_1$, the system has a relative degree $\rho=2$ in the domain $D_0 = \{x|\cos{x_2}\neq0\}$. 
+
+The feedback law $u = -\tan(x_2)+\frac{1}{a\cos(x_2)}v$ feedback linearizes the system with $v$ as the new control input. The state transform (a diffeomorphism in $D_0$) is given by:
+
+\begin{equation}
+z=T(x)=\begin{bmatrix} x_1 \\ a\sin(x_2) \end{bmatrix}
+\end{equation}
+
+The feedback linearized dynamics are now:
+\begin{subequations}
+\begin{align}
+\dot{z_1}&=z_2 \\
+\dot{z_2}&=v
+\end{align}
+\end{subequations}
+
+\subsection{Constraints and Set Computations}
+
+To begin, for simplicity let $a=1$.
+Consider the safe set for the states of the non-linear system to be:
+\begin{equation}
+X=\{x|\begin{bmatrix} -\pi \\ -\pi/3 \end{bmatrix} \leq x \leq \begin{bmatrix} \pi \\ \pi/3 \end{bmatrix} \}
+\end{equation}
+Note, $X \subset D_0$, so the feedback linearization holds for all $x \in X$. Also, let the safe set of inputs be given by:
+\begin{equation}
+U=\{u|\underline{u}\leq u \leq \overline{u}\}
+\end{equation}
+
+First, we need to compute the set $Z=T(X)\,|\forall z \in Z: u \in U$. For the given $T(x)$ and $X$, this is easy to compute:
+
+\begin{equation}
+Z=\{z\,|\begin{bmatrix} -\pi \\ -\sqrt{3}/2 \end{bmatrix} \leq z \leq \begin{bmatrix} -\pi \\ -\sqrt{3}/2 \end{bmatrix}\}
+\end{equation}
+
+Also, for the given system, we have to compute the global convex inner approximation for the control set for $v$ (Eq.\ref{eq:V_inner}). For our problem, this set is:
+\begin{equation}
+\underline{V}=\{v\,| (\underline{u}+\text{max}_{x_2 \in X}\tan(x_2))\text{min}_{x_2 \in X}a\cos{x_2}) \leq v \leq (\overline{u}+\text{min}_{x_2 \in X}\tan(x_2))\text{max}_{x_2 \in X}a\cos{x_2}) \}
+\end{equation}
+In addition, it is instructive to look at the actual upper and lower bounds on $v$ as a function of $x$ (and the limits on $u$). For this example, this is given by:
+\begin{subequations}
+\begin{align}
+\underline{v}(x)&=(\underline{u}+\tan(x_2))a\cos{x_2}) \\
+\overline{v}(x)&=(\overline{u}+\tan(x_2))a\cos{x_2})
+\end{align}
+\end{subequations}
+
+\begin{figure}[tb]
+	\centering
+	\includegraphics[width=0.46\textwidth]{Figs/v_u_275.pdf}
+	\vspace{-10pt}
+	\caption{Limits on $v$ (global inner and actual) when $-2.75\leq u \leq 2.75$.}
+	\label{fig:v_u_275}%same freq diff assignment}
+\end{figure} 
+
+Figs. \ref{fig:v_u_275},\ref{fig:v_u_175} shows the boundaries of the inner approximation and the above actual limits on  the given $X$ and two different $U$. Note, since among the states, $v$ is only a function of $x_2$, we can plot these limits as a function of just $x_2$. Note how quickly the inner approximation shrinks as the bounds on $u$ change from $|u|\leq2.75$ to $|u|\leq1.75$. Also worth noting is that the actual bounds on $v$ form a convex set as function of the state $x$ since the upper limit is concave and the lower limit is convex on the domain $x\in X$.
+
+\begin{figure}[tb]
+	\centering
+	\includegraphics[width=0.46\textwidth]{Figs/v_u_175.pdf}
+	\vspace{-10pt}
+	\caption{Limits on $v$ (global inner and actual) when $-1.75\leq u \leq 1.75$.}
+	\label{fig:v_u_175}%same freq diff assignment}
+\end{figure} 
+
 
 \end{document}
 
