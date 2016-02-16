@@ -243,7 +243,7 @@ X=\{x|\begin{bmatrix} -\pi \\ -\pi/3 \end{bmatrix} \leq x \leq \begin{bmatrix} \
 \end{equation}
 Note, $X \subset D_0$, so the feedback linearization holds for all $x \in X$. Also, let the safe set of inputs be given by:
 \begin{equation}
-U=\{u|\underline{u}\leq u \leq \overline{u}\}
+U=\{u\,|\underline{u}\leq u \leq \overline{u}\}
 \end{equation}
 
 First, we need to compute the set $Z=T(X)\,|\forall z \in Z: u \in U$. For the given $T(x)$ and $X$, this is easy to compute:
@@ -266,7 +266,7 @@ In addition, it is instructive to look at the actual upper and lower bounds on $
 
 \begin{figure}[tb]
 	\centering
-	\includegraphics[width=0.46\textwidth]{Figs/v_u_275.pdf}
+	\includegraphics[width=0.76\textwidth]{Figs/v_u_275.pdf}
 	\vspace{-10pt}
 	\caption{Limits on $v$ (global inner and actual) when $-2.75\leq u \leq 2.75$.}
 	\label{fig:v_u_275}%same freq diff assignment}
@@ -276,12 +276,21 @@ Figs. \ref{fig:v_u_275},\ref{fig:v_u_175} shows the boundaries of the inner appr
 
 \begin{figure}[tb]
 	\centering
-	\includegraphics[width=0.46\textwidth]{Figs/v_u_175.pdf}
+	\includegraphics[width=0.76\textwidth]{Figs/v_u_175.pdf}
 	\vspace{-10pt}
 	\caption{Limits on $v$ (global inner and actual) when $-1.75\leq u \leq 1.75$.}
 	\label{fig:v_u_175}%same freq diff assignment}
 \end{figure} 
 
+Now that we have the global inner convex approximation of the control $v$, we can also compute the robust control invariant set, and the terminal set as described in the previous section. Fig.\ref{fig:Z_states} shows the 
+
+\begin{figure}[tb]
+	\centering
+	\includegraphics[width=0.76\textwidth]{Figs/Z_states.pdf}
+	\vspace{-10pt}
+	\caption{Sets for $z$ ($-2.75\leq u \leq 2.75$).}
+	\label{fig:Z_states}%same freq diff assignment}
+\end{figure} 
 
 \end{document}
 
