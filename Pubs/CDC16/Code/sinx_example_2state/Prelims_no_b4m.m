@@ -11,7 +11,7 @@
 
 %% linearized dynamics
 % z = T(x) = [x1;a*sin(x2)];
-close all;clear all;
+clear all;
 A=[0 1;0 0];
 B=[0; 1];
 C=eye(2);

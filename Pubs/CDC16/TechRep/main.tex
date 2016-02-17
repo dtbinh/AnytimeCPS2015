@@ -207,7 +207,7 @@ Now the terminal set can be computed as
 Z_{N+1}=C\ominus L_N\hat{W}=Z_f
 \end{equation}
 
-\section{Example}
+\section{Example: 2 state non-linear system}
 
 As an example, consider the system given by:
 
@@ -291,6 +291,48 @@ Now that we have the global inner convex approximation of the control $v$, we ca
 	\caption{Sets for $z$ ($-2.75\leq u \leq 2.75$).}
 	\label{fig:Z_states}%same freq diff assignment}
 \end{figure} 
+
+\section{Example 2: Car like robot}
+
+Dynamics are:
+
+\begin{subequations}
+\begin{align}
+\dot{x} &=v_1\cos{\theta} \\
+\dot{y} &=v_1\sin{\theta} \\
+\dot{\theta}&=v_1\tan(\theta)/l \\
+\dot{\phi}&=v_2
+\end{align}
+\end{subequations}
+
+This system cannot be full state linearized in this form. For dynamic extension, define $\zeta=v_1,\,\dot{\zeta}=\nu,\,\dot{\nu}=r_1$. With these new states, the system is:
+
+\begin{subequations}
+\begin{align}
+\dot{x} &=\zeta\cos{\theta} \\
+\dot{y} &=\zeta\sin{\theta} \\
+\dot{\theta}&=\zeta\tan(\theta)/l \\
+\dot{\phi}&=v_2 \\
+\dot{\zeta}&=\nu \\
+\dot{\nu}&=r_1
+\end{align}
+\end{subequations}
+
+This system, which has inputs $v_2$, the steering velocity and $r_1$, the jerk, with measurements $y_1 = h_1(x) = x,\,y_2=h_2(x)=y$, has relative degrees of $\rho_1=3,\,\rho_2=3$, which add up to $6$. This system is full state feedback linearizable in the domain $\zeta\neq 0 \wedge \cos^2(\phi)\neq0$.
+
+\section{Example 3: Single link flexible joint manipulator}
+
+\begin{subequations}
+\begin{align}
+\dot{x_1}&=x_2 \\
+\dot{x_2}&=\frac{-mgl}{I}\sin(x_1)-\frac{k}{I}(x_1-x_3) \\
+\dot{x_3}&=x_4 \\
+\dot{x_4}&=\frac{k}{J}(x_1-x_3)+\frac{1}{J}u
+\end{align}
+\end{subequations}
+
+This system is full state feedback linearizable in $R^4$.
+
 
 \end{document}
 
