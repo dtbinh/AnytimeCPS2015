@@ -22,7 +22,7 @@ U = std2aug(V_inner_global.A,V_inner_global.b);
 Wset = std2aug(What.A,What.b);
 T = std2aug(Zsets{N+1}.A,Zsets{N+1}.b); %Omega=Z_N
 X = T;
-tmax = 10;
+tmax = 100;
 lambda = 1;
 tol = [];
 
