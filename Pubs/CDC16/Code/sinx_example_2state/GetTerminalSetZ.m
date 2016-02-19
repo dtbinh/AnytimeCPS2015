@@ -1,14 +1,14 @@
-function [Cdelta_MPT,Z_f_worst,status,tstar,fd] = GetTerminalSetZ(A,B,K_lqr,N,Z,V_inner_global,E_max,W)
+function [Cdelta_MPT,Z_f_worst,status,tstar,fd] = GetTerminalSetZ(A_d,B_d,K_lqr_d,N,Z,V_inner_global,E_max,W)
 
 %% standalone for testing
-L_N = (A-B*K_lqr)^N;
-What = W+E_max+(-A*E_max);
+L_N = (A_d-B_d*K_lqr_d)^N;
+What = W+E_max+(-A_d*E_max);
 What.minHRep;
 %note indexing starts from 1 and not 0 since fucking matlab is shite
 Zsets{1} = Z - E_max;
 Zsets{1}.minHRep; 
 for i = 2:N+1
-    Zsets{i} = Zsets{i-1}-((A-B*K_lqr)^(i-1))*E_max;
+    Zsets{i} = Zsets{i-1}-((A_d-B_d*K_lqr_d)^(i-1))*E_max;
     Zsets{i}.minHRep;
     if(Zsets{i}.isEmptySet)
        'empty Z_i at'
@@ -22,12 +22,12 @@ U = std2aug(V_inner_global.A,V_inner_global.b);
 Wset = std2aug(What.A,What.b);
 T = std2aug(Zsets{N+1}.A,Zsets{N+1}.b); %Omega=Z_N
 X = T;
-tmax = 100;
-lambda = 1;
-tol = [];
+tmax = 1000; %>21 works
+lambda = 0.991;%.999995;%0.991 works, 0.999995
+tol = .0001; %.0001 works
 
-[Cdelta,tstar,fd] = kinfset(A,B,E,X,U,Wset,T,tmax,lambda,tol); %robust inv set
-Cdelta_MPT = Polyhedron('A',Cdelta(:,1:size(A,2)),'b',Cdelta(:,size(A,2)+1:end));
+[Cdelta,tstar,fd] = kinfset(A_d,B_d,E,X,U,Wset,T,tmax,lambda,tol); %robust inv set
+Cdelta_MPT = Polyhedron('A',Cdelta(:,1:size(A_d,2)),'b',Cdelta(:,size(A_d,2)+1:end));
 Z_f_worst = Cdelta_MPT - L_N*What;
 status = fd*(~Zsets{N+1}.isEmptySet)*(~Cdelta_MPT.isEmptySet)*(~Z_f_worst.isEmptySet);
 if(status~=1)
