@@ -38,7 +38,7 @@ typedef struct LiftingSettings
 // do face lifting with the given settings, iteratively improving the computation
 // returns true if the reachable set of states is satisfactory according to the
 // function you provide in LiftingSettings (reachedAtIntermediateTime, reachedAtFinalTime)
-bool face_lifting_iterative_improvement(int startMs, LiftingSettings* settings);
+HyperRectangle face_lifting_iterative_improvement(int startMs, LiftingSettings* settings);
 
 // do a face lifting operation with the given settings. This one does NOT do iterative improvement
 // or attempt to run within a given time

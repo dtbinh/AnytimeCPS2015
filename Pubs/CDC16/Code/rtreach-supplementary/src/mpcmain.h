@@ -1,9 +1,8 @@
-// ./rtreach maxrunTime reachHorizon x0[0] x0[1] x0[2] x0[3]
-// example call: ./rtreach 100 -0.1 0.0 0.0 1.1
-// example matlab call: rtreach(100, -0.1, 0.0, 0.0, 1.1)
+// ./rtreach maxrunTime reachHorizon
+// example call: ./rtreach 100 1
 // Unsafe set is hard-coded in intermediateState()
 // Recoverable region is hard-coded in finalState()
-// initial point of reachability computation is input to this function
+// initial set of reachability computation is hard-coded in main()
 //
 // state = {pos, vel, angle, angular_vel}
 // from startState = {-0.1, vel, 0, 0};
@@ -32,58 +31,51 @@ const int state_n = 4; // state dimension
 int main(int runtimeMs, REAL* startState)
 {
 #elif defined(ARDUINO)
-// trying name change, linker problems as main already exists
-//int main_avr( int argc, const char* argv[] )
-int main_avr( int runtimeMs, REAL* startState)
-{
+    // trying name change, linker problems as main already exists
+    //int main_avr( int argc, const char* argv[] )
+    int main_avr( int runtimeMs, REAL* startState)
+    {
 #else
-int main( int argc, const char* argv[] )
-{
-DEBUG_PRINT("started!\n\r");
+        int main( int argc, const char* argv[] )
+        {
+            DEBUG_PRINT("started!\n\r");
             
-int runtimeMs = 0;
-int reachHorizon = 2;
-REAL startState[state_n] = {0.0, 0.0, 0.0, 0.0};
-DEBUG_PRINT("Argc: %d\n\r", argc);
+            int runtimeMs = 0;
+            int reachHorizon = 2;
+            DEBUG_PRINT("Argc: %d\n\r", argc);
             
-if (argc < 7) {
-   printf("Error: not enough input arguments!\n\r");
-   return 0;
-}
-else {
-    runtimeMs = atoi(argv[1]);
-    reachHorizon = atoi(argv[2]);
-    /*
-     REAL initSet[state_n][2];
-    REAL lowerbound;REAL upperbound;
-    FILE *fp;
-    fp = fopen("initset.txt", "r");
-    int r = 0;
-    while (fscanf(fp, "%f %f", &lowerbound, &upperbound) == 2) {
-        initSet[r][0] = lowerbound;
-        initSet[r][1] = upperbound;
-        DEBUG_PRINT("Bounds = [%f , %f]\n", lowerbound, upperbound);
-        r++;
-    }
-    fclose(fp);
-     */
-}
+            if (argc < 3) {
+                printf("Error: not enough input arguments!\n\r");
+                return 0;
+            }
+            else {
+                runtimeMs = atoi(argv[1]);
+                reachHorizon = atoi(argv[2]);
+                /*
+                 REAL initSet[state_n][2];
+                 REAL lowerbound;REAL upperbound;
+                 FILE *fp;
+                 fp = fopen("initset.txt", "r");
+                 int r = 0;
+                 while (fscanf(fp, "%f %f", &lowerbound, &upperbound) == 2) {
+                 initSet[r][0] = lowerbound;
+                 initSet[r][1] = upperbound;
+                 DEBUG_PRINT("Bounds = [%f , %f]\n", lowerbound, upperbound);
+                 r++;
+                 }
+                 fclose(fp);
+                 */
+            }
 #endif // linux
             
             
 #ifdef DEBUG
 #ifdef MATLAB
             mexPrintf("runtime = %d\n", runtimeMs);
-            mexPrintf("x[0] = %f\nx[1] = %f\nx[2] = %f\nx[3] = %f\n", startState[0], startState[1], startState[2], startState[3]);
 #endif
 #endif
             
-            
-            DEBUG_PRINT("potential of start state = %f\n",
-                        potential(startState[0], startState[1], startState[2], startState[3]));
             //-0.1 0.0 0.0 1.1
-            bool safe;
-    
             REAL initSet[state_n][2] = {
                 {-0.12, -0.95},
                 {-0.05, 0.05},
@@ -91,13 +83,12 @@ else {
                 {1.0, 1.2}
             };
             int startMs = milliseconds();
-            DEBUG_PRINT("Runtime: %d ms, Reach horizon = %d ms, startMs=%d ms\n\rx_0[0]: %f\n\rx_0[1]: %f\n\rx_0[2]: %f\n\rx_0[3]: %f\n\r",
-                        runtimeMs, reachHorizon, startMs,
-                        startState[0], startState[1], startState[2], startState[3]);
-
-            safe = runReachability(initSet, reachHorizon, runtimeMs, startMs);
+            DEBUG_PRINT("Runtime: %d ms, Reach horizon = %d ms, startMs=%d ms\r",
+                        runtimeMs, reachHorizon, startMs);
             
-            DEBUG_PRINT("done, result = %s\n", safe ? "safe" : "unsafe");
+            HyperRectangle reachSet = runReachability(initSet, reachHorizon, runtimeMs, startMs);
+            printf("\n ===== Done. Reach set is:\n");
+            println(&reachSet);
             
             // http://www.mathworks.com/help/matlab/apiref/mexprintf.html
 #ifdef DEBUG
@@ -106,7 +97,7 @@ else {
 #endif
 #endif
             
-            return safe;
+            return 1;
         }
         
 #ifdef MATLAB

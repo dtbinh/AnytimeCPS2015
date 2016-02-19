@@ -214,7 +214,7 @@ void generateSplitRectangle(HyperRectangle* rectToSplit, HyperRectangle* out,
 
 ///////////////// below is from header file ///////////////
 
-bool face_lifting_iterative_improvement(int startMs, LiftingSettings* settings)
+HyperRectangle face_lifting_iterative_improvement(int startMs, LiftingSettings* settings)
 {
 	bool rv = false;
 	bool lastIterationSafe = false;
@@ -225,6 +225,8 @@ bool face_lifting_iterative_improvement(int startMs, LiftingSettings* settings)
 
 	int iter = 0; // number of iterations
 
+    HyperRectangle trackedRect;
+    
 	while (true)
 	{
 		iter++;
@@ -243,7 +245,7 @@ bool face_lifting_iterative_improvement(int startMs, LiftingSettings* settings)
                 }
 
 		REAL timeRemaining = settings->reachTime;
-		HyperRectangle trackedRect = settings->init;
+		trackedRect = settings->init;
 		HyperRectangle hull;
 
 		// compute reachability up to split time
@@ -267,15 +269,19 @@ bool face_lifting_iterative_improvement(int startMs, LiftingSettings* settings)
 				// step size is too large, make it smaller and recompute
 				safe = false;
 			}
-			else if (settings->reachedAtIntermediateTime)
-			{
-				hyperrectangle_grow_to_convex_hull(&hull, &trackedRect);
-
-				safe = safe && settings->reachedAtIntermediateTime(&hull);
-			}
-
-			if (timeElapsed == timeRemaining && settings->reachedAtFinalTime)
-				safe = safe && settings->reachedAtFinalTime(&trackedRect);
+            // [HA]Commenting out this else since for our application, we don't have an unsafe set when computing the reach sets.
+            // We just want the reach set and so don't want to interrupt anything.
+//			else if (settings->reachedAtIntermediateTime)
+//			{
+//				hyperrectangle_grow_to_convex_hull(&hull, &trackedRect);
+//
+//				safe = safe && settings->reachedAtIntermediateTime(&hull);
+//			}
+            
+            //[HA] ran out of time, so check whether it entered the recoverable region before declaring failure
+            // This too is commented out since we don't have a recoverable region in our application
+//			if (timeElapsed == timeRemaining && settings->reachedAtFinalTime)
+//				safe = safe && settings->reachedAtFinalTime(&trackedRect);
 
 			timeRemaining -= timeElapsed;
 		}
@@ -326,5 +332,6 @@ bool face_lifting_iterative_improvement(int startMs, LiftingSettings* settings)
 
 	DEBUG_PRINT("iterations at quit: %d\n\r", iter);
 
-	return rv;
+    return trackedRect;
+//	return rv;
 }

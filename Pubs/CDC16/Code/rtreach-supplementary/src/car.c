@@ -147,7 +147,7 @@ bool shouldStop(REAL state[NUM_DIMS], REAL simTime, void* p)
 	return rv;
 }
 
-bool runReachability(REAL start[][2], REAL simTime, REAL wallTimeMs, REAL startMs)
+HyperRectangle runReachability(REAL start[][2], REAL simTime, REAL wallTimeMs, REAL startMs)
 {
 	LiftingSettings set;
 
@@ -174,7 +174,10 @@ bool runReachability(REAL start[][2], REAL simTime, REAL wallTimeMs, REAL startM
 	set.reachedAtIntermediateTime = intermediateState;
 	set.restartedComputation = 0; //restartedComputation;
 
-	return face_lifting_iterative_improvement(startMs, &set);
+	HyperRectangle reachSet = face_lifting_iterative_improvement(startMs, &set);
+//    printf("\n\n====== Reach set \n");
+//    				println(&reachSet);
+    return reachSet;
 }
 
 REAL getSimulatedSafeTime(REAL start[4])
