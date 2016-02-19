@@ -11,7 +11,7 @@
 
 %% linearized dynamics
 % z = T(x) = [x1;a*sin(x2)];
-close all;clear all;
+clear all;
 A=[0 1;0 0];
 B=[0; 1];
 C=eye(2);
@@ -113,7 +113,7 @@ R = eye(size(B,2));
 [K_lqr_d,~,~] = dlqr(sys_d.A,sys_d.B,Q,R,[]);
 
 [Cdelta_MPT,Z_f_worst,status,tstar,fd] = GetTerminalSetZ(sys_d.A,sys_d.B,K_lqr_d,N,Z,V_inner_global,E_max,W);
-if(status==1||status==0)
+if(0)% (status==1||status==0)
     figure;
     Z.plot('Color','Blue')
     hold on
