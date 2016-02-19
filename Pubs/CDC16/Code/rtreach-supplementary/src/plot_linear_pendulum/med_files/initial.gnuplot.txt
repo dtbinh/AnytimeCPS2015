@@ -1,0 +1,1 @@
+set label 'Initial Point' at -0.100000, 0.850000 point pointtype 3 lc rgb 'blue' tc rgb 'blue'
