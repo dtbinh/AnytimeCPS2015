@@ -1,0 +1,4 @@
+make arm
+#make arm_noos
+cp rtreach_arm /mnt/ARM_FS/.
+#cp rtreach_arm_noos /mnt/ARM_FS/.
