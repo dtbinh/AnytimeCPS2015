@@ -1,0 +1,8 @@
+Matlab implementation of simulated annealing:
+
+  run.m        testdriver
+  gp.m         Goldstein&Price testfunction
+  simann.m     Matlab translation of simann.f
+
+
+Hans Mittelmann  <mittelmann@asu.edu>    July 2007
