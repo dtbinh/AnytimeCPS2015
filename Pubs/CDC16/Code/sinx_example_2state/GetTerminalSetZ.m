@@ -22,8 +22,8 @@ U = std2aug(V_inner_global.A,V_inner_global.b);
 Wset = std2aug(What.A,What.b);
 T = std2aug(Zsets{N+1}.A,Zsets{N+1}.b); %Omega=Z_N
 X = T;
-tmax = 1000; %>21 works
-lambda = 0.991;%.999995;%0.991 works, 0.999995
+tmax = 10000; %>21 works
+lambda = 0.99995;%.999995;%0.991 works, 0.999995
 tol = .0001; %.0001 works
 
 [Cdelta,tstar,fd] = kinfset(A_d,B_d,E,X,U,Wset,T,tmax,lambda,tol); %robust inv set
