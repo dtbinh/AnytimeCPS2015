@@ -11,7 +11,7 @@
 
 %% linearized dynamics
 % z = T(x) = [x1;a*sin(x2)];
-clear all;
+%clear all;
 A=[0 1;0 0];
 B=[0; 1];
 C=eye(2);
@@ -88,19 +88,22 @@ E_max = Polyhedron('lb',[e1_min;a*cos(0)*e2_min],'ub',[e1_max;a*cos(0)*e2_max]);
 x2_idx=x2_min:.001:x2_max;
 v_upper = a*(u_max+tan(x2_idx)).*cos(x2_idx);
 % plot those bounds
-% figure;
-% t1=strcat('Limits on v when:  ',num2str(u_min),' <=u<= ',num2str(u_max));
-% title(t1);
-% hold on;plot(x2_idx,v_upper);
-% v_lower = a*(u_min+tan(x2_idx)).*cos(x2_idx);
-% hold on;plot(x2_idx,v_lower,'r');grid on;
-% v_inner_upper = (u_max+tan(x2_min))*a*cos(x2_max)*ones(numel(x2_idx),1);
-% v_inner_lower = (u_min+tan(x2_max))*a*cos(x2_max)*ones(numel(x2_idx),1);
-% hold on;plot(x2_idx,v_inner_upper,'k');
-% hold on;plot(x2_idx,v_inner_lower,'m');
-% xlabel('x2');ylabel('v');
-% legend('Actual upper limit','Actual lower limit','Global Inner approx lower', ...
-%     'Global Inner approx upper');
+figure;
+t1=strcat('Limits on v when:  ',num2str(u_min),' <=u<= ',num2str(u_max));
+title(t1);
+hold on;plot(x2_idx,v_upper);
+v_lower = a*(u_min+tan(x2_idx)).*cos(x2_idx);
+hold on;plot(x2_idx,v_lower,'r');grid on;
+v_inner_upper = (u_max+tan(x2_min))*a*cos(x2_max)*ones(numel(x2_idx),1);
+v_inner_lower = (u_min+tan(x2_max))*a*cos(x2_max)*ones(numel(x2_idx),1);
+hold on;plot(x2_idx,v_inner_upper,'k');
+hold on;plot(x2_idx,v_inner_lower,'m');
+xlabel('x2');ylabel('v');
+legend('Actual upper limit','Actual lower limit','Global Inner approx lower', ...
+    'Global Inner approx upper');
+%% outer set for V
+V_outer_global = Polyhedron('lb',min(v_lower),'ub',max(v_upper));
+
 %% run simlunk mdl for fb lin based stabilization
 %sim('asinx2model');
 

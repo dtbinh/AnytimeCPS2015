@@ -3,7 +3,7 @@ function Etilde_k = get_E_tilde_bound(xk,a,Xk,E)
 [~,maxs,mins] = getRect(Xk);
 %[~,maxe,mine] = getRect(E);
 %after lin: T(x+e) = T(x) + M(x)e = T(x) + e_tilde
-if(mx(2)>=0 && mn(2)<=0) % is zero in this interval?
+if(maxs(2)>=0 && mins(2)<=0) % is zero in this interval?
     %yes
     scaleE2 = a*cos(0);
 else

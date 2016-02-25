@@ -1,0 +1,1 @@
+function Zj = getZjs(Z,E,W,Xk)
