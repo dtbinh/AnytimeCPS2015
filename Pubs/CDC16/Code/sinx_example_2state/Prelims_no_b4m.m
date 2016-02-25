@@ -32,7 +32,7 @@ x2_max = +pi/3;
 X = Polyhedron('lb',[x1_min;x2_min],'ub',[x1_max;x2_max]);
 
 % error in est
-mag = 1.723; %mag degrees of est error max works for 1.63 with lambda = 0.991, larger with lambda = 0.995
+mag = 1.70; %mag degrees of est error max works for 1.63 with lambda = 0.991, larger with lambda = 0.995
     %1.67;0.9995 work; %1.69;0.9995 work;%1.7;0.9995 work;%1.71;0.9995 work;
 e1_min = -mag*pi/180;
 e1_max = +mag*pi/180;
@@ -131,5 +131,5 @@ if(status==1||status==0)
     legend('Z','C_{\delta}','Z_f');
     xlabel('x_1');ylabel('x_2');
 end
-
+save('TermSets_e_170_l_9995','Cdelta_MPT','Z_f_worst');
 %%
