@@ -8,7 +8,7 @@ What.minHRep;
 Zsets{1} = Z - E_max;
 Zsets{1}.minHRep; 
 for i = 2:N+1
-    Zsets{i} = Zsets{i-1}-((A_d-B_d*K_lqr_d)^(i-1))*E_max;
+    Zsets{i} = Zsets{i-1}-((A_d-B_d*K_lqr_d)^(i-1))*What;
     Zsets{i}.minHRep;
     if(Zsets{i}.isEmptySet)
        'empty Z_i at'
