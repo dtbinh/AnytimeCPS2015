@@ -1,26 +1,67 @@
-function [E_tilde_jgk,Z_k_reach,X_k_reach] = getAllErrorSets(x_k,X_k,Z_k,X,Z,E,V_outer_global,A_d,B_d,a,N)
-%get all error sets till horizon from starting set X_k
+function [E_tilde_jgk,Z_k_reach,X_k_reach,V_inner_local] = getAllErrorSets(x_k,X_k,Z_k,X,Z,E,W,U,V_inner_global,A_d,B_d,K_lqr_d,a,N)
+%% get all error sets till horizon from starting set X_k
 
 X_k_reach{1} = X_k;
-Z_k_reach{1} = T_diffeo(X_k_reach{1},a);
-Z_k_reach{1} = intersect(Z_k_reach{1},Z);
-Z_k_reach{1}.minHRep;
-for j = 2:N
-    [Z_k_reach{j},X_k_reach{j}] = getReachSetsViaZ(Z_k_reach{j-1},V_outer_global,A_d,B_d,Z,X,a);
-    if(Z_k_reach{j}.isEmptySet|| X_k_reach{j}.isEmptySet)
-       'Some reach set does not intersect with safe set'
-       pause;
+if(isempty(Z_k))
+    Z_k_reach{1} = T_diffeo(X_k_reach{1},a);
+    Z_k_reach{1} = intersect(Z_k_reach{1},Z);
+    Z_k_reach{1}.minHRep;
+else
+    Z_k_reach{1} = Z_k;
+end
+%V_inner_local{1} = getLocalVInner(x_k,X_k_reach{1},Z_k_reach{1},Z,X,U,V_inner_global,a);
+for j = 2:N+1
+    j
+    %[Z_k_reach{j},X_k_reach{j}] = getReachSetsViaZ(Z_k_reach{j-1},V_inner_local{j-1},A_d,B_d,Z,X,W,a);
+    [Z_k_reach{j},X_k_reach{j}] = getReachSetsViaZ(Z_k_reach{j-1},V_inner_global,A_d,B_d,Z,X,W,a);
+    %V_inner_local{j} = getLocalVInner(x_k,X_k_reach{j},Z_k_reach{j},Z,X,U,V_inner_global,a);
+    if(Z_k_reach{j}.isEmptySet|| X_k_reach{j}.isEmptySet || ~Z_k_reach{j}.isFullDim)
+        'Some reach set does not intersect with safe set or is not full dim'
+        pause;
     end
 end
-
-if(0) %plot if you feel like it
-    for j = 1:15
+%% plots debug
+debug = 0;
+if(debug) %plot if you feel like it
+    figure;
+    plot(Z);
+    for j = 1:N+1
+        hold on;
+        [Zbox,~,~] = getRect(Z_k_reach{j});
+        Zbox.plot('Color','yellow');
         hold on
         Z_k_reach{j}.plot('Color','green');pause;
+        
+        j
     end
 end
-
 %%
-for j = 1:N
-   E_tilde_jgk{j} = get_E_tilde_bound([],a,X_k_reach{j},E);
+if(debug)
+x_k = T_diffeo(x0,a);
+hold on
+plot(x_k(1),x_k(2),'k*');
+for i = 1:N
+    u = -(K_lqr_d*x_k);
+%     if(i<=N)
+%         u = u*(u<=V_inner_local{i}.b(2) && u>=-V_inner_local{i}.b(1)) ...
+%             + V_inner_local{i}.b(2)*(u>V_inner_local{i}.b(2)) ...
+%             - V_inner_local{i}.b(1)*(u<-V_inner_local{i}.b(1));
+%     else
+        u = u*(u<=V_inner_global.b(2) && u>=-V_inner_global.b(1)) ...
+           + V_inner_global.b(2)*(u>V_inner_global.b(2)) ...
+           - V_inner_global.b(1)*(u<-V_inner_global.b(1));
+%     end
+    x_k = (A_d*x_k+B_d*u);
+    i
+    
+    Z_k_reach{i+1}.isInside(x_k)
+    hold on;
+    plot(x_k(1),x_k(2),'k*');pause;
+end
+hold on;
+Z_f_worst.plot('Color','gray');
+end
+%%
+for j = 1:N+1
+    E_tilde_jgk{j} = get_E_tilde_bound([],a,X_k_reach{j},E);
 end

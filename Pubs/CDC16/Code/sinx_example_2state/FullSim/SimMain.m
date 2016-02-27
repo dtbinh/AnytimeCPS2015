@@ -1,6 +1,6 @@
 %Sim Main
 Prelims_no_b4m; %init everything
-load('TempSets_par.mat');
+%load('TempSets_par.mat');
 %init state for linearized system
 z0 = T_diffeo([x1_0;x2_0],a);
 x0 = T_inv_diffeo(z0,a);
