@@ -21,14 +21,16 @@ for j = 2:N+1
     end
 end
 %% plots debug
-debug = 0;
+debug = 1;
 if(debug) %plot if you feel like it
     figure;
     plot(Z);
     for j = 1:N+1
         hold on;
         [Zbox,~,~] = getRect(Z_k_reach{j});
+        if(j>0)
         Zbox.plot('Color','yellow');
+        end
         hold on
         Z_k_reach{j}.plot('Color','green');pause;
         
@@ -43,13 +45,13 @@ plot(x_k(1),x_k(2),'k*');
 for i = 1:N
     u = -(K_lqr_d*x_k);
 %     if(i<=N)
-%         u = u*(u<=V_inner_local{i}.b(2) && u>=-V_inner_local{i}.b(1)) ...
-%             + V_inner_local{i}.b(2)*(u>V_inner_local{i}.b(2)) ...
-%             - V_inner_local{i}.b(1)*(u<-V_inner_local{i}.b(1));
+         u = u*(u<=V_inner_local{i}.b(2) && u>=-V_inner_local{i}.b(1)) ...
+             + V_inner_local{i}.b(2)*(u>V_inner_local{i}.b(2)) ...
+             - V_inner_local{i}.b(1)*(u<-V_inner_local{i}.b(1));
 %     else
-        u = u*(u<=V_inner_global.b(2) && u>=-V_inner_global.b(1)) ...
-           + V_inner_global.b(2)*(u>V_inner_global.b(2)) ...
-           - V_inner_global.b(1)*(u<-V_inner_global.b(1));
+%         u = u*(u<=V_inner_global.b(2) && u>=-V_inner_global.b(1)) ...
+%            + V_inner_global.b(2)*(u>V_inner_global.b(2)) ...
+%            - V_inner_global.b(1)*(u<-V_inner_global.b(1));
 %     end
     x_k = (A_d*x_k+B_d*u);
     i
