@@ -7,7 +7,7 @@ cvx_begin
 cvx_solver gurobi
 variable z(2,N+2)
 variable v(1,N+1)
-minimize sum(sum(abs(z)))+0.1*sum(sum(abs(v))) %1-norm min
+minimize sum(sum(abs(z)))+0.1*sum(sum(abs(v))) %1-norm min%converges for 0.0001
 subject to
 z(:,1) == z0_hat;
 for j = 1:N+1
