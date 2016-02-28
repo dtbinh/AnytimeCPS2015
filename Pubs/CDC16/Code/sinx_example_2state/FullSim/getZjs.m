@@ -1,4 +1,5 @@
-function Zj = getZjs(xk,X,Z,E,W,X_k,U,V_inner_global,A_d,B_d,K_lqr_d,a,N)
+function [Zjk,V_inner_local,Z_reach,X_reach,E_tilde] = getZjs(xk,X_k,X,Z,E,W,U,V_inner_global,A_d,B_d,K_lqr_d,a,N)
+%function [Zjk,V_inner_local,Z_reach,X_reach] = getZjs(xk,X_k,X,Z,E,W,U,V_inner_global,A_d,B_d,K_lqr_d,a,N)
 %%
 F = eye(size(Z.A,2));
 Zjk = cell(1+N,1);
@@ -12,7 +13,7 @@ Z_reach{1}.minHRep;
 Zjk{1} = Z-F*E_tilde{1};
 Z_k = [];
 L{1} = eye(size(A_d,2));
-[E_tilde,Z_reach,X_reach,V_inner_local] = getAllErrorSets(xk,X_k,Z_k,X,Z,E,W,U,V_inner_global,A_d,B_d,a,N);
+[E_tilde,Z_reach,X_reach,V_inner_local] = getAllErrorSets(xk,X_k,Z_k,X,Z,E,W,U,V_inner_global,A_d,B_d,K_lqr_d,a,N);
 
 for j = 2:N+1
     L{j} = (A_d-B_d*K_lqr_d)*L{j-1};

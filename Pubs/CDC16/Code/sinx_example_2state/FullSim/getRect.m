@@ -11,10 +11,10 @@ for i = 1:n
         if(exist('gurobi'))
             cvx_solver gurobi;
         end
-        if(exist('gurobi') && exist('yalmip') && printonce)
-            'Truong would be proud of this setup'
-            printonce = 0;
-        end
+%         if(exist('gurobi') && exist('yalmip') && printonce)
+%             'Truong would be proud of this setup'
+%             printonce = 0;
+%         end
         
         variable x(n)
         

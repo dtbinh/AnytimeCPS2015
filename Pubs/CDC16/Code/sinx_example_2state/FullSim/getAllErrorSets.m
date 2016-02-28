@@ -9,37 +9,38 @@ if(isempty(Z_k))
 else
     Z_k_reach{1} = Z_k;
 end
-%V_inner_local{1} = getLocalVInner(x_k,X_k_reach{1},Z_k_reach{1},Z,X,U,V_inner_global,a);
+V_inner_local{1} = getLocalVInner(x_k,X_k_reach{1},Z_k_reach{1},Z,X,U,V_inner_global,a);
 for j = 2:N+1
-    j
-    %[Z_k_reach{j},X_k_reach{j}] = getReachSetsViaZ(Z_k_reach{j-1},V_inner_local{j-1},A_d,B_d,Z,X,W,a);
-    [Z_k_reach{j},X_k_reach{j}] = getReachSetsViaZ(Z_k_reach{j-1},V_inner_global,A_d,B_d,Z,X,W,a);
-    %V_inner_local{j} = getLocalVInner(x_k,X_k_reach{j},Z_k_reach{j},Z,X,U,V_inner_global,a);
+    j;
+    [Z_k_reach{j},X_k_reach{j}] = getReachSetsViaZ(Z_k_reach{j-1},V_inner_local{j-1},A_d,B_d,Z,X,W,a);
+    %[Z_k_reach{j},X_k_reach{j}] = getReachSetsViaZ(Z_k_reach{j-1},V_inner_global,A_d,B_d,Z,X,W,a);
+    V_inner_local{j} = getLocalVInner(x_k,X_k_reach{j},Z_k_reach{j},Z,X,U,V_inner_global,a);
     if(Z_k_reach{j}.isEmptySet|| X_k_reach{j}.isEmptySet || ~Z_k_reach{j}.isFullDim)
         'Some reach set does not intersect with safe set or is not full dim'
         pause;
     end
 end
-%% plots debug
+%% plots debug, needs to be run as a standalone, not a function
 debug = 1;
 if(debug) %plot if you feel like it
-    figure;
-    plot(Z);
+    figure(1);
+    %plot(Z);
     for j = 1:N+1
         hold on;
         [Zbox,~,~] = getRect(Z_k_reach{j});
-        if(j>0)
-        Zbox.plot('Color','yellow');
-        end
+        %if(j>0)
+        %Zbox.plot('Color','yellow');
+        %end
         hold on
-        Z_k_reach{j}.plot('Color','green');pause;
+        Z_k_reach{j}.plot('Color','green');%pause;
         
-        j
+        j;
     end
 end
 %%
-if(debug)
-x_k = T_diffeo(x0,a);
+debug1 = 0;
+if(debug1)
+x_k = T_diffeo(x_k,a); %is z_0 really
 hold on
 plot(x_k(1),x_k(2),'k*');
 for i = 1:N
