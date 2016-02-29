@@ -1,7 +1,10 @@
 %Sim Main
+'Preliminaries'
 Prelims_no_b4m; %init everything
 clc;close all;
 %load('TempSets_par.mat');
+
+'Initializing plant'
 %init state for linearized system
 z0 = T_diffeo([x1_0;x2_0],a);
 x0 = T_inv_diffeo(z0,a);
@@ -16,6 +19,7 @@ X_0 = plus(x0_hat,-E);
 X_0.minHRep;
 
 %% get term cost
+'Computing term cost'
 Q = eye(size(A_d,2));
 R = 10^(-4)*eye(size(B_d,2));
 Q_term = dlyap((A_d-B_d*K_lqr_d),Q+K_lqr_d'*R*K_lqr_d);
@@ -33,7 +37,7 @@ v_applied = zeros(size(B_d,2),Tsim);
 z_true(:,1) = z0;
 
 figure(1);
-plot(Z);
+stairs(Z);
 hold on;
 figure(2);
 hold on;
@@ -62,18 +66,30 @@ z_true(:,k+1) = linplant(A_d,B_d,z_true(:,k),v_applied(k));
 
 
 figure(1);
-hold on;plot(z_true(1,k),z_true(2,k),'k*');pause(0.05);
-hold on;plot(Zreach{2},'Color','lightblue');
+hold on;stairs(z_true(1,k),z_true(2,k),'k*');pause(0.05);
+hold on;stairs(Zreach{2},'Color','lightblue');
 
 figure(2);
-plot(k,v_applied(k),'o');pause(0.05);
+stairs(k,v_applied(k),'o');pause(0.05);
 
 end
 
 figure(2);
 hold on;
-plot(1:k,z_true(1,1:k),'b');
+stairs(1:k,z_true(1,1:k),'b');
 hold on;
-plot(1:k,z_true(2,1:k),'g');
+stairs(1:k,z_true(2,1:k),'g');
 hold on;
-plot(1:k,v_applied(1:k),'k')
+stairs(1:k,v_applied(1:k),'k')
+
+%applied input actual
+u_applied = -tan(x_true(2,1:end-1))+(1./a*cos(x_true(2,1:end-1))).*v_applied(1:end-1);
+figure(3);
+hold on;
+stairs(1:k,x_true(1,1:k),'b');
+hold on;
+stairs(1:k,x_true(2,1:k),'g');
+hold on;
+stairs(1:k,u_applied(1:k),'k')
+
+

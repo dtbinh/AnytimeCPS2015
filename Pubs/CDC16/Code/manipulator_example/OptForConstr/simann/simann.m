@@ -47,7 +47,7 @@ fstar=Inf*ones(sa_neps,1);
 
 %x=LB+(UB-LB).*rand(1, sa_nargs);         %starting values for model parameters
 f=feval(func,x);                          %function evaluation with parameters x
-disp('initial loss function value:');disp(f);
+%disp('initial loss function value:');%disp(f);
 sa_nevals=sa_nevals+1;
 xopt=x;
 fopt=f;
@@ -70,7 +70,7 @@ while 1
     for j=1:sa_ns
       for h=1:sa_nargs
         if sa_nevals>=sa_maxeval
-          disp('too many function evaluations')
+          %disp('too many function evaluations')
           return
         end
         % generate xp, trial value of x
@@ -82,9 +82,9 @@ while 1
           sa_nobds=sa_nobds+1;
         end       
         % evaluate at xp and return as fp
-        %disp ('current parameter vector:');disp(xp);
+        %%disp ('current parameter vector:');%disp(xp);
         fp=feval(func,xp);                                 %function evaluation with parameters xp
-        %disp ('function value');disp(fp);
+        %%disp ('function value');%disp(fp);
         sa_nevals=sa_nevals+1;
 
         % we minimize! accept if the function value decreases
@@ -133,15 +133,15 @@ while 1
 
     % provide statistics about current state of optimization
     
-    disp('No. of evaluations');disp(sa_nevals);disp('  current temperature');disp(sa_t);
-    disp('current optimum function value');disp(fopt);
-    disp('No. of downhill steps');disp(nup);  % note misnomer in variable declaration!
-    disp('No. of accepted uphill steps');disp(ndown); % we minimize, thus downhill is always accepted!
-    disp('No. of rejections');disp(nrej);
-    disp('current parameter values');disp(xp);
-    disp('current optimum vector');disp(xopt);
-    disp('current step size');disp(VM);
-    %disp('Variables used:');whos;
+    %disp('No. of evaluations');%disp(sa_nevals);%disp('  current temperature');%disp(sa_t);
+    %disp('current optimum function value');%disp(fopt);
+    %disp('No. of downhill steps');%disp(nup);  % note misnomer in variable declaration!
+    %disp('No. of accepted uphill steps');%disp(ndown); % we minimize, thus downhill is always accepted!
+    %disp('No. of rejections');%disp(nrej);
+    %disp('current parameter values');%disp(xp);
+    %disp('current optimum vector');%disp(xopt);
+    %disp('current step size');%disp(VM);
+    %%disp('Variables used:');whos;
 
   for i=1:sa_nargs
      nacp(i) = 0;
@@ -157,7 +157,7 @@ while 1
   end
   
   if quit
-    disp(['simulated annealing achieved termination after ', num2str(sa_nevals),' evals']);
+    %disp(['simulated annealing achieved termination after ', num2str(sa_nevals),' evals']);
     return
   end
   
