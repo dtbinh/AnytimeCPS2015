@@ -15,6 +15,11 @@ z0_hat = T_diffeo(x0_hat,a);
 X_0 = plus(x0_hat,-E);
 X_0.minHRep;
 
+%% get term cost
+Q = eye(size(A_d,2));
+R = 10^(-4)*eye(size(B_d,2));
+Q_term = dlyap((A_d-B_d*K_lqr_d),Q+K_lqr_d'*R*K_lqr_d);
+
 
 %% mpc trial
 'Init MPC'
@@ -23,7 +28,7 @@ z_true = zeros(size(A_d,2),Tsim);
 z_hat = zeros(size(A_d,2),Tsim);
 x_true = zeros(size(A_d,2),Tsim);
 x_hat = zeros(size(A_d,2),Tsim);
-
+optval = zeros(Tsim,1);
 v_applied = zeros(size(B_d,2),Tsim);
 z_true(:,1) = z0;
 
@@ -48,7 +53,7 @@ X_k = plus(x_hat(:,k),-E); %setin which it true state lies given that measuremen
 
 %solve mpc
 'Solve MPC'
-[z_pred,v_pred] = NLRMPC(z_hat(:,k),Zjk,Z_f_worst,V_in,A_d,B_d,N);
+[z_pred,v_pred,optval(k)] = NLRMPC(z_hat(:,k),Zjk,Z_f_worst,V_in,A_d,B_d,N,Q,Q_term,R);
 v_applied(k) = v_pred(1); %apply first input
 
 %apply input to plant, update state
