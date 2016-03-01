@@ -35,9 +35,10 @@ x_hat = zeros(size(A_d,2),Tsim);
 optval = zeros(Tsim,1);
 v_applied = zeros(size(B_d,2),Tsim);
 z_true(:,1) = z0;
-
+V_inner_k = cell(Tsim,1); %local inner constraint set for v at time k
+E_tilde_k = cell(Tsim,1); %error set for zhat at time k
 figure(1);
-stairs(Z);
+plot(Z);
 hold on;
 figure(2);
 hold on;
@@ -54,7 +55,8 @@ X_k = plus(x_hat(:,k),-E); %setin which it true state lies given that measuremen
 %get constraints
 'Get constraints'
 [Zjk,V_in,Zreach,Xreach,E_tilde] = getZjs(x_hat(:,k),X_k,X,Z,E,W,U,V_inner_global,A_d,B_d,K_lqr_d,a,N);
-
+V_inner_k{k} = V_in{1};
+E_tilde_k{k} = E_tilde{1};
 %solve mpc
 'Solve MPC'
 [z_pred,v_pred,optval(k)] = NLRMPC(z_hat(:,k),Zjk,Z_f_worst,V_in,A_d,B_d,N,Q,Q_term,R);
@@ -67,7 +69,7 @@ z_true(:,k+1) = linplant(A_d,B_d,z_true(:,k),v_applied(k));
 
 figure(1);
 hold on;stairs(z_true(1,k),z_true(2,k),'k*');pause(0.05);
-hold on;stairs(Zreach{2},'Color','lightblue');
+hold on;plot(Zreach{2},'Color','lightblue');
 
 figure(2);
 stairs(k,v_applied(k),'o');pause(0.05);
@@ -91,5 +93,29 @@ hold on;
 stairs(1:k,x_true(2,1:k),'g');
 hold on;
 stairs(1:k,u_applied(1:k),'k')
+hold on
+plot(1:k,u_max*ones(k,1),'.');
+hold on
+plot(1:k,u_min*ones(k,1),'.');
 
-
+%% more plotting shite
+figure;
+hold on;
+plot(1:k,v_applied(1:k));
+hold all;
+mxv = zeros(k,1);
+mnv = zeros(k,1);
+for i = 1:k
+   [~,mxv(i),mnv(i)] = getRect(V_inner_k{i});
+end
+hold all;
+plot(1:k,mxv,'-.');
+hold all
+plot(1:k,mnv,'-.');
+hold all;
+[~,mxv_g,mnv_g] = getRect(V_inner_global);
+plot(1:k,mxv_g*ones(k,1),'--');
+hold all;
+plot(1:k,mnv_g*ones(k,1),'--');
+legend('v','v_{max-online}','v_{min-online}','v_{max-global}','v_{min-global}');
+grid on;
