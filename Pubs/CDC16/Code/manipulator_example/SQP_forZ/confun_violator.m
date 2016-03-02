@@ -15,8 +15,12 @@ function [c, ceq] = confun_violator(x)
 %     x(4)-pi/3;
 %     -x(4)-pi/3];
 load('SetsAndParams_Z.mat');
-c = [-X.A*x(1:4)+X.b+eps*ones(numel(X.b),1); %x not in X
-    Z_set_overbar.A*x(5:8)-Z_set_overbar.b]; % z/inZ
+
+temp = X.A*x(1:4)-X.b;
+
+c = [%-X.A*x(1:4)+X.b+eps*ones(numel(X.b),1); %x not in X
+-sum(temp>0)+0.9;    
+Z_set_overbar.A*x(5:8)-Z_set_overbar.b]; % z/inZ
 
 % Nonlinear equality constraints
 %x = Tinv(z)
