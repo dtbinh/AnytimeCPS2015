@@ -1,5 +1,5 @@
 %constants
-m = 1;
+m = 1/9.8; %to make life easy, all constants  = 1;
 k = 1;
 I = 1;
 J = 1;
@@ -17,14 +17,14 @@ params.c4 = c4;
 params.c5 = c5;
 
 %states and intervals
-x1_max = pi;
-x1_min = -pi;
-x2_max = pi;
-x2_min = -pi;
-x3_max = pi/4;
-x3_min = -pi/4;
-x4_max = pi/4;
-x4_min = -pi/4;
+x1_max = pi/4;%pi;%pi/4;
+x1_min = -pi/4;%-pi;%-pi/4;
+x2_max = pi/4;%pi;%pi/4;
+x2_min = -pi/4;% -pi;%-pi/4;
+x3_max = 2*pi;%pi;%2*pi;
+x3_min = -2*pi;%-pi;%-2*pi;
+x4_max = 2*pi;%pi;%2*pi;
+x4_min = -2*pi;%-pi;%-2*pi;
 
 X = Polyhedron('lb',[x1_min;x2_min;x3_min;x4_min],'ub',[x1_max;x2_max;x3_max;x4_max]);
 X.minHRep; %min rep that shi, G
