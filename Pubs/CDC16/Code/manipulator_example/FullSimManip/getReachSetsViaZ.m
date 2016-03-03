@@ -7,7 +7,7 @@ U = std2aug(V.A,V.b);
 W = std2aug(Wproc.A,Wproc.b);
 E = eye(size(Wproc.A,2));
 
-Zkp1aug = reach(A_d,B_d,E,X,U,W);
+Zkp1aug = reach(A_d,B_d,E,X,U,W); %how about MPT here?? man fuck this shit
 Zkp1 = Polyhedron('A',Zkp1aug(:,1:n),'b',Zkp1aug(:,n+1));
 Zkp1 = intersect(Zkp1,Z);
 Zkp1.minHRep;
