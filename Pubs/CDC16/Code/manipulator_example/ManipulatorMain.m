@@ -51,9 +51,9 @@ B_manip = [0;0;0;1];
 K_manip = lqr(A_manip,B_manip,eye(4),1*eye(1),[]);
 
 % init states
-x1_m_0 = -pi/4;
+x1_m_0 = -pi/10;
 x2_m_0 = 0;
-x3_m_0 = +pi/4;
+x3_m_0 = +pi/10;
 x4_m_0 = 0;
 
 %% init this file
