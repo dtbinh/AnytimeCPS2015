@@ -34,8 +34,10 @@ x2 = interval(x2_min,x2_max);
 x3 = interval(x3_min,x3_max);
 x4 = interval(x4_min,x4_max);
 % input interval
-u_max = 60;
-u_min = -60;
+u_max = 20;
+u_min = -20;
+U = Polyhedron('lb',u_min,'ub',u_max);
+U.minHRep;
 u = interval(u_min,u_max);
 
 %feedback linearization stuff
@@ -54,6 +56,7 @@ x2_m_0 = 0;
 x3_m_0 = +pi/4;
 x4_m_0 = 0;
 
-% init this file
+%% init this file
 info = 'file for optimization params';
-save('SetsAndParams.mat','info');
+Xreach = X;
+save('SetsAndParams.mat','params','Xreach','info');
