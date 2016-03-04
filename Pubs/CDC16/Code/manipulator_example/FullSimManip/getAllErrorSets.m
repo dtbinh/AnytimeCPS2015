@@ -1,4 +1,4 @@
-function [E_tilde_jgk,Z_k_reach,X_k_reach,V_inner_local] = getAllErrorSets(x_k,X_k,Z_k,X,Z,E,W,U,V_inner_global,A_d,B_d,K_lqr_d,a,N)
+function [E_tilde_jgk,Z_k_reach,X_k_reach,V_inner_local] = getAllErrorSets(x_k,X_k,Z_k,X,Z,E,W,U,V_inner_global,A_d,B_d,K_lqr_d,params,N)
 %% get all error sets till horizon from starting set X_k
 
 X_k_reach{1} = X_k;
@@ -25,7 +25,7 @@ for j = 2:N+1
     end
 end
 %% plots debug, needs to be run as a standalone, not a function
-debug = 0;
+debug = 1;
 if(debug) %plot if you feel like it
     figure(1);
     %plot(Z);
@@ -36,7 +36,7 @@ if(debug) %plot if you feel like it
         %Zbox.plot('Color','yellow');
         %end
         hold on
-        Z_k_reach{j}.plot('Color','green');%pause;
+        Z_k_reach{j}.projection(1:2).plot('Color','green');%pause;
         
         j;
     end
@@ -66,9 +66,9 @@ for i = 1:N
     plot(x_k(1),x_k(2),'k*');pause;
 end
 hold on;
-Z_f_worst.plot('Color','gray');
+Z_f_worst.projection(1:2).plot('Color','gray');
 end
 %%
 for j = 1:N+1
-    E_tilde_jgk{j} = get_E_tilde_bound([],a,X_k_reach{j},E);
+    E_tilde_jgk{j} = get_E_tilde_bound(X_k_reach{j},E,params);
 end
