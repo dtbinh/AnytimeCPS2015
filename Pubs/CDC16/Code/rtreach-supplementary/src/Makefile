@@ -7,7 +7,8 @@ LIBS = -lm
 FLAGS_ARM = -static
 GNUPLOT = gnuplot
 RTREACH_CORE = face_lift.c geometry.c interval.c simulate.c util.c
-RTREACH_EXAMPLES =  dynamics_pendulum.c
+RTREACH_EXAMPLES =  dynamics_arm.c
+# RTREACH_EXAMPLES = dynamics_pendulum.c
 # RTREACH_EXAMPLES = dynamics_converging_oscillator.c dynamics_harmonic_oscillator.c dynamics_vanderpol.c dynamics_pendulum.c dynamics_pendulum_nonlinear.c
 
 # using static on arm to enable double comparisons...:http://stackoverflow.com/questions/25756939/gnu-c-atof-strtof-and-strtod-fail-debian-for-beagleboard
@@ -26,9 +27,13 @@ x86:
 	$(CC) $(FLAGS) main.c $(RTREACH_CORE) $(RTREACH_EXAMPLES) pendulum.c $(LIBS) -o rtreach -DLINEAR_PENDULUM
 
 clean:
-	rm -f rtreach
-mpc: clean
-	$(CC) $(FLAGS) mpcmain.c $(RTREACH_CORE) $(RTREACH_EXAMPLES) car.c $(LIBS) -o rtreach -DLINEAR_PENDULUM
+	rm -f rtreachcar rtreacharm
+
+mpccar: clean
+	$(CC) $(FLAGS) mpcmain.c $(RTREACH_CORE) $(RTREACH_EXAMPLES) car.c $(LIBS) -o rtreachcar -DLINEAR_PENDULUM
+
+mpcarm: clean
+	$(CC) $(FLAGS) mpcmain.c $(RTREACH_CORE) $(RTREACH_EXAMPLES) arm.c $(LIBS) -o rtreacharm -DMANIPULATOR_ARM
 
 x86_nonlinear:
 	$(CC) $(FLAGS) main.c $(RTREACH_CORE) $(RTREACH_EXAMPLES) pendulum.c $(LIBS) -o rtreach -DNONLINEAR_PENDULUM
