@@ -56,7 +56,7 @@ while curIter <= tmax
         % minimal rep
         PT = minHRep(Polyhedron(T.H, T.K));
         if PT.isEmptySet
-            disp('PT');
+            disp('PT empty');
             status = -1;
             return;
         end
