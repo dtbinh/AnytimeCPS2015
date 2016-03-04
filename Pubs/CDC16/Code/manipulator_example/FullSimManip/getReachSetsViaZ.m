@@ -10,12 +10,20 @@ Xsafe = X; %this is now the initial set of x's, smaller than the real safe set
 % 
 % Zkp1aug = reach(A_d,B_d,E,X,U,W); %how about MPT here?? man fuck this shit
 % Zkp1 = Polyhedron('A',Zkp1aug(:,1:n),'b',Zkp1aug(:,n+1));
+speedup = 1;
+if(speedup)
+[Zk,~,~] = getRect(Zk); %rectangles to speedup
+end
 sys = LTISystem('A',A_d,'B',B_d,'C',eye(size(A_d,2))); %using MPT
+'reaching'
 Zkp1 = sys.reachableSet('X',Zk,'U',V);
 Zkp1.minHRep;
-Zkp1 = plus(Zkp1,Wproc); %add process noise to the set man
+'add process noise'
+Zkp1 = plus(Zkp1,Wproc,'fourier'); %add process noise to the set man
 Zkp1 = intersect(Zkp1,Z);
-Zkp1.minHRep;
+%'minhrep'
+%Zkp1.minHRep;
 Xkp1 = T_inv_diffeo(Zkp1,params);
+'intersect'
 Xkp1 = intersect(Xkp1,Xsafe);
 Xkp1.minHRep;
