@@ -5,37 +5,28 @@
 //  Created by mlab on 2/18/16.
 //
 //
-
-//#include "mpcmain.h"
-
-
 // ./rtreach maxrunTime reachHorizon
+// maxrunTime is the (wallclock) runtime of this code
+// reachHorizon is the horizon of reachability
 // example call: ./rtreach 100 1
 // Unsafe set is hard-coded in intermediateState()
 // Recoverable region is hard-coded in finalState()
 // initial set of reachability computation is hard-coded in main()
 //
 // state = {pos, vel, angle, angular_vel}
-// from startState = {-0.1, vel, 0, 0};
-// set velocity to 0.6 for a recoverable state inside the ellipse
-// set velocity to 0.7 for a recoverable state slightly outside of the ellipse
-// set velocity to 0.8 for a recoverable state outside of the ellipse
-// set velocity to 0.9 for an unrecoverable state
 
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
-//#include "main.h"
+#include "main.h"
 #include "car.h"
 
 #ifdef MATLAB
 // mxArray: see: http://www.mathworks.com/help/matlab/apiref/mxarray.html
 #include "matrix.h"
 #endif
-
-const int state_n = 4; // state dimension
 
 
 #if defined(MATLAB)
@@ -87,7 +78,7 @@ int main(int runtimeMs, REAL* startState)
 #endif
             
             //-0.1 0.0 0.0 1.1
-            REAL initSet[4][2] = {
+            REAL initSet[NUM_DIMS][2] = {
                 {-0.12, -0.95},
                 {-0.05, 0.05},
                 {-0.05, 0.05},
@@ -98,7 +89,7 @@ int main(int runtimeMs, REAL* startState)
                         runtimeMs, reachHorizon, startMs);
             
             HyperRectangle reachSet = runReachability(initSet, reachHorizon, runtimeMs, startMs);
-            printf("\n ===== Done. Reach set is:\n");
+            printf("\n ===== Done. Reach se t is:\n");
             println(&reachSet);
             
             // http://www.mathworks.com/help/matlab/apiref/mexprintf.html

@@ -76,6 +76,19 @@ REAL lift_single_rect(HyperRectangle* rect, REAL stepSize, REAL timeRemaining)
 		for (int f = 0; f < NUM_FACES; ++f)
 		{
 			int dim = f / 2;
+            //[HA] A face is either a 'min' face, meaning it lower bounds the rectangle, or a 'max' face,
+            // meaning it upper bounds the rectangle. Knowing which is which matters when we are trying to
+            // determine whether the face's neighborhood is inside the rectangle or outside it.
+            // Apparently faces with even index are min faces. But look at this: is this really the numbering scheme?
+            /*
+                    3?
+                  ------
+                 |      |
+             2?  |      |  1
+                 |      |
+                  ------
+                    0
+             */
 			bool isMin = (f % 2) == 0;
 
 			HyperRectangle faceNebRect;
@@ -84,6 +97,7 @@ REAL lift_single_rect(HyperRectangle* rect, REAL stepSize, REAL timeRemaining)
 			make_neighborhood_rect(&faceNebRect, f, &bloatedRect, rect, nebWidth[f]);
 
 			// test derivative inside neighborhood
+            // function defined in dynamics_*.c
 			REAL der = get_derivative_bounds(&faceNebRect, f);
 
 			if (der > MAX_DER) {
@@ -216,7 +230,7 @@ void generateSplitRectangle(HyperRectangle* rectToSplit, HyperRectangle* out,
 
 HyperRectangle face_lifting_iterative_improvement(int startMs, LiftingSettings* settings)
 {
-	bool rv = false;
+    // startMs: when this code started running
 	bool lastIterationSafe = false;
 
 	set_error_print_params(settings);
@@ -236,7 +250,6 @@ HyperRectangle face_lifting_iterative_improvement(int startMs, LiftingSettings* 
 		if (stepSize < 0.0000001)
 		{
 			DEBUG_PRINT("Quitting from step size too small: stepSize: %0.10f at iteration: %d\n\r", stepSize, iter);
-			rv = false;
 			break;
 		}
 
@@ -244,25 +257,26 @@ HyperRectangle face_lifting_iterative_improvement(int startMs, LiftingSettings* 
 			settings->restartedComputation();
                 }
 
-		REAL timeRemaining = settings->reachTime;
+		REAL reachTimeRemaining = settings->reachTime;
 		trackedRect = settings->init;
-		HyperRectangle hull;
+//		HyperRectangle hull;
 
 		// compute reachability up to split time
-		while (safe && timeRemaining > 0)
+		while (safe && reachTimeRemaining > 0)
 		{
-			if (settings->reachedAtIntermediateTime) {
-				hull = trackedRect;
-                        }
+            // [HA] commenting this out as it doesn't seem hull is used for anything
+			//if (settings->reachedAtIntermediateTime) {
+			//	hull = trackedRect;
+            //}
 
 			// debug changed so error tracker is always passed in (see note)
-			REAL timeElapsed = lift_single_rect(&trackedRect, stepSize, timeRemaining);
+			REAL timeElapsed = lift_single_rect(&trackedRect, stepSize, reachTimeRemaining);
 
 			// if we're not even close to the desired step size
 			if (hyperrectange_max_width(&trackedRect) > settings->maxRectWidthBeforeError)
 			{
 				DEBUG_PRINT("maxRectWidthBeforeError exceeded at time %f, rect = ",
-						settings->reachTime - timeRemaining);
+						settings->reachTime - reachTimeRemaining);
 				#if DEBUG
 				println(&trackedRect);
 				#endif
@@ -280,10 +294,10 @@ HyperRectangle face_lifting_iterative_improvement(int startMs, LiftingSettings* 
             
             //[HA] ran out of time, so check whether it entered the recoverable region before declaring failure
             // This too is commented out since we don't have a recoverable region in our application
-//			if (timeElapsed == timeRemaining && settings->reachedAtFinalTime)
+//			if (timeElapsed == reachTimeRemaining && settings->reachedAtFinalTime)
 //				safe = safe && settings->reachedAtFinalTime(&trackedRect);
 
-			timeRemaining -= timeElapsed;
+			reachTimeRemaining -= timeElapsed;
 		}
 
 		int now = milliseconds();
@@ -300,26 +314,16 @@ HyperRectangle face_lifting_iterative_improvement(int startMs, LiftingSettings* 
 				// we've exceeded our time, use the result from the last iteration
 				// note in a real system you would have an interrupt or something to cut off computation
 				DEBUG_PRINT("Quitting from runtime maxed out\n\r");
-
-				rv = lastIterationSafe;
-				break;
-			}
-
-			if (safe)
-			{
-				// already safe with current step size, break
-				DEBUG_PRINT("Found safe, stopping\n\r");
-				rv = true;
 				break;
 			}
 		}
 		else
 		{
-			// runtime was negative, split a fixed number of times
+			// if max runtime was negative, this means we want to split a fixed number of times
+            //[HA] no clue what this is doing,
 			if (settings->maxRuntimeMilliseconds++ == 0)
 			{
 				DEBUG_PRINT("Splitting\n\r");
-				rv = safe;
 				break;
 			}
 		}
