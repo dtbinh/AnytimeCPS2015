@@ -57,7 +57,7 @@ x3_m_0 = +pi/10;
 x4_m_0 = 0;
 
 % Error set
-mag = deg2rad(eps);
+mag = deg2rad(1);
 E = Polyhedron('lb',-mag*ones(4,1),'ub',mag*ones(4,1));
 
 % Disturbance set
