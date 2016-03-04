@@ -30,7 +30,7 @@ lambda = 0.9995;%.999995;%0.991 works, 0.999995
 tol = .01; %.0001 works
 
 
-
+%% 
 [Cdelta,tstar,fd] = kinfset(A_d,B_d,E,X,U,Wset,T,tmax,lambda,tol); %robust inv set
 Cdelta_MPT = Polyhedron('A',Cdelta(:,1:size(A_d,2)),'b',Cdelta(:,size(A_d,2)+1:end));
 Z_f_worst = Cdelta_MPT - L_N*What;

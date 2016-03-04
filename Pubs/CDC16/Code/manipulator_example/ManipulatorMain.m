@@ -17,10 +17,10 @@ params.c4 = c4;
 params.c5 = c5;
 
 %states and intervals
-x1_max = pi/4;%pi;%pi/4;
-x1_min = -pi/4;%-pi;%-pi/4;
-x2_max = pi/4;%pi;%pi/4;
-x2_min = -pi/4;% -pi;%-pi/4;
+x1_max = pi;%pi/4;
+x1_min = -pi;%-pi;%-pi/4;
+x2_max = pi;%pi;%pi/4;
+x2_min =  -pi;%-pi;%-pi/4;
 x3_max = 2*pi;%pi;%2*pi;
 x3_min = -2*pi;%-pi;%-2*pi;
 x4_max = 2*pi;%pi;%2*pi;
@@ -57,7 +57,7 @@ x3_m_0 = +pi/10;
 x4_m_0 = 0;
 
 % Error set
-mag = deg2rad(.1);
+mag = deg2rad(eps);
 E = Polyhedron('lb',-mag*ones(4,1),'ub',mag*ones(4,1));
 
 % Disturbance set
