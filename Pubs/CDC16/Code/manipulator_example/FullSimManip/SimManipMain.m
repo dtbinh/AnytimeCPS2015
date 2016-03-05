@@ -7,7 +7,7 @@ Z = Z_set_final;
 X0 = X_set_final;
 'Initializing plant'
 %init state for linearized system
-x_0 = [0.5;-0.25;0;0];
+x_0 = [0.25;0.25;0;0];
 
 if(~X0.isInside(x_0))
    'Init State outside admissible region'
@@ -45,9 +45,11 @@ v_applied = zeros(size(B_d,2),Tsim);
 z_true(:,1) = z0;
 V_inner_k = cell(Tsim,1); %local inner constraint set for v at time k
 E_tilde_k = cell(Tsim,1); %error set for zhat at time k
+
 figure(1);
-plot(Z.projection(1:2));
-hold on;
+plot(Z.projection(1:2));grid on;hold on;
+plot(z_true(1,1),z_true(2,1),'*');hold on;
+
 figure(2);
 hold on;
 pause(0.01);
@@ -79,6 +81,7 @@ z_true(:,k+1) = linplant(A_d,B_d,z_true(:,k),v_applied(k));
 
 
 figure(1);
+grid on;
 hold on;stairs(z_true(1,k),z_true(2,k),'k*');pause(0.05);
 hold on;plot(Zreach{2}.projection(1:2),'Color','lightblue');
 
@@ -89,6 +92,7 @@ hold on
 plot(k,mxv,'k*');
 hold on;
 plot(k,mnv,'k*');
+grid on;
 end
 
 figure(2);
