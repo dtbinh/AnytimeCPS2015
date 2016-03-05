@@ -57,7 +57,7 @@ x3_m_0 = +pi/10;
 x4_m_0 = 0;
 
 % Error set
-mag = deg2rad(.05);
+mag = deg2rad(.5);
 E = Polyhedron('lb',-mag*ones(4,1),'ub',mag*ones(4,1));
 
 % Disturbance set
@@ -87,8 +87,8 @@ R = eye(size(B_manip,2));
 A_d = sys_d.A;
 B_d = sys_d.B;
 
-%fuck it go with the flow
-%[Cdelta_MPT,Z_f_worst,status,tstar,fd] = GetTerminalSetZ(A_d,B_d,K_lqr_d,N,Z,V_inner_global,E_max,W);
+%% fuck it go with the flow
+%[Cdelta_MPT_inv,Z_f_worst_Inv,status_inv,tstar_inv,fd_inv] = GetTerminalSetZ(A_d,B_d,K_lqr_d,N,Z,V_inner_global,E_max,W);
 [Cdelta_MPT,Z_f_worst,status,tstar,fd] = GetTerminalSetZ_new(A_d,B_d,K_lqr_d,N,Z,V_inner_global,E_max,W);
 Cdelta_MPT.minHRep;
 Z_f_worst.minHRep;
