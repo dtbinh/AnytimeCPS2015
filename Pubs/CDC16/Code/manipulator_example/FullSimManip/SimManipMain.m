@@ -84,7 +84,11 @@ hold on;plot(Zreach{2}.projection(1:2),'Color','lightblue');
 
 figure(2);
 stairs(k,v_applied(k),'o');pause(0.01);
-
+[~,mxv,mnv] = getRect(V_in{1});
+hold on
+plot(k,mxv,'k*');
+hold on;
+plot(k,mnv,'k*');
 end
 
 figure(2);
