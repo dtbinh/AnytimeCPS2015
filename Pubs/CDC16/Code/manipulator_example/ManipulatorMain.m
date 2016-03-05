@@ -57,7 +57,7 @@ x3_m_0 = +pi/10;
 x4_m_0 = 0;
 
 % Error set
-mag = deg2rad(1);
+mag = deg2rad(.25);
 E = Polyhedron('lb',-mag*ones(4,1),'ub',mag*ones(4,1));
 
 % Disturbance set
@@ -88,9 +88,11 @@ A_d = sys_d.A;
 B_d = sys_d.B;
 
 %fuck it go with the flow
-[Cdelta_MPT,Z_f_worst,status,tstar,fd] = GetTerminalSetZ(A_d,B_d,K_lqr_d,N,Z,V_inner_global,E_max,W);
+%[Cdelta_MPT,Z_f_worst,status,tstar,fd] = GetTerminalSetZ(A_d,B_d,K_lqr_d,N,Z,V_inner_global,E_max,W);
 
 %plot that garbage
+yesplot = 0;
+if(yesplot)
 figure(1);
 plot(Z.projection(1:2));
 hold on
@@ -106,3 +108,4 @@ plot(Cdelta_MPT.projection(3:4),'Color','yellow');
 hold on;
 plot(Z_f_worst.projection(3:4),'Color','blue');
 xlabel('z_3');ylabel('z_4');
+end

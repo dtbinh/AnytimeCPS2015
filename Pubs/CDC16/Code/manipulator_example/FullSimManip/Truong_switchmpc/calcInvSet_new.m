@@ -23,8 +23,8 @@ end
 Ahat = sys.A;% [sys.A, sys.B1; zeros(nu, nx+nu)];
 Bhat = sys.B;%[sys.B2; eye(nu)];
 
-qw = supportFunNorm(pw); %hardcode to 1 if pw,pe is inf
-qe = supportFunNorm(pe);
+qw = 1;%supportFunNorm(pw); %hardcode to 1 if pw,pe is inf
+qe = 1;%supportFunNorm(pe);
 
 % if LNF ~ 0 then we don't need to consider the disturbances What
 hasWhat = ~all(all(abs(LNF) < eps));
@@ -56,7 +56,7 @@ while curIter <= tmax
         % minimal rep
         PT = minHRep(Polyhedron(T.H, T.K));
         if PT.isEmptySet
-            disp('PT');
+            disp('PT empty');
             status = -1;
             return;
         end
