@@ -19,9 +19,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <assert.h>
 
 #include "main.h"
 #include "car.h"
+
 
 #ifdef MATLAB
 // mxArray: see: http://www.mathworks.com/help/matlab/apiref/mxarray.html
@@ -79,17 +81,17 @@ int main(int runtimeMs, REAL* startState)
             
             //-0.1 0.0 0.0 1.1
             REAL initSet[NUM_DIMS][2] = {
-                {-0.12, -0.95},
+                {-0.12, 0.12},
                 {-0.05, 0.05},
-                {-0.05, 0.05},
-                {1.0, 1.2}
+                {0.1, 0.2},
+                {0.1, 0.2}
             };
             int startMs = milliseconds();
-            DEBUG_PRINT("Runtime: %d ms, Reach horizon = %d ms, startMs=%d ms\r",
+            DEBUG_PRINT("Runtime: %d ms, Reach horizon = %d ms, startMs=%d ms\n",
                         runtimeMs, reachHorizon, startMs);
             
             HyperRectangle reachSet = runReachability(initSet, reachHorizon, runtimeMs, startMs);
-            printf("\n ===== Done. Reach se t is:\n");
+            printf("\n ===== Done. Reach set is :\n");
             println(&reachSet);
             
             // http://www.mathworks.com/help/matlab/apiref/mexprintf.html

@@ -10,10 +10,14 @@
 #include "face_lift.h"
 #include "util.h"
 
+static const REAL PI = 3.1416;
+
 // make a face's neighborhood of a given width
 void make_neighborhood_rect(HyperRectangle* out, int f,
 		HyperRectangle* bloatedRect, HyperRectangle* originalRect, REAL nebWidth)
 {
+    //[HA] this returns a nhbd of face f that has width nebWidth.
+    // Except along dim d, the nhbd equals bloatedRect. Along d, it extends from the face of _originalRect_ (the non-bloated one) up to width nebWidth along the d axis.
 	*out = *bloatedRect;
 	bool isMin = (f % 2) == 0;
 	int d = f / 2;
@@ -37,11 +41,50 @@ void make_neighborhood_rect(HyperRectangle* out, int f,
 		out->dims[d].max += nebWidth;
 }
 
+
+REAL restrict_angle(REAL angle, int dim)
+{
+    // Restrict angle to the range [-PI, PI]
+    REAL ra = angle;
+    if (0){//(dim <= 1) {
+        if (angle <= PI && angle >= -PI) {
+            ra = angle;
+        }
+        else if (angle > PI) {
+            // angle = pi + k*pi + r*pi, k integer, 0<= r <1
+            REAL rp = fmod(angle, PI);
+            REAL r = rp/PI;
+            int m = (angle - rp)/PI - 1;
+            if (m % 2 ==0) {
+                ra = -(1-r)*PI;
+            }
+            else {
+                ra = r*PI;
+            }
+        }
+        else {
+            // angle = -pi -k*pi - r*pi
+            REAL rp = fmod(-angle, PI);
+            REAL r = rp / PI;
+            int m = (-angle - rp)/PI -1 ;
+            if (m % 2 == 0) {
+                ra = (1-r)*PI;
+            }
+            else {
+                ra = -r*PI;
+            }
+        }
+        printf("Restricted angle %f to %f\n", angle, ra);
+    }
+
+    return ra;
+}
 // necessary to guarantee loop termination
 const REAL MAX_DER = 99999;
 const REAL MIN_DER = -99999;
 
 // do a single face lifting operation
+// [HA] (i.e. for a single stepSize)
 // et (error tracker) is set if you want to track the sources of errors, can be null
 // returns time elapsed
 REAL lift_single_rect(HyperRectangle* rect, REAL stepSize, REAL timeRemaining)
@@ -61,13 +104,16 @@ REAL lift_single_rect(HyperRectangle* rect, REAL stepSize, REAL timeRemaining)
 
 	// initially, estimate nebWidth based on the derivative in the center of the rectangle we care about
 
-	for (int f = 0; f < NUM_FACES; ++f)
+    for (int f = 0; f < NUM_FACES; ++f) {
 		nebWidth[f] = 0;
+    }
 
 	bool needRecompute = true;
 	REAL minNebCrossTime;
 	REAL ders[NUM_FACES];
 
+    HyperRectangle initialRect = *rect;
+    
 	while (needRecompute)
 	{
 		needRecompute = false;
@@ -90,6 +136,7 @@ REAL lift_single_rect(HyperRectangle* rect, REAL stepSize, REAL timeRemaining)
                     0
              */
 			bool isMin = (f % 2) == 0;
+            //DEBUG_PRINT("\tFace %d, dim %d, isMin = %d\n", f, dim, isMin);
 
 			HyperRectangle faceNebRect;
 
@@ -133,28 +180,45 @@ REAL lift_single_rect(HyperRectangle* rect, REAL stepSize, REAL timeRemaining)
 			// adjust bloated rect only if we are requiring a later recomputation
 			if (needRecompute)
 			{
+//                DEBUG_PRINT("\tNeed to recompute\n");
+                //[HA] Nhbd recomputation is done iteratively. First, nhbd N0 = face F. We maximize derivative over the face and obtain the max DF.
+                // We use DF to build a nhbd N1 of face F of width DF*stepSize. If max derivative over N1, DN1, is larger than 2*DF, then we need
+                // to re-compute because a point starting in N0 might pick up speed and exit N1 (which, remember, was computed bvased on DN0).
+                // So we compute N2 of width DN1*stepSize, max derivative over that to obtain DN2. And repeat until there's no need to re-compute (or we
+                // hit a pre-determined max nb of iterations or something).
+                
+                // extending the face by stepSize*der , where der is the max derivative we just computed inside the current nhbd.
 				nebWidth[f] = newNebWidth;
 
-				if (isMin && nebWidth[f] < 0)
-					bloatedRect.dims[dim].min = rect->dims[dim].min + nebWidth[f];
-				else if (!isMin && nebWidth[f] > 0)
-					bloatedRect.dims[dim].max = rect->dims[dim].max + nebWidth[f];
+                if (isMin && nebWidth[f] < 0) {
+                    REAL newmin = rect->dims[dim].min + nebWidth[f];
+                    newmin = restrict_angle(newmin, dim);
+                    bloatedRect.dims[dim].min = newmin;
+                }
+                else if (!isMin && nebWidth[f] > 0) {
+                    REAL newmax = rect->dims[dim].max + nebWidth[f];
+                    newmax = restrict_angle(newmax, dim);
+					bloatedRect.dims[dim].max = newmax;
+                }
 			}
 			else
 			{
 				// might be the last iteration, compute min time to cross face
-
 				// clamp derivative if it changed direction
 				// this means along the face it's inward, but in the neighborhood it's outward
 				if (der < 0 && prevNebWidth > 0) {
 					der = 0;
-                                }
+                }
 				else if (der > 0 && prevNebWidth < 0) {
 					der = 0;
-                                }
+                }
 
 				if (der != 0)
 				{
+                    //[HA] this is how much reach time will actually elapse if we use this der value along this face.
+                    // crossTime will be less than stepSize if der > prev der, but it will always be at least stepSize/2.
+                    // That's because if der > 2*prev der (which is what would cause crossTime to be less than stepSize/2), needToRecompute = true and we
+                    // recompute smaller nhbds.
 					REAL crossTime = prevNebWidth / der;
 
 					if (crossTime < minNebCrossTime) {
@@ -163,20 +227,18 @@ REAL lift_single_rect(HyperRectangle* rect, REAL stepSize, REAL timeRemaining)
 				}
 
 				ders[f] = der;
+//                DEBUG_PRINT("\tders[%d] = %f\n", f, der);
 			}
-		}
-	}
+		} // ends for each fce
+	} // ends while need to recompute
+    
 
+    //[HA] If we've reached here, this means we didn't need to re-compute, so we have a good minNebCrossTime.
 	if (minNebCrossTime * 2 < stepSize)
 	{
-		//printf(": minNebCrossTime = %f, stepSize = %f\n", minNebCrossTime, stepSize);
-		//printf(": debugNumCalls = %i\n", debugNumCalls);
-
+		//sanity check
 		error_exit("minNebCrossTime is less than half of step size.");
 	}
-
-	//printf("\n");
-
 	////////////////////////////////////////
 	// lift each face by the minimum time //
 
@@ -192,9 +254,19 @@ REAL lift_single_rect(HyperRectangle* rect, REAL stepSize, REAL timeRemaining)
 	// do the lifting
 	for (int d = 0; d < NUM_DIMS; ++d)
 	{
-		rect->dims[d].min += ders[2*d] * timeToElapse;
-		rect->dims[d].max += ders[2*d+1] * timeToElapse;
+        REAL lowerbound = restrict_angle(ders[2*d] * timeToElapse, d);
+		rect->dims[d].min += lowerbound;
+        REAL upperbound = restrict_angle(ders[2*d+1] * timeToElapse, d);
+		rect->dims[d].max += upperbound;
 	}
+    
+//    if (!hyperrectangle_contains(rect, &initialRect, true) ) {
+//        printf("Lifted rectangle does not contain input rectangle.\nLifted:");
+//        println(rect);
+//        printf("\nInitial:");
+//        println(&initialRect);
+//        error_exit("Bye\n");
+//    }
 
 	if (!hyperrectangle_contains(&bloatedRect, rect, true))
 	{
@@ -241,6 +313,10 @@ HyperRectangle face_lifting_iterative_improvement(int startMs, LiftingSettings* 
 
     HyperRectangle trackedRect;
     
+    printf("Initial set is ");
+    println(&settings->init);
+    printf("\n\n");
+    
 	while (true)
 	{
 		iter++;
@@ -260,6 +336,7 @@ HyperRectangle face_lifting_iterative_improvement(int startMs, LiftingSettings* 
 		REAL reachTimeRemaining = settings->reachTime;
 		trackedRect = settings->init;
 //		HyperRectangle hull;
+        
 
 		// compute reachability up to split time
 		while (safe && reachTimeRemaining > 0)
@@ -273,10 +350,11 @@ HyperRectangle face_lifting_iterative_improvement(int startMs, LiftingSettings* 
 			REAL timeElapsed = lift_single_rect(&trackedRect, stepSize, reachTimeRemaining);
 
 			// if we're not even close to the desired step size
-			if (hyperrectange_max_width(&trackedRect) > settings->maxRectWidthBeforeError)
+            REAL hrwidth = hyperrectange_max_width(&trackedRect);
+			if (hrwidth > settings->maxRectWidthBeforeError)
 			{
-				DEBUG_PRINT("maxRectWidthBeforeError exceeded at time %f, rect = ",
-						settings->reachTime - reachTimeRemaining);
+				DEBUG_PRINT("Width %f exceeds maxRectWidthBeforeError at reach time %f, iter = %d, rect = ",
+						hrwidth, settings->reachTime - reachTimeRemaining, iter);
 				#if DEBUG
 				println(&trackedRect);
 				#endif
@@ -303,7 +381,7 @@ HyperRectangle face_lifting_iterative_improvement(int startMs, LiftingSettings* 
 		int now = milliseconds();
 		int elapsedTotal = now - startMs;
 
-		DEBUG_PRINT("%dms: stepSize = %f\n",	elapsedTotal, stepSize);
+		DEBUG_PRINT("%dms: ran reachability wiht stepSize = %f\n",	elapsedTotal, stepSize);
 
 		if (settings->maxRuntimeMilliseconds > 0)
 		{
@@ -334,7 +412,7 @@ HyperRectangle face_lifting_iterative_improvement(int startMs, LiftingSettings* 
 		stepSize /= 2;
 	}
 
-	DEBUG_PRINT("iterations at quit: %d\n\r", iter);
+	DEBUG_PRINT("Nb of stepSize reductions at quit: %d\n\r", iter);
 
     return trackedRect;
 //	return rv;
