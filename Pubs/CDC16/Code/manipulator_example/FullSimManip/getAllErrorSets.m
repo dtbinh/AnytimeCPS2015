@@ -12,16 +12,16 @@ else
 end
 V_inner_local{1} = getLocalVInner_interval(X_k_reach{1},U,params);
 for j = 2:N+1
-    j
-    'computing reach sets'
+    %j
+    %'computing reach sets'
     [Z_k_reach{j},X_k_reach{j}] = getReachSetsViaZ(Z_k_reach{j-1},V_inner_local{j-1},A_d,B_d,Z,X,W,params);
     %[Z_k_reach{j},X_k_reach{j}] = getReachSetsViaZ(Z_k_reach{j-1},V_inner_global,A_d,B_d,Z,X,W,a);
-    'got reach sets, inner approx now'
+    %'got reach sets, inner approx now'
     V_inner_local{j} = getLocalVInner_interval(X_k_reach{j},U,params);
-    'got inner approx'
+    %'got inner approx'
     if(Z_k_reach{j}.isEmptySet|| X_k_reach{j}.isEmptySet || ~Z_k_reach{j}.isFullDim)
         'Some reach set does not intersect with safe set or is not full dim'
-        pause;
+        keyboard;
     end
 end
 %% plots debug, needs to be run as a standalone, not a function

@@ -15,15 +15,15 @@ if(speedup)
 [Zk,~,~] = getRect(Zk); %rectangles to speedup
 end
 sys = LTISystem('A',A_d,'B',B_d,'C',eye(size(A_d,2))); %using MPT
-'reaching'
+%'reaching'
 Zkp1 = sys.reachableSet('X',Zk,'U',V);
 Zkp1.minHRep;
-'add process noise'
+%'add process noise'
 Zkp1 = plus(Zkp1,Wproc,'fourier'); %add process noise to the set man
 Zkp1 = intersect(Zkp1,Z);
 %'minhrep'
 %Zkp1.minHRep;
 Xkp1 = T_inv_diffeo(Zkp1,params);
-'intersect'
+%'intersect'
 Xkp1 = intersect(Xkp1,Xsafe);
 Xkp1.minHRep;

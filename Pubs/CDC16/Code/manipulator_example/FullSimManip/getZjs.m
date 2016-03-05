@@ -1,6 +1,7 @@
 function [Zjk,V_inner_local,Z_reach,X_reach,E_tilde] = getZjs(xk,X_k,X,Z,E,W,U,V_inner_global,A_d,B_d,K_lqr_d,params,N)
 %function [Zjk,V_inner_local,Z_reach,X_reach] = getZjs(xk,X_k,X,Z,E,W,U,V_inner_global,A_d,B_d,K_lqr_d,a,N)
 %%
+X_reach = cell(N+1,1);
 F = eye(size(Z.A,2));
 Zjk = cell(1+N,1);
 

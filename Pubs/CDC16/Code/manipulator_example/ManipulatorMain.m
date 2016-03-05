@@ -57,7 +57,7 @@ x3_m_0 = +pi/10;
 x4_m_0 = 0;
 
 % Error set
-mag = deg2rad(.25);
+mag = deg2rad(.01);
 E = Polyhedron('lb',-mag*ones(4,1),'ub',mag*ones(4,1));
 
 % Disturbance set
@@ -74,7 +74,7 @@ save('SetsAndParams.mat','params','Xreach','info');
 %get republican sets
 V_inner_global = getLocalVInner_interval(Xreach,U,params);
 E_max = get_E_tilde_bound(Xreach,E,params);
-
+clear Xreach;
 %% discretization and term set
 N = 5;
 h = 1/10;
@@ -89,7 +89,17 @@ B_d = sys_d.B;
 
 %fuck it go with the flow
 %[Cdelta_MPT,Z_f_worst,status,tstar,fd] = GetTerminalSetZ(A_d,B_d,K_lqr_d,N,Z,V_inner_global,E_max,W);
+[Cdelta_MPT,Z_f_worst,status,tstar,fd] = GetTerminalSetZ_new(A_d,B_d,K_lqr_d,N,Z,V_inner_global,E_max,W);
 
+
+% load('InvSet');
+% Cdelta_MPT = Cinvariant;
+% L_N = (A_d-B_d*K_lqr_d)^N;
+% temp = plus(W,E_max,'fourier');
+% What = plus(temp,-A_d*E_max,'fourier');
+% Zf = Cinvariant-L_N*What;
+% Zf = Zf.minHRep;
+% Z_f_worst = Zf;
 %plot that garbage
 yesplot = 0;
 if(yesplot)
