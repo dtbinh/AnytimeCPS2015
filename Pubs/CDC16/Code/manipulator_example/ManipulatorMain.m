@@ -76,7 +76,7 @@ V_inner_global = getLocalVInner_interval(Xreach,U,params);
 E_max = get_E_tilde_bound(Xreach,E,params);
 clear Xreach;
 %% discretization and term set
-N = 5;
+N = 10;
 h = 1/10;
 sys = ss(A_manip,B_manip,eye(4),zeros(size(A_manip,2),size(B_manip,2)));
 sys_d = c2d(sys,h);
@@ -90,7 +90,8 @@ B_d = sys_d.B;
 %fuck it go with the flow
 %[Cdelta_MPT,Z_f_worst,status,tstar,fd] = GetTerminalSetZ(A_d,B_d,K_lqr_d,N,Z,V_inner_global,E_max,W);
 [Cdelta_MPT,Z_f_worst,status,tstar,fd] = GetTerminalSetZ_new(A_d,B_d,K_lqr_d,N,Z,V_inner_global,E_max,W);
-
+Cdelta_MPT.minHRep;
+Z_f_worst.minHRep;
 
 % load('InvSet');
 % Cdelta_MPT = Cinvariant;

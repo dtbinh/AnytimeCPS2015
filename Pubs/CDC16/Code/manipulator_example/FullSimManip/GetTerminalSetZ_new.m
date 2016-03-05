@@ -31,3 +31,5 @@ Cdelta_MPT = Polyhedron(Cinv.H,Cinv.K);
 Z_f_worst = Cdelta_MPT - L_N*What;
 Z_f_worst = intersect(Z_f_worst,Zsets{N+1});
 Cdelta_MPT = intersect(Cdelta_MPT,Zsets{N+1});
+tstar = [];
+fd = [];
