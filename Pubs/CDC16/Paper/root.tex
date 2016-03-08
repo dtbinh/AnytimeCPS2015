@@ -50,6 +50,23 @@
 
 \newcommand\Mark[1]{\textsuperscript#1}
 
+% See the \addtolength command later in the file to balance the column lengths
+% on the last page of the document
+
+% The following packages can be found on http:\\www.ctan.org
+%\usepackage{graphics} % for pdf, bitmapped graphics files
+%\usepackage{epsfig} % for postscript graphics files
+%\usepackage{mathptmx} % assumes new font selection scheme installed
+%\usepackage{times} % assumes new font selection scheme installed
+\usepackage{amsmath} % assumes amsmath package installed
+\usepackage{amssymb}  % assumes amsmath package installed
+%\begin{document}
+\title{\LARGE \bf
+Co-Design of Anytime Computation and Robust Control
+}
+%
+
+
 
 \title{\LARGE \bf
 Robust Model Predictive Control for Non-Linear Systems Feedback Linearization 
@@ -73,7 +90,8 @@ Corporation program sponsored by MARCO and DARPA, NSF MRI-0923518 and the US Dep
 \thispagestyle{empty}
 \pagestyle{empty}
 
-
+\input{formulation}
+\input{RMPC}
 
 
 %\section*{Acknowledgements}

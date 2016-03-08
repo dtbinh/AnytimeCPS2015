@@ -1,0 +1,50 @@
+\section{Robust MPC for the feedback linearized system}
+
+Similar to \textbf{[RTSS15],[RichardAndHow]}, we formulate the Robust MPC via constraint restriction. The key idea is to tighten the state constraints at each time step in the MPC horizon in order to account for the effect of the disturbances (estimation error and process noise). Through this tightening we ensure robust safety and feasibility of the feedback linearized system (and hence the non-linear system) by using these "tightened" state-constraints in the Robust MPC optimization. This also allows us to express the state dynamics in a "nominal" form, where the disturbances are moved to the constraints and we can use the original dynamics of the system without any disturbances in the optimization. Since we use just the nominal dynamics, and show that the tightened constraints are linear in the state and inputs, we still solve a Quadratic Program (QP) for the MPC optimization. This not only allows us to keep a check on the complexity of the MPC optimization, but also allows us to formulate the MPC with a quadratic cost on the input to the feedback linearized system \textbf{[InputPaperRef8]}.
+
+Since for the control, we only have access to the state estimate $\hat{z}_k$, we need to re-write the feedback linearized dynamics with respect to this state estimate. Since $\hat{z}_k = z_k +\tilde{e}_k$, at time step $k+1$ we have:
+
+\begin{subequations} \label{eq:dynamics_estimate}
+\begin{align}
+\hat{z}_{k+1} &= z_{k+1} + \tilde{e}_{k+1} \nonumber \\
+&=Az_k + Bv_k + \tilde{e}_{k+1} +w_k \nonumber \\
+&=A\hat{z}_k + Bv_k + (w_k+ \tilde{e}_{k+1} -A \tilde{e}_{k})  \nonumber\\
+&=A\hat{z}_k + Bv_k + \hat{w}_{k+1}
+\end{align}
+\end{subequations}
+
+where $\hat{w}_{k+1} = w_k+ \tilde{e}_{k+1} -A \tilde{e}_{k}$. The set of possible values that $\hat{w}_{k+1}$ can take is given by $W_{k+1} = W\oplus\tilde{E}_{k+1}\oplus(-A\tilde{E_k})$. Here, the symbol $\oplus$ denotes the Minkowski sum of two sets. Note, since we compute $\tilde{E}_{k+j}$ using the online reachability based method of Section \textbf{SecRef}, the computed $W_{k+1}$, given state estimate at time $k$, $\hat{z}_k$, is given by $W_{k+1|k}=W\oplus{E}_{k+1|k}\oplus(-A\tilde{E_{k|k}})$. 
+
+For the Robust MPC formulation, we use the nominal dynamics, which are the dynamics of Eq.\ref{eq:dynamics_estimate}, but with the disturbance removed (by moving it to the constraints). For robust feasibility and safety under the bounded disturbances applicable throughout the horizon, the state constraint set is tightened at each step using a stabilizing feedback controller $K$ and a terminal constraint is derived using the worst case estimation error set $\tilde{E}_{max}$ and the inner convex (hyper-rectangular) global approximation for the input constraints $V_{inner-global}$. More details on these will follow later in the section.
+With this, the Robust MPC problem $\mathbb{P}_k(\hat{z}_k)$, is:
+
+\begin{subequations} \label{eq:RMPC}
+\begin{align}
+J^{*}(\hat{z_k}) = \text{min} &\sum_{j=0}^{N}\lbrace\bar{z}_{k+j|k}'Q\bar{z}_{k+j|k} + {v}_{k+j|k}'R{v}_{k+j|k}\rbrace \nonumber \\ 
+&+ \bar{z}_{k+N+1|k}'Q_f\bar{z}_{k+N+1|k} \label{eq:cost} \\
+\text{subject to,} &\forall j=0,\dotsc\,N \nonumber \\
+\bar{z}_{k+j+1|k}&=A\bar{z}+{k+j|k} + Bv_{k+j|k} \label{eq:nom_dyn} \\
+\bar{z}_{k|k} &= \hat{z}_{k} \label{eq:init_cond}\\
+\bar{z}_{k+j|k}& \in Z_{j|k} \label{eq:states_con}\\
+\text{and } &\forall j=0,\dotsc,N-1 \nonumber \\
+v_{k+j|k} & \in V_{j|k} \label{eq:input_con} \\
+[z_{k+N+1|k} \, v_{k+N}|k]' & \in Z_f \label{eq:joint_term} 
+\end{align}
+\end{subequations}
+
+Here, $\bar{z}$ represents the nominal dynamics. The cost and constraints of the optimization are explained below:
+\begin{itemize}
+\item Eq.(\ref{eq:cost}) Shows a quadratic cost of the nominal state and the input for the feedback linearized system, where as usual Q is positive definite and R is positive semi-definite. For the cost on the terminal state $\bar{z}_{k+N+1|k}$, $Q_f$ is the solution of the Lyapunov equation given by $Q_f-(A+BK)'Q(A+BK) = Q+K'RK$ where $Q,\,R,\,A,\,B,\,K$ are as defined above.
+
+\item Eq.(\ref{eq:nom_dyn}) is the nominal dynamics of the discretized, feedback linearized system.
+
+\item Eq.(\ref{eq:init_cond}) is the initial condition which initializes the nominal state with the current state estimate.
+
+\item Eq.(\ref{eq:states_con}) tightens the admissible set of the nominal states by a sequence of shrinking sets.
+
+\item Eq.(\ref{eq:joint_term}) constrains the input at step $N$ and nominal state at step $N+$  to be within a terminal set $\hat{Z}_f$.
+
+\end{itemize}
+
+\input{constraints}
+

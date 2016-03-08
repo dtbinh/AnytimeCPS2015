@@ -1,0 +1,74 @@
+\subsection{State and Input Constraints for the Robust MPC}
+
+The state and input constraints for the Robust MPC are as defined as follows:
+
+\textit{The state constraints $Z_{j|k}$:}
+The tightened state constraints are functions of the error sets $E_{k+j|k}$, and defined $\forall\,j=0,\dotsc,N$
+\small{
+\begin{subequations} \label{eq:Set_constraints}
+\begin{align}
+Z_{0|k}(\tilde{E}_{k|k}) &=Z\ominus(-\tilde{E}_{k|k}) \\
+Z_{j+1|k}(\tilde{E}_{k+j+1|k},\tilde{E}_{k+j|k}) &= Z_{j|k}(\tilde{E}_{k+j+1|k},\tilde{E}_{k+j|k})\ominus L_{j}W_{k+1|k}
+\end{align}
+\end{subequations}}
+
+Here, the matrix $L_j$, $\forall j=0,\dotsc,n$   is defined as
+\begin{subequations} \label{eq:L_def}
+\begin{align}
+L_0&=\mathbb{I} \\
+L_{j+1} &= (A+BK)L_j
+\end{align}
+\end{subequations}
+
+\textit{The input constraints $V_{j|k}$:}
+The input constraints are given, $\forall j=0,...,N-1$, as:
+
+\begin{subequations}
+\begin{align}
+V_{0|k} = \underline{V}_{k|k} \\
+V_{j+1|k} = \underline{V}_{k+j+1|k} \ominus KL_jW_{k+1|k}
+\end{align}
+\end{subequations}
+
+\textit{The terminal constraint $Z_f$:}
+For the terminal constraint, which is a joint constraint on both the input and the nominal state, let us first define a few terms.
+\begin{subequations}
+\begin{align}
+p_k &=[z_k \, v_{k-1}]' \label{eq:joint_state} \\
+\hat{A} &= \begin{bmatrix} A & 0_{nxm} \\ 0_{mxn} & 0_{mxm}   \end{bmatrix} \label{eq:A_hat} \\
+\hat{B} &= \begin{bmatrix}  B \\ \mathbb{I}_{mxm} \end{bmatrix} \label{eq:B_hat} \\
+\hat{K} &= \begin{bmatrix}  K & 0_{mxm}  \end{bmatrix} \label{eq:K_hat} \\
+\hat{L} &= \hat{A}+\hat{B}\hat{K} \label{eq:L_hat} \\
+\hat{F} &= \begin{bmatrix} \mathbb{I} \\ 0_{mxn} \end{bmatrix} \\
+W_{max} &= W \oplus \tilde{E}_{max} \oplus (-A\tilde{E}_{max}) \label{eq:W_max} 
+\end{align}
+\end{subequations}
+
+Here, $p_k$ is a state formed by concatenating the state at time $k$ and the input at time $k-1$ (Eq.(\ref{eq:joint_state})). $\hat{A}$, $\hat{B}$, define the dynamics of the new state $p_{k+1} = \hat{A}p_{k} + \hat{B}v_k$. $\hat{L}$ is defined as $L$ is in Eq.(\ref{eq:L_def}). Also, similar to $K$, which is a stabilizing state feedback matrix for the system defined by $A$ and $B$, $\hat{K}$ acts as a stabilizing matrix for the system given by $\hat{A}$ and $\hat{B}$.
+
+With these definitions, $Z_f$ is defined as:
+\begin{equation}
+Z_f = C\ominus \hat{L}_N\hat{F}{W}_{max}
+\end{equation}
+
+Here, $C$ is a robust control invariant set for the worst case disturbances given by $W_{max}$. Note. $C$ is the invariant set inside $\hat{Z}_N(\tilde{E}_{max},\tilde{E}_{max})$, where $\hat{Z}_N(\tilde{E}_{max},\tilde{E}_{max})$ is computed recursively, similar to Eq. \ref{eq:Set_constraints} but with all error sets replaced by $\tilde{E}_{max}$ as follows $\forall j=0,\dotsc,N$
+
+
+\begin{subequations}
+\begin{align}
+\hat{Z}_0(\tilde{E}_{max}) &=\hat{Z}\ominus(-\tilde{E}_{max}) \\
+\hat{Z}_j(\tilde{E}_{max},\tilde{E}_{max}) &= \hat{Z}_j(\tilde{E}_{max},\tilde{E}_{max})\ominus \hat{L}_{j}W_{max}
+\end{align}
+\end{subequations}
+
+Where $\hat{Z}=Z\times V_{inner-global}$. The robust control invariant set inside $Z_N(\tilde{E}_{max},\tilde{E}_{max})$, $C$ is such that there exists a feedback control law $v=\hat{K}p$, such that $\forall p\in C$
+
+
+\begin{subequations}
+\begin{align}
+\hat{A}z &+ \hat{B}Kp+L_N \hat{F}w \, \in C,\, \forall w \in W_{max} \\
+p \in &\hat{Z}_N(\tilde{E}_{max}, \tilde{E}_{max})
+\end{align}
+\end{subequations}
+
+It is worth noting, that this set is computed offline since it depends on the worst case disturbances $W_{max}$, $E_{max}$ and the global inner convex approximation for the constraints on $v$, $V_{inner-global}$ which can be all be computed offline. With this conservative approximation of the shrinking sets, it is obvious that this is indeed invariant for all disturbance sets, $\forall j$, $E_{k+j|k}$ and $W_{k+j|k}$, which both are contained in $E_{max}$, $W_{max}$ respectively. 

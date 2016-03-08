@@ -1,0 +1,21 @@
+\section{Problem Formulation} \label{sec:formulation}
+
+The control problem is as follows:
+
+\begin{subequations}
+\begin{align}
+\text{Minimize } &l(x,u) \\
+&\text{s.t.} \nonumber \\
+\dot{x}&=f(x)+G(x)u \\
+x&\in X\\
+u&\in U
+\end{align}
+\end{subequations}
+
+A discrete-time, periodic, state-estimator provides access to a state estimate with estimation error
+\begin{subequations}
+\begin{align}
+\hat{x}(t)&=x(t)+e(t) \\ 
+\text{where, } e(t) &\in E
+\end{align}
+\end{subequations}
