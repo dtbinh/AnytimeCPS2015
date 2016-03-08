@@ -107,7 +107,8 @@ For $j=N$, by construction $\bar{z}_{k+N+2|k+1} = A\bar{z}_{k+N+1|k+1} + B\bar{v
 Now, let us use the definition of $Z_{j|k}, \,Z_{j|k+1}$ and Lemma \ref{lem:one}, points 2) and 3). We have , $\forall j=0,\dotsc,N-1$, $Z_{j|k} \subseteq  Z_{j|k+1}$. To give more intuition, this holds because the Pontraygin difference in Eq. \ref{eq:Set_constraints} shows that for $Z_{j|k}$, larger sets are being subtracted (in the sense of Pontraygin)  from $Z$ than are being for $Z_{j+1|k}$. This is because, as stated in Lemma \ref{lem:one}, the disturbance and estimation error bounding sets computed at time $k$ contain the corresponding sets computed at time $k+1$ (for $j=0,\dotsc$). 
 
 Therefore, since $\bar{z}_{k+j+1|k+1} \in Z_{j|k}$, and $Z_{j|k} \subseteq Z_{j|k+1}$, we have $\bar{z}_{k+1+j|k+1} \in Z_{j|k+1}\,\forall j=0,\dotsc,N-1$. 
-Note here, in order to get of any ambiguity that may arise for $j=0$ by dropping the arguments for the sets for notational brevity, it should be made clear that for $j=0$, we have $Z_{1|k} = Z_{0|k}(\tilde{E}_{k+1|k},\tilde{E}_{k|k})-L_0W_{k+j|k}$. Here, as defined in Section \ref{sec:Constraints}, we have that $Z_{0|k}(\tilde{E}_{k+1|k},\tilde{E}_{k|k}) = Z \ominus (-\tilde{E}_{k+1}|k)$. Now by Lemma \ref{lem:one}, $\tilde{E}_{k+1|k+1} \subseteq \tilde{E}_{k+1|k}$, therefore by definition of the Pontraygin difference, $Z_{0|k} \subseteq Z_{0|k+1}$ which allows the statement $\bar{z}_{k+1+j|k+1} \in Z_{j|k+1}\,\forall j=0,\dotsc,N-1$ to indeed hold for $j=0$.
+
+\textit{Note}, in order to get of any ambiguity that may arise for $j=0$ by dropping the arguments for the sets for notational brevity, it should be made clear that for $j=0$, we have $Z_{1|k} = Z_{0|k}(\tilde{E}_{k+1|k},\tilde{E}_{k|k})-L_0W_{k+j|k}$. Here, as defined in Section \ref{sec:Constraints}, we have that $Z_{0|k}(\tilde{E}_{k+1|k},\tilde{E}_{k|k}) = Z \ominus (-\tilde{E}_{k+1}|k)$. Now by Lemma \ref{lem:one}, $\tilde{E}_{k+1|k+1} \subseteq \tilde{E}_{k+1|k}$, therefore by definition of the Pontraygin difference, $Z_{0|k} \subseteq Z_{0|k+1}$ which allows the statement $\bar{z}_{k+1+j|k+1} \in Z_{j|k+1}\,\forall j=0,\dotsc,N-1$ to indeed hold for $j=0$.
 
 %Now, for $j=0$, by defintion of $Z_{0|k+1}$ and by the fact that $\bar{z}_{k+1|k+1}=\hat{z}_{k+1}$ (as show in the proof that the initial condition is satisfied at time step $k+1$) and also that $z_{k+1} \in Z$ (as shown in the proof that the next state is %valid), we have $\hat{z}_{k+1} \in Z \oplus (-\tilde{E}_{k+1|k+1})$. This means $\hatP
 
@@ -118,5 +119,25 @@ Now for $j=N$, $\bar{z}_{k+N+1|k} = z^{*}_{k+N+1|k+1} + L_N\hat{w}_{k+1}$. From 
 [\bar{z}_{k+N+1|k+1}\, \bar{v}_{k+N|k+1}]' \in C
 \end{equation}
 
-Remember, by definition of the invariant set, $C \in Z_N(\tilde{E}_{max},\tilde{E}_{max})$, and since by definition of $\tilde{E}_{max}$ and Eq. \ref{eq:Set_constraints}, we have $Z_N(\tilde{E}_{max},\tilde{E}_{max}) \subseteq Z_{N|k+1} \times \underline{V}_{N|k+1}$ (since also by definition $V_{inner-global} \subseteq V_{j|k+i} \forall i,j \geq 0$), or $C \in  Z_{N|k+1} \times \underline{V}_{N|k+1}$. This implies that $\bar{z}_{k+N+1|k+1} \in Z_{N|k+1}$ and additionally, $v_{k+N|k+1} \in \underline{V}_{N|k+1}$.
+Remember, by definition of the invariant set, $C \in Z_N(\tilde{E}_{max},\tilde{E}_{max})$, and since by definition of $\tilde{E}_{max}$ and Eq. \ref{eq:Set_constraints}, we have $Z_N(\tilde{E}_{max},\tilde{E}_{max}) \subseteq Z_{N|k+1} \times V_{N|k+1}$, or $C \in  Z_{N|k+1} \times {V}_{N|k+1}$. This implies that $\bar{z}_{k+N+1|k+1} \in Z_{N|k+1}$ and additionally, $v_{k+N|k+1} \in {V}_{N|k+1}$.
 Therefore, the set constraints are met by candidate solution $\forall j=0,\dotsc,N$. 
+
+\textit{Input Constraints:} For the inputs, it is straight forward to show that the candidate solution, $\bar{v}_{k+j+1|k+1}$ satisfies the input constraints for $\mathbb{P}_{k+1}(\hat{z}_{k+1}) $, $\forall j=0,\dotsc,N-2$ by using a similar process we used for the state constraints. For $j=N-1$, we have already shown above that by definition of the invariant set $C$, $v_{k+N|k+1} \in {V}_{N|k+1}$. For the last input for $j=N$, we show next that it lies in the terminal set $Z_f$, which implies it is feasible for $\mathbb{P}_{k+1}(\hat{z}_{k+1})$.
+
+\textit{Terminal Constraints:} Finally, we need to show that $[\bar{z}_{k+N+2} \bar{v}_{k+N+1}]' \in Z_f$. This can be shown using the construction of the terminal set and the candidate solution. From Equation \ref{eq:candidate}, we have:
+\begin{subequations}
+\begin{align}
+\bar{z}_{k+N+2|k+1}&=A\bar{z}_{k+N+1|k+1} + B\bar{v}_{k+N+1|k} \\
+\bar{v}_{k+N+1|k+1}&=K\bar{z}_{k+N+1|k+1}
+\end{align}
+\end{subequations}
+
+Concatenate these two into $p_{k+N+2|k+1} = [\bar{z}_{k+N+2}\, \bar{v}_{k+N+1}]'$. Also $p_{k+N+1|k+1} = [\bar{z}_{k+N+1} \,\bar{v}_{k+N}]'$ was in $Z_f$ as shown previously. Therefore, by definition of the invariant set $C$ (Equation \ref{eq:C_def}), we have that $p_{k+N+2|k+1} + \hat{L}_N \hat{F} w_{k+1|k}$ is in $C$ since $w_{k+1|k}\in W_{max}$. Therefore by definition of Pontraygin difference, $p_{k+N+2|k+1} \in C \ominus \hat{L}_N\hat{F}W_{max} = Z_f$. Therefore the terminal constraint is also met.
+
+With this, we have the proof for Theorem 1 as we have shown that feasible solution at time step $k$ for $\mathbb{P}_{k}(\hat{z}_{k}) $ implies that the applied input $v_k$ is feasible, the next state $z_{k+1} \in Z$ and the problem $\mathbb{P}_{k+1}(\hat{z}_{k+1}) $ is feasible at time $k+1$, and hence  $\mathbb{P}_{k+2}(\hat{z}_{k+2}) $ is feasible for time step $k+2$ and so on.
+
+
+
+
+
+
