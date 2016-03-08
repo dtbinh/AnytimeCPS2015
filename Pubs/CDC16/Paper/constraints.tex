@@ -25,8 +25,8 @@ The input constraints are given, $\forall j=0,...,N-1$, as:
 
 \begin{subequations}
 \begin{align}
-V_{0|k} = \underline{V}_{k|k} \\
-V_{j+1|k} = \underline{V}_{k+j+1|k} \ominus KL_jW_{k+1|k}
+V_{0|k} &= \underline{V}_{k|k} \\
+V_{j+1|k} &= \underline{V}_{k+j+1|k} \ominus KL_jW_{k+1|k}
 \end{align}
 \end{subequations}
 
@@ -72,3 +72,5 @@ p \in &\hat{Z}_N(\tilde{E}_{max}, \tilde{E}_{max})
 \end{subequations}
 
 It is worth noting, that this set is computed offline since it depends on the worst case disturbances $W_{max}$, $E_{max}$ and the global inner convex approximation for the constraints on $v$, $V_{inner-global}$ which can be all be computed offline. With this conservative approximation of the shrinking sets, it is obvious that this is indeed invariant for all disturbance sets, $\forall j$, $E_{k+j|k}$ and $W_{k+j|k}$, which both are contained in $E_{max}$, $W_{max}$ respectively. 
+
+
