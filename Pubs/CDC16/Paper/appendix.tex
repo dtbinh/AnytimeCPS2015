@@ -1,0 +1,15 @@
+\section*{Appendix}
+
+Before we prove Theorem \ref{th:robust_feas}, we need a key intermediate result, which is summarized in Lemma \ref{lem:one}. This result directly follows from a) The construction of the reach sets $\bar{X}_{k+j|k}$ over which the sets for bounding $\tilde{e}_{k+j}$, $\tilde{E}_{k+j|l}$, the inner convex (hyper-rectangular) bounds for the control input $v_{k+j}$, $\underline{V}_{k+j|k}$, the outer convex (hyper-rectangular) bounds for the  $v_{k+j}$, $\bar{V}_{k+j|k}$ and the definition of the disturbance set $W_{k+j|k}$. The key point here is that $\bar{X}_{k+j+1|k} \supseteq \bar{X}_{k+j+1|k+1}, \, \forall j=0,1,\dotsc$ (see Section \textbf{sec:ErrorAndReachSets}), from which the other conditions stated in the Lemma follow by the definition of the corresponding set.
+
+\begin{lemma}
+\label{lem:one}
+With the reachable set computation as defined as Section \textbf{sec:ErrorAndReachSets}), and the corresponding defintions of the sets $\tilde{E}_{k+j|k}$, $\underline{V}_{k+j|k}$, $\bar{V}_{k+j|k}$ and $W_{k+j|k}$, we have that $\forall j=0,1,\dotsc$
+\begin{enumerate}
+\item $\bar{X}_{k+j+1|k+1} \subseteq \bar{X}_{k+j+1|k}$, and hence by definition,
+\item $\tilde{E}_{k+j+1|k+1} \subseteq \tilde{E}_{k+j+1|k}$
+\item ${W}_{k+j+1|k+1} \subseteq {W}_{k+j+1|k}$
+\item $\underline{V}_{k+j+1|k+1} \supseteq \underline{V}_{k+j+1|k}$
+\item $\bar{V}_{k+j+1|k+1} \subseteq \bar{V}_{k+j+1|k}$
+\end{enumerate}
+\end{lemma} 

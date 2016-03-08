@@ -34,7 +34,7 @@ V_{j+1|k} &= \underline{V}_{k+j+1|k} \ominus KL_jW_{k+1|k}
 For the terminal constraint, which is a joint constraint on both the input and the nominal state, let us first define a few terms.
 \begin{subequations}
 \begin{align}
-p_k &=[z_k \, v_{k-1}]' \label{eq:joint_state} \\
+p_k &=[\bar{z}_k \, v_{k-1}]' \label{eq:joint_state} \\
 \hat{A} &= \begin{bmatrix} A & 0_{nxm} \\ 0_{mxn} & 0_{mxm}   \end{bmatrix} \label{eq:A_hat} \\
 \hat{B} &= \begin{bmatrix}  B \\ \mathbb{I}_{mxm} \end{bmatrix} \label{eq:B_hat} \\
 \hat{K} &= \begin{bmatrix}  K & 0_{mxm}  \end{bmatrix} \label{eq:K_hat} \\
@@ -44,7 +44,7 @@ W_{max} &= W \oplus \tilde{E}_{max} \oplus (-A\tilde{E}_{max}) \label{eq:W_max}
 \end{align}
 \end{subequations}
 
-Here, $p_k$ is a state formed by concatenating the state at time $k$ and the input at time $k-1$ (Eq.(\ref{eq:joint_state})). $\hat{A}$, $\hat{B}$, define the dynamics of the new state $p_{k+1} = \hat{A}p_{k} + \hat{B}v_k$. $\hat{L}$ is defined as $L$ is in Eq.(\ref{eq:L_def}). Also, similar to $K$, which is a stabilizing state feedback matrix for the system defined by $A$ and $B$, $\hat{K}$ acts as a stabilizing matrix for the system given by $\hat{A}$ and $\hat{B}$.
+Here, $p_k$ is a state formed by concatenating the nominal state at time $k$ and the input at time $k-1$ (Eq.(\ref{eq:joint_state})). $\hat{A}$, $\hat{B}$, define the dynamics of the new state $p_{k+1} = \hat{A}p_{k} + \hat{B}v_k$. $\hat{L}$ is defined as $L$ is in Eq.(\ref{eq:L_def}). Also, similar to $K$, which is a stabilizing state feedback matrix for the system defined by $A$ and $B$, $\hat{K}$ acts as a stabilizing matrix for the system given by $\hat{A}$ and $\hat{B}$.
 
 With these definitions, $Z_f$ is defined as:
 \begin{equation}

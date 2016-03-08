@@ -45,6 +45,10 @@
 \setboolean{TECH_REPORT}{FALSE}
 \newcommand{\Given}{|}
 
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+
 \usepackage{array}
 \usepackage{url}
 
@@ -92,7 +96,7 @@ Corporation program sponsored by MARCO and DARPA, NSF MRI-0923518 and the US Dep
 
 \input{formulation}
 \input{RMPC}
-
+\input{appendix}
 
 %\section*{Acknowledgements}
 %We would like to thank Kuk Jang for his help in creating several of the diagrams in this paper.
