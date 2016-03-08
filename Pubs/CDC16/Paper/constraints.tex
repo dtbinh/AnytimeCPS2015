@@ -1,5 +1,5 @@
 \subsection{State and Input Constraints for the Robust MPC}
-
+\label{sec:Constraints}
 The state and input constraints for the Robust MPC are as defined as follows:
 
 \textit{The state constraints $Z_{j|k}$:}
@@ -12,7 +12,7 @@ Z_{j+1|k}(\tilde{E}_{k+j+1|k},\tilde{E}_{k+j|k}) &= Z_{j|k}(\tilde{E}_{k+j+1|k},
 \end{align}
 \end{subequations}}
 
-Here, the matrix $L_j$, $\forall j=0,\dotsc,n$   is defined as
+Note here, that for $j>0$, when we use $Z_{0|k}$, it means, $Z_{0|k}(\tilde{E}_ {k+j+1|k},\tilde{E}_ {k+j|k}) = Z \ominus (-\tilde{E}_{k+j+1|k})$. The matrix $L_j$, $\forall j=0,\dotsc,n$   is defined as
 \begin{subequations} \label{eq:L_def}
 \begin{align}
 L_0&=\mathbb{I} \\
@@ -25,6 +25,7 @@ The input constraints are given, $\forall j=0,...,N-1$, as:
 
 \begin{subequations}
 \begin{align}
+\label{eq:input_constraints}
 V_{0|k} &= \underline{V}_{k|k} \\
 V_{j+1|k} &= \underline{V}_{k+j+1|k} \ominus KL_jW_{k+1|k}
 \end{align}
@@ -66,7 +67,7 @@ Where $\hat{Z}=Z\times V_{inner-global}$. The robust control invariant set insid
 
 \begin{subequations}
 \begin{align}
-\hat{A}z &+ \hat{B}Kp+L_N \hat{F}w \, \in C,\, \forall w \in W_{max} \\
+\hat{A}p &+ \hat{B}Kp+L_N \hat{F}w \, \in C,\, \forall w \in W_{max} \\
 p \in &\hat{Z}_N(\tilde{E}_{max}, \tilde{E}_{max})
 \end{align}
 \end{subequations}

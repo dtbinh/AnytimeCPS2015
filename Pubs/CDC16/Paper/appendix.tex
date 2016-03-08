@@ -1,6 +1,6 @@
 \section*{Appendix}
 
-Before we prove Theorem \ref{th:robust_feas}, we need a key intermediate result, which is summarized in Lemma \ref{lem:one}. This result directly follows from a) The construction of the reach sets $\bar{X}_{k+j|k}$ over which the sets for bounding $\tilde{e}_{k+j}$, $\tilde{E}_{k+j|l}$, the inner convex (hyper-rectangular) bounds for the control input $v_{k+j}$, $\underline{V}_{k+j|k}$, the outer convex (hyper-rectangular) bounds for the  $v_{k+j}$, $\bar{V}_{k+j|k}$ and the definition of the disturbance set $W_{k+j|k}$. The key point here is that $\bar{X}_{k+j+1|k} \supseteq \bar{X}_{k+j+1|k+1}, \, \forall j=0,1,\dotsc$ (see Section \textbf{sec:ErrorAndReachSets}), from which the other conditions stated in the Lemma follow by the definition of the corresponding set.
+Before we prove Theorem \ref{th:robust_feas}, we need a key intermediate result, which is summarized in Lemma \ref{lem:one}. This result directly follows from a) The construction of the reach sets $\bar{X}_{k+j|k}$ over which the sets for bounding $\tilde{e}_{k+j}$, $\tilde{E}_{k+j|k}$, the inner convex (hyper-rectangular) bounds for the control input $v_{k+j}$, $\underline{V}_{k+j|k}$, the outer convex (hyper-rectangular) bounds for the  $v_{k+j}$, $\bar{V}_{k+j|k}$ and the definition of the disturbance set $W_{k+j|k}$. The key point here is that $\bar{X}_{k+j+1|k} \supseteq \bar{X}_{k+j+1|k+1}, \, \forall j=0,1,\dotsc$ (see Section \textbf{sec:ErrorAndReachSets}), from which the other conditions stated in the Lemma follow by the definition of the corresponding set.
 
 \begin{lemma}
 \label{lem:one}
@@ -13,3 +13,110 @@ With the reachable set computation as defined as Section \textbf{sec:ErrorAndRea
 \item $\bar{V}_{k+j+1|k+1} \subseteq \bar{V}_{k+j+1|k}$
 \end{enumerate}
 \end{lemma} 
+
+\textbf{Proof of Theorem \ref{th:robust_feas}:} We will prove the Theorem by recursion by showing that if at time step $k$, the problem $\mathbb{P}_{k}(\hat{z}_k)$ is feasible and the feasible control input $v_k = v^{*}_{k|k}$ is applied, then $v_k$ is admissible (meets the system constraints) and at time $k+1$, $z_{k+1}$ is inside $Z$ and also $\mathbb{P}_{k+1}(\hat{z}_{k+1})$ is feasible for all disturbances. By recursion then, if we have feasibility at step $k=k_0$, we have robust constraint satisfaction and feasibility at time step $k_0+1$ and so on for all $k>k_0$. Note, to keep notational clutter to a minimum in the proof, we will drop the argument for the safe sets of Eq. \ref{eq:Set_constraints}, referring to them as $Z_{k+j|k+i}$ with the arguments defined accordingly.
+
+To begin, let $\mathbb{P}_{k}(\hat{z}_k)$ be feasible, then it has a feasible solution $(\lbrace z^{*}_{k+j|k}\rbrace_{j=0}^{N+1}, \, \lbrace v^{*}_{k+j|k}\rbrace_{j=0}^{N} )$ that satisfies all the constraints of the Robust MPC. Now let's construct a feasible candidate solution for $\mathbb{P}_{k+1}(\hat{z}_{k+1})$ at the next time step by shifting the above solution one-step forward. Consider the candidate solution:
+
+\begin{subequations}
+\begin{align}
+\label{eq:candidate}
+\bar{z}_{k+j+1|k+1} &= \bar{z}^{*}_{k+j+1|k} + L_j\hat{w}_{k+1}, \, \forall j =0,\dotsc,N \\
+\bar{z}_{k+N+2|k+1}&= A\bar{z}_{k+N+1|k+1} + B\bar{v}_{k+N+1|k+1} \\
+\bar{v}_{k+j+1|k+1}&=v^{*}_{k+j+1|k} + KL_j\hat{w}_{k+1}, \, \forall j =0,\dotsc,N-1 \\
+\bar{v}_{k+N+1|k+1}&=K\bar{z}_{k+N+1|k+1} 
+\end{align}
+\end{subequations}
+
+First we will show that the input and state constraints are satisfied $v_k$ and $z_{k+1}$, then prove feasibility of the above candidate solution for $\mathbb{P}_{k+1}(\hat{z}_{k+1})$.
+
+\textit{Validity of the applied input and next state:}
+The next state is:
+\begin{subequations}
+\begin{align}
+\label{eq:z_next}
+z_{k+1} &= Az_k + Bv_k + w_k = A(\hat{z}_k-\tilde{e}_k)+Bv^{*}_{k|k}+w_k \\
+ &= A\hat{z}_k+Bv^{*}_{k|k}-\tilde{e}_{k+1}+(w_k+\tilde{e}_{k+1}-A\tilde{e}_k) \\
+\text{Since }& z^{*}_{k|k}=\hat{z}_k \text{ by initial condition of } \mathbb{P}_{k}(\hat{z}_k) \nonumber \\
+z_{k+1}&= z^{*}_{k+1|k} - \tilde{e}_{k+1} + \hat{w}_{k+1}
+\end{align}
+\end{subequations}
+
+By definition of $Z_{k+1|k}$ in Eq. \ref{eq:Set_constraints} and by feasibility of the solution at time $k$,
+\begin{equation}
+z^{*}_{k+1|k} \in Z_{k+1|k} = Z \ominus (-\tilde{E}_{k+1|k}) \ominus L_0W_{k+1|k}
+\end{equation}
+
+By definition, $\tilde{e}_{k+1} \in \tilde{E}_{k+1|k}$ and $\hat{w}_{k+1} \in  W_{k+1|k}$. Using this fact, definition of Pontraygin difference and Eq. \ref{eq:z_next} (also remember, $L_0 = \mathbb{I}$, we have:
+\begin{equation}
+z_{k+1}\in Z \Rightarrow x_{k+1} \in X \text{ by definition of Z}
+\end{equation}
+
+By the feasibility of $v^{*}_{k|k}$ for $\mathbb{P}_{k}(\hat{z}_k)$ and by the definition of $\underline{V}_{k|k}$,
+\begin{equation}
+v_k = v^{*}_{k|k} \in \underline{V}_{k|k} \Rightarrow u_k \in U
+\end{equation}
+
+Hence, if $\mathbb{P}_{k}(\hat{z}_k)$ is feasible, then the applied input at time step $k$ and the resulting next state $z_{k+1}$ (and hence $x_{k+1}$) are feasible under all possible disturbances. 
+The next part of the proof will focus on showing that the candidate solution of Eq. \ref{eq:candidate} is indeed feasible for $\mathbb{P}_{k+1}(\hat{z}_{k+1})$ by proving that it meets all the constraints:
+
+\textit{Initial Condition:} Note,
+\begin{subequations}
+\begin{align}
+\hat{z}_{k+1} &= z_{k+1} + \tilde{e}_{k+1} = Az_{k+1} + Bv_k +w_k +\tilde{e}_{k+1} \\
+&= A(z_k-\tilde{e}_k) + Bv_k + w_k +\tilde{e}_{k+1} \\
+&= A\hat{z}_k + Bv_k + (w_k + \tilde{e}_{k+1} -A\tilde{e}_k)  \\
+\hat{z}_{k+1}&=A\hat{z}_k + Bv_k + \hat{w}_{k+1}
+\end{align}
+\end{subequations}
+Also by the construction of the candidate solution,
+\begin{subequations}
+\begin{align}
+\bar{z}_{k+1|k+1} &= z^{*}_{k+1|k} + L_0 \hat{w}_{k+1} \\
+\bar{z}_{k+1} &= Az^{*}_{k|k} + Bv^{*}_{k|k} + \hat{w}_{k+1}
+\end{align}
+\end{subequations}
+
+Since, $z^{*}_{k|k}=\hat{z}_k$ and $v^{*}_{k|k} = v_k$, by the two equations above, we have
+\begin{equation}
+\bar{z}_{k+1|k+1} = \hat{z}_{k+1}
+\end{equation}
+
+Hence, the candidate solution does indeed satisfy the initial condition for $\mathbb{P}_{k+1}(\hat{z}_{k+1})$. Next we show that the candidate solution satisfies the nominal dynamics:
+
+\textit{ Nominal Dynamics:} For $0\leq J<N$,we have:
+\begin{subequations}
+\begin{align}
+&\bar{z}_{k+j+2|k+1} = z^{*}_{k+j+2|k} + L_{j+1}\hat{w}_{k+1} \\
+&= Az^{*}_{k+j+1}+Bv^{*}_{k+j+1|k} + L_{j+1}\hat{w}_{k+1} \\
+& \text{By the construction of the candidate solution} \nonumber \\
+& = A(\bar{z}_{k+j+1|k+1}-L_j\hat{w}_{k+1}) + B(\bar{v}_{k+j+1|k+1} - KL_j \hat{w}_{k+1}) \nonumber \\
+&\, + L_{j+1}\hat{w}_{k+1} \\
+& = A\bar{z}_{k+j+1|k+1} + B\bar{v}_{k+j+1|k+1} -(A+BK)L_j\hat{w}_{k+1} \nonumber \\
+&\,+ L_{j+1}\hat{w}_{k+1} \\
+&\text{Using the definition of $L_{j+1}$ in Eq. \ref{eq:L_def},} \nonumber \\
+& = A\bar{z}_{k+j+1|k+1} + B\bar{v}_{k+j+1|k+1} - L_{j+1}\hat{w}_{k+1} + L_{j+1}\hat{w}_{k+1} \\
+& = A\bar{z}_{k+j+1|k+1} + B\bar{v}_{k+j+1|k+1}
+\end{align}
+\end{subequations}
+
+For $j=N$, by construction $\bar{z}_{k+N+2|k+1} = A\bar{z}_{k+N+1|k+1} + B\bar{v}_{k+N+1|k+1}$. Hence, the candidate solution does indeed satisfy the nominal dynamics.
+
+\textit{State Constraints:} To show feasibility of the candidate solution w.r.t the state constraints, we need to show that $\bar{z}_{(k+1)+j|k+1}\in Z_{j|k+1}\, \forall j=0,\dotsc,N$. Remember, by construction of the candidate, we have $\bar{z}_{k+j+1|k+1} = z^{*}_{k+j+1|k} + L_j\hat{w}_{k+1}$. And by Eq. \ref{eq:Set_constraints}, we have, $\forall j=0,\dotsc,N-1$, $Z_{j+1|k} = Z_{j|k} \ominus L_jW_{k+1|k}$. Also by feasibility of the algorithm at time $k$, we have $z^{*}_{k+j+1|k}\in Z_{j+1|k}$, and by definition, $\hat{w}_{k+1} \in {W}_{k+1|k}$. Therefore, by the definition of Pontraygin difference, we have $\bar{z}_{k+j+1|k+1} \in Z_{j|k}$.
+
+Now, let us use the definition of $Z_{j|k}, \,Z_{j|k+1}$ and Lemma \ref{lem:one}, points 2) and 3). We have , $\forall j=0,\dotsc,N-1$, $Z_{j|k} \subseteq  Z_{j|k+1}$. To give more intuition, this holds because the Pontraygin difference in Eq. \ref{eq:Set_constraints} shows that for $Z_{j|k}$, larger sets are being subtracted (in the sense of Pontraygin)  from $Z$ than are being for $Z_{j+1|k}$. This is because, as stated in Lemma \ref{lem:one}, the disturbance and estimation error bounding sets computed at time $k$ contain the corresponding sets computed at time $k+1$ (for $j=0,\dotsc$). 
+
+Therefore, since $\bar{z}_{k+j+1|k+1} \in Z_{j|k}$, and $Z_{j|k} \subseteq Z_{j|k+1}$, we have $\bar{z}_{k+1+j|k+1} \in Z_{j|k+1}\,\forall j=0,\dotsc,N-1$. 
+Note here, in order to get of any ambiguity that may arise for $j=0$ by dropping the arguments for the sets for notational brevity, it should be made clear that for $j=0$, we have $Z_{1|k} = Z_{0|k}(\tilde{E}_{k+1|k},\tilde{E}_{k|k})-L_0W_{k+j|k}$. Here, as defined in Section \ref{sec:Constraints}, we have that $Z_{0|k}(\tilde{E}_{k+1|k},\tilde{E}_{k|k}) = Z \ominus (-\tilde{E}_{k+1}|k)$. Now by Lemma \ref{lem:one}, $\tilde{E}_{k+1|k+1} \subseteq \tilde{E}_{k+1|k}$, therefore by definition of the Pontraygin difference, $Z_{0|k} \subseteq Z_{0|k+1}$ which allows the statement $\bar{z}_{k+1+j|k+1} \in Z_{j|k+1}\,\forall j=0,\dotsc,N-1$ to indeed hold for $j=0$.
+
+%Now, for $j=0$, by defintion of $Z_{0|k+1}$ and by the fact that $\bar{z}_{k+1|k+1}=\hat{z}_{k+1}$ (as show in the proof that the initial condition is satisfied at time step $k+1$) and also that $z_{k+1} \in Z$ (as shown in the proof that the next state is %valid), we have $\hat{z}_{k+1} \in Z \oplus (-\tilde{E}_{k+1|k+1})$. This means $\hatP
+
+Now for $j=N$, $\bar{z}_{k+N+1|k} = z^{*}_{k+N+1|k+1} + L_N\hat{w}_{k+1}$. From the terminal constraint we have $[z^{*}_{k+N+1|k}\, v^{*}_{k+N|k}] \in Z_f = C \ominus \hat{L}_N\hat{F}W_{max}$. Since $w_{k+1} \in W_{max}$, and by the construction of the candidate solution (and using the definition of Pontraygin difference, we have), 
+
+\begin{equation}
+\label{eq:CandidateInC}
+[\bar{z}_{k+N+1|k+1}\, \bar{v}_{k+N|k+1}]' \in C
+\end{equation}
+
+Remember, by definition of the invariant set, $C \in Z_N(\tilde{E}_{max},\tilde{E}_{max})$, and since by definition of $\tilde{E}_{max}$ and Eq. \ref{eq:Set_constraints}, we have $Z_N(\tilde{E}_{max},\tilde{E}_{max}) \subseteq Z_{N|k+1} \times \underline{V}_{N|k+1}$ (since also by definition $V_{inner-global} \subseteq V_{j|k+i} \forall i,j \geq 0$), or $C \in  Z_{N|k+1} \times \underline{V}_{N|k+1}$. This implies that $\bar{z}_{k+N+1|k+1} \in Z_{N|k+1}$ and additionally, $v_{k+N|k+1} \in \underline{V}_{N|k+1}$.
+Therefore, the set constraints are met by candidate solution $\forall j=0,\dotsc,N$. 
