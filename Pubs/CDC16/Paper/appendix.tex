@@ -102,15 +102,37 @@ Hence, the candidate solution does indeed satisfy the initial condition for $\ma
 
 For $j=N$, by construction $\bar{z}_{k+N+2|k+1} = A\bar{z}_{k+N+1|k+1} + B\bar{v}_{k+N+1|k+1}$. Hence, the candidate solution does indeed satisfy the nominal dynamics.
 
-\textit{State Constraints:} To show feasibility of the candidate solution w.r.t the state constraints, we need to show that $\bar{z}_{(k+1)+j|k+1}\in Z_{j|k+1}\, \forall j=0,\dotsc,N$. Remember, by construction of the candidate, we have $\bar{z}_{k+j+1|k+1} = z^{*}_{k+j+1|k} + L_j\hat{w}_{k+1}$. And by Eq. \ref{eq:Set_constraints}, we have, $\forall j=0,\dotsc,N-1$, $Z_{j+1|k} = Z_{j|k} \ominus L_jW_{k+1|k}$. Also by feasibility of the algorithm at time $k$, we have $z^{*}_{k+j+1|k}\in Z_{j+1|k}$, and by definition, $\hat{w}_{k+1} \in {W}_{k+1|k}$. Therefore, by the definition of Pontraygin difference, we have $\bar{z}_{k+j+1|k+1} \in Z_{j|k}$.
+\textit{State Constraints:} To show feasibility of the candidate solution w.r.t the state constraints, we need to show that $\bar{z}_{(k+1)+j|k+1}\in Z_{j|k+1}\, \forall j=0,\dotsc,N$. Re-writing Eq.\ref{eq:Set_constraints} for $\mathbb{P}_{k}(\hat{z}_k)$ for $j=0,\dotsc,N-1$, we have:
 
-Now, let us use the definition of $Z_{j|k}, \,Z_{j|k+1}$ and Lemma \ref{lem:one}, points 2) and 3). We have , $\forall j=0,\dotsc,N-1$, $Z_{j|k} \subseteq  Z_{j|k+1}$. To give more intuition, this holds because the Pontraygin difference in Eq. \ref{eq:Set_constraints} shows that for $Z_{j|k}$, larger sets are being subtracted (in the sense of Pontraygin)  from $Z$ than are being for $Z_{j+1|k}$. This is because, as stated in Lemma \ref{lem:one}, the disturbance and estimation error bounding sets computed at time $k$ contain the corresponding sets computed at time $k+1$ (for $j=0,\dotsc$). 
+\begin{subequations}
+\label{eq:redef_Zj}
+\begin{align}
+Z_{j+1|k} &= Z \ominus_{i=0}^{j}L_iW_{k+j+1-i|k} \ominus (-\tilde{E}_{k+j+1|k}) \\
+Z_{j+1|k} &= Z \ominus L_jW_{k+1|l} \ominus_{i=1}^{j}L_iW_{k+j+1-i|k} \ominus (-\tilde{E}_{k+j+1|k})\\
+Z_{j+1|k} &= Z \ominus L_jW_{k+1|l} \ominus_{i=0}^{j-1}L_iW_{k+j-i|k} \ominus (-\tilde{E}_{k+j+1|k})
+\end{align}
+\end{subequations}
 
-Therefore, since $\bar{z}_{k+j+1|k+1} \in Z_{j|k}$, and $Z_{j|k} \subseteq Z_{j|k+1}$, we have $\bar{z}_{k+1+j|k+1} \in Z_{j|k+1}\,\forall j=0,\dotsc,N-1$. 
+Also, let us write the state constraints for all $j=0,\dotsc,N$ for the problem at time $k+1$, i.e. for $\mathbb{P}_{k+1}(\hat{z}_{k+1})$:
+\begin{equation}
+\label{eq:redef_Zjp1}
+Z_{j|k+1} = Z \ominus_{i=0}^{j-1}L_iW_{k+j-i|k+1} \ominus (-\tilde{E}_{k+1+j|k+1}) \\
+\end{equation}
 
-\textit{Note}, in order to get of any ambiguity that may arise for $j=0$ by dropping the arguments for the sets for notational brevity, it should be made clear that for $j=0$, we have $Z_{1|k} = Z_{0|k}(\tilde{E}_{k+1|k},\tilde{E}_{k|k})-L_0W_{k+j|k}$. Here, as defined in Section \ref{sec:Constraints}, we have that $Z_{0|k}(\tilde{E}_{k+1|k},\tilde{E}_{k|k}) = Z \ominus (-\tilde{E}_{k+1}|k)$. Now by Lemma \ref{lem:one}, $\tilde{E}_{k+1|k+1} \subseteq \tilde{E}_{k+1|k}$, therefore by definition of the Pontraygin difference, $Z_{0|k} \subseteq Z_{0|k+1}$ which allows the statement $\bar{z}_{k+1+j|k+1} \in Z_{j|k+1}\,\forall j=0,\dotsc,N-1$ to indeed hold for $j=0$.
+Remember, by construction of the candidate, we have $\bar{z}_{k+j+1|k+1} = z^{*}_{k+j+1|k} + L_j\hat{w}_{k+1}$.
+Also by feasibility of the algorithm at time $k$, we have $z^{*}_{k+j+1|k}\in Z_{j+1|k}$, and by definition, $L_j\hat{w}_{k+1} \in L_j{W}_{k+1|k}$. Therefore, by the definition of Pontraygin difference, and Eq. \ref{eq:redef_Zj}, we have $\forall j=0,\dotsc,N-1$,
+\begin{subequations}
+\begin{align}
+&\bar{z}_{(k+1)+j|k+1} \in Z \ominus_{i=0}^{j-1}L_iW_{k+j-i|k} \ominus (-\tilde{E}_{k+j+1|k}) \\
+&\text{Using points 2) and 3) from Lemma \ref{lem:one} } \nonumber \\ 
+&Z \ominus_{i=0}^{j-1}L_iW_{k+j-i|k} \ominus (-\tilde{E}_{k+j+1|k}) \subseteq Z \ominus_{i=0}^{j-1}L_iW_{k+j-i|k+1}  \nonumber \\
+& \ominus (-\tilde{E}_{k+j+1|k+1}) \\
+&\text{ And using Eq. \ref{eq:redef_Zjp1}, this imples } \nonumber \\
+&\bar{z}_{(k+1)+j|k+1} \in Z_{j|k+1}
+\end{align} 
+\end{subequations}
 
-%Now, for $j=0$, by defintion of $Z_{0|k+1}$ and by the fact that $\bar{z}_{k+1|k+1}=\hat{z}_{k+1}$ (as show in the proof that the initial condition is satisfied at time step $k+1$) and also that $z_{k+1} \in Z$ (as shown in the proof that the next state is %valid), we have $\hat{z}_{k+1} \in Z \oplus (-\tilde{E}_{k+1|k+1})$. This means $\hatP
+Therefore, we have $\bar{z}_{k+1+j|k+1} \in Z_{j|k+1},\,\forall j=0,\dotsc,N-1$. 
 
 Now for $j=N$, $\bar{z}_{k+N+1|k} = z^{*}_{k+N+1|k+1} + L_N\hat{w}_{k+1}$. From the terminal constraint we have $[z^{*}_{k+N+1|k}\, v^{*}_{k+N|k}] \in Z_f = C \ominus \hat{L}_N\hat{F}W_{max}$. Since $w_{k+1} \in W_{max}$, and by the construction of the candidate solution (and using the definition of Pontraygin difference, we have), 
 
