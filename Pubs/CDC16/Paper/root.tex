@@ -45,10 +45,31 @@
 \setboolean{TECH_REPORT}{FALSE}
 \newcommand{\Given}{|}
 
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+
 \usepackage{array}
 \usepackage{url}
 
 \newcommand\Mark[1]{\textsuperscript#1}
+
+% See the \addtolength command later in the file to balance the column lengths
+% on the last page of the document
+
+% The following packages can be found on http:\\www.ctan.org
+%\usepackage{graphics} % for pdf, bitmapped graphics files
+%\usepackage{epsfig} % for postscript graphics files
+%\usepackage{mathptmx} % assumes new font selection scheme installed
+%\usepackage{times} % assumes new font selection scheme installed
+\usepackage{amsmath} % assumes amsmath package installed
+\usepackage{amssymb}  % assumes amsmath package installed
+%\begin{document}
+\title{\LARGE \bf
+Co-Design of Anytime Computation and Robust Control
+}
+%
+
 
 
 \title{\LARGE \bf
@@ -73,8 +94,9 @@ Corporation program sponsored by MARCO and DARPA, NSF MRI-0923518 and the US Dep
 \thispagestyle{empty}
 \pagestyle{empty}
 
-
-
+\input{formulation}
+\input{RMPC}
+\input{appendix}
 
 %\section*{Acknowledgements}
 %We would like to thank Kuk Jang for his help in creating several of the diagrams in this paper.
