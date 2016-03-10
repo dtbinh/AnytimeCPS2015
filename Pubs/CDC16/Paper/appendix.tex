@@ -183,7 +183,7 @@ For the last input for $j=N$, we have $\bar{v}_{k+1+N|k+1}=K\bar{z}_{k+N+1|k}$, 
 \end{align}
 \end{subequations}
 
-Concatenate these two into $p_{k+N+2|k+1} = [\bar{z}_{k+N+2}\, \bar{v}_{k+N+1}]'$. Also $p_{k+N+1|k+1} = [\bar{z}_{k+N+1} \,\bar{v}_{k+N}]'$ was in $Cf$ as shown previously (Eq. \ref{eq:CandidateInC}). Therefore, by definition of the invariant set $C$ (Equation \ref{eq:C_def}), we have that $p_{k+N+2|k+1} + \hat{L}_N \hat{F} w_{k+1|k}$ is in $C$ since $w_{k+1|k}\in W_{max}$. Therefore by definition of Pontraygin difference, $p_{k+N+2|k+1} \in C \ominus \hat{L}_N\hat{F}W_{max} = Z_f$. Therefore the terminal constraint is also met.
+Concatenate these two into $p_{k+N+2|k+1} = [\bar{z}_{k+N+2}\, \bar{v}_{k+N+1}]'$. Also $p_{k+N+1|k+1} = [\bar{z}_{k+N+1} \,\bar{v}_{k+N}]'$ was in $C$ as shown previously (Eq. \ref{eq:CandidateInC}). Therefore, by definition of the invariant set $C$ (Equation \ref{eq:C_def}), we have that $p_{k+N+2|k+1} + \hat{L}_N \hat{F} w_{k+1|k}$ is in $C$ since $w_{k+1|k}\in W_{max}$. Therefore by definition of Pontraygin difference, $p_{k+N+2|k+1} \in C \ominus \hat{L}_N\hat{F}W_{max} = Z_f$. Therefore the terminal constraint is also met.
 
 With this, we have the proof for Theorem 1 as we have shown that feasible solution at time step $k$ for $\mathbb{P}_{k}(\hat{z}_{k}) $ implies that the applied input $v_k$ is feasible, the next state $z_{k+1} \in Z$ and the problem $\mathbb{P}_{k+1}(\hat{z}_{k+1}) $ is feasible at time $k+1$, and hence  $\mathbb{P}_{k+2}(\hat{z}_{k+2}) $ is feasible for time step $k+2$ and so on. $\blacksquare$
 
