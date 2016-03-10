@@ -3,16 +3,20 @@
 The state and input constraints for the Robust MPC are as defined as follows:
 
 \textit{The state constraints $Z_{j|k}$:}
-The tightened state constraints are functions of the error sets $E_{k+j|k}$, and defined $\forall\,j=0,\dotsc,N$
+The tightened state constraints are functions of the error sets $E_{k+j|k}$ and disturbance sets $W_{k+j|k}$, and defined $\forall\,j=0,\dotsc,N$
 \small{
 \begin{subequations} \label{eq:Set_constraints}
 \begin{align}
-Z_{0|k}(\tilde{E}_{k|k}) &=Z\ominus(-\tilde{E}_{k|k}) \\
-Z_{j+1|k}(\tilde{E}_{k+j+1|k},\tilde{E}_{k+j|k}) &= Z_{j|k}(\tilde{E}_{k+j+1|k},\tilde{E}_{k+j|k})\ominus L_{j}W_{k+1|k}
+Z_{j|k}(\tilde{E}_{k|k}) &=Z\ominus(-\tilde{E}_{k|k}), \, j=0\\
+%Z_{j|k}(\tilde{E}_{k+j+1|k},\tilde{E}_{k+j|k}) &= Z_{j|k}(\tilde{E}_{k+j+1|k},\tilde{E}_{k+j|k})\ominus L_{j}W_{k+1|k}
+Z_{j|k} &= Z \ominus_{i=0}^{j-1}(L_iW_{k+(j-i)|k})\ominus (-\tilde{E}_{k+j|k})
 \end{align}
 \end{subequations}}
 
-Note here, that for $j>0$, when we use $Z_{0|k}$, it means, $Z_{0|k}(\tilde{E}_ {k+j+1|k},\tilde{E}_ {k+j|k}) = Z \ominus (-\tilde{E}_{k+j+1|k})$. The matrix $L_j$, $\forall j=0,\dotsc,n$   is defined as
+
+%Note here, that for $j>0$, when we use $Z_{0|k}$, it means, $Z_{0|k}(\tilde{E}_ {k+j+1|k},\tilde{E}_ {k+j|k}) = Z \ominus (-\tilde{E}_{k+j+1|k})$. 
+The matrix $L_j$, $\forall j=0,\dotsc,n$   is defined as
+
 \begin{subequations} \label{eq:L_def}
 \begin{align}
 L_0&=\mathbb{I} \\
@@ -27,9 +31,11 @@ The input constraints are given, $\forall j=0,...,N-1$, as:
 \begin{align}
 \label{eq:input_constraints}
 V_{0|k} &= \underline{V}_{k|k} \\
-V_{j+1|k} &= \underline{V}_{k+j+1|k} \ominus KL_jW_{k+1|k}
+V_{j+1|k} &= \underline{V}_{k+j+1|k} \ominus_{i=0}^{j-1}KL_iW_{k+(j-i)|k} 
 \end{align}
 \end{subequations}
+
+These constraints are chosen such that if the nominal state and the input satisfy the constraints, then the true state will always be inside the safe set $Z$. The constraints are "shaped" according to the stabilizing feedback law $K$, similar to \textbf{RTSS,How}.
 
 \textit{The terminal constraint $Z_f$:}
 For the terminal constraint, which is a joint constraint on both the input and the nominal state, let us first define a few terms.
@@ -52,17 +58,19 @@ With these definitions, $Z_f$ is defined as:
 Z_f = C\ominus \hat{L}_N\hat{F}{W}_{max}
 \end{equation}
 
-Here, $C$ is a robust control invariant set for the worst case disturbances given by $W_{max}$. Note. $C$ is the invariant set inside $\hat{Z}_N(\tilde{E}_{max},\tilde{E}_{max})$, where $\hat{Z}_N(\tilde{E}_{max},\tilde{E}_{max})$ is computed recursively, similar to Eq. \ref{eq:Set_constraints} but with all error sets replaced by $\tilde{E}_{max}$ as follows $\forall j=0,\dotsc,N$
+Here, $C$ is a robust control invariant set for the worst case disturbances given by $W_{max}$. Note. $C$ is the invariant set inside $\hat{Z}_N(\tilde{E}_{max},\tilde{E}_{max})$, where $\hat{Z}_N(\tilde{E}_{max},\tilde{E}_{max})$ is computed recursively, similar to Eq. \ref{eq:Set_constraints} but with all error sets replaced by $\tilde{E}_{max}$ and correspondingly all disturbance sets by $W_{max}$, as follows $\forall j=0,\dotsc,N$
 
 
 \begin{subequations}
 \begin{align}
-\hat{Z}_0(\tilde{E}_{max}) &=\hat{Z}\ominus(-\tilde{E}_{max}) \\
-\hat{Z}_j(\tilde{E}_{max},\tilde{E}_{max}) &= \hat{Z}_j(\tilde{E}_{max},\tilde{E}_{max})\ominus \hat{L}_{j}W_{max}
+\hat{Z}_0 &=\hat{Z}\ominus(-\hat{F}\tilde{E}_{max}) \\
+%\hat{Z}_j(\tilde{E}_{max},\tilde{E}_{max}) &= \hat{Z}_j(\tilde{E}_{max},\tilde{E}_{max})\ominus \hat{L}_{j}W_{max} \\
+Z_{j} &= \hat{Z} \ominus_{i=0}^{j-1}(\hat{L}_i\hat{F}W_{max})\ominus (-\hat{F}\tilde{E}_{max})
 \end{align}
 \end{subequations}
 
-Where $\hat{Z}=Z\times V_{inner-global}$. The robust control invariant set inside $Z_N(\tilde{E}_{max},\tilde{E}_{max})$, $C$ is such that there exists a feedback control law $v=\hat{K}p$, such that $\forall p\in C$
+Where $\hat{Z}=Z\times V_{inner-global}$. Note here, these constraints are similar to the form of the state constraints and the input constraints outlined eariler. They are actually the state and input constraints concatenated for the corresponding time steps, with the matrices $\hat{A}$, $\hat{B}$, $\hat{K}$, $\hat{L}_i$ and $\hat{F}$ constructed as shown above such that this fact holds and the definition of the terminal constraint is consistent with the other constraints for steps $j=0,\dotsc,N$.
+ The robust control invariant set inside $Z_N(\tilde{E}_{max},\tilde{E}_{max})$, $C$ is such that there exists a feedback control law $v=\hat{K}p$, such that $\forall p\in C$
 
 
 \begin{subequations}
