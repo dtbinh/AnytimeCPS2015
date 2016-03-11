@@ -25,10 +25,10 @@ J^{*}(\hat{z_k}) = \text{min} &\sum_{j=0}^{N}\lbrace\bar{z}_{k+j|k}'Q\bar{z}_{k+
 \text{subject to,} &\forall j=0,\dotsc\,N \nonumber \\
 \bar{z}_{k+j+1|k}&=A\bar{z}+{k+j|k} + Bv_{k+j|k} \label{eq:nom_dyn} \\
 \bar{z}_{k|k} &= \hat{z}_{k} \label{eq:init_cond}\\
-\bar{z}_{k+j|k}& \in Z_{j|k} \label{eq:states_con}\\
+\bar{z}_{k+j|k}& \in \nomZset{k+j}{k} \label{eq:states_con}\\
 \text{and } &\forall j=0,\dotsc,N-1 \nonumber \\
 v_{k+j|k} & \in V_{j|k} \label{eq:input_con} \\
-[z_{k+N+1|k} \, v_{k+N}|k]' & \in Z_f \label{eq:joint_term} 
+[z_{k+N+1|k} \, v_{k+N}|k]' & \in P_f \label{eq:joint_term} 
 \end{align}
 \end{subequations}
 
