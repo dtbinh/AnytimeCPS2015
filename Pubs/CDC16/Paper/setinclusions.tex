@@ -27,45 +27,90 @@ If two subsets of $X$ satisfy $\Xc_1 \subset \Xc_2$, then it holds that
 \end{eqnarray}
 
 We will also need to define containing sets for the state estimation error in $z$ space:
-recall that $\hat{z}_k = T(\hat{x}_k) = T(x_k + e_k) \approxeq T(x_k) + M(x_k)e_k = z_k + M(x_k)e_k = z_k + \te_{k}$.
-Therefore the state estimation error $\te_{k}$ lives in $\cup_{x\in X_k, e \in E}M(x)e = \cup_{x \in X_k}M(x)E$, where $X_k$ is the reach set of the nonlinear dynamics at time $k$.
-We over-approximate this set by a rectangle as follows: if $\te_{k}(i)$ is the $i^th$ component of vector $\te_{k}$, then 
-\[\min_{x \in X_k, e \in E}M_i(x)e \leq \te_{k}(i) \leq \max_{x \in X_k, e \in E} M_i(x)e\]
+recall that for any $k,j$, 
+$\hat{z}_{k+j} = T(\hat{x}_{k+j}) = T(x_{k+j} + e_{k+j}) \approxeq T(x_{k+j}) + M(x_{k+j})e_{k+j} = z_{k+j} + M(x_{k+j})e_{k+j} = z_{k+j} + \te_{{k+j}}$.
+Therefore the state estimation error $\te_{k+j}$ lives in 
+$\cup_{x\in X_{k+j|k}, e \in E}M(x)e = \cup_{x \in X_{k+j|k}}M(x)E$, 
+where $X_{k+j|k}$ is the $j$-step reach set of the nonlinear dynamics computed starting at time $k$.
+%
+We over-approximate this set by a rectangle as follows: 
+if $\te_{k+j}(i)$ is the $i^{th}$ component of vector $\te_{k+j}$, then 
+\[\min_{x \in X_{k+j|k}, e \in E}M_i(x)e \leq \te_{k+j}(i) \leq \max_{x \in X_{k+j|k}, e \in E} M_i(x)e\]
 where $M_i(x)$ is the $i^{th}$ row of matrix $M(x)$.
-Note we can use $\max$ and $\min$ because the sets $X_k$ and $E$ are closed and bounded so the extrema of the continuous function $M_i(x)e$ are achieved on this set.
+Note we can use $\max$ and $\min$ because the sets $X_{k+j|k}$ and $E$ are closed and bounded so the extrema of the continuous function $M_i(x)e$ are achieved on this set.
 
-Since the set $X_k$ is unknown (we only have access to a state estimate $\hat{x}_k$), we over-approximate it by a reachability tool like ??Rtreach, to obtain $\oa{X}_k$.
+Since the set $X_{k+j|k}$ is unknown (we only have access to a state estimate, and the exact reachability computation in general is impossible to perform), we over-approximate it by a reachability tool like ??Rtreach, to obtain $\oa{X}_{k+j|k}$.
 Then it holds that 
-\[\min_{x \in \oa{X}_k e \in E}M_i(x)e \leq \te_{k}(i) \leq \max_{x \in \oa{X}_k, e \in E} M_i(x)e\]
+\[\min_{x \in \oa{X}_{k+j|k} e \in E}M_i(x)e \leq \te_{k+j}(i) \leq \max_{x \in \oa{X}_{k+j|k}, e \in E} M_i(x)e\]
 
 In the examples we use one last over-approximation to simplify the optimizations needed to calculate the component-wise bounds, specifically, we use 
-\[\sum_{j=1}^{n} \min_{x \in \oa{X}_k, e \in E} M_{ij}(x)e_j  \leq \te_{k}(i) \leq \sum_{j=1}^{n} \max_{x \in \oa{X}_k, e \in E} M_{ij}(x)e_j\]
-where $M_{ij}$ is the $(i,j)^{th}$ element of matrix $M$.
-Therefore we define the rectangular error set 
 \begin{eqnarray}
 \label{eq:Etilde}
-&&\tE_{k} \defeq \{e = [e_1,\ldots, e_{\dimZ}]^T \such 
-\nonumber
+\sum_{\ell=1}^{n} \min_{x \in \oa{X}_{k+j|k}, e \in E} M_{i\ell}(x)e(\ell)  \leq \te_{k+j}(i) 
+\nonumber 
 \\
- &&\sum_{j=1}^{n} \min_{x \in \oa{X}_k, e \in E} M_{ij}(x)e_j  \leq e_i \leq \sum_{j=1}^{n} \max_{x \in \oa{X}_k, e \in E} M_{ij}(x)e_j\}
- \nonumber
- \\
+\leq \sum_{\ell=1}^{n} \max_{x \in \oa{X}_{k+j|k}, e \in E} M_{i\ell}(x)e(\ell)
 \end{eqnarray}
+where $M_{ij}$ is the $(i,j)^{th}$ element of matrix $M$.
+Therefore we define the rectangular error set $\tE_{k+j|k}$ to be the set of vectors $e = [e_1,\ldots, e_{\dimZ}]^T$ satisfying \eqref{eq:Etilde}.
 
+While the sets $\tE_{k}$ over-approximate the mapped estimation error, we also need to calculate containing sets for the process noise $\hat{w}$.
+Recall that for all $k,j$, 
+$\hz_{k+j+1} = z_{k+j+1} + \te_{k+j+1} = Az_{k+j}+Bv_k+w_{k+j} + \te_{k+j+1} =  A(\hz_{k+j} - \te_{k+j}) + Bv_k + w_{k+j} + \te_{k+j+1} = A\hz_{k+j} + Bv_k + w_{k+j} + \te_{k+j+1} - A \te_{k+j} = A\hz_{k+j} + Bv_k + \hw_{k+j+1}$.
+
+Therefore 
+\begin{equation}
+\label{eq:What}
+\hw_{k+j+1} \in \What_{k+j+1|k} \defeq W \oplus \tE_{k+j+1|k} \oplus(-A\tE_{k+j|k})
+\end{equation}
+
+We are now ready to state and prove a key lemma regarding the evolution of the state, error and input sets within one MPC optimization problem, and between MPC optimization problems. 
+This lemma will be key to proving recursive feasibility of the MPC controller, since it allows us to show that the constraint sets of one problem, at time $k$, are appropriate supersets of the constraint sets of the next problem, at time $k+1$. 
 
 \begin{lemma}
 	\label{lem:set inclusions}
-	Let $\oa{X_{k+1+j|k+1}}$ be the $j+1$-step reach set computed at time $k+1$ as described in ???.
-	In other words, the functions $\oa{v}$ and $\ua{v}$ provide 
-	With the reachable set computation as defined as Section \textbf{sec:ErrorAndReachSets}), and the corresponding defintions of the sets $\tilde{E}_{k+j|k}$, $\underline{V}_{k+j|k}$, $\bar{V}_{k+j|k}$ and $W_{k+j|k}$, we have that $\forall j=0,1,\dotsc$
-	\begin{enumerate}
-		\item $\bar{X}_{k+j+1|k+1} \subseteq \bar{X}_{k+j+1|k}$, and hence by definition,
-		\item $\tilde{E}_{k+j+1|k+1} \subseteq \tilde{E}_{k+j+1|k}$
-		\item ${W}_{k+j+1|k+1} \subseteq {W}_{k+j+1|k}$
-		\item $\underline{V}_{k+j+1|k+1} \supseteq \underline{V}_{k+j+1|k}$
-		\item $\bar{V}_{k+j+1|k+1} \subseteq \bar{V}_{k+j+1|k}$
-	\end{enumerate}
+	Let $\oa{X}_{k+j|k}$ be the $j$-step outer-approximate reach set computed at time $k$ by a reachability tool as described in ???.
+	
+	Let $\What_{k+j|k}$ be the set defined in \eqref{eq:What}.
+	
+	Let $\tE_{k+j|k}$ be the error set computed using \eqref{eq:Etilde} by substituting $E \leftarrow \tE_{k|k}$.
+	
+	Let $\ua{V}_{k+j|k} = \ua{V}(\oa{X}_{k+j|k})$ and $\oa{V}_{k+j|k} = \oa{V}(\oa{X}_{k+j|k})$ 
+
+Then the following hold:
+\begin{enumerate}
+	\item $\oa{X}_{k+j+1|k+1} \subseteq \oa{X}_{k+j+1|k}$
+	\label{set:X}
+	\item $\tE_{k+1+j|k+1} \subseteq \tE_{k+j+1|k}$
+	\label{set:tE}
+	\item $\What_{k+1+j|k+1} \subseteq {W}_{k+j+1|k}$
+	\label{set:What}
+	\item $\oa{V}_{k+1+j|k+1} \subseteq \oa{V}_{k+j+1|k}$
+	\label{set:oaV}
+	\item $\ua{V}_{k+1+j|k+1} \supseteq \ua{V}_{k+j+1|k}$ (note the change in inclusion direction)
+	\label{set:uaV}		
+\end{enumerate} 
+%\begin{enumerate}
+%		\item $\oa{X}_{k+j+1|k+1} \subseteq \oa{X}_{k+j+1|k}$
+%		\item $\tilde{E}_{k+j+1|k+1} \subseteq \tilde{E}_{k+j+1|k}$
+%		\item ${W}_{k+j+1|k+1} \subseteq {W}_{k+j+1|k}$
+%		\item $\underline{V}_{k+j+1|k+1} \supseteq \underline{V}_{k+j+1|k}$
+%		\item $\bar{V}_{k+j+1|k+1} \subseteq \bar{V}_{k+j+1|k}$
+%	\end{enumerate}
 \end{lemma} 
+
 \begin{proof}
 	
+\ref{set:X}) 
+
+\ref{set:tE}) 	By \ref{set:X}) 
+ we have that 
+ $ \min_{x \in \oa{X}_{k+j+1|k}, e \in E} M_{i\ell}(x)e(\ell) \leq \min_{x \in \oa{X}_{k+1+j|k+1}, e \in E} M_{i\ell}(x)e(\ell) \leq $ and 
+ $\max_{x \in \oa{X}_{k+j+1|k}, e \in E} M_{i\ell}(x)e(\ell) \leq \max_{x \in \oa{X}_{k+1+j|k+1}, e \in E} M_{i\ell}(x)e(\ell)$
+ which yields the desired result.
+ 
+ \ref{set:What}) This is immediate from the definition \eqref{eq:What} and \ref{set:tE}).
+ 
+ \ref{set:oaV}) and \ref{set:uaV}) These are immediate from \eqref{eq:V inclusions}.
+ 
 	\end{proof}
