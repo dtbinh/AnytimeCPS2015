@@ -45,7 +45,7 @@ p_k &=[\bar{z}_k \, v_{k-1}]' \label{eq:joint_state} \\
 \hat{A} &= \begin{bmatrix} A & 0_{nxm} \\ 0_{mxn} & 0_{mxm}   \end{bmatrix} \label{eq:A_hat} \\
 \hat{B} &= \begin{bmatrix}  B \\ \mathbb{I}_{mxm} \end{bmatrix} \label{eq:B_hat} \\
 \hat{K} &= \begin{bmatrix}  K & 0_{mxm}  \end{bmatrix} \label{eq:K_hat} \\
-\hat{L} &= \hat{A}+\hat{B}\hat{K} \label{eq:L_hat} \\
+\hat{L} _i&= (\hat{A}+\hat{B}\hat{K})^i\,\forall i = 0,\dotsc \label{eq:L_hat} \\
 \hat{F} &= \begin{bmatrix} \mathbb{I} \\ 0_{mxn} \end{bmatrix} \\
 W_{max} &= W \oplus \tilde{E}_{max} \oplus (-A\tilde{E}_{max}) \label{eq:W_max} 
 \end{align}

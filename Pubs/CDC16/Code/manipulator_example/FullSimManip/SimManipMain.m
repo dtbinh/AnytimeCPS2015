@@ -94,7 +94,7 @@ hold on;
 plot(k,mnv,'k*');
 grid on;
 end
-
+%%
 figure(2);
 hold on;
 stairs(1:k,z_true(1,1:k),'b');
@@ -104,19 +104,24 @@ hold on;
 stairs(1:k,v_applied(1:k),'k')
 
 %applied input actual
-u_applied = -tan(x_true(2,1:end-1))+(1./a*cos(x_true(2,1:end-1))).*v_applied(1:end-1);
+%u_applied = -tan(x_true(2,1:end-1))+(1./a*cos(x_true(2,1:end-1))).*v_applied(1:end-1);
+u_applied = v_applied(1:end-1)/c4 - (c1*(x_true(2,1:end-1).^2).*sin(x_true(1,1:end-1)) ...
+    - (c1*cos(x_true(1,1:end-1))-c2*ones(1,1:numel(x_true)-1)).*(c1*sin(x_true(1,1:end-1)) ...
+    + c2*((x_true(1,1:end-1)) - x_true(3,1:end-1))) + ...
+    c3*((x_true(2,1:end-1)) - x_true(4,1:end-1)));
 figure(3);
 hold on;
-stairs(1:k,x_true(1,1:k),'b');
+plot(1:k,x_true(1,1:k),'b');
 hold on;
-stairs(1:k,x_true(2,1:k),'g');
+plot(1:k,x_true(2,1:k),'g');
 hold on;
-stairs(1:k,u_applied(1:k),'k')
+figure;
+plot(1:k,u_applied(1:k),'k')
 hold on
 plot(1:k,u_max*ones(k,1),'.');
 hold on
 plot(1:k,u_min*ones(k,1),'.');
-
+grid on;
 %% more plotting shite
 figure;
 hold on;
