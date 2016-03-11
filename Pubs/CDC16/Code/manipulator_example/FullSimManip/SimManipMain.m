@@ -193,3 +193,17 @@ h = legend('${v_k}$','${\underline{V}_k^{max}}$','${\underline{V}_k^{min}}$', ..
     '${V_{inner-global}^{max}}$','${V_{inner-global}^{min}}$');
 set(h,'Interpreter','latex');
 grid on;
+
+%% the sets
+figure;
+plot(X.projection(1:2));
+hold on
+plot(Z_set_final.projection(1:2),'Color','gray');
+hold on;
+plot(X_set_final.projection(1:2),'Color','blue');
+
+figure;
+plot(X.projection(3:4));
+hold on
+plot(X_set_final.projection(3:4),'Color','blue');
+
