@@ -1,24 +1,71 @@
 \section{Set inclusions}
 \label{sec:set inclusions}
 
-% Set macros
-%\newcommand{\oa}[1]{\mathbf{#1}}
-%\newcommand{\ua}[1]{\underline{#1}}
-%\newcommand{\nom}[1]{\bar{#1}}
-%
-%\global\long\def\Zs{Z}
-%
-%\newcommand{\Zset}[2]{\Zs_{#1|#2}}
-%\newcommand{\nomZset}[2]{\nom{\Zset{#1|#2}}}
-%\newcommand{\nomz}[2]{\nom{z}_{#1|#2}}
-%\newcommand{\What}{\widehat{W}}
+%Let $\oa{X_{k+1+j|k+1}}$ be the $j+1$-step reach set computed at time $k+1$ as described in ???.
+%Recall that $\oa{X_{k+1+j|k+1}}$ is an outer-approximation of the true reach $X_{k+1+j|k+1}$, which is the set that $x_{k+1+j}$ belongs to if it starts at $x_{k|k}$.
 
-$\Zs$
+Given $x \in X$, define the set $V(x) \defeq \{v \in \Re^a \such u(x) = R^{-1}(x)[b(x)+v] \in U\}$.
+We assume that there exist functions $v_i: X \rightarrow \Re$ s.t. for any $x$, $V(x) = \{[v_1,\ldots,v_a]^T \such \ua{v}_i(x) \leq v_i \leq \oa{v_i}(x) \}$.
+Because in general $V(x)$ is not a rectangle, we work with inner and outer rectangular approximations of $V(x)$.
+Specifically, let $\Xc$ be a subset of $X$.
+Define the inner and outer bounding rectangles, respectively
+\[\ua{V}(\Xc) \defeq \{v=[v_1,\ldots,v_a]^T \such \max_{x\in \Xc} \ua{v}_i(x)  \leq v_i \leq \min_{x \in \Xc} \oa{v}_i(x) \} \]
+\[\oa{V}(\Xc) \defeq \{v=[v_1,\ldots,v_a]^T \such \min_{x\in \Xc} \ua{v}_i(x)  \leq v_i \leq \max_{x \in \Xc} \oa{v}_i(x) \} \]
 
-$\Zset{j}{k}$
+By construction, we have for any subset $\Xc \subset X$
+\begin{equation}
+\label{eq:Vbounds}
+\ua{V}(\Xc) \leq \cup_{x \in \Xc} V(x) \subset \oa{V}(\Xc)
+\end{equation}
+If two subsets of $X$ satisfy $\Xc_1 \subset \Xc_2$, then it holds that 
+\begin{eqnarray}
+\label{eq:V inclusions}
+\ua{V}(\Xc_2) \subset \ua{V}(\Xc_1)
+\nonumber
+\\
+\oa{V}(\Xc_1) \subset \oa{V}(\Xc_2)
+\end{eqnarray}
 
-$\nomZset{j+1}{k+1}$
+We will also need to define containing sets for the state estimation error in $z$ space:
+recall that $\hat{z}_k = T(\hat{x}_k) = T(x_k + e_k) \approxeq T(x_k) + M(x_k)e_k = z_k + M(x_k)e_k = z_k + \te_{k}$.
+Therefore the state estimation error $\te_{k}$ lives in $\cup_{x\in X_k, e \in E}M(x)e = \cup_{x \in X_k}M(x)E$, where $X_k$ is the reach set of the nonlinear dynamics at time $k$.
+We over-approximate this set by a rectangle as follows: if $\te_{k}(i)$ is the $i^th$ component of vector $\te_{k}$, then 
+\[\min_{x \in X_k, e \in E}M_i(x)e \leq \te_{k}(i) \leq \max_{x \in X_k, e \in E} M_i(x)e\]
+where $M_i(x)$ is the $i^{th}$ row of matrix $M(x)$.
+Note we can use $\max$ and $\min$ because the sets $X_k$ and $E$ are closed and bounded so the extrema of the continuous function $M_i(x)e$ are achieved on this set.
 
-$\ua{W}$
+Since the set $X_k$ is unknown (we only have access to a state estimate $\hat{x}_k$), we over-approximate it by a reachability tool like ??Rtreach, to obtain $\oa{X}_k$.
+Then it holds that 
+\[\min_{x \in \oa{X}_k e \in E}M_i(x)e \leq \te_{k}(i) \leq \max_{x \in \oa{X}_k, e \in E} M_i(x)e\]
 
-$\oa{W}$
+In the examples we use one last over-approximation to simplify the optimizations needed to calculate the component-wise bounds, specifically, we use 
+\[\sum_{j=1}^{n} \min_{x \in \oa{X}_k, e \in E} M_{ij}(x)e_j  \leq \te_{k}(i) \leq \sum_{j=1}^{n} \max_{x \in \oa{X}_k, e \in E} M_{ij}(x)e_j\]
+where $M_{ij}$ is the $(i,j)^{th}$ element of matrix $M$.
+Therefore we define the rectangular error set 
+\begin{eqnarray}
+\label{eq:Etilde}
+&&\tE_{k} \defeq \{e = [e_1,\ldots, e_{\dimZ}]^T \such 
+\nonumber
+\\
+ &&\sum_{j=1}^{n} \min_{x \in \oa{X}_k, e \in E} M_{ij}(x)e_j  \leq e_i \leq \sum_{j=1}^{n} \max_{x \in \oa{X}_k, e \in E} M_{ij}(x)e_j\}
+ \nonumber
+ \\
+\end{eqnarray}
+
+
+\begin{lemma}
+	\label{lem:set inclusions}
+	Let $\oa{X_{k+1+j|k+1}}$ be the $j+1$-step reach set computed at time $k+1$ as described in ???.
+	In other words, the functions $\oa{v}$ and $\ua{v}$ provide 
+	With the reachable set computation as defined as Section \textbf{sec:ErrorAndReachSets}), and the corresponding defintions of the sets $\tilde{E}_{k+j|k}$, $\underline{V}_{k+j|k}$, $\bar{V}_{k+j|k}$ and $W_{k+j|k}$, we have that $\forall j=0,1,\dotsc$
+	\begin{enumerate}
+		\item $\bar{X}_{k+j+1|k+1} \subseteq \bar{X}_{k+j+1|k}$, and hence by definition,
+		\item $\tilde{E}_{k+j+1|k+1} \subseteq \tilde{E}_{k+j+1|k}$
+		\item ${W}_{k+j+1|k+1} \subseteq {W}_{k+j+1|k}$
+		\item $\underline{V}_{k+j+1|k+1} \supseteq \underline{V}_{k+j+1|k}$
+		\item $\bar{V}_{k+j+1|k+1} \subseteq \bar{V}_{k+j+1|k}$
+	\end{enumerate}
+\end{lemma} 
+\begin{proof}
+	
+	\end{proof}
