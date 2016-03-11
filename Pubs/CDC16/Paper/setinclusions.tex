@@ -1,16 +1,65 @@
-\section{Set inclusions}
+\section{Relating the constraints of successive MPC problems}
 \label{sec:set inclusions}
+
+\newcommand{\RT}[1]{RT_{=T}(#1,U)}
 
 %Let $\oa{X_{k+1+j|k+1}}$ be the $j+1$-step reach set computed at time $k+1$ as described in ???.
 %Recall that $\oa{X_{k+1+j|k+1}}$ is an outer-approximation of the true reach $X_{k+1+j|k+1}$, which is the set that $x_{k+1+j}$ belongs to if it starts at $x_{k|k}$.
 
-Given $x \in X$, define the set $V(x) \defeq \{v \in \Re^a \such u(x) = R^{-1}(x)[b(x)+v] \in U\}$.
-We assume that there exist functions $v_i: X \rightarrow \Re$ s.t. for any $x$, $V(x) = \{[v_1,\ldots,v_a]^T \such \ua{v}_i(x) \leq v_i \leq \oa{v_i}(x) \}$.
+ \subsection{Over-approximating the reach set of the nonlinear system}
+\label{sec:x reach}
+
+At time $k$, we need to compute the forward reach set, starting from $x_k$, for the next $N$ steps, for two purposes:
+first, this is needed for defining the constraints on the input $v$ to the linearized dynamics.
+Secondly, this is needed to compute a containing set for the estimation error in $z$-space.
+
+In all but the simplest systems, forward reachable sets can not be computed exactly.
+Moreover, the true state $x_k$ is not known.
+Therefore we show how to compute an outer-approximation $\oaXset{k+j}{k},  j=0,\ldots, N$.
+To do so we use a reachability tool for nonlinear systems, RTreach??. 
+Rtreach computes an outer-approximation of the reachable set of a system starting from some set $\Xc \subset X$, subjet to inputs from a set $U$, for a duration $T \geq 0$. 
+Denote this approximation by $\RT{\Xc}$.
+
+At time $k$, the state estimate $\hx_{k}$ is known.
+Therefore $x_k = \hx_{k} - e_k \in \hx_{k} \oplus (-E) \defeq \Xset{k}{k}$.
+Propagating $\Xset{k}{k}$ forward one step through the continuous-time nonlinear dynamics yields $\Xset{k+1}{k}$, which is outer-approximated by $\RT{\Xset{k}{k}}$.
+The estimate that the system will receive at time $k+1$ is therefore bound to be in the set $\RT{\Xset{k}{k}}  \oplus E$.
+Since $0 \in E$, we maintain $\Xset{k+1}{k} \subset \RT{\Xset{k}{k}}  \oplus E$.
+We define the over-approximate reach set at $k+1$, computed at time $k$, to be 
+\begin{equation*}
+\label{eq:def Xk}
+\oaXset{k+1}{k} \defeq  \RT{\Xset{k}{k}}  \oplus E \oplus  (-E)
+\end{equation*}
+(The reason for adding the extra $-E$ term will be apparent in the proof to Thm.??).
+
+More generally, for $1 \leq j \leq N$, we define the $j$-step reach set computed at time $k$ to be
+\begin{eqnarray}
+\label{eq:def Xkj}
+\oaXset{k}{k} &\defeq&   \hx_{k} \oplus (-E) 
+\nonumber
+\\
+\oaXset{k+j}{k} & \defeq& \RT{\oaXset{k+j-1}{k}} \oplus E \oplus (-E) 
+\end{eqnarray}
+
+The following holds by construction:
+\begin{lemma}
+	\label{lemma:xreach}
+	For any time $k$ and step $j \geq 1$, the $j$-step reach set of the non-linear dynamics starting from $x_k$ is outer-approximated by $\oaXset{k+j}{k}$:
+	$\Xset{k+j}{k} \subset \oaXset{k+j}{k}$.
+\end{lemma}
+
+This construction of the outer-approximation permits us to prove recursive feasibility of the MPC controller,  because it causes the constraints of the MPC problem setup at time $k+1$ to be consistent with (stronger than) the constraints of the MPC problem setup at time $k$.
+This will be explicitly stated and proved in the proof of Thm. ??
+
+\subsection{Approximating the input sets}
+\label{sec:approx input sets}
+Given $x \in X$, define the set $V(x) \defeq \{v \in \Re^{\dimV} \such u(x) = R^{-1}(x)[b(x)+v] \in U\}$.
+We assume that there exist functions $\ua{v}_i, \oa{v}_i: X \rightarrow \Re$ s.t. for any $x$, $V(x) = \{[v_1,\ldots,v_{\dimV}]^T \such \ua{v}_i(x) \leq v_i \leq \oa{v_i}(x) \}$.
 Because in general $V(x)$ is not a rectangle, we work with inner and outer rectangular approximations of $V(x)$.
 Specifically, let $\Xc$ be a subset of $X$.
 Define the inner and outer bounding rectangles, respectively
-\[\ua{V}(\Xc) \defeq \{v=[v_1,\ldots,v_a]^T \such \max_{x\in \Xc} \ua{v}_i(x)  \leq v_i \leq \min_{x \in \Xc} \oa{v}_i(x) \} \]
-\[\oa{V}(\Xc) \defeq \{v=[v_1,\ldots,v_a]^T \such \min_{x\in \Xc} \ua{v}_i(x)  \leq v_i \leq \max_{x \in \Xc} \oa{v}_i(x) \} \]
+\[\ua{V}(\Xc) \defeq \{v=[v_1,\ldots,v_{\dimV}]^T \such \max_{x\in \Xc} \ua{v}_i(x)  \leq v_i \leq \min_{x \in \Xc} \oa{v}_i(x) \} \]
+\[\oa{V}(\Xc) \defeq \{v=[v_1,\ldots,v_{\dimV}]^T \such \min_{x\in \Xc} \ua{v}_i(x)  \leq v_i \leq \max_{x \in \Xc} \oa{v}_i(x) \} \]
 
 By construction, we have for any subset $\Xc \subset X$
 \begin{equation}
@@ -26,6 +75,9 @@ If two subsets of $X$ satisfy $\Xc_1 \subset \Xc_2$, then it holds that
 \oa{V}(\Xc_1) \subset \oa{V}(\Xc_2)
 \end{eqnarray}
 
+
+\subsection{Approximating the  disturbances}
+\label{sec:approx dist}
 We will also need to define containing sets for the state estimation error in $z$ space:
 recall that for any $k,j$, 
 $\hat{z}_{k+j} = T(\hat{x}_{k+j}) = T(x_{k+j} + e_{k+j}) \approxeq T(x_{k+j}) + M(x_{k+j})e_{k+j} = z_{k+j} + M(x_{k+j})e_{k+j} = z_{k+j} + \te_{{k+j}}$.
@@ -64,12 +116,14 @@ Therefore
 \hw_{k+j+1} \in \What_{k+j+1|k} \defeq W \oplus \tE_{k+j+1|k} \oplus(-A\tE_{k+j|k})
 \end{equation}
 
+\subsection{Constraints of successive MPC problems}
+\label{sec:inclusions statement}
 We are now ready to state and prove a key lemma regarding the evolution of the state, error and input sets within one MPC optimization problem, and between MPC optimization problems. 
 This lemma will be key to proving recursive feasibility of the MPC controller, since it allows us to show that the constraint sets of one problem, at time $k$, are appropriate supersets of the constraint sets of the next problem, at time $k+1$. 
 
 \begin{lemma}
 	\label{lem:set inclusions}
-	Let $\oa{X}_{k+j|k}$ be the $j$-step outer-approximate reach set computed at time $k$ by a reachability tool as described in ???.
+	Let $\oa{X}_{k+j|k}$ be the $j$-step outer-approximate reach set computed at time $k$ by a reachability tool as described in Sec. \ref{sec:x reach}.
 	
 	Let $\What_{k+j|k}$ be the set defined in \eqref{eq:What}.
 	
@@ -77,9 +131,9 @@ This lemma will be key to proving recursive feasibility of the MPC controller, s
 	
 	Let $\ua{V}_{k+j|k} = \ua{V}(\oa{X}_{k+j|k})$ and $\oa{V}_{k+j|k} = \oa{V}(\oa{X}_{k+j|k})$ 
 
-Then the following hold:
+Then the following hold for all $k \geq 0, ,j \geq 1$:
 \begin{enumerate}
-	\item $\oa{X}_{k+j+1|k+1} \subseteq \oa{X}_{k+j+1|k}$
+	\item $\oa{X}_{k+1+j|k+1} \subseteq \oa{X}_{k+j+1|k}$
 	\label{set:X}
 	\item $\tE_{k+1+j|k+1} \subseteq \tE_{k+j+1|k}$
 	\label{set:tE}
@@ -102,6 +156,16 @@ Then the following hold:
 \begin{proof}
 	
 \ref{set:X}) 
+Fix an arbitrary $k$. We prove this by induction on $j \geq 1$.
+
+\underline{Base case: $j=1$}. By construction, $\hx_{k+1} \in \RT{\Xset{k}{k}} \oplus E$.
+Therefore at time $k+1$, when setting up the problem $\mathbb{P}_{k+1}(\hat{z}_{k+1})$, the algorithm will first compute
+$\Xset{k+1}{k+1} = \hx_{k+1} \oplus (-E)  \subset \RT{\Xset{k}{k}} \oplus E \oplus (-E) = \oaXset{k+1}{k}$.
+Also 
+$\oaXset{k+2}{k+1} = \RT{\Xset{k+1}{k+1}} \oplus E \oplus(-E) \subset  \RT{\oaXset{k+1}{k}} \oplus E \oplus(-E) = \oaXset{k+2}{k}$.
+
+\underline{Induction step: $j > 1$}.
+By definition, $\oaXset{k+1+j}{k+1} = \RT{\oaXset{k+1+j-1}{k+1}} \oplus E \oplus (-E) \subset  \RT{\oaXset{k+j}{k}} \oplus E \oplus (-E) = \oaXset{k+j+1}{k}$
 
 \ref{set:tE}) 	By \ref{set:X}) 
  we have that 

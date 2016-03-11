@@ -56,14 +56,17 @@
 \newcommand{\te}{\tilde{e}}
 % set E tilde
 \newcommand{\tE}{\widetilde{E}}
-% w hat
+% w hat,x hat
 \newcommand{\hw}{\hat{w}}
 % W hat set
 \newcommand{\What}{\widehat{W}}
 % z hat
 \newcommand{\hz}{\hat{z}}
-% X set
-\newcommand{\Xset}[2]{X_{#1,#2}}
+% x hat, X set
+\newcommand{\hx}{\hat{x}}
+\newcommand{\Xset}[2]{X_{#1|#2}}
+\newcommand{\oaXset}[2]{\oa{X}_{#1|#2}}
+
 \newcommand{\such}{\;|\;}
 % Dimensions
 \global\long\def\dimZ{n_z}
@@ -127,6 +130,7 @@ Corporation program sponsored by MARCO and DARPA, NSF MRI-0923518 and the US Dep
 \thispagestyle{empty}
 \pagestyle{empty}
 
+\input{introduction}
 \input{formulation}
 \input{setinclusions}
 \input{reachability}
