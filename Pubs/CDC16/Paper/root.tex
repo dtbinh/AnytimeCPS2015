@@ -36,7 +36,15 @@
 %\newcommand{\bm}{\hat{B}}
 \newcommand{\MPCProb}[1]{\mathbb{P_{#1}}}
 \newcommand{\RAMPCProb}[2]{\mathbb{P}_{#1}(\hat{\stPt}_{#2},\sDelay_{#2},\sAccu_{#2},\inpPt_{#2 -1})}
-\global\long\def\ZSet{\Zc}
+% Set macros
+\newcommand{\oa}[1]{\mathbf{#1}}
+\newcommand{\ua}[1]{\underline{#1}}
+\newcommand{\nom}[1]{\bar{#1}}
+\newcommand{\Zset}[2][k]{\mathcal{Z}_{#2|#1}}
+\newcommand{\nomZset}[2][k]{\nom{\Zset{#2|#1}}}
+\newcommand{\nomz}[2][k]{\bar{z}_{#2|#1}}
+\newcommand{\What}{\widehat{W}}
+
 \global\long\def\Cc{\mathcal{C}}
 \global\long\def\Nom#1{\overline{#1}}
 \newcommand{\bla}[1]{\overbar{#1}}
