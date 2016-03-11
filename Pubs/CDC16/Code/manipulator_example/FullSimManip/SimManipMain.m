@@ -115,13 +115,60 @@ plot(1:k,x_true(1,1:k),'b');
 hold on;
 plot(1:k,x_true(2,1:k),'g');
 hold on;
+
+
+%% z 1 and 2
 figure;
-plot(1:k,u_applied(1:k),'k')
+mag = .5*deg2rad([1 1 2.7 3.2]);
+
+for i=1:2
+   plot(1:k,z_true(i,1:k),'linewidth',2);
+   hold all
+   plot(1:k,z_true(i,1:k)+(-mag(i)+(2*mag(i).*rand(1,k))),'linewidth',2)
+   hold all
+end
+grid 
+h  =legend('${z_k[1]}$','${\hat{z}_k[1]}$','${z_k[2]}$','${\hat{z}_k[2]}$');
+set(h,'Interpreter','latex');
+
+
+%% z 3 and 4
+figure;
+mag = 1*deg2rad([1 1 2.7 3.2]);
+for i=3:4
+   plot(1:k,z_true(i,1:k),'linewidth',2);
+   hold all
+   plot(1:k,z_true(i,1:k)+(-mag(i)+(2*mag(i).*rand(1,k))),'linewidth',2)
+   hold all
+end
+grid 
+h  =legend('${z_k[3]}$','${\hat{z}_k[3]}$','${z_k[4]}$','${\hat{z}_k[4]}$');
+set(h,'Interpreter','latex');
+
+%% x 3 and 4
+figure;
+mag = 1*deg2rad([1 1 2.7 3.2]);
+
+for i=3:4
+   plot(1:k,x_true(i,1:k),'linewidth',2);
+   hold all
+   plot(1:k,x_true(i,1:k)+(-mag(i)+(2*mag(i).*rand(1,k))),'linewidth',2)
+   hold all
+end
+grid 
+h  =legend('${x_k[3]}$','${\hat{x}_k[3]}$','${x_k[4]}$','${\hat{x}_k[4]}$');
+set(h,'Interpreter','latex');
+%% actual input 
+figure;
+plot(1:k,u_applied(1:k),'b')
 hold on
 plot(1:k,u_max*ones(k,1),'.');
 hold on
 plot(1:k,u_min*ones(k,1),'.');
 grid on;
+h = legend('${u_k}$','${U^{max}}$','${U^{min}}$');
+set(h,'Interpreter','latex');
+axis([1 45 -11 11]);
 %% more plotting shite
 figure;
 hold on;
@@ -141,5 +188,8 @@ hold all;
 plot(1:k,mxv_g*ones(k,1),'--');
 hold all;
 plot(1:k,mnv_g*ones(k,1),'--');
-legend('v','v_{max-online}','v_{min-online}','v_{max-global}','v_{min-global}');
+%legend('v','v_{max-online}','v_{min-online}','v_{max-global}','v_{min-global}');
+h = legend('${v_k}$','${\underline{V}_k^{max}}$','${\underline{V}_k^{min}}$', ...
+    '${V_{inner-global}^{max}}$','${V_{inner-global}^{min}}$');
+set(h,'Interpreter','latex');
 grid on;
