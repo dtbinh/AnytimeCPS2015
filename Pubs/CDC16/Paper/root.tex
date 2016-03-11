@@ -36,14 +36,27 @@
 %\newcommand{\bm}{\hat{B}}
 \newcommand{\MPCProb}[1]{\mathbb{P_{#1}}}
 \newcommand{\RAMPCProb}[2]{\mathbb{P}_{#1}(\hat{\stPt}_{#2},\sDelay_{#2},\sAccu_{#2},\inpPt_{#2 -1})}
+
 % Set macros
+%  over-approximation
 \newcommand{\oa}[1]{\mathbf{#1}}
+% under-approximation
 \newcommand{\ua}[1]{\underline{#1}}
+% make something nominal
 \newcommand{\nom}[1]{\bar{#1}}
-\newcommand{\Zset}[2][k]{\mathcal{Z}_{#2|#1}}
-\newcommand{\nomZset}[2][k]{\nom{\Zset{#2|#1}}}
-\newcommand{\nomz}[2][k]{\bar{z}_{#2|#1}}
+% in case we use Z somewhere without subscripts
+\global\long\def\Zs{Z}
+% Zj,k
+\newcommand{\Zset}[2]{\Zs_{#1|#2}}
+% set for nominal z
+\newcommand{\nomZset}[2]{\nom{\Zset{#1}{#2}}}
+% element nominal z
+\newcommand{\nomz}[2]{\nom{z}_{#1|#2}}
+% W hat set
 \newcommand{\What}{\widehat{W}}
+% X set
+\newcommand{\Xset}[2]{X_{#1,#2}}
+
 
 \global\long\def\Cc{\mathcal{C}}
 \global\long\def\Nom#1{\overline{#1}}
@@ -104,6 +117,7 @@ Corporation program sponsored by MARCO and DARPA, NSF MRI-0923518 and the US Dep
 \pagestyle{empty}
 
 \input{formulation}
+\input{setinclusions}
 \input{reachability}
 \input{RMPC}
 \input{appendix}
