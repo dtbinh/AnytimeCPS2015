@@ -27,7 +27,7 @@ J^{*}(\hat{z_k}) = \text{min} &\sum_{j=0}^{N}\lbrace\bar{z}_{k+j|k}'Q\bar{z}_{k+
 \bar{z}_{k|k} &= \hat{z}_{k} \label{eq:init_cond}\\
 \bar{z}_{k+j|k}& \in \nomZset{k+j}{k} \label{eq:states_con}\\
 \text{and } &\forall j=0,\dotsc,N-1 \nonumber \\
-v_{k+j|k} & \in V_{j|k} \label{eq:input_con} \\
+v_{k+j|k} & \in V_{k+j|k} \label{eq:input_con} \\
 [z_{k+N+1|k} \, v_{k+N}|k]' & \in P_f \label{eq:joint_term} 
 \end{align}
 \end{subequations}

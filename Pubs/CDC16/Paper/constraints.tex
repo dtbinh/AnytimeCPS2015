@@ -31,13 +31,13 @@ The input constraints are given, $\forall j=0,...,N-1$, as:
 \begin{align}
 \label{eq:input_constraints}
 %V_{k|k} &= \underline{V}_{k|k} \\
-V_{k+j|k} &= \underline{V}_{k+j|k} \ominus_{i=0}^{j-1}KL_iW_{k+(j-i)|k} 
+V_{k+j|k} &= \underline{V}_{k+j|k} \ominus_{i=0}^{j-1}KL_i\What_{k+(j-i)|k} 
 \end{align}
 \end{subequations}
 
 These constraints are chosen such that if the nominal state and the input satisfy the constraints, then the true state will always be inside the safe set $Z$. The constraints are "shaped" according to the stabilizing feedback law $K$, similar to \textbf{RTSS,How}.
 
-\textit{The terminal constraint $Z_f$:}
+\textit{The terminal constraint $P_f$:}
 For the terminal constraint, which is a joint constraint on both the input and the nominal state, let us first define a few terms.
 \begin{subequations}
 \begin{align}
@@ -47,7 +47,7 @@ p_k &=[\bar{z}_k \, v_{k-1}]' \label{eq:joint_state} \\
 \hat{K} &= \begin{bmatrix}  K & 0_{mxm}  \end{bmatrix} \label{eq:K_hat} \\
 \hat{L} _i&= (\hat{A}+\hat{B}\hat{K})^i\,\forall i = 0,\dotsc \label{eq:L_hat} \\
 \hat{F} &= \begin{bmatrix} \mathbb{I} \\ 0_{mxn} \end{bmatrix} \\
-W_{max} &= W \oplus \tilde{E}_{max} \oplus (-A\tilde{E}_{max}) \label{eq:W_max} 
+\What_{max} &= W \oplus \tilde{E}_{max} \oplus (-A\tilde{E}_{max}) \label{eq:W_max} 
 \end{align}
 \end{subequations}
 
@@ -55,17 +55,17 @@ Here, $p_k$ is a state formed by concatenating the nominal state at time $k$ and
 
 With these definitions, $P_f$ is defined as:
 \begin{equation}
-P_f = C_p\ominus \hat{L}_N\hat{F}{W}_{max}
+P_f = C_p\ominus \hat{L}_N\hat{F}\What_{max}
 \end{equation}
 
-Here, $C_p$ is a robust control invariant set for the worst case disturbances given by $W_{max}$. Note. $C_p$ is the invariant set inside $P_N(\tilde{E}_{max},\tilde{E}_{max})$, where $\hat{Z}_N(\tilde{E}_{max},\tilde{E}_{max})$ is computed recursively, similar to Eq. \ref{eq:Set_constraints} but with all error sets replaced by $\tilde{E}_{max}$ and correspondingly all disturbance sets by $W_{max}$, as follows $\forall j=0,\dotsc,N$
+Here, $C_p$ is a robust control invariant set for the worst case disturbances given by $\What_{max}$. Note. $C_p$ is the invariant set inside $P_N(\tilde{E}_{max},\tilde{E}_{max})$, where $\hat{Z}_N(\tilde{E}_{max},\tilde{E}_{max})$ is computed recursively, similar to Eq. \ref{eq:Set_constraints} but with all error sets replaced by $\tilde{E}_{max}$ and correspondingly all disturbance sets by $\What_{max}$, as follows $\forall j=0,\dotsc,N$
 
 
 \begin{subequations}
 \begin{align}
-{P}_0 &=P \ominus(-\hat{F}\tilde{E}_{max}) \\
-%\hat{Z}_j(\tilde{E}_{max},\tilde{E}_{max}) &= \hat{Z}_j(\tilde{E}_{max},\tilde{E}_{max})\ominus \hat{L}_{j}W_{max} \\
-P_{j} &= P \ominus_{i=0}^{j-1}(\hat{L}_i\hat{F}W_{max})\ominus (-\hat{F}\tilde{E}_{max})
+%{P}_0 &=P \ominus(-\hat{F}\tilde{E}_{max}) \\
+%\hat{Z}_j(\tilde{E}_{max},\tilde{E}_{max}) &= \hat{Z}_j(\tilde{E}_{max},\tilde{E}_{max})\ominus \hat{L}_{j}\What_{max} \\
+P_{j} &= P \ominus_{i=0}^{j-1}(\hat{L}_i\hat{F}\What_{max})\ominus (-\hat{F}\tilde{E}_{max})
 \end{align}
 \end{subequations}
 
