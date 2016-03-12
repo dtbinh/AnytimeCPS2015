@@ -1,0 +1,11 @@
+\section{Simulations}
+\label{sec:simulations}
+
+In order to evaluate our approach, we implemented our algorithm in MATLAB and simulated it with two plant models, including the example of Section ??. The set computations were done using the MPT Toolbox ??, and the invariant set computations using the Matlab Invariant Set Toolbox ??. For the reachability computations of Section ??, we perform reachability on the feedback linearized system with MPT using the steps outlined in Section ??, but with $E$ replaced by $\tilde{E}_{max}$ and the control set $U$ replaced by $\oa{V}_{k+j|k}$. The set $\oaXset{k+j}{k}$ is then obtained by applying the diffeomorphism to the set $\oa{Z}_{k+j|k}$, and the properties of Lemma ?? still hold. The RMPC algorithm was implemented in CVX [??] and Gurobi [??] was used as the solver.
+
+\subsection{Toy example}
+
+For the running example of Eq. ??, we show the state trajectories in Fig. ??. The input for the feedback linearized system is shown in Fig. along with its upper and lower rectangular bounds computed online, denoted as $ V^{max}_{k|k}$ and $ V^{min}_{k|k}$ respectively, which make up the input constraint set at time $k$, $V_{k|k}$. Also shown is the global inner approximation for the input $v$. It is worth noting that the bounds computed online allow for much more control action than the conservative $V_{inner-global}$. Fig. ?? shows the input to the actual system, $u$. Note, that $u_k \in U \forall k$, as the defintion for $V_{k|k}$ implies. 
+
+
+
