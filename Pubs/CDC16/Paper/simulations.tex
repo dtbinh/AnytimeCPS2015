@@ -5,7 +5,9 @@ In order to evaluate our approach, we implemented our algorithm in MATLAB and si
 
 \subsection{Toy example}
 
-For the running example of Eq. ??, we show the state trajectories in Fig. ??. The input for the feedback linearized system is shown in Fig. along with its upper and lower rectangular bounds computed online, denoted as $ V^{max}_{k|k}$ and $ V^{min}_{k|k}$ respectively, which make up the input constraint set at time $k$, $V_{k|k}$. Also shown is the global inner approximation for the input $v$. It is worth noting that the bounds computed online allow for much more control action than the conservative $V_{inner-global}$. Fig. ?? shows the input to the actual system, $u$. Note, that $u_k \in U \forall k$, as the defintion for $V_{k|k}$ implies. 
+For the running example of Eq. ??, we show the state trajectories for the feedback linearized system in Fig. ?? and for the non-linear system in Fig ??. The input for the feedback linearized system is shown in Fig. along with its upper and lower rectangular bounds computed online, denoted as $ V^{max}_{k|k}$ and $ V^{min}_{k|k}$ respectively, which make up the input constraint set at time $k$, $V_{k|k}$. Also shown is the global inner approximation for the input $v$. It is worth noting that the bounds computed online allow for much more control action than the conservative $V_{inner-global}$. Fig. ?? shows the input to the actual system, $u$. Note, that $u_k \in U \forall k$, as the defintion for $V_{k|k}$ implies. These figures show that, as formulated, the algorithm stabilizes the system while robustly satisfying the state and input constraints.
 
+\subsection{Single link flexible joint manipulator}
 
+As a more complex example, we consider the single link flexible manipulator dynamics, which have also been covered in ??,??,??. 
 
