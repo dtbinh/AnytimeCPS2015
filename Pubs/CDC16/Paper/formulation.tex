@@ -3,20 +3,23 @@
 The control problem is as follows:
 
 \begin{subequations}
-\label{eq:nonlinear dyanmics}
 \begin{align}
 \text{Minimize } &l(x,u) \\
 &\text{s.t.} \nonumber \\
-\dot{x}&=f(x)+G(x)u \\
+\dot{x}&=f(x)+G(x)u \label{eq:NL_Plant} \\
 x&\in X\\
 u&\in U
 \end{align}
 \end{subequations}
 
-A discrete-time, periodic, state-estimator provides access to a state estimate with estimation error
+Here, $x \in \mathbb{R}^{\dimX}$ and $u \in \mathbb{R}^{\dimU}$. A discrete-time, periodic, state-estimator provides access to a state estimate with estimation error
+
 \begin{subequations}
+\label{eq:NL_estimate}
 \begin{align}
 \hat{x}(t)&=x(t)+e(t) \\ 
 \text{where, } e(t) &\in E
 \end{align}
 \end{subequations}
+
+For sake of simplicity, for the rest of this paper, we assume $X$, $U$ and $E$ are hyper-rectangular, i.e. each dimension of $x$, $u$, $e$ has a fixed upper and lower limit, although the approach we use applies when these 3 sets are convex (bounded) polytopes of arbitrary form.
