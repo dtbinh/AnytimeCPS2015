@@ -14,7 +14,7 @@ for j = 1:1000
     Txe = Txe(2,:);
     Tx = Tx(2,:);
     for i = 1:numel(x2h)
-        err(i,j) = norm(Txe(i)-(Tx(i)+Me(i)));
+        err(i,j) = norm(Txe(i)-(Tx(i)+Me(i)))/(norm(Txe)+eps);
     end
 end
 err = sum(err,2)/100;

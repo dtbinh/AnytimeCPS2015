@@ -1,0 +1,54 @@
+\section{Feedback linearization}
+\label{sec:feedbacklin}
+A common method for control of non-linear systems is via Feedback linearization \cite{khalil}. For brevity, without getting into the underlying detail, feedback linearization allows us to find a feedback form for the control signal $u$ of the plant given by Eq. \ref{eq:NL_Plant}. The control signal $u$ of the form $u = R(x)^{-1}(-b(x)+v)$ allows us find a change of variables $z=T(x)$, s.t. the dynamics for the new state $z$, $\forall x \in D$, the domain in which the feedback linearization is valid, can be written in the linear time-invariant (LTI) form:
+\begin{equation}
+\label{eq:LTI_fb_lin}
+%\begin{align}
+\dot{z} = A_cz + B_cv
+%\end{align}
+\end{equation}
+
+Since $T(x)$ is a diffeomorphism ($\forall x \in D$), we can control the linear plant to achive objectives such as stabilization, or reference tracking for the non-linear system. Without loss of generality, we assume that the system has a relative degree $\rho=\dimX$ for SISO systems, and similarly a vector relatie degree $\lbrace \rho_i \rbrace_{i=1}^{\dimX}\, \text{s.t.} \sum_i \rho_i = \dimX$ for MIMO systems, i.e. the system has no zero dynamics and all states are controllable \cite{khalil}. Also note here, $z$ and $x$ are of the same length, as are $u$ and $v$, i.e. $\dimX = \dimZ$ and $\dimU = \dimV$.
+
+
+ As a running example in this paper, we use the non-linear system of the form:
+
+\begin{subequations}
+\begin{align}
+\dot{x}_1 &= asin(x_2) \\
+\dot{x}_2 &=-x_1^2 + u 
+\end{align}
+\end{subequations}
+
+For the measurement $y = h(x) = x_1$, the system can be feedback linearized on the domain $D = \lbrace x | cos(x_2) \neq 0 \rbrace $, where it has a relative degree of $\rho=2$. For this system, the feedback linearizing input is:
+
+\begin{subequations}
+\begin{align}
+u &= (1/acos(x_2))(-asin(x_2)+v) \nonumber \\
+&= -tan(x_2) + (1/acos(x_2))v
+\end{align}
+\end{subequations}
+
+And the feedback linearized system is $\dot{z}_1 = z_2\, ,\dot{z}_2 = v$, where the diffeomorphism (valid in the domain $D$) relating the states of the feedback linearized system to those of the non-linear system is:
+
+\begin{equation}
+z = T(x) = \begin{bmatrix} x_1 \\ asin(x_2) \end{bmatrix}
+\end{equation}
+
+For sake of simplicity, we assume $a=1$ for the remainder of the paper.
+
+\subsection{Estimation error under feedback linearization}
+
+For the purpose of control, we only have a state-estimate of the non-linear system as given by Eq. \ref{eq:NL_estimate}. Similar to a real system, we will assume that the state estimate is available to us periodically, and is of the form $\hat{x}_k = x_k + e_k$, where time step $k$ representes the point in time given by $kT+t_0$ where $T$ is the sampling period and $t_0$ is initial time. For the control of the feedback linearized system we therefore have a state estimate given by $\hat{z}_k = T(\hat{x_k})$. Define $\tilde{e}_k$ as the estimation error for the feedback linearized state at time step $k$
+
+\begin{equation}
+\tilde{e}_k =\hat{z}_k - z_k =  T(x_k + e_k) - T(x_k)
+\end{equation}
+
+It is obvious now, that $\tilde{e}_k$ is not necessarily contained in  $E$. Note, in order to control the system using this perioid state-estimate, we have to discretize the LTI feedback linearized system given by Eq. \ref{eq:LTI_fb_lin}. For the running example, we discretize the feedback linearized system for $T=0.1s$ to get the dynamics:
+\begin{equation}
+\label{toy_dt}
+z_{k+1} = \begin{bmatrix} 1 & 0.1 \\ 0 & 1 \end{bmatrix} z_k + \begin{bmatrix} 0.005 \\ 1 \end{bmatrix}v
+\end{equation}
+
+In the remainder of the text, we will refer to the system matrices of the discrete-time, feedback linearized systems as $A$ and $B$.
