@@ -1,9 +1,6 @@
 \section{Introduction}
 \label{sec:intro}
 
-\todo[inline]{diffeomorphism might change dimension of state space, use $n_z$}
-\todo[inline]{can we use the upper bound on Taylor remainder in linearixing T, to lump it with the estimation error M(x)e?}
-
 In this paper we are concerned with the problem of controlling nonlinear dynamical systems $S$ of the form $\dot{x} = f(x,u)$ under state and input constraints, and subject to errors in the state estimate.
 This problem is formulated as
 \begin{eqnarray}
@@ -43,4 +40,5 @@ Following \cite{SimonLG13_MPC}, we use forward reachability calculations in $X$ 
 Here too, a non-identity $T$ increases the computational burden since the reachability calculation must happen on the non-linear system (with an identity $T$, it can happen on the linear system).
 We propose two ways for handling this: one is by running an inaccurate but fast nonlinear reachability tool over short horizons, and the other is by running reachability on the linear system and inverting the mapping $T$ in a conservative manner.
 
-We demonstrate that our controller guarantees stability of the nonlinear system and that feasibility of the optimizations is maintained over infinite horizons.
+The paper is organized as follows,??
+

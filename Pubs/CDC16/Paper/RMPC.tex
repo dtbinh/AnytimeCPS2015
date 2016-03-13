@@ -1,36 +1,39 @@
 \section{Robust MPC for the feedback linearized system}
 
-Similar to \textbf{[RTSS15],[RichardAndHow]}, we formulate the Robust MPC via constraint restriction. The key idea is to tighten the state constraints at each time step in the MPC horizon in order to account for the effect of the disturbances (estimation error and process noise). Through this tightening we ensure robust safety and feasibility of the feedback linearized system (and hence the non-linear system) by using these "tightened" state-constraints in the Robust MPC optimization. This also allows us to express the state dynamics in a "nominal" form, where the disturbances are moved to the constraints and we can use the original dynamics of the system without any disturbances in the optimization. Since we use just the nominal dynamics, and show that the tightened constraints are linear in the state and inputs, we still solve a Quadratic Program (QP) for the MPC optimization. This not only allows us to keep a check on the complexity of the MPC optimization, but also allows us to formulate the MPC with a quadratic cost on the input to the feedback linearized system \textbf{[InputPaperRef8]}.
+Through feedback linearization and discretization, we aim to solve the non-linear control problem of Eq. \ref{eq:CtrlPrb} via Linear Robust Model Predictive Control (RMPC). Similar to \textbf{[RTSS15],[RichardAndHow]}, we formulate the RMPC via constraint restriction. The key idea is to tighten the state constraints at each time step in the MPC horizon in order to account for the effect of the disturbances (estimation error and process noise). Through this tightening we ensure robust safety and feasibility of the feedback linearized system (and hence the non-linear system) by using these "tightened" state-constraints in the RMPC optimization. This also allows us to express the state dynamics in a "nominal" form, where the disturbances are moved to the constraints and we can use the original dynamics of the (discretized, feedback linearized) system without any disturbances in the optimization. Since we use just the nominal dynamics, and show that the tightened constraints are linear in the state and inputs, we still solve a Quadratic Program (QP) for the MPC optimization.
+% This not only allows us to keep a check on the complexity of the MPC optimization, but also allows us to formulate the MPC with a quadratic cost on the input to the feedback linearized system \textbf{[InputPaperRef8]}.
 
-Since for the control, we only have access to the state estimate $\hat{z}_k$, we need to re-write the feedback linearized dynamics with respect to this state estimate. Since $\hat{z}_k = z_k +\tilde{e}_k$, at time step $k+1$ we have:
-
+Since for the control, we only have access to the state estimate $\hat{z}_k$, we need to re-write the feedback linearized dynamics with respect to this state estimate. Since $\hat{z}_k = z_k +\tilde{e}_k$ (from Eq. \ref{eq:NLesterr}), at time step $k+1$ we have:
 \begin{subequations} \label{eq:dynamics_estimate}
 \begin{align}
-\hat{z}_{k+1} &= z_{k+1} + \tilde{e}_{k+1} \nonumber \\
-&=Az_k + Bv_k + \tilde{e}_{k+1} +w_k \nonumber \\
-&=A\hat{z}_k + Bv_k + (w_k+ \tilde{e}_{k+1} -A \tilde{e}_{k})  \nonumber\\
+\hat{z}_{k+1} &= z_{k+1} + \tilde{e}_{k+1} \\
+&=Az_k + Bv_k + \tilde{e}_{k+1} +w_k  \\
+&=A\hat{z}_k + Bv_k + (w_k+ \tilde{e}_{k+1} -A \tilde{e}_{k}) \\
 &=A\hat{z}_k + Bv_k + \hat{w}_{k+1}
 \end{align}
 \end{subequations}
+where $\hat{w}_{k+1} = w_k+ \tilde{e}_{k+1} -A \tilde{e}_{k}$. Here, $w_k$ represents a process noise which is the result of feedback linearization with a noisy state estimate and discretization as in Sec. \ref{sec:EstErrFbLin}.
 
-where $\hat{w}_{k+1} = w_k+ \tilde{e}_{k+1} -A \tilde{e}_{k}$. The set of possible values that $\hat{w}_{k+1}$ can take is given by $W_{k+1} = W\oplus\tilde{E}_{k+1}\oplus(-A\tilde{E_k})$. Here, the symbol $\oplus$ denotes the Minkowski sum of two sets. Note, since we compute $\tilde{E}_{k+j}$ using the online reachability based method of Section \textbf{SecRef}, the computed $W_{k+1}$, given state estimate at time $k$, $\hat{z}_k$, is given by $W_{k+1|k}=W\oplus{E}_{k+1|k}\oplus(-A\tilde{E_{k|k}})$. 
+The set of possible values that $\hat{w}_{k+1}$ can take is given by $\What_{k+1} = W\oplus\tilde{E}_{k+1}\oplus(-A\tilde{E}_k)$. Here, the symbol $\oplus$ denotes the Minkowski sum of two sets. 
 
-For the Robust MPC formulation, we use the nominal dynamics, which are the dynamics of Eq.\ref{eq:dynamics_estimate}, but with the disturbance removed (by moving it to the constraints). For robust feasibility and safety under the bounded disturbances applicable throughout the horizon, the state constraint set is tightened at each step using a stabilizing feedback controller $K$ and a terminal constraint is derived using the worst case estimation error set $\tilde{E}_{max}$ and the inner convex (hyper-rectangular) global approximation for the input constraints $V_{inner-global}$. More details on these will follow later in the section.
+\textbf{Note:} So far we have not found an expression for the bound on $\tilde{e}_k$ given $e_k \in E$. While for the rest of this section we assume we have a polyhedral bound $\tilde{e}_k \in \tilde{E}_k \, \forall k$, we will show how to explicitly compute this bounding set $\tilde{E}_k$ using online reachability in Sec.?? . Since we compute $\tilde{E}_{k+j},\, j\geq 0$ using an online reachability method that depends on the state estimate at time $k$, we represent the set as $\tilde{E}_{k+j|k}$ to explicitly show its dependence on the state estimate at time $k$. Similarly, the computed bound for $\What_{k+1}$, given state estimate at time $k$, is given by $\What_{k+1|k}=W\oplus{E}_{k+1|k}\oplus(-A\tilde{E_{k|k}})$. 
+
+For the Robust MPC formulation, we use the nominal dynamics, which are the dynamics of Eq.\ref{eq:dynamics_estimate}, but with the disturbance removed (by moving it to the constraints). For robust feasibility and safety under the bounded disturbances applicable throughout the horizon, the state constraint set is tightened at each step using a stabilizing feedback controller $K$ and a terminal constraint is derived using the worst case estimation error set $\tilde{E}_{max}$ and the inner convex (hyper-rectangular) global approximation for the input constraints $V_{inner-global}$. More details on these will follow in Sec. ??.
 With this, the Robust MPC problem $\mathbb{P}_k(\hat{z}_k)$, is:
 
-\todo[inline]{cost should be a function of $z_k$, not the estimate $\hat{z}_k$}
+%\todo[inline]{cost should be a function of $z_k$, not the estimate $\hat{z}_k$}
 \begin{subequations} \label{eq:RMPC}
 	\label{eq:linear mpc}
 \begin{align}
-J^{*}(\hat{z_k}) = \text{min} &\sum_{j=0}^{N}\lbrace\bar{z}_{k+j|k}'Q\bar{z}_{k+j|k} + {v}_{k+j|k}'R{v}_{k+j|k}\rbrace \nonumber \\ 
-&+ \bar{z}_{k+N+1|k}'Q_f\bar{z}_{k+N+1|k} \label{eq:cost} \\
+J^{*}(\hat{z_k}) = \text{min} &\sum_{j=0}^{N}\lbrace\bar{z}_{k+j|k}^{T}Q\bar{z}_{k+j|k} + {v}_{k+j|k}^{T}R{v}_{k+j|k}\rbrace \nonumber \\ 
+&+ \bar{z}_{k+N+1|k}^{T}Q_f\bar{z}_{k+N+1|k} \label{eq:cost} \\
 \text{subject to,} &\forall j=0,\dotsc\,N \nonumber \\
 \bar{z}_{k+j+1|k}&=A\bar{z}_{k+j|k} + Bv_{k+j|k} \label{eq:nom_dyn} \\
 \bar{z}_{k|k} &= \hat{z}_{k} \label{eq:init_cond}\\
 \bar{z}_{k+j|k}& \in \nomZset{k+j}{k} \label{eq:states_con}\\
 \text{and } &\forall j=0,\dotsc,N-1 \nonumber \\
 v_{k+j|k} & \in V_{k+j|k} \label{eq:input_con} \\
-[z_{k+N+1|k} \, v_{k+N}|k]' & \in P_f \label{eq:joint_term} 
+[z_{k+N+1|k} \, v_{k+N}|k]^{T} & \in P_f \label{eq:joint_term} 
 \end{align}
 \end{subequations}
 
