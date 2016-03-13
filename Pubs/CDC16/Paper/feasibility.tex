@@ -15,5 +15,5 @@ If at the initial time step, $\mathbb{P}_0(\hat{z}_0)$ is feasible, then the the
 \end{theorem}
 
 \begin{proof}
-The Theorem can be proved recursively by applying Theorem \ref{th:robust_feas}. Suppose at time step $k$, the algorithm is feasible and the control input computed by it is $v_k$, by Theorem \ref{th:robust_feas}, $v_k$ is feasible and so $u_k \in U$. Under this control input, the state at time $k+1$, $z_{k+1} \in Z$, and $\mathbb{P}_{k+1}(\hat{x}_{k+1}$ is also feasible, i.e. the algorithm is feasible. Therefore, by induction, the Theorem holds. 
+The Theorem can be proved recursively by applying Theorem \ref{th:robust_feas}. Suppose at time step $k$, the algorithm is feasible and the control input computed by it is $v_k$, by Theorem \ref{th:robust_feas}, $v_k$ is feasible and so $u_k \in U$. Under this control input, the state at time $k+1$, $z_{k+1} \in Z$, and $\mathbb{P}_{k+1}(\hat{x}_{k+1})$ is also feasible, i.e. the algorithm is feasible. Therefore, by induction, the Theorem holds. 
 \end{proof}

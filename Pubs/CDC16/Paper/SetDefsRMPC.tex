@@ -1,0 +1,83 @@
+\section{Set definitions for the RMPC}
+
+For the RMPC algorithm, we need to define some of the sets which were used in the RMPC formulation.
+
+\subsection{Approximating the bounding sets for the input}
+\label{sec:approx input sets}
+Given $x \in X$, define the set $V(x) \defeq \{v \in \Re^{\dimV} \such u(x) = R^{-1}(x)[b(x)+v] \in U\}$.
+We assume that there exist functions $\ua{v}_i, \oa{v}_i: X \rightarrow \Re$ s.t. for any $x$, $V(x) = \{[v_1,\ldots,v_{\dimV}]^T \such \ua{v}_i(x) \leq v_i \leq \oa{v_i}(x) \}$.
+Because in general $V(x)$ is not a rectangle, we work with inner and outer rectangular approximations of $V(x)$.
+Specifically, let $\Xc$ be a subset of $X$.
+Define the inner and outer bounding rectangles, respectively
+\[\ua{V}(\Xc) \defeq \{v=[v_1,\ldots,v_{\dimV}]^T \such \max_{x\in \Xc} \ua{v}_i(x)  \leq v_i \leq \min_{x \in \Xc} \oa{v}_i(x) \} \]
+\[\oa{V}(\Xc) \defeq \{v=[v_1,\ldots,v_{\dimV}]^T \such \min_{x\in \Xc} \ua{v}_i(x)  \leq v_i \leq \max_{x \in \Xc} \oa{v}_i(x) \} \]
+
+By construction, we have for any subset $\Xc \subset X$
+\begin{equation}
+\label{eq:Vbounds}
+\ua{V}(\Xc) \leq \cup_{x \in \Xc} V(x) \subset \oa{V}(\Xc)
+\end{equation}
+If two subsets of $X$ satisfy $\Xc_1 \subset \Xc_2$, then it holds that 
+\begin{eqnarray}
+\label{eq:V inclusions}
+\ua{V}(\Xc_2) \subset \ua{V}(\Xc_1)
+\nonumber
+\\
+\oa{V}(\Xc_1) \subset \oa{V}(\Xc_2)
+\end{eqnarray}
+
+
+\subsection{Approximating the bounding sets for the disturbances}
+\label{sec:approx dist}
+We will also need to define containing sets for the state estimation error in $z$ space:
+Recall, we have $\hat{z}_k = T(\hat{x}_k) = T(x_k+e_k)$. We assume that the magnitude of $e_k$ is small w.r.t the magnitude of $x_k$. With this, we do a Jacobian Linearization as follows
+
+\begin{subequations}
+\begin{align}
+&\hat{z}_k = T(x_k) + \frac{d}{dx_k} T(x_k+e_k)|_{e_k=0}e_k + O(e^2) \\
+&\text{Ignoring the higher order terms} \nonumber \\
+&\approxeq z_k + M(x_k)e_k  \\
+&\text{And therefore} \nonumber \\
+&\tilde{e}_k = \hat{z}_k - z_k = M(x_k)e_k
+\end{align}
+\end{subequations}
+
+This gives us an additional representation of the estimation error in $z$ in terms of the current state $x_k$ and $e_k$, where $M(x_k)$ is the appropriately sized Jacobian matrix.
+
+So for any $k,j$, $\hat{z}_{k+j} = T(\hat{x}_{k+j}) = T(x_{k+j} + e_{k+j}) \approxeq T(x_{k+j}) + M(x_{k+j})e_{k+j} = z_{k+j} + M(x_{k+j})e_{k+j} = z_{k+j} + \te_{{k+j}}$.
+Therefore the state estimation error $\te_{k+j}$ lives in 
+$\cup_{x\in X_{k+j|k}, e \in E}M(x)e = \cup_{x \in X_{k+j|k}}M(x)E$, 
+where $X_{k+j|k}$ is the $j$-step reach set of the nonlinear dynamics computed starting at time $k$ and given $\hat{x}_k$, since we only have access to the estimate and not the true state.
+
+
+%%move this to next subsection
+%We over-approximate this set by a rectangle as follows: 
+%if $\te_{k+j}(i)$ is the $i^{th}$ component of vector $\te_{k+j}$, then 
+%\[\min_{x \in X_{k+j|k}, e \in E}M_i(x)e \leq \te_{k+j}(i) \leq \max_{x \in X_{k+j|k}, e \in E} M_i(x)e\]
+%where $M_i(x)$ is the $i^{th}$ row of matrix $M(x)$.
+%Note we can use $\max$ and $\min$ because the sets $X_{k+j|k}$ and $E$ are closed and bounded so the extrema of the continuous function $M_i(x)e$ are achieved on this set.
+
+%Since the set $X_{k+j|k}$ is unknown (we only have access to a state estimate, and the exact reachability computation in general is impossible to perform), we over-approximate it by a reachability tool like ??Rtreach, to obtain $\oa{X}_{k+j|k}$.
+%Then it holds that 
+%\[\min_{x \in \oa{X}_{k+j|k} e \in E}M_i(x)e \leq \te_{k+j}(i) \leq \max_{x \in \oa{X}_{k+j|k}, e \in E} M_i(x)e\]
+
+%In the examples we use one last over-approximation to simplify the optimizations needed to calculate the component-wise bounds, specifically, we use 
+%\begin{eqnarray}
+%\label{eq:Etilde}
+%\sum_{\ell=1}^{n} \min_{x \in \oa{X}_{k+j|k}, e \in E} M_{i\ell}(x)e(\ell)  \leq \te_{k+j}(i) 
+%\nonumber 
+%\\
+%\leq \sum_{\ell=1}^{n} \max_{x \in \oa{X}_{k+j|k}, e \in E} M_{i\ell}(x)e(\ell)
+%\end{eqnarray}
+%where $M_{i\ell}$ is the $(i,\ell)^{th}$ element of matrix $M$.
+%Therefore we define the rectangular error set $\tE_{k+j|k}$ to be the set of vectors $e = [e_1,\ldots, e_{\dimZ}]^T$ satisfying \eqref{eq:Etilde}.
+
+%While the sets $\tE_{k}$ over-approximate the mapped estimation error, we also need to calculate containing sets for the process noise $\hat{w}$.
+%Recall that for all $k,j$, 
+%$\hz_{k+j+1} = z_{k+j+1} + \te_{k+j+1} = Az_{k+j}+Bv_k+w_{k+j} + \te_{k+j+1} =  A(\hz_{k+j} - \te_{k+j}) + Bv_k + w_{k+j} + \te_{k+j+1} = A\hz_{k+j} + Bv_k + w_{k+j} + \te_{k+j+1} - A \te_{k+j} = A\hz_{k+j} + Bv_k + \hw_{k+j+1}$.
+
+%Therefore 
+%\begin{equation}
+%\label{eq:What}
+%\hw_{k+j+1} \in \What_{k+j+1|k} \defeq W \oplus \tE_{k+j+1|k} \oplus(-A\tE_{k+j|k})
+%\end{equation}

@@ -8,7 +8,7 @@ A common method for control of non-linear systems is via Feedback linearization 
 %\end{align}
 \end{equation}
 
-Since $T(x)$ is a diffeomorphism ($\forall x \in D$), we can control the linear plant to achive objectives such as stabilization, or reference tracking for the non-linear system. Without loss of generality, we assume that the system has a relative degree $\rho=\dimX$ for SISO systems, and similarly a vector relatie degree $\lbrace \rho_i \rbrace_{i=1}^{\dimX}\, \text{s.t.} \sum_i \rho_i = \dimX$ for MIMO systems, i.e. the system has no zero dynamics and all states are controllable \cite{khalil}. Also note here, $z$ and $x$ are of the same length, as are $u$ and $v$, i.e. $\dimX = \dimZ$ and $\dimU = \dimV$.
+Since $T(x)$ is a diffeomorphism ($\forall x \in D$), we can control the linear plant to achive objectives such as stabilization, or reference tracking for the non-linear system. Without loss of generality, we assume that the system has a relative degree $\rho=\dimX$ for SISO systems, and similarly a vector relative degree $\lbrace \rho_i \rbrace_{i=1}^{\dimU}\, \text{s.t.} \sum_i \rho_i = \dimU$ for MIMO systems (assuming number of outputs is the same as the number of inputs, $\dimU$), i.e. the system has no zero dynamics and all states are controllable \cite{khalil}. Also note here, $z$ and $x$ are of the same length, as are $u$ and $v$, i.e. $\dimX = \dimZ$ and $\dimU = \dimV$.
 
 
  As a running example in this paper, we use the non-linear system of the form:
