@@ -24,3 +24,10 @@ Here, $x \in \mathbb{R}^{\dimX}$ and $u \in \mathbb{R}^{\dimU}$. A discrete-time
 \end{subequations}
 
 For sake of simplicity, for the rest of this paper, we assume $X$, $U$ and $E$ are hyper-rectangular, i.e. each dimension of $x$, $u$, $e$ has a fixed upper and lower limit, although the approach we use applies when these 3 sets are convex (bounded) polytopes of arbitrary form.
+
+Given a subset $\Xc$ of a dynamical system's state space, and a horizon $T \geq 0$, the \emph{reachable set of the system from $\Xc$ in time $T$} is the set of states that the system visits, at time $T$ if it starts somewhere in $\Xc$.
+Formally, $\RT{\Xc} \defeq \{y \in X \such \exists x_0 \in \Xc: x \text{ is a trajectory of the system, }x(0)=x_0, x(T)=y\}$.
+
+\textbf{Notation}.
+Given two subsets $A,B$ of $\Re^n$, define their \textit{Minkowski sum} to be $A\oplus B \defeq \{a+b \such a\in A, b\in B\}$.
+Define their Pontryagin difference to be $A\ominus B = \{c \in \Re^n \such c+b \in A\; \forall b \in B\}$

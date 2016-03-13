@@ -1,27 +1,44 @@
 \section{Introduction}
 \label{sec:intro}
 
-%\todo[inline]{diffeomorphism might change dimension of state space, use $n_z$}
+In this paper we are concerned with the problem of controlling nonlinear dynamical systems $S$ of the form $\dot{x} = f(x,u)$ under state and input constraints, and subject to errors in the state estimate.
+This problem is formulated as
+\begin{eqnarray}
+	\label{eq:generic NLMPC}
+	\min_{\textbf{x},\textbf{u}} &\;& l(\textbf{x}, \textbf{u}) \\
+	\text{s.t. } \dot{x}&=&f(x,u) \nonumber \\
+	x&\in& X  \nonumber\\
+	u&\in& U  \nonumber
+\end{eqnarray}
+where $l(\textbf{x}, \textbf{u})$ is a cost function whose minimization over the state and input trajectories $\textbf{x}$ and $\textbf{u}$ ensures stability of the system. 
+Sets $X$ and $U$ encode constraints on the state (e.g., safety) and the input.
 
+Whereas Model Predictive Control (MPC) is a widely used control technique for solving the above problem for linear systems, its application to nonlinear systems involves the repeated solution of generally non-quadratic, non-convex optimizations.
+Various approaches for solving (or approximately solving) the optimizations and their trade-offs are reviewed in \cite{Cannon04_EfficientMPC}.
+Another approach is to \emph{feedback linearize} the system $S$ \cite{khalil}: namely, the applied control $u = u(x,v)$ is designed in such a way that the resulting closed-loop dynamics $S_{fl}$ are now \emph{linear}:
+	\[S_{fl}: \dot{z} = Az + Bv\]
+The input $v$ to the linearized dynamics can now be computed so as to optimize system performance and ensure stability.
+Since some control authority has been sacrificed to linearize the dynamics, the solution to the linear MPC problem is of course sub-optimal relative to the exact solution to the nonlinear MPC problem.
+The state $z$ of the linearized system $S_{fl}$ is related to the state $x$ of the nonlinear system via a (system-specific) function $T$: $z=T(x)$.
 
-This:
-nonlinear control with mpc on feedback linearized dynamics with state estimation error, input constraints, state constraints
+Previous work on nonlinear MPC with feedback linearization assumed the state $x(t)$ is perfectly known to the controller at any moment in time \cite{SimonLG13_MPC}.
+In practice, only a state estimate $\hx(t)$ is available, and $\hx(t) \neq x(t)$.
+Thus a controller designed to work optimally when operating on the true state $x$ is in general sub-optimal when operating on $\hx$ (any may even lead to instability).
+Robust MPC (RMPC) has been investigated as a way of handling state estimation errors, but only for linear systems \cite{RichardsH05_RMPC}.
+\todo[inline]{litt search}
+Existing work has also assumed that $T$ is the identity, which simplifies the subsequent stability and performance analysis \cite{SimonLG13_MPC}. 
+\todo[inline]{litt search}
+A non-identity $T$ is problematic when the state is not perfectly known, since the state estimation error $e = \hx-x$ maps to the linearized dynamics via $T$ in non-trivial ways greatly complicating the analysis.
+In particular, the error bounds for the state estimate in $z$-space now depend on the current nonlinear state $x$.
 
-Previous work: feedback linearization but no state constraints and identity T, no state uncertainty
+In this paper we develop a RMPC solution to the above control problem in the case of input-affine systems, with state estimation errors and non-identity $T$.
+We are motivated by the problem of anytime control \cite{PantAMNDM15_Anytime}, in which the receding horizon controller receives a delayed inaccurate state estimate.
 
-New:	
-state constraints, 
-non-identity T,
-state uncertainty,
-recursive feasibility with time-varying error sets
+One of the complications introduced by feedback linearization is that the bounds on the input ($u \in U$) may become non-convex state-dependent bounds on the input $v$ to $S_{fl}$: 
+$V = \{\ua{v}(x, U) \leq v \leq \oa{v}(x,U)\}$.
+Following \cite{SimonLG13_MPC}, we use forward reachability calculations in $X$ to provide inner convex approximations to the input set $V$.
+Here too, a non-identity $T$ increases the computational burden since the reachability calculation must happen on the non-linear system (with an identity $T$, it can happen on the linear system).
+We propose two ways for handling this: one is by running an inaccurate but fast nonlinear reachability tool over short horizons, and the other is by running reachability on the linear system and inverting the mapping $T$ in a conservative manner.
 
-Given a subset $\Xc$ of a dynamical system's state space, and a horizon $T \geq 0$, the \emph{reachable set of the system from $\Xc$ in time $T$} is the set of states that the system visits, at time $T$ if it starts somewhere in $\Xc$.
-Formally, $\RT{\Xc} \defeq \{y \in X \such \exists x_0 \in \Xc: x \text{ is a trajectory of the system, }x(0)=x_0, x(T)=y\}$.
+The paper is organized as follows,??
 
-\textbf{Notation}.
-Given two subsets $A,B$ of $\Re^n$, define their \textit{Minkowski sum} to be $A\oplus B \defeq \{a+b \such a\in A, b\in B\}$.
-Define their Pontryagin difference to be $A\ominus B = \{c \in \Re^n \such c+b \in A\; \forall b \in B\}$
-
-\subsection{Layout of the paper}
-
-The remainder of the paper is organized as follows,

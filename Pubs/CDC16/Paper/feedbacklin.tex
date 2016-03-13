@@ -24,15 +24,15 @@ For the measurement $y = h(x) = x_1$, the system can be feedback linearized on t
 
 \begin{subequations}
 \begin{align}
-u &= (1/acos(x_2))(-asin(x_2)+v) \nonumber \\
-&= -tan(x_2) + (1/acos(x_2))v
+u &= (1/a\cos(x_2))(-a\sin(x_2)+v) \nonumber \\
+&= -\tan(x_2) + (1/a\cos(x_2))v
 \end{align}
 \end{subequations}
 
 And the feedback linearized system is $\dot{z}_1 = z_2\, ,\dot{z}_2 = v$, where the diffeomorphism (valid in the domain $D$) relating the states of the feedback linearized system to those of the non-linear system is:
 
 \begin{equation}
-z = T(x) = \begin{bmatrix} x_1 \\ asin(x_2) \end{bmatrix}
+z = T(x) = \begin{bmatrix} x_1 \\ a\sin(x_2) \end{bmatrix}
 \end{equation}
 
 For sake of simplicity, we assume $a=1$ for the remainder of the paper.
