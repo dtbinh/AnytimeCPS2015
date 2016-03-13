@@ -76,6 +76,9 @@ stairs(k,v_applied(k),'o');pause(0.05);
 
 end
 
+figure(1);
+hold on;plot(z_true(1,1:k),z_true(2,1:k),'linewidth',2,'Color','black')
+
 figure(2);
 hold on;
 stairs(1:k,z_true(1,1:k),'b');
