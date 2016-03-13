@@ -18,12 +18,14 @@ where $\hat{w}_{k+1} = w_k+ \tilde{e}_{k+1} -A \tilde{e}_{k}$. The set of possib
 For the Robust MPC formulation, we use the nominal dynamics, which are the dynamics of Eq.\ref{eq:dynamics_estimate}, but with the disturbance removed (by moving it to the constraints). For robust feasibility and safety under the bounded disturbances applicable throughout the horizon, the state constraint set is tightened at each step using a stabilizing feedback controller $K$ and a terminal constraint is derived using the worst case estimation error set $\tilde{E}_{max}$ and the inner convex (hyper-rectangular) global approximation for the input constraints $V_{inner-global}$. More details on these will follow later in the section.
 With this, the Robust MPC problem $\mathbb{P}_k(\hat{z}_k)$, is:
 
+\todo[inline]{cost should be a function of $z_k$, not the estimate $\hat{z}_k$}
 \begin{subequations} \label{eq:RMPC}
+	\label{eq:linear mpc}
 \begin{align}
 J^{*}(\hat{z_k}) = \text{min} &\sum_{j=0}^{N}\lbrace\bar{z}_{k+j|k}'Q\bar{z}_{k+j|k} + {v}_{k+j|k}'R{v}_{k+j|k}\rbrace \nonumber \\ 
 &+ \bar{z}_{k+N+1|k}'Q_f\bar{z}_{k+N+1|k} \label{eq:cost} \\
 \text{subject to,} &\forall j=0,\dotsc\,N \nonumber \\
-\bar{z}_{k+j+1|k}&=A\bar{z}+{k+j|k} + Bv_{k+j|k} \label{eq:nom_dyn} \\
+\bar{z}_{k+j+1|k}&=A\bar{z}_{k+j|k} + Bv_{k+j|k} \label{eq:nom_dyn} \\
 \bar{z}_{k|k} &= \hat{z}_{k} \label{eq:init_cond}\\
 \bar{z}_{k+j|k}& \in \nomZset{k+j}{k} \label{eq:states_con}\\
 \text{and } &\forall j=0,\dotsc,N-1 \nonumber \\
@@ -34,7 +36,7 @@ v_{k+j|k} & \in V_{k+j|k} \label{eq:input_con} \\
 
 Here, $\bar{z}$ represents the nominal dynamics. The cost and constraints of the optimization are explained below:
 \begin{itemize}
-\item Eq.(\ref{eq:cost}) Shows a quadratic cost of the nominal state and the input for the feedback linearized system, where as usual Q is positive definite and R is positive semi-definite. For the cost on the terminal state $\bar{z}_{k+N+1|k}$, $Q_f$ is the solution of the Lyapunov equation given by $Q_f-(A+BK)'Q(A+BK) = Q+K'RK$ where $Q,\,R,\,A,\,B,\,K$ are as defined above.
+\item Eq.(\ref{eq:cost}) Shows a quadratic cost of the nominal state and the input for the feedback linearized system, where as usual Q is positive definite and R is positive semi-definite. For the cost on the terminal state $\bar{z}_{k+N+1|k}$, $Q_f$ is the solution of the Lyapunov equation given by $Q_f-(A+BK)^{T}Q_f(A+BK) = Q+K^{T}RK$ where $Q,\,R,\,A,\,B,\,K$ are as defined above.
 
 \item Eq.(\ref{eq:nom_dyn}) is the nominal dynamics of the discretized, feedback linearized system.
 
@@ -49,3 +51,5 @@ Here, $\bar{z}$ represents the nominal dynamics. The cost and constraints of the
 \input{constraints}
 
 \input{feasibility}
+
+\input{stability}

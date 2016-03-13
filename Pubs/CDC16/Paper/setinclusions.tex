@@ -1,7 +1,7 @@
 \section{Relating the constraints of successive MPC problems}
 \label{sec:set inclusions}
 
-\newcommand{\RT}[1]{RT_{=T}(#1,U)}
+
 
 %Let $\oa{X_{k+1+j|k+1}}$ be the $j+1$-step reach set computed at time $k+1$ as described in ???.
 %Recall that $\oa{X_{k+1+j|k+1}}$ is an outer-approximation of the true reach $X_{k+1+j|k+1}$, which is the set that $x_{k+1+j}$ belongs to if it starts at $x_{k|k}$.
@@ -16,8 +16,8 @@ Secondly, this is needed to compute a containing set for the estimation error in
 In all but the simplest systems, forward reachable sets can not be computed exactly.
 Moreover, the true state $x_k$ is not known.
 Therefore we show how to compute an outer-approximation $\oaXset{k+j}{k},  j=0,\ldots, N$.
-To do so we use a reachability tool for nonlinear systems, RTreach??. 
-Rtreach computes an outer-approximation of the reachable set of a system starting from some set $\Xc \subset X$, subjet to inputs from a set $U$, for a duration $T \geq 0$. 
+To do so we may use a reachability tool for nonlinear systems, RTreach??. 
+A reachability tool computes an outer-approximation of the reachable set of a system starting from some set $\Xc \subset X$, subjet to inputs from a set $U$, for a duration $T \geq 0$. 
 Denote this approximation by $\RT{\Xc}$.
 
 At time $k$, the state estimate $\hx_{k}$ is known.
@@ -103,7 +103,7 @@ In the examples we use one last over-approximation to simplify the optimizations
 \\
 \leq \sum_{\ell=1}^{n} \max_{x \in \oa{X}_{k+j|k}, e \in E} M_{i\ell}(x)e(\ell)
 \end{eqnarray}
-where $M_{ij}$ is the $(i,j)^{th}$ element of matrix $M$.
+where $M_{i\ell}$ is the $(i,\ell)^{th}$ element of matrix $M$.
 Therefore we define the rectangular error set $\tE_{k+j|k}$ to be the set of vectors $e = [e_1,\ldots, e_{\dimZ}]^T$ satisfying \eqref{eq:Etilde}.
 
 While the sets $\tE_{k}$ over-approximate the mapped estimation error, we also need to calculate containing sets for the process noise $\hat{w}$.
@@ -118,7 +118,7 @@ Therefore
 
 \subsection{Constraints of successive MPC problems}
 \label{sec:inclusions statement}
-We are now ready to state and prove a key lemma regarding the evolution of the state, error and input sets within one MPC optimization problem, and between MPC optimization problems. 
+We are now ready to state and prove a key lemma regarding the evolution of the state, error and input sets between MPC optimization problems. 
 This lemma will be key to proving recursive feasibility of the MPC controller, since it allows us to show that the constraint sets of one problem, at time $k$, are appropriate supersets of the constraint sets of the next problem, at time $k+1$. 
 
 \begin{lemma}
@@ -165,11 +165,11 @@ Also
 $\oaXset{k+2}{k+1} = \RT{\Xset{k+1}{k+1}} \oplus E \oplus(-E) \subset  \RT{\oaXset{k+1}{k}} \oplus E \oplus(-E) = \oaXset{k+2}{k}$.
 
 \underline{Induction step: $j > 1$}.
-By definition, $\oaXset{k+1+j}{k+1} = \RT{\oaXset{k+1+j-1}{k+1}} \oplus E \oplus (-E) \subset  \RT{\oaXset{k+j}{k}} \oplus E \oplus (-E) = \oaXset{k+j+1}{k}$
+By definition, $\oaXset{k+1+j}{k+1} = \RT{\oaXset{k+1+j-1}{k+1}} \oplus E \oplus (-E) \subset  \RT{\oaXset{k+j}{k}} \oplus E \oplus (-E)$ (by the induction hypothesis). This last set equals $\oaXset{k+j+1}{k}$ by definition.
 
 \ref{set:tE}) 	By \ref{set:X}) 
  we have that 
- $ \min_{x \in \oa{X}_{k+j+1|k}, e \in E} M_{i\ell}(x)e(\ell) \leq \min_{x \in \oa{X}_{k+1+j|k+1}, e \in E} M_{i\ell}(x)e(\ell) \leq $ and 
+ $ \min_{x \in \oa{X}_{k+j+1|k}, e \in E} M_{i\ell}(x)e(\ell) \leq \min_{x \in \oa{X}_{k+1+j|k+1}, e \in E} M_{i\ell}(x)e(\ell)$ and that 
  $\max_{x \in \oa{X}_{k+j+1|k}, e \in E} M_{i\ell}(x)e(\ell) \leq \max_{x \in \oa{X}_{k+1+j|k+1}, e \in E} M_{i\ell}(x)e(\ell)$
  which yields the desired result.
  

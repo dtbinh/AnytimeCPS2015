@@ -1,0 +1,16 @@
+\section{Stability}
+\label{[sec:stability]}
+The MPC controller we proposed stabilizes the nonlinear dynamics around any given equilibrium, as shown next. 
+Recall that $X_0 \subset X$ is a subset of $\iT(Z)$.
+\begin{theorem}[Stability]
+Given an equilibrium point $x_e \in X_0$ of the nonlinear dynamics \eqref{eq:nonlinear dyanmics}, the MPC controller stabilizes the nonlinear system to $x_e$.
+\end{theorem}
+
+\begin{proof}
+Let $T$ be the diffeomorphism mapping $x$ to $z$ from feedback linearization.
+By a change of variables $z' = z - T(x_e)$, stabilizing the linear dynamics (with state $z'$) to 0 implies stabilizing the nonlinear dynamics to $x_e$.
+Recall that $Q$ of \eqref{eq:linear mpc} is positive definite so that the optimal cost $J^*(z_k)$ is a positive definite function of $x_k$, and that $Q_f$ is chosen as the solution of the Lyapunov equation so the terminal weight in \eqref{eq:linear mpc} is equivalent to the infinite horizon cost. 
+Finally Thm.  \ref{th:recursive_feas} guarantees that the tail of the input sequence computed at $k$ is admissible at time $k+1$. 
+Therefore it is a standard result that the optimal cost $J^{*}(z_k)$ is non-increasing in $k$ and that $0$ is an attracting stable equilibrium for the closed-loop linear system with region of attraction $Z$. (E.g., see \cite{CannonK15MPC} )
+Therefore $x_k$ converges to $x_e$ from anywhere in $X_0$ provided it starts in $X_0$.
+\end{proof}
