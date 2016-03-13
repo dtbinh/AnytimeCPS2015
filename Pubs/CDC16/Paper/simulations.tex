@@ -6,13 +6,15 @@ In order to evaluate our approach, we implemented our algorithm in MATLAB and si
 \subsection{Toy example}
 
 For the running example of Eq. ??, we discretize the feedback linearized system at 10Hz and formulate the controller with a horizon of $N=15$ steps. The cost function has parameters $Q=I$ and $R=10^-2$.
-The state trajectories for the feedback linearized system are shown in Fig. ?? and for the non-linear system in Fig ??. The input for the feedback linearized system is shown in Fig. along with its upper and lower rectangular bounds computed online, denoted as $ V^{max}_{k|k}$ and $ V^{min}_{k|k}$ respectively, which make up the input constraint set at time $k$, $V_{k|k}$. Also shown is the global inner approximation for the input $v$. It is worth noting that the bounds computed online allow for much more control action than the conservative $V_{inner-global}$. Fig. ?? shows the input to the actual system, $u$. Note, that $u_k \in U \forall k$, as the defintion for $V_{k|k}$ implies. These figures show that, as formulated, the algorithm stabilizes the system while robustly satisfying the state and input constraints.
+The state trajectories for the feedback linearized system are shown in Fig. ??.  For the non-linear system, the evolution of the states $x_1$ and $x_2$ with time is shown in Fig ??. The input for the feedback linearized system is shown in Fig. along with its upper and lower rectangular bounds computed online, denoted as $ V^{max}_{k|k}$ and $ V^{min}_{k|k}$ respectively, which make up the input constraint set at time $k$, $V_{k|k}$. Also shown is the global inner approximation for the input $v$. It is worth noting that the bounds computed online allow for much more control action than the conservative $V_{inner-global}$. Fig. ?? shows the input to the actual system, $u$. Note, that $u_k \in U \forall k$, as the defintion for $V_{k|k}$ implies. These figures show that, as formulated, the algorithm stabilizes the system while robustly satisfying the state and input constraints.
 
 \begin{figure}
 \includegraphics[angle=270,width=0.49\textwidth]{figs/z_trajectory_new.pdf}
 \caption{Evolution of $z_1$ and $z_2$, shown by the solid black line, inside the set Z (in red). The green sets are the reach sets $\oa{Z}_{k+i|k},\forall i=1,\dotsc,N, \forall k$. The light blue set is the one step ahead reach set $\oa{Z}_{k+1|k},\forall k$.}
 \label{fig:z_new_toy}
 \end{figure}
+
+
 
 
 \subsection{Single link flexible joint manipulator}
