@@ -38,10 +38,11 @@ z = T(x) = \begin{bmatrix} x_1 \\ asin(x_2) \end{bmatrix}
 For sake of simplicity, we assume $a=1$ for the remainder of the paper.
 
 \subsection{Estimation error under feedback linearization}
-
-For the purpose of control, we only have a state-estimate of the non-linear system as given by Eq. \ref{eq:NL_estimate}. Similar to a real system, we will assume that the state estimate is available to us periodically, and is of the form $\hat{x}_k = x_k + e_k$, where time step $k$ representes the point in time given by $kT+t_0$ where $T$ is the sampling period and $t_0$ is initial time. For the control of the feedback linearized system we therefore have a state estimate given by $\hat{z}_k = T(\hat{x_k})$. Define $\tilde{e}_k$ as the estimation error for the feedback linearized state at time step $k$
+\label{sec:EstErrFbLin}
+For the purpose of control, we only have a state-estimate of the non-linear system as given by Eq. \ref{eq:NL_estimate}. Similar to a real system, we will assume that the state estimate is available to us periodically, and is of the form $\hat{x}_k = x_k + e_k$, where time step $k$ representes the point in time given by $kT+t_0$ where $T$ is the sampling period and $t_0$ is initial time. Note, $e_k \in E \, \forall k$. For the control of the feedback linearized system we therefore have a state estimate given by $\hat{z}_k = T(\hat{x_k})$. Define $\tilde{e}_k$ as the estimation error for the feedback linearized state at time step $k$
 
 \begin{equation}
+\label{eq:NLesterr}
 \tilde{e}_k =\hat{z}_k - z_k =  T(x_k + e_k) - T(x_k)
 \end{equation}
 
@@ -51,4 +52,17 @@ It is obvious now, that $\tilde{e}_k$ is not necessarily contained in  $E$. Note
 z_{k+1} = \begin{bmatrix} 1 & 0.1 \\ 0 & 1 \end{bmatrix} z_k + \begin{bmatrix} 0.005 \\ 1 \end{bmatrix}v
 \end{equation}
 
-In the remainder of the text, we will refer to the system matrices of the discrete-time, feedback linearized systems as $A$ and $B$.
+In the remainder of the text, we will refer to the system matrices of the discrete-time, feedback linearized systems as $A$ and $B$. It is also worth noting that since only have the state estiamte $x_k$, we are also feedback linearizing the system with an input $u_k$ which is a function of the state estimate now and not the true state, given by:
+
+\begin{equation}
+\label{eq:noisy_input}
+u_k = R(\hat{x}_k)^{-1}(-b(\hat{x}_k) + v_k)
+\end{equation}
+
+As a result of this discretization and the fact that we are now feedback linearizing the system with a function of the state estimate and not the state itself, we add a process noise to the discrete-time feedback linearized system, which is given by:
+
+\begin{equation}
+z_{k+1} = Az_k + Bv_k + w_k
+\end{equation}
+
+We assume that the process noise is bounded s.t. $w_k \in W\, \forall k$ and $W$ is a polyhedron.

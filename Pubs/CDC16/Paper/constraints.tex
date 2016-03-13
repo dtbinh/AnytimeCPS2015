@@ -16,6 +16,7 @@ The tightened state constraints are functions of the error sets $E_{k+j|k}$ and 
 
 
 %Note here, that for $j>0$, when we use $Z_{0|k}$, it means, $Z_{0|k}(\tilde{E}_ {k+j+1|k},\tilde{E}_ {k+j|k}) = Z \ominus (-\tilde{E}_{k+j+1|k})$. 
+Here, $Z$ is a set such that $z \in Z \Rightarrow x \in X$. The computation of this set is done in Sec ??
 The matrix $L_j$, $\forall j=0,\dotsc,n$   is defined as
 
 \begin{subequations} \label{eq:L_def}
@@ -35,6 +36,8 @@ The input constraints are given, $\forall j=0,...,N-1$, as:
 V_{k+j|k} &= \underline{V}_{k+j|k} \ominus_{i=0}^{j-1}KL_i\What_{k+(j-i)|k} 
 \end{align}
 \end{subequations}
+
+Here, $\underline{V}_{k+j|k}$ is defined in Sec ??. 
 
 These constraints are chosen such that if the nominal state and the input satisfy the constraints, then the true state will always be inside the safe set $Z$. The constraints are "shaped" according to the stabilizing feedback law $K$, similar to \textbf{RTSS,How}.
 
@@ -70,7 +73,7 @@ P_{j} &= P \ominus_{i=0}^{j-1}(\hat{L}_i\hat{F}\What_{max})\ominus (-\hat{F}\til
 \end{align}
 \end{subequations}
 
-Where $P=Z\times V_{inner-global}$. Note here, these constraints are similar to the form of the state constraints and the input constraints outlined earlier in the section. They are actually the state and input constraints concatenated for the corresponding time steps, with the matrices $\hat{A}$, $\hat{B}$, $\hat{K}$, $\hat{L}_i$ and $\hat{F}$ constructed as shown above such that this fact holds and the definition of the terminal constraint is consistent with the other constraints for steps $j=0,\dotsc,N$.
+Where $P=Z\times V_{inner-global}$. Note here, these constraints are similar to the form of the state constraints and the input constraints outlined earlier in the section. They are actually the state and input constraints concatenated for the corresponding time steps, with the matrices $\hat{A}$, $\hat{B}$, $\hat{K}$, $\hat{L}_i$ and $\hat{F}$ constructed as shown above such that this fact holds and the definition of the terminal constraint is consistent with the other constraints for steps $j=0,\dotsc,N$. $V_{inner-global}$ and $\tilde{E}_{max}$ are described in Sec. ??
  The robust control invariant set inside $P_N(\tilde{E}_{max},\tilde{E}_{max})$, $C_p$ is such that there exists a feedback control law $v=\hat{K}p$, such that $\forall p\in C_p$
 
 
