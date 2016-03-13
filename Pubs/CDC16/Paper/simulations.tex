@@ -50,10 +50,46 @@ Where the angles and their derivatives are in radians and radians per second res
 The limits on the input torque, in $Nm$, $u$, are given by the set $U = u :-10 \leq u \leq 10$. The estimation for the state estimation, where $\hat{x} = x + e$ are given by $E = e:-\pi /180 \leq e \leq \pi /180 $, where the units are radians and radians per second accordingly. 
 
 From Eq. \ref{eq:fblin_inp}, we can compute $V_{inner-global} =v: max_{x\in X}\alpha(x) + \beta \underline{u} \leq v \leq min_{x\in X}\alpha(x) + \beta \overline{u}$. Since $X$ is a hyper rectangle, we can compute $\overline{\alpha}(x)_{X} \geq  max_{x\in X}\alpha(x)$ using interval arithmetic, and similarly $\underline{\alpha}(x)_{X} \leq  min_{x\in X}\alpha(x)$, and hence compute (an under-approximation of) $V_{inner-global}$. Here $\underline{u}=-10$ and $\overline{u}=10$ , the upper and lower limits on $u$ that define the set $U$.
-Similarly for the input set underapproximation (Eq.??) computed online, we have $\underline{V}_{k+j|k} = v:   max_{x\in \oa{X}_{k+j|k}} \alpha(x) + \beta \underline{u} \leq v \leq  min_{x\in \oa{X}_{k+j|k}}\alpha(x) + \beta \overline{u}$. This set (an under-approximation of it) can also be computed online using interval arithmetic by over-approximating $\oa{x}_{k+j|k}$ by a hyper-rectangle. 
+Similarly for the input set underapproximation (Eq.??) computed online, we have $\underline{V}_{k+j|k} = v:   max_{x\in \oa{X}_{k+j|k}} \alpha(x) + \beta \underline{u} \leq v \leq  min_{x\in \oa{X}_{k+j|k}}\alpha(x) + \beta \overline{u}$. This set (an under-approximation of it) can also be computed online using interval arithmetic by over-approximating $\oa{x}_{k+j|k}$ by a hyper-rectangle. The constants, other than $g=9.8ms^{-2}$, for numerical simplicity are chosen as $m=1/9.8g$, $l=1m$, $J=1$ and $I=1$. For the cost function of Eq. ??, we choose $Q=I$ and $R=10^-2$.
 
 The set of states for the feedback linearized system $Z$ (as computed by ??) is given by:
 
 \begin{equation}
  -\begin{bmatrix} 0.5121  \\ 0.5121  \\ 2.5347 \\ 2.5603 \end{bmatrix} \leq z \leq \begin{bmatrix} 0.5121  \\ 0.5121  \\ 2.5347 \\ 2.5603 \end{bmatrix}
 \end{equation}
+
+Figures ??,?? shows the states of the feedback linearized system. As formulated, the states converge to the origin in the presence of estimation error, while respecting all constraints on them.
+
+\begin{figure}
+\includegraphics[width=0.49\textwidth]{figs/z_1n2_manip.pdf}
+\caption{$z_1$ and $z_2$ and their estimates $\hat{z_1}, \, \hat{z_2}$ vs time. Note, these states are the same as $x_1$ and $x_2$ respectively, the angular position and velocities of the rod at the end of the manipulator.}
+\label{fig:z_12}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=0.49\textwidth]{figs/z_3n4_manip.pdf}
+\caption{$z_3$ and $z_4$ and their estimates $\hat{z_3}, \, \hat{z_4}$ vs time. }
+\label{fig:z_34}
+\end{figure}
+
+Figure ?? shows the 2 remaining states of the non-linear system, $x_3$ and $x_4$. They also converge to zero, showing that the non-linear has been stabilized while robustly respecting $x\in X$ under the presence of estimation error. Figure ?? shows the input to the feedback linearized system $v$ and its bounds, both the global inner approximation and the ones computed online. Note, similar to the toy proble, the bounds computed online allow for more control action compared to the conservative global inner approximation. Finally, Fig. ?? shows the actual input applied to the non-linear system (and its bounds), which robustly respects its constraints $u \in U$.
+
+\begin{figure}
+\includegraphics[width=0.49\textwidth]{figs/x_3n4_manip.pdf}
+\caption{$x_3$ and $x_4$ and their estimates $\hat{x_3}, \, \hat{x_4}$ vs time. }
+\label{fig:x_34}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=0.49\textwidth]{figs/v_and_limits_manip.pdf}
+\caption{Input to the feedback linearized system as computed by the control algorithm, and its bounds.}
+\label{fig:v_and_limits}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=0.49\textwidth]{figs/u_and_limits_manip.pdf}
+\caption{Input to the non-linear system and its upper and lower limits.}
+\label{fig:u_and_limits}
+\end{figure}
+
+

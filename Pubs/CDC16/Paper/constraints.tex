@@ -4,14 +4,15 @@ The state and input constraints for the Robust MPC are as defined as follows:
 
 \textit{The state constraints $\nomZset{k+j}{k}$:}
 The tightened state constraints are functions of the error sets $E_{k+j|k}$ and disturbance sets $W_{k+j|k}$, and defined $\forall\,j=0,\dotsc,N$
-\small{
+{\small{
 \begin{subequations} \label{eq:Set_constraints}
 \begin{align}
 %Z_{k+j|k}(\tilde{E}_{k|k}) &=Z\ominus(-\tilde{E}_{k|k}), \, j=0\\
 %Z_{k+j|k}(\tilde{E}_{k+j+1|k},\tilde{E}_{k+j|k}) &= Z_{j|k}(\tilde{E}_{k+j+1|k},\tilde{E}_{k+j|k})\ominus L_{j}W_{k+1|k}
 \nomZset{k+j}{k} &= Z \ominus_{i=0}^{j-1}(L_iW_{k+(j-i)|k})\ominus (-\tilde{E}_{k+j|k})
 \end{align}
-\end{subequations}}
+\end{subequations}
+}}
 
 
 %Note here, that for $j>0$, when we use $Z_{0|k}$, it means, $Z_{0|k}(\tilde{E}_ {k+j+1|k},\tilde{E}_ {k+j|k}) = Z \ominus (-\tilde{E}_{k+j+1|k})$. 
