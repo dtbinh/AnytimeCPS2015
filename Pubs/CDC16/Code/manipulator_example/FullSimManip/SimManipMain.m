@@ -7,7 +7,7 @@ Z = Z_set_final;
 X0 = X_set_final;
 'Initializing plant'
 %init state for linearized system
-x_0 = [0.25;0.25;0;0];
+x_0 = [0.125;0;0.5;0];
 
 if(~X0.isInside(x_0))
    'Init State outside admissible region'

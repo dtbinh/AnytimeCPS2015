@@ -25,7 +25,7 @@ Zkp1 = intersect(Zkp1,Z);
 %Zkp1.minHRep;
 Xkp1 = T_inv_diffeo(Zkp1,params);
 %'intersect'
-keyboard
+%keyboard
 Xkp1 = intersect(Xkp1,Xsafe);
 
 Xkp1.minHRep;

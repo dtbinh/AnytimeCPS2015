@@ -17,12 +17,21 @@ params.c4 = c4;
 params.c5 = c5;
 
 %states and intervals
+% x1_max = pi/4;%pi/4;
+% x1_min = -pi/4;%-pi;%-pi/4;
+% x2_max = pi/4;%pi;%pi/4;
+% x2_min =  -pi/4;%-pi;%-pi/4;
+% x3_max = 2*pi;%pi;%2*pi;
+% x3_min = -2*pi;%-pi;%-2*pi;
+% x4_max = 2*pi;%pi;%2*pi;
+% x4_min = -2*pi;%-pi;%-2*pi;
+
 x1_max = pi/4;%pi/4;
 x1_min = -pi/4;%-pi;%-pi/4;
-x2_max = pi/4;%pi;%pi/4;
-x2_min =  -pi/4;%-pi;%-pi/4;
-x3_max = 2*pi;%pi;%2*pi;
-x3_min = -2*pi;%-pi;%-2*pi;
+x2_max = 2*pi;%pi;%pi/4;
+x2_min =  -2*pi;%-pi;%-pi/4;
+x3_max = pi/4;%pi;%2*pi;
+x3_min = -pi/4;%-pi;%-2*pi;
 x4_max = 2*pi;%pi;%2*pi;
 x4_min = -2*pi;%-pi;%-2*pi;
 
