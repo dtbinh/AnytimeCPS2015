@@ -3,28 +3,25 @@
 
 \subsection{Transforming between $x$-space and $z$-space}
 \label{sec:transforming x to z}
-Let $\Xc \subset X$ be an arbitrary rectangular subset of $X$. 
-The objective is to find $Z \subset \Re^{\dimX}$ s.t. $z \in  Z \implies \iT(x) \in \Xc$. 
+Since we control the system in $z$-space, we need to compute a set $Z \subset \Re^\dimZ$ s.t. $z \in Z \implies x = \iT(z) \in X$, i.e. $Z \subset T(X)$.
 Thus keeping the state $z$ of the linearized dynamics in $Z$ implies the nonlinear system's state $x$ remains in $X$.
-We also need to find a subset $X_0 \subset X$ s.t. $T(X_0) \subset Z$, which will be used as our effective safe set for the $x$ dynamics.
-This is needed for choosing bounds ??
-\todo[inline]{is it? for choosing bounds on the v inputs, we need an over-approxiation of $ \iT(Z)$, not an under-approximatino. In fact we could use all of $X$ but that would be over-kill since we know that by forcing z in Z we are forcing x in $\iT(Z)$}
-Because $T$ can be an arbitrary diffeomorphism this has to be implemented numerically.
-In this section we provide such a procedure:
+Moreover, to check feasibility at time 0 of the MPC optimization, and for stability of the nonlinear dynamics, we need a subset $X_0 \subset X$ s.t. $x \in X_0 \implies z = T(x) \in Z$, i.e. $X_0 \subset \iT(Z)$.
+Because $T$ can be an arbitrary diffeomorphism $Z$ and $X_0$ have to computed numerically.
 \begin{itemize}
-	\item Let $Z_1 \subset \Re^{\dimX}$ be the rectangle with bounds in the $i^{th}$ dimension $[ \min_{x \in \Xc} T_i(x),  \max_{x \in \Xc} T_i(x) ]$, $i=1,\ldots, \dimX$.
-	This over-approximates $T(\Xc)$. 
-	Next we need to prune it so it under-approximates $T(\Xc)$. 
-	\item Define $z_{in} \defeq \min \{ \|z \|_0 \such z \in Z_1, \iT(z) \notin \Xc\}$.
+	\item Let $Z_1 \subset \Re^{\dimZ}$ be the rectangle with bounds in the $i^{th}$ dimension $[ \min_{x \in X} T_i(x),  \max_{x \in X} T_i(x) ]$, $i=1,\ldots, \dimX$.
+	This over-approximates $T(X)$. 
+	Next we need to prune it so it under-approximates $T(X)$. 
+	\item Define $z_{in} \defeq \min \{ \|z \|_0 \such z \in Z_1, \iT(z) \notin X\}$.
 	$z_{in}$ is the smallest-norm inadmissible $z$ in $Z_1$.
-	Thus all points in the $\ell_0$-ball of radius $\|z_{in}\|$ are admissible, i.e. their pre-images via $\iT$ are in $\Xc$.
-	Now we need to get the $x$-set that maps to $B_z(0,\|z_{in}\|) \defeq B_{z}$  (or a subset of it).
-	\item Let $X_1 \subset X$ be the rectangle with bounds in the $i^{th}$ dimension $[\min_{z \in B_{z}} \iT_i(z),  \max_{z \in B_{z}} \iT_i(z) ]$.
-	Again, this is an over-approximation of $\iT(B_{z})$, so it needs to be pruned.
-	\item Define $x_{in} = \inf \{\|x\|_0 \such x \in X_1, T(x) \notin B_{z}\}$.
-	Then every point in the $\ell_0$-ball $B_x(0, \|x_{in}\|) \subset \Xc$ maps via $T$ to $B_{z}$
+	Thus all points in the $\ell_0$-ball of radius $\|z_{in}\|$ are admissible, i.e. their pre-images via $\iT$ are in $X$.
+	\item Let $R_z$ be the largest inscribed rectangle in the ball $B_z(0,\|z_{in}\|)$.
+	Now we need to get the $x$-set that maps to $R_z$  (or a subset of it).
+	\item Let $X_1 \subset X$ be the rectangle with bounds in the $i^{th}$ dimension $[\min_{z \in R_{z}} \iT_i(z),  \max_{z \in R_{z}} \iT_i(z) ]$.
+	Again, this is an over-approximation of $\iT(R_{z})$, so it needs to be pruned.
+	\item Define $x_{in} = \inf \{\|x\|_0 \such x \in X_1, T(x) \notin R_{z}\}$.
+	Then every point in the $\ell_0$-ball $B_x(0, \|x_{in}\|) \subset X$ maps via $T$ to $R_{z}$
 \end{itemize}
-Therefore we choose $Z = B_z$ and $X_0 = B_x(0,  \|x_{in}\|)$.
+Therefore we choose $Z = R_z$ and $X_0$ to be the largest inscribed rectangle in $B_x(0,  \|x_{in}\|)$.
 %\subsection{Online reachability and overapproximation}
 %As seen in Section \textbf{setdefs}, we need $X_{k}$ in order to compute the inner convex bound on the input $v$ at time $k$, $\underline{V}_k$, and also to compute the bounding set for the estimation error $\tilde{e}_k$, $\tilde{E}_k$. For our Robust Model Predictive Controller, we will need these sets for the length of the MPC horizon starting at time $k$, i.e. for time $k=0,\dotsc,N$. For the purpose of getting these sets for future inputs and estimation errors starting at time $k$, we compute an outer-approximation of the reachable sets for the non-linear system,  $\bar{X}_{k+j|k})$ starting at time $k$.
 %
