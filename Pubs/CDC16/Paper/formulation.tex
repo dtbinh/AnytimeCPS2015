@@ -1,16 +1,58 @@
 \section{Problem Formulation} 
 \label{sec:formulation}
-For controlling \eqref{eq:generic NLMPC}, only a periodic state estimate is available: $\hx(t) = x(t) + e(t)$ where the error $e(t)$ is in a bounded set $E$.
-The approach we use applies when these sets are arbitrary convex polytopes (i.e. bounded intersections of half-spaces).
-For the sake of simplicity, in this paper we assume $X$, $U$ and $E$ are hyper-rectangles.
-A hyper-rectangle is a set of the form $[\underline{a}_1, \overline{a}_1] \times \ldots \times  [\underline{a}_n, \overline{a}_n]$, $\underline{a}_i \leq \overline{a}_i$.
+A common method for control of nonlinear systems is Feedback linearization \cite{khalil}. 
+Briefly, in feedback linearization, one applies the feedback law $u(x,v) = R(x)^{-1}(-b(x)+v)$ to \eqref{eq:generic NLMPC}, so that the resulting dynamics, expressed in terms of the transformed state $z = T(x)$, are linear time-invariant:
+\begin{equation}
+\label{eq:LTI_fb_lin}
+S_{fl}: \dot{z} = A_cz + B_cv
+\end{equation}
+By using the remaining control authority in $v$ to control $S_{fl}$, we can effectively control the non-linear system for, say, stability or reference tracking.
+$T$ is a diffeomorphism over a domain $D \subset X$.
+%Without loss of generality, we assume that the system  has a relative degree $\rho=\dimX$ for SISO systems, and similarly a vector relative degree $\lbrace \rho_i \rbrace_{i=1}^{\dimU}\, \text{s.t.} \sum_i \rho_i = \dimU$ for MIMO systems (assuming number of outputs is the same as the number of inputs, $\dimU$).
+The original and transformed states, $x$ and $z$, have the same dimension, as do $u$ and $v$, i.e. $\dimX = \dimZ$ and $\dimU = \dimV$.
+Because we're controlling the linearized system, we must find constraint sets $Z$ and $V$ for the state $z$ and input $v$, respectively, such that $(z,v) \in Z\times V \implies (\iT(z), u(\iT(z), v)) \in X \times U$.
+Without loss of generality we assume that the system \eqref{eq:generic NLMPC} has no zero dynamics and all states are controllable \cite{khalil}. 
+
+For linearizing \eqref{eq:generic NLMPC} and for controlling \eqref{eq:generic NLMPC}, only a periodic state estimate $\hx$ of $x$ is available.
+This estimate is available periodically every $T$ time units, so we may write $\hx_{k} \defeq \hx(kT) = x_k + e_k$, where $x_k$ and $e_k$ are sampled state and error respectively.
+We assume that $e_k$ is in a bounded set $E$ for all $k$.
+This implies that the linearized system is discrete-time: $z_{k+1} = Az_k + B z_k$.
+
+The corresponding $z$-state estimate $\hz_{k}$ is given by $\hz_{k} = T(\hx_{k})$.
+In general the $z$-space error $\tilde{e}_k \defeq T(\hx_k) - T(x_k)$ is bouded for every $k$ but does not necessarily lie in $E$.
+
+Because the linearizing control operates on the state estimate and not $x_k$, we add a process noise term to the linearized, discrete-time dynamics. 
+Our system model is therefore
+\begin{equation}
+z_{k+1} = Az_k + Bv_k + w_k
+\end{equation}
+where the noise term $w_k$ lies in the bouned set $W$ for all $k$.
 
 
+\begin{exmp}
+	Consider the 2D system 
+	\begin{equation}
+	\label{eq:toy_dynamics}
+	\dot{x}_1 = \sin(x_2) , \dot{x}_2 =-x_1^2 + u 
+	\end{equation}
+	For the measurement $y = h(x) = x_1$, the system can be feedback linearized on the domain $D = \lbrace x | \cos(x_2) \neq 0 \rbrace $, where it has a relative degree of $\rho=2$. 
+	The corresponding linearizing feedback is For this system, the feedback linearizing input is $u = -\tan(x_2) + (\cos(x_2))v$
+	The feedback linearized system is $\dot{z}_1 = z_2\, ,\dot{z}_2 = v$, where $T$ is given by $z=T((x_1,x_2)) = (x_1, a\sin(x_2))$.	
+	The safe set for $x$ is given as $X = \lbrace |x_1| \leq \pi /2, |x_2| \leq \pi/3 \rbrace$. 
+	We can analytically compute the safe set in $z$-space as $Z = T(X) =  \lbrace |z_1| \leq \pi /2, |z_2| \leq 0.8660\rbrace$.
+	\exmend
+\end{exmp}
+
+For a more complicated $T$, it is not possible to obtain analytical expressions for $Z$. 
+The computation of $Z$ in this more general case is addressed in Sec. \ref{sec:transforming x to z}.
+
+\textbf{Notation}.
 Given a subset $\Xc$ of $X$ and a horizon $T \geq 0$, the \emph{reachable set of system $S$ from $\Xc$ in time $T$} is the set of states that $S$ visits at time $T$ if it starts somewhere in $\Xc$ and is subjected to inputs from $U$.
 Formally, $\RT{\Xc} \defeq \{y \in X \such \exists x_0 \in \Xc: x \text{ is a trajectory of the system, }x(0)=x_0, x(T)=y\}$.
 
-\textbf{Notation}.
 Given two subsets $A,B$ of $\Re^n$, define their \textit{Minkowski sum} to be $A\oplus B \defeq \{a+b \such a\in A, b\in B\}$.
 Define their Pontryagin difference to be $A\ominus B = \{c \in \Re^n \such c+b \in A\; \forall b \in B\}$
 
-\input{feedbacklin}
+\textbf{Assumption}. 
+The approach we use applies when $X, U, E$ and $W$ are arbitrary convex polytopes (i.e. bounded intersections of half-spaces).
+For the sake of simplicity, in this paper we assume they are all hyper-rectangles, i.e. sets of the form $[\underline{a}_1, \overline{a}_1] \times \ldots \times  [\underline{a}_n, \overline{a}_n]$, $\underline{a}_i \leq \overline{a}_i$.
