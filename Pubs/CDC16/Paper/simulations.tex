@@ -24,14 +24,14 @@ The RMPC optimizations were performed by Gurobi \cite{gurobi}.
 
 For the running example of Eq. \ref{eq:toy_dynamics}, we discretize the feedback linearized system at 10Hz and formulate the controller with a horizon of $N=15$ steps. 
 The cost function has parameters $Q=I$ and $R=10^{-2}$.
-The state trajectories (and estiamtes) for the nonlinear and linearized systems are shown in Fig. \ref{fig:state linear nonlinear toy}.
-Note that the latter converges to the equilibrium 0. 
+The state trajectories (and estimates) for the nonlinear and linearized systems are shown in Fig. \ref{fig:AllStates_toy}.
+Note that the states converges to the equilibrium 0 (and for the running example, $T$ preserves zero). 
 
 \begin{figure}
 	\centering	
 	\includegraphics[width=0.49\textwidth]{figs/AllStates_toy.pdf}
 	\caption{The states and their estimates of the feedback linearized and non-linear running example. Recall that $z_1 = x_1$ therefore to reduce clutter, we only plot the first state only for the feedback linearized system.}
-	\label{fig:input toy}
+	\label{fig:AllStates_toy}
 \end{figure}
 
 
@@ -105,14 +105,14 @@ Similarly, the inner approximations $\ua{V}_{k+j|k}$ are computed online by inte
 Using the procedure of Sec. \ref{sec:transforming x to z} the set of states for $S_{fl}$ is given by $Z = [-0.5121, 0.5121]^2 \times [-2.5347, 2.5347] \times [-2.5603, 2.5603]$.
 
 We applied our controller to the above system with a discretization rate of 10Hz and MPC horizon $N=10$.
-Figures \ref{fig:z_12} and \ref{fig:z_34} show the states of the feedback linearized system $S_{fl}$. 
+Fig.\ref{fig:AllStates_manip} show the states of the feedback linearized system $S_{fl}$. 
 They converge to the origin in the presence of estimation error, while respecting all constraints.
-Fig. \ref{fig:x_34} shows $x_3$ and $x_4$: they also converge to zero.
+Fig. \ref{fig:AllStates_manip} also shows $x_3$ and $x_4$: they also converge to zero (and remember $x_1 = z_1$ and $x_2 = z_2$).
 
 \begin{figure}
 \includegraphics[width=0.49\textwidth]{figs/AllStates_manip.pdf}
 \caption{The states and their estimates of the feedback linearized and non-linear manipulator. Recall that $z_1 = x_1$ and $z_2=x_2$, therefore to reduce clutter, we only plot first two states only for the feedback linearized system.}
-\label{fig:states_manip}
+\label{fig:AllStates_manip}
 \end{figure}
 
 %\begin{figure}

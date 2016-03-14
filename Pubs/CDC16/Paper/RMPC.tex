@@ -2,7 +2,7 @@
 
 Following \cite{RichardsH05_RMPC}, \cite{PantAMNDM15_Anytime}, we formulate a Robust MPC (RMPC) controller of \eqref{eq:discrete linear problem} via \emph{constraint restriction}.
 We outline the idea before providing the technical details.
-The key idea is to move the effects of estimation error $\tilde{e}_k$ and  process noise $w_k$ (the `disturbances') to the constraints, and work with the nominal  (i.e., disturbance-free) dynamics: $\nz_{k+1} = A\nz_{k}+Bv_k$, $\nz_{0} = z_0$.
+The key idea is to move the effects of estimation error $\tilde{e}_k$ and  process noise $w_k$ (the `disturbances') to the constraints, and work with the nominal  (i.e., disturbance-free) dynamics: $\nz_{k+1} = A\nz_{k}+Bv_k$, $\nz_{0} = \hat{z}_0$.
 Because we would be optimizing over disturbance-free states, we must account for the noise in the constraints. 
 Specifically, rather than require the next (nominal) state $\nz_{k+1}$ to be in $Z$, we require it to be in the shrunk set $Z \ominus \What_{k+1|k} \ominus \tE_{k+1|k}$: by definition of Pontryagin difference, this implies that whatever the actual value of the noise $\hw_{k+1} \in \What_{k+1|k}$ and of the estimation error $\tilde{e}_{k+1} \in \tE_{k+1|k}$, the actual state $z_{k+1}$ will be in $Z$. 
 This is repeated over the entire MPC prediction horizon $j=1,\ldots,N$, with further shrinking at every step.

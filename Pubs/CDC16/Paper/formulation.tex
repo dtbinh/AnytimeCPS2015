@@ -15,9 +15,9 @@ This is done in Sec. \ref{sec:transforming x to z}.
 Without loss of generality we assume that the system \eqref{eq:generic NLMPC} has no zero dynamics and all states are controllable \cite{khalil}. 
 
 For linearizing \eqref{eq:generic NLMPC} and for controlling \eqref{eq:generic NLMPC}, only a periodic state estimate $\hx$ of $x$ is available.
-This estimate is available periodically every $T$ time units, so we may write $\hx_{k} \defeq \hx(kT) = x_k + e_k$, where $x_k$ and $e_k$ are sampled state and error respectively.
+This estimate is available periodically every $h$ time units, so we may write $\hx_{k} \defeq \hx(kh) = x_k + e_k$, where $x_k$ and $e_k$ are sampled state and error respectively.
 We assume that $e_k$ is in a bounded set $E$ for all $k$.
-This implies that the linearized system is discrete-time: $z_{k+1} = Az_k + B z_k$.
+This implies that the feedback linearized system can be represented in discrete-time: $z_{k+1} = Az_k + B z_k$.
 
 The corresponding $z$-state estimate $\hz_{k}$ is given by $\hz_{k} = T(\hx_{k})$.
 In general the $z$-space error $\tilde{e}_k \defeq T(\hx_k) - T(x_k)$ is bouded for every $k$ but does not necessarily lie in $E$.
