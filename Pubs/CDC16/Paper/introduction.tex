@@ -1,21 +1,20 @@
 \section{Introduction}
 \label{sec:intro}
 
-In this paper we are concerned with the problem of controlling nonlinear dynamical systems $S$ of the form $\dot{x} = f(x,u)$ under state and input constraints, and subject to errors in the state estimate.
+In this paper we are concerned with the problem of controlling nonlinear dynamical systems $S$ of the form $\dot{x} = f(x) + G(x)u$ under state and input constraints, and subject to errors in the state estimate.
 This problem is formulated as
 \begin{eqnarray}
 	\label{eq:generic NLMPC}
 	\min_{\textbf{x},\textbf{u}} &\;& l(\textbf{x}, \textbf{u}) \\
-	\text{s.t. } \dot{x}&=&f(x,u) \nonumber \\
-	x&\in& X  \nonumber\\
-	u&\in& U  \nonumber
+	\text{s.t. } \dot{x}&=&f(x) + G(x)u \nonumber \\
+	x&\in& X, u \in U  \nonumber\\
 \end{eqnarray}
 where $l(\textbf{x}, \textbf{u})$ is a cost function whose minimization over the state and input trajectories $\textbf{x}$ and $\textbf{u}$ ensures stability of the system. 
-Sets $X$ and $U$ encode constraints on the state (e.g., safety) and the input.
+Sets $X \subset \Re^{\dimX}$ and $ U \subset \Re^{\dimU}$ encode constraints on the state (e.g., safety) and the input.
 
 Whereas Model Predictive Control (MPC) is a widely used control technique for solving the above problem for linear systems, its application to nonlinear systems involves the repeated solution of generally non-quadratic, non-convex optimizations.
 Various approaches for solving (or approximately solving) the optimizations and their trade-offs are reviewed in \cite{Cannon04_EfficientMPC}.
-Another approach is to \emph{feedback linearize} the system $S$ \cite{khalil}: namely, the applied control $u = u(x,v)$ is designed in such a way that the resulting closed-loop dynamics $S_{fl}$ are now \emph{linear}:
+Another approach is to first \emph{feedback linearize} the system $S$ \cite{khalil}: namely, the applied control $u = u(x,v)$ is designed in such a way that the resulting closed-loop dynamics $S_{fl}$ are now \emph{linear}:
 	\[S_{fl}: \dot{z} = Az + Bv\]
 The input $v$ to the linearized dynamics can now be computed so as to optimize system performance and ensure stability.
 Since some control authority has been sacrificed to linearize the dynamics, the solution to the linear MPC problem is of course sub-optimal relative to the exact solution to the nonlinear MPC problem.

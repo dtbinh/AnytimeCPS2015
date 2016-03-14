@@ -1,33 +1,16 @@
-\section{Problem Formulation} \label{sec:formulation}
+\section{Problem Formulation} 
+\label{sec:formulation}
+For controlling \eqref{eq:generic NLMPC}, only a periodic state estimate is available: $\hx(t) = x(t) + e(t)$ where the error $e(t)$ is in a bounded set $E$.
+The approach we use applies when these sets are arbitrary convex polytopes (i.e. bounded intersections of half-spaces).
+For the sake of simplicity, in this paper we assume $X$, $U$ and $E$ are hyper-rectangles.
+A hyper-rectangle is a set of the form $[\underline{a}_1, \overline{a}_1] \times \ldots \times  [\underline{a}_n, \overline{a}_n]$, $\underline{a}_i \leq \overline{a}_i$.
 
-The control problem is as follows:
 
-\begin{subequations}
-\label{eq:CtrlPrb}
-\begin{align}
-\text{Minimize } &l(x,u) \\
-&\text{s.t.} \nonumber \\
-\dot{x}&=f(x)+G(x)u \label{eq:NL_Plant} \\
-x&\in X\\
-u&\in U
-\end{align}
-\end{subequations}
-
-Here, $x \in \mathbb{R}^{\dimX}$ and $u \in \mathbb{R}^{\dimU}$. A discrete-time, periodic, state-estimator provides access to a state estimate with estimation error
-
-\begin{subequations}
-\label{eq:NL_estimate}
-\begin{align}
-\hat{x}(t)&=x(t)+e(t) \\ 
-\text{where, } e(t) &\in E
-\end{align}
-\end{subequations}
-
-For sake of simplicity, for the rest of this paper, we assume $X$, $U$ and $E$ are hyper-rectangular, i.e. each dimension of $x$, $u$, $e$ has a fixed upper and lower limit, although the approach we use applies when these 3 sets are convex (bounded) polytopes of arbitrary form.
-
-Given a subset $\Xc$ of a dynamical system's state space, and a horizon $T \geq 0$, the \emph{reachable set of the system from $\Xc$ in time $T$} is the set of states that the system visits, at time $T$ if it starts somewhere in $\Xc$.
+Given a subset $\Xc$ of $X$ and a horizon $T \geq 0$, the \emph{reachable set of system $S$ from $\Xc$ in time $T$} is the set of states that $S$ visits at time $T$ if it starts somewhere in $\Xc$ and is subjected to inputs from $U$.
 Formally, $\RT{\Xc} \defeq \{y \in X \such \exists x_0 \in \Xc: x \text{ is a trajectory of the system, }x(0)=x_0, x(T)=y\}$.
 
 \textbf{Notation}.
 Given two subsets $A,B$ of $\Re^n$, define their \textit{Minkowski sum} to be $A\oplus B \defeq \{a+b \such a\in A, b\in B\}$.
 Define their Pontryagin difference to be $A\ominus B = \{c \in \Re^n \such c+b \in A\; \forall b \in B\}$
+
+\input{feedbacklin}
