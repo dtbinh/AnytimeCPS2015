@@ -24,14 +24,14 @@ The RMPC optimizations were performed by Gurobi \cite{gurobi}.
 
 For the running example of Eq. \ref{eq:toy_dynamics}, we discretize the feedback linearized system at 10Hz and formulate the controller with a horizon of $N=15$ steps. 
 The cost function has parameters $Q=I$ and $R=10^{-2}$.
-The state trajectories (and estiamtes) for the nonlinear and linearized systems are shown in Fig. \ref{fig:state linear nonlinear toy}.
-Note that the latter converges to the equilibrium 0. 
+The state trajectories (and estimates) for the nonlinear and linearized systems are shown in Fig. \ref{fig:AllStates_toy}.
+Note that the states converges to the equilibrium 0 (and for the running example, $T$ preserves zero). 
 
 \begin{figure}
 	\centering	
 	\includegraphics[width=0.49\textwidth]{figs/AllStates_toy.pdf}
 	\caption{The states and their estimates of the feedback linearized and non-linear running example. Recall that $z_1 = x_1$ therefore to reduce clutter, we only plot the first state only for the feedback linearized system.}
-	\label{fig:input toy}
+	\label{fig:AllStates_toy}
 \end{figure}
 
 
