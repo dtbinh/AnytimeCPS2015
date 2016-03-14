@@ -24,11 +24,11 @@ The state $z$ of the linearized system $S_{fl}$ is related to the state $x$ of t
 Previous work on nonlinear MPC with feedback linearization assumed the state $x(t)$ is perfectly known to the controller at any moment in time \cite{SimonLG13_MPC}.
 In practice, only a state estimate $\hx(t)$ is available, and $\hx(t) \neq x(t)$.
 Thus a controller designed to work optimally when operating on the true state $x$ is in general sub-optimal when operating on $\hx$ (any may even lead to instability).
-Robust MPC (RMPC) has been investigated as a way of handling state estimation errors for linear and nonlinear systems \cite{RichardsH05_RMPC}, but not via feedback linearization.
-\todo[inline]{litt search}
-Existing work has also assumed that $T$ is the identity, which simplifies the subsequent stability and performance analysis \cite{SimonLG13_MPC}. 
-\todo[inline]{litt search}
-A non-identity $T$ is problematic when the state is not perfectly known, since the state estimation error $e = \hx-x$ maps to the linearized dynamics via $T$ in non-trivial ways greatly complicating the analysis.
+Robust MPC (RMPC) has been investigated as a way of handling state estimation errors for linear \cite{RichardsH05_RMPC} and nonlinear systems \cite{tube,relaxed}, but not via feedback linearization. In particular, for non-linear systems, \cite{tube} develops a non-linear MPC with tube like constraints for robust feasibility, but involves solving two (non-convex) optimal control problems. In \cite{relaxed}, the authors solve a non-linear Robust MPC through a bilevel optimization that involves solving a non-linear, non-smooth optimization which is challenging. The paper also guarantees a weaker form of recursive feasibility than the ones proved for Robust linear MPC in \cite{RichardsH05_RMPC} and in this work. In \cite{Zhao20141335} the authors use the Robust MPC of \cite{RichardsH05_RMPC} and feedback linearization for control of a quadrotor; but the MPC is formulated with the linearized dynamics of the quadrotor under hover and the feedback linearization is used for the low level controller. This differs significantly from our approach where we formulate the Robust MPC on the feedback linearized dynamics directly, and not on the dynamics obtained via Jacobian linearization of the non-linear system.
+%\todo[inline]{litt search}
+Existing work on MPC via feedback linearization and input/state constraints has also assumed that either $T$ is the identity, which simplifies the subsequent stability and performance analysis \cite{SimonLG13_MPC}, or in the case of uncertainties (in the parameters), there are only input constraints and no state constraints \cite{parameter}.
+%\todo[inline]{litt search}
+In general, a non-identity $T$ is problematic when the state is not perfectly known, since the state estimation error $e = \hx-x$ maps to the linearized dynamics via $T$ in non-trivial ways greatly complicating the analysis.
 In particular, the error bounds for the state estimate in $z$-space now depend on the current nonlinear state $x$.
 One of the complications introduced by feedback linearization is that the bounds on the input ($u \in U$) may become a non-convex state-dependent constraint on the input $v$ to $S_{fl}$: 
 $V = \{\ua{v}(x, U) \leq v \leq \oa{v}(x,U)\}$.
