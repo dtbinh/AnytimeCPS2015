@@ -21,7 +21,7 @@ $\forall j=0,...,N-1$
 V_{k+j|k} = \ua{V}_{k+j|k} \ominus_{i=0}^{j-1}KL_i\What_{k+(j-i)|k} 
 \end{equation}
 where $\ua{V}_{k+j|k} $ is an inner-approximation of the set of admissible inputs $v$ at prediction step $j+k|k$, as defined in Sec. \ref{sec:approx input sets}.
-The intuition behind this construction is similar to that of $\nomZset{k+j}{j}$: given the inner approximation $\ua{V}_{k|k} $, this is further shrunk at each prediction step $j$ by propagating forward the noise $\hw_k$ through the dynamics, and shaped according to the stabilizing feedback law $K$, following \cite{RichardsH05_RMPC}.
+The intuition behind this construction is similar to that of $\nomZset{k+j}{j}$: given the inner approximation $\ua{V}_{k|k} $, it is further shrunk at each prediction step $j$ by propagating forward the noise $\hw_k$ through the dynamics, and shaped according to the stabilizing feedback law $K$, following \cite{RichardsH05_RMPC}.
 
 \textit{The terminal constraint $P_f$:}
 This constrains the extended state $p_k = [\nz_{k}, v_{k-1}]^T$, and is given by 
@@ -29,22 +29,21 @@ This constrains the extended state $p_k = [\nz_{k}, v_{k-1}]^T$, and is given by
 \label{eq:P_f_def}
 P_f = C_p\ominus \left\lbrack \begin{matrix} (A+BK)^N \\ K(A+BK)^{N-1}\end{matrix} \right \rbrack \What_{max}
 \end{equation}
-where $C_p \subset \Re^{\dimZ}\times \Re^{\dimV}$ is a control invariant set, inside the set $P_N(\tilde{E}_{max},\What_{max})$ which is computed by concatenating Eq. \ref{eq:Set_constraints} and Eq. \ref{eq:input_constraints} with the worst case disturbance bounds replacing the time varying bounds. $C_p$ is computed as  under the stabilizing controller $\nz \mapsto K\nz$, 
-and $\What_{max} \subset \Re^{\dimZ}$ is a bounding set on the worst-case disturbance (we show how it's computed in Sec. \ref{sec:implementing set computations}).
-
-By definition of the robust control invariant set $C_p$, there exists a feedback control law $v_p=\hat{K}p$, such that $\forall p\in C_p$
-\begin{subequations}
-\begin{align}
+where $\What_{max} \subset \Re^{\dimZ}$ is a bounding set on the worst-case disturbance (we show how it's computed in Sec. \ref{sec:implementing set computations}),
+and $C_p \subset \Re^{\dimZ}\times \Re^{\dimV}$ is an invariant set of the nominal dynamics subject to the stabilizing controller $\nz \mapsto K\nz$, naturally extended to the extended state $p$:
+that is, there exists a feedback control law $vp \mapsto \widehat{K}p$, such that $\forall p\in C_p$
+\begin{eqnarray}
 \label{eq:C_def}
-\hat{A}p &+ \hat{B}Kp+L_N \hat{F}w \, \in C_p,\, \forall w \in W_{max} \\
-p \in &P_N(\tilde{E}_{max}, \What_{max})
-\end{align}
-\end{subequations}
-
+\widehat{A} p + \widehat{B} \widehat{K} p + \widehat{L}_N  [\hw^T, 0^T]^T \, \in C_p,\, \forall \hw \in \What_{max} 
+\end{eqnarray}
+with $\widehat{A} = \begin{bmatrix} A & 0_{n \times m} \\ 0_{m \times n} & 0_{m \times m}   \end{bmatrix} $,
+$\widehat{B} = \begin{bmatrix}  B \\ \mathbb{I}_{m \times m} \end{bmatrix}$, 
+$\widehat{K} = \begin{bmatrix}  K & 0_{m \times m}  \end{bmatrix}$,
+$\widehat{L} _N = (\widehat{A} + \widehat{B} \widehat{K})^N$.
 It is important to note the following:
 \begin{itemize}
-	\item The set $P_f$ can be computed offline since it depends on $W_{max}$, $\tE_{max}$ and the global inner approximation for the constraints on $v$, $V_{inner-global}$, all of which can be computed offline (covered in Sec. \ref{sec:implementing set computations}).
-	\item If $P_f$ is non-empty, then all intermediate sets that appear in \eqref{eq:nom mpc} are also non-empty, since $P_f$ shrinks the state and input sets by the maximum disturbances $W_{max}$ and $\tE_{max}$.	
+	\item The set $P_f$ can be computed offline since it depends on $\What_{max}$, $\tE_{max}$ and the global inner approximation for the constraints on $v$, $V_{inner-global}$, all of which can be computed offline (covered in Sec. \ref{sec:implementing set computations}).
+	\item If $P_f$ is non-empty, then all intermediate sets that appear in \eqref{eq:nom mpc} are also non-empty, since $P_f$ shrinks the state and input sets by the maximum disturbances $\What_{max}$ and $\tE_{max}$.	
 	Thus we can tell, before running the system, whether RMPC might be faced with empty constraint sets (and thus infeasible optimizations).
 \end{itemize}
 %
