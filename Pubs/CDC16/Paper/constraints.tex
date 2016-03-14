@@ -29,7 +29,7 @@ This constrains the extended state $p_k = [\nz_{k}, v_{k-1}]^T$, and is given by
 \label{eq:P_f_def}
 P_f = C_p\ominus \left\lbrack \begin{matrix} (A+BK)^N \\ K(A+BK)^{N-1}\end{matrix} \right \rbrack \What_{max}
 \end{equation}
-where $C_p \subset \Re^{\dimZ}\times \Re^{\dimV}$ is a control invariant set under the stabilizing controller $\nz \mapsto K\nz$, 
+where $C_p \subset \Re^{\dimZ}\times \Re^{\dimV}$ is a control invariant set, inside the set $P_N(\tilde{E}_{max},\What_{max})$ which is computed by concatenating Eq. \ref{eq:Set_constraints} and Eq. \ref{eq:input_constraints} with the worst case disturbance bounds replacing the time varying bounds. $C_p$ is computed as  under the stabilizing controller $\nz \mapsto K\nz$, 
 and $\What_{max} \subset \Re^{\dimZ}$ is a bounding set on the worst-case disturbance (we show how it's computed in Sec. \ref{sec:implementing set computations}).
 
 By definition of the robust control invariant set $C_p$, there exists a feedback control law $v_p=\hat{K}p$, such that $\forall p\in C_p$
@@ -37,13 +37,13 @@ By definition of the robust control invariant set $C_p$, there exists a feedback
 \begin{align}
 \label{eq:C_def}
 \hat{A}p &+ \hat{B}Kp+L_N \hat{F}w \, \in C_p,\, \forall w \in W_{max} \\
-p \in &P_N(\tilde{E}_{max}, \tilde{E}_{max})
+p \in &P_N(\tilde{E}_{max}, \What_{max})
 \end{align}
 \end{subequations}
 
 It is important to note the following:
 \begin{itemize}
-	\item The set $P_f$ can be computed offline since it depends on $W_{max}$, $\tE_{max}$ and the global inner approximation for the constraints on $v$, $V_{inner-global}$, all of which can be computed offline.
+	\item The set $P_f$ can be computed offline since it depends on $W_{max}$, $\tE_{max}$ and the global inner approximation for the constraints on $v$, $V_{inner-global}$, all of which can be computed offline (covered in Sec. \ref{sec:implementing set computations}).
 	\item If $P_f$ is non-empty, then all intermediate sets that appear in \eqref{eq:nom mpc} are also non-empty, since $P_f$ shrinks the state and input sets by the maximum disturbances $W_{max}$ and $\tE_{max}$.	
 	Thus we can tell, before running the system, whether RMPC might be faced with empty constraint sets (and thus infeasible optimizations).
 \end{itemize}
