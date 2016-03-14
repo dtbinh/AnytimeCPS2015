@@ -22,16 +22,6 @@ One of our contributions in this paper is to establish recursive feasibility of 
 
 \todo[inline]{mention that if shrunk terminal set is non-empty, then nothing in between is empty. }
 The RMPC optimization  $\mathbb{P}_{k_0}(\hat{z}_{k_0})$ for solving \eqref{eq:discrete linear problem} is:
-%\begin{eqnarray} 
-%	\label{eq:nom mpc}
-%	J^{*}(\nz_{k}) &=& \min_{\mathbf{\nz},\mathbf{u}} \sum_{j=0}^{N}\lbrace \nz_{k+j|k}^{T}Q \nz_{k+j|k} + {v}_{k+j|k}^{T}R{v}_{k+j|k}\rbrace \nonumber \\ 
-%	&\quad & +  \nz_{k+N+1|k}^T Q_f \nz_{k+N+1|k}  \label{eq:cost} \\
-%	\nz_{k|k}       &= &\hat{z}_{k} \label{eq:init_cond}\\
-%	\nz_{k+j+1|k} &=&A\nz_{k+j|k} + Bv_{k+j|k} , j=0,\ldots,N\label{eq:nom_dyn} \\
-%	\nz_{k+j|k}     & \in& \nomZset{k+j}{k} , \; j=0,\ldots,N \label{eq:states_con}\\
-%	v_{k+j|k}        & \in & V_{k+j|k} , \;j=0,\ldots,N-1 \label{eq:input_con} \\
-%	p_N               &= &\lbrack z_{k+N+1|k} , v_{k+N|k} \rbrack^{T}  \in P_f \label{eq:joint_term} 
-%\end{eqnarray}
 \begin{subequations} 
 \label{eq:nom mpc}
 \begin{align}
