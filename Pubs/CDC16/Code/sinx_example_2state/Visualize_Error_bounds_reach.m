@@ -30,7 +30,10 @@ axis([e1_min e1_max e2_min e2_max])
 h = legend('$\tilde{E}_{max}$','$\tilde{E}_{\chi}$','Randomized errors');
 set(h,'Interpreter','latex');
 grid on;
-
+h = xlabel('$\tilde{e}_1$');
+set(h,'Interpreter','latex');
+h = ylabel('$\tilde{e}_2$');
+set(h,'Interpreter','latex');
 %% input
 %% bounds on v
 x2_idx=x2_min:.001:x2_max;
