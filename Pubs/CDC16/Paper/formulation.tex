@@ -11,6 +11,7 @@ $T$ is a diffeomorphism over a domain $D \subset X$.
 %Without loss of generality, we assume that the system  has a relative degree $\rho=\dimX$ for SISO systems, and similarly a vector relative degree $\lbrace \rho_i \rbrace_{i=1}^{\dimU}\, \text{s.t.} \sum_i \rho_i = \dimU$ for MIMO systems (assuming number of outputs is the same as the number of inputs, $\dimU$).
 The original and transformed states, $x$ and $z$, have the same dimension, as do $u$ and $v$, i.e. $\dimX = \dimZ$ and $\dimU = \dimV$.
 Because we're controlling the linearized system, we must find constraint sets $Z$ and $V$ for the state $z$ and input $v$, respectively, such that $(z,v) \in Z\times V \implies (\iT(z), u(\iT(z), v)) \in X \times U$.
+This is done in Sec. \ref{sec:transforming x to z}.
 Without loss of generality we assume that the system \eqref{eq:generic NLMPC} has no zero dynamics and all states are controllable \cite{khalil}. 
 
 For linearizing \eqref{eq:generic NLMPC} and for controlling \eqref{eq:generic NLMPC}, only a periodic state estimate $\hx$ of $x$ is available.
@@ -20,13 +21,33 @@ This implies that the linearized system is discrete-time: $z_{k+1} = Az_k + B z_
 
 The corresponding $z$-state estimate $\hz_{k}$ is given by $\hz_{k} = T(\hx_{k})$.
 In general the $z$-space error $\tilde{e}_k \defeq T(\hx_k) - T(x_k)$ is bouded for every $k$ but does not necessarily lie in $E$.
+Let $\tE_{k}$ be the set containing $\tilde{e}_k$: in Sec. \ref{sec:approx dist} we show how to compute it.
 
 Because the linearizing control operates on the state estimate and not $x_k$, we add a process noise term to the linearized, discrete-time dynamics. 
 Our system model is therefore
 \begin{equation}
+\label{eq:discrete linear dyn}
 z_{k+1} = Az_k + Bv_k + w_k
 \end{equation}
 where the noise term $w_k$ lies in the bouned set $W$ for all $k$.
+The control problem \eqref{eq:generic NLMPC} is therefore replaced by:
+\begin{eqnarray}
+\label{eq:discrete linear problem}
+\min_{\textbf{z},\textbf{v}} &\;& \sum_{k=0}^{\infty}z_k^TQz_k + v_k^TRv \\
+\text{s.t. } z_{k+1} &=& Az_k + Bv_k + w_k\nonumber \\
+z_k&\in& Z,  v_k \in V,w_k \in W  \nonumber
+\end{eqnarray}
+(In Thm. \ref{thm:stability}, we show that minimizing this cost function implies stability of the system).
+
+It is easy to derive the dynamics of the state estimate $\hz_{k}$: 
+\begin{eqnarray}
+\label{eq:dynamics_estimate}
+\hat{z}_{k+1} &=& z_{k+1} + \tilde{e}_{k+1} \\
+&=&Az_k + Bv_k + w_k + \tilde{e}_{k+1}  \nonumber\\
+&=&A\hz_k + Bv_k + (w_k+ \tilde{e}_{k+1} -A \tilde{e}_{k}) \nonumber\\
+&=&A\hz_k + Bv_k + \hw_{k+1} \nonumber
+\end{eqnarray}
+where $\hw_{k+1} = w_k+ \tilde{e}_{k+1} -A \tilde{e}_{k}$, and lies in the set $\What_{k+1} = W\oplus\tE_{k+1}\oplus(-A\tE_k)$. 
 
 
 \begin{exmp}
@@ -48,10 +69,10 @@ The computation of $Z$ in this more general case is addressed in Sec. \ref{sec:t
 
 \textbf{Notation}.
 Given a subset $\Xc$ of $X$ and a horizon $T \geq 0$, the \emph{reachable set of system $S$ from $\Xc$ in time $T$} is the set of states that $S$ visits at time $T$ if it starts somewhere in $\Xc$ and is subjected to inputs from $U$.
-Formally, $\RT{\Xc} \defeq \{y \in X \such \exists x_0 \in \Xc: x \text{ is a trajectory of the system, }x(0)=x_0, x(T)=y\}$.
-
-Given two subsets $A,B$ of $\Re^n$, define their \textit{Minkowski sum} to be $A\oplus B \defeq \{a+b \such a\in A, b\in B\}$.
-Define their \emph{Pontryagin difference} to be $A\ominus B = \{c \in \Re^n \such c+b \in A\; \forall b \in B\}$
+Formally, $\RT{\Xc} \defeq \{y \in X \such \exists x_0 \in \Xc: x \text{ is a trajectory of the system with inputs in }U, x(0)=x_0, x(T)=y\}$.
+Given two subsets $A,B$ of $\Re^n$, their \textit{Minkowski sum} is $A\oplus B \defeq \{a+b \such a\in A, b\in B\}$.
+Their \emph{Pontryagin difference} is $A\ominus B = \{c \in \Re^n \such c+b \in A\; \forall b \in B\}$.
+Given integers $n \leq m$, $[n:m] \defeq \{n,n+1,\ldots,m\}$.
 
 \textbf{Assumption}. 
 The approach we use applies when $X, U, E$ and $W$ are arbitrary convex polytopes (i.e. bounded intersections of half-spaces).

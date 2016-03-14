@@ -24,21 +24,20 @@ The state $z$ of the linearized system $S_{fl}$ is related to the state $x$ of t
 Previous work on nonlinear MPC with feedback linearization assumed the state $x(t)$ is perfectly known to the controller at any moment in time \cite{SimonLG13_MPC}.
 In practice, only a state estimate $\hx(t)$ is available, and $\hx(t) \neq x(t)$.
 Thus a controller designed to work optimally when operating on the true state $x$ is in general sub-optimal when operating on $\hx$ (any may even lead to instability).
-Robust MPC (RMPC) has been investigated as a way of handling state estimation errors, but only for linear systems \cite{RichardsH05_RMPC}.
+Robust MPC (RMPC) has been investigated as a way of handling state estimation errors for linear and nonlinear systems \cite{RichardsH05_RMPC}, but not via feedback linearization.
 \todo[inline]{litt search}
 Existing work has also assumed that $T$ is the identity, which simplifies the subsequent stability and performance analysis \cite{SimonLG13_MPC}. 
 \todo[inline]{litt search}
 A non-identity $T$ is problematic when the state is not perfectly known, since the state estimation error $e = \hx-x$ maps to the linearized dynamics via $T$ in non-trivial ways greatly complicating the analysis.
 In particular, the error bounds for the state estimate in $z$-space now depend on the current nonlinear state $x$.
-
-In this paper we develop a RMPC solution to the above control problem in the case of input-affine systems, with state estimation errors and non-identity $T$.
-We are motivated by the problem of anytime control \cite{PantAMNDM15_Anytime}, in which the receding horizon controller receives a delayed inaccurate state estimate.
-
-One of the complications introduced by feedback linearization is that the bounds on the input ($u \in U$) may become non-convex state-dependent bounds on the input $v$ to $S_{fl}$: 
+One of the complications introduced by feedback linearization is that the bounds on the input ($u \in U$) may become a non-convex state-dependent constraint on the input $v$ to $S_{fl}$: 
 $V = \{\ua{v}(x, U) \leq v \leq \oa{v}(x,U)\}$.
-Following \cite{SimonLG13_MPC}, we use forward reachability calculations in $X$ to provide inner convex approximations to the input set $V$.
-Here too, a non-identity $T$ increases the computational burden since the reachability calculation must happen on the non-linear system (with an identity $T$, it can happen on the linear system).
-We propose two ways for handling this: one is by running an inaccurate but fast nonlinear reachability tool over short horizons, and the other is by running reachability on the linear system and inverting the mapping $T$ in a conservative manner.
+In \cite{SimonLG13_MPC} forward reachability is used to provide inner convex approximations to the input set $V$.
+A non-identity $T$ increases the computational burden since the reachability calculation must happen on the non-linear system (with an identity $T$, it can happen on the linear system).
+
+\emph{Contributions}: In this paper we develop a feedback linearization solution to the above control problem, with state estimation errors and non-identity $T$.
+The resulting linear control problem is solved by Robust MPC with time-varying constraint sets.
+We propose two ways for handling the nonlinear reachability calculation: one is by running an inaccurate but fast nonlinear reachability tool over short horizons, and the other is by running reachability on the linear system and inverting the mapping $T$ in a conservative manner.
 
 The paper is organized as follows,??
 

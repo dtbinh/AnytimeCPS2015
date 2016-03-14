@@ -1,19 +1,9 @@
 \subsection{Robust Feasibility}
 
-The Robust MPC algorithm, with its constraints and the error set computations for bounding $\tilde{e}_k$ using online reachability, is designed to be robustly feasible to the estimation error, $e_k$, in the estimate of the non-linear system $\hat{x}_k$. This is stated in Theorem \ref{th:robust_feas}, which follows.
+We are now ready to state the main result of this paper: namely, that the RMPC of the feedback linearized system \eqref{eq:nom mpc} is feasible at all time steps if it starts out feasible, and that it stabilizes the nonlinear system, for all possible values of the state estimation error and feedback linearization error.
 
-\begin{theorem}
+\begin{theorem}[Feasibility]
 \label{th:robust_feas}
-If for some time step $k_0$, the Robust MPC optimization, $\mathbb{P}_{k_0}(\hat{z}_{k_0})$ is feasible, then the feedback linearized system, and hence the non-linear system controlled by the Robust MPC of algorithm \textbf{algref} and subject to the disturbances (\textbf{esterror,processnoise}) robutly satisfies the state and input constraints \textbf{eqns} and all subsequent optimizations $\mathbb{P}_{k}(\hat{z}_{k}), \, \forall k>k_0$ are feasible.
+If at some time step $k_0 \geq 0$, the RMPC optimization $\mathbb{P}_{k_0}(\hz_{k_0})$ is feasible, then all subsequent optimizations  $\mathbb{P}_{k}(\hz_{k}), k> k_0$ are also feasible.
+Moreover, the nonlinear system \eqref{eq:generic NLMPC} controlled by algorithm \textbf{algref??} and subject to the disturbances ($E$, $W$) satisfies its state and input constraints at all times $k \geq k_0$.
 \end{theorem}
-
-With this result, the proof of which is in the \textbf{Appendix}, we can state Theorem \ref{th:recursive_feas}.
-
-\begin{theorem}
-\label{th:recursive_feas}
-If at the initial time step, $\mathbb{P}_0(\hat{z}_0)$ is feasible, then the the feedback linearized, and hence the non-linear system, subject to the disturbances  (\textbf{esterror,processnoise}) satisfies the state and input constraints under the control law of \textbf{algref}, and all subsequent iterations of the algorithm are feasible.
-\end{theorem}
-
-\begin{proof}
-The Theorem can be proved recursively by applying Theorem \ref{th:robust_feas}. Suppose at time step $k$, the algorithm is feasible and the control input computed by it is $v_k$, by Theorem \ref{th:robust_feas}, $v_k$ is feasible and so $u_k \in U$. Under this control input, the state at time $k+1$, $z_{k+1} \in Z$, and $\mathbb{P}_{k+1}(\hat{x}_{k+1})$ is also feasible, i.e. the algorithm is feasible. Therefore, by induction, the Theorem holds. 
-\end{proof}
