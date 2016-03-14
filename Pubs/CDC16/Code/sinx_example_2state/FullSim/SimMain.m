@@ -103,6 +103,7 @@ plot(1:k,u_min*ones(k,1),'.');
 
 %% more plotting shite
 figure;
+subplot(211)
 hold on;
 plot(1:k,v_applied(1:k));
 hold all;
@@ -122,3 +123,10 @@ hold all;
 plot(1:k,mnv_g*ones(k,1),'--');
 legend('v','v_{max-online}','v_{min-online}','v_{max-global}','v_{min-global}');
 grid on;
+
+subplot(212)
+plot(1:k,u_applied(1:k),'k')
+hold on
+plot(1:k,u_max*ones(k,1),'.');
+hold on
+plot(1:k,u_min*ones(k,1),'.');
