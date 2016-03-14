@@ -16,8 +16,9 @@ States $z$ and $x$ have the same dimension, as do $u$ and $v$, i.e. $\dimX = \di
  As a running example in this paper, we use the non-linear system of the form:
 
 \begin{subequations}
+\label{eq:toy_dynamics}
 \begin{align}
-\dot{x}_1 &= asin(x_2) \\
+\dot{x}_1 &= a\sin(x_2) \\
 \dot{x}_2 &=-x_1^2 + u 
 \end{align}
 \end{subequations}
@@ -37,7 +38,7 @@ And the feedback linearized system is $\dot{z}_1 = z_2\, ,\dot{z}_2 = v$, where 
 z = T(x) = \begin{bmatrix} x_1 \\ a\sin(x_2) \end{bmatrix}
 \end{equation}
 
-For sake of simplicity, we assume $a=1$ for the remainder of the paper.
+For sake of simplicity, we assume $a=1$ for the remainder of the paper. For this running example, the safe set for $x$ is given as $X = \lbrace x| -\pi /2 \leq x_1 \leq \pi /2,-\pi /3 \leq x_2 \leq \pi/3 \rbrace$. Given the diffeomorphism above and $X$, we can analytically compute the safe set $Z$ s.t. $z \in Z \Rightarrow x \in X$ as $Z = \lbrace z| -\pi /2 \leq z_1 \leq \pi /2, -0.8660  \leq z_2 \leq 0.8660\rbrace$ (since $sin(\pi/3) = 0.8660$. For a more complicated $T$, it would not be this straightforward to compute $Z$ given $X$. This is dealt with in Sec. \ref{sec:transforming x to z}.
 
 \subsection{Estimation error under feedback linearization}
 \label{sec:EstErrFbLin}

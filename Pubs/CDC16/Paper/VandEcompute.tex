@@ -9,8 +9,16 @@ Using the reachability over-approximations of Sec. \ref{sec:x reach} and the def
 \end{align}
 \end{subequations}
 
-Here, given the upper and lower bounds on the control signals
+Here, given the upper and lower bounds on $v$ can be computed using interval arithmetic by computing the rectangular bounds on $\oa{X}_{k+j|k}$ and $U$. 
 
+Let us also define a global inner approximation that holds $\forall x \in X$ by 
+
+\begin{subequations}
+\begin{align}
+\underline{V}_{inner-global} &= \{v=[v_1,\ldots,v_{\dimV}]^T \such \nonumber \\
+&\max_{x\in X} \ua{v}_i(x)  \leq v_i \leq \min_{x \in X} \oa{v}_i(x) \} 
+\end{align}
+\end{subequations}
 
 
 \subsection{Computing the bounding error set and disturbance approximations online}
