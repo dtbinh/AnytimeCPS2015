@@ -1,0 +1,24 @@
+\section{The Control Algorithm}
+
+We summarize the steps of our control formulation in the following algorithm:
+
+\begin{algorithm}
+\caption{RMPC via Feedback Linerization}
+\textbf{Given:} System model, $X$, $U$, $E$, $W$ \\
+\textit{Offline:} \\
+Compute: \\
+A.  $X_0$, $Z$ (Sec. \ref{sec:transforming x to z})\\
+B. $\tilde{E}_{max}$, $\What_{max}$, $P_N(\tilde{E}_{max},\What_{max})$ (Sec. \ref{sec:implementing set computations}, Sec. \ref{sec:Constraints}) \\
+C. $C_p$, $P_f$ (Sec. \ref{sec:Constraints})\\
+\textit{\textbf{if}}($P_f$ is empty set) \textbf{Quit} \\
+\textit{\textbf{else}} \\
+\textit{Online:} $\forall k=1,\dotsc$ \\
+1. Get state estimate, $\hat{x}_k$, compute $\hat{z}_k = T(\hat{x}_k)$ \\
+2. $\forall j = 1,\dotsc,N$, compute $\oa{X}_{k+j|k}$ (Sec.\ref{sec:x reach}), \\
+ $\underline{V}_{k+j|k},\,\tilde{E}_{k+j|k},\, \What_{k+j|k}$ (Sec.\ref{sec:implementing set computations}) and hence \\
+$Z_{k+j|k},\,V_{k+j|k}$ (Sec. \ref{sec:Constraints})\\
+3. Solve $\mathbb{P}_k(\hat{z}_k)$ (Sec.), set $v_k = v^{*}_{k|k}$ and apply $u_k$ to plant \\
+4. $k:=k+1$, goto 1. \\
+\textit{\textbf{end}}
+\label{alg:RMPC}
+\end{algorithm}
