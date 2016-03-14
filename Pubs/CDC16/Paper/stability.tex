@@ -7,7 +7,7 @@ Given an equilibrium point $x_e \in X_0 \subset \iT(Z)$ of the nonlinear dynamic
 \begin{proof}
 Let $T$ be the diffeomorphism mapping $x$ to $z$ from feedback linearization.
 By a change of variables $z' = z - T(x_e)$, stabilizing the linear dynamics (with state $z'$) to 0 implies stabilizing the nonlinear dynamics to $x_e$.
-Recall that $Q$ of  \eqref{eq:nom mpc} is positive definite so that the optimal cost $J^*(\nz_{k})$ is a positive definite function of $nz_{k}$, and that the terminal weight in \eqref{eq:nom mpc} is equivalent to the infinite horizon cost. 
+Recall that $Q$ of  \eqref{eq:nom mpc} is positive definite so that the optimal cost $J^*(\nz_{k})$ is a positive definite function of $\nz_{k}$, and that the terminal weight in \eqref{eq:nom mpc} is equivalent to the infinite horizon cost (by the choice of $Q_f$). 
 Finally Thm.  \ref{th:robust_feas} guarantees that the tail of the input sequence computed at $k$ is admissible at time $k+1$. 
 Therefore it is a standard result that the optimal cost $J^{*}(\nz_{k})$ is non-increasing in $k$ and that $0$ is an attracting stable equilibrium for the closed-loop linear system with region of attraction $Z$. (E.g., see \cite{CannonK15MPC} )
 Therefore $x_k$ converges to $x_e$ from anywhere in $X_0$ provided it starts in $X_0$.

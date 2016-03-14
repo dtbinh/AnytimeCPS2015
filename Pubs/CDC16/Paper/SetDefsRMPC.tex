@@ -50,11 +50,11 @@ Therefore the state estimation error $\te_{k+j}$ lives in
 $\cup_{x\in X_{k+j|k}, e \in E}M(x)e = \cup_{x \in X_{k+j|k}}M(x)E$, 
 where $X_{k+j|k}$ is the $j$-step reach set of the nonlinear dynamics computed starting at time $k$ and given $\hat{x}_k$, since we only have access to the estimate and not the true state.
 
-It is reasonable to assume that the linearization of Eq. \ref{eq:err_lin} allows us to compute accurate bounds on $\te_{k+j}$ when the estimation error is small. For the running example of Eq. \ref{eq:toy_dynamics}, we have $M = [1 \, 0;0 \,a\cos(x_2)]$. Starting with an estimation error bound on $e_k$ of the form (in radians) $E = \lbrace e| ||e||_{\infty} \leq 0.0227\rbrace$, i.e. the absolute value of estimation error in $x_1$ is $1.3\degree$ and for $x_2$ is bounded by $1.3\degree s^{-1}$, and the safety bound on $-0.8660\leq x_2 0.8660$ as computed in Sec. \ref{sec:feedbacklin}, Fig. \ref{} shows the expected error in linearization for the estimation error term $\tilde{e}_2$ as a function of $x_2$ (it is only a function of $x_2$). It shows that over the entire range of $x_2$, this error is very small even when normalized by $T(\hat{x_2})$. Note $\tilde{e}_1 = e_1$ (see $M$ above), therefore there is no linearization error in that term.
+It is reasonable to assume that the linearization of Eq. \ref{eq:err_lin} allows us to compute accurate bounds on $\te_{k+j}$ when the estimation error is small. For the running example of Eq. \ref{eq:toy_dynamics}, we have $M = [1 \, 0;0 \,a\cos(x_2)]$. Starting with an estimation error bound on $e_k$ of the form (in radians) $E = \lbrace e| ||e||_{\infty} \leq 0.0227\rbrace$, i.e. the absolute value of estimation error in $x_1$ is $1.3\degree$ and for $x_2$ is bounded by $1.3\degree s^{-1}$, and the safety bound $|x_2|\leq 0.8660$ as computed in Sec. \ref{sec:formulation}, Fig. \ref{fig:fb_err} shows the expected error in linearization for the estimation error term $\tilde{e}_2$ as a function of $x_2$ (it is only a function of $x_2$). It shows that over the entire range of $x_2$, this error is very small even when normalized by $T(\hat{x_2})$. Note $\tilde{e}_1 = e_1$ (see $M$ above), therefore there is no linearization error in that term.
 
 
 \begin{figure}
 \includegraphics[width=0.49\textwidth]{figs/Toy_LinErrEst_scissored.pdf}
 \caption{Expected linearization error in $\tilde{e}_2$ as a function of $x_2$ for the running example. Note, the peak at $x_2=0$ is expected due to the form of $T(x)$. }
-\label{fig:v_and_limits}
+\label{fig:fb_err}
 \end{figure}
