@@ -68,11 +68,11 @@ z_true(:,k+1) = linplant(A_d,B_d,z_true(:,k),v_applied(k));
 
 
 figure(1);
-hold on;stairs(z_true(1,k),z_true(2,k),'k*');pause(0.05);
+hold on;plot(z_true(1,k),z_true(2,k),'k*');pause(0.05);
 hold on;plot(Zreach{2},'Color','lightblue');
 
 figure(2);
-stairs(k,v_applied(k),'o');pause(0.05);
+plot(k,v_applied(k),'o');pause(0.05);
 
 end
 
@@ -81,21 +81,21 @@ hold on;plot(z_true(1,1:k),z_true(2,1:k),'linewidth',2,'Color','black')
 
 figure(2);
 hold on;
-stairs(1:k,z_true(1,1:k),'b');
+plot(1:k,z_true(1,1:k),'b');
 hold on;
-stairs(1:k,z_true(2,1:k),'g');
+plot(1:k,z_true(2,1:k),'g');
 hold on;
-stairs(1:k,v_applied(1:k),'k')
+plot(1:k,v_applied(1:k),'k')
 
 %applied input actual
 u_applied = -tan(x_true(2,1:end-1))+(1./a*cos(x_true(2,1:end-1))).*v_applied(1:end-1);
 figure(3);
 hold on;
-stairs(1:k,x_true(1,1:k),'b');
+plot(1:k,x_true(1,1:k),'b');
 hold on;
-stairs(1:k,x_true(2,1:k),'g');
+plot(1:k,x_true(2,1:k),'g');
 hold on;
-stairs(1:k,u_applied(1:k),'k')
+plot(1:k,u_applied(1:k),'k')
 hold on
 plot(1:k,u_max*ones(k,1),'.');
 hold on

@@ -21,6 +21,7 @@ The RMPC optimizations were performed by Gurobi \cite{gurobi}.
 	\caption{Inputs to nonlinear and linearized running example.}
 	\label{fig:input toy}
 \end{figure}
+
 For the running example of Eq. ??, we discretize the feedback linearized system at 10Hz and formulate the controller with a horizon of $N=15$ steps. 
 The cost function has parameters $Q=I$ and $R=10^{-2}$.
 The state trajectories for the nonlinear and linearized systems are shown in Fig. \ref{fig:state linear nonlinear toy}.
@@ -28,18 +29,19 @@ Note that the latter converges to the equilibrium 0.
 %The input for the feedback linearized system is shown in Fig. ?? along with its upper and lower rectangular bounds computed online, denoted as $\oa{V}_{k|k}$ and $\ua{V}_{k|k}$ respectively, which make up the input constraint set at time $k$.
 %Also shown is the global inner approximation $V_{inner-global}$ for the input $v$. 
 %It is worth noting that the bounds computed online allow for much more control action than the conservative $V_{inner-global}$. 
+
 The input $u$ is shown in Fig. \ref{fig:input toy}, and it can be noted that $u_k \in U$ for all $k$.
 
 \subsection{Single link flexible joint manipulator}
 \label{sec:manipulator}
 
 \begin{figure}
-	\includegraphics[scale=0.2]{figs/placeHolder.pdf}
-	\caption{Flexible joint manipulator.}
+	\includegraphics[scale=0.2]{figs/ManipArm.pdf}
+	\caption{Flexible joint manipulator, figure from \cite{intech}.}
 	\label{fig:manipulator fig}
 \end{figure}
 
-We consider the single link flexible manipulator system $S$ shown in Fig. \ref{fig:manipulator fig}, whose dynamics are given by:
+We consider the single link flexible manipulator system $S$, also used in \cite{intech}  shown in Fig. \ref{fig:manipulator fig}, whose dynamics are given by:
 \begin{equation}
 S: \begin{bmatrix} \dot{x}_1 \\ \dot{x}_2 \\ \dot{x}_3 \\ \dot{x}_4    \end{bmatrix} = \begin{bmatrix} x_2 \\ -\frac{mgl}{I}sin(x_1) - \frac{k}{I}(x_1-x_3)  \\ x_4 \\ \frac{k}{J}(x_1-x_3)  \end{bmatrix} + \begin{bmatrix} 0 \\ 0 \\ 0 \\ \frac{1}{J} \end{bmatrix}u
 \end{equation}
