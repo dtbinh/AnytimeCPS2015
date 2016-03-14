@@ -189,7 +189,7 @@ plot(1:k,mxv_g*ones(k,1),'--');
 hold all;
 plot(1:k,mnv_g*ones(k,1),'--');
 %legend('v','v_{max-online}','v_{min-online}','v_{max-global}','v_{min-global}');
-h = legend('${v_k}$','${\underline{V}_k^{max}}$','${\underline{V}_k^{min}}$', ...
+h = legend('${v_k}$','${V_k^{max}}$','${V_k^{min}}$', ...
     '${V_{inner-global}^{max}}$','${V_{inner-global}^{min}}$');
 set(h,'Interpreter','latex');
 grid on;
