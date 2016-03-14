@@ -15,3 +15,4 @@ camera_*.pdf
 RTSS_*.pdf
 main.pdf
 *.synctex.gz
+*.synctex*

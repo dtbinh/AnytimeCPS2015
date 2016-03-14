@@ -36,6 +36,9 @@ plot(1:k,z_true(1,1:k),'linewidth',2);
 hold all;
 plot(1:k,z_true(1,1:k)+(-mg(1)+(2*mg(1).*rand(1,k))),'-.','linewidth',2);
 grid on;
+h  =legend('${z_{1k}}$','${\hat{z}_{1k}}$');
+set(h,'Interpreter','latex');
+
 
 subplot(212)
 plot(1:k,z_true(2,1:k),'linewidth',2);
@@ -46,6 +49,7 @@ plot(1:k,x_true(2,1:k),'linewidth',2);
 hold all;
 plot(1:k,x_true(2,1:k)+(-mg(1)+(2*mg(1).*rand(1,k))),'-.','linewidth',2);
 grid on;
-
+h  =legend('${z_{2k}}$','${\hat{z}_{2k}}$','${x_{2k}}$','${\hat{x}_{2k}}$');
+set(h,'Interpreter','latex');
 
 
