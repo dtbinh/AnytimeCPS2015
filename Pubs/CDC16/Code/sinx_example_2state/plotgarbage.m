@@ -14,7 +14,7 @@ for j = 1:1000
     Txe = Txe(2,:);
     Tx = Tx(2,:);
     for i = 1:numel(x2h)
-        err(i,j) = norm(Txe(i)-(Tx(i)+Me(i)))/(norm(Txe)+eps);
+        err(i,j) = norm(Txe(i)-(Tx(i)+Me(i)))/(norm(Tx(i)));
     end
 end
 err = sum(err,2)/100;
@@ -25,5 +25,5 @@ axis([min(x2) max(x2) min(err) max(err)])
 grid on;
 h = xlabel('$x_2$');
 set(h,'Interpreter','latex');
-h = ylabel('$E_e\big[|T_2(x_2+e_2) - (T_2(x_2)+M_{22}(x_2)e_2)|\big]$');
+h = ylabel('$E_e\big[|(T_2(x_2+e_2) - (T_2(x_2)+M_{22}(x_2)e_2))/T_2(x_2+e_2)|\big]$');
 set(h,'Interpreter','latex');
