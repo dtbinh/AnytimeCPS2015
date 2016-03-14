@@ -2,7 +2,7 @@
 \label{sec:simulations}
 
 We evaluate our approach on the running example, and on a 4D flexible joint manipulator.
-We implemented the RMPC controller of Algorithm ?? in MATLAB
+We implemented the RMPC controller of Alg. \ref{alg:RMPC} in MATLAB
 The set computations were done using the MPT Toolbox \cite{MPT3}, and the invariant set computations using the Matlab Invariant Set Toolbox \cite{IST}. 
 The reachability computations for $\oaXset{k+j}{k}$ were performed on the linear dynamics and mapped back to $x$-space as described in Sec. \ref{sec:transforming x to z}.
 The RMPC optimizations were performed by Gurobi \cite{gurobi}.
