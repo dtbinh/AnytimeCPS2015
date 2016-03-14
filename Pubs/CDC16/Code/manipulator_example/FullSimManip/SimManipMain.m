@@ -119,21 +119,44 @@ hold on;
 
 %% z 1 and 2
 figure;
+subplot(211)
 mag = .5*deg2rad([1 1 2.7 3.2]);
 
 for i=1:2
    plot(1:k,z_true(i,1:k),'linewidth',2);
    hold all
-   plot(1:k,z_true(i,1:k)+(-mag(i)+(2*mag(i).*rand(1,k))),'linewidth',2)
+   plot(1:k,z_true(i,1:k)+(-mag(i)+(2*mag(i).*rand(1,k))),'-.','linewidth',2)
    hold all
 end
 grid 
-h  =legend('${z_k[1]}$','${\hat{z}_k[1]}$','${z_k[2]}$','${\hat{z}_k[2]}$');
+h  =legend('${z_{1k}}$','${\hat{z}_{1k}}$','${z_{2k}}$','${\hat{z}_{2k}}$');
 set(h,'Interpreter','latex');
+
+
+% z 3 and 4 and x 3 and 4
+%figure;
+subplot(212)
+mag = 1*deg2rad([1 1 2.7 3.2]);
+for i=3:4
+   plot(1:k,z_true(i,1:k),'linewidth',2);
+   hold all
+   plot(1:k,z_true(i,1:k)+(-mag(i)+(2*mag(i).*rand(1,k))),'-.','linewidth',2)
+   hold all
+   plot(1:k,x_true(i,1:k),'linewidth',2);
+   hold all
+   plot(1:k,x_true(i,1:k)+(-mag(i)+(2*mag(i).*rand(1,k))),'-.' ,'linewidth',2)
+end
+grid 
+h  =legend('${z_{3k}}$','${\hat{z}_{3k}}$','${z_{4k}}$','${\hat{z}_{4k}}$', ... 
+    '${x_{3k}}$','${\hat{x}_{3k}}$','${x_{4k}}$','${\hat{x}_{4k}}$');
+set(h,'Interpreter','latex');
+
+
 
 
 %% z 3 and 4
 figure;
+%subplot(212)
 mag = 1*deg2rad([1 1 2.7 3.2]);
 for i=3:4
    plot(1:k,z_true(i,1:k),'linewidth',2);
@@ -146,7 +169,8 @@ h  =legend('${z_k[3]}$','${\hat{z}_k[3]}$','${z_k[4]}$','${\hat{z}_k[4]}$');
 set(h,'Interpreter','latex');
 
 %% x 3 and 4
-figure;
+%subplot(212);
+hold on;
 mag = 1*deg2rad([1 1 2.7 3.2]);
 
 for i=3:4
@@ -160,6 +184,7 @@ h  =legend('${x_k[3]}$','${\hat{x}_k[3]}$','${x_k[4]}$','${\hat{x}_k[4]}$');
 set(h,'Interpreter','latex');
 %% actual input 
 figure;
+subplot(212)
 plot(1:k,u_applied(1:k),'b')
 hold on
 plot(1:k,u_max*ones(k,1),'.');
@@ -170,7 +195,7 @@ h = legend('${u_k}$','${U^{max}}$','${U^{min}}$');
 set(h,'Interpreter','latex');
 axis([1 45 -11 11]);
 %% more plotting shite
-figure;
+subplot(211)
 hold on;
 plot(1:k,v_applied(1:k));
 hold all;
