@@ -121,12 +121,19 @@ hold all;
 plot(1:k,mxv_g*ones(k,1),'--');
 hold all;
 plot(1:k,mnv_g*ones(k,1),'--');
-legend('v','v_{max-online}','v_{min-online}','v_{max-global}','v_{min-global}');
+
+h = legend('${v_k}$','${{V}_k^{max}}$','${{V}_k^{min}}$', ...
+    '${V_{inner-global}^{max}}$','${V_{inner-global}^{min}}$');
+set(h,'Interpreter','latex');
 grid on;
 
+%%
 subplot(212)
 plot(1:k,u_applied(1:k),'k')
 hold on
 plot(1:k,u_max*ones(k,1),'.');
 hold on
 plot(1:k,u_min*ones(k,1),'.');
+h = legend('${u_k}$','${U^{max}}$','${U^{min}}$');
+set(h,'Interpreter','latex');
+grid on

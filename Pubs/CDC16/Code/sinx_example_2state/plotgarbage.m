@@ -27,3 +27,25 @@ h = xlabel('$x_2$');
 set(h,'Interpreter','latex');
 h = ylabel('$E_e\big[|(T_2(x_2+e_2) - (T_2(x_2)+M_{22}(x_2)e_2))/T_2(x_2+e_2)|\big]$');
 set(h,'Interpreter','latex');
+
+%% 
+mg = deg2rad(mag);
+mg = [deg2rad(2.3);deg2rad(1.3)];
+subplot(211)
+plot(1:k,z_true(1,1:k),'linewidth',2);
+hold all;
+plot(1:k,z_true(1,1:k)+(-mg(1)+(2*mg(1).*rand(1,k))),'-.','linewidth',2);
+grid on;
+
+subplot(212)
+plot(1:k,z_true(2,1:k),'linewidth',2);
+hold all;
+plot(1:k,z_true(2,1:k)+(-mg(1)+(2*mg(1).*rand(1,k))),'-.','linewidth',2);
+hold all;
+plot(1:k,x_true(2,1:k),'linewidth',2);
+hold all;
+plot(1:k,x_true(2,1:k)+(-mg(1)+(2*mg(1).*rand(1,k))),'-.','linewidth',2);
+grid on;
+
+
+
