@@ -1,5 +1,71 @@
 \section*{Appendix}
 
+\subsection{Constraints of successive MPC problems}
+\label{sec:inclusions statement}
+We are now ready to state and prove a key lemma regarding the evolution of the state, error and input sets between MPC optimization problems. 
+This lemma will be key to proving recursive feasibility of the MPC controller, since it allows us to show that the constraint sets of one problem, at time $k$, are appropriate supersets of the constraint sets of the next problem, at time $k+1$. 
+
+\begin{lemma}
+	\label{lem:set inclusions}
+	Let $\oa{X}_{k+j|k}$ be the $j$-step outer-approximate reach set computed at time $k$ by a reachability tool as described in Sec. \ref{sec:x reach}.
+	
+	Let $\What_{k+j|k}$ be the set defined in \eqref{eq:What}.
+	
+	Let $\tE_{k+j|k}$ be the error set computed using \eqref{eq:Etilde} by substituting $E \leftarrow \tE_{k|k}$.
+	
+	Let $\ua{V}_{k+j|k} = \ua{V}(\oa{X}_{k+j|k})$ and $\oa{V}_{k+j|k} = \oa{V}(\oa{X}_{k+j|k})$ 
+
+Then the following hold for all $k \geq 0, ,j \geq 1$:
+\begin{enumerate}
+	\item $\oa{X}_{k+1+j|k+1} \subseteq \oa{X}_{k+j+1|k}$
+	\label{set:X}
+	\item $\tE_{k+1+j|k+1} \subseteq \tE_{k+j+1|k}$
+	\label{set:tE}
+	\item $\What_{k+1+j|k+1} \subseteq \What_{k+j+1|k}$
+	\label{set:What}
+	\item $\oa{V}_{k+1+j|k+1} \subseteq \oa{V}_{k+j+1|k}$
+	\label{set:oaV}
+	\item $\ua{V}_{k+1+j|k+1} \supseteq \ua{V}_{k+j+1|k}$ (note the change in inclusion direction)
+	\label{set:uaV}		
+\end{enumerate} 
+%\begin{enumerate}
+%		\item $\oa{X}_{k+j+1|k+1} \subseteq \oa{X}_{k+j+1|k}$
+%		\item $\tilde{E}_{k+j+1|k+1} \subseteq \tilde{E}_{k+j+1|k}$
+%		\item ${W}_{k+j+1|k+1} \subseteq {W}_{k+j+1|k}$
+%		\item $\underline{V}_{k+j+1|k+1} \supseteq \underline{V}_{k+j+1|k}$
+%		\item $\bar{V}_{k+j+1|k+1} \subseteq \bar{V}_{k+j+1|k}$
+%	\end{enumerate}
+\end{lemma} 
+
+\begin{proof}
+	
+\ref{set:X}) 
+Fix an arbitrary $k$. We prove this by induction on $j \geq 1$.
+
+\underline{Base case: $j=1$}. By construction, $\hx_{k+1} \in \RT{\Xset{k}{k}} \oplus E$.
+Therefore at time $k+1$, when setting up the problem $\mathbb{P}_{k+1}(\hat{z}_{k+1})$, the algorithm will first compute
+$\Xset{k+1}{k+1} = \hx_{k+1} \oplus (-E)  \subset \RT{\Xset{k}{k}} \oplus E \oplus (-E) = \oaXset{k+1}{k}$.
+Also 
+$\oaXset{k+2}{k+1} = \RT{\Xset{k+1}{k+1}} \oplus E \oplus(-E) \subset  \RT{\oaXset{k+1}{k}} \oplus E \oplus(-E) = \oaXset{k+2}{k}$.
+
+\underline{Induction step: $j > 1$}.
+By definition, $\oaXset{k+1+j}{k+1} = \RT{\oaXset{k+1+j-1}{k+1}} \oplus E \oplus (-E) \subset  \RT{\oaXset{k+j}{k}} \oplus E \oplus (-E)$ (by the induction hypothesis). This last set equals $\oaXset{k+j+1}{k}$ by definition.
+
+\ref{set:tE}) 	By \ref{set:X}) 
+ we have that 
+ $ \min_{x \in \oa{X}_{k+j+1|k}, e \in E} M_{i\ell}(x)e(\ell) \leq \min_{x \in \oa{X}_{k+1+j|k+1}, e \in E} M_{i\ell}(x)e(\ell)$ and that 
+ $\max_{x \in \oa{X}_{k+j+1|k}, e \in E} M_{i\ell}(x)e(\ell) \leq \max_{x \in \oa{X}_{k+1+j|k+1}, e \in E} M_{i\ell}(x)e(\ell)$
+ which yields the desired result.
+ 
+ \ref{set:What}) This is immediate from the definition \eqref{eq:What} and \ref{set:tE}).
+ 
+ \ref{set:oaV}) and \ref{set:uaV}) These are immediate from \eqref{eq:V inclusions}.
+ 
+	\end{proof}
+
+
+
+
 %delete this
 %Before we prove Theorem \ref{th:robust_feas}, we need a key intermediate result, which is summarized in Lemma \ref{lem:one}. This result directly follows from a) The construction of the reach sets $\bar{X}_{k+j|k}$ over which the sets for bounding %\tilde{e}_{k+j}$, $\tilde{E}_{k+j|k}$, the inner convex (hyper-rectangular) bounds for the control input $v_{k+j}$, $\underline{V}_{k+j|k}$, the outer convex (hyper-rectangular) bounds for the  $v_{k+j}$, $\bar{V}_{k+j|k}$ and the definition of the %disturbance set $W_{k+j|k}$. The key point here is that $\bar{X}_{k+j+1|k} \supseteq \bar{X}_{k+j+1|k+1}, \, \forall j=0,1,\dotsc$ (see Section \textbf{sec:ErrorAndReachSets}), from which the other conditions stated in the Lemma follow by the definition %of the corresponding set.
 
