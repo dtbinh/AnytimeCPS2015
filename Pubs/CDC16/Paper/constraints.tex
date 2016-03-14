@@ -32,8 +32,7 @@ P_f = C_p\ominus \left\lbrack \begin{matrix} (A+BK)^N \\ K(A+BK)^{N-1}\end{matri
 where $C_p \subset \Re^{\dimZ}\times \Re^{\dimV}$ is a control invariant set, inside the set $P_N(\tilde{E}_{max},\What_{max})$ which is computed by concatenating Eq. \ref{eq:Set_constraints} and Eq. \ref{eq:input_constraints} with the worst case disturbance bounds replacing the time varying bounds. $C_p$ is computed as  under the stabilizing controller $\nz \mapsto K\nz$, 
 and $\What_{max} \subset \Re^{\dimZ}$ is a bounding set on the worst-case disturbance (we show how it's computed in Sec. \ref{sec:implementing set computations}).
 
-\todo[inline]{Yash these following equations: should that really be $\hat{L}_N\hat{F}$, or just $\hat{F}$? Also, why the added $p \in P_N(\tilde{E}_{max}, \tilde{E}_{max})$? we already said that "if p in $C_p$"}
-By definition of the robust control invariant set $C_p$, there exists a feedback control law $v=\hat{K}p$, such that $\forall p\in C_p$
+By definition of the robust control invariant set $C_p$, there exists a feedback control law $v_p=\hat{K}p$, such that $\forall p\in C_p$
 \begin{subequations}
 \begin{align}
 \label{eq:C_def}
@@ -48,7 +47,7 @@ It is important to note the following:
 	\item If $P_f$ is non-empty, then all intermediate sets that appear in \eqref{eq:nom mpc} are also non-empty, since $P_f$ shrinks the state and input sets by the maximum disturbances $W_{max}$ and $\tE_{max}$.	
 	Thus we can tell, before running the system, whether RMPC might be faced with empty constraint sets (and thus infeasible optimizations).
 \end{itemize}
-
+%
 %
 %\begin{subequations}
 %\begin{align}
@@ -88,7 +87,4 @@ It is important to note the following:
 %p \in &P_N(\tilde{E}_{max}, \tilde{E}_{max})
 %\end{align}
 %\end{subequations}
-%
-%It is worth noting, that this set is computed offline since it depends on the worst case disturbances $W_{max}$, $E_{max}$ and the global inner convex approximation for the constraints on $v$, $V_{inner-global}$ which can be all be computed offline. With this conservative approximation of the shrinking sets, it is obvious that this is indeed invariant for all disturbance sets, $\forall j$, $E_{k+j|k}$ and $W_{k+j|k}$, which both are contained in $E_{max}$, $W_{max}$ respectively. 
-
 
