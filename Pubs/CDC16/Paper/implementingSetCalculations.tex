@@ -3,10 +3,6 @@
 
 In order to compute the sets $\tilde{E}_{k+j|k}$ and $\underline{V}_{k+j|k}$ which are needed by the RMPC formulation and are defined in the previous section, we need to use online reachability to compute the set in which $x_{k+j}$ lies in. To do this, we first define an online reachability based over-approximation scheme for the reach sets starting from the estimate at time $k$, $\hat{x}_k$.
 
-\input{overreach}
-
-\input{VandEcompute}
-
 \subsection{Transforming between $x$-space and $z$-space}
 \label{sec:transforming x to z}
 Since we control the system in $z$-space, we need to compute a set $Z \subset \Re^\dimZ$ s.t. $z \in Z \implies x = \iT(z) \in X$, i.e. $Z \subset T(X)$.
