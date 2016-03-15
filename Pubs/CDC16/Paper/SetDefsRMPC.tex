@@ -1,7 +1,13 @@
 \section{Set definitions for the RMPC}
 
-Algorithm \ref{alg:RMPC} and the problem $\Pk{k}$ \eqref{eq:nom mpc} use a number of constraint sets to ensure recursive feasibility of the successive RMPC optimizations.
+Algorithm \ref{alg:RMPC} and the problem $\Pk{k}$ \eqref{eq:nom mpc} use a number of constraint sets to ensure recursive feasibility of the successive RMPC optimizations, namely: 
+inner approximations of the admissible input sets $\ua{V}_{k+j|k}$, 
+bounding sets for the ($T$-mapped) estimation error $\tE_{k+j|k}$, 
+bounding sets for the process noise $\What_{k+j|k}$, 
+and the largest error and noise sets $\tE_{max}$ and $\What_{max}$.
 In this section we show how these sets are defined and computed.
+
+\input{overreach}
 
 \subsection{Approximating the bounding sets for the input}
 \label{sec:approx input sets}
@@ -19,19 +25,46 @@ By construction, we have for any subset $\Xc \subset X$
 \ua{V}(\Xc) \leq \cup_{x \in \Xc} V(x) \subset \oa{V}(\Xc)
 \end{equation}
 If two subsets of $X$ satisfy $\Xc_1 \subset \Xc_2$, then it holds that 
-\begin{eqnarray}
+\begin{equation}
 \label{eq:V inclusions}
-\ua{V}(\Xc_2) \subset \ua{V}(\Xc_1)
-\nonumber
-\\
-\oa{V}(\Xc_1) \subset \oa{V}(\Xc_2)
-\end{eqnarray}
+\ua{V}(\Xc_2) \subset \ua{V}(\Xc_1), \; \oa{V}(\Xc_1) \subset \oa{V}(\Xc_2)
+\end{equation}
+
+Using the reachability over-approximations of Sec. \ref{sec:x reach} we can compute:
+\begin{equation}
+\label{eq:Vkj Vmax}
+\ua{V}_{k+j|k}  = \ua{V}(\oa{X}_{k+j|k}), \; \ua{V}_{inner-global} = \ua{V}(X)
+\end{equation}
+In practice we use interval arithmetic to compute these sets since $\oaXset{k+j}{k}$ and $U$ are hyper-intervals.
+
+\begin{figure}
+	\includegraphics[angle=270,width=0.49\textwidth]{figs/InputToy.pdf}
+	\caption{The local (over $\Xc$) and global (over $X$) inner approximations of input constraints for running example, with $\Xc =  [-\pi/4,0]\times[-0.9666,-0.6283]$ and $U = [-2.75,2.75]$.}
+	\label{fig:err bounds toy}
+\end{figure}
+
+Fig. \ref{fig:err bounds toy} shows these sets for the running example.
+
 
 
 \subsection{Approximating the bounding sets for the disturbances}
 \label{sec:approx dist}
 We will also need to define containing sets for the state estimation error in $z$ space:
-recall that $\hat{z}_k = T(\hat{x}_k) = T(x_k+e_k)$. We assume that the magnitude of $e_k$ is small w.r.t the magnitude of $x_k$. 
+recall that $\hat{z}_k = T(\hat{x}_k) = T(x_k+e_k)$. 
+%******************
+We use a Taylor expansion
+\begin{eqnarray}
+\label{eq:taylor expansion T}
+\hat{z}_k &=& T(x_k) + \underbrace{\frac{dT}{dx}(x_k)}_{M(x_k)}e_k+ \underbrace{\frac{1}{2}e_k^T \frac{d^2T}{dx^2}(c)e_k}_{r_k(c)}, c \in x_k + E \nonumber 
+\\
+&=& T(x_k) + M(x_k)e_k+ r_k(c), c \in x_k + E \nonumber
+\\
+&=& T(x_k) + \te_{k}+ r_k(c), c \in x_k + E \nonumber
+\end{eqnarray}
+
+The remainder term $r_k(c)$ is bounded in the set $R_k = \cup_{c \in \hx_{k}-e +E}   (1/2)e^T\frac{d^2T}{dx^2}(c)e_k$
+%******************
+We assume that the magnitude of $e_k$ is small w.r.t the magnitude of $x_k$. 
 Then we linearize $T(\hz_{k})$ around $x_k$ and ignore higher-order terms
 \begin{eqnarray}
 \label{eq:err_lin}
@@ -51,14 +84,53 @@ where $X_{k+j|k}$ is the $j$-step reach set of the nonlinear dynamics computed s
 It is reasonable to assume that the linearization of Eq. \eqref{eq:err_lin} allows us to compute accurate bounds on $\te_{k+j}$ when the estimation error is small. 
 For the running example \eqref{eq:toy_dynamics}, we have $M = [1 ,  0;0 ,\cos(x_2)]$. 
 If the estimation error $e$ (in radians) is bounded in $E = \lbrace e| ||e||_{\infty} \leq 0.0227\rbrace$,
-% i.e. the absolute value of estimation error in $x_1$ is $1.3\degree$ and for $x_2$ is bounded by $1.3\degree s^{-1}$, and the safety bound $|x_2|\leq 0.8660$ as computed in Sec. \ref{sec:formulation}, 
 then the relative linearization error, averaged over several realizations of the error, is less than $2\cdot 10^{-3}$.
-% Fig. \ref{fig:fb_err} shows the expected error in linearization for the estimation error term $\tilde{e}_2$ as a function of $x_2$ (it is only a function of $x_2$). It shows that over the entire range of $x_2$, this error is very small even when normalized by $T(\hat{x_2})$. Note $\tilde{e}_1 = e_1$ (see $M$ above), therefore there is no linearization error in that term.
 \exmend
 \end{exmp}
 
+In Sec. \ref{sec:approx dist}, since the set $X_{k+j|k}$ is unknown and we only have access to a state estimate at time $k$, we use the online reachable set over-approximation of Sec. \ref{sec:x reach} to obtain $\oa{X}_{k+j|k}$.
+Then it holds that 
+\[\min_{x \in \oa{X}_{k+j|k} e \in E}M_i(x)e \leq \te_{k+j}(i) \leq \max_{x \in \oa{X}_{k+j|k}, e \in E} M_i(x)e\]
+
+To make these computations easier, in the examples we use one last over-approximation to simplify the optimizations needed to calculate the component-wise bounds, specifically, we use 
+\begin{eqnarray}
+\label{eq:tildeE}
+\sum_{\ell=1}^{\dimX} \min_{x \in \oa{X}_{k+j|k}, e \in E} M_{i\ell}(x)e(\ell)  \leq \te_{k+j}(i) 
+\nonumber 
+\\
+\leq \sum_{\ell=1}^{\dimX} \max_{x \in \oa{X}_{k+j|k}, e \in E} M_{i\ell}(x)e(\ell)
+\end{eqnarray}
+where $M_{i\ell}$ is the $(i,\ell)^{th}$ element of matrix $M$.
+Therefore we define the rectangular error set $\tE_{k+j|k}$ to be the set of vectors $e = [e_1,\ldots, e_{\dimZ}]^T$ satisfying \eqref{eq:tildeE}. 
+The optimizations in \eqref{eq:tildeE} can be either analytically computed, or computed quickly at run-time using interval arithmetic. 
+
+We also need to calculate containing sets for the process noise $\hw$.
+Recall that for all $k,j$, 
+$\hz_{k+j+1} =  A\hz_{k+j} + Bv_k + \hw_{k+j+1}$.
+Therefore 
+\begin{equation}
+\label{eq:What}
+\hw_{k+j+1} \in \What_{k+j+1|k} \defeq W \oplus \tE_{k+j+1|k} \oplus(-A\tE_{k+j|k})
+\end{equation}
+
+We also define the set $\tE_{max}$, which is necessary for the terminal constraints of Eq. \eqref{eq:P_f_def}. $\tilde{E}_{max}$ represents the worst case bound on the estimation error $\te_{k}$, and is computed similar to Eq. \eqref{eq:tildeE}, but over the entire set $X$ and not reachable subsets of it:
+
+\begin{equation*}
+\label{eq:EtildeMax}
+\sum_{\ell=1}^{n} \min_{x \in X, e \in E} M_{i\ell}(x)e(\ell)  \leq \te_{k}(i)  \leq \sum_{\ell=1}^{n} \max_{x \in X, e \in E} M_{i\ell}(x)e(\ell)
+\end{equation*}
+
+$\What_{max}$ is then defined as:
+\begin{equation}
+\What_{max} = W \oplus \tilde{E}_{max} \oplus (-A\tilde{E}_{max})
+\end{equation}
+
+For the running example, Fig. \ref{fig:err_bound_toy} shows the set $\tE_{max}$ computed over $\Xc= [-\pi/4,0]\times[-0.9666,-0.6283]$. 
+This shows that considering a reach set $\chi \subseteq X$ to compute the error bound results in less conservatism than using the worst case error bound. It also shows randomised realizations of the error for randomly selected $x \in \chi$ and $e \in E$, which are all contained in the bounding set $\tilde{E}_{\chi}$.
+
 \begin{figure}
-\includegraphics[width=0.49\textwidth]{figs/Toy_LinErrEst_scissored.pdf}
-\caption{Expected linearization error in $\tilde{e}_2$ as a function of $x_2$ for the running example. Note, the peak at $x_2=0$ is expected due to the form of $T(x)$. }
-\label{fig:fb_err}
+	\includegraphics[angle=270,width=0.49\textwidth]{figs/Err_Bounds_toy.pdf}
+	\caption{The error sets $\tilde{E}_{max}$ and $\tilde{E}$ computed over the set $\chi$. Also shown are random realizations of the error $\tilde{e}$ for random $e \in E$ and $x \in \chi$.}
+	\label{fig:err_bound_toy}
 \end{figure}
+
