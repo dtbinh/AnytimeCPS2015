@@ -1,27 +1,3 @@
 \section{Implementing the set computations}
 \label{sec:implementing set computations}
 
-In order to compute the sets $\tilde{E}_{k+j|k}$ and $\underline{V}_{k+j|k}$ which are needed by the RMPC formulation and are defined in the previous section, we need to use online reachability to compute the set in which $x_{k+j}$ lies in. To do this, we first define an online reachability based over-approximation scheme for the reach sets starting from the estimate at time $k$, $\hat{x}_k$.
-
-\subsection{Transforming between $x$-space and $z$-space}
-\label{sec:transforming x to z}
-Since we control the system in $z$-space, we need to compute a set $Z \subset \Re^\dimZ$ s.t. $z \in Z \implies x = \iT(z) \in X$, i.e. $Z \subset T(X)$.
-Thus keeping the state $z$ of the linearized dynamics in $Z$ implies the nonlinear system's state $x$ remains in $X$.
-Moreover, to check feasibility at time 0 of the MPC optimization, and for stability of the nonlinear dynamics, we need a subset $X_0 \subset X$ s.t. $x \in X_0 \implies z = T(x) \in Z$, i.e. $X_0 \subset \iT(Z)$.
-Because $T$ can be an arbitrary diffeomorphism $Z$ and $X_0$ have to computed numerically.
-\begin{itemize}
-	\item Let $Z_1 \subset \Re^{\dimZ}$ be the rectangle with bounds in the $i^{th}$ dimension $[ \min_{x \in X} T_i(x),  \max_{x \in X} T_i(x) ]$, $i=1,\ldots, \dimX$.
-	This over-approximates $T(X)$. 
-	Next we need to prune it so it under-approximates $T(X)$. 
-	\item Define $z_{in} \defeq \min \{ \|z \|_0 \such z \in Z_1, \iT(z) \notin X\}$.
-	$z_{in}$ is the smallest-norm inadmissible $z$ in $Z_1$.
-	Thus all points in the $\ell_0$-ball of radius $\|z_{in}\|$ are admissible, i.e. their pre-images via $\iT$ are in $X$.
-	\item Let $R_z$ be the largest inscribed rectangle in the ball $B_z(0,\|z_{in}\|)$.
-	Now we need to get the $x$-set that maps to $R_z$  (or a subset of it).
-	\item Let $X_1 \subset X$ be the rectangle with bounds in the $i^{th}$ dimension $[\min_{z \in R_{z}} \iT_i(z),  \max_{z \in R_{z}} \iT_i(z) ]$.
-	Again, this is an over-approximation of $\iT(R_{z})$, so it needs to be pruned.
-	\item Define $x_{in} = \inf \{\|x\|_0 \such x \in X_1, T(x) \notin R_{z}\}$.
-	Then every point in the $\ell_0$-ball $B_x(0, \|x_{in}\|) \subset X$ maps via $T$ to $R_{z}$
-\end{itemize}
-Therefore we choose $Z = R_z$ and $X_0$ to be the largest inscribed rectangle in $B_x(0,  \|x_{in}\|)$.
-
