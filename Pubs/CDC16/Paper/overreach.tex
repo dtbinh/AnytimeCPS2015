@@ -8,7 +8,7 @@ Secondly, this is needed to compute a containing set for the estimation error in
 In all but the simplest systems, forward reachable sets can not be computed exactly.
 Moreover, the true state $x_k$ is not known.
 Therefore we show how to compute an outer-approximation $\oaXset{k+j}{k},  j=0,\ldots, N$.
-To do so we may use a reachability tool for nonlinear systems, RTreach??. 
+To do so we may use a reachability tool for nonlinear systems like RTreach??. 
 A reachability tool computes an outer-approximation of the reachable set of a system starting from some set $\Xc \subset X$, subjet to inputs from a set $U$, for a duration $T \geq 0$. 
 Denote this approximation by $\RT{\Xc}$.
 
@@ -17,7 +17,7 @@ Therefore $x_k = \hx_{k} - e_k \in \hx_{k} \oplus (-E) \defeq \Xset{k}{k}$.
 Propagating $\Xset{k}{k}$ forward one step through the continuous-time nonlinear dynamics yields $\Xset{k+1}{k}$, which is outer-approximated by $\RT{\Xset{k}{k}}$.
 The estimate that the system will receive at time $k+1$ is therefore bound to be in the set $\RT{\Xset{k}{k}}  \oplus E$.
 Since $0 \in E$, we maintain $\Xset{k+1}{k} \subset \RT{\Xset{k}{k}}  \oplus E$.
-We define the over-approximate reach set at $k+1$, computed at time $k$, to be 
+We define the outer-approximate reach set at $k+1$, computed at time $k$, to be 
 \begin{equation*}
 \label{eq:def Xk}
 \oaXset{k+1}{k} \defeq  \RT{\Xset{k}{k}}  \oplus E \oplus  (-E)
@@ -49,4 +49,4 @@ The following holds by construction:
 \end{figure*}
 
 This construction of the outer-approximation permits us to prove recursive feasibility of the MPC controller,  because it causes the constraints of the MPC problem setup at time $k+1$ to be consistent with (stronger than) the constraints of the MPC problem setup at time $k$.
-This will be explicitly stated and proved in the proof of Thm. ??
+This was explicitly stated and proved in Thm. \ref{th:robust_feas}.
