@@ -14,14 +14,8 @@ Through this successive constraint tightening we ensure robust safety and feasib
 Since we use just the nominal dynamics, and show that the tightened constraints are linear in the state and inputs, we still solve a Quadratic Program (QP) for the MPC optimization.
 The difficulty of applying RMPC in our setting is that the amounts by which the various sets are shrunk varies with time and is (nonlinear) state-dependent, and involves set computations with the non-convexity preserving mapping $T$.
 One of our contributions in this paper is to establish recursive feasibility of MPC with time-varying constraint sets.
-% This not only allows us to keep a check on the complexity of the MPC optimization, but also allows us to formulate the MPC with a quadratic cost on the input to the feedback linearized system \textbf{[InputPaperRef8]}.
 
-%
-%\textbf{Note:} So far we have not found an expression for the bound on $\tilde{e}_k$ given $e_k \in E$. While for the rest of this section we assume we have a polyhedral bound $\tilde{e}_k \in \tilde{E}_k \, \forall k$, we will show how to explicitly compute this bounding set $\tilde{E}_k$ using online reachability in Sec.?? . Since we compute $\tilde{E}_{k+j},\, j\geq 0$ using an online reachability method that depends on the state estimate at time $k$, we represent the set as $\tilde{E}_{k+j|k}$ to explicitly show its dependence on the state estimate at time $k$. Similarly, the computed bound for $\What_{k+1}$, given state estimate at time $k$, is given by $\What_{k+1|k}=W\oplus{E}_{k+1|k}\oplus(-A\tilde{E_{k|k}})$. 
-
-
-\todo[inline]{mention that if shrunk terminal set is non-empty, then nothing in between is empty. }
-The RMPC optimization  $\mathbb{P}_{k_0}(\hat{z}_{k_0})$ for solving \eqref{eq:discrete linear problem} is:
+The RMPC optimization $\Pk{k}$ for solving \eqref{eq:discrete linear problem} is:
 \begin{subequations} 
 \label{eq:nom mpc}
 \begin{align}
@@ -58,4 +52,3 @@ This choice guarantees that the terminal cost equals the infinite horizon cost u
 
 \input{feasibility}
 
-\input{stability}

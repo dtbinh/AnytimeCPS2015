@@ -4,6 +4,6 @@ We are now ready to state the main result of this paper: namely, that the RMPC o
 
 \begin{theorem}[Feasibility]
 \label{th:robust_feas}
-If at some time step $k_0 \geq 0$, the RMPC optimization $\mathbb{P}_{k_0}(\hz_{k_0})$ is feasible, then all subsequent optimizations  $\mathbb{P}_{k}(\hz_{k}), k> k_0$ are also feasible.
-Moreover, the nonlinear system \eqref{eq:generic NLMPC} controlled by algorithm \textbf{algref??} and subject to the disturbances ($E$, $W$) satisfies its state and input constraints at all times $k \geq k_0$.
+If at some time step $k_0 \geq 0$, the RMPC optimization $\Pk{k_0}$ is feasible, then all subsequent optimizations  $\Pk{k} k> k_0$ are also feasible.
+Moreover, the nonlinear system \eqref{eq:generic NLMPC} controlled by algorithm \ref{alg:RMPC} and subject to the disturbances ($E$, $W$) satisfies its state and input constraints at all times $k \geq k_0$.
 \end{theorem}

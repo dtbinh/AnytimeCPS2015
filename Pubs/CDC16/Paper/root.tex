@@ -71,6 +71,8 @@
 \newcommand{\RT}[1]{RT_{=T}(#1,U)}
 % T inverse
 \newcommand{\iT}{T^{-1}}
+% Problem
+\newcommand{\Pk}[1]{\mathbb{P}_{#1}(\hat{z}_{#1})}
 
 \newcommand{\such}{\;|\;}
 % Dimensions
@@ -96,7 +98,9 @@
 \usepackage{url}
 \usepackage{gensymb}
 
+\usepackage{algpseudocode}  % Of the algorithmicx package, flexible, more math-like
 \usepackage{algorithm}
+
 
 \newcommand\Mark[1]{\textsuperscript#1}
 
@@ -144,12 +148,12 @@ Corporation program sponsored by MARCO and DARPA, NSF MRI-0923518 and the US Dep
 \input{introduction}
 \input{formulation}
 \input{RMPC}
+\input{algorithm}
 %\input{setinclusions}
 \input{SetDefsRMPC}
 \input{implementingSetCalculations}
-\input{algorithm}
 \input{simulations}
-\input{appendix}
+%\input{appendix}
 
 %\section*{Acknowledgements}
 %We would like to thank Kuk Jang for his help in creating several of the diagrams in this paper.
