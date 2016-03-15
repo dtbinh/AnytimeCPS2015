@@ -17,7 +17,7 @@ The RMPC optimizations were performed by Gurobi \cite{gurobi}.
 
 \begin{figure}
 	\centering	
-	\includegraphics[width=0.49\textwidth]{figs/u_and_v_toy.pdf}
+	\includegraphics[angle=270,width=0.49\textwidth]{figs/u_and_v_toy.pdf}
 	\caption{Inputs $v$ and $u$ and their bounds for the running example.}
 	\label{fig:input toy}
 \end{figure}
@@ -29,7 +29,7 @@ Note that the states converges to the equilibrium 0 (and for the running example
 
 \begin{figure}
 	\centering	
-	\includegraphics[width=0.49\textwidth]{figs/AllStates_toy.pdf}
+	\includegraphics[angle=270,width=0.49\textwidth]{figs/AllStates_toy.pdf}
 	\caption{The states and their estimates of the feedback linearized and non-linear running example. Recall that $z_1 = x_1$ therefore to reduce clutter, we only plot the first state only for the feedback linearized system.}
 	\label{fig:AllStates_toy}
 \end{figure}
@@ -47,7 +47,7 @@ The input $u$ is shown in Fig. \ref{fig:input toy}, and it can be noted that $u_
 \label{sec:manipulator}
 
 \begin{figure}
-	\includegraphics[scale=0.2]{figs/ManipArm.pdf}
+	\includegraphics[scale=0.15]{figs/ManipArm.pdf}
 	\caption{Flexible joint manipulator, figure from \cite{intech}.}
 	\label{fig:manipulator fig}
 \end{figure}
@@ -110,7 +110,7 @@ They converge to the origin in the presence of estimation error, while respectin
 Fig. \ref{fig:AllStates_manip} also shows $x_3$ and $x_4$: they also converge to zero (and remember $x_1 = z_1$ and $x_2 = z_2$).
 
 \begin{figure}
-\includegraphics[width=0.49\textwidth]{figs/AllStates_manip.pdf}
+\includegraphics[angle=270,width=0.49\textwidth]{figs/AllStates_manip.pdf}
 \caption{The states and their estimates of the feedback linearized and non-linear manipulator. Recall that $z_1 = x_1$ and $z_2=x_2$, therefore to reduce clutter, we only plot first two states only for the feedback linearized system.}
 \label{fig:AllStates_manip}
 \end{figure}
@@ -146,7 +146,7 @@ Finally, Fig. \ref{fig:v_and_limits} also shows the input $u$ applied to the non
 
 
 \begin{figure}
-\includegraphics[width=0.49\textwidth]{figs/u_and_v_manip.pdf}
+\includegraphics[angle=270,width=0.49\textwidth]{figs/u_and_v_manip.pdf}
 \caption{Inputs $v$ and $u$ and their bounds for the manipulator example .}
 \label{fig:v_and_limits}
 \end{figure}
