@@ -7,7 +7,53 @@ bounding sets for the process noise $\What_{k+j|k}$,
 and the largest error and noise sets $\tE_{max}$ and $\What_{max}$.
 In this section we show how these sets are defined and computed.
 
-\input{overreach}
+ \subsection{Over-approximating the reach set of the nonlinear system}
+ \label{sec:x reach}
+
+ First we show how to compute an outer-approximation of the $j$-step reach set of the nonlinear system, starting at time $k$, $ \oaXset{k+j}{k}$.
+This is needed for computing $\ua{V}_{k+j|k}$ and $\tE_{k+j|k}$.
+ 
+ In all but the simplest systems, forward reachable sets cannot be computed exactly.
+ To do so we may use a reachability tool for nonlinear systems like RTreach \cite{JohnsonBCS16_Rtreach}.
+ A reachability tool computes an outer-approximation of the reachable set of a system starting from some set $\Xc \subset X$, subject to inputs from a set $U$, for a duration $T \geq 0$. 
+ Denote this approximation by $\RT{\Xc}$, so $x(T) \in \RT{\Xc}$ for all $T$, $x(0) \in \Xc$ and $u:[0,T] \rightarrow U$.
+ 
+ At time $k$, the state estimate $\hx_{k}$ is known.
+ Therefore $x_k = \hx_{k} - e_k \in \hx_{k} \oplus (-E) \defeq \Xset{k}{k}$.
+ Propagating $\Xset{k}{k}$ forward one step through the continuous-time nonlinear dynamics yields $\Xset{k+1}{k}$, which is outer-approximated by $\RT{\Xset{k}{k}}$.
+ The state estimate that the system will receive at time $k+1$ is therefore bound to be in the set $\RT{\Xset{k}{k}}  \oplus E$.
+ Since $0 \in E$, we maintain $\Xset{k+1}{k} \subset \RT{\Xset{k}{k}}  \oplus E$.
+ We define the outer-approximate reach set at $k+1$, computed at time $k$, to be 
+ \begin{equation*}
+ \label{eq:def Xk}
+ \oaXset{k+1}{k} \defeq  \RT{\Xset{k}{k}}  \oplus E \oplus  (-E)
+ \end{equation*}
+ (The reason for adding the extra $-E$ term will be apparent in the proof to Thm. \ref{th:robust_feas}).
+
+ More generally, for $1 \leq j \leq N$, we define the $j$-step approximation computed at time $k$ to be
+ \begin{eqnarray}
+ \label{eq:def Xkj}
+ \oaXset{k}{k} &\defeq&   \hx_{k} \oplus (-E) 
+ \nonumber
+ \\
+ \oaXset{k+j}{k} & \defeq& \RT{\oaXset{k+j-1}{k}} \oplus E \oplus (-E) 
+ \end{eqnarray}
+  Fig. \ref{fig:overreach_NL} shows a visualization of this approach.
+ The following holds by construction:
+ \begin{lemma}
+ 	\label{lemma:xreach}
+ 	For any time $k$ and step $j \geq 1$,
+ 	$\Xset{k+j}{k} \subset \oaXset{k+j}{k}$.
+ \end{lemma}
+ 
+ 
+ \begin{figure*}
+ 	\includegraphics[scale=0.75]{figs/OverReachFigure_NL_scissored.pdf}
+ 	\caption{The over-approximated reachable sets for $x_{k+j}$, computed at time steps $k$, and correspondingly ay $k+1$ , used to compute $\tilde{E}_{k+j|k}$, $\underline{V}_{k+j|k}$. }
+ 	\label{fig:overreach_NL}
+ \end{figure*}
+ 
+ This construction of the outer-approximation permits us to prove recursive feasibility of the MPC controller,  because it causes the constraints of the MPC problem setup at time $k+1$ to be consistent with (stronger than) the constraints of the MPC problem setup at time $k$.
 
 \subsection{Approximating the bounding sets for the input}
 \label{sec:approx input sets}
@@ -80,8 +126,8 @@ H_{k+j|k} = \{h \such \sum_{\ell=1}^{\dimX} \min_{x \in \oa{X}_{k+j|k}, e \in E}
 \end{eqnarray}
 where $M_{i\ell}$ is the $(i,\ell)^{th}$ element of matrix $M$ and $h(\ell)$ is the $\ell^{th}$ element of $h$.
 
-Therefore the linearization error $h_{k+j|k} + r_{k+j|k}$ is bounded in the set $H_{k+j|k} + R_{k+j|k}$. 
-In the experiments we ignore the remainder term $R_{k+j|k}$ based on the observation that the error $e_k$ is small relative to the state $x_k$. Thus we use:
+Therefore the linearization error $h_{k+j|k} \oplus r_{k+j|k}$ is bounded in the set $H_{k+j|k} + R_{k+j|k}$. 
+In the experiments we ignore the remainder term $R_{k+j|k}$ based on the observation that $e_k$ is small relative to the state $x_k$. Thus we use:
 \begin{eqnarray}
 \label{eq:err_lin}
 \tE_{k+j|k} = H_{j+k|j}
@@ -166,4 +212,27 @@ This shows that considering a reach set $\chi \subseteq X$ to compute the error 
 	\caption{The error sets $\tilde{E}_{max}$ and $\tilde{E}$ computed over the set $\chi$. Also shown are random realizations of the error $\tilde{e}$ for random $e \in E$ and $x \in \chi$.}
 	\label{fig:err_bound_toy}
 \end{figure}
+
+
+\subsection{Transforming between $x$-space and $z$-space}
+\label{sec:transforming x to z}
+Since we control the system in $z$-space, we need to compute a set $Z \subset \Re^{\dimZ}$ s.t. $z \in Z \implies x = \iT(z) \in X$, i.e. $Z \subset T(X)$.
+Thus keeping the state $z$ of the linearized dynamics in $Z$ implies the nonlinear system's state $x$ remains in $X$.
+Moreover, to check feasibility at time 0 of the MPC optimization, and for stability of the nonlinear dynamics, we need a subset $X_0 \subset X$ s.t. $x \in X_0 \implies z = T(x) \in Z$, i.e. $X_0 \subset \iT(Z)$.
+Because $T$ can be an arbitrary diffeomorphism $Z$ and $X_0$ have to computed numerically.
+\begin{itemize}
+	\item Let $Z_1 \subset \Re^{\dimZ}$ be the rectangle with bounds in the $i^{th}$ dimension $[ \min_{x \in X} T_i(x),  \max_{x \in X} T_i(x) ]$, $i=1,\ldots, \dimX$.
+	This over-approximates $T(X)$. 
+	Next we need to prune it so it under-approximates $T(X)$. 
+	\item Define $z_{in} \defeq \min \{ \|z \|_0 \such z \in Z_1, \iT(z) \notin X\}$.
+	$z_{in}$ is the smallest-norm inadmissible $z$ in $Z_1$.
+	Thus all points in the $\ell_0$-ball of radius $\|z_{in}\|$,$B_z(0,\|z_{in}\|)$, are admissible, i.e. their pre-images via $\iT$ are in $X$.
+	\item Let $R_z$ be the largest inscribed rectangle in $B_z(0,\|z_{in}\|)$.
+	Now we need to get the $x$-set that maps to $R_z$  (or a subset of it).
+	\item Let $X_1 \subset X$ be the rectangle with bounds in the $i^{th}$ dimension $[\min_{z \in R_{z}} \iT_i(z),  \max_{z \in R_{z}} \iT_i(z) ]$.
+	Again, this is an over-approximation of $\iT(R_{z})$, so it needs to be pruned.
+	\item Define $x_{in} = \inf \{\|x\|_0 \such x \in X_1, T(x) \notin R_{z}\}$.
+	Then every point in the $\ell_0$-ball $B_x(0, \|x_{in}\|) \subset X$ maps via $T$ to $R_{z}$
+\end{itemize}
+Therefore we choose $Z = R_z$ and $X_0$ to be the largest inscribed rectangle in $B_x(0,  \|x_{in}\|)$.
 
