@@ -42,21 +42,35 @@ v_upper = a*(u_max+tan(x2_idx)).*cos(x2_idx);
 figure;
 t1=strcat('Limits on v when:  ',num2str(u_min),' <=u<= ',num2str(u_max));
 title(t1);
-hold on;plot(x2_idx,v_upper);
+
 v_lower = a*(u_min+tan(x2_idx)).*cos(x2_idx);
-hold on;plot(x2_idx,v_lower,'r');grid on;
+
 v_inner_upper = (u_max+tan(x2_min))*a*cos(x2_max)*ones(numel(x2_idx),1);
 v_inner_lower = (u_min+tan(x2_max))*a*cos(x2_max)*ones(numel(x2_idx),1);
-hold on;plot(x2_idx,v_inner_upper,'k');
-hold on;plot(x2_idx,v_inner_lower,'m');
+
 xlabel('x2');ylabel('v');
 
 V_chi = getLocalVInner([],Polyhedron('lb',[x1_low;x2_low],'ub',[x1_high;x2_high]),[],Z,X,U,V_inner_global,a);
 [~,maxv,minv] = getRect(V_chi)
-hold all; plot(x2_low:0.01:x2_high,ones(numel(x2_low:0.01:x2_high),1)'*maxv);
-hold all; plot(x2_low:0.01:x2_high,ones(numel(x2_low:0.01:x2_high),1)'*minv);
+%%
+figure;
+hold on;plot(x2_idx,v_upper,'b','linewidth',2);
+hold on;plot(x2_idx,v_lower,'b','linewidth',2);grid on;
+hold on;plot(x2_idx,v_inner_upper,'k','linewidth',2);
+hold all; plot(x2_low:0.01:x2_high,ones(numel(x2_low:0.01:x2_high),1)'*maxv,'r','linewidth',2);
+hold on;plot(x2_idx,v_inner_lower,'k','linewidth',2);
+hold all; plot(x2_low:0.01:x2_high,ones(numel(x2_low:0.01:x2_high),1)'*-2.377,'r','linewidth',2);
+
 h = legend('$\mathbf{v}(x_2,\overline{u})$','$\underline{v}(x_2,\underline{u})$', ...
-    '${V_{inner-global}^{max}}$','${V_{inner-global}^{min}}$', '$\underline{V}^{max}(\chi)$', ...
-    '$\underline{V}^{min}(\chi)$');
+    '$\underline{V}_{inner-global}$', ...
+    '$\underline{V}_{k+j|k}$');
 set(h,'Interpreter','latex');
+xlabel('x_2');
+ylabel('v');
+%'${V_{inner-global}^{max}}$','${V_{inner-global}^{min}}$', '$\underline{V}^{max}(\chi)$', ...
+%    '$\underline{V}^{min}(\chi)$');
+
+% h = legend('$\mathbf{v}(x_2,\overline{u})$','$\underline{v}(x_2,\underline{u})$', ...
+%     '${V_{inner-global}^{max}}$','${V_{inner-global}^{min}}$', '$\underline{V}^{max}(\chi)$', ...
+%     '$\underline{V}^{min}(\chi)$');
 

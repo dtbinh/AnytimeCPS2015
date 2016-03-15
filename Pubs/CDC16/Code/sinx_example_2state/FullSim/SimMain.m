@@ -105,35 +105,45 @@ plot(1:k,u_min*ones(k,1),'.');
 figure;
 subplot(211)
 hold on;
-plot(1:k,v_applied(1:k));
+plot(1:k,v_applied(1:k),'linewidth',2,'Color','black');
 hold all;
 mxv = zeros(k,1);
 mnv = zeros(k,1);
 for i = 1:k
    [~,mxv(i),mnv(i)] = getRect(V_inner_k{i});
 end
-hold all;
-plot(1:k,mxv,'-.');
-hold all
-plot(1:k,mnv,'-.');
-hold all;
 [~,mxv_g,mnv_g] = getRect(V_inner_global);
-plot(1:k,mxv_g*ones(k,1),'--');
+
+
+plot(1:k,mxv_g*ones(k,1),'--','linewidth',2,'Color','blue');
 hold all;
-plot(1:k,mnv_g*ones(k,1),'--');
+plot(1:k,mxv,'-.','linewidth',2,'Color','red');
+hold all;
 
-h = legend('${v_k}$','${{V}_k^{max}}$','${{V}_k^{min}}$', ...
-    '${V_{inner-global}^{max}}$','${V_{inner-global}^{min}}$');
+h = legend('${v_k}$','${{V}_{inner-global}}$','${{V}_{k|k}}$');
+     
 set(h,'Interpreter','latex');
-grid on;
+plot(1:k,mnv_g*ones(k,1),'--','linewidth',2,'Color','blue');
+hold all
+plot(1:k,mnv,'-.','linewidth',2,'Color','red');
+hold all;
 
+
+% h = legend('${v_k}$','${{V}_k^{max}}$','${{V}_k^{min}}$', ...
+%     '${V_{inner-global}^{max}}$','${V_{inner-global}^{min}}$');
+
+grid on;
+xlabel('Time steps k at 10Hz');
+ylabel('Control computed via RMPC');
 %%
 subplot(212)
-plot(1:k,u_applied(1:k),'k')
+plot(1:k,u_applied(1:k),'k','linewidth',2)
 hold on
-plot(1:k,u_max*ones(k,1),'.');
+plot(1:k,u_max*ones(k,1),'-.','linewidth',2,'Color','blue');
 hold on
-plot(1:k,u_min*ones(k,1),'.');
-h = legend('${u_k}$','${U^{max}}$','${U^{min}}$');
+h = legend('${u_k}$','$U$');
+plot(1:k,u_min*ones(k,1),'-.','linewidth',2,'Color','blue');
+xlabel('Time steps k at 10Hz');
+ylabel('Input applied to plant');
 set(h,'Interpreter','latex');
 grid on
