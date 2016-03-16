@@ -63,13 +63,13 @@ We assume that there exist functions $\ua{v}_i, \oa{v}_i: X \rightarrow \Re$ s.t
 Because in general $V(x)$ is not a rectangle, we work with inner and outer rectangular approximations of $V(x)$.
 Specifically, let $\Xc$ be a subset of $X$.
 Define the inner and outer bounding rectangles, respectively
-\[\ua{V}(\Xc) \defeq \{v=[v_1,\ldots,v_{\dimV}]^T \such \max_{x\in \Xc} \ua{v}_i(x)  \leq v_i \leq \min_{x \in \Xc} \oa{v}_i(x) \} \]
-\[\oa{V}(\Xc) \defeq \{v=[v_1,\ldots,v_{\dimV}]^T \such \min_{x\in \Xc} \ua{v}_i(x)  \leq v_i \leq \max_{x \in \Xc} \oa{v}_i(x) \} \]
+\[\ua{V}(\Xc) \defeq \{[v_1,\ldots,v_{\dimV}]^T \such \max_{x\in \Xc} \ua{v}_i(x;U)  \leq v_i \leq \min_{x \in \Xc} \oa{v}_i(x;U) \} \]
+\[\oa{V}(\Xc) \defeq \{[v_1,\ldots,v_{\dimV}]^T \such \min_{x\in \Xc} \ua{v}_i(x;U)  \leq v_i \leq \max_{x \in \Xc} \oa{v}_i(x;U) \} \]
 
 By construction, we have for any subset $\Xc \subset X$
 \begin{equation}
 \label{eq:Vbounds}
-\ua{V}(\Xc) \leq \cup_{x \in \Xc} V(x) \subset \oa{V}(\Xc)
+\ua{V}(\Xc) \subseteq \cap_{x \in \Xc} V(x) \subset \oa{V}(\Xc)
 \end{equation}
 If two subsets of $X$ satisfy $\Xc_1 \subset \Xc_2$, then it holds that 
 \begin{equation}
@@ -77,20 +77,20 @@ If two subsets of $X$ satisfy $\Xc_1 \subset \Xc_2$, then it holds that
 \ua{V}(\Xc_2) \subset \ua{V}(\Xc_1), \; \oa{V}(\Xc_1) \subset \oa{V}(\Xc_2)
 \end{equation}
 
-Using the reachability over-approximations of Sec. \ref{sec:x reach} we can compute:
+We can compute:
 \begin{equation}
 \label{eq:Vkj Vmax}
 \ua{V}_{k+j|k}  = \ua{V}(\oa{X}_{k+j|k}), \; \ua{V}_{inner-global} = \ua{V}(X)
 \end{equation}
 In practice we use interval arithmetic to compute these sets since $\oaXset{k+j}{k}$ and $U$ are hyper-intervals.
-
+Fig. \ref{fig:err bounds toy} shows these sets for the running example.
 \begin{figure}
 	\includegraphics[angle=270,width=0.49\textwidth]{figs/InputToy.pdf}
-	\caption{The local (over $\Xc$) and global (over $X$) inner approximations of input constraints for running example, with $\Xc =  [-\pi/4,0]\times[-0.9666,-0.6283]$ and $U = [-2.75,2.75]$.}
+	\caption{Local and global inner approximations of input constraints for running example, with $\oa{X}_{k+j|k} =  [-\pi/4,0]\times[-0.9666,-0.6283]$ for some $k,j$ and $U = [-2.75,2.75]$. Color in online version.}
 	\label{fig:err bounds toy}
 \end{figure}
 
-Fig. \ref{fig:err bounds toy} shows these sets for the running example.
+
 
 
 
@@ -111,7 +111,7 @@ We use a Taylor expansion
 
 The remainder term $r_k(c)$ is bounded in the set $\cup_{c \in \{x_k\} \oplus  E}   \frac{1}{2}e^T\frac{d^2T}{dx^2}(c)e$.
 Thus when setting up $\Pk{k}$, at the $j^{th}$ step, 
-$r_{k+j|k} \in R_{k+j|k} = \cup_{c \in \oaXset{k+j}{k} \oplus  E}   \frac{1}{2}e^T\frac{d^2T}{dx^2}(c)e $,
+$r_{k+j|k} \in D_{k+j|k} \defeq \cup_{c \in \oaXset{k+j}{k} \oplus  E}   \frac{1}{2}e^T\frac{d^2T}{dx^2}(c)e $,
 where $\oa{X}_{k+j|k}$ is the reach set computed in \eqref{eq:def Xkj}.
 
 The error $h_{k}$ lives in 
@@ -119,7 +119,7 @@ $\cup_{x\in X_{k}, e \in E}M(x)e$.
 Thus when setting up $\Pk{k}$, the error $h_{k+j|k}$ lives in $\cup_{x \in \oa{X}_{k+j|k}}M(x)E$.
 Finally the rectangular over-approximation of this set is 
 \begin{eqnarray}
-\label{eq:tildeE}
+\label{eq:H}
 H_{k+j|k} = \{h \such \sum_{\ell=1}^{\dimX} \min_{x \in \oa{X}_{k+j|k}, e \in E} M_{i\ell}(x)e(\ell)  \leq h(i) 
 \nonumber 
 \\
@@ -127,10 +127,10 @@ H_{k+j|k} = \{h \such \sum_{\ell=1}^{\dimX} \min_{x \in \oa{X}_{k+j|k}, e \in E}
 \end{eqnarray}
 where $M_{i\ell}$ is the $(i,\ell)^{th}$ element of matrix $M$ and $h(\ell)$ is the $\ell^{th}$ element of $h$.
 
-Therefore the linearization error $h_{k+j|k} \oplus r_{k+j|k}$ is bounded in the set $H_{k+j|k} + R_{k+j|k}$. 
-In the experiments we ignore the remainder term $R_{k+j|k}$ based on the observation that $e_k$ is small relative to the state $x_k$. Thus we use:
+Therefore the linearization error $h_{k+j|k} \oplus r_{k+j|k}$ is bounded in the set $H_{k+j|k} + D_{k+j|k}$. 
+In the experiments we ignore the remainder term $D_{k+j|k}$ based on the observation that $e_k$ is small relative to the state $x_k$. Thus we use:
 \begin{eqnarray}
-\label{eq:err_lin}
+\label{eq:tildeE}
 \tE_{k+j|k} = H_{j+k|j}
 \end{eqnarray}
 
@@ -141,49 +141,6 @@ then the relative linearization error, averaged over several realizations of the
 \exmend
 \end{exmp}
 
-
-
-%******************
-%We assume that the magnitude of $e_k$ is small w.r.t the magnitude of $x_k$. 
-%Then we linearize $T(\hz_{k})$ around $x_k$ and ignore higher-order terms
-%\begin{eqnarray}
-%\label{eq:err_lin}
-%\hat{z}_k &=& T(x_k) + \underbrace{\frac{dT}{dx}(x_k)}_{M(x_k)}e_k+ O(\|e\|^2) \nonumber 
-%\\
-%&\approxeq & z_k + M(x_k)e_k  \nonumber
-%\\
-%&\defeq & z_k + \te_k  \nonumber
-%\end{eqnarray}
-%
-%Therefore the state estimation error $\te_{k+j}$ lives in 
-%$\cup_{x\in X_{k+j|k}, e \in E}M(x)e = \cup_{x \in X_{k+j|k}}M(x)E$, 
-%where $X_{k+j|k}$ is the $j$-step reach set of the nonlinear dynamics computed starting at time $k$.
-%% and given $\hat{x}_k$, since we only have access to the estimate and not the true state.
-%
-%\begin{exmp}
-%It is reasonable to assume that the linearization of Eq. \eqref{eq:err_lin} allows us to compute accurate bounds on $\te_{k+j}$ when the estimation error is small. 
-%For the running example \eqref{eq:toy_dynamics}, we have $M = [1 ,  0;0 ,\cos(x_2)]$. 
-%If the estimation error $e$ (in radians) is bounded in $E = \lbrace e| ||e||_{\infty} \leq 0.0227\rbrace$,
-%then the relative linearization error, averaged over several realizations of the error, is less than $2\cdot 10^{-3}$.
-%\exmend
-%\end{exmp}
-%
-%In Sec. \ref{sec:approx dist}, since the set $X_{k+j|k}$ is unknown and we only have access to a state estimate at time $k$, we use the online reachable set over-approximation of Sec. \ref{sec:x reach} to obtain $\oa{X}_{k+j|k}$.
-%Then it holds that 
-%\[\min_{x \in \oa{X}_{k+j|k} e \in E}M_i(x)e \leq \te_{k+j}(i) \leq \max_{x \in \oa{X}_{k+j|k}, e \in E} M_i(x)e\]
-%
-%To make these computations easier, in the examples we use one last over-approximation to simplify the optimizations needed to calculate the component-wise bounds, specifically, we use 
-%\begin{eqnarray}
-%\label{eq:tildeE}
-%\sum_{\ell=1}^{\dimX} \min_{x \in \oa{X}_{k+j|k}, e \in E} M_{i\ell}(x)e(\ell)  \leq \te_{k+j}(i) 
-%\nonumber 
-%\\
-%\leq \sum_{\ell=1}^{\dimX} \max_{x \in \oa{X}_{k+j|k}, e \in E} M_{i\ell}(x)e(\ell)
-%\end{eqnarray}
-%where $M_{i\ell}$ is the $(i,\ell)^{th}$ element of matrix $M$.
-%Therefore we define the rectangular error set $\tE_{k+j|k}$ to be the set of vectors $e = [e_1,\ldots, e_{\dimZ}]^T$ satisfying \eqref{eq:tildeE}. 
-%The optimizations in \eqref{eq:tildeE} can be either analytically computed, or computed quickly at run-time using interval arithmetic. 
-
 We also need to calculate containing sets for the process noise $\hw$.
 Recall that for all $k,j$, 
 $\hz_{k+j+1} =  A\hz_{k+j} + Bv_k + \hw_{k+j+1}$.
@@ -193,7 +150,7 @@ Therefore
 \hw_{k+j+1} \in \What_{k+j+1|k} \defeq W \oplus \tE_{k+j+1|k} \oplus(-A\tE_{k+j|k})
 \end{equation}
 
-We also define the set $\tE_{max}$, which is necessary for the terminal constraints of Eq. \eqref{eq:P_f_def}. $\tilde{E}_{max}$ represents the worst case bound on the estimation error $\te_{k}$, and is computed similar to Eq. \eqref{eq:tildeE}, but over the entire set $X$ and not reachable subsets of it:
+We also define the set $\tE_{max}$, which is necessary for the terminal constraints of Eq. \eqref{eq:P_f_def}. $\tilde{E}_{max}$ represents the worst case bound on the estimation error $\te_{k}$, and is computed similar to Eq. \eqref{eq:tildeE}, but over the entire set $X$. %and not reachable subsets of it:
 
 \begin{equation*}
 \label{eq:EtildeMax}
@@ -205,12 +162,14 @@ $\What_{max}$ is then defined as:
 \What_{max} = W \oplus \tilde{E}_{max} \oplus (-A\tilde{E}_{max})
 \end{equation}
 
-For the running example, Fig. \ref{fig:err_bound_toy} shows the set $\tE_{max}$ computed over $\Xc= [-\pi/4,0]\times[-0.9666,-0.6283]$. 
-This shows that considering a reach set $\chi \subseteq X$ to compute the error bound results in less conservatism than using the worst case error bound. It also shows randomised realizations of the error for randomly selected $x \in \chi$ and $e \in E$, which are all contained in the bounding set $\tilde{E}_{\chi}$.
+For the running example, Fig. \ref{fig:err_bound_toy} shows the set $\tE_{max}$ and $\tilde{E}_{k+j|k}$ computed by Eq. \ref{eq:err_lin} for an arbitrary  $\oa{X}_{k+j|k} =  [-\pi/4,0]\times[-0.9666,-0.6283]$. It also shows 1000 randomly generated values for $T(\hat{x})-x$ (for randomly generated $e \in E$ and $x \in \oa{X}_{k+j|k}$), and all fall inside $\tilde{E}_{k+j|k}$.
+
+%computed over $\Xc= [-\pi/4,0]\times[-0.9666,-0.6283]$. 
+%This shows that considering a reach set $\chi \subseteq X$ to compute the error bound results in less conservatism than using the worst case error bound. It also shows randomised realizations of the error for randomly selected $x \in \chi$ and $e \in E$, which %are all contained in the bounding set $\tilde{E}_{\chi}$.
 
 \begin{figure}
-	\includegraphics[angle=270,width=0.49\textwidth]{figs/Err_Bounds_toy.pdf}
-	\caption{The error sets $\tilde{E}_{max}$ and $\tilde{E}$ computed over the set $\chi$. Also shown are random realizations of the error $\tilde{e}$ for random $e \in E$ and $x \in \chi$.}
+	\includegraphics[angle=0,width=0.49\textwidth]{figs/Err_Bounds_toy.pdf}
+	\caption{The error sets $\tilde{E}_{max}$ and $\tilde{E}$ computed over an arbitrary $\oa{X}_{k+j|k}$. Also shown are realizations of $\te \defeq T(\hx) - T(x)$ for randomly chosen $x \in \Xc$. Color in online version.}
 	\label{fig:err_bound_toy}
 \end{figure}
 
@@ -221,7 +180,7 @@ Since we control the system in $z$-space, we need to compute a set $Z \subset \R
 Thus keeping the state $z$ of the linearized dynamics in $Z$ implies the nonlinear system's state $x$ remains in $X$.
 Moreover, to check feasibility at time 0 of the MPC optimization, and for stability of the nonlinear dynamics, we need a subset $X_0 \subset X$ s.t. $x \in X_0 \implies z = T(x) \in Z$, i.e. $X_0 \subset \iT(Z)$.
 Because $T$ can be an arbitrary diffeomorphism $Z$ and $X_0$ have to computed numerically.
-\begin{itemize}
+\begin{enumerate}
 	\item Let $Z_1 \subset \Re^{\dimZ}$ be the rectangle with bounds in the $i^{th}$ dimension $[ \min_{x \in X} T_i(x),  \max_{x \in X} T_i(x) ]$, $i=1,\ldots, \dimX$.
 	This over-approximates $T(X)$. 
 	Next we need to prune it so it under-approximates $T(X)$. 
@@ -234,6 +193,6 @@ Because $T$ can be an arbitrary diffeomorphism $Z$ and $X_0$ have to computed nu
 	Again, this is an over-approximation of $\iT(R_{z})$, so it needs to be pruned.
 	\item Define $x_{in} = \inf \{\|x\|_0 \such x \in X_1, T(x) \notin R_{z}\}$.
 	Then every point in the $\ell_0$-ball $B_x(0, \|x_{in}\|) \subset X$ maps via $T$ to $R_{z}$
-\end{itemize}
+\end{enumerate}
 Therefore we choose $Z = R_z$ and $X_0$ to be the largest inscribed rectangle in $B_x(0,  \|x_{in}\|)$.
 
