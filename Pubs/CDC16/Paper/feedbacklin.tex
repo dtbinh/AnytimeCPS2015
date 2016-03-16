@@ -42,20 +42,20 @@ For sake of simplicity, we assume $a=1$ for the remainder of the paper. For this
 
 \subsection{Estimation error under feedback linearization}
 \label{sec:EstErrFbLin}
-For the purpose of control, we only have a state-estimate of the non-linear system as given by Eq. \ref{eq:NL_estimate}. Similar to a real system, we will assume that the state estimate is available to us periodically, and is of the form $\hat{x}_k = x_k + e_k$, where time step $k$ representes the point in time given by $kT+t_0$ where $T$ is the sampling period and $t_0$ is initial time. Note, $e_k \in E \, \forall k$. For the control of the feedback linearized system we therefore have a state estimate given by $\hat{z}_k = T(\hat{x_k})$. Define $\tilde{e}_k$ as the estimation error for the feedback linearized state at time step $k$
+For the purpose of control, we only have a state-estimate of the non-linear system as given by Eq. \ref{eq:NL_estimate}. Similar to a real system, we will assume that the state estimate is available to us periodically, and is of the form $\hat{x}_k = x_k + e_k$, where time step $k$ represents the point in time given by $kT+t_0$ where $T$ is the sampling period and $t_0$ is initial time. Note, $e_k \in E \, \forall k$. For the control of the feedback linearized system we therefore have a state estimate given by $\hat{z}_k = T(\hat{x_k})$. Define $\tilde{e}_k$ as the estimation error for the feedback linearized state at time step $k$
 
 \begin{equation}
 \label{eq:NLesterr}
 \tilde{e}_k =\hat{z}_k - z_k =  T(x_k + e_k) - T(x_k)
 \end{equation}
 
-It is obvious now, that $\tilde{e}_k$ is not necessarily contained in  $E$. Note, in order to control the system using this perioid state-estimate, we have to discretize the LTI feedback linearized system given by Eq. \ref{eq:LTI_fb_lin}. For the running example, we discretize the feedback linearized system for $T=0.1s$ to get the dynamics:
+It is obvious now, that $\tilde{e}_k$ is not necessarily contained in  $E$. Note, in order to control the system using this period state-estimate, we have to discretize the LTI feedback linearized system given by Eq. \ref{eq:LTI_fb_lin}. For the running example, we discretize the feedback linearized system for $T=0.1s$ to get the dynamics:
 \begin{equation}
 \label{toy_dt}
 z_{k+1} = \begin{bmatrix} 1 & 0.1 \\ 0 & 1 \end{bmatrix} z_k + \begin{bmatrix} 0.005 \\ 1 \end{bmatrix}v
 \end{equation}
 
-In the remainder of the text, we will refer to the system matrices of the discrete-time, feedback linearized systems as $A$ and $B$. It is also worth noting that since only have the state estiamte $x_k$, we are also feedback linearizing the system with an input $u_k$ which is a function of the state estimate now and not the true state, given by:
+In the remainder of the text, we will refer to the system matrices of the discrete-time, feedback linearized systems as $A$ and $B$. It is also worth noting that since only have the state estimate $x_k$, we are also feedback linearizing the system with an input $u_k$ which is a function of the state estimate now and not the true state, given by:
 
 \begin{equation}
 \label{eq:noisy_input}
