@@ -20,7 +20,7 @@ We assume that $e_k$ is in a bounded set $E$ for all $k$.
 This implies that the feedback linearized system can be represented in discrete-time: $z_{k+1} = Az_k + B z_k$.
 
 The corresponding $z$-space estimate $\hz_{k}$ is given by $\hz_{k} = T(\hx_{k})$.
-In general the $z$-space error $\tilde{e}_k \defeq T(\hx_k) - T(x_k)$ is bouded for every $k$ but does not necessarily lie in $E$.
+In general the $z$-space error $\tilde{e}_k \defeq T(\hx_k) - T(x_k)$ is bounded for every $k$ but does not necessarily lie in $E$.
 Let $\tE_{k}$ be the set containing $\tilde{e}_k$: in Sec. \ref{sec:approx dist} we show how to compute it.
 
 Because the linearizing control operates on the state estimate and not $x_k$, we add a process noise term to the linearized, discrete-time dynamics. 
@@ -29,7 +29,7 @@ Our system model is therefore
 \label{eq:discrete linear dyn}
 z_{k+1} = Az_k + Bv_k + w_k
 \end{equation}
-where the noise term $w_k$ lies in the bouned set $W$ for all $k$.
+where the noise term $w_k$ lies in the bounded set $W$ for all $k$.
 The control problem \eqref{eq:generic NLMPC} is therefore replaced by:
 \begin{eqnarray}
 \label{eq:discrete linear problem}
