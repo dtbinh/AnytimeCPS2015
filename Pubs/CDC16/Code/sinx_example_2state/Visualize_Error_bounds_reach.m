@@ -24,8 +24,8 @@ e_tilde = [x1 a*sin(x2)] - [(x1+e1) a*sin(x2+e2)];
 figure;
 %E_tilde_Lip.plot;hold on;
 E_max.plot;hold on;
-E_tilde_Lin.plot('Color','blue');
-plot(e_tilde(:,1),e_tilde(:,2),'k.');
+E_tilde_Lin.plot('Color','gray');
+plot(e_tilde(:,1),e_tilde(:,2),'k.','Markersize',10);
 axis([e1_min e1_max e2_min e2_max])
 h = legend('$\tilde{E}_{max}$','$\tilde{E}_{\chi}$','Randomized errors');
 set(h,'Interpreter','latex');
