@@ -17,3 +17,5 @@ main.pdf
 *.synctex.gz
 *.synctex*
 Tech*.*
+*.out
+
