@@ -76,13 +76,11 @@ z = T(x) = \begin{bmatrix} x_1 \\ x_2 \\ -\frac{mgl}{I}sin(x_1) -\frac{\sigma}{I
 %M(x_k) = \begin{bmatrix} 1&0&0&0 \\ 0&1&0&0 \\ -\frac{mgl}{I} cos(x_{1k}) -\frac{k}{I} &0 &\frac{k}{I} &0 \\ \frac{mgl}{I}x_{2k}sin(x_{1k}) & -\frac{mgl}{I} cos(x_{1k}) - \frac{k}{I} & 0 & \frac{k}{I}     \end{bmatrix}
 %\end{equation}
 The input to the feedback linearized system is given by $v=\beta u+ \alpha(x)$ where $\beta=\frac{\sigma}{IJ} $ and 
-\begin{subequations}
+\begin{eqnarray*}
 \label{eq:fblin_inp}
-\begin{align}
-\alpha(x)&=\frac{mgl}{I}x_2^2sin(x_1) + \frac{\sigma^2}{IJ}(x_1-x_3) \nonumber \\
-&- (\frac{mgl}{I}cos(x_1)-\frac{\sigma}{I})(\frac{mgl}{I}sin(x_1)+\frac{\sigma}{I}(x_1-x_3))
-\end{align}
-\end{subequations}
+\alpha(x)&=&\frac{mgl}{I}x_2^2sin(x_1) + \frac{\sigma^2}{IJ}(x_1-x_3) \nonumber \\
+&-& (\frac{mgl}{I}cos(x_1)-\frac{\sigma}{I})(\frac{mgl}{I}sin(x_1)+\frac{\sigma}{I}(x_1-x_3))
+\end{eqnarray*}
 
 The feedback linearized system $S_{fl}$ has the dynamics:
 $\dot{z_1} = z_2, \dot{z_2} = z_3, \dot{z_3} = z_4, \dot{z_4} = v$.

@@ -11,7 +11,7 @@ This lemma will be key to proving recursive feasibility of the MPC controller, s
 	
 	Let $\What_{k+j|k}$ be the set defined in \eqref{eq:What}.
 	
-	Let $\tE_{k+j|k}$ be the error set computed using \eqref{eq:Etilde} by substituting $E \leftarrow \tE_{k|k}$.
+	Let $\tE_{k+j|k}$ be the error set computed using \eqref{eq:H}, \eqref{eq:tildeE} by substituting $E \leftarrow \tE_{k|k}$.
 	
 	Let $\ua{V}_{k+j|k} = \ua{V}(\oa{X}_{k+j|k})$ and $\oa{V}_{k+j|k} = \oa{V}(\oa{X}_{k+j|k})$ 
 
@@ -28,13 +28,6 @@ Then the following hold for all $k \geq 0, ,j \geq 1$:
 	\item $\ua{V}_{k+1+j|k+1} \supseteq \ua{V}_{k+j+1|k}$ (note the change in inclusion direction)
 	\label{set:uaV}		
 \end{enumerate} 
-%\begin{enumerate}
-%		\item $\oa{X}_{k+j+1|k+1} \subseteq \oa{X}_{k+j+1|k}$
-%		\item $\tilde{E}_{k+j+1|k+1} \subseteq \tilde{E}_{k+j+1|k}$
-%		\item ${W}_{k+j+1|k+1} \subseteq {W}_{k+j+1|k}$
-%		\item $\underline{V}_{k+j+1|k+1} \supseteq \underline{V}_{k+j+1|k}$
-%		\item $\bar{V}_{k+j+1|k+1} \subseteq \bar{V}_{k+j+1|k}$
-%	\end{enumerate}
 \end{lemma} 
 
 \begin{proof}
@@ -68,31 +61,36 @@ By definition, $\oaXset{k+1+j}{k+1} = \RT{\oaXset{k+1+j-1}{k+1}} \oplus E \oplus
 \label{sec:proof of thm 1}
 We will prove the Theorem by recursion by showing that if at time step $k$, the problem $\mathbb{P}_{k}(\hat{z}_k)$ is feasible and the feasible control input $v_k = v^{*}_{k|k}$ is applied, then $v_k$ is admissible (meets the system constraints) and at time $k+1$, $z_{k+1}$ is inside $Z$ and also $\mathbb{P}_{k+1}(\hat{z}_{k+1})$ is feasible for all disturbances. By recursion then, if we have feasibility at step $k=k_0$, we have robust constraint satisfaction and feasibility at time step $k_0+1$ and so on for all $k>k_0$. 
 
-To begin, let $\mathbb{P}_{k}(\hat{z}_k)$ be feasible, then it has a feasible solution $(\lbrace z^{*}_{k+j|k}\rbrace_{j=0}^{N+1}, \, \lbrace v^{*}_{k+j|k}\rbrace_{j=0}^{N} )$ that satisfies all the constraints of the Robust MPC. Now let's construct a feasible candidate solution for $\mathbb{P}_{k+1}(\hat{z}_{k+1})$ at the next time step by shifting the above solution one-step forward. Consider the candidate solution:
+To begin, let $\mathbb{P}_{k}(\hat{z}_k)$ be feasible, then it has a feasible solution $(\lbrace z^{*}_{k+j|k}\rbrace_{j=0}^{N+1}, \, \lbrace v^{*}_{k+j|k}\rbrace_{j=0}^{N} )$ that satisfies all the constraints of the Robust MPC. 
+Now let's construct a feasible candidate solution for $\mathbb{P}_{k+1}(\hat{z}_{k+1})$ at the next time step by shifting the above solution one-step forward. 
+Consider the candidate solution:
 
 \begin{subequations}
 \begin{align}
 \label{eq:candidate}
-\bar{z}_{k+j+1|k+1} &= \bar{z}^{*}_{k+j+1|k} + L_j\hat{w}_{k+1}, \, \forall j =0,\dotsc,N \\
+\bar{z}_{k+j+1|k+1} &= \bar{z}^{*}_{k+j+1|k} + L_j\hat{w}_{k+1}, \, \forall j \in [0:N]\\
 \bar{z}_{k+N+2|k+1}&= A\bar{z}_{k+N+1|k+1} + B\bar{v}_{k+N+1|k+1} \\
-\bar{v}_{k+j+1|k+1}&=v^{*}_{k+j+1|k} + KL_j\hat{w}_{k+1}, \, \forall j =0,\dotsc,N-1 \\
+\bar{v}_{k+j+1|k+1}&=v^{*}_{k+j+1|k} + KL_j\hat{w}_{k+1}, \, \forall j \in [0:N-1]\\
 \bar{v}_{k+N+1|k+1}&=K\bar{z}_{k+N+1|k+1} 
 \end{align}
 \end{subequations}
 
-First we will show that the input and state constraints are satisfied $v_k$ and $z_{k+1}$, then prove feasibility of the above candidate solution for $\mathbb{P}_{k+1}(\hat{z}_{k+1})$.
+First we will show that the input and state constraints are satisfied by $v_k$ and $\nz_{k+1}$, then prove feasibility of the above candidate solution for $\mathbb{P}_{k+1}(\hat{z}_{k+1})$.
 
-\textit{Validity of the applied input and next state:}
+\textit{Validity of input and next state:}
 The next state is:
 \begin{subequations}
 \begin{align}
 \label{eq:z_next}
-z_{k+1} &= Az_k + Bv_k + w_k = A(\hat{z}_k-\tilde{e}_k)+Bv^{*}_{k|k}+w_k \\
+z_{k+1} &= Az_k + Bv_k + w_k = A(\hat{z}_k-\tilde{e}_k)+Bv^{*}_{k|k}+w_k \nonumber \\
  &= A\hat{z}_k+Bv^{*}_{k|k}-\tilde{e}_{k+1}+(w_k+\tilde{e}_{k+1}-A\tilde{e}_k) \\
-\text{Since }& z^{*}_{k|k}=\hat{z}_k \text{ by initial condition of } \mathbb{P}_{k}(\hat{z}_k) \nonumber \\
-z_{k+1}&= z^{*}_{k+1|k} - \tilde{e}_{k+1} + \hat{w}_{k+1}
 \end{align}
 \end{subequations}
+
+Since $z^{*}_{k|k} = \hat{z}_k$ by initial condition of $\Pk{k}$
+\begin{equation*}
+z_{k+1} = z^{*}_{k+1|k} - \tilde{e}_{k+1} + \hat{w}_{k+1}
+\end{equation*}
 
 By definition of $\nomZset{k+1}{k}$ in Eq. \ref{eq:Set_constraints} and by feasibility of the solution at time $k$,
 \begin{equation}
@@ -191,7 +189,7 @@ Now for $j=N$, $\bar{z}_{k+N+1|k+1} = z^{*}_{k+N+1|k} + L_N\hat{w}_{k+1}$. From 
 
 \begin{equation}
 \label{eq:CandidateInC}
-[\bar{z}_{k+N+1|k+1}\, \bar{v}_{k+N|k+1}]' \in C
+[\bar{z}_{k+N+1|k+1}\, \bar{v}_{k+N|k+1}]' \in C_p
 \end{equation}
 
 Remember, by definition of the invariant set, $C_p \in P_N(\tilde{E}_{max},\tilde{E}_{max})$, and since by definition of $\tilde{E}_{max}$ and Eq. \ref{eq:Set_constraints}, we have $P_N(\tilde{E}_{max},\tilde{E}_{max}) \subseteq \nomZset{k+1+N}{k+1} \times V_{k+1+N|k+1}$, or $C_p \in  \nomZset{k+1+N}{k+1} \times {V}_{k+1+N|k+1}$. This implies that $\bar{z}_{k+N+1|k+1} \in \nomZset{k+1+N}{k+1}$ and additionally, $v_{k+N|k+1} \in {V}_{k+1+N|k+1}$.
