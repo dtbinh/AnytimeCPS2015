@@ -10,16 +10,16 @@ By using the remaining control authority in $v$ to control $S_{fl}$, we can effe
 $T$ is a diffeomorphism over a domain $D \subset X$.
 %Without loss of generality, we assume that the system  has a relative degree $\rho=\dimX$ for SISO systems, and similarly a vector relative degree $\lbrace \rho_i \rbrace_{i=1}^{\dimU}\, \text{s.t.} \sum_i \rho_i = \dimU$ for MIMO systems (assuming number of outputs is the same as the number of inputs, $\dimU$).
 The original and transformed states, $x$ and $z$, have the same dimension, as do $u$ and $v$, i.e. $\dimX = \dimZ$ and $\dimU = \dimV$.
-Because we're controlling the linearized system, we must find constraint sets $Z$ and $V$ for the state $z$ and input $v$, respectively, such that $(z,v) \in Z\times V \implies (\iT(z), u(\iT(z), v)) \in X \times U$.
+Because we're controlling the feedback linearized system, we must find constraint sets $Z$ and $V$ for the state $z$ and input $v$, respectively, such that $(z,v) \in Z\times V \implies (\iT(z), u(\iT(z), v)) \in X \times U$.
 This is done in Sec. \ref{sec:transforming x to z}.
 Without loss of generality we assume that the system \eqref{eq:generic NLMPC} has no zero dynamics and all states are controllable \cite{khalil}. 
 
-For linearizing \eqref{eq:generic NLMPC} and for controlling \eqref{eq:generic NLMPC}, only a periodic state estimate $\hx$ of $x$ is available.
-This estimate is available periodically every $h$ time units, so we may write $\hx_{k} \defeq \hx(kh) = x_k + e_k$, where $x_k$ and $e_k$ are sampled state and error respectively.
+For feedback linearizing \eqref{eq:generic NLMPC} and for controlling \eqref{eq:generic NLMPC}, only a periodic state estimate $\hx$ of $x$ is available.
+This estimate is available periodically every $\tau$ time units, so we may write $\hx_{k} \defeq \hx(k\tau) = x_k + e_k$, where $x_k$ and $e_k$ are sampled state and error respectively.
 We assume that $e_k$ is in a bounded set $E$ for all $k$.
 This implies that the feedback linearized system can be represented in discrete-time: $z_{k+1} = Az_k + B z_k$.
 
-The corresponding $z$-state estimate $\hz_{k}$ is given by $\hz_{k} = T(\hx_{k})$.
+The corresponding $z$-space estimate $\hz_{k}$ is given by $\hz_{k} = T(\hx_{k})$.
 In general the $z$-space error $\tilde{e}_k \defeq T(\hx_k) - T(x_k)$ is bouded for every $k$ but does not necessarily lie in $E$.
 Let $\tE_{k}$ be the set containing $\tilde{e}_k$: in Sec. \ref{sec:approx dist} we show how to compute it.
 
@@ -33,7 +33,7 @@ where the noise term $w_k$ lies in the bouned set $W$ for all $k$.
 The control problem \eqref{eq:generic NLMPC} is therefore replaced by:
 \begin{eqnarray}
 \label{eq:discrete linear problem}
-\min_{\textbf{z},\textbf{v}} &\;& \sum_{k=0}^{\infty}z_k^TQz_k + v_k^TRv \\
+\min_{\textbf{z},\textbf{v}} &\;& \sum_{k=0}^{\infty}z_k^TQz_k + v_k^TRv_k \\
 \text{s.t. } z_{k+1} &=& Az_k + Bv_k + w_k\nonumber \\
 z_k&\in& Z,  v_k \in V,w_k \in W  \nonumber
 \end{eqnarray}
@@ -47,8 +47,7 @@ It is easy to derive the dynamics of the state estimate $\hz_{k}$:
 &=&A\hz_k + Bv_k + (w_k+ \tilde{e}_{k+1} -A \tilde{e}_{k}) \nonumber\\
 &=&A\hz_k + Bv_k + \hw_{k+1} \nonumber
 \end{eqnarray}
-where $\hw_{k+1} = w_k+ \tilde{e}_{k+1} -A \tilde{e}_{k}$, and lies in the set $\What_{k+1} = W\oplus\tE_{k+1}\oplus(-A\tE_k)$. 
-
+where $\hw_{k+1} = w_k+ \tilde{e}_{k+1} -A \tilde{e}_{k}$, and lies in the set $\What_{k+1} \defeq W\oplus\tE_{k+1}\oplus(-A\tE_k)$. 
 
 \begin{exmp}
 	Consider the 2D system 
@@ -56,10 +55,10 @@ where $\hw_{k+1} = w_k+ \tilde{e}_{k+1} -A \tilde{e}_{k}$, and lies in the set $
 	\label{eq:toy_dynamics}
 	\dot{x}_1 = \sin(x_2) , \dot{x}_2 =-x_1^2 + u 
 	\end{equation}
+	The safe set for $x$ is given as $X = \lbrace |x_1| \leq \pi /2, |x_2| \leq \pi/3 \rbrace$, and the input set is $U = [-2.75, 2.75]$.
 	For the measurement $y = h(x) = x_1$, the system can be feedback linearized on the domain $D = \lbrace x | \cos(x_2) \neq 0 \rbrace $, where it has a relative degree of $\rho=2$. 
-	The corresponding linearizing feedback is For this system, the feedback linearizing input is $u = -\tan(x_2) + (\cos(x_2))v$
-	The feedback linearized system is $\dot{z}_1 = z_2\, ,\dot{z}_2 = v$, where $T$ is given by $z=T((x_1,x_2)) = (x_1, a\sin(x_2))$.	
-	The safe set for $x$ is given as $X = \lbrace |x_1| \leq \pi /2, |x_2| \leq \pi/3 \rbrace$. 
+	The corresponding linearizing feedback input is $u = -\tan(x_2) + (\cos(x_2))v$.
+	The feedback linearized system is $\dot{z}_1 = z_2\, ,\dot{z}_2 = v$, where $T$ is given by $z=T((x_1,x_2)) = (x_1, \sin(x_2))$.	
 	We can analytically compute the safe set in $z$-space as $Z = T(X) =  \lbrace |z_1| \leq \pi /2, |z_2| \leq 0.8660\rbrace$.
 	\exmend
 \end{exmp}

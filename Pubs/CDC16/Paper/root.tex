@@ -50,7 +50,7 @@
 \newcommand{\Zset}[2]{\Zs_{#1|#2}}
 % set for nominal z
 \newcommand{\nz}{\nom{z}}
-\newcommand{\nomZset}[2]{\bar{Z}_{#1|#2}}
+\newcommand{\nomZset}[2]{\overline{Z}_{#1|#2}}
 % element nominal z
 \newcommand{\nomz}[2]{\nom{z}_{#1|#2}}
 % e tilde 
@@ -58,7 +58,7 @@
 % set E tilde
 \newcommand{\tE}{\widetilde{E}}
 % w hat,x hat
-\newcommand{\hw}{\hat{w}}
+\newcommand{\hw}{\widehat{w}}
 % W hat set
 \newcommand{\What}{\widehat{W}}
 % z hat
@@ -83,12 +83,8 @@
 \global\long\def\dimU{n_u}
 
 \global\long\def\Cc{\mathcal{C}}
-\global\long\def\Nom#1{\overline{#1}}
-\newcommand{\bla}[1]{\overbar{#1}}
-\newcommand{\bli}[1]{\overline{BLI #1}}
 \newboolean{TECH_REPORT}
 \setboolean{TECH_REPORT}{FALSE}
-\newcommand{\Given}{|}
 
 
 \newtheorem{theorem}{Theorem}
@@ -124,7 +120,7 @@ Co-Design of Anytime Computation and Robust Control
 
 
 \title{\LARGE \bf
-Robust Model Predictive Control for Non-Linear Systems Feedback Linearization 
+Robust Model Predictive Control for Non-Linear Systems Via Feedback Linearization 
 }
 %
 \author{Yash Vardhan Pant, Houssam Abbas, Rahul Mangharam% <-this % stops a space
@@ -132,7 +128,7 @@ Robust Model Predictive Control for Non-Linear Systems Feedback Linearization
 Corporation program sponsored by MARCO and DARPA, NSF MRI-0923518 and the US Department of Transportation University Transportation Center Program}% <-this % stops a space
 \thanks{The Departments of Electrical and Systems Engineering and Computer and Information Sciences, University of Pennsylvania, Philadelphia, U.S.A.
         {\small
-        \{yashpant,habbas,rahulm\}@seas.upenn.edu, devietti@cis.upenn.edu}}%
+        \{yashpant,habbas,rahulm\}@seas.upenn.edu}}%
 }
 
 
@@ -149,12 +145,10 @@ Corporation program sponsored by MARCO and DARPA, NSF MRI-0923518 and the US Dep
 \input{introduction}
 \input{formulation}
 \input{RMPC}
-\input{algorithm}
-%\input{setinclusions}
 \input{SetDefsRMPC}
 \input{simulations}
 \input{conclusion}
-%\input{appendix}
+\input{appendix}
 
 %\section*{Acknowledgements}
 %We would like to thank Kuk Jang for his help in creating several of the diagrams in this paper.

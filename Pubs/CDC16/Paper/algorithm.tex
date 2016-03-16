@@ -1,27 +1,6 @@
-\section{The Control Algorithm}
-
-Having established recursive feasibility of $\Pk{k}$, we can now describe the algorithm used for solving \eqref{eq:generic NLMPC} by robust receding horizon control of the feedback linearized nominal dynamics.
-%
-%\begin{algorithm}
-%\caption{RMPC via Feedback Linearization}
-%\textbf{Given:} System model, $X$, $U$, $E$, $W$ \\
-%\textit{Offline:} \\
-%Compute: \\
-%A.  $X_0$, $Z$ (Sec. \ref{sec:transforming x to z})\\
-%B. $\tilde{E}_{max}$, $\What_{max}$, $P_N(\tilde{E}_{max},\What_{max})$ (Sec. \ref{sec:implementing set computations}, Sec. \ref{sec:Constraints}) \\
-%C. $C_p$, $P_f$ (Sec. \ref{sec:Constraints})\\
-%\textit{\textbf{if}}($P_f$ is empty set) \textbf{Quit} \\
-%\textit{\textbf{else}} \\
-%\textit{Online:} $\forall k=1,\dotsc$ \\
-%1. Get state estimate, $\hat{x}_k$, compute $\hat{z}_k = T(\hat{x}_k)$ \\
-%2. $\forall j = 1,\dotsc,N$, compute $\oa{X}_{k+j|k}$ (Sec.\ref{sec:x reach}), \\
-% $\underline{V}_{k+j|k},\,\tilde{E}_{k+j|k},\, \What_{k+j|k}$ (Sec.\ref{sec:implementing set computations}) and hence \\
-%$Z_{k+j|k},\,V_{k+j|k}$ (Sec. \ref{sec:Constraints})\\
-%3. Solve $\mathbb{P}_k(\hat{z}_k)$ (Sec.), set $v_k = v^{*}_{k|k}$ and apply $u_k$ to plant \\
-%4. $k:=k+1$, goto 1. \\
-%\textit{\textbf{end}}
-%\label{alg:RMPC}
-%\end{algorithm}
+\subsection{The Control Algorithm}
+\label{sec:the control algo}
+We can now describe the algorithm used for solving \eqref{eq:generic NLMPC} by robust receding horizon control of the feedback linearized nominal dynamics.
 
 \begin{algorithm}
 	\caption{RMPC via feedback linearization}
@@ -29,15 +8,15 @@ Having established recursive feasibility of $\Pk{k}$, we can now describe the al
 	\Require System model, $X$, $U$, $E$, $W$ 
 	\State	Offline, compute:
 	\State \quad Initial safe sets $X_0$ and $Z$ \Comment{Sec. \ref{sec:transforming x to z}}
-	\State \quad $\tE_{max}$, $\What_{max}$ \Comment{Sec. \ref{sec:Constraints}, Sec. \ref{sec:implementing set computations} }
+	\State \quad $\tE_{max}$, $\What_{max}$ \Comment{Sec. \ref{sec:approx dist} }
 	\State \quad $C_p$, $P_f$ \Comment{Sec. \ref{sec:Constraints}}
 	\State Online: 
 	\If{$P_f = \emptyset$}
 	\State Quit
 	\Else
 	\For{$k=1,2,\ldots$}
-	\State Compute $\ua{V}_{k+j|k},\,\tE_{k+j|k},\, \What_{k+j|k}$ \Comment{Sec.\ref{sec:implementing set computations}}
-	\State Compute $Z_{k+j|k},\,V_{k+j|k}$ \Comment{Sec. \ref{sec:Constraints}}
+	\State Compute $\ua{V}_{k+j|k},\,\tE_{k+j|k},\, \What_{k+j|k}$ \Comment{Sec. \ref{sec:approx input sets}}
+	\State Compute $\nomZset{k+j}{k},\,V_{k+j|k}$ \Comment{Sec. \ref{sec:Constraints}}
 	\State $(v^*_{k|k}, \ldots, v^*_{k+N|k}) = $ Solution of $\Pk{k}$ 
 	\State $v_k = v^{*}_{k|k}$
 	\State Apply $u_k = R(\hx_{k}^{-1})[b(\hx_{k})+v_k]$ to plant 
@@ -47,4 +26,3 @@ Having established recursive feasibility of $\Pk{k}$, we can now describe the al
 \label{alg:RMPC}
 \end{algorithm}
 
-\input{stability}

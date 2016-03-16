@@ -1,4 +1,5 @@
 \section{Set definitions for the RMPC}
+\label{sec:set definitions}
 
 Algorithm \ref{alg:RMPC} and the problem $\Pk{k}$ \eqref{eq:nom mpc} use a number of constraint sets to ensure recursive feasibility of the successive RMPC optimizations, namely: 
 inner approximations of the admissible input sets $\ua{V}_{k+j|k}$, 
@@ -7,14 +8,14 @@ bounding sets for the process noise $\What_{k+j|k}$,
 and the largest error and noise sets $\tE_{max}$ and $\What_{max}$.
 In this section we show how these sets are defined and computed.
 
- \subsection{Over-approximating the reach set of the nonlinear system}
+ \subsection{Approximating the reach set of the nonlinear system}
  \label{sec:x reach}
 
  First we show how to compute an outer-approximation of the $j$-step reach set of the nonlinear system, starting at time $k$, $ \oaXset{k+j}{k}$.
 This is needed for computing $\ua{V}_{k+j|k}$ and $\tE_{k+j|k}$.
  
  In all but the simplest systems, forward reachable sets cannot be computed exactly.
- To do so we may use a reachability tool for nonlinear systems like RTreach \cite{JohnsonBCS16_Rtreach}.
+ To approximate them we may use a reachability tool for nonlinear systems like RTreach \cite{JohnsonBCS16_Rtreach}.
  A reachability tool computes an outer-approximation of the reachable set of a system starting from some set $\Xc \subset X$, subject to inputs from a set $U$, for a duration $T \geq 0$. 
  Denote this approximation by $\RT{\Xc}$, so $x(T) \in \RT{\Xc}$ for all $T$, $x(0) \in \Xc$ and $u:[0,T] \rightarrow U$.
  
@@ -53,12 +54,12 @@ This is needed for computing $\ua{V}_{k+j|k}$ and $\tE_{k+j|k}$.
  	\label{fig:overreach_NL}
  \end{figure*}
  
- This construction of the outer-approximation permits us to prove recursive feasibility of the MPC controller,  because it causes the constraints of the MPC problem setup at time $k+1$ to be consistent with (stronger than) the constraints of the MPC problem setup at time $k$.
+ This construction of $\oaXset{k+j}{k}$ permits us to prove recursive feasibility of the RMPC controller, because it causes the constraints of the RMPC problem setup at time $k+1$ to be consistent with the constraints of the RMPC problem setup at time $k$.
 
 \subsection{Approximating the bounding sets for the input}
 \label{sec:approx input sets}
 Given $x \in X$, define the set $V(x) \defeq \{v \in \Re^{\dimV} \such u(x) = R^{-1}(x)[b(x)+v] \in U\}$.
-We assume that there exist functions $\ua{v}_i, \oa{v}_i: X \rightarrow \Re$ s.t. for any $x$, $V(x) = \{[v_1,\ldots,v_{\dimV}]^T \such \ua{v}_i(x) \leq v_i \leq \oa{v_i}(x) \}$.
+We assume that there exist functions $\ua{v}_i, \oa{v}_i: X \rightarrow \Re$ s.t. for any $x$, $V(x) = \{[v_1,\ldots,v_{\dimV}]^T \such \ua{v}_i(x;U) \leq v_i \leq \oa{v_i}(x;U) \}$.
 Because in general $V(x)$ is not a rectangle, we work with inner and outer rectangular approximations of $V(x)$.
 Specifically, let $\Xc$ be a subset of $X$.
 Define the inner and outer bounding rectangles, respectively

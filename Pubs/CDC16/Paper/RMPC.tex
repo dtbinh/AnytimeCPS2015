@@ -1,18 +1,19 @@
 \section{Robust MPC for the feedback linearized system}
+\label{sec:feedback lin rmpc}
 
 Following \cite{RichardsH05_RMPC}, \cite{PantAMNDM15_Anytime}, we formulate a Robust MPC (RMPC) controller of \eqref{eq:discrete linear problem} via \emph{constraint restriction}.
 We outline the idea before providing the technical details.
 The key idea is to move the effects of estimation error $\tilde{e}_k$ and  process noise $w_k$ (the `disturbances') to the constraints, and work with the nominal  (i.e., disturbance-free) dynamics: $\nz_{k+1} = A\nz_{k}+Bv_k$, $\nz_{0} = \hat{z}_0$.
 Because we would be optimizing over disturbance-free states, we must account for the noise in the constraints. 
-Specifically, rather than require the next (nominal) state $\nz_{k+1}$ to be in $Z$, we require it to be in the shrunk set $Z \ominus \What_{k+1|k} \ominus \tE_{k+1|k}$: by definition of Pontryagin difference, this implies that whatever the actual value of the noise $\hw_{k+1} \in \What_{k+1|k}$ and of the estimation error $\tilde{e}_{k+1} \in \tE_{k+1|k}$, the actual state $z_{k+1}$ will be in $Z$. 
+Specifically, rather than require the next (nominal) state $\nz_{k+1}$ to be in $Z$, we require it to be in the shrunk set $Z \ominus \What_{k+1|k} \ominus \tE_{k+1|k}$: 
+by definition of Pontryagin difference, this implies that whatever the actual value of the noise $\hw_{k+1} \in \What_{k+1|k}$ and of the estimation error $\tilde{e}_{k+1} \in \tE_{k+1|k}$, the actual state $z_{k+1}$ will be in $Z$. 
 This is repeated over the entire MPC prediction horizon $j=1,\ldots,N$, with further shrinking at every step.
-For further steps ($j>1$), the process noise $\What_{k+j|k}$ is propagated through the dynamics, so the shrinking term $\What$ is shaped by a stabilizing feedback controller $x \mapsto Kx$.
-At the final step ($j=N$), a terminal constraint is derived using the worst case estimation error set $\tE_{max}$ and a convex global inner approximation for the input constraints, $V_{inner-global}$. 
-Details of this construction follow below.
+For further steps ($j>1$), the process noise $\hw_{k+j|k}$ is propagated through the dynamics, so the shrinking term $\What$ is shaped by a stabilizing feedback controller $\nz \mapsto K\nz$.
+At the final step ($j=N+1$), a terminal constraint is derived using the worst case estimation error set $\tE_{max}$ and a global inner approximation for the input constraints, $V_{inner-global}$. 
 
 Through this successive constraint tightening we ensure robust safety and feasibility of the feedback linearized system (and hence of the non-linear system). 
-Since we use just the nominal dynamics, and show that the tightened constraints are linear in the state and inputs, we still solve a Quadratic Program (QP) for the MPC optimization.
-The difficulty of applying RMPC in our setting is that the amounts by which the various sets are shrunk varies with time and is (nonlinear) state-dependent, and involves set computations with the non-convexity preserving mapping $T$.
+Since we use just the nominal dynamics, and show that the tightened constraints are linear in the state and inputs, we still solve a Quadratic Program (QP) for the RMPC optimization.
+The difficulty of applying RMPC in our setting is that the amounts by which the various sets are shrunk vary with time and are (nonlinear) state-dependent, and involve set computations with the non-convexity preserving mapping $T$.
 One of our contributions in this paper is to establish recursive feasibility of MPC with time-varying constraint sets.
 
 The RMPC optimization $\Pk{k}$ for solving \eqref{eq:discrete linear problem} is:
@@ -29,26 +30,31 @@ p_{N+1}               &= \lbrack z_{k+N+1|k} , v_{k+N|k} \rbrack^{T}  \in P_f \l
 	\end{align}
 \end{subequations}
 
-Here, $\nz$ is the state of the nominal linearized system
+Here, $\nz$ is the state of the nominal feedback linearized system.
 The cost and constraints of the optimization are explained below:
 \begin{itemize}
-\item Eq. \eqref{eq:cost} shows a cost quadratic in $\nz$ and $v$, where as usual $Q$ is positive definite and R is positive semi-definite. 
+\item Eq. \eqref{eq:cost} shows a cost quadratic in $\nz$ and $v$, where as usual $Q$ is positive definite and $R$ is positive semi-definite. 
 In the terminal cost term, $Q_f$ is the solution of the Lyapunov equation $Q_f-(A+BK)^{T}Q_f(A+BK) = Q+K^{T}RK$.
 This choice guarantees that the terminal cost equals the infinite horizon cost under a linear feedback control $\nz \mapsto K\nz$ \cite{CannonK15MPC}.
 
-\item Eq. \eqref{eq:nom_dyn} gives the nominal dynamics of the discretized linearized system.
-
 \item Eq. \eqref{eq:init_cond} initializes the nominal state with the current state estimate.
+
+\item Eq. \eqref{eq:nom_dyn} gives the nominal dynamics of the discretized linearized system.
 
 \item Eq. \eqref{eq:states_con} tightens the admissible set of the nominal state by a sequence of shrinking sets.
 
-\item Eq. \eqref{eq:input_con} constrains $v_{k+j|k}$ such that the corresponding $u(x,v)$ is admissible, and the MPC is recursively feasible.
+\item Eq. \eqref{eq:input_con} constrains $v_{k+j|k}$ such that the corresponding $u(x,v)$ is admissible, and the RMPC is recursively feasible.
 
 \item Eq. \eqref{eq:joint_term} constrains the final input and nominal state to be within a terminal set $P_f$.
 
 \end{itemize}
 
+The details of how these sets' definitions and computations are given in Sec. \ref{sec:set definitions}.
+
 \input{constraints}
+
+\input{algorithm}
 
 \input{feasibility}
 
+\input{stability}
