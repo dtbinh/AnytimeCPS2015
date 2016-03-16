@@ -25,7 +25,7 @@ In practice, only a state estimate $\hx(t)$ is available, and $\hx(t) \neq x(t)$
 Thus a controller designed to work optimally when operating on the true state $x$ is in general sub-optimal when operating on $\hx$ (any may even lead to instability).
 Robust MPC (RMPC) has been investigated as a way of handling state estimation errors for linear \cite{RichardsH05_RMPC} and nonlinear systems \cite{tube,relaxed}, but not via feedback linearization. 
 In particular, for non-linear systems, \cite{tube} develops a non-linear MPC with tube like constraints for robust feasibility, but involves solving two (non-convex) optimal control problems. 
-In \cite{relaxed}, the authors solve a non-linear Robust MPC through a bilevel optimization that involves solving a non-linear, non-smooth optimization which is challenging. 
+In \cite{relaxed}, the authors solve a non-linear Robust MPC through a bi-level optimization that involves solving a non-linear, non-smooth optimization which is challenging. 
 \cite{relaxed} also guarantees a weaker form of recursive feasibility than \cite{RichardsH05_RMPC} and what we guarantee in this work. 
 In \cite{Zhao20141335} the authors approximate the non-linear dynamics of a quadrotor by linearizing it around hover and apply the RMPC of \cite{RichardsH05_RMPC} to the linearized dynamics.
 This differs significantly from our approach, where we formulate the RMPC on the \emph{feedback} linearized dynamics directly, and not on the dynamics obtained via Jacobian linearization of the non-linear system.
@@ -41,7 +41,7 @@ A non-identity $T$ increases the computational burden since the non-linear reach
 
 \emph{Contributions}: In this paper we develop a feedback linearization solution to the above control problem, with state estimation errors, input and state constraints, and non-identity $T$.
 To the best of our knowledge, this is the first feedback linearization solution to this problem.
-The resulting quadratic control problem is solved by RMPC with time-varying constraint sets.
+The resulting control problem is solved by RMPC with time-varying linear constraint sets.
 
 The paper is organized as follows: in the next section we formulate the feedback linearized control problem. In Sec. \ref{sec:feedback lin rmpc}, describe the RMPC algorithm we use to solve it, and prove that it stabilizes the nonlinear system. 
 Sec. \ref{sec:set definitions} shows how to compute the various constraint sets involved in the RMPC formulation, and Sec. \ref{sec:simulations} applies our approach to two examples. Sec. \ref{sec:discussion} concludes the paper. 

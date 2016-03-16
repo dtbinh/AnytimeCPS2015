@@ -14,7 +14,7 @@ At the final step ($j=N+1$), a terminal constraint is derived using the worst ca
 Through this successive constraint tightening we ensure robust safety and feasibility of the feedback linearized system (and hence of the non-linear system). 
 Since we use just the nominal dynamics, and show that the tightened constraints are linear in the state and inputs, we still solve a Quadratic Program (QP) for the RMPC optimization.
 The difficulty of applying RMPC in our setting is that the amounts by which the various sets are shrunk vary with time and are (nonlinear) state-dependent, and involve set computations with the non-convexity preserving mapping $T$.
-One of our contributions in this paper is to establish recursive feasibility of MPC with time-varying constraint sets.
+One of our contributions in this paper is to establish recursive feasibility of RMPC with time-varying constraint sets.
 
 The RMPC optimization $\Pk{k}$ for solving \eqref{eq:discrete linear problem} is:
 \begin{subequations} 

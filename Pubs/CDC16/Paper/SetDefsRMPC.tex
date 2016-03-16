@@ -91,9 +91,6 @@ Fig. \ref{fig:err bounds toy} shows these sets for the running example.
 \end{figure}
 
 
-
-
-
 \subsection{Approximating the bounding sets for the disturbances}
 \label{sec:approx dist}
 We will also need to define containing sets for the state estimation error in $z$ space:
@@ -152,17 +149,17 @@ Therefore
 
 We also define the set $\tE_{max}$, which is necessary for the terminal constraints of Eq. \eqref{eq:P_f_def}. $\tilde{E}_{max}$ represents the worst case bound on the estimation error $\te_{k}$, and is computed similar to Eq. \eqref{eq:tildeE}, but over the entire set $X$. %and not reachable subsets of it:
 
-\begin{equation*}
+\begin{equation}
 \label{eq:EtildeMax}
 \sum_{\ell=1}^{n} \min_{x \in X, e \in E} M_{i\ell}(x)e(\ell)  \leq \te_{k}(i)  \leq \sum_{\ell=1}^{n} \max_{x \in X, e \in E} M_{i\ell}(x)e(\ell)
-\end{equation*}
+\end{equation}
 
 $\What_{max}$ is then defined as:
 \begin{equation}
 \What_{max} = W \oplus \tilde{E}_{max} \oplus (-A\tilde{E}_{max})
 \end{equation}
 
-For the running example, Fig. \ref{fig:err_bound_toy} shows the set $\tE_{max}$ and $\tilde{E}_{k+j|k}$ computed by Eq. \ref{eq:err_lin} for an arbitrary  $\oa{X}_{k+j|k} =  [-\pi/4,0]\times[-0.9666,-0.6283]$. It also shows 1000 randomly generated values for $T(\hat{x})-x$ (for randomly generated $e \in E$ and $x \in \oa{X}_{k+j|k}$), and all fall inside $\tilde{E}_{k+j|k}$.
+For the running example, Fig. \ref{fig:err_bound_toy} shows the set $\tE_{max}$ and $\tilde{E}_{k+j|k}$ computed by Eqs. \eqref{eq:tildeE} and \eqref{eq:EtildeMax}. for an arbitrary  $\oa{X}_{k+j|k} =  [-\pi/4,0]\times[-0.9666,-0.6283]$. It also shows 1000 randomly generated values for $T(\hat{x})-x$ (for randomly generated $e \in E$ and $x \in \oa{X}_{k+j|k}$), and all fall inside $\tilde{E}_{k+j|k}$.
 
 %computed over $\Xc= [-\pi/4,0]\times[-0.9666,-0.6283]$. 
 %This shows that considering a reach set $\chi \subseteq X$ to compute the error bound results in less conservatism than using the worst case error bound. It also shows randomised realizations of the error for randomly selected $x \in \chi$ and $e \in E$, which %are all contained in the bounding set $\tilde{E}_{\chi}$.

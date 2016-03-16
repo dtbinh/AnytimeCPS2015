@@ -1,7 +1,7 @@
 \subsection{Robust Feasibility and Stability}
 We are now ready to state the main result of this paper: namely, that the RMPC of the feedback linearized system \eqref{eq:nom mpc} is feasible at all time steps if it starts out feasible, and that it stabilizes the nonlinear system, for all possible values of the state estimation error and feedback linearization error.
 
-\begin{theorem}[Feasibility]
+\begin{theorem}[Robust Feasibility]
 \label{th:robust_feas}
 If at some time step $k_0 \geq 0$, the RMPC optimization $\Pk{k_0}$ is feasible, then all subsequent optimizations  $\Pk{k} k> k_0$ are also feasible.
 Moreover, the nonlinear system \eqref{eq:generic NLMPC} controlled by algorithm \ref{alg:RMPC} and subject to the disturbances ($E$, $W$) satisfies its state and input constraints at all times $k \geq k_0$.

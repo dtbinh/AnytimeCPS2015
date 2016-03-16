@@ -45,6 +45,7 @@ It is important to note the following:
 	\item The set $P_f$ can be computed offline since it depends on $\What_{max}$, $\tE_{max}$ and the global inner approximation for the constraints on $v$, $V_{inner-global}$, all of which can be computed offline.
 	\item If $P_f$ is non-empty, then all intermediate sets that appear in \eqref{eq:nom mpc} are also non-empty, since $P_f$ shrinks the state and input sets by the maximum disturbances $\What_{max}$ and $\tE_{max}$.	
 	Thus we can tell, before running the system, whether RMPC might be faced with empty constraint sets (and thus infeasible optimizations).
+	\item Note that all constraints are linear.x
 \end{itemize}
 
 

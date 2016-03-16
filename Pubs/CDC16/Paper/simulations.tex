@@ -57,10 +57,10 @@ Note that the states converge to the equilibrium 0. The input $u$ is shown in Fi
 
 We consider the single link flexible manipulator system $S$, also used in  \cite{parameter} and \cite{intech}, shown in Fig. \ref{fig:manipulator fig}, whose dynamics are given by:
 \begin{equation}
-S: \begin{bmatrix} \dot{x}_1 \\ \dot{x}_2 \\ \dot{x}_3 \\ \dot{x}_4    \end{bmatrix} = \begin{bmatrix} x_2 \\ -\frac{mgl}{I}sin(x_1) - \frac{\sigma}{I}(x_1-x_3)  \\ x_4 \\ \frac{\sigma}{J}(x_1-x_3)  \end{bmatrix} + \begin{bmatrix} 0 \\ 0 \\ 0 \\ \frac{1}{J} \end{bmatrix}u \nonumber
+S: \begin{bmatrix} \dot{x}_1 \\ \dot{x}_2 \\ \dot{x}_3 \\ \dot{x}_4    \end{bmatrix} = \begin{bmatrix} x_2 \\ -\frac{mgl}{I}\sin(x_1) - \frac{\sigma}{I}(x_1-x_3)  \\ x_4 \\ \frac{\sigma}{J}(x_1-x_3)  \end{bmatrix} + \begin{bmatrix} 0 \\ 0 \\ 0 \\ \frac{1}{J} \end{bmatrix}u \nonumber
 \end{equation}
 
-This models a system where a motor, with an angular moment of inertia $J$,  is coupled to a uniform thin bar of mass $m=1/g$, length $l=1m$ and moment of inertia $I=1$, through a flexible torsional string with stiffness $\sigma=1$ and $g=9.8ms^{-2}$. 
+This models a system where a motor, with an angular moment of inertia $J=1$,  is coupled to a uniform thin bar of mass $m=1/g$, length $l=1m$ and moment of inertia $I=1$, through a flexible torsional string with stiffness $\sigma=1$ and $g=9.8ms^{-2}$. 
 States $x_1$ and $x_2$ are the angles of the bar and motor shaft in radians, respectively, and $x_3, x_4$ are their respective rotational speeds in radians/sec.
 The safe set is the box $X = [-\pi/4,\pi/4] \times [-\pi/4,\pi/4] \times [-\pi,\pi] \times [-\pi,\pi]$.
 The input torque $u$ is bounded in $U = [\underline{u}, \overline{u}] = [-10 , 10 ]N\cdot m$. 
@@ -68,7 +68,7 @@ The estimation error $e = \hat{x} - x$ is bounded in $E = [-\pi /180, \pi /180]^
 
 The diffeomorphism $T$ is given by:
 \begin{equation}
-z = T(x) = \begin{bmatrix} x_1 \\ x_2 \\ -\frac{mgl}{I}sin(x_1) -\frac{\sigma}{I}(x_1-x_3) \\ \frac{mgl}{I}x_2cos(x_1) - \frac{\sigma}{I}(x_2-x_4)   \end{bmatrix} \nonumber
+z = T(x) = \begin{bmatrix} x_1 \\ x_2 \\ -\frac{mgl}{I}\sin(x_1) -\frac{\sigma}{I}(x_1-x_3) \\ \frac{mgl}{I}x_2\cos(x_1) - \frac{\sigma}{I}(x_2-x_4)   \end{bmatrix} \nonumber
 \end{equation}
 
 %For the linearization of Eq. ??, where $\hat{z}_k = z_k + M(x_k)e_k$, the matrix $M(x_k)$ is given by:
