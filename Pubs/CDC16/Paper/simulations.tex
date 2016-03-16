@@ -10,11 +10,11 @@ The RMPC optimizations were formulated in CVX \cite{cvx} and solved by Gurobi \c
 
 \subsection{Running example}
 
-\begin{figure}
-\includegraphics[angle=270,width=0.49\textwidth]{figs/z_trajectory_new_2.pdf}
-\caption{Evolution of $z_1$ and $z_2$, shown by the solid black line, inside the set Z (in red). The green sets are the reach sets $\oa{Z}_{k+i|k},\forall i=1,\dotsc,N, \forall k$. The light blue set is the one step ahead reach set $\oa{Z}_{k+1|k},\forall k$.}
-\label{fig:z_new_toy}
-\end{figure}
+%\begin{figure}
+%\includegraphics[angle=270,width=0.49\textwidth]{figs/z_trajectory_new_2.pdf}
+%\caption{Evolution of $z_1$ and $z_2$, shown by the solid black line, inside the set Z (in red). The green sets are the reach sets $\oa{Z}_{k+i|k},\forall i=1,\dotsc,N, \forall k$. The light blue set is the one step ahead reach set $\oa{Z}_{k+1|k},\forall k$.}
+%\label{fig:z_new_toy}
+%\end{figure}
 
 
 \begin{figure}
@@ -84,22 +84,7 @@ The input to the feedback linearized system is given by $v=\beta u+ \alpha(x)$ w
 
 The feedback linearized system $S_{fl}$ has the dynamics:
 $\dot{z_1} = z_2, \dot{z_2} = z_3, \dot{z_3} = z_4, \dot{z_4} = v$.
-%\begin{subequations}
-%\begin{align}
-%\label{eq:fblin_manip}
-%\dot{z_1} &= z_2 \\
-%\dot{z_2} &= z_3 \\
-%\dot{z_3} &= z_4 \\
-%\dot{z_4} &= v
-%\end{align}
-%\end{subequations}
 
-
-%\begin{figure}
-%	\includegraphics[angle=270,width=0.49\textwidth]{figs/z_trajectory_new.pdf}
-%	\caption{Evolution of $z_1$ and $z_2$, shown by the solid black line, inside the set Z (in red). The green sets are the reach sets $\oa{Z}_{k+i|k},\forall i=1,\dotsc,N, \forall k$. The light blue set is the one step ahead reach set $\oa{Z}_{k+1|k},\forall k$.}
-%	\label{fig:z_new_toy}
-%\end{figure}
 
 A global inner approximation of the $v$ input set is computed, via interval arithmetic, as $V_{inner-global} = [max_{x\in X}\alpha(x) + \beta \underline{u}, min_{x\in X}\alpha(x) + \beta \overline{u}]$. 
 Similarly, the inner approximations $\ua{V}_{k+j|k}$ are computed online by interval arithmetic as $\ua{V}_{k+j|k} = [max_{x\in \oa{X}_{k+j|k}} \alpha(x) + \beta \underline{u},  min_{x\in \oa{X}_{k+j|k}}\alpha(x) + \beta \overline{u}]$. 
