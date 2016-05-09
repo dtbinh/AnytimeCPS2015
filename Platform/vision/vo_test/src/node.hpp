@@ -67,7 +67,10 @@ public:
   
   //  publishers/subscribers
   ros::Publisher pubTransformedOdom_; 
-  ros::Publisher pubPose_; 
+
+  ros::Publisher VisionPubPose_; //publish pose type messages
+  ros::Publisher ViconPubPose_; 
+
   ros::ServiceServer srvSave_;
   
   std::shared_ptr<kr::viz::TrajectoryVisualizer> trajVizVicon_;

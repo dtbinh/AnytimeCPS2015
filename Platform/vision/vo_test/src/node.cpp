@@ -37,8 +37,8 @@ void Node::configureTopics() {
       nh_.advertise<nav_msgs::Odometry>("transformed_odometry", 1);
     
   // for error logging purposes
- // pubPose_ = nh_.advertise<geometry_msgs::Pose>("Pose_message",1);
-
+  VisionPubPose_ = nh_.advertise<geometry_msgs::PoseStamped>("Vision_Pose",1);
+  ViconPubPose_ = nh_.advertise<geometry_msgs::PoseStamped>("Vicon_Pose",1);
 
   srvSave_ = nh_.advertiseService(std::string("save"),
                                   &Node::serviceCallback, this);
@@ -151,7 +151,7 @@ void Node::callback(const nav_msgs::OdometryConstPtr& odom_vision,
       auto rms_z = errorCalc_.positionStats(2).rms();
       
       // write abs error into file(s)
-      logFile_x = fopen("/home/mlab-retro/data_log/logF_err_x.txt","a");
+      /*logFile_x = fopen("/home/mlab-retro/data_log/logF_err_x.txt","a");
       logFile_y = fopen("/home/mlab-retro/data_log/logF_err_y.txt","a");
       logFile_z = fopen("/home/mlab-retro/data_log/logF_err_z.txt","a");
       fprintf(logFile_x,"%f \n",rms_x);
@@ -160,7 +160,7 @@ void Node::callback(const nav_msgs::OdometryConstPtr& odom_vision,
       fflush(logFile_y);
       fprintf(logFile_z,"%f \n",rms_z);
       fflush(logFile_z);
-
+      */  
       auto rms_rx = errorCalc_.rotationStats(0).rms() * 180.0/M_PI;
       auto rms_ry = errorCalc_.rotationStats(1).rms() * 180.0/M_PI;
       auto rms_rz = errorCalc_.rotationStats(2).rms() * 180.0/M_PI;
@@ -181,14 +181,32 @@ void Node::callback(const nav_msgs::OdometryConstPtr& odom_vision,
     }
 
     //  publish some topics
+    // for err log
+    geometry_msgs::Pose vis_pose;
+    geometry_msgs::Pose vic_pose;
+    geometry_msgs::PoseStamped vis_pose_pub;
+    geometry_msgs::PoseStamped vic_pose_pub;
+
+    vis_pose = static_cast<geometry_msgs::Pose>(H_w_vis);
+    vic_pose = static_cast<geometry_msgs::Pose>(H_w_vis_act);
+
+    
+    //orig code
     std_msgs::Header header;
     header.stamp = odom_vision->header.stamp;
     header.frame_id = "world";
     trajVizVision_->PublishTrajectory(static_cast<geometry_msgs::Pose>(H_w_vis_act).position,
                                       header);
+ 
+    trajVizVicon_->PublishTrajectory(static_cast<geometry_msgs::Pose>(H_w_vis).position,header);
+    // pub poses in world
+    vic_pose_pub.header = header;
+    vis_pose_pub.header = header;
+    vis_pose_pub.pose = vis_pose;
+    vic_pose_pub.pose = vic_pose;
+    VisionPubPose_.publish(vis_pose_pub);
+    ViconPubPose_.publish(vic_pose_pub);
 
-    trajVizVicon_->PublishTrajectory(static_cast<geometry_msgs::Pose>(H_w_vis).position,
-                                     header);
     count_++;
   }
 }
