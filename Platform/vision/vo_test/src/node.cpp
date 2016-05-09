@@ -35,6 +35,10 @@ void Node::configureTopics() {
 
   pubTransformedOdom_ =
       nh_.advertise<nav_msgs::Odometry>("transformed_odometry", 1);
+    
+  // for error logging purposes
+ // pubPose_ = nh_.advertise<geometry_msgs::Pose>("Pose_message",1);
+
 
   srvSave_ = nh_.advertiseService(std::string("save"),
                                   &Node::serviceCallback, this);
@@ -54,6 +58,8 @@ void Node::configureTopics() {
 
 void Node::callback(const nav_msgs::OdometryConstPtr& odom_vision,
                     const nav_msgs::OdometryConstPtr& odom_vicon) {
+  // cout stuff
+        std::cout<<"Callback activated \n";      
 
   //  id of the vicon model base link
   std::string vicon_base_frame = odom_vicon->child_frame_id;

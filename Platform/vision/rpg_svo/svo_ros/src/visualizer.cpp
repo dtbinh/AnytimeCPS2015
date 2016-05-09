@@ -209,6 +209,7 @@ void Visualizer::publishMinimal(
     for(size_t i=0; i<36; ++i)
       msg_odom->pose.covariance[i] = Cov(i%6, i/6);
     pub_odom_.publish(msg_odom);
+    std::cout<<"Publishing Odom \n";
   }
 }
 

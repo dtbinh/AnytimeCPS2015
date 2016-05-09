@@ -7,7 +7,7 @@
 #include <message_filters/subscriber.h>
 #include <message_filters/sync_policies/approximate_time.h>
 #include <nav_msgs/Odometry.h>
-
+#include <geometry_msgs/Pose.h>
 #include <tf2/buffer_core.h>
 #include <tf2_ros/transform_listener.h>
 #include <tf2_ros/transform_broadcaster.h>
@@ -66,7 +66,8 @@ public:
   std::shared_ptr<message_filters::Synchronizer<TimeSyncVicon>> syncVicon_;
   
   //  publishers/subscribers
-  ros::Publisher pubTransformedOdom_;  
+  ros::Publisher pubTransformedOdom_; 
+  ros::Publisher pubPose_; 
   ros::ServiceServer srvSave_;
   
   std::shared_ptr<kr::viz::TrajectoryVisualizer> trajVizVicon_;
