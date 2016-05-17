@@ -1,7 +1,7 @@
 <launch>
   <node pkg="tf2_ros" type="static_transform_publisher"
     name="robot_cam_broadcaster"
-    args="0.05 0.0 -0.03 1.5708 0.0 3.14159 NanoHex2 cam">
+    args="0.05 0.0 -0.03 1.5708 0.0 3.14159 qc2/base_link cam">
   </node>
 
  <!-- Launch test node -->
@@ -13,6 +13,6 @@
     <param name="calculate_scale" type="bool" value="true"/>
 
     <remap from="~vision_odom" to="/svo/odom"/>
-    <remap from="~vicon_odom" to="/quadcloud2/odom"/>
+    <remap from="~vicon_odom" to="/qc2/mocap_odom"/>
   </node>
 </launch>
