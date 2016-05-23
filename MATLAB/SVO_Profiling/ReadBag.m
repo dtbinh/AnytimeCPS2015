@@ -1,7 +1,7 @@
 %run tmuxinator start ErrorComp for running shit and logging data after bag
 %file play
 
-filepath = '~/bag_files/bag_files/processed/2016-05-12/run3/2016-05-17-15-07-46.bag';
+filepath = '~/bag_files/bag_files/processed/2016-05-12/run3/run3_1_250fts.bag';
 bag = rosbag(filepath);
 
 %offset for end if needed
@@ -33,6 +33,7 @@ hold all;
 grid on;
 plot3(Vis_Pose_Pos.Data(1:end-off_end,1),Vis_Pose_Pos.Data(1:end-off_end,2), ...
     Vis_Pose_Pos.Data(1:end-off_end,3));
+legend('Vicon','Vision');
 %%
 %error
 err_x = Vic_Pose_Pos.Data(1:end-off_end,1) - Vis_Pose_Pos.Data(1:end-off_end,1);
@@ -44,10 +45,11 @@ err_z = Vic_Pose_Pos.Data(1:end-off_end,3) - Vis_Pose_Pos.Data(1:end-off_end,3);
 
 err_yaw = Vis_yaw-Vic_yaw;
 err_pitch = Vis_pitch-Vic_pitch;
-err_roll = Vis_roll-(Vic_roll);
+err_roll = wrapTo2Pi(Vis_roll)-wrapTo2Pi(Vic_roll);
 
 %% plot hists
 if(1)
+    figure;
     subplot(321)
     histogram(err_yaw-mean(err_yaw))
     %title('yaw')
