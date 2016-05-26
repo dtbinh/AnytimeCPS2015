@@ -6,7 +6,7 @@ epsilons = 1*[0.028;0.0237;0.0231;0.0113;0.01];
 numModes = numel(deltas);
 setComps = 0;
 % MPC Horizon
-H = 10;
+N = 10;
 
 %get plant models for 0these modesls
 
@@ -73,7 +73,7 @@ dist_params.cov_w = 0.001*eye(6);
 alpha = 0.18;
 alpha_is = repmat(alpha/size(S.b,1),size(S.b,1),1);
 
-Pr_rec_feas = RecFeasProb(S,Acl,Fhat,alpha_is,dist_params); %note, cov_What
+Pr_rec_feas = RecFeasProb(S,Acl,A_lift,Fhat,N,alpha_is,dist_params); %note, cov_What
 
 % Robustt control inv set
 Cdelta = repmat(emptyPoly,numModes,1);
