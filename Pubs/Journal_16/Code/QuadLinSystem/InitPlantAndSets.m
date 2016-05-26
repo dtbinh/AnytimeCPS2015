@@ -55,5 +55,25 @@ clear inptset inpLim
 
 S = StateSet*InputSet;  %Safe set of states and inputs
 S.minHRep;
+
+%% Rec feas probability computation
+% disturbance means and covs (made up right now):
+
+% make some closed loop L 
+
+%e
+dist_params.u_e = zeros(6,1);
+dist_params.cov_e = 0.01*eye(6);
+
+%w
+dist_params.u_w = zeros(6,1);
+dist_params.cov_w = 0.001*eye(6);
+
+%alpha and alpha_is
+alpha = 0.18;
+alpha_is = repmat(alpha/size(S.b,1),size(S.b,1),1);
+
+Pr_rec_feas = RecFeasProb(S,Acl,Fhat,alpha_is,dist_params); %note, cov_What
+
 % Robustt control inv set
 Cdelta = repmat(emptyPoly,numModes,1);
