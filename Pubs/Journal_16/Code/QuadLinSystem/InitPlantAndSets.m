@@ -63,7 +63,7 @@ S.minHRep;
 
 %e
 dist_params.u_e = zeros(6,1);
-dist_params.cov_e = 0.01*eye(6);
+dist_params.cov_e = 0.03*eye(6);
 
 %w
 dist_params.u_w = zeros(6,1);
@@ -73,7 +73,7 @@ dist_params.cov_w = 0.001*eye(6);
 alpha = 0.18;
 alpha_is = repmat(alpha/size(S.b,1),size(S.b,1),1);
 
-Pr_rec_feas = RecFeasProb(S,Acl,A_lift,Fhat,N,alpha_is,dist_params); %note, cov_What
+%Pr_rec_feas = RecFeasProb(S,Acl,A_lift,Fhat,N,alpha_is,dist_params); %note, cov_What
 
 % Robustt control inv set
 Cdelta = repmat(emptyPoly,numModes,1);
