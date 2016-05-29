@@ -1,11 +1,11 @@
 %run tmuxinator start ErrorComp for running shit and logging data after bag
 %file play
 
-filepath = '~/bag_files/bag_files/processed/2016-05-12/run3/run3_1_250fts.bag';
+filepath = '~/bag_files/bag_files/processed/2016-05-12/run1/run1_2_100fts.bag';
 bag = rosbag(filepath);
 
 %offset for end if needed
-off_end = 50; %2016-05-12/run2/, use 30 or above, 50 works for run3 as well
+off_end = 30; %2016-05-12/run2/, use 30 or above, 50 works for run3 as well
 
 
 %svo_odom = select(bag,'Topic','/svo/odom');
@@ -47,6 +47,8 @@ err_yaw = Vis_yaw-Vic_yaw;
 err_pitch = Vis_pitch-Vic_pitch;
 err_roll = wrapTo2Pi(Vis_roll)-wrapTo2Pi(Vic_roll);
 
+'Number of data points'
+numel(err_yaw)
 %% plot hists
 if(1)
     figure;
