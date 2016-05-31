@@ -1,7 +1,7 @@
 %run tmuxinator start ErrorComp for running shit and logging data after bag
 %file play
-
-filepath = '~/bag_files/bag_files/processed/2016-05-12/run1/run1_2_100fts.bag';
+close all;clc;
+filepath = '~/bag_files/bag_files/processed/2016-05-12/run3/run3_1_50fts.bag';
 bag = rosbag(filepath);
 
 %offset for end if needed
@@ -49,6 +49,8 @@ err_roll = wrapTo2Pi(Vis_roll)-wrapTo2Pi(Vic_roll);
 
 'Number of data points'
 numel(err_yaw)
+temp_errs = [err_x err_y err_z err_yaw err_pitch err_roll];
+Data_rec = [Data_rec;temp_errs];
 %% plot hists
 if(1)
     figure;
@@ -77,3 +79,10 @@ if(1)
     histogram(err_z-mean(err_z))
     xlabel('z err')
 end
+%% re load stuff
+err_x = Data_rec(:,1);
+err_y = Data_rec(:,2);
+err_z = Data_rec(:,3);
+err_yaw = Data_rec(:,4);
+err_pitch = Data_rec(:,5);
+err_roll = Data_rec(:,6);
