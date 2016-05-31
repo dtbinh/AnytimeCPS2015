@@ -1,7 +1,7 @@
 %run tmuxinator start ErrorComp for running shit and logging data after bag
 %file play
 close all;clc;
-filepath = '~/bag_files/bag_files/processed/2016-05-12/run3/run3_1_50fts.bag';
+filepath = '~/bag_files/bag_files/processed/2016-05-12/run3/run3_1_200fts.bag';
 bag = rosbag(filepath);
 
 %offset for end if needed
