@@ -69,11 +69,13 @@ dist_params.cov_e = 0.03*eye(6);
 dist_params.u_w = zeros(6,1);
 dist_params.cov_w = 0.001*eye(6);
 
-%alpha and alpha_is
+%alpha and alpha_is, from (Pr(x\inX)>=1-alpha)
 alpha = 0.18;
 alpha_is = repmat(alpha/size(S.b,1),size(S.b,1),1);
 
-%Pr_rec_feas = RecFeasProb(S,Acl,A_lift,Fhat,N,alpha_is,dist_params); %note, cov_What
-
-% Robustt control inv set
+% get problem parameters
+ProblemParams = RecFeasProb(S,Acl,A_lift,Fhat,N,alpha_is,dist_params)
+ProblemParams.n_x = size(sys_c.a,1);
+ProblemParams.n_u = size(sys_c.b,2);
+% Robust control inv set
 Cdelta = repmat(emptyPoly,numModes,1);
