@@ -67,14 +67,14 @@ dist_params.cov_e = 0.03*eye(6);
 
 %w
 dist_params.u_w = zeros(6,1);
-dist_params.cov_w = 0.001*eye(6);
+dist_params.cov_w = 0.0001*eye(6);
 
 %alpha and alpha_is, from (Pr(x\inX)>=1-alpha)
 alpha = 0.18;
 alpha_is = repmat(alpha/size(S.b,1),size(S.b,1),1);
 
-% get problem parameters
-ProblemParams = RecFeasProb(S,Acl,A_lift,Fhat,N,alpha_is,dist_params)
+%% get problem parameters
+ProblemParams = RecFeasProb(S,Acl,A_lift,Fhat,N,alpha_is,dist_params);
 ProblemParams.n_x = size(sys_c.a,1);
 ProblemParams.n_u = size(sys_c.b,2);
 % Robust control inv set

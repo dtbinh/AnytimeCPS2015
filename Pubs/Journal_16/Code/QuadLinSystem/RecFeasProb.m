@@ -50,7 +50,7 @@ for mode = 1:numModes
                 if(gamma_i(i)>=0)
                    keyboard 
                 end
-                recf(i,j-1) = normcdf(-gamma_i(i),0,sigma_i(i));
+                recf(i,j-1) = normcdf(-gamma_i(i),0,(sigma_i(i)));
                 
             end
         end
