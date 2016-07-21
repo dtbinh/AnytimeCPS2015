@@ -36,7 +36,7 @@ else %if x not in P
     variable y(dim,1)
     minimise norm(y-x)
     subject to
-    P.A*y<=P.b;
+    P.A*y <= P.b;
     cvx_end
     signed_distance = -cvx_optval; %negative outside
     close_pt = cvx_optpnt.y;
