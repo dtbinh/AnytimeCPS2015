@@ -1,9 +1,9 @@
 %% get coeffs (loopy), 2 k's
-j_low = -10;%-10;
-j_up = 10;
+j_low = -30;%-10;
+j_up = 30;
 dj = 1;
-k_low = -10;
-k_up = 10;
+k_low = -50;
+k_up = 50;
 dk = 1;
 
 f_times_psi = zeros(numel(grid_x),numel(grid_y));
@@ -22,6 +22,7 @@ for j = j_low:dj:j_up %scale
         for k2 = k_low:dk:k_up
             ct_k2 = ct_k2+1;
         %compute coeffs
+        [j k1 k2]
         for xix = 1:numel(grid_x)
             for yix = 1:numel(grid_y)
                 x = grid_x(xix);
@@ -43,7 +44,7 @@ for j = 1:numel(j_low:dj:j_up)
 sz = numel(k_low:dk:k_up);
 temp = reshape(theta_jk(j,:,:),sz,sz);
 mesh((k_low:dk:k_up)',(k_low:dk:k_up)',temp)
-pause(.02);
+pause(.5);
 end
 
 %% recreate
