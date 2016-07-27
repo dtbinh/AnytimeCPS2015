@@ -2,8 +2,8 @@
 P = Polyhedron('lb',-1,'ub',1);
 
 % region to compute over
-xmax = 3;
-xmin = -3;
+xmax = 4;
+xmin = -4;
 dx = 0.05;
 grid_x = xmin:dx:xmax;
 
