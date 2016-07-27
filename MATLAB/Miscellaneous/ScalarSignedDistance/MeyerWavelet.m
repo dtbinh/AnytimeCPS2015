@@ -36,7 +36,7 @@ if(z==0 || z== 3/4 || z==-3/4)
     psi_1_num = -c1*c2*z*sin(c2*z)+c1*cos(c2*z)-c4*c3*cos(c4*z);
     psi_1_den = 1-3*c5*z^2;
     psi_1 = psi_1_num/psi_1_den;
-    [z psi_1]
+    [z psi_1];
 else
     psi_1_num = (4/(3*pi))*(t-0.5)*cos((2*pi/3)*(t-0.5))- ...
         (1/pi)*sin((4*pi/3)*(t-0.5));
@@ -48,7 +48,7 @@ if(z==0 || z==3/8 || z==-3/8)
     psi_2_num = -k1*k2*z*sin(k2*z)+k1*cos(k2*z)+k4*k3*cos(k4*z);
     psi_2_den = 1-3*k5*z^2;
     psi_2 = psi_2_num/psi_2_den;
-    [z psi_2]
+    [z psi_2];
 else
     psi_2_num = (8/(3*pi))*(t-0.5)*cos((8*pi/3)*(t-0.5))+ ...
         (1/pi)*sin((4*pi/3)*(t-0.5));
