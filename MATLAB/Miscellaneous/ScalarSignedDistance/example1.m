@@ -3,7 +3,9 @@
 % Always Not P
 
 ScalarSignedMain;%
-Ntrials = 10;
+
+%%
+Ntrials = 1000;
 err = zeros(Ntrials,1);
 clc;close all;
 for i = 1:Ntrials
@@ -13,6 +15,7 @@ traj = trajec(:,i);
 r_exact = -getRobustnessP(traj,P,wavparams,1);
 r_approx = -getRobustnessP(traj,P,wavparams,0);
 err(i) = r_exact-r_approx;
+err(i) = err(i)/abs(r_exact);
 end
-[mean(abs(err)) std(abs(err))]
+[mean((err)) std((err))]
 

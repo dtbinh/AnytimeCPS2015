@@ -1,6 +1,6 @@
 %% def P
 P = Polyhedron('lb',-1,'ub',1);
-P = Polyhedron('A',1,'b',-1);
+%P = Polyhedron('A',1,'b',-1);
 % region to compute over
 xmax = 10;
 xmin = -10;

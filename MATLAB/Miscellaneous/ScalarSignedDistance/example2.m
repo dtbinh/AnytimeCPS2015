@@ -1,5 +1,5 @@
 % example 2
-%(always not P1) AND (always not P2)
+%(always not P1) AND/OR (min/max) (always not P2)
 P1 = Polyhedron('A',1,'b',-2);
 P2 = Polyhedron('A',-1,'b',-2);
 [Params_P1] = WavSignedDistScalar(P1,xmin,xmax,dx,1);
@@ -9,7 +9,7 @@ close all;clc;
 %plot(P1);hold all;plot(P2);
 
 %% 
-Ntrials = 10;
+Ntrials = 1000;
 
 for i = 1:Ntrials
 
@@ -25,5 +25,8 @@ r_approx_P2 = -getRobustnessP(traj,P2,Params_P2,0);
 r_phi_exact = min(r_exact_P1,r_exact_P2);
 r_phi_approx = SoftMin([r_approx_P1,r_approx_P2]);
 err(i) = r_phi_exact-r_phi_approx;
+err_rel(i) = (r_phi_exact-r_phi_approx)/abs(r_phi_exact);
 end
-[mean(abs(err)) std(abs(err))]
+%[mean(abs(err)) std(abs(err))]
+[mean(err_rel) std(err_rel)]
+hist(err_rel);grid on;
