@@ -5,9 +5,9 @@
 ScalarSignedMain;%
 
 %%
-Ntrials = 1000;
+Ntrials = 100;
 err = zeros(Ntrials,1);
-clc;close all;
+clc;%close all;
 for i = 1:Ntrials
     
 trajec(:,i) = 2*randn(10,1);
@@ -18,4 +18,5 @@ err(i) = r_exact-r_approx;
 err(i) = err(i)/abs(r_exact);
 end
 [mean((err)) std((err))]
-
+figure;
+hist(err)

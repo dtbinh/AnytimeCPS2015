@@ -2,14 +2,14 @@
 %(always not P1) AND/OR (min/max) (always not P2)
 P1 = Polyhedron('A',1,'b',-2);
 P2 = Polyhedron('A',-1,'b',-2);
-[Params_P1] = WavSignedDistScalar(P1,xmin,xmax,dx,1);
-[Params_P2] = WavSignedDistScalar(P2,xmin,xmax,dx,1);
-pause;
+[Params_P1] = WavSignedDistScalar(P1,xmin,xmax,dx,0);
+[Params_P2] = WavSignedDistScalar(P2,xmin,xmax,dx,0);
+%pause;
 close all;clc;
 %plot(P1);hold all;plot(P2);
 
 %% 
-Ntrials = 1000;
+Ntrials = 100;
 
 for i = 1:Ntrials
 
@@ -29,4 +29,5 @@ err_rel(i) = (r_phi_exact-r_phi_approx)/abs(r_phi_exact);
 end
 %[mean(abs(err)) std(abs(err))]
 [mean(err_rel) std(err_rel)]
+figure;
 hist(err_rel);grid on;
