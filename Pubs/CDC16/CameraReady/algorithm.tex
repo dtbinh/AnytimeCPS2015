@@ -1,0 +1,29 @@
+\subsection{The Control Algorithm}
+\label{sec:the control algo}
+We can now describe the algorithm used for solving \eqref{eq:nom mpc} by robust receding horizon control.
+
+\begin{algorithm}
+	\caption{RMPC via feedback linearization}
+\begin{algorithmic}
+	\Require System model, $X$, $U$, $E$, $W$ 
+	\State	Offline, compute:
+	\State \quad Initial safe sets $X_0$ and $Z$ \Comment{Sec. \ref{sec:transforming x to z}}
+	\State \quad $\tE_{max}$, $\What_{max}$ \Comment{Sec. \ref{sec:approx dist} }
+	\State \quad $C_p$, $P_f$ \Comment{Sec. \ref{sec:Constraints}}
+	\State Online: 
+	\If{$P_f = \emptyset$}
+	\State Quit
+	\Else
+	\For{$k=1,2,\ldots$}
+	\State Get estimate $\hx_{k}$, compute $\hz_{k} = T(\hx_{k})$
+	\State Compute $\ua{V}_{k+j|k},\,\tE_{k+j|k},\, \What_{k+j|k}$ \Comment{Sec. \ref{sec:approx input sets}}
+	\State Compute $\nomZset{k+j}{k},\,V_{k+j|k}$ \Comment{Sec. \ref{sec:Constraints}}
+	\State $(v^*_{k|k}, \ldots, v^*_{k+N|k}) = $ Solution of $\Pk{k}$ 
+	\State $v_k = v^{*}_{k|k}$
+	\State Apply $u_k = R(\hx_{k})^{-1}[b(\hx_{k})+v_k]$ to plant 
+	\EndFor	
+	\EndIf		
+\end{algorithmic}
+\label{alg:RMPC}
+\end{algorithm}
+

@@ -1,0 +1,48 @@
+\section{Introduction}
+\label{sec:intro}
+
+In this paper we are concerned with the problem of controlling nonlinear dynamical systems $S$ of the form $\dot{x} = f(x) + G(x)u$ under state and input constraints, and subject to errors in the state estimate.
+This problem is formulated as
+\begin{eqnarray}
+	\label{eq:generic NLMPC}
+	\min_{\textbf{x},\textbf{u}} &\;& l(\textbf{x}, \textbf{u}) \\
+	\text{s.t. } \dot{x}&=&f(x) + G(x)u \nonumber \\
+	x&\in& X, u \in U  \nonumber
+\end{eqnarray}
+where $l(\textbf{x}, \textbf{u})$ is a cost function whose minimization over the state and input trajectories $\textbf{x}$ and $\textbf{u}$ ensures stability of the system. 
+Sets $X \subset \Re^{\dimX}$ and $ U \subset \Re^{\dimU}$ encode constraints on the state (e.g., safety) and the input.
+The input $u = u(\hx)$ is a function of a state estimate that in general differs from the true state of the system.
+
+Whereas Model Predictive Control (MPC) is a widely used technique for controlling linear systems with constraints, its application to nonlinear systems involves the repeated solution of generally non-quadratic, non-convex optimizations.
+Various approaches for solving (or approximately solving) the optimizations and their trade-offs are reviewed in \cite{Cannon04_EfficientMPC}.
+Another approach is to first \emph{feedback linearize} the system $S$ \cite{khalil}: namely, the applied control $u = u(x,v)$ is designed in such a way that the resulting closed-loop dynamics $S_{fl}$ are now \emph{linear}:
+	\[S_{fl}: \dot{z} = Az + Bv\]
+The input $v$ to the linearized dynamics can now be computed so as to optimize system performance and ensure stability.
+The state $z$ of the linearized system $S_{fl}$ is related to the state $x$ of the nonlinear system $S$ via a (system-specific) function $T$: $z=T(x)$.
+
+Previous work on nonlinear MPC with feedback linearization assumed the state $x(t)$ is perfectly known to the controller at any moment in time \cite{SimonLG13_MPC}.
+In practice, only a state estimate $\hx(t)$ is available, and $\hx(t) \neq x(t)$.
+Thus a controller designed to work optimally when operating on the true state $x$ is in general sub-optimal when operating on $\hx$ (any may even lead to instability).
+Robust MPC (RMPC) has been investigated as a way of handling state estimation errors for linear \cite{RichardsH05_RMPC} and nonlinear systems \cite{tube,relaxed}, but not via feedback linearization. 
+In particular, for non-linear systems, \cite{tube} develops a non-linear MPC with tube like constraints for robust feasibility, but involves solving two (non-convex) optimal control problems. 
+In \cite{relaxed}, the authors solve a non-linear Robust MPC through a bi-level optimization that involves solving a non-linear, non-smooth optimization which is challenging. 
+\cite{relaxed} also guarantees a weaker form of recursive feasibility than \cite{RichardsH05_RMPC} and what we guarantee in this work. 
+In \cite{Zhao20141335} the authors approximate the non-linear dynamics of a quadrotor by linearizing it around hover and apply the RMPC of \cite{RichardsH05_RMPC} to the linearized dynamics.
+This differs significantly from our approach, where we formulate the RMPC on the \emph{feedback} linearized dynamics directly, and not on the dynamics obtained via Jacobian linearization of the non-linear system.
+Existing work on MPC via feedback linearization and input/state constraints has also assumed that either $T$ is the identity, which simplifies the subsequent stability and performance analysis \cite{SimonLG13_MPC}, 
+or, in the case of uncertainties in the parameters, that there are no state constraints \cite{parameter}.
+%\todo[inline]{litt search}
+A non-identity $T$ is problematic when the state is not perfectly known, since the state estimation error $e = \hx-x$ maps to the linearized dynamics via $T$ in non-trivial ways greatly complicating the analysis.
+In particular, the error bounds for the state estimate in $z$-space now depend on the current nonlinear state $x$.
+One of the complications introduced by feedback linearization is that the bounds on the input ($u \in U$) may become a non-convex state-dependent constraint on the input $v$ to $S_{fl}$: 
+$V = \{\ua{v}(x, U) \leq v \leq \oa{v}(x,U)\}$.
+In \cite{SimonLG13_MPC} forward reachability is used to provide inner convex approximations to the input set $V$.
+A non-identity $T$ increases the computational burden since the non-linear reach set must be computed (with an identity $T$, the feedback linearized reach set is sufficient).
+
+\emph{Contributions}: In this paper we develop a feedback linearization solution to the above control problem, with state estimation errors, input and state constraints, and non-identity $T$.
+To the best of our knowledge, this is the first feedback linearization solution to this problem.
+The resulting control problem is solved by RMPC with time-varying linear constraint sets.
+
+The paper is organized as follows: in the next section we formulate the feedback linearized control problem. In Sec. \ref{sec:feedback lin rmpc}, we describe the RMPC algorithm we use to solve it, and prove that it stabilizes the nonlinear system. 
+Sec. \ref{sec:set definitions} shows how to compute the various constraint sets involved in the RMPC formulation, and Sec. \ref{sec:simulations} applies our approach to two examples. Sec. \ref{sec:discussion} concludes the paper. 
+An online technical report \cite{PantAM16_RMPC} contains the proof of Thm. \ref{th:robust_feas}.
