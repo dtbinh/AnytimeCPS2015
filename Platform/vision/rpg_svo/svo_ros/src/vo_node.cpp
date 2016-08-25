@@ -149,7 +149,7 @@ void VoNode::imgCb(const sensor_msgs::ImageConstPtr& msg,
   end_ct = ros::Time::now();
   duration_ct = end_ct-begin_ct; 
   time_taken = duration_ct.toNSec();
-  std::cout<<time_taken<<std::endl;
+  //std::cout<<time_taken<<std::endl;
   fprintf(logFile,"%lu \n",time_taken);
   fflush(logFile);
   // end

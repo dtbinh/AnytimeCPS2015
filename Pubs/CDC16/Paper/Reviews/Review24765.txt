@@ -1,0 +1,37 @@
+Reviewer 4 of CDC 16 submission 1873
+
+Comments to the author
+======================
+
+This paper considers the design of robust model predictive
+control of nonlinear systems under state estimation errors
+and input and state constraints.
+By using feedback linearization, the problem has been
+transformed into robust MPC of a linear system with
+restricted constraints.
+
+However, I am not quite convinced by the claims made by the
+authors. Apart from the conservatism of the set 
+computation, I have the following major concern.
+
+The authors have claimed robust feasibility (Theorem 1),
+which is conceptually easy to understand, due to the
+application of restricted constraints. In Theorem 2 (and
+also the simulations), they have claimed stability and
+convergence to an equilibrium point for the original
+nonlinear system.
+
+Note, however, the original problem that the author aimed
+to consider is with state estimation errors. And if you
+transform the problem into robust MPC for a noisy linear
+system, basically, you can only achieve practical
+input-to-state stability, i.e., robust stability of a small
+set around an equilibrium point, rather than equilibrium
+point for the feedback linearized linear system. In fact,
+in robust MPC, the only case where you can achieve
+convergence to an equilibrium point in presence of
+disturbances/estimation errors is when the
+disturbances/estimation error are asymptotically vanishing.
+ 
+I do not see how the above issues have been tackled
+properly in this submission.
