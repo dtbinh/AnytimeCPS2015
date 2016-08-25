@@ -124,7 +124,7 @@ H_{k+j|k} = \{h \such \sum_{\ell=1}^{\dimX} \min_{x \in \oa{X}_{k+j|k}, e \in E}
 \end{eqnarray}
 where $M_{i\ell}$ is the $(i,\ell)^{th}$ element of matrix $M$ and $h(\ell)$ is the $\ell^{th}$ element of $h$.
 
-Therefore the linearization error $h_{k+j|k} \oplus r_{k+j|k}$ is bounded in the set $H_{k+j|k} + D_{k+j|k}$. 
+Therefore the state estimation error $h_{k+j|k} + r_{k+j|k}$ is bounded in the set $H_{k+j|k} \oplus D_{k+j|k}$. 
 In the experiments we ignore the remainder term $D_{k+j|k}$ based on the observation that $e_k$ is small relative to the state $x_k$. Thus we use:
 \begin{eqnarray}
 \label{eq:tildeE}
@@ -165,7 +165,7 @@ For the running example, Fig. \ref{fig:err_bound_toy} shows the set $\tE_{max}$ 
 %This shows that considering a reach set $\chi \subseteq X$ to compute the error bound results in less conservatism than using the worst case error bound. It also shows randomised realizations of the error for randomly selected $x \in \chi$ and $e \in E$, which %are all contained in the bounding set $\tilde{E}_{\chi}$.
 
 \begin{figure}
-	\includegraphics[angle=0,width=0.49\textwidth]{figs/Err_Bounds_toy.pdf}
+	\includegraphics[angle=270,width=0.49\textwidth]{figs/Err_Bounds_toy.pdf}
 	\caption{The error sets $\tilde{E}_{max}$ and $\tilde{E}$ computed over an arbitrary $\oa{X}_{k+j|k}$. Also shown are realizations of $\te \defeq T(\hx) - T(x)$ for randomly chosen $x \in \Xc$. Color in online version.}
 	\label{fig:err_bound_toy}
 \end{figure}

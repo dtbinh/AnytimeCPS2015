@@ -4,29 +4,21 @@
 We evaluate our approach on the running example, and on a 4D flexible joint manipulator.
 We implemented the RMPC controller of Alg. \ref{alg:RMPC} in MATLAB
 The set computations were done using the MPT Toolbox \cite{MPT3}, and the invariant set computations using the Matlab Invariant Set Toolbox \cite{IST}. 
-The reachability computations for $\oaXset{k+j}{k}$ were performed on the linear dynamics and mapped back to $x$-space as described in point 1) of Sec. \ref{sec:transforming x to z}. 
+The reachability computations for $\oaXset{k+j}{k}$ were performed on the linear dynamics and mapped back to $x$-space as described in point 4) of Sec. \ref{sec:transforming x to z}. 
 %Note, with this over approximation of $\oaXset{k+j}{k}$, Lemma \ref
 The RMPC optimizations were formulated in CVX \cite{cvx} and solved by Gurobi \cite{gurobi}.
 
 \subsection{Running example}
 
-%\begin{figure}
-%\includegraphics[angle=270,width=0.49\textwidth]{figs/z_trajectory_new_2.pdf}
-%\caption{Evolution of $z_1$ and $z_2$, shown by the solid black line, inside the set Z (in red). The green sets are the reach sets $\oa{Z}_{k+i|k},\forall i=1,\dotsc,N, \forall k$. The light blue set is the one step ahead reach set $\oa{Z}_{k+1|k},\forall k$.}
-%\label{fig:z_new_toy}
-%\end{figure}
-
-
 \begin{figure}
 	\centering	
 	\includegraphics[angle=270,width=0.49\textwidth]{figs/AllStates_toy.pdf}
-	\caption{The states and their estimates of the feedback linearized and non-linear running example. Recall that $z_1 = x_1$ therefore to reduce clutter, we only plot the first state only for the feedback linearized system.}
+	\caption{The states and their estimates of the feedback linearized and non-linear running example. Recall that $z_1 = x_1$ therefore to reduce clutter, we only plot the first state only for the feedback linearized system. Color in online version.}
 	\label{fig:AllStates_toy}
 \end{figure}
 
-
 For the running example of Eq. \ref{eq:toy_dynamics}, we discretize the feedback linearized system at 10Hz and formulate the controller with a horizon of $N=15$ steps. 
-The cost function has parameters $Q=I$ and $R=10^{-2}$.
+The cost function has parameters $Q=I$ and $R=10^{-2}$, and $W=[-10^{-2}, 10^{-2}]^2$.
 The state trajectories (and estimates) for the nonlinear and linearized systems are shown in Fig. \ref{fig:AllStates_toy}.
 Note that the states converge to the equilibrium 0. The input $u$ is shown in Fig. \ref{fig:input toy}, and it can be noted that $u_k \in U$ for all $k$.
 %(and for the running example, $T$ preserves zero). 
@@ -34,15 +26,9 @@ Note that the states converge to the equilibrium 0. The input $u$ is shown in Fi
 \begin{figure}
 	\centering	
 	\includegraphics[angle=270,width=0.49\textwidth]{figs/u_and_v_toy.pdf}
-	\caption{Inputs $v$ and $u$ and their bounds for the running example.}
+	\caption{Inputs $v$ and $u$ and their bounds for the running example. Color in online version.}
 	\label{fig:input toy}
 \end{figure}
-
-
-%The input for the feedback linearized system is shown in Fig. ?? along with its upper and lower rectangular bounds computed online, denoted as $\oa{V}_{k|k}$ and $\ua{V}_{k|k}$ respectively, which make up the input constraint set at time $k$.
-%Also shown is the global inner approximation $V_{inner-global}$ for the input $v$. 
-%It is worth noting that the bounds computed online allow for much more control action than the conservative $V_{inner-global}$. 
-
 
 
 \subsection{Single link flexible joint manipulator}
@@ -50,8 +36,8 @@ Note that the states converge to the equilibrium 0. The input $u$ is shown in Fi
 
 \begin{figure}
 	\centering
-	\includegraphics[scale=0.15]{figs/ManipArm.pdf}
-	\caption{Flexible joint manipulator, figure from \cite{intech}.}
+	\includegraphics[scale=0.2]{figs/ManipArm.pdf}
+	\caption{Flexible joint manipulator. Figure adapted from \cite{intech}.}
 	\label{fig:manipulator fig}
 \end{figure}
 
@@ -64,7 +50,7 @@ This models a system where a motor, with an angular moment of inertia $J=1$,  is
 States $x_1$ and $x_2$ are the angles of the bar and motor shaft in radians, respectively, and $x_3, x_4$ are their respective rotational speeds in radians/sec.
 The safe set is the box $X = [-\pi/4,\pi/4] \times [-\pi/4,\pi/4] \times [-\pi,\pi] \times [-\pi,\pi]$.
 The input torque $u$ is bounded in $U = [\underline{u}, \overline{u}] = [-10 , 10 ]N\cdot m$. 
-The estimation error $e = \hat{x} - x$ is bounded in $E = [-\pi /180, \pi /180]^4$.
+The estimation error $e = \hat{x} - x$ is bounded in $E = [-\pi /180, \pi /180]^4$ and $W=[-10^{-3}, 10^{-3}]^4$.
 
 The diffeomorphism $T$ is given by:
 \begin{equation}
@@ -97,7 +83,7 @@ Fig. \ref{fig:AllStates_manip} also shows $x_3$ and $x_4$: they also converge to
 
 \begin{figure}
 \includegraphics[angle=270,width=0.49\textwidth]{figs/AllStates_manip.pdf}
-\caption{The states and their estimates of the feedback linearized and non-linear manipulator. Recall that $z_1 = x_1$ and $z_2=x_2$, therefore to reduce clutter, we only plot first two states only for the feedback linearized system.}
+\caption{The states and their estimates of the feedback linearized and non-linear manipulator. Recall that $z_1 = x_1$ and $z_2=x_2$, therefore to reduce clutter, we only plot first two states only for the feedback linearized system. Color in online version.}
 \label{fig:AllStates_manip}
 \end{figure}
 
@@ -133,7 +119,7 @@ Finally, Fig. \ref{fig:v_and_limits} also shows the input $u$ applied to the non
 
 \begin{figure}
 \includegraphics[angle=270,width=0.49\textwidth]{figs/u_and_v_manip.pdf}
-\caption{Inputs $v$ and $u$ and their bounds for the manipulator example .}
+\caption{Inputs $v$ and $u$ and their bounds for the manipulator example. Color in online version.}
 \label{fig:v_and_limits}
 \end{figure}
 

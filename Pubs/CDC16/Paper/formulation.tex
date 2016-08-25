@@ -7,7 +7,7 @@ Briefly, in feedback linearization, one applies the feedback law $u(x,v) = R(x)^
 S_{fl}: \dot{z} = A_cz + B_cv
 \end{equation}
 By using the remaining control authority in $v$ to control $S_{fl}$, we can effectively control the non-linear system for, say, stability or reference tracking.
-$T$ is a diffeomorphism over a domain $D \subset X$.
+$T$ is a diffeomorphism \cite{khalil} over a domain $D \subset X$.
 %Without loss of generality, we assume that the system  has a relative degree $\rho=\dimX$ for SISO systems, and similarly a vector relative degree $\lbrace \rho_i \rbrace_{i=1}^{\dimU}\, \text{s.t.} \sum_i \rho_i = \dimU$ for MIMO systems (assuming number of outputs is the same as the number of inputs, $\dimU$).
 The original and transformed states, $x$ and $z$, have the same dimension, as do $u$ and $v$, i.e. $\dimX = \dimZ$ and $\dimU = \dimV$.
 Because we are controlling the feedback linearized system, we must find constraint sets $Z$ and $V$ for the state $z$ and input $v$, respectively, such that $(z,v) \in Z\times V \implies (\iT(z), u(\iT(z), v)) \in X \times U$.
@@ -30,6 +30,7 @@ Our system model is therefore
 z_{k+1} = Az_k + Bv_k + w_k
 \end{equation}
 where the noise term $w_k$ lies in the bounded set $W$ for all $k$.
+An estimate of $W$ can be obtained using the techniques of this paper.
 The control problem \eqref{eq:generic NLMPC} is therefore replaced by:
 \begin{eqnarray}
 \label{eq:discrete linear problem}

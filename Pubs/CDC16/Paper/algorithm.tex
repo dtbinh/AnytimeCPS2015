@@ -1,6 +1,6 @@
 \subsection{The Control Algorithm}
 \label{sec:the control algo}
-We can now describe the algorithm used for solving \eqref{eq:generic NLMPC} by robust receding horizon control of the feedback linearized nominal dynamics.
+We can now describe the algorithm used for solving \eqref{eq:nom mpc} by robust receding horizon control.
 
 \begin{algorithm}
 	\caption{RMPC via feedback linearization}
@@ -15,11 +15,12 @@ We can now describe the algorithm used for solving \eqref{eq:generic NLMPC} by r
 	\State Quit
 	\Else
 	\For{$k=1,2,\ldots$}
+	\State Get estimate $\hx_{k}$, compute $\hz_{k} = T(\hx_{k})$
 	\State Compute $\ua{V}_{k+j|k},\,\tE_{k+j|k},\, \What_{k+j|k}$ \Comment{Sec. \ref{sec:approx input sets}}
 	\State Compute $\nomZset{k+j}{k},\,V_{k+j|k}$ \Comment{Sec. \ref{sec:Constraints}}
 	\State $(v^*_{k|k}, \ldots, v^*_{k+N|k}) = $ Solution of $\Pk{k}$ 
 	\State $v_k = v^{*}_{k|k}$
-	\State Apply $u_k = R(\hx_{k}^{-1})[b(\hx_{k})+v_k]$ to plant 
+	\State Apply $u_k = R(\hx_{k})^{-1}[b(\hx_{k})+v_k]$ to plant 
 	\EndFor	
 	\EndIf		
 \end{algorithmic}

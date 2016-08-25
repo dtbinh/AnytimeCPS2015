@@ -3,14 +3,14 @@
 The state and input constraints for the RMPC are defined as follows:
 
 \textit{The state constraints $\nomZset{k+j}{k}$:}
-The tightened state constraints are functions of the error sets $\tE_{k+j|k}$ and disturbance sets $What_{k+j|k}$, and defined $\forall\,j=0,\dotsc,N$
+The tightened state constraints are functions of the error sets $\tE_{k+j|k}$ and disturbance sets $\What_{k+j|k}$, and defined $\forall\,j=0,\dotsc,N$
 {\small{
 \begin{equation} 
 \label{eq:Set_constraints}
 \nomZset{k+j}{k} = Z \ominus_{i=0}^{j-1}(L_i \What_{k+(j-i)|k})\ominus (-\tE_{k+j|k})
 \end{equation}
 }}
-(Recall $Z$ is a subset of $T(X)$, $\What_{k+j|k}$ and $\tE_{k+j|k}$ are formally defined in Sec. \ref{sec:set definitions}).
+(Recall $Z$ is a subset of $T(X)$, $\What_{k+j|k}$ and $\tE_{k+j|k}$ bound the estimation error and noise, resp., and are formally defined in Sec. \ref{sec:set definitions}).
 The state transition matrix $L_j$, $\forall j=0,\dotsc,N$   is defined as $L_0 = \mathbb{I}, L_{j+1} = (A+BK)L_j $.
 The intuition behind this construction was given at the start of this section.
 
@@ -45,7 +45,7 @@ It is important to note the following:
 	\item The set $P_f$ can be computed offline since it depends on $\What_{max}$, $\tE_{max}$ and the global inner approximation for the constraints on $v$, $V_{inner-global}$, all of which can be computed offline.
 	\item If $P_f$ is non-empty, then all intermediate sets that appear in \eqref{eq:nom mpc} are also non-empty, since $P_f$ shrinks the state and input sets by the maximum disturbances $\What_{max}$ and $\tE_{max}$.	
 	Thus we can tell, before running the system, whether RMPC might be faced with empty constraint sets (and thus infeasible optimizations).
-	\item Note that all constraints are linear.x
+	\item Note that all constraints are linear.
 \end{itemize}
 
 

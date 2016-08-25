@@ -5,10 +5,11 @@ We develop a method to compute linear constraints on the state and inputs of the
 We demonstrate the applicability of our approach on a planar system and a flexible link manipulator example. Results show that the control algorithm stabilizes the systems while ensuring robust constraint satisfaction.% and being feasible at all time instants. 
 While we only evaluated our approach for single input systems, the formulation and set computations involved hold as is for multi-input systems as well.
 
-Limitations of the approach mostly have to do with the numerical limitations involved in computing the constraint sets, e.g. in the manipulator example, the set of states,$X_0$, from which we can control the system, is a strict subset of the set of safe states $X$ of the non-linear system. 
+Limitations of the approach mostly have to do with the numerical limitations involved in computing the constraint sets.
+E.g., in the manipulator example, the set of states $X_0$ from which we can control the system is a strict subset of the set of safe states $X$.
 Similarly in the computation of the input and error sets, over-conservatism is potentially a problem.
 
 Ongoing work focuses on implementing this approach for evaluation on a $1/10^{th}$ scale autonomous car, running a low power embedded platform. Real-time online reachability \cite{rtreach}, interval arithmetic,
-and support function based computations for $\bar{Z}_{k|j|k}$ should allow for fast enough computation of the linear constraints for the RMPC optimization. In \cite{PantAMNDM15_Anytime}, we have already shown that CVXGEN $\cite{cvxgen}$ is fast enough to solve Quadratic programs with linear constraints on low-powered embedded platforms at high enough sampling rates to allow for satisfactory control of a real system.
+and support function based computations for $\bar{Z}_{k+j|k}$ should allow for fast enough computation of the linear constraints for the RMPC optimization. In \cite{PantAMNDM15_Anytime}, we have already shown that CVXGEN $\cite{cvxgen}$ is fast enough to solve Quadratic programs with linear constraints on low-powered embedded platforms at high enough sampling rates to allow for satisfactory control of a real system.
 
 
