@@ -208,7 +208,8 @@ By construction of the candidate, we have $\bar{v}_{k+1+j|k+1}=v^{*}_{k+j+1|k}+K
 \begin{align}
 &\bar{v}_{(k+1)+j|k+1} \in \underline{V}_{k+j+1|k} \ominus_{i=0}^{j-1}L_i\What_{k+j-1|k} \\
 &\text{Using points 3) and 4) from Lemma \ref{lem:one}} \nonumber \\
-&\underline{V}_{k+j+1|k} \ominus_{i=0}^{j-1}L_i\What_{k+j-1|k} \subseteq \underline{V}_{k+j+1|k+1} \ominus_{i=0}^{j-1}L_i\What_{k+j-1|k+1} \\
+&\underline{V}_{k+j+1|k} \ominus_{i=0}^{j-1}L_i\What_{k+j-1|k} \subseteq \nonumber \\
+& \qquad \underline{V}_{k+j+1|k+1} \ominus_{i=0}^{j-1}L_i\What_{k+j-1|k+1} \\
 &\text{And using Eq. \ref{eq:Vjkp1}, this implies} \nonumber \\
 &\bar{v}_{(k+1)+j|k+1} \in V_{k+1+j|k+1}
 \end{align}
@@ -233,7 +234,76 @@ Therefore the terminal constraint is also met.
 With this, we have the proof for Theorem 1 as we have shown that feasible solution at time step $k$ for $\mathbb{P}_{k}(\hat{z}_{k}) $ implies that the applied input $v_k$ is feasible, the next state $z_{k+1} \in Z$ and the problem $\mathbb{P}_{k+1}(\hat{z}_{k+1}) $ is feasible at time $k+1$, and hence  $\mathbb{P}_{k+2}(\hat{z}_{k+2}) $ is feasible for time step $k+2$ and so on. $\blacksquare$
 
 
+% =================================
+\subsection{Proof of Thm. \ref{thm:stability}}
+	Let $T$ be the diffeomorphism mapping $x$ to $z$ from feedback linearization, and set $z_e = T(x_e)$. 
+	Since $x_e$ is an equilibrium point, $z_e=0$.
+	%By a change of variables $z' = z - T(x_e)$, stabilizing the linear dynamics (with state $z'$) to 0 implies stabilizing the nonlinear dynamics to $x_e$.
+	Recall that $Q$ and $Q_f$ of  \eqref{eq:nom mpc} are positive semi-definite and that $R$ is positive definite,  so that the optimal cost $J^*(\nz_{k})$ is a positive definite function of $\nz_{k}$, and that the terminal weight in \eqref{eq:nom mpc} is equivalent to the infinite horizon cost (by our choice of $Q_f$). 
+	Finally Thm.  \ref{th:robust_feas} guarantees that the tail of the input sequence computed at $k$ is admissible at time $k+1$. 
+	Therefore it is a standard result that the optimal cost $J^{*}({\nz}_{k})$ is non-increasing in $k$ and that $0$ is a stable equilibrium for the closed-loop linear system (e.g., see \cite{CannonK15MPC} ). 
+	Moreover, the terminal set $P_f$ is a robust invariant set of the $z$ dynamics containing 0 (see Section \ref{sec:Constraints}).
+	Therefore Algorithm \ref{alg:RMPC} stabilizes the nominal state $\nz$ to $P_f$ from anywhere in $Z_0$, and the true (linearized) state $z$ to an invariant set $Z_{inv}$ around $0$, and the nonlinear state $x$ to the invariant set $X_{inv} = T^{-1}(Z_{inv})$.
+	Therefore Algorithm \ref{alg:RMPC} drives $x$ to $X_{inv}$ from anywhere in $X_0 \subset \iT(Z)$.
+	
+% ====================================
+\subsection{Transforming between $x$-space and $z$-space}
+\label{sec:transforming x to z}
+Since we control the system in $z$-space, we need to compute a set $Z \subset \Re^{\dimZ}$ s.t. $z \in Z \implies x = \iT(z) \in X$, i.e. $Z \subset T(X)$.
+Thus keeping the state $z$ of the linearized dynamics in $Z$ implies the nonlinear system's state $x$ remains in $X$.
+Moreover, to check feasibility at time 0 of the MPC optimization, and for stability of the nonlinear dynamics, we need a subset $X_0 \subset X$ s.t. $x \in X_0 \implies z = T(x) \in Z$, i.e. $X_0 \subset \iT(Z)$.
+Because $T$ can be an arbitrary diffeomorphism $Z$ and $X_0$ have to computed numerically.
+\begin{enumerate}
+	\item Let $Z_1 \subset \Re^{\dimZ}$ be the rectangle with bounds in the $i^{th}$ dimension $[ \min_{x \in X} T_i(x),  \max_{x \in X} T_i(x) ]$, $i=1,\ldots, \dimX$.
+	This over-approximates $T(X)$. 
+	Next we need to prune it so it under-approximates $T(X)$. 
+	\item Define $z_{in} \defeq \min \{ \|z \|_0 \such z \in Z_1, \iT(z) \notin X\}$.
+	$z_{in}$ is the smallest-norm inadmissible $z$ in $Z_1$.
+	Thus all points in the $\ell_0$-ball of radius $\|z_{in}\|$,$B_z(0,\|z_{in}\|)$, are admissible, i.e. their pre-images via $\iT$ are in $X$.
+	\item Let $R_z$ be the largest inscribed rectangle in $B_z(0,\|z_{in}\|)$.
+	Now we need to get the $x$-set that maps to $R_z$  (or a subset of it).
+	\item Let $X_1 \subset X$ be the rectangle with bounds in the $i^{th}$ dimension $[\min_{z \in R_{z}} \iT_i(z),  \max_{z \in R_{z}} \iT_i(z) ]$.
+	Again, this is an over-approximation of $\iT(R_{z})$, so it needs to be pruned.
+	\item Define $x_{in} = \inf \{\|x\|_0 \such x \in X_1, T(x) \notin R_{z}\}$.
+	Then every point in the $\ell_0$-ball $B_x(0, \|x_{in}\|) \subset X$ maps via $T$ to $R_{z}$
+\end{enumerate}
+Therefore we choose $Z = R_z$ and $X_0$ to be the largest inscribed rectangle in $B_x(0,  \|x_{in}\|)$.
 
+% ====================================
+\subsection{Error sets}
+For the running example, Fig. \ref{fig:err_bound_toy} shows the set $\tE_{max}$ and $\tilde{E}_{k+j|k}$ computed by Eqs. \eqref{eq:tildeE} and \eqref{eq:EtildeMax}. for an arbitrary  $\oa{X}_{k+j|k} =  [-\pi/4,0]\times[-0.9666,-0.6283]$. 
+It also shows 1000 randomly generated values for $T(\hat{x})-x$ (for randomly generated $e \in E$ and $x \in \oa{X}_{k+j|k}$), and all fall inside $\tilde{E}_{k+j|k}$.
 
+%computed over $\Xc= [-\pi/4,0]\times[-0.9666,-0.6283]$. 
+%This shows that considering a reach set $\chi \subseteq X$ to compute the error bound results in less conservatism than using the worst case error bound. It also shows randomised realizations of the error for randomly selected $x \in \chi$ and $e \in E$, which %are all contained in the bounding set $\tilde{E}_{\chi}$.
+
+\begin{figure}
+	\includegraphics[angle=270,width=0.49\textwidth]{figs/Err_Bounds_toy.pdf}
+	\caption{The error sets $\tilde{E}_{max}$ and $\tilde{E}$ computed over an arbitrary $\oa{X}_{k+j|k}$. Also shown are realizations of $\te \defeq T(\hx) - T(x)$ for randomly chosen $x \in \Xc$. Color in online version.}
+	\label{fig:err_bound_toy}
+\end{figure}
+
+% ====================================
+\subsection{Experiments with the Running example}
+
+\begin{figure}
+	\centering	
+	\includegraphics[angle=270,width=0.49\textwidth]{figs/AllStates_toy.pdf}
+	\caption{The states and their estimates of the feedback linearized and non-linear running example. Recall that $z_1 = x_1$ therefore to reduce clutter, we only plot the first state only for the feedback linearized system. Color in online version.}
+	\label{fig:AllStates_toy}
+\end{figure}
+
+For the running example of Eq. \ref{eq:toy_dynamics}, we discretize the feedback linearized system at 10Hz and formulate the controller with a horizon of $N=15$ steps. 
+The cost function has parameters $Q=I$ and $R=10^{-2}$, and $W=[-10^{-2}, 10^{-2}]^2$.
+The state trajectories (and estimates) for the nonlinear and linearized systems are shown in Fig. \ref{fig:AllStates_toy}.
+Note that the states converge to the equilibrium 0. The input $u$ is shown in Fig. \ref{fig:input toy}, and it can be noted that $u_k \in U$ for all $k$.
+%(and for the running example, $T$ preserves zero). 
+
+\begin{figure}
+	\centering	
+	\includegraphics[angle=270,width=0.49\textwidth]{figs/u_and_v_toy.pdf}
+	\caption{Inputs $v$ and $u$ and their bounds for the running example. Color in online version.}
+	\label{fig:input toy}
+\end{figure}
 
 

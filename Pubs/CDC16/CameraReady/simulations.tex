@@ -8,40 +8,19 @@ The reachability computations for $\oaXset{k+j}{k}$ were performed on the linear
 %Note, with this over approximation of $\oaXset{k+j}{k}$, Lemma \ref
 The RMPC optimizations were formulated in CVX \cite{cvx} and solved by Gurobi \cite{gurobi}.
 
-\subsection{Running example}
-
-\begin{figure}
-	\centering	
-	\includegraphics[angle=270,width=0.49\textwidth]{figs/AllStates_toy.pdf}
-	\caption{The states and their estimates of the feedback linearized and non-linear running example. Recall that $z_1 = x_1$ therefore to reduce clutter, we only plot the first state only for the feedback linearized system. Color in online version.}
-	\label{fig:AllStates_toy}
-\end{figure}
-
-For the running example of Eq. \ref{eq:toy_dynamics}, we discretize the feedback linearized system at 10Hz and formulate the controller with a horizon of $N=15$ steps. 
-The cost function has parameters $Q=I$ and $R=10^{-2}$, and $W=[-10^{-2}, 10^{-2}]^2$.
-The state trajectories (and estimates) for the nonlinear and linearized systems are shown in Fig. \ref{fig:AllStates_toy}.
-Note that the states converge to the equilibrium 0. The input $u$ is shown in Fig. \ref{fig:input toy}, and it can be noted that $u_k \in U$ for all $k$.
-%(and for the running example, $T$ preserves zero). 
-
-\begin{figure}
-	\centering	
-	\includegraphics[angle=270,width=0.49\textwidth]{figs/u_and_v_toy.pdf}
-	\caption{Inputs $v$ and $u$ and their bounds for the running example. Color in online version.}
-	\label{fig:input toy}
-\end{figure}
-
-
 \subsection{Single link flexible joint manipulator}
 \label{sec:manipulator}
 
-\begin{figure}
-	\centering
-	\includegraphics[scale=0.2]{figs/ManipArm.pdf}
-	\caption{Flexible joint manipulator. Figure adapted from \cite{intech}.}
-	\label{fig:manipulator fig}
-\end{figure}
+%\begin{figure}
+%	\centering
+%	\includegraphics[scale=0.2]{figs/ManipArm.pdf}
+%	\caption{Flexible joint manipulator. Figure adapted from \cite{intech}.}
+%	\label{fig:manipulator fig}
+%\end{figure}
 
-We consider the single link flexible manipulator system $S$, also used in  \cite{parameter} and \cite{intech}, shown in Fig. \ref{fig:manipulator fig}, whose dynamics are given by:
+We consider the single link flexible manipulator system $S$, also used in  \cite{parameter} and \cite{intech}
+%, shown in Fig. \ref{fig:manipulator fig},
+whose dynamics are given by:
 \begin{equation}
 S: \begin{bmatrix} \dot{x}_1 \\ \dot{x}_2 \\ \dot{x}_3 \\ \dot{x}_4    \end{bmatrix} = \begin{bmatrix} x_2 \\ -\frac{mgl}{I}\sin(x_1) - \frac{\sigma}{I}(x_1-x_3)  \\ x_4 \\ \frac{\sigma}{J}(x_1-x_3)  \end{bmatrix} + \begin{bmatrix} 0 \\ 0 \\ 0 \\ \frac{1}{J} \end{bmatrix}u \nonumber
 \end{equation}

@@ -8,6 +8,10 @@ bounding sets for the process noise $\What_{k+j|k}$,
 and the largest error and noise sets $\tE_{max}$ and $\What_{max}$.
 In this section we show how these sets are defined and computed. Note, our approach is an extension to \cite{SimonLG13_MPC} as: 1) we compute the feasible set for the states of the feedback linearized system under a non-trivial diffeomorpism $T$, 2) we compute the bounding sets for disturbances while considering estimation error and process noise, neither of which are considered in \cite{SimonLG13_MPC}. In addition, due to the presence of state-estimation error, we compute these sets using an over-approximation of the reach set, as seen in the following subsection.
 
+Since we control the system in $z$-space, we need to compute a set $Z \subset \Re^{\dimZ}$ s.t. $z \in Z \implies x = \iT(z) \in X$.
+Moreover, to check feasibility at time 0 of the MPC optimization, we need a subset $X_0 \subset X$ s.t. $x \in X_0 \implies z = T(x) \in Z$.
+Mapping sets between $z$ and $x$ spaces via the arbitrary diffeomorphism $T$ has to be done numerically, and we show how in the online appendix. 
+
  \subsection{Approximating the reach set of the nonlinear system}
  \label{sec:x reach}
 
@@ -48,11 +52,11 @@ This is needed for computing $\ua{V}_{k+j|k}$ and $\tE_{k+j|k}$.
  \end{lemma}
  
  
- \begin{figure*}
- 	\includegraphics[scale=0.75]{figs/OverReachFigure_NL_scissored.pdf}
+ \begin{figure}
+ 	\includegraphics[scale=0.4]{figs/OverReachFigure_NL_scissored.pdf}
  	\caption{The outer-approximated reach sets for $x_{k+j}$, computed at time steps $k,k+1$, used to compute $\tE_{k+j|k}$, $\ua{V}_{k+j|k}$. }
  	\label{fig:overreach_NL}
- \end{figure*}
+ \end{figure}
  
  This construction of $\oaXset{k+j}{k}$ permits us to prove recursive feasibility of the RMPC controller, because it causes the constraints of the RMPC problem setup at time $k+1$ to be consistent with the constraints of the RMPC problem setup at time $k$.
 
@@ -85,7 +89,7 @@ We can compute:
 In practice we use interval arithmetic to compute these sets since $\oaXset{k+j}{k}$ and $U$ are hyper-intervals.
 Fig. \ref{fig:err bounds toy} shows these sets for the running example.
 \begin{figure}
-	\includegraphics[angle=270,width=0.49\textwidth]{figs/InputToy.pdf}
+	\includegraphics[angle=270,width=0.39\textwidth]{figs/InputToy.pdf}
 	\caption{Local and global inner approximations of input constraints for running example, with $\oa{X}_{k+j|k} =  [-\pi/4,0]\times[-0.9666,-0.6283]$ for some $k,j$ and $U = [-2.75,2.75]$. Color in online version.}
 	\label{fig:err bounds toy}
 \end{figure}
@@ -158,38 +162,3 @@ $\What_{max}$ is then defined as:
 \begin{equation}
 \What_{max} = W \oplus \tilde{E}_{max} \oplus (-A\tilde{E}_{max})
 \end{equation}
-
-For the running example, Fig. \ref{fig:err_bound_toy} shows the set $\tE_{max}$ and $\tilde{E}_{k+j|k}$ computed by Eqs. \eqref{eq:tildeE} and \eqref{eq:EtildeMax}. for an arbitrary  $\oa{X}_{k+j|k} =  [-\pi/4,0]\times[-0.9666,-0.6283]$. It also shows 1000 randomly generated values for $T(\hat{x})-x$ (for randomly generated $e \in E$ and $x \in \oa{X}_{k+j|k}$), and all fall inside $\tilde{E}_{k+j|k}$.
-
-%computed over $\Xc= [-\pi/4,0]\times[-0.9666,-0.6283]$. 
-%This shows that considering a reach set $\chi \subseteq X$ to compute the error bound results in less conservatism than using the worst case error bound. It also shows randomised realizations of the error for randomly selected $x \in \chi$ and $e \in E$, which %are all contained in the bounding set $\tilde{E}_{\chi}$.
-
-\begin{figure}
-	\includegraphics[angle=270,width=0.49\textwidth]{figs/Err_Bounds_toy.pdf}
-	\caption{The error sets $\tilde{E}_{max}$ and $\tilde{E}$ computed over an arbitrary $\oa{X}_{k+j|k}$. Also shown are realizations of $\te \defeq T(\hx) - T(x)$ for randomly chosen $x \in \Xc$. Color in online version.}
-	\label{fig:err_bound_toy}
-\end{figure}
-
-
-\subsection{Transforming between $x$-space and $z$-space}
-\label{sec:transforming x to z}
-Since we control the system in $z$-space, we need to compute a set $Z \subset \Re^{\dimZ}$ s.t. $z \in Z \implies x = \iT(z) \in X$, i.e. $Z \subset T(X)$.
-Thus keeping the state $z$ of the linearized dynamics in $Z$ implies the nonlinear system's state $x$ remains in $X$.
-Moreover, to check feasibility at time 0 of the MPC optimization, and for stability of the nonlinear dynamics, we need a subset $X_0 \subset X$ s.t. $x \in X_0 \implies z = T(x) \in Z$, i.e. $X_0 \subset \iT(Z)$.
-Because $T$ can be an arbitrary diffeomorphism $Z$ and $X_0$ have to computed numerically.
-\begin{enumerate}
-	\item Let $Z_1 \subset \Re^{\dimZ}$ be the rectangle with bounds in the $i^{th}$ dimension $[ \min_{x \in X} T_i(x),  \max_{x \in X} T_i(x) ]$, $i=1,\ldots, \dimX$.
-	This over-approximates $T(X)$. 
-	Next we need to prune it so it under-approximates $T(X)$. 
-	\item Define $z_{in} \defeq \min \{ \|z \|_0 \such z \in Z_1, \iT(z) \notin X\}$.
-	$z_{in}$ is the smallest-norm inadmissible $z$ in $Z_1$.
-	Thus all points in the $\ell_0$-ball of radius $\|z_{in}\|$,$B_z(0,\|z_{in}\|)$, are admissible, i.e. their pre-images via $\iT$ are in $X$.
-	\item Let $R_z$ be the largest inscribed rectangle in $B_z(0,\|z_{in}\|)$.
-	Now we need to get the $x$-set that maps to $R_z$  (or a subset of it).
-	\item Let $X_1 \subset X$ be the rectangle with bounds in the $i^{th}$ dimension $[\min_{z \in R_{z}} \iT_i(z),  \max_{z \in R_{z}} \iT_i(z) ]$.
-	Again, this is an over-approximation of $\iT(R_{z})$, so it needs to be pruned.
-	\item Define $x_{in} = \inf \{\|x\|_0 \such x \in X_1, T(x) \notin R_{z}\}$.
-	Then every point in the $\ell_0$-ball $B_x(0, \|x_{in}\|) \subset X$ maps via $T$ to $R_{z}$
-\end{enumerate}
-Therefore we choose $Z = R_z$ and $X_0$ to be the largest inscribed rectangle in $B_x(0,  \|x_{in}\|)$.
-
