@@ -35,7 +35,7 @@ else
 end
 %% get coeffs of wav
 j_min = 0;
-j_max = 3;
+j_max = 0; % 2 is good
 k_min = -20;
 k_max = 20;
 

@@ -5,8 +5,8 @@ xmax = 3;
 xmin = -3;
 ymax = 3;
 ymin = -3;
-dx = 0.05;
-dy = 0.05;
+dx = 0.25;
+dy = 0.25;
 
 dim = size(P.A,2);
 
@@ -26,7 +26,7 @@ if(exist('dist_array_xy') &&  sum(size(dist_array_xy) == size(meshgrid(grid_x,gr
     
 'already have data'
 else
-keyboard;
+%keyboard;
     'computing dist'
 dist_array_xy = zeros(numel(grid_x),numel(grid_y));
 [msg_x,msg_y] = meshgrid(grid_x,grid_y);
@@ -51,14 +51,10 @@ k_max = +10;
 j_min = 0;
 j_max = 3;
 
-E = E_dash; %test
-if( (size(C_ejk,1) == size(E,1)) && (size(C_ejk,2) == numel(j_min:j_max)) && ...
-	(size(C_ejk,3)==numel(k_min:k_max)^2)) %if C_ejk already exists
-'coeffs loaded'
-else
+%E = E_dash; %test
 'computing coeffs'
-C_ejk = getCoefficientsVector(grid_x,dist_array_xy,dx,j_min,j_max,k_min,k_max,E,0);
-end
+[C_00k,D_ejk] = alt_getCoefficientsVector(grid_x,dist_array_xy,dx,j_min,j_max,k_min,k_max,E_dash,0);
+
 %% test on grid
 'visualizing approximation on a smaller range'
 grid_x_half = xmin/2:dx:xmax/2;
@@ -76,10 +72,11 @@ end
 
 if(1)
    [msg_x,msg_y] = meshgrid(grid_x_half,grid_y_half);
-   a = arrayfun(@(x,y) getWavApprox_vector([x;y],C_ejk,k_min,k_max,j_min,j_max,E), msg_x(:), msg_y(:));
+   a = arrayfun(@(x,y) alt_getWavApprox_vector([x;y],C_00k,D_ejk,k_min,k_max,j_min,j_max,E_dash), msg_x(:), msg_y(:));
    fhat_array = reshape(a,numel(grid_x_half),numel(grid_y_half)); 
    
 end
+%%
 if(dim==2)
     figure;
    mesh(grid_x_half,grid_y_half,fhat_array); 
@@ -88,12 +85,14 @@ if(dim==2)
 end
 
 %% save
-wavparams.C_ejk = C_ejk;
+wavparams.D_ejk = D_ejk;
+wavparams.C_00k = C_00k;
 wavparams.E = E;
+wavparams.E_dash = E_dash;
 wavparams.k_min = k_min;
 wavparams.k_max = k_max;
 wavparams.j_min = j_min;
 wavparams.j_max = j_max;
-save('2d_data.mat','C_ejk','j_min','j_max','k_min','k_max','xmin','xmax',...
+save('2d_data.mat','D_ejk','C_00k','j_min','j_max','k_min','k_max','xmin','xmax',...
     'dist_array_xy','dist_array_xy_restrict','E','dx','wavparams','P','dim',...
     'grid_x','fhat_array','dim','grid_y','grid_x_half','grid_y_half');

@@ -19,4 +19,4 @@ err(i) = err(i)/abs(r_exact);
 end
 [mean((err)) std((err))]
 figure;
-hist(err)
+hist(err);grid on;

@@ -1,23 +1,39 @@
-function C_ejk = getCoefficientsVector(grid_x,dist_array_xy,dx,j_min,j_max,k_min,k_max,E,viz)
+function [C_00k,D_ejk] = alt_getCoefficientsVector(grid_x,dist_array_xy,dx,j_min,j_max,k_min,k_max,E_dash,viz)
 
 %see Nonlinear Approximation, R. A. DeVore, Acta Numerica 1998, Cambridge
 %University Press
 %%
-dim = log2(size(E,1)+0);
+E = E_dash(2:end,:);
+dim = log2(size(E,1)+1);
 K = permn(k_min:k_max,dim);
 k_sz = size(K,1);
 X = permn(grid_x,dim);
 x_sz = size(X,1);
 j_sz = numel(j_min:j_max);
-C_ejk = zeros(size(E,1),j_sz,k_sz);
+D_ejk = zeros(size(E_dash,1),j_sz,k_sz);
+C_00k = zeros(1,1,k_sz);
 
 %%
+%compute C_00k
+for k_dims = 1:k_sz
+    summation_C = 0;
+    parfor x_dims = 1:x_sz
+        x = (2^0)*X(x_dims,:)' - K(k_dims,:)';
+        [phis,~] = arrayfun(@(t) MeyerWavelet(t),x);
+        phis = (2^0)*phis';
+        bigPhi_00k_x = prod(phis);
+        g_x = dist_array_xy(x_dims);
+        summation_C = summation_C + (dx^dim)*g_x*bigPhi_00k_x; %check use of dim and dx here
+    end
+    C_00k(1,1,k_dims) = summation_C;
+end
+
 for e = 1:size(E,1)
     j_ix = 0;
     for j=j_min:1:j_max
         j_ix = j_ix + 1;
         for k_dims = 1:k_sz %k along each dim
-            summation_C = 0;
+            summation_D = 0;
             parfor x_dims = 1:x_sz
                 if(viz)
                 [e j k_dims x_dims]
@@ -32,9 +48,9 @@ for e = 1:size(E,1)
                 bigPsi_ejk_x = prod(bigPsi_temp);
                 % check if vectorization preserves locations in this %
                 g_x = dist_array_xy(x_dims);
-                summation_C = summation_C + (dx^dim)*g_x*bigPsi_ejk_x; %check use of dim and dx here
+                summation_D = summation_D + (dx^dim)*g_x*bigPsi_ejk_x; %check use of dim and dx here
             end
-            C_ejk(e,j_ix,k_dims) = summation_C;
+            D_ejk(e,j_ix,k_dims) = summation_D;
         end
     end
     
