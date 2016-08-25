@@ -28,14 +28,12 @@ This is needed for computing $\ua{V}_{k+j|k}$ and $\tE_{k+j|k}$.
  Propagating $\Xset{k}{k}$ forward one step through the continuous-time nonlinear dynamics yields $\Xset{k+1}{k}$, which is outer-approximated by $\RT{\Xset{k}{k}}$.
  The state estimate that the system will receive at time $k+1$ is therefore bound to be in the set $\RT{\Xset{k}{k}}  \oplus E$.
  Since $0 \in E$, we maintain $\Xset{k+1}{k} \subset \RT{\Xset{k}{k}}  \oplus E$.
- We define the outer-approximate reach set at $k+1$, computed at time $k$, to be 
- \begin{equation*}
- \label{eq:def Xk}
- \oaXset{k+1}{k} \defeq  \RT{\Xset{k}{k}}  \oplus E \oplus  (-E)
- \end{equation*}
- (The reason for adding the extra $-E$ term will be apparent in the proof to Thm. \ref{th:robust_feas}).
-
- More generally, for $1 \leq j \leq N$, we define the $j$-step approximation computed at time $k$ to be
+% We define the outer-approximate reach set at $k+1$, computed at time $k$, to be 
+% \begin{equation*}
+% \label{eq:def Xk}
+% \oaXset{k+1}{k} \defeq  \RT{\Xset{k}{k}}  \oplus E \oplus  (-E)
+% \end{equation*}
+For $1 \leq j \leq N$, we define the $j$-step over-approximate reach set computed at time $k$ to be
  \begin{eqnarray}
  \label{eq:def Xkj}
  \oaXset{k}{k} &\defeq&   \hx_{k} \oplus (-E) 
@@ -43,6 +41,7 @@ This is needed for computing $\ua{V}_{k+j|k}$ and $\tE_{k+j|k}$.
  \\
  \oaXset{k+j}{k} & \defeq& \RT{\oaXset{k+j-1}{k}} \oplus E \oplus (-E) 
  \end{eqnarray}
+  (The reason for adding the extra $-E$ term will be apparent in the proof to Thm. \ref{th:robust_feas}).
   Fig. \ref{fig:overreach_NL} shows a visualization of this approach.
  The following holds by construction:
  \begin{lemma}
@@ -58,7 +57,7 @@ This is needed for computing $\ua{V}_{k+j|k}$ and $\tE_{k+j|k}$.
  	\label{fig:overreach_NL}
  \end{figure}
  
- This construction of $\oaXset{k+j}{k}$ permits us to prove recursive feasibility of the RMPC controller, because it causes the constraints of the RMPC problem setup at time $k+1$ to be consistent with the constraints of the RMPC problem setup at time $k$.
+ This construction of $\oaXset{k+j}{k}$ permits us to prove recursive feasibility of the RMPC controller, because it causes the constraints of the RMPC problem setup at time $k+1$ to be consistent with the constraints of the problem setup at time $k$.
 
 \subsection{Approximating the bounding sets for the input}
 \label{sec:approx input sets}
@@ -67,9 +66,10 @@ We assume that there exist functions $\ua{v}_i, \oa{v}_i: X \rightarrow \Re$ s.t
 Because in general $V(x)$ is not a rectangle, we work with inner and outer rectangular approximations of $V(x)$.
 Specifically, let $\Xc$ be a subset of $X$.
 Define the inner and outer bounding rectangles, respectively
+{\small 
 \[\ua{V}(\Xc) \defeq \{[v_1,\ldots,v_{\dimV}]^T \such \max_{x\in \Xc} \ua{v}_i(x;U)  \leq v_i \leq \min_{x \in \Xc} \oa{v}_i(x;U) \} \]
 \[\oa{V}(\Xc) \defeq \{[v_1,\ldots,v_{\dimV}]^T \such \min_{x\in \Xc} \ua{v}_i(x;U)  \leq v_i \leq \max_{x \in \Xc} \oa{v}_i(x;U) \} \]
-
+}
 By construction, we have for any subset $\Xc \subset X$
 \begin{equation}
 \label{eq:Vbounds}
@@ -89,6 +89,7 @@ We can compute:
 In practice we use interval arithmetic to compute these sets since $\oaXset{k+j}{k}$ and $U$ are hyper-intervals.
 Fig. \ref{fig:err bounds toy} shows these sets for the running example.
 \begin{figure}
+	\centering
 	\includegraphics[angle=270,width=0.39\textwidth]{figs/InputToy.pdf}
 	\caption{Local and global inner approximations of input constraints for running example, with $\oa{X}_{k+j|k} =  [-\pi/4,0]\times[-0.9666,-0.6283]$ for some $k,j$ and $U = [-2.75,2.75]$. Color in online version.}
 	\label{fig:err bounds toy}
@@ -151,12 +152,12 @@ Therefore
 \hw_{k+j+1} \in \What_{k+j+1|k} \defeq W \oplus \tE_{k+j+1|k} \oplus(-A\tE_{k+j|k})
 \end{equation}
 
-We also define the set $\tE_{max}$, which is necessary for the terminal constraints of Eq. \eqref{eq:P_f_def}. $\tilde{E}_{max}$ represents the worst case bound on the estimation error $\te_{k}$, and is computed similar to Eq. \eqref{eq:tildeE}, but over the entire set $X$. %and not reachable subsets of it:
+We also define the set $\tE_{max}$, which is necessary for the terminal constraints of Eq. \eqref{eq:P_f_def}. $\tilde{E}_{max}$ represents the worst case bound on the estimation error $\te_{k}$, and is computed similar to Eq. \eqref{eq:H}, but over the entire set $X$. %and not reachable subsets of it:
 
-\begin{equation}
-\label{eq:EtildeMax}
-\sum_{\ell=1}^{n} \min_{x \in X, e \in E} M_{i\ell}(x)e(\ell)  \leq \te_{k}(i)  \leq \sum_{\ell=1}^{n} \max_{x \in X, e \in E} M_{i\ell}(x)e(\ell)
-\end{equation}
+%\begin{equation}
+%\label{eq:EtildeMax}
+%\sum_{\ell=1}^{n} \min_{x \in X, e \in E} M_{i\ell}(x)e(\ell)  \leq \te_{k}(i)  \leq \sum_{\ell=1}^{n} \max_{x \in X, e \in E} M_{i\ell}(x)e(\ell)
+%\end{equation}
 
 $\What_{max}$ is then defined as:
 \begin{equation}

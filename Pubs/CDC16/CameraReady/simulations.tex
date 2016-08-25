@@ -4,7 +4,7 @@
 We evaluate our approach on the running example, and on a 4D flexible joint manipulator.
 We implemented the RMPC controller of Alg. \ref{alg:RMPC} in MATLAB
 The set computations were done using the MPT Toolbox \cite{MPT3}, and the invariant set computations using the Matlab Invariant Set Toolbox \cite{IST}. 
-The reachability computations for $\oaXset{k+j}{k}$ were performed on the linear dynamics and mapped back to $x$-space as described in point 4) of Sec. \ref{sec:transforming x to z}. 
+The reachability computations for $\oaXset{k+j}{k}$ were performed on the linear dynamics and mapped back to $x$-space. 
 %Note, with this over approximation of $\oaXset{k+j}{k}$, Lemma \ref
 The RMPC optimizations were formulated in CVX \cite{cvx} and solved by Gurobi \cite{gurobi}.
 
@@ -41,50 +41,46 @@ z = T(x) = \begin{bmatrix} x_1 \\ x_2 \\ -\frac{mgl}{I}\sin(x_1) -\frac{\sigma}{
 %M(x_k) = \begin{bmatrix} 1&0&0&0 \\ 0&1&0&0 \\ -\frac{mgl}{I} cos(x_{1k}) -\frac{k}{I} &0 &\frac{k}{I} &0 \\ \frac{mgl}{I}x_{2k}sin(x_{1k}) & -\frac{mgl}{I} cos(x_{1k}) - \frac{k}{I} & 0 & \frac{k}{I}     \end{bmatrix}
 %\end{equation}
 The input to the feedback linearized system is given by $v=\beta u+ \alpha(x)$ where $\beta=\frac{\sigma}{IJ} $ and 
-\begin{eqnarray*}
-\label{eq:fblin_inp}
-\alpha(x)&=&\frac{mgl}{I}x_2^2sin(x_1) + \frac{\sigma^2}{IJ}(x_1-x_3) \nonumber \\
-&-& (\frac{mgl}{I}cos(x_1)-\frac{\sigma}{I})(\frac{mgl}{I}sin(x_1)+\frac{\sigma}{I}(x_1-x_3))
-\end{eqnarray*}
-
+$\alpha(x) = \frac{mgl}{I}x_2^2sin(x_1) + \frac{\sigma^2}{IJ}(x_1-x_3)  - (\frac{mgl}{I}cos(x_1)-\frac{\sigma}{I})(\frac{mgl}{I}sin(x_1)+\frac{\sigma}{I}(x_1-x_3))$
+%{\small
+%\begin{eqnarray*}
+%\label{eq:fblin_inp}
+%\alpha(x)&=&\frac{mgl}{I}x_2^2sin(x_1) + \frac{\sigma^2}{IJ}(x_1-x_3) \nonumber \\
+%&-& (\frac{mgl}{I}cos(x_1)-\frac{\sigma}{I})(\frac{mgl}{I}sin(x_1)+\frac{\sigma}{I}(x_1-x_3))
+%\end{eqnarray*}
+%}
 The feedback linearized system $S_{fl}$ has the dynamics:
 $\dot{z_1} = z_2, \dot{z_2} = z_3, \dot{z_3} = z_4, \dot{z_4} = v$.
 
 
 A global inner approximation of the $v$ input set is computed, via interval arithmetic, as $V_{inner-global} = [max_{x\in X}\alpha(x) + \beta \underline{u}, min_{x\in X}\alpha(x) + \beta \overline{u}]$. 
 Similarly, the inner approximations $\ua{V}_{k+j|k}$ are computed online by interval arithmetic as $\ua{V}_{k+j|k} = [max_{x\in \oa{X}_{k+j|k}} \alpha(x) + \beta \underline{u},  min_{x\in \oa{X}_{k+j|k}}\alpha(x) + \beta \overline{u}]$. 
-Using the procedure of Sec. \ref{sec:transforming x to z} the set of safe states for $S_{fl}$ is given by $Z = [-0.5121, 0.5121]^2 \times [-2.5347, 2.5347] \times [-2.5603, 2.5603]$. Also $X_0 = [-0.4655,0.4655]^2 \times [-2.7598,2.7598] \times [-2.793,2.793]$. Comparing it to the set $X$, it shows that we can stabilize the system starting from initial states in a significantly large region in $X$.
+Using the procedure in the appendix \cite{PantAM16_RMPC} the set of safe states for $S_{fl}$ is given by $Z = [-0.5121, 0.5121]^2 \times [-2.5347, 2.5347] \times [-2.5603, 2.5603]$. Also $X_0 = [-0.4655,0.4655]^2 \times [-2.7598,2.7598] \times [-2.793,2.793]$. Comparing it to the set $X$, it shows that we can stabilize the system starting from initial states in a significantly large region in $X$.
 
 We applied our controller to the above system with a discretization rate of 10Hz and MPC horizon $N=10$.
 Fig.\ref{fig:AllStates_manip} show the states of the feedback linearized system $S_{fl}$. 
 They converge to the origin in the presence of estimation error, while respecting all constraints.
-Fig. \ref{fig:AllStates_manip} also shows $x_3$ and $x_4$: they also converge to zero (and remember $x_1 = z_1$ and $x_2 = z_2$).
-
+Fig. \ref{fig:AllStates_manip} also shows $x_3$ and $x_4$: they also converge to zero.% (and remember $x_1 = z_1$ and $x_2 = z_2$).
 \begin{figure}
 \includegraphics[angle=270,width=0.49\textwidth]{figs/AllStates_manip.pdf}
-\caption{The states and their estimates of the feedback linearized and non-linear manipulator. Recall that $z_1 = x_1$ and $z_2=x_2$, therefore to reduce clutter, we only plot first two states only for the feedback linearized system. Color in online version.}
+\caption{The states and their estimates of the feedback linearized and non-linear manipulator. Note $z_1 = x_1$ and $z_2=x_2$. Color in online version.}
 \label{fig:AllStates_manip}
 \end{figure}
-
 %\begin{figure}
 %\includegraphics[width=0.49\textwidth]{figs/z_1n2_manip.pdf}
 %\caption{$z_1$ and $z_2$ and their estimates $\hat{z_1}, \, \hat{z_2}$ vs time. Recall $z_1=x_1, z_2 = x_2$.}
 %\label{fig:z_12}
 %\end{figure}
-
-
 %\begin{figure}
 %\includegraphics[width=0.49\textwidth]{figs/z_1n2_manip.pdf}
 %\caption{$z_1$ and $z_2$ and their estimates $\hat{z_1}, \, \hat{z_2}$ vs time. Recall $z_1=x_1, z_2 = x_2$.}
 %\label{fig:z_12}
 %\end{figure}
-
 %\begin{figure}
 %\includegraphics[width=0.49\textwidth]{figs/z_3n4_manip.pdf}
 %\caption{$z_3$ and $z_4$ and their estimates $\hat{z_3}, \, \hat{z_4}$ vs time. }
 %\label{fig:z_34}
 %\end{figure}
-
 Fig. \ref{fig:v_and_limits} shows the input $v$ to $S_{fl}$ along with the global inner approximation $V_{inner-global}$ and the $x$-dependent inner approximations at the instant when the control is applied,  $\ua{V}_{k|k}$ computed online.
 Note that the bounds computed online allow for significantly more control action compared to the conservative global inner approximation. 
 Finally, Fig. \ref{fig:v_and_limits} also shows the input $u$ applied to the non-linear system (and its bounds), which robustly respects its constraints $u \in U$.

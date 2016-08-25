@@ -11,17 +11,19 @@ $T$ is a diffeomorphism \cite{khalil} over a domain $D \subset X$.
 %Without loss of generality, we assume that the system  has a relative degree $\rho=\dimX$ for SISO systems, and similarly a vector relative degree $\lbrace \rho_i \rbrace_{i=1}^{\dimU}\, \text{s.t.} \sum_i \rho_i = \dimU$ for MIMO systems (assuming number of outputs is the same as the number of inputs, $\dimU$).
 The original and transformed states, $x$ and $z$, have the same dimension, as do $u$ and $v$, i.e. $\dimX = \dimZ$ and $\dimU = \dimV$.
 Because we are controlling the feedback linearized system, we must find constraint sets $Z$ and $V$ for the state $z$ and input $v$, respectively, such that $(z,v) \in Z\times V \implies (\iT(z), u(\iT(z), v)) \in X \times U$.
-Without loss of generality we assume that the system \eqref{eq:generic NLMPC} has no zero dynamics and all states are controllable \cite{khalil}. In case there are zero dynamics, then our approach is only applicable to the controllable subset of the states.
+%This is done in the online appendix \cite{PantAM16_RMPC}.
+We assume that the system \eqref{eq:generic NLMPC} has no zero dynamics \cite{khalil} and all states are controllable. 
+In case there are zero dynamics, then our approach is applicable to the controllable subset of the states as long as the span of the rows of $G(x)$ is involutive \cite{khalil}.
 
-For feedback linearizing \eqref{eq:generic NLMPC} and for controlling \eqref{eq:generic NLMPC}, only a periodic state estimate $\hx$ of $x$ is available.
+For feedback linearizing and controlling \eqref{eq:generic NLMPC}, only a periodic state estimate $\hx$ of $x$ is available.
 This estimate is available periodically every $\tau$ time units, so we may write $\hx_{k} \defeq \hx(k\tau) = x_k + e_k$, where $x_k$ and $e_k$ are sampled state and error respectively.
 We assume that $e_k$ is in a bounded set $E$ for all $k$.
 This implies that the feedback linearized system can be represented in discrete-time: $z_{k+1} = Az_k + B z_k$.
 
-The corresponding $z$-space estimate $\hz_{k}$ is given by $\hz_{k} = T(\hx_{k})$.
+The corresponding $z$-space estimate $\hz_{k}$ is $\hz_{k} = T(\hx_{k})$.
 In general the $z$-space error $\tilde{e}_k \defeq T(\hx_k) - T(x_k)$ is bounded for every $k$ but does not necessarily lie in $E$.
 Let $\tE_{k}$ be the set containing $\tilde{e}_k$: in Sec. \ref{sec:approx dist} we show how to compute it.
-
+%
 Because the linearizing control operates on the state estimate and not $x_k$, we add a process noise term to the linearized, discrete-time dynamics. 
 Our system model is therefore
 \begin{equation}
@@ -30,14 +32,16 @@ z_{k+1} = Az_k + Bv_k + w_k
 \end{equation}
 where the noise term $w_k$ lies in the bounded set $W$ for all $k$.
 An estimate of $W$ can be obtained using the techniques of this paper.
-The control problem \eqref{eq:generic NLMPC} is therefore replaced by:
+The problem \eqref{eq:generic NLMPC} is therefore replaced by:
 \begin{eqnarray}
 \label{eq:discrete linear problem}
 \min_{\textbf{z},\textbf{v}} &\;& q(\mathbf{z},\mathbf{v}) = \sum_{k=0}^{\infty}z_k^TQz_k + v_k^TRv_k \\
 \text{s.t. } z_{k+1} &=& Az_k + Bv_k + w_k\nonumber \\
 z_k&\in& Z,  v_k \in V,w_k \in W  \nonumber
 \end{eqnarray}
-Note, in general, the cost function $l(\mathbf{x},\mathbf{u}) \neq q(\mathbf{z},\mathbf{v})$, therefore the  objective function in \eqref{eq:discrete linear problem} is a choice the control designer makes. For more details and when the quadratic form of $q(\mathbf{z},\mathbf{v})$ is justified, see \cite{SimonLG13_MPC}.
+In general, the cost function $l(\mathbf{x},\mathbf{u}) \neq q(\mathbf{z},\mathbf{v})$.
+The  objective function in \eqref{eq:discrete linear problem} is a choice the control designer makes. 
+For more details and when the quadratic form of $q(\mathbf{z},\mathbf{v})$ is justified, see \cite{SimonLG13_MPC}.
 In Thm. \ref{thm:stability}, we show that minimizing this cost function, $q(\mathbf{z},\mathbf{v})$, implies stability of the system.
 
 It is easy to derive the dynamics of the state estimate $\hz_{k}$: 
@@ -65,7 +69,7 @@ where $\hw_{k+1} = w_k+ \tilde{e}_{k+1} -A \tilde{e}_{k}$, and lies in the set $
 \end{exmp}
 
 For a more complicated $T$, it is not possible to obtain analytical expressions for $Z$. 
-The computation of $Z$ in this more general case is addressed in Sec. \ref{sec:transforming x to z}.
+The computation of $Z$ in this more general case is addressed in the online appendix \cite{PantAM16_RMPC}.
 
 \textbf{Notation}.
 %Given a subset $\Xc$ of $X$ and a horizon $T \geq 0$, the \emph{reachable set of system $S$ from $\Xc$ in time $T$ subject to inputs in $U$} is the set of states that $S$ visits at time $T$ if it starts somewhere in $\Xc$ and is subjected to inputs from $U$.
@@ -75,5 +79,6 @@ Their \emph{Pontryagin difference} is $A\ominus B = \{c \in \Re^n \such c+b \in 
 Given integers $n \leq m$, $[n:m] \defeq \{n,n+1,\ldots,m\}$.
 
 \textbf{Assumption}. 
-The approach we use applies when $X, U, E$ and $W$ are arbitrary convex polytopes (i.e. bounded intersections of half-spaces).
-For the sake of simplicity, in this paper we assume they are all hyper-rectangles that contain the origin, i.e. sets of the form $[\underline{a}_1, \overline{a}_1] \times \ldots \times  [\underline{a}_n, \overline{a}_n]$, $\underline{a}_i \leq 0 \leq \overline{a}_i\,\forall i$.
+Our approach applies when $X, U, E$ and $W$ are arbitrary convex polytopes (i.e. bounded intersections of half-spaces).
+For the sake of simplicity, in this paper we assume they are all hyper-rectangles that contain the origin
+%, i.e. sets of the form $[\underline{a}_1, \overline{a}_1] \times \ldots \times  [\underline{a}_n, \overline{a}_n]$, $\underline{a}_i \leq 0 \leq \overline{a}_i\,\forall i$.

@@ -1,13 +1,13 @@
 \section{Discussion}
 \label{sec:discussion}
 In this paper we develop the first algorithm for robust control of a non-linear system with estimation errors and state and input constraints via feedback linearization and Robust MPC. 
-We develop a method to compute linear constraints on the state and inputs of the feedback linearized system such that the non-linear system respects its state and input constraints under bounded state estimation errors. 
-We demonstrate the applicability of our approach on a planar system and a flexible link manipulator example. Results show that the control algorithm stabilizes the systems while ensuring robust constraint satisfaction.% and being feasible at all time instants. 
+%We demonstrate the applicability of our approach on a planar system and a flexible link manipulator example. 
+Experimental results show that the control algorithm stabilizes the systems while ensuring robust constraint satisfaction.% and being feasible at all time instants. 
 While we only evaluated our approach for single input systems, the formulation and set computations involved hold as is for multi-input systems as well.
 
-Limitations of the approach mostly have to do with the numerical limitations involved in computing the constraint sets.
-E.g., in the manipulator example, the set of states $X_0$ from which we can control the system is a strict subset of the set of safe states $X$.
-Similarly in the computation of the input and error sets, over-conservatism is potentially a problem.
+Limitations of the approach mostly have to do with the numerical limitations involved in computing the constraint sets, and potential conservatism of the approximations.
+%E.g., in the manipulator example, the set of states $X_0$ from which we can control the system is a strict subset of the set of safe states $X$.
+%Similarly in the computation of the input and error sets, over-conservatism is potentially a problem.
 
 %Ongoing work focuses on implementing this approach for evaluation on a $1/10^{th}$ scale autonomous car, running a low power embedded platform. 
 %Real-time online reachability \cite{rtreach}, interval arithmetic,
