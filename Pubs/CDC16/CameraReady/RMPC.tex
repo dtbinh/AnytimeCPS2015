@@ -33,13 +33,13 @@ p_{N+1}               &= \lbrack z_{k+N+1|k} , v_{k+N|k} \rbrack^{T}  \in P_f \l
 Here, $\nz$ is the state of the nominal feedback linearized system.
 The cost and constraints of the optimization are explained below:
 \begin{itemize}
-\item Eq. \eqref{eq:cost} shows a cost quadratic in $\nz$ and $v$, where as usual $Q$ is positive definite and $R$ is positive semi-definite. 
+\item Eq. \eqref{eq:cost} shows a cost quadratic in $\nz$ and $v$, where as usual $Q$ is positive semi-definite and $R$ is positive definite. 
 In the terminal cost term, $Q_f$ is the solution of the Lyapunov equation $Q_f-(A+BK)^{T}Q_f(A+BK) = Q+K^{T}RK$.
 This choice guarantees that the terminal cost equals the infinite horizon cost under a linear feedback control $\nz \mapsto K\nz$ \cite{CannonK15MPC}.
 
 \item Eq. \eqref{eq:init_cond} initializes the nominal state with the current state estimate.
 
-\item Eq. \eqref{eq:nom_dyn} gives the nominal dynamics of the discretized linearized system.
+\item Eq. \eqref{eq:nom_dyn} gives the nominal dynamics of the discretized feedback linearized system.
 
 \item Eq. \eqref{eq:states_con} tightens the admissible set of the nominal state by a sequence of shrinking sets.
 

@@ -2,3 +2,5 @@
 *.bbl
 *.aux
 root.pdf
+*.log
+*.*.gz

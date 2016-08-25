@@ -12,7 +12,7 @@ $T$ is a diffeomorphism \cite{khalil} over a domain $D \subset X$.
 The original and transformed states, $x$ and $z$, have the same dimension, as do $u$ and $v$, i.e. $\dimX = \dimZ$ and $\dimU = \dimV$.
 Because we are controlling the feedback linearized system, we must find constraint sets $Z$ and $V$ for the state $z$ and input $v$, respectively, such that $(z,v) \in Z\times V \implies (\iT(z), u(\iT(z), v)) \in X \times U$.
 This is done in Sec. \ref{sec:transforming x to z}.
-Without loss of generality we assume that the system \eqref{eq:generic NLMPC} has no zero dynamics and all states are controllable \cite{khalil}. 
+Without loss of generality we assume that the system \eqref{eq:generic NLMPC} has no zero dynamics and all states are controllable \cite{khalil}. In case there are zero dynamics, then our approach is only applicable to the controllable subset of the states.
 
 For feedback linearizing \eqref{eq:generic NLMPC} and for controlling \eqref{eq:generic NLMPC}, only a periodic state estimate $\hx$ of $x$ is available.
 This estimate is available periodically every $\tau$ time units, so we may write $\hx_{k} \defeq \hx(k\tau) = x_k + e_k$, where $x_k$ and $e_k$ are sampled state and error respectively.
@@ -34,11 +34,12 @@ An estimate of $W$ can be obtained using the techniques of this paper.
 The control problem \eqref{eq:generic NLMPC} is therefore replaced by:
 \begin{eqnarray}
 \label{eq:discrete linear problem}
-\min_{\textbf{z},\textbf{v}} &\;& \sum_{k=0}^{\infty}z_k^TQz_k + v_k^TRv_k \\
+\min_{\textbf{z},\textbf{v}} &\;& q(\mathbf{z},\mathbf{v}) = \sum_{k=0}^{\infty}z_k^TQz_k + v_k^TRv_k \\
 \text{s.t. } z_{k+1} &=& Az_k + Bv_k + w_k\nonumber \\
 z_k&\in& Z,  v_k \in V,w_k \in W  \nonumber
 \end{eqnarray}
-(In Thm. \ref{thm:stability}, we show that minimizing this cost function implies stability of the system).
+Note, in general, the cost function $l(\mathbf{x},\mathbf{u}) \neq q(\mathbf{z},\mathbf{v})$, therefore the  objective function in \eqref{eq:discrete linear problem} is a choice the control designer makes. For more details and when the quadratic form of $q(\mathbf{z},\mathbf{v})$ is justified, see \cite{SimonLG13_MPC}.
+In Thm. \ref{thm:stability}, we show that minimizing this cost function, $q(\mathbf{z},\mathbf{v})$, implies stability of the system.
 
 It is easy to derive the dynamics of the state estimate $\hz_{k}$: 
 \begin{eqnarray}

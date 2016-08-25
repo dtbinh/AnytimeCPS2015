@@ -6,7 +6,7 @@ inner approximations of the admissible input sets $\ua{V}_{k+j|k}$,
 bounding sets for the ($T$-mapped) estimation error $\tE_{k+j|k}$, 
 bounding sets for the process noise $\What_{k+j|k}$, 
 and the largest error and noise sets $\tE_{max}$ and $\What_{max}$.
-In this section we show how these sets are defined and computed.
+In this section we show how these sets are defined and computed. Note, our approach is an extension to \cite{SimonLG13_MPC} as: 1) we compute the feasible set for the states of the feedback linearized system under a non-trivial diffeomorpism $T$, 2) we compute the bounding sets for disturbances while considering estimation error and process noise, neither of which are considered in \cite{SimonLG13_MPC}. In addition, due to the presence of state-estimation error, we compute these sets using an over-approximation of the reach set, as seen in the following subsection.
 
  \subsection{Approximating the reach set of the nonlinear system}
  \label{sec:x reach}
@@ -96,7 +96,7 @@ Fig. \ref{fig:err bounds toy} shows these sets for the running example.
 We will also need to define containing sets for the state estimation error in $z$ space:
 recall that $\hat{z}_k = T(\hat{x}_k) = T(x_k+e_k)$. 
 %******************
-We use a Taylor expansion
+We use a Taylor expansion (and the remainder theorem)
 \begin{eqnarray}
 \label{eq:taylor expansion T}
 \hat{z}_k &=& T(x_k) + \underbrace{\frac{dT}{dx}(x_k)}_{M(x_k)}e_k+ \underbrace{\frac{1}{2}e_k^T \frac{d^2T}{dx^2}(c)e_k}_{r_k(c)}, c \in x_k + E \nonumber 

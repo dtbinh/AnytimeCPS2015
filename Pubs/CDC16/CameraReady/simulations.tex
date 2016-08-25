@@ -50,7 +50,7 @@ This models a system where a motor, with an angular moment of inertia $J=1$,  is
 States $x_1$ and $x_2$ are the angles of the bar and motor shaft in radians, respectively, and $x_3, x_4$ are their respective rotational speeds in radians/sec.
 The safe set is the box $X = [-\pi/4,\pi/4] \times [-\pi/4,\pi/4] \times [-\pi,\pi] \times [-\pi,\pi]$.
 The input torque $u$ is bounded in $U = [\underline{u}, \overline{u}] = [-10 , 10 ]N\cdot m$. 
-The estimation error $e = \hat{x} - x$ is bounded in $E = [-\pi /180, \pi /180]^4$ and $W=[-10^{-3}, 10^{-3}]^4$.
+The estimation error $e = \hat{x} - x$ is bounded in $E = [-\pi /180, \pi /180]^4 \in \Re^4$ and $W=[-10^{-3}, 10^{-3}]^4 \in \Re^4$.
 
 The diffeomorphism $T$ is given by:
 \begin{equation}
