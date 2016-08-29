@@ -31,7 +31,7 @@ This differs significantly from our approach, where we formulate the RMPC on the
 Existing work on MPC via feedback linearization and input/state constraints has also assumed that either $T$ is the identity \cite{SimonLG13_MPC}, 
 or, in the case of uncertainties in the parameters, that there are no state constraints \cite{parameter}.
 %\todo[inline]{litt search}
-A non-identity $T$ is problematic when the state is not perfectly known, since the state estimation error $e = \hx-x$ maps to the linearized dynamics via $T$ in non-trivial ways greatly complicating the analysis.
+A non-identity $T$ is problematic when the state is not perfectly known, since the state estimation error $e = \hx-x$ maps to the linearized dynamics via $T$ in non-trivial ways, greatly complicating the analysis.
 In particular, the error bounds for the state estimate in $z$-space now depend on the current nonlinear state $x$.
 One of the complications introduced by feedback linearization is that the bounds on the input ($u \in U$) may become a non-convex state-dependent constraint on the input $v$ to $S_{fl}$: 
 $V = \{\ua{v}(x, U) \leq v \leq \oa{v}(x,U)\}$.

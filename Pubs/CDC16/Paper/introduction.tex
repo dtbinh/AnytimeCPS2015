@@ -22,7 +22,7 @@ The state $z$ of the linearized system $S_{fl}$ is related to the state $x$ of t
 
 Previous work on nonlinear MPC with feedback linearization assumed the state $x(t)$ is perfectly known to the controller at any moment in time \cite{SimonLG13_MPC}.
 In practice, only a state estimate $\hx(t)$ is available, and $\hx(t) \neq x(t)$.
-Thus a controller designed to work optimally when operating on the true state $x$ is in general sub-optimal when operating on $\hx$ (any may even lead to instability).
+Thus a controller designed to work optimally when operating on the true state $x$ is in general sub-optimal when operating on $\hx$ (and may even lead to instability).
 Robust MPC (RMPC) has been investigated as a way of handling state estimation errors for linear \cite{RichardsH05_RMPC} and nonlinear systems \cite{tube,relaxed}, but not via feedback linearization. 
 In particular, for non-linear systems, \cite{tube} develops a non-linear MPC with tube like constraints for robust feasibility, but involves solving two (non-convex) optimal control problems. 
 In \cite{relaxed}, the authors solve a non-linear Robust MPC through a bi-level optimization that involves solving a non-linear, non-smooth optimization which is challenging. 
