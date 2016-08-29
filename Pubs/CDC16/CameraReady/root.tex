@@ -139,8 +139,14 @@ Corporation program sponsored by MARCO and DARPA, NSF MRI-0923518 and the US Dep
 \input{SetDefsRMPC}
 \input{simulations}
 \input{conclusion}
-%\input{appendix}
 
+\ifthenelse{\boolean{TECH_REPORT}}
+{
+\input{appendix}
+}
+{
+% no appendix
+}
 %\section*{Acknowledgements}
 %We would like to thank Kuk Jang for his help in creating several of the diagrams in this paper.
 \bibliographystyle{IEEEtran}%abbrv}

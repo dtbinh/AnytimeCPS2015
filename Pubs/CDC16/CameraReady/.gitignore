@@ -4,3 +4,5 @@
 root.pdf
 *.log
 *.*.gz
+*.pdf
+

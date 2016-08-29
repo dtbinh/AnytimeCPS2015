@@ -10,7 +10,7 @@ In this section we show how these sets are defined and computed. Note, our appro
 
 Since we control the system in $z$-space, we need to compute a set $Z \subset \Re^{\dimZ}$ s.t. $z \in Z \implies x = \iT(z) \in X$.
 Moreover, to check feasibility at time 0 of the MPC optimization, we need a subset $X_0 \subset X$ s.t. $x \in X_0 \implies z = T(x) \in Z$.
-Mapping sets between $z$ and $x$ spaces via the arbitrary diffeomorphism $T$ has to be done numerically, and we show how in the online appendix. 
+Mapping sets between $z$ and $x$ spaces via the arbitrary diffeomorphism $T$ has to be done numerically, and we show how in the \ifthenelse{\boolean{TECH_REPORT}}{appendix.} {online report \cite{PantAM16_RMPC}.}
 
  \subsection{Approximating the reach set of the nonlinear system}
  \label{sec:x reach}

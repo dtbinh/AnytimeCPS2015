@@ -1,7 +1,7 @@
 \section{Experiments}
 \label{sec:simulations}
 
-We evaluate our approach on a 4D flexible joint manipulator and a simple 2-state example (in the online technical report \cite{PantAM16_RMPC}).
+We evaluate our approach on a 4D flexible joint manipulator and a simple 2-state example \ifthenelse{\boolean{TECH_REPORT}}{(in the appendix).} {(in the online technical report \cite{PantAM16_RMPC}).}
 We implemented the RMPC controller of Alg. \ref{alg:RMPC} in MATLAB
 The set computations were done using the MPT Toolbox \cite{MPT3}, and the invariant set computations using the Matlab Invariant Set Toolbox \cite{IST}. 
 The reachability computations for $\oaXset{k+j}{k}$ were performed on the linear dynamics and mapped back to $x$-space. 
