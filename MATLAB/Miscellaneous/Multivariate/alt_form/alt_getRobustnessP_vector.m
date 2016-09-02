@@ -9,6 +9,9 @@ signed_dists_inex = cellfun(@(x) alt_getWavApprox_vector(x,wavparams.C_00k, wavp
         wavparams.k_min,wavparams.k_max,wavparams.j_min,wavparams.j_max, ...
         wavparams.E_dash), S, 'UniformOutput', false);
 C = signed_dists_inex;
+S1 = sprintf('%f*', C{:});
+Sd = sscanf(S1, '%f*');
+r_P = SoftMin(Sd);
 else
     if(exist('Staliro')>0)
     signed_dists = cellfun(@(x) SignedDist(x,P.A,P.b), S, 'UniformOutput', false);
@@ -16,10 +19,11 @@ else
     else
     signed_dists = cellfun(@(x) getSignedDistance(x,P), S, 'UniformOutput', false);
     end
-    C = signed_dists;
-end
-
-S1 = sprintf('%f*', C{:});
+   C = signed_dists;
+   S1 = sprintf('%f*', C{:});
 Sd = sscanf(S1, '%f*');
 
 r_P = min(Sd);
+end
+
+

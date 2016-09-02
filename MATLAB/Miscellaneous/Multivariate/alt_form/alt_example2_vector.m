@@ -19,12 +19,12 @@ close all;clc;
 %plot(P1);hold all;plot(P2);
 
 %% 
-Ntrials = 100;
+Ntrials = 10;
 len = 10;
 dim  = size(P1.A,2);
 
 parfor i = 1:Ntrials
-
+i
 trajec(:,:,i) = 0.5*randn(len,dim);
 traj = trajec(:,:,i)';
 
