@@ -1,11 +1,11 @@
 %run tmuxinator start ErrorComp for running shit and logging data after bag
 %file play
 close all;clc;
-filepath = '~/bag_files/bag_files/processed/2016-05-12/run3/run3_1_200fts.bag';
+filepath = '~/bag_files/bag_files/processed/2016-06-04/run1/run1_1_125fts.bag';
 bag = rosbag(filepath);
 
 %offset for end if needed
-off_end = 30; %2016-05-12/run2/, use 30 or above, 50 works for run3 as well
+off_end = 0; %2016-05-12/run2/, use 30 or above, 50 works for run3 as well
 
 
 %svo_odom = select(bag,'Topic','/svo/odom');
@@ -27,13 +27,28 @@ Vis_Pose_Ori = timeseries(Vision_Pose,'Pose.Orientation.W','Pose.Orientation.X',
 
 %% plot3
 figure;
-plot3(Vic_Pose_Pos.Data(1:end-off_end,1),Vic_Pose_Pos.Data(1:end-off_end,2), ...
-    Vic_Pose_Pos.Data(1:end-off_end,3));
-hold all;
-grid on;
-plot3(Vis_Pose_Pos.Data(1:end-off_end,1),Vis_Pose_Pos.Data(1:end-off_end,2), ...
-    Vis_Pose_Pos.Data(1:end-off_end,3));
-legend('Vicon','Vision');
+axis([-2 2 -2 2 0 3]);
+for i = 1:size(Vic_Pose_Pos.Data,1)-off_end
+    axis([-2 2 -2 2 0 3]);
+    plot3(Vic_Pose_Pos.Data(i,1),Vic_Pose_Pos.Data(i,2), ...
+        Vic_Pose_Pos.Data(i,3),'r*');
+    %hold all;
+    hold on;
+    grid on;
+    plot3(Vis_Pose_Pos.Data(i,1),Vis_Pose_Pos.Data(i,2), ...
+        Vis_Pose_Pos.Data(i,3),'bo');
+    legend('Vicon','Vision');
+    pause(eps);
+    hold on;
+end
+%
+% plot3(Vic_Pose_Pos.Data(1:end-off_end,1),Vic_Pose_Pos.Data(1:end-off_end,2), ...
+%     Vic_Pose_Pos.Data(1:end-off_end,3));
+% hold all;
+% grid on;
+% plot3(Vis_Pose_Pos.Data(1:end-off_end,1),Vis_Pose_Pos.Data(1:end-off_end,2), ...
+%     Vis_Pose_Pos.Data(1:end-off_end,3));
+% legend('Vicon','Vision');
 %%
 %error
 err_x = Vic_Pose_Pos.Data(1:end-off_end,1) - Vis_Pose_Pos.Data(1:end-off_end,1);

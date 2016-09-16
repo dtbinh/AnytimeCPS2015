@@ -187,8 +187,8 @@ void Node::callback(const nav_msgs::OdometryConstPtr& odom_vision,
     geometry_msgs::PoseStamped vis_pose_pub;
     geometry_msgs::PoseStamped vic_pose_pub;
 
-    vis_pose = static_cast<geometry_msgs::Pose>(H_w_vis);
-    vic_pose = static_cast<geometry_msgs::Pose>(H_w_vis_act);
+    vic_pose = static_cast<geometry_msgs::Pose>(H_w_vis); // see trajVizVicon below
+    vis_pose = static_cast<geometry_msgs::Pose>(H_w_vis_act);
 
     
     //orig code
