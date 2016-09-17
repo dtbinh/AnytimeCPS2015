@@ -1,5 +1,5 @@
 % scalar example
-P1 = Polyhedron('lb',[-2 ],'ub',[-1]);
+P1 = Polyhedron('lb',[-1 ],'ub',[1]);
 %P2 = Polyhedron('lb',[1 1],'ub',[2 2]);
 xmin = -5;
 xmax = 5;
@@ -17,7 +17,7 @@ pause;
 close all;clc;
 %plot(P1);hold all;plot(P2);
 %%
-x0 = [-1.5];
+x0 = 0;
 dim = 1;
 len = 1;
 P_feas = Polyhedron('lb',[-2.5],'ub',[2.5]);

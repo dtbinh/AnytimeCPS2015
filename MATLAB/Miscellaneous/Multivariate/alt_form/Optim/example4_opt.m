@@ -21,7 +21,7 @@ close all;clc;
 %plot(P1);hold all;plot(P2);
 
 %% optimization data
-x0 = [-1.5;-1.5];
+x0 = [0;0];
 dim = 2;
 len = 1;
 P_feas = Polyhedron('lb',[-2 -2],'ub',[2 2]);
