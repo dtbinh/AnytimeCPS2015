@@ -36,9 +36,11 @@ for e = 1:size(E,1)
         for k_dims = 1:k_sz
             arg_x = (2^j)*x - K(k_dims,:)';
             
+            
             for dimen = 1:dim
                 [phis(dimen),psis(dimen)] = MeyerWavelet(arg_x(dimen));
             end
+            
             
             %[phis,psis] = arrayfun(@(t) MeyerWavelet(t),arg_x); %for all elements in vector x
             phi_e = (1-E(e,:)).*phis;

@@ -9,7 +9,7 @@ dim = log2(size(E,1)+1);
 K = zeros((numel(k_min:k_max))^dim,dim);
 
 for i = 1:(numel(k_min:k_max))^dim
-   K(i,:) = permn2(k_min:k_max,dim,i); 
+    K(i,:) = permn2(k_min:k_max,dim,i);
 end
 
 %K = permn(k_min:k_max,dim);
@@ -29,13 +29,19 @@ dims = setdiff(1:dim,ix);
 for k_dims = 1:k_sz
     arg_x = (2^0)*x - K(k_dims,:)';
     
-    for dimen = 1:dim-1
-        [phis_0(dimen),~] = MeyerWavelet(arg_x(dims(dimen)));
+    if(dim>1) %if not scalar, if scalar, let phis_0 be 0
+        for dimen = 1:dim-1
+            [phis_0(dimen),~] = MeyerWavelet(arg_x(dims(dimen)));
+        end
     end
     %the derivative of Phi_0k(arg_x)
     [phi_d,~] = MeyerWavelet_der(arg_x(ix));
     %[phis,~] = arrayfun(@(t) MeyerWavelet(t),arg_x); %for all elements in vector x
-    big_Phi = prod(phis_0)*phi_d;
+    if(dim>1)
+        big_Phi = prod(phis_0)*phi_d;
+    else
+        big_Phi = phi_d;
+    end
     summation = summation + C_00k(1,1,k_dims)*big_Phi;
 end
 %%
@@ -47,8 +53,10 @@ for e = 1:size(E,1)
         for k_dims = 1:k_sz
             arg_x = (2^j)*x - K(k_dims,:)';
             
-            for dimen = 1:dim-1
-                [phis(dims(dimen)),psis(dims(dimen))] = MeyerWavelet(arg_x(dims(dimen)));
+            if(dim>1)
+                for dimen = 1:dim-1
+                    [phis(dims(dimen)),psis(dims(dimen))] = MeyerWavelet(arg_x(dims(dimen)));
+                end
             end
             [phi_d, psi_d] = MeyerWavelet_der(arg_x(ix));
             phis(ix) = (2^j)*phi_d;
