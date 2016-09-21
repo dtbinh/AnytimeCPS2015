@@ -1,4 +1,4 @@
-function [C_00k,D_ejk] = alt_getCoefficientsVector(grid_x,dist_array_xy,dx,j_min,j_max,k_min,k_max,E_dash,viz)
+function [C_00k,D_ejk] = alt_getCoefficientsVector_genable(grid_x,dist_array_xy,dx,j_min,j_max,k_min,k_max,E_dash,viz)
 
 %see Nonlinear Approximation, R. A. DeVore, Acta Numerica 1998, Cambridge
 %University Press
@@ -6,17 +6,17 @@ function [C_00k,D_ejk] = alt_getCoefficientsVector(grid_x,dist_array_xy,dx,j_min
 E = E_dash(2:end,:);
 dim = log2(size(E,1)+1);
 
-K = zeros(dim^(numel(k_min:k_max)),dim);
+K = zeros((numel(k_min:k_max))^dim,dim);
 
-for i = 1:dim^(numel(k_min:k_max))
+for i = 1:(numel(k_min:k_max))^dim
    K(i,:) = permn2(k_min:k_max,dim,i); 
 end
 %K = permn(k_min:k_max,dim);
 k_sz = size(K,1);
 
-X = zeros(dim^numel(grid_x),dim);
+X = zeros(numel(grid_x)^dim,dim);
 
-for i = 1:dim^(numel(grid_x))
+for i = 1:(numel(grid_x))^dim
    X(i,:) = permn2(grid_x,dim,i); 
 end
 %X = permn(grid_x,dim);
@@ -40,7 +40,7 @@ for k_dims = 1:k_sz
         
         
         for dimen = 1:dim
-           phis(dimen) = (2^0)*MeyerWavelet(x(dim));
+           phis(dimen) = (2^0)*MeyerWavelet(x(dimen));
         end
         
         bigPhi_00k_x = prod(phis);

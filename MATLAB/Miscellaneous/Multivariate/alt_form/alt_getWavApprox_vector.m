@@ -6,15 +6,16 @@ dim = log2(size(E,1)+1);
 K = permn(k_min:k_max,dim);
 k_sz = size(K,1);
 summation = 0;
-
+%%
 parfor k_dims = 1:k_sz
+    k_dims;
     arg_x = (2^0)*x - K(k_dims,:)';
     [phis,~] = arrayfun(@(t) MeyerWavelet(t),arg_x); %for all elements in vector x
     big_Phi = prod(phis);
     summation = summation + C_00k(1,1,k_dims)*big_Phi;
 end
 
-
+%%
 for e = 1:size(E,1)
     j_ix = 0;
     for j=j_min:1:j_max
