@@ -1,17 +1,17 @@
-function [r_P,Sd] = alt_getRobustnessP_vector(traj,P,wavparams,exact)
+function [r_P,Sd] = alt_getRobustnessP_vector_in(traj,P,wavparams,exact)
 %trajectory Sx (n*N) (n = sys dim, N = steps)
 %%
 S = num2cell(traj,1)';
  
 if(~exact)
 
-signed_dists_inex = cellfun(@(x) alt_getWavApprox_vector_genable_mex(x,wavparams.C_00k, wavparams.D_ejk,...
+signed_dists_inex = cellfun(@(x) alt_getWavApprox_vector(x,wavparams.C_00k, wavparams.D_ejk,...
         wavparams.k_min,wavparams.k_max,wavparams.j_min,wavparams.j_max, ...
         wavparams.E_dash), S, 'UniformOutput', false);
 
 C = signed_dists_inex;
 format long
-Sd = -cell2mat(C); %check + - based on formula
+Sd = +cell2mat(C); %check + - based on formula
 %keyboard
 %S1 = sprintf('%f*', C{:});
 %Sd = sscanf(S1, '%f*');
@@ -24,7 +24,7 @@ else
     signed_dists = cellfun(@(x) getSignedDistance(x,P), S, 'UniformOutput', false);
     end
    C = signed_dists;
-Sd = -cell2mat(C);
+Sd = +cell2mat(C);
   
 %S1 = sprintf('%f*', C{:});
 %Sd = sscanf(S1, '%f*');
