@@ -1,6 +1,6 @@
 function [r_P,Sd] = alt_getRobustnessP_vector(traj,P,wavparams,exact)
 %trajectory Sx (n*N) (n = sys dim, N = steps)
-%%
+% exact: 0 = approximation
 S = num2cell(traj,1)';
  
 if(~exact)

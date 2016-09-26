@@ -1,6 +1,6 @@
 function fhat_x = alt_getWavApprox_vector_der_genable(x,ix,C_00k,D_ejk,k_min,k_max,j_min,j_max,E_dash)
 
-%der of signed dist approximation w.r.t ix^th element of x
+%derivative of signed dist approximation w.r.t ix^th element of x
 
 %%
 E = E_dash(2:end,:);

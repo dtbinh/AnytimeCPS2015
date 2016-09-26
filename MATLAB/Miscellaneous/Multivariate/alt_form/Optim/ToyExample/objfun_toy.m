@@ -1,5 +1,5 @@
 function f = objfun_linear(x,optParams)
-
+% x is the entire search vector, including inputs
 %note, this guy is being minimized
 %f = norm(x);
 % load('OptParams.mat');

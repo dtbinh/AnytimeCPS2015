@@ -1,5 +1,5 @@
 % example 4, optimization
-% (always not P1) AND/OR (min/max) (always not P2)
+% (always not P1)
 
 %% get params
 P1 = Polyhedron('lb',[-1 -1],'ub',[1 1]);
@@ -24,11 +24,11 @@ len = 5;
 
 P_feas = Polyhedron('lb',[-2.5 -2.5],'ub',[2.5 2.5]);
 P_final = Polyhedron('lb',[2 2],'ub',[2.5 2.5]);
-U_feas = Polyhedron('lb',[-1 -1],'ub',[1 1]);
+U_feas = Polyhedron('lb',[-1 -1],'ub',[1 1]); % input set
 
 optParams.P_final = P_final;
 optParams.U_feas = U_feas;
-%system
+%system dynamics
 optParams.A = eye(2);
 optParams.B = eye(2);
 
@@ -49,6 +49,9 @@ optParams.P_feas = P_feas;
 clc;
 %x_0 = [x0;-1.2;-1.0];%make an initial trajectory that is feas (can be infeas)
 %x_0 = x0;
+% search variable is states first, then inputs. Within the states, all
+% states at time 1, then all states at time 2, etc.
+% [x1(0),x2(0),...,xn(0), x1(1), x2(2), etc, u(0),...]
 x_0 = [x0;rand((len-1)*dim,1);rand((len-1)*size(optParams.B,2),1)];
 x_feas = getFeasTraj(x_0,optParams);
 x_0 = x_feas.x0;
