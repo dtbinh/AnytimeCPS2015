@@ -9,6 +9,12 @@ Nu = size(optParams.B,2);
 
 % load('OptParams.mat');
 
+% robustness
+if(optParams.robConstr)
+traj = reshape(x(1:Nx*N),Nx,N);
+rho = alt_getRobustnessP_vector(traj,optParams.P1,optParams.Params_P1,0);
+end
+
 
 % initial condition
 ceq_init  = x(1:Nx) - optParams.x0;
@@ -35,5 +41,10 @@ c_input = A_big_u*x(Nx*N+1:end) - B_big_u;
 % terminal set
 c_term = optParams.P_final.A*x(N*Nx-Nx+1:N*Nx)-optParams.P_final.b;
 
+if(optParams.robConstr)
+c = [c_state;c_input;c_term;-rho];
+else
 c = [c_state;c_input;c_term]; 
-ceq = [ceq_init;ceq_dym]
+end
+
+ceq = [ceq_init;ceq_dym];
