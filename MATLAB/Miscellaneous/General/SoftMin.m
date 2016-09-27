@@ -1,4 +1,4 @@
-function [x_min,C] = SoftMin(vec_x,C)
+function [x_min,C] = SoftMin(vec_x,C) %#codegen
 %x_max = SoftMin(vec_x,C)
 % also decimates C>0 if C is large that matlab says log(sum(exp(C*vec_x))) is
 % Inf
