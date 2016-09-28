@@ -28,15 +28,16 @@ axis('square');
 xlabel('x');ylabel('y');zlabel('z');
 
 %% describe sets and their signed dist approxs
-xmin = -5;
-xmax = 5;
+xmin = -7;
+xmax = 7;
 dx = 0.1;
 
 NoFly = Polyhedron('lb',[-1 -1 0],'ub',[1 1 5]);
-Terminal = Polyhedron('lb',[3 3 0],'ub',[5 5 1]);
+Terminal = Polyhedron('lb',[3 3 0],'ub',[4 4 1]);
 Feasible = Polyhedron('lb',[xmin*ones(1,2) 0],'ub',xmax*ones(1,3));
 Zone1 = Polyhedron('lb',[xmin*ones(1,2) 0],'ub',[0 xmax xmax]);
 Zone2 = Polyhedron('lb',[0 xmin 0],'ub',xmax*ones(1,3));
+wp = cell(4,1);
 
 close all;
 plot(Feasible,'Color','gray','Alpha',0.1);
@@ -81,18 +82,23 @@ if(getCoeffs)
        if(i==1)
     %optional.savefile = 'NoFly_Params.mat'; 
    wavparams_NoFly = WavSignedDistVector_Rn(NoFly,xmin,xmax,dx,0);%,optional);
+  wp{i} = wavparams_NoFly;	
        end
         if(i==2)
    %optional.savefile = 'Terminal_Params.mat';
    wavparams_Terminal = WavSignedDistVector_Rn(Terminal,xmin,xmax,dx,0);%,optional);
+   wp{i} = wavparams_Terminal;	
         end
         if(i==3)
         wavparams_Zone1 = WavSignedDistVector_Rn(Zone1,xmin,xmax,dx,0);%,optional);    
+	wp{i} = wavparams_Zone1;
         end
         if(i==4)
         wavparams_Zone2 = WavSignedDistVector_Rn(Zone2,xmin,xmax,dx,0);%,optional);    
+	wp{i} = wavparams_Zone2;
         end
    end
 end
-save('Controller data','wavparams_NoFly','wavparams_Terminal','wavparams_Zone1',...
-    'wavparams_Zone2');
+save('ControllerData_fine.mat','wp');
+%save('Controller data','wavparams_NoFly','wavparams_Terminal','wavparams_Zone1',...
+%    'wavparams_Zone2');
