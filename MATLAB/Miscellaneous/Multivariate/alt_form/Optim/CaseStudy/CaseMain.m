@@ -1,5 +1,10 @@
 % case study main
 
+%general options
+genCode =0;
+getCoeffs = 0;
+getRuleCoeffs = 1;
+
 %% sys dynamics
 g = 9.8;
 m = 0.5;
@@ -62,8 +67,7 @@ optional.j_min = 0;
 optional.j_max = 0; %2 works well in R2
 E_dash = double(getcondvects(dim));
 
-genCode =1;
-getCoeffs = 1;
+
 if(genCode)
     cfg=coder.config('mex');
         
@@ -99,6 +103,29 @@ if(getCoeffs)
         end
    end
 end
+if(getCoeffs)
 save('ControllerData_fine.mat','wp');
 %save('Controller data','wavparams_NoFly','wavparams_Terminal','wavparams_Zone1',...
 %    'wavparams_Zone2');
+end
+%% flight (altitude) rules for Zone1 and Zone2
+figure;
+Zone1_rules = Polyhedron('lb',1,'ub',xmax-1);
+Zone2_rules = Polyhedron('lb',0,'ub',xmax/2);
+plot(Zone1_rules,'Color','red');
+hold on;
+plot(Zone2_rules,'Color','blue');
+grid on;
+rule_wp = cell(2,1);
+
+if(getRuleCoeffs)
+    parfor i = 1:2
+    if(i==1)
+        rule_wp{i} = WavSignedDistVector_Rn_noGen(Zone1_rules,-2,xmax,dx,1);
+    end
+    if(i==2)
+        rule_wp{i} = WavSignedDistVector_Rn_noGen(Zone2_rules,-2,xmax,dx,1);
+    end
+    end
+    save('Data_case/AltitudeRuleCoefs.mat','rule_wp');
+end

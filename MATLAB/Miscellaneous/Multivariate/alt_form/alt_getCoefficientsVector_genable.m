@@ -34,7 +34,7 @@ for k_dims = 1:k_sz
     summation_C = 0;
     for x_dims = 1:x_sz
         x = (2^0)*X(x_dims,:)' - K(k_dims,:)';
-        [k_dims/k_sz x_dims/x_sz] 
+        [k_dims/k_sz x_dims/x_sz];
         %[phis,~] = arrayfun(@(t) MeyerWavelet(t),x);
         %phis = (2^0)*phis';
         
