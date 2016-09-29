@@ -3,7 +3,7 @@
 %general options
 genCode =0;
 getCoeffs = 0;
-getRuleCoeffs = 1;
+getRuleCoeffs = 0;
 
 %% sys dynamics
 g = 9.8;
@@ -107,6 +107,12 @@ if(getCoeffs)
 save('ControllerData_fine.mat','wp');
 %save('Controller data','wavparams_NoFly','wavparams_Terminal','wavparams_Zone1',...
 %    'wavparams_Zone2');
+else
+    load('ControllerData_fine.mat','wp');
+    wavparams.NoFly = wp{1};
+    wavparams.Terminal = wp{2};
+    wavparmas.Zone1 = wp{3};
+    wavparams.Zone2 = wp{4};
 end
 %% flight (altitude) rules for Zone1 and Zone2
 figure;
@@ -128,4 +134,12 @@ if(getRuleCoeffs)
     end
     end
     save('Data_case/AltitudeRuleCoefs.mat','rule_wp');
+else
+    load('Data_case/AltitudeRuleCoefs.mat','rule_wp');
+    wavparams.Zone1_rules = rule_wp{1};
+    wavparams.Zone2_rules = rule_wp{2};
 end
+
+%% optim para
+optParams.wavparams = wavparams;
+optParams.d_min = 0.2;
