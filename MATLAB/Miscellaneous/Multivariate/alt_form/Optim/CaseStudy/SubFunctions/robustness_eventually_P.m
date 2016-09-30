@@ -5,7 +5,7 @@ function [r_P,r_P_der] = robustness_eventually_P(traj,wavparams,need_derivative)
 if(nargin==2)
    need_derivative = 0; 
 end
-
+%%
 signed_dists_inex = zeros(size(traj,2),1);
 
 for t = 1:size(traj,2) %for all time steps

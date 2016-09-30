@@ -40,20 +40,23 @@ dx = 0.1;
 NoFly = Polyhedron('lb',[-1 -1 0],'ub',[1 1 5]);
 Terminal = Polyhedron('lb',[3 3 0],'ub',[4 4 1]);
 Feasible = Polyhedron('lb',[xmin*ones(1,2) 0],'ub',xmax*ones(1,3));
+LimitSet = Polyhedron('lb',[-5*ones(1,2) 0],'ub',5*ones(1,3));
 Zone1 = Polyhedron('lb',[xmin*ones(1,2) 0],'ub',[0 xmax xmax]);
 Zone2 = Polyhedron('lb',[0 xmin 0],'ub',xmax*ones(1,3));
+
 wp = cell(4,1);
 
 close all;
-plot(Feasible,'Color','gray','Alpha',0.1);
+figure(1);
+plot(intersect(Feasible,LimitSet),'Color','gray','Alpha',0.1);
 hold on;
-plot(Zone1,'Color','orange','Alpha',0.2);
+plot(intersect(Zone1,LimitSet),'Color','orange','Alpha',0.2);
 hold on;
-plot(Zone2,'Color','black','Alpha',0.2);
+plot(intersect(Zone2,LimitSet),'Color','black','Alpha',0.2);
 hold on;
-plot(NoFly);
+plot(intersect(NoFly,LimitSet),'Alpha',0.3);
 hold on;
-plot(Terminal,'Color','green');
+plot(intersect(Terminal,LimitSet),'Color','green','Alpha',0.3);
 xlabel('x');ylabel('y');
 
 %%
@@ -111,11 +114,11 @@ else
     load('ControllerData_fine.mat','wp');
     wavparams.NoFly = wp{1};
     wavparams.Terminal = wp{2};
-    wavparmas.Zone1 = wp{3};
+    wavparams.Zone1 = wp{3};
     wavparams.Zone2 = wp{4};
 end
 %% flight (altitude) rules for Zone1 and Zone2
-figure;
+figure(2);
 Zone1_rules = Polyhedron('lb',1,'ub',xmax-1);
 Zone2_rules = Polyhedron('lb',0,'ub',xmax/2);
 plot(Zone1_rules,'Color','red');
@@ -143,3 +146,31 @@ end
 %% optim para
 optParams.wavparams = wavparams;
 optParams.d_min = 0.2;
+optParams.dim_x = 6;
+optParams.dim_u = 3;
+optParams.len = 10;
+optParams.A = sys_d.A;
+optParams.B = sys_d.B;
+
+max_ang = deg2rad(30);
+max_thr = 5;
+optParams.U_feas = Polyhedron('lb',[-max_ang -max_ang -5],'ub',[max_ang max_ang 5]);
+optParams.P_feas = Polyhedron('lb',[-5*ones(5,1);0],'ub',5*ones(6,1));
+Terminal_velocities = Polyhedron('lb',-ones(3,1),'ub',ones(3,1));
+optParams.P_final = Terminal_velocities*Terminal;
+%% initialize optimization
+x1 = zeros(optParams.len*optParams.dim_x+ (optParams.len-1)*optParams.dim_u,1); %for one quad
+x1(4:6) = [-2 2 2];
+x1_feas = getFeasTraj_case(x1,optParams);
+x2 = zeros(optParams.len*optParams.dim_x+ (optParams.len-1)*optParams.dim_u,1); %for one quad
+x2(4:6) = [-2 -2 2];
+x2_feas = getFeasTraj_case(x2,optParams);
+
+
+figure(1);
+for i = 1:N
+   hold on;
+   plot3(x1_feas.z(4,i),x1_feas.z(5,i),x1_feas.z(6,i),'*');
+   hold on 
+   plot3(x2_feas.z(4,i),x2_feas.z(5,i),x2_feas.z(6,i),'ro');
+end
