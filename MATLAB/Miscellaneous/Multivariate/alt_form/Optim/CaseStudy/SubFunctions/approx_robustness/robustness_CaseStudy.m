@@ -16,21 +16,11 @@ Nu = optParams.dim_u;
 N = optParams.len;
 
 state_1 = reshape(X(1:Nx*N),Nx,N);
-state_2 = reshape(X(Nx*N+N*Nu+1:Nx*N+N*Nu+Nx*N),Nx,N);
+state_2 = reshape(X(Nx*N+(N-1)*Nu+1:Nx*N+(N-1)*Nu+Nx*N),Nx,N);
 
 pos_1 = state_1(4:6,:);
 pos_2 = state_2(4:6,:);
-
-z_1 = pos_1(3,:);
-z_2 = pos_2(3,:);
-
-for i = 1:size(pos_1,2)
-    hold on
-    plot3(pos_1(1,i),pos_1(2,i),pos_1(3,i),'o');
-    hold on;
-    plot3(pos_2(1,i),pos_2(2,i),pos_2(3,i),'*');
-end
-
+%%
 r_phi(1) = robustness_eventually_P(pos_1,optParams.wavparams.Terminal,0);
 r_phi(2) = robustness_eventually_P(pos_2,optParams.wavparams.Terminal,0);
 r_phi(7) = robustness_always_notP(pos_1,optParams.wavparams.NoFly,0);
@@ -38,14 +28,14 @@ r_phi(8) = robustness_always_notP(pos_2,optParams.wavparams.NoFly,0);
 
 r_phi(9) = robustness_always_SafeDist([pos_1;pos_2],optParams.d_min,0);
 
-r_phi(3) = robustness_always_IfAthenB(pos_1,[{optParams.wavparams.Zone1} ...
-    {optParams.wavparams.Zone1_rules}],0);
-r_phi(4) = robustness_always_IfAthenB(pos_2,[{optParams.wavparams.Zone1} ...
-    {optParams.wavparams.Zone1_rules}],0);
-r_phi(5) = robustness_always_IfAthenB(pos_1,[{optParams.wavparams.Zone2} ...
-    {optParams.wavparams.Zone2_rules}],0);
-r_phi(6) = robustness_always_IfAthenB(pos_2,[{optParams.wavparams.Zone2} ...
-    {optParams.wavparams.Zone2_rules}],0);
+r_phi(3) = robustness_always_IfAthenB(pos_1,optParams.wavparams.Zone1, ...
+    optParams.wavparams.Zone1_rules,0);
+r_phi(4) = robustness_always_IfAthenB(pos_2,optParams.wavparams.Zone1, ...
+    optParams.wavparams.Zone1_rules,0);
+r_phi(5) = robustness_always_IfAthenB(pos_1,optParams.wavparams.Zone2, ...
+    optParams.wavparams.Zone2_rules,0);
+r_phi(6) = robustness_always_IfAthenB(pos_2,optParams.wavparams.Zone2, ...
+    optParams.wavparams.Zone2_rules,0);
 
 
 r_P = SoftMin(r_phi);

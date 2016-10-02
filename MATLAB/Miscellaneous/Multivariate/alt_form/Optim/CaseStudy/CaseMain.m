@@ -2,6 +2,7 @@
 
 %general options
 genCode =0;
+genCodeCostFn = 0;
 getCoeffs = 0;
 getRuleCoeffs = 0;
 
@@ -11,11 +12,16 @@ m = 0.5;
 h = 1/5; %5Hz
 
 tempA = sparse(6,6);
-tempA(1:3,4:6) = eye(3);
+%tempA(1:3,4:6) = eye(3);
+tempA(4:6,1:3) = eye(3);
 tempB = sparse(6,3);
-tempB(4,1) = g;
-tempB(5,2) = -g;
-tempB(6,3) = 1/m;
+%tempB(4,1) = g;
+%tempB(5,2) = -g;
+%tempB(6,3) = 1/m;
+tempB(1,1) = g;
+tempB(2,2) = -g;
+tempB(3,3) = 1/m;
+
 sys_c = ss(tempA,tempB,eye(6),zeros(6,3));
 sys_d = c2d(sys_c,h);
 %% viz some trajectories for sanity check
@@ -28,7 +34,7 @@ for t = 1:Tmax
     X(:,t) = x;
     
 end
-plot3(X(1,:),X(2,:),X(3,:),'o');grid on
+plot3(X(4,:),X(5,:),X(6,:),'o');grid on
 axis('square');
 xlabel('x');ylabel('y');zlabel('z');
 
@@ -37,11 +43,11 @@ xmin = -7;
 xmax = 7;
 dx = 0.1;
 
-NoFly = Polyhedron('lb',[-1 -1 0],'ub',[1 1 5]);
+NoFly = Polyhedron('lb',[-1 -1 -1],'ub',[1 1 5]);
 Terminal = Polyhedron('lb',[3 3 0],'ub',[4 4 1]);
 Feasible = Polyhedron('lb',[xmin*ones(1,2) 0],'ub',xmax*ones(1,3));
 LimitSet = Polyhedron('lb',[-5*ones(1,2) 0],'ub',5*ones(1,3));
-Zone1 = Polyhedron('lb',[xmin*ones(1,2) 0],'ub',[0 xmax xmax]);
+Zone1 = Polyhedron('lb',[xmin*ones(1,2) 1],'ub',[0 xmax xmax]);
 Zone2 = Polyhedron('lb',[0 xmin 0],'ub',xmax*ones(1,3));
 
 wp = cell(4,1);
@@ -118,13 +124,14 @@ else
     wavparams.Zone2 = wp{4};
 end
 %% flight (altitude) rules for Zone1 and Zone2
-figure(2);
+%figure(2);
 Zone1_rules = Polyhedron('lb',1,'ub',xmax-1);
 Zone2_rules = Polyhedron('lb',0,'ub',xmax/2);
-plot(Zone1_rules,'Color','red');
-hold on;
-plot(Zone2_rules,'Color','blue');
-grid on;
+%plot(Zone1_rules,'Color','red');
+%hold on;
+%plot(Zone2_rules,'Color','blue');
+%grid on;
+
 rule_wp = cell(2,1);
 
 if(getRuleCoeffs)
@@ -142,7 +149,17 @@ else
     wavparams.Zone1_rules = rule_wp{1};
     wavparams.Zone2_rules = rule_wp{2};
 end
-
+%%
+ExactParams.Terminal = Terminal;
+ExactParams.NoFly = NoFly;
+ExactParams.Zone1 = Zone1;
+ExactParams.Zone2 = Zone2;
+ExactParams.Zone1_rules = Zone1_rules;
+ExactParams.Zone2_rules = Zone2_rules;
+ExactParams.dim_x = 6;
+ExactParams.dim_u = 3;
+ExactParams.len = 10;
+ExactParams.d_min = 0.2;
 %% optim para
 optParams.wavparams = wavparams;
 optParams.d_min = 0.2;
@@ -152,13 +169,27 @@ optParams.len = 10;
 optParams.A = sys_d.A;
 optParams.B = sys_d.B;
 
-max_ang = deg2rad(30);
-max_thr = 5;
-optParams.U_feas = Polyhedron('lb',[-max_ang -max_ang -5],'ub',[max_ang max_ang 5]);
-optParams.P_feas = Polyhedron('lb',[-5*ones(5,1);0],'ub',5*ones(6,1));
-Terminal_velocities = Polyhedron('lb',-ones(3,1),'ub',ones(3,1));
-optParams.P_final = Terminal_velocities*Terminal;
+max_ang = deg2rad(45);
+max_thr = 10;
+temp = Polyhedron('lb',[-max_ang -max_ang -5],'ub',[max_ang max_ang 5]);
+optParams.U_feas.A = temp.A;
+optParams.U_feas.b = temp.b;
+
+temp = Polyhedron('lb',[-5*ones(5,1);0.1],'ub',5*ones(6,1)); %feas set
+optParams.P_feas.A = temp.A;
+optParams.P_feas.b = temp.b;
+
+Terminal_velocities = Polyhedron('lb',-1*ones(3,1),'ub',1*ones(3,1));
+temp = Terminal_velocities*Terminal;
+optParams.P_final.A = temp.A;
+optParams.P_final.b = temp.b; 
+
+optParams.robCost = 1;
+optParams.robConstr = 0;
+optParams.gamma = 10^(-2);
+
 %% initialize optimization
+'Getting feas traj'
 x1 = zeros(optParams.len*optParams.dim_x+ (optParams.len-1)*optParams.dim_u,1); %for one quad
 x1(4:6) = [-2 2 2];
 x1_feas = getFeasTraj_case(x1,optParams);
@@ -166,11 +197,61 @@ x2 = zeros(optParams.len*optParams.dim_x+ (optParams.len-1)*optParams.dim_u,1); 
 x2(4:6) = [-2 -2 2];
 x2_feas = getFeasTraj_case(x2,optParams);
 
+% init states for the optimization
+optParams.x0_1 = x1(1:6);
+optParams.x0_2 = x2(1:6);
 
+x_0 =[x1_feas.x0;x2_feas.x0]; %starting point of opt (a trajectory)
+%plot init trajs
 figure(1);
-for i = 1:N
+for i = 1:optParams.len
    hold on;
    plot3(x1_feas.z(4,i),x1_feas.z(5,i),x1_feas.z(6,i),'*');
    hold on 
    plot3(x2_feas.z(4,i),x2_feas.z(5,i),x2_feas.z(6,i),'ro');
 end
+grid on;
+zlabel('z');
+%% generate some code for cost function
+if(genCodeCostFn)
+     cfg=coder.config('mex');
+       
+    %for get coeffs (grid_x,dist_array_xy,dx,j_min,j_max,k_min,k_max,E_dash,0);
+    arg_ins = {coder.typeof(x_0),coder.typeof(optParams)};
+    codegen -config cfg objfun_case -report -args arg_ins -o objfun_case_mex
+    %codegen -config cfg confun_case -report -args arg_ins -o confun_case_mex
+end
+
+%% optimization shite
+'Starting optimization'
+tic;
+options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-6,...
+    'UseParallel','always','MaxFunEval',1000000,'GradObj','off');
+%options.TolFun = 10^(-10);
+%options.TolCon = 10;
+%[x,fval,flag] = ...
+[x,fval,exitflag,output] = fmincon(@(x)objfun_case_mex(x,optParams),x_0,[],[],[],[],[],[], ...
+    @(x)confun_case(x,optParams),options);
+
+%% plot
+Nx = optParams.dim_x;
+Nu = optParams.dim_u;
+N = optParams.len;
+state_1 = reshape(x(1:Nx*N),Nx,N);
+state_2 = reshape(x(Nx*N+(N-1)*Nu+1:Nx*N+(N-1)*Nu+Nx*N),Nx,N);
+
+pos_1 = state_1(4:6,:);
+pos_2 = state_2(4:6,:);
+
+for i = 1:size(pos_1,2)
+    hold on
+    plot3(pos_1(1,i),pos_1(2,i),pos_1(3,i),'o');
+    hold on;
+    plot3(pos_2(1,i),pos_2(2,i),pos_2(3,i),'r*');
+    pause
+end
+
+%%
+
+save('Case_1.mat','x','x_0','optParams');
+time_taken_mins = toc/60;

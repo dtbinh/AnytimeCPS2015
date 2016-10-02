@@ -4,16 +4,16 @@ function x_feas = getFeasTraj_case(x,optParams)
 Nx = optParams.dim_x;
 N = optParams.len;
 Nu = optParams.dim_u;
-
+cvx_clear;
 cvx_begin quiet
 
 variable z(Nx,N);
 variable u(Nu,N-1);
 
-minimise 0
+minimise 0;%-sum(z(6,:))
 
 z(:,1) == x(1:Nx); %initial state
-optParams.U_feas.A*u(:,1) <= optParams.U_feas.b;
+optParams.U_feas.A*u(:,1) <= optParams.U_feas.b; %input 0
 for i = 2:N-1
 z(:,i) == optParams.A*z(:,i-1) + optParams.B*u(:,i-1);
 optParams.P_feas.A*z(:,i) <= optParams.P_feas.b;
