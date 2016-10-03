@@ -1,23 +1,19 @@
-function wavparams = WavSignedDistVector_Rn(P,xmin,xmax,dx,viz,optional)
-% return wavelet coefficients of distance function over state space
-% P: mpt object
-% state space is [xmin:dx:xmax] along all dimensions
-% viz: 1 to visualize
-%
+function wavparams = WavSignedDistVector_Rn_noGen(P,xmin,xmax,dx,viz,optional)
+
 if(nargin==4)
     viz = 0;
     optional.filename = [];
     optional.savefile = 'Data/newdata_R3_fine.mat';
-    optional.k_min = -5;
-    optional.k_max = +5;
+    optional.k_min = -20;
+    optional.k_max = +20;
     optional.j_min = 0;
     optional.j_max = 0; %2 works well in R2
     
 elseif(nargin==5)
     optional.filename = [];
     optional.savefile = 'Data/newdata_R3_fine.mat';
-    optional.k_min = -5;
-    optional.k_max = +5;
+    optional.k_min = -20;
+    optional.k_max = +20;
     optional.j_min = 0;
     optional.j_max = 0; %2 works well in R2
 end
@@ -40,6 +36,7 @@ else
     grid_x1 = xmin:dx:xmax;
     grid_x2 = xmin:dx:xmax;
     grid_x3 = xmin:dx:xmax;
+    
     grid_x = xmin:dx:xmax;
 end
 tic;
@@ -101,13 +98,7 @@ end %end if (dim==2))
 'getting coeffs'
 E_dash = double(getcondvects(dim)); %set of vertices of [0,1]^dim
 E = E_dash(2:end,:); % set of non-zero vertices in E_dash
-% <<<<<<< HEAD
-% k_min = -1;
-% k_max = +1;
-% j_min = 0;
-% j_max = 0; %2 works well in R2
-% =======
-% >>>>>>> c2fbf764f0ce988c4d9fbef026ef914577d013fa
+
 
 if(exist('C_00k','var') && exist('D_ejk','var')) %if some params loaded
     
@@ -119,7 +110,7 @@ if(exist('C_00k','var') && exist('D_ejk','var')) %if some params loaded
     
 else
     'computing coeffs'
-    [C_00k,D_ejk] = alt_getCoefficientsVector_genable_mex(grid_x,dist_array_xy,dx,j_min,j_max,k_min,k_max,E_dash,0);
+    [C_00k,D_ejk] = alt_getCoefficientsVector_genable(grid_x,dist_array_xy,dx,j_min,j_max,k_min,k_max,E_dash,0);
 end
 %% test on grid
 if(viz && (dim ==2))
@@ -150,12 +141,47 @@ else
     grid_y_half = ymin/2:dy:ymax/2;
     
 end
+%
+if(viz && (dim ==1))
+    'visualizing approximation on a smaller range'
+    %grid_x_half = xmin/2:dx:xmax/2;
+        
+        
+    %computed distance as well
+    if(exist('Staliro')>0)
+        a = arrayfun(@(x) SignedDist([x],P.A,P.b), grid_x);
+        dist_array_xy_restrict = reshape(a,numel(grid_x),1);
+        
+    end
+    
+            
+        a = arrayfun(@(x,y) alt_getWavApprox_vector([x],C_00k,D_ejk,k_min,k_max,j_min,j_max,E_dash), grid_x);
+        fhat_array = reshape(a,numel(grid_x),1);
+        
+    
+else
+    fhat_array = [];
+    dist_array_xy_restrict = [];
+    grid_x_half = xmin/2:dx:xmax/2;
+    grid_y_half = ymin/2:dy:ymax/2;
+    
+end
+
+
+
 %%
 if(dim==2 && viz)
     figure;
     mesh(grid_x_half,grid_y_half,fhat_array);
     figure;
     mesh(grid_x_half,grid_y_half,dist_array_xy_restrict-fhat_array);
+end
+if(dim==1 && viz)
+    figure;
+   plot(grid_x,fhat_array,'r');
+    hold on;
+    plot(grid_x,dist_array_xy);
+    grid on;
 end
 
 %% save
@@ -168,15 +194,18 @@ wavparams.k_max = k_max;
 wavparams.j_min = j_min;
 wavparams.j_max = j_max;
 
-if(dim == 2)
-    save(optional.savefile,'D_ejk','C_00k','j_min','j_max','k_min','k_max','xmin','xmax',...
-        'dist_array_xy','dist_array_xy_restrict','E','dx','wavparams','P','dim',...
-        'grid_x','fhat_array','dim','grid_y','grid_x_half','grid_y_half');
-    
-else
-    
-    save(optional.savefile,'D_ejk','C_00k','j_min','j_max','k_min','k_max','xmin','xmax',...
-        'dist_array_xy','dist_array_xy_restrict','E','dx','wavparams','P','dim',...
-        'grid_x','fhat_array','dim','grid_x_half','grid_y_half','wavparams');        
-end
+% 
+% if(dim == 2)
+%     save(optional.savefile,'D_ejk','C_00k','j_min','j_max','k_min','k_max','xmin','xmax',...
+%         'dist_array_xy','dist_array_xy_restrict','E','dx','wavparams','P','dim',...
+%         'grid_x','fhat_array','dim','grid_y','grid_x_half','grid_y_half');
+%     
+% else
+%     
+%     save(optional.savefile,'D_ejk','C_00k','j_min','j_max','k_min','k_max','xmin','xmax',...
+%         'dist_array_xy','dist_array_xy_restrict','E','dx','wavparams','P','dim',...
+%         'grid_x','fhat_array','dim','grid_x_half','grid_y_half','wavparams');
+%     
+%     
+% end
 toc
