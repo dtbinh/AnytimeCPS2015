@@ -1,10 +1,10 @@
 % case study main
 
 %general options
-genCode =1;
+genCode =0;
 genCodeCostFn = 1;
-getCoeffs = 1;
-getRuleCoeffs = 1;
+getCoeffs = 0;
+getRuleCoeffs = 0;
 
 %% sys dynamics
 g = 9.8;
@@ -43,7 +43,7 @@ xmin = -7;
 xmax = 7;
 dx = 0.1;
 
-NoFly = Polyhedron('lb',[-1 -1 -1],'ub',[1 1 5]);
+NoFly = Polyhedron('lb',[-1 -1 0],'ub',[1 1 5]);
 Terminal = Polyhedron('lb',[3 3 0],'ub',[4 4 1]);
 Feasible = Polyhedron('lb',[xmin*ones(1,2) 0],'ub',xmax*ones(1,3));
 LimitSet = Polyhedron('lb',[-5*ones(1,2) 0],'ub',5*ones(1,3));
@@ -158,19 +158,19 @@ ExactParams.Zone1_rules = Zone1_rules;
 ExactParams.Zone2_rules = Zone2_rules;
 ExactParams.dim_x = 6;
 ExactParams.dim_u = 3;
-ExactParams.len = 10;
+ExactParams.len = 20;
 ExactParams.d_min = 0.2;
 %% optim para
 optParams.wavparams = wavparams;
 optParams.d_min = 0.2;
 optParams.dim_x = 6;
 optParams.dim_u = 3;
-optParams.len = 10;
+optParams.len = 20;
 optParams.A = sys_d.A;
 optParams.B = sys_d.B;
 
-max_ang = deg2rad(45);
-max_thr = 5;
+max_ang = deg2rad(30);
+max_thr = 1.5;
 temp = Polyhedron('lb',[-max_ang -max_ang -max_thr],'ub',[max_ang max_ang max_thr]);
 optParams.U_feas.A = temp.A;
 optParams.U_feas.b = temp.b;
@@ -218,7 +218,7 @@ if(genCodeCostFn)
        
     %for get coeffs (grid_x,dist_array_xy,dx,j_min,j_max,k_min,k_max,E_dash,0);
     arg_ins = {coder.typeof(x_0),coder.typeof(optParams)};
-    codegen -config cfg objfun_case -report -args arg_ins -o objfun_case_mex
+    codegen -config cfg objfun_case -report -args arg_ins -o objfun_case_mex_onlne
     %codegen -config cfg confun_case -report -args arg_ins -o confun_case_mex
 end
 
@@ -230,7 +230,7 @@ options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP'
 %options.TolFun = 10^(-10);
 %options.TolCon = 10;
 %[x,fval,flag] = ...
-[x,fval,exitflag,output] = fmincon(@(x)objfun_case_mex(x,optParams),x_0,[],[],[],[],[],[], ...
+[x,fval,exitflag,output] = fmincon(@(x)objfun_case_mex_onlne(x,optParams),x_0,[],[],[],[],[],[], ...
     @(x)confun_case(x,optParams),options);
 toc;
 %% plot
@@ -251,7 +251,38 @@ for i = 1:size(pos_1,2)
     pause(0.1)
 end
 
+figure;
+hold on;
+for i = 1:size(pos_1,2)
+    hold on;
+plot(i,norm(pos_1(:,i)-pos_2(:,i)),'r.')
+end
+grid on;
 %%
 
-save('Case_2.mat','x','x_0','optParams','ExactParams');
+save('Case_20_len.mat','x','x_0','optParams','ExactParams');
 time_taken_mins = toc/60
+
+%%
+input_1 = reshape(x(1+Nx*N:Nx*N+(N-1)*Nu),Nu,N-1);
+input_2 = reshape(x(Nx*N+(N-1)*Nu+1+Nx*N:end),Nu,N-1); %Nx*N+(N-1)*Nu+Nx*N
+
+figure;
+subplot(311)
+plot(rad2deg(input_1(1,:)),'b');
+hold on;
+plot(rad2deg(input_2(1,:)),'r');
+grid on;
+subplot(312)
+plot(rad2deg(input_1(2,:)),'b');
+hold on;
+plot(rad2deg(input_2(2,:)),'r');
+grid on;
+subplot(313)
+plot((input_1(3,:)),'b');
+hold on;
+plot((input_2(3,:)),'r');
+grid on;
+
+
+

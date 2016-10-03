@@ -16,7 +16,7 @@ Nu = ExactParams.dim_u;
 N = ExactParams.len;
 
 state_1 = reshape(X(1:Nx*N),Nx,N);
-state_2 = reshape(X(Nx*N+N*Nu+1:Nx*N+N*Nu+Nx*N),Nx,N);
+state_2 = reshape(X(Nx*N+(N-1)*Nu+1:Nx*N+(N-1)*Nu+Nx*N),Nx,N);
 
 pos_1 = state_1(4:6,:);
 pos_2 = state_2(4:6,:);

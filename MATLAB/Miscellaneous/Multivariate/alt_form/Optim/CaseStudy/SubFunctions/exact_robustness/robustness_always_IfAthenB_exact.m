@@ -17,7 +17,7 @@ smaxs = zeros(size(traj,2),1);
 for t = 1:size(traj,2) %for all time steps
 x = pos(:,t);
 z = heights(:,t);
-signed_dists_inex_x(t) = SignedDist(x,SetA.A,SetA.b);
+signed_dists_inex_x(t) = -SignedDist(x,SetA.A,SetA.b);
 signed_dists_inex_z(t) = SignedDist(z,SetB.A,SetB.b);
 smaxs(t) = max([signed_dists_inex_x(t) signed_dists_inex_z(t)]);    
 
