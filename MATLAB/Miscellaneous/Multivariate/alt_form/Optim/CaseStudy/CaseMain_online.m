@@ -248,7 +248,7 @@ for i = 1:size(pos_1,2)
     plot3(pos_1(1,i),pos_1(2,i),pos_1(3,i),'*');
     hold on;
     plot3(pos_2(1,i),pos_2(2,i),pos_2(3,i),'ro');
-    pause(0.1)
+    pause(0.25)
 end
 
 figure;
@@ -257,6 +257,8 @@ for i = 1:size(pos_1,2)
     hold on;
 plot(i,norm(pos_1(:,i)-pos_2(:,i)),'r.')
 end
+hold on;
+plot(0:optParams.len,optParams.d_min*ones(1,optParams.len+1),'g--');
 grid on;
 %%
 

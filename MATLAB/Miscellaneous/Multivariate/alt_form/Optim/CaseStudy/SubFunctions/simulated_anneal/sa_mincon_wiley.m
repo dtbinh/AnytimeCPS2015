@@ -22,8 +22,9 @@
 % by Xin-She Yang @ Cambridge University @2008
 % Usage: sa_mincon(alpha)
 
-function [bestsol,fmin,N]=sa_mincon_wiley(alpha,optParams,x_0)
+function [bestsol,fmin,N]=sa_mincon_wiley(alpha,optParams,ExactParams,x_0)
 
+alpha = 0.8;
 %make ub and lb for this fucker
 Nx = optParams.dim_x;
 Nu = optParams.dim_u;
@@ -45,9 +46,9 @@ Ub = repmat([x_ub;u_ub],2,1);
 u0 = x_0;
 
 % Default cooling factor
-if nargin<1, 
-    alpha=0.8; 
-end
+%if nargin<1, 
+%    alpha=0.8; 
+%end
 
 % Display usage
 disp('sa_mincon or [Best,fmin,N]=sa_mincon(0.8)');
@@ -68,13 +69,15 @@ end
 d=length(Lb);        % Dimension of the problem
 
 % Initializing parameters and settings
+eq_tol = 10^-2;
+maxeval = 20000;
 T_init = 1.0;        % Initial temperature
-T_min =  1e-10;      % Finial stopping temperature
+T_min =  1e-1;      % Finial stopping temperature
 F_min = -1e+100;     % Min value of the function
-max_rej=2500;        % Maximum number of rejections
-max_run=500;         % Maximum number of runs
-max_accept = 250;    % Maximum number of accept
-initial_search=5000; % Initial search period 
+max_rej=750;        % Maximum number of rejections
+max_run=2000;       % Maximum number of runs, 500 def
+max_accept = 2000;   % Maximum number of accept, 250 def
+initial_search=1500; % Initial search period 
 k = 1;               % Boltzmann constant
 Enorm=1e-5;          % Energy norm (eg, Enorm=1e-8)
 
@@ -82,12 +85,12 @@ Enorm=1e-5;          % Energy norm (eg, Enorm=1e-8)
 i= 0; j = 0; accept = 0; totaleval = 0;
 % Initializing various values
 T = T_init;
-E_init = Fun(u0,optParams);
+E_init = Fun(u0,optParams,ExactParams);
 E_old = E_init; E_new=E_old;
 best=u0;  % initially guessed values
 % Starting the simulated annealling
 disp('...............Starting...............................');
-while ((T > T_min) || (j <= max_rej))
+while (( (T > T_min) || (j <= max_rej)) && (totaleval<=maxeval))
     
     i = i+1;
     
@@ -113,7 +116,7 @@ while ((T > T_min) || (j <= max_rej))
     end
      
       totaleval=totaleval+1;
-      E_new = Fun(ns,optParams);
+      E_new = Fun(ns,optParams,ExactParams);
     % Decide to accept the new solution
     DeltaE=E_new-E_old;
     % Accept if improved
@@ -172,10 +175,10 @@ end
 
 
 % d-dimensional objective function
-function z=Fun(u,optParams)
+function z=Fun(u,optParams,ExactParams)
 
 % Objective
-z=fobj(u,optParams);
+z=fobj(u,ExactParams);
 
 % Apply nonlinear constraints by penalty method
 % Z=f+sum_k=1^N lam_k g_k^2 *H(g_k) 
@@ -208,7 +211,8 @@ end
 
 % Test if equalities hold
 function H=geteqH(g)
-if g==0,
+eq_tol = 10^-2;
+if abs(g)<=eq_tol,
     H=0;
 else
     H=1; 
@@ -216,7 +220,7 @@ end
 
 
 % Objective functions
-function z=fobj(u,optParams)
+function z=fobj(u,ExactParams)
 % Welded Beam Design Optimization
 % K. Ragsdell and D. Phillips, Optimal design of a class of welded
 % strucures using geometric programming, 
@@ -227,8 +231,9 @@ function z=fobj(u,optParams)
 % simple constrained particle swarm optimizer, Informatica, 32 (2008)319-326 
 
 %z=1.10471*u(1)^2*u(2)+0.04811*u(3)*u(4)*(14.0+u(2));
-z = objfun_case_mex_onlne(u,optParams);
 
+%z = objfun_case_mex_onlne(u,optParams);
+z = -robustness_CaseStudy_exact(u,ExactParams);
 % For Rosenbrock's function
 % z=(1-u(1))^2+(u(2)-u(1)^2)^2+(1-u(3))^2+(1-u(4))^2 
 

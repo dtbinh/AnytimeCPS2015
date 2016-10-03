@@ -26,7 +26,7 @@ r_phi(2) = robustness_eventually_P_exact(pos_2,ExactParams.Terminal);
 r_phi(7) = robustness_always_notP_exact(pos_1,ExactParams.NoFly);
 r_phi(8) = robustness_always_notP_exact(pos_2,ExactParams.NoFly);
 
-r_phi(9) = robustness_always_SafeDist([pos_1;pos_2],ExactParams.d_min,0);
+r_phi(9) = robustness_always_SafeDist_exact([pos_1;pos_2],ExactParams.d_min);
 
 r_phi(3) = robustness_always_IfAthenB_exact(pos_1,ExactParams.Zone1, ...
     ExactParams.Zone1_rules);
