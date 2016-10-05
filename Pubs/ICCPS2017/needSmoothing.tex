@@ -1,0 +1,37 @@
+\subsection{The need for smoothing}
+\label{sec:need for smoothing}
+Let $\formula$ be an MTL formula with horizon $N$.
+We aim to solve the problem
+\begin{eqnarray}
+\label{eq:min rob problem}
+\max_{x_0 \in X_0, \inpSig \in \inpSet^N} && \robf(\sstraj)
+\nonumber
+\\
+\text{s.t. } && x_{t+1} = f(x_t,u_t) \; \forall t=0,1,\ldots,N
+\end{eqnarray}
+using established, powerful gradient descent algorithms \cite{Polak97_Optim}, rather than heuristics like Simulated Annealing \cite{kirkpatrickV_SA83}.
+Gradient descent algorithms typically offer convergence guarantees to the function's minima, have known convergence rates for certain function classes, and have been optimized so they outperform heuristics that don't have access to the objective's gradient information.
+Moreover, they usually have a fewer number of parameters to be set by the user, and important issues like step-size selection are rigorously addressed.
+
+To apply gradient descent methods, we require a differentiable objective function. 
+Our objective function, $\robf$, is non-differentiable, because it uses the distance function $d_U$, and the max and min operators, all of which are non-differentiable.
+One may note that, in discrete-time, these functions are all differentiable almost everywhere. 
+That is, the set of points in the search space where they are non-differentiable has measure 0 in $\Re^n$. 
+Therefore, by measure additivity, the composite function $\robf$ is itself differentiable almost everywhere.
+Thus, one may be tempted to `ignore' the singularities (points of non-differentiability), under the premise that sets of measure 0 are unlikely to be visited by gradient descent, and thus don't matter. 
+However, as we show in the next example, the lines of singularity (along which the objective is non-differentiable) can be  precisely the lines along which the objective increases the fastest.
+See also \cite{Cortes08_Discontinuous}.
+Thus they are consistently visited by gradient descent, after which it fails to converge because of the lack of a gradient.
+
+
+\begin{exmp}
+	\label{ex:cluster nondiff}
+	\todo[inline]{Yash, put example here}
+\begin{figure}[t]
+\centering
+\includegraphics[scale=0.3]{figures/placeHolder}
+\caption{Iterates of SQP for Example \ref{ex:cluster nondiff}}
+\label{fig:placeholder}
+\end{figure}
+
+\end{exmp}

@@ -1,0 +1,56 @@
+\section{Controlling for robustness}
+\label{sec:intro}
+Cyber-Physical Systems must withstand a wide range of errors, from bugs in their software to attacks on and failures of their physical sensors.
+Given a formal specification of their desired behavior, e.g. in Metric Temporal Logic (MTL), it is very useful to have a notion of \textit{system robustness} that can be calculated directly on the output behavior of the system, without reference to specific models of the errors.
+The \textit{robust semantics} of MTL provide such a notion \cite{FainekosGP06formats}.
+The robustness of the MTL specification has been used both to verify the system offline (via robustness minimization) and to control the system online (to maximize its robustness over some horizon).
+Unfortunately, the robustness objective function is difficult to work with: it is recursively defined, non-convex and non-differentiable.
+In this paper, we propose smooth approximations of the robustness. 
+Such approximations are differentiable, thus enabling us to use powerful off-the-shelf gradient descent algorithms for optimizing it.
+By using them we can also offer guarantees on the performance of the optimization in terms of convergence to minima.
+We show that the approximation error is bounded to any desired level, and that the approximation can be tuned to the specification.
+We demonstrate the use of the smooth robustness to control a quadrotor within a shrinking horizon algorithm. 
+
+???...
+%%%%%%%%%%%%%%%%
+%The controller of $\Sys$ is designed to make the closed loop system \eqref{eq:xt} satisfy a specification expressed in Metric Temporal Logic (MTL) \cite{Koymans90}.
+%MTL allows one to formally express complex reactive specifications, beyond stability, trajectory tracking and the like.
+%For example, for a 2-dimensional system with state $x=(x_1,x_2)$, 
+%\begin{equation}
+%\label{eq:example mtl}
+%\formula = \always (\underbrace{x_1 > 5}_{p_1} \implies (\underbrace{x_2 \geq 6}_{p_2} \until_{[2,4]} \underbrace{x_1 \leq 5}_{\neg p_1}))
+%\end{equation}
+%says that Always ($\always$), whenever $x_1$ exceeds 5, $x_2$ must exceed 6 and stay there $\until$ntil, within 2 to 4 time units later, $x_1$ falls back below 5.
+%The $p_i$'s are \textit{atomic propositions.}
+%
+%Designing a controller that satisfies the MTL formula $\formula$\footnote{Strictly speaking, a controller such that the closed-loop satisfies the formula.} is not always enough.
+%In a dynamic environment, where the system must react to new unforeseen events, it is useful to have a margin of maneuvarability.
+%That is, it is useful to control the system such that we \textit{maximize} our degree of satisfaction of the formula.
+%When unforeseen events occur, the sytem can react to them without violating the formula.
+%
+%Thus, we can compute control inputs by maximizing the robustness over the set of finite input sequences of a certain length.
+%The obtained sequence $\inpSig^*$ is valid if $\robf(\sstraj,\inpSig)$ is positive. 
+%The larger the magnitude $|\robf(\sstraj)|$, the more robust is the behavior of the system: intutively, $\sstraj$ can be disturbed and $\robf$ might decrease but not go negative.
+%%%%%%%%%%%%%%%%%
+
+\textit{Related work.}
+Current approaches to optimizing the robustness fall into three categories: the use of heuristics [GF, HA, AD], nonsmooth optimization [HA'13], Mixed Integer Linear Programming [VR], and smooth approximation of the restricted case of a safety formula [HA11,14].
+Given the unwieldy nature of the robustness function described above, black-box heuristics have been the most commonly used approach to optimize it: Simulated Annealing [???], genetic algorithms [???] and cross-entropy [???], for example.
+The clear advantage of these methods is that they do not require any special form of the objective function: they simply need to evaluate it at various points of the search space, and use its value as feedback to decide on the next point to try.
+Their main shortcoming is that they offer little to no guarantees of convergence, and their convergence rates are often not known. 
+For example, Simulated Annealing (SA)....
+\todo[inline]{look up latest convergence of cross entropy for continuous spaces, genetic algos}
+Because the robustness is non-smooth, the work in [HA'13] developed an algorithm that decreases the objective function along its sub-gradient. This involved a series of conservative approximations, and was restricted to the case of safety formulas.
+In [VR], the authors encoded the MTL formula as a set of linear and boolean constraints, thus transforming the problem into a a Mixed Integer Linear Program (MILP). 
+%The resulting MILP and used a Mixed Integer Linear Program (MILP) has $O(N\cdot|P|)$ binary variables (where $N$ is the number of samples in the trajectory over which we optimize and $|P|$ is the number of predicates, and $O(N\cdot |\formula|)$ continuous variables.
+MILPs are $NP$-hard, and while sophisticated heuristics are used internally to mitigate this, this makes it hard to predict how long a particular optimization will run - see examples in [VR] which present both ends of this runtime spectrum.
+The work closest in spirit to ours is [HA11,14]. 
+There, the authors considered safety formulas, in which case the robustness function boils down to a distance function $d_U$ to some unsafe set $U$. 
+This was replaced by a smooth indicator function for $U$ customized to the problem being solved.
+The resulting problem was solved with standard gradient descent.
+
+\textit{Contributions.}
+In this paper, we propose a general way of building a smooth approximation to the robustness function of an arbitrary MTL formula.
+We demonstrate that the approximation error can be arbitrarily controlled.
+\yhl{We demonstrate that optimizing the smooth approximation yields near-minima of the original robustness}.
+We show experimentally the quality of the approximation and demonstrate its use on a control case study for airport landing patterns.

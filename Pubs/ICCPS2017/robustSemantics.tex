@@ -1,0 +1,112 @@
+\section{Robustness of MTL formulas}
+\label{sec:robust semantics}
+
+Consider a discrete-time dynamical system $\Sys$ given by 
+\begin{equation}
+\label{eq:xt}
+x_{t+1} = f(x_t,u_t)
+\end{equation}
+where $x \in X \subset \Re^n$ is the state of the system and $u \in U \subset \Re^m$ is its control input.
+The system's initial state $x_0$ takes value from some initial set $X_0 \subset \Re^n$.
+Given an initial state $x_0$ and a control input sequence $\inpSig = (u_0,u_1,\ldots), u_t \in U$, a trajectory of the system is the unique sequence of states $\sstraj = (x_0,x_1,\ldots)$ s.t. for all $t$, $x_t$ is in $X$ and it obeys \eqref{eq:xt} at every time step.
+We will use $\TDom$ to abbreviate the time domain $\{0,1,2,\ldots\}$.
+All temporal intervals that appear in this paper are discrete-time, e.g. $[a,b]$ means $[a,b] \cap \TDom$. 
+For an interval $I$, we write $t+I = \{t+a \such a \in I\}$.
+The set of subsets of a set $S$ is denoted $\Pc(S)$.
+The signal space $\SigSpace$ is the set of all signals $\sstraj: \TDom \rightarrow X$.
+The max operator is written $\sqcup$ and min is written $\sqcap$.
+
+\subsection{Metric Temporal Logic}
+\label{sec:mtl}
+The controller of $\Sys$ is designed to make the closed loop system \eqref{eq:xt} satisfy a specification expressed in Metric Temporal Logic (MTL) \cite{Koymans90}.
+MTL allows one to formally express complex reactive specifications, beyond stability, trajectory tracking and the like.
+For example, for a 2-dimensional system with state $x=(x_1,x_2)$, 
+\begin{equation}
+\label{eq:example mtl}
+\formula = \always (\underbrace{x_1 > 5}_{p_1} \implies (\underbrace{x_2 \geq 6}_{p_2} \until_{[2,4]} \underbrace{x_1 \leq 5}_{\neg p_1}))
+\end{equation}
+says that Always ($\always$), whenever $x_1$ exceeds 5, $x_2$ must exceed 6 and stay there $\until$ntil, within 2 to 4 time units later, $x_1$ falls back below 5.
+The $p_i$'s are \textit{atomic propositions.}
+
+Formally, let $AP$ be a set of atomic propositions, which can be thought of as point-wise constraints on the state of the system.
+An MTL formula $\formula$ is built recursively from the atomic propositions using the following grammar:
+\[\formula \defeq \top|p|\neg \formula | \formula_1 \lor \formula_2 | \formula_1 \land \formula_2 | \formula_1 \until_I \formula_2\]
+where $I \subset \Re$ is a time interval.
+Here, $\top$ is the value True, $p$ is an atomic proposition, $\lor$ and $\land$ are the logical OR and AND operators, respectively, and $\until$ is the Until temporal operator.
+Informally, $\formula_1 \until_I \formula_2$ means that $\formula_1$ must hold \textit{until} $\formula_2$ holds, and that the hand-over from $\formula_1$  to $\formula_2$ must happen sometime during the interval $I$.
+The implication ($\implies$), Always ($\always$) and Eventually ($\eventually$) operators can be derived using the above opearators.
+
+Formally, the \textit{semantics} of an MTL formula define what it means for a system trajectory $\sstraj$ to satisfy the formula $\formula$.
+Let $\Oc: AP \rightarrow \Pc(X)$ be an \textit{observation} map for the atomic propositions.
+The validity (boolean truth value) of a formula $\formula$ w.r.t. the trajectory $\sstraj$ at time $t$ is defined recursively as follows.
+\begin{definition}
+	\label{def:boolean sat}
+	\begin{eqnarray*}
+		\label{eq:boolean sat}
+		(\sstraj,t) \models \top &\Leftrightarrow& \top
+		\\
+		\forall p \in AP, \; \models_\Oc p &\Leftrightarrow& x_t \in \Oc(p)
+		\\
+		(\sstraj,t) \models_\Oc \neg \formula&\Leftrightarrow& \neg (\sstraj,t) \models_\Oc \formula
+		\\
+		(\sstraj,t) \models_\Oc \formula_1 \lor \formula_2 &\Leftrightarrow& (\sstraj,t) \models_\Oc \formula_1 \lor (\sstraj,t) \models_\Oc \formula_2
+		\\
+		(\sstraj,t) \models_\Oc  \formula_1 \land \formula_2&\Leftrightarrow& (\sstraj,t) \models_\Oc \formula_1 \land (\sstraj,t) \models_\Oc \formula_2
+		\\
+		(\sstraj,t) \models_\Oc \formula_1 \until_I \formula_2 &\Leftrightarrow& \exists t' \in t+I .  (\sstraj,t') \models_\Oc \formula_2  
+		\\
+		&& \, \land \forall t'' \in (t,t'), \;\; (\sstraj,t'') \models_\Oc \formula_1 
+	\end{eqnarray*}
+	The \textit{robustness estimate} of signal $\sstraj$ relative to $\formula$ at time $t$ is $\rs{\formula}{\Oc}(\sstraj,t)$.
+\end{definition}
+As $\Oc$ is fixed in this paper, we just drop it from the notation.
+We say $\sstraj$ satisfies $\formula$ if $(\sstraj,0) \models \formula$.
+All formulas that appear in this paper have bounded temporal intervals: $ 0\leq \inf I < \sup I < +\infty$.
+To evaluate whether such a formula $\formula$ holds on a given trajectory, only a finite-length prefix of that trajectory is needed.
+Its length can be upper-bounded by the \textit{horizon} of $\formula$, $hrz(\formula)$.
+The horizon is computed by maximizing the sum of all right endpoints of intervals appearing in $\formula$.
+Thus, we need only consider trajectories and input sequences of finite length.
+
+\subsection{Robust semantics of MTL}
+\label{sec:rob sem}
+Designing a controller that satisfies the MTL formula $\formula$\footnote{Strictly speaking, a controller such that the closed-loop satisfies the formula.} is not always enough.
+In a dynamic environment, where the system must react to new unforeseen events, it is useful to have a margin of maneuvarability.
+That is, it is useful to control the system such that we \textit{maximize} our degree of satisfaction of the formula.
+When unforeseen events occur, the sytem can react to them without violating the formula.
+This degree of satisfaction can be formally defined and computed using the robust semantics of MTL.
+Given a point $x \in X$ and a set $A \subset X$, $d(x,A) \defeq \inf_{a \in \cl{A}}|x-a|_2$ is the distance from $x$  to the closure $\cl{A}$ of $A$.
+\begin{definition}[Robustness\cite{FainekosP09tcs}]
+	\label{def:robustness estimate}
+	The \emph{robustness} of $\varphi$ relative to $\sstraj$, denoted by $ \robf$, is recursively defined as 
+	\begin{eqnarray*}
+		\label{eq:robustness estimate}
+		\rob_{\top} (\sstraj) &=& +\infty
+		\\
+		\forall p \in AP, \;  \rob_{p} (\sstraj) &=& \left \lbrace \begin{matrix}
+			d(\stPt_t, \stSet \setminus \Oc(p)), \text{ if } \stPt_t \in \Oc(p)
+			\\
+			-d(\stPt_t, \Oc(p)), \text{ if } \stPt_t \notin \Oc(p)			
+		\end{matrix} \right.
+		\\
+		\rob_{\lnot \formula} (\sstraj) &=& - \rob_{\formula} (\sstraj)
+		\\
+		\rob_{ \formula_1 \lor \formula_2} (\sstraj) &=& \rob_{\formula_1} (\sstraj) \sqcup \rob_{\formula_2} (\sstraj) 
+		\\
+		\rob_{ \formula_1 \land \formula_2} (\sstraj) &=& \rob_{\formula_1} (\sstraj) \sqcap \rob_{\formula_2} (\sstraj) 
+		\\
+		\rob_{ \formula_1 \until_I \formula_2} (\sstraj) &=& \sqcup_{t' \in t+_{\TDom}I} \left(\rob_{\formula_2} (\sstraj,t') \bigsqcap \right.
+		\\
+		&& \left. \sqcap_{t'' \in [t,t')}   \rob_{\formula_1} (\sstraj,t'') \right) 
+	\end{eqnarray*}
+\end{definition}
+The robustness is a real-valued function of $\sstraj$ with the following important property.
+\begin{theorem} \cite{FainekosP09tcs}
+	\label{thm:rob objective}
+	For any $\sstraj \in \SigSpace$ and MTL formula $\formula$, 
+	if $\robf(\sstraj) <0$ then $\sstraj$ falsifies the spec $\formula$, and if $\robf(\sstraj) > 0$ then $\sstraj$ satisfies $\formula$. 
+	The case $r =0$ is inconclusive.
+\end{theorem} 
+
+Thus, we can compute control inputs by maximizing the robustness over the set of finite input sequences of a certain length.
+The obtained sequence $\inpSig^*$ is valid if $\robf(\sstraj)$ is positive, where $\sstraj$ and $\inpSig^*$ obey \eqref{eq:xt}.
+The larger the magnitude $|\robf(\sstraj)|$, the more robust is the behavior of the system: intutively, $\sstraj$ can be disturbed and $\robf$ might decrease but not go negative.

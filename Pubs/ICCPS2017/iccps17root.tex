@@ -1,0 +1,78 @@
+%
+% For tracking purposes - this is V2.0 - May 2012
+
+\documentclass{sig-alternate-05-2015}
+
+\usepackage[colorinlistoftodos,obeyFinal]{todonotes}                           
+%\usepackage{caption}
+\usepackage{fainekos-macros}
+\usepackage[]{algorithm2e}
+\usepackage{amsmath} % assumes amsmath package installed
+\usepackage{amssymb}  % assumes amsmath package installed
+\usepackage{graphicx}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usepackage{ifthen}
+\usepackage{mathtools}
+\usepackage{stmaryrd}
+\usepackage{csquotes}
+\usepackage{xargs}                      % Use more than one optional 
+%\usepackage[pdftex,dvipsnames]{xcolor}  % Coloured text etc. 
+\usepackage[obeyFinal]{todonotes}
+
+\newcommand{\rob}{\rho}
+\newcommand{\robf}{\rho_{\formula}}
+\newcommand{\sd}{\rho}
+\newcommand{\bs}[2]{\ll\!#1,#2\!\gg}
+\newcommand{\rd}[2]{\ll\!#1,#2\!\gg_\Re}
+\newcommand{\rs}[2]{\ensuremath{\llbracket #1,#2 \rrbracket}}
+\newcommand{\cl}[1]{\overline{#1}}
+\newcommand{\Ltf}{\Lc_t(\formula)}
+\newcommand{\Ltnp}{\Lc_t(\lnot p)}
+\newcommand{\Ltp}{\Lc_t(p)}
+\newcommand{\Lrf}{\Lc_{\Re_\Fc}}
+
+% Control spacing...
+%\setlength{\marginparwidth}{4cm}
+%\setlength{\textfloatsep}{2pt}
+%\linespread{0.97}
+%\thickmuskip=0mu
+
+\begin{document}
+
+\CopyrightYear{2017} \setcopyright{acmcopyright}
+\conferenceinfo{ICCPS '17,}{April 18--21, 2017, Pittsburgh, Pennsylvania, USA.}
+\isbn{978-1-4503-3955-1/16/04}\acmPrice{\$15.00}
+\doi{http://dx.doi.org/10.1145/2883817.2883841}
+%Authors, replace the red X's with your assigned DOI string.
+
+\title{Control and falsification using smooth robust semantics of temporal logic}
+
+\author{
+	% 1st. author
+	\alignauthor
+	Three little piggies\\
+	\affaddr{Department of Electrical and Systems Engineering}\\
+	\affaddr{University of Pennsylvania, Philadelphia, PA, USA}\\
+	\email{\{piggies1,2,3\}@seas.upenn.edu}%
+}
+
+
+\maketitle
+\input{abstract}
+\input{introduction}
+\input{robustSemantics}
+\input{smoothApx}
+\input{caseStudy}
+%\addtolength{\textheight}{-12cm}   % This command serves to balance the column lengths
+% on the last page of the document manually. It shortens
+% the textheight of the last page by a suitable amount.
+% This command does not take effect until the next page
+% so it should come on the page before the last. Make
+% sure that you do not shorten the textheight too much.
+\section*{ACKNOWLEDGMENT}
+
+The authors would like to thank 
+\bibliographystyle{plain}
+\bibliography{iccps2017,hscc17,hscc2016,fainekos_bibrefs}
+\end{document}
