@@ -245,10 +245,10 @@ pos_2 = state_2(4:6,:);
 
 for i = 1:size(pos_1,2)
     hold on
-    plot3(pos_1(1,i),pos_1(2,i),pos_1(3,i),'*');
+    plot3(pos_1(1,i),pos_1(2,i),pos_1(3,i),'g*');
     hold on;
-    plot3(pos_2(1,i),pos_2(2,i),pos_2(3,i),'ro');
-    pause(0.25)
+    plot3(pos_2(1,i),pos_2(2,i),pos_2(3,i),'ko');
+    pause(0.1)
 end
 
 figure;
