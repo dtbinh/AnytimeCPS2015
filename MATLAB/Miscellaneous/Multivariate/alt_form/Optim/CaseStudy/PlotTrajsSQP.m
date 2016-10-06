@@ -41,7 +41,7 @@ for i = 1:size(pos_1,2)
     hold on
     plot3(pos_1(1,i),pos_1(2,i),pos_1(3,i),'*');
     hold on;
-    plot3(pos_2(1,i),pos_2(2,i),pos_2(3,i),'mo');
+    plot3(pos_2(1,i),pos_2(2,i),pos_2(3,i),'ko');
     pause(0.2)
 end
 
