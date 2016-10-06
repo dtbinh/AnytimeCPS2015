@@ -9,8 +9,8 @@ if(nargin==1)
 % region to compute over
 xmax = 10;
 xmin = -10;
-dx = 0.05;
-viz = 0;
+dx = 0.1;
+viz = 1;
 end
 grid_x = xmin:dx:xmax;
 
@@ -47,9 +47,9 @@ else
 end
 %% get coeffs of wav
 j_min = 0;
-j_max = 1;
-k_min = -20;
-k_max = 20;
+j_max = 2;
+k_min = -40;
+k_max = 40;
 
 [C,D] = getCoefficientsScalar(grid_x,dist_array_x,dx, ...
     j_min,j_max,k_min,k_max,viz);

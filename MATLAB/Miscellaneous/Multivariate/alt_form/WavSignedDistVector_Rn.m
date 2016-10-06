@@ -7,7 +7,7 @@ function wavparams = WavSignedDistVector_Rn(P,xmin,xmax,dx,viz,optional)
 if(nargin==4)
     viz = 0;
     optional.filename = [];
-    optional.savefile = 'Data/newdata_R3_fine.mat';
+    optional.savefile = 'temp.mat'%'Data/newdata_R3_fine.mat';
     optional.k_min = -5;
     optional.k_max = +5;
     optional.j_min = 0;
@@ -15,7 +15,7 @@ if(nargin==4)
     
 elseif(nargin==5)
     optional.filename = [];
-    optional.savefile = 'Data/newdata_R3_fine.mat';
+    optional.savefile = 'temp.mat';
     optional.k_min = -5;
     optional.k_max = +5;
     optional.j_min = 0;
