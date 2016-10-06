@@ -1,2 +1,6 @@
 CDC16/TechRep/main.bbl
 CDC16/TechRep/main.blg
+*.aux
+*.bbl
+*.synctex.gz
+*.log

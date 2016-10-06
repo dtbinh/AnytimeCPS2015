@@ -17,11 +17,20 @@
 \usepackage{stmaryrd}
 \usepackage{csquotes}
 \usepackage{xargs}                      % Use more than one optional 
+\usepackage{subcaption}
 %\usepackage[pdftex,dvipsnames]{xcolor}  % Coloured text etc. 
 \usepackage[obeyFinal]{todonotes}
 
 \newcommand{\rob}{\rho}
 \newcommand{\robf}{\rho_{\formula}}
+\newcommand{\robfa}{\rho_{\formula_1}}
+\newcommand{\robfb}{\rho_{\formula_2}}
+\newcommand{\srob}{\tilde{\rob}}
+\newcommand{\srobf}{\srob_\formula}
+\newcommand{\smax}{\widetilde{\max}}
+\newcommand{\smin}{\widetilde{\min}}
+\newcommand{\sdist}{\mathbf{dist}_\varepsilon}
+
 \newcommand{\sd}{\rho}
 \newcommand{\bs}[2]{\ll\!#1,#2\!\gg}
 \newcommand{\rd}[2]{\ll\!#1,#2\!\gg_\Re}
@@ -46,7 +55,7 @@
 \doi{http://dx.doi.org/10.1145/2883817.2883841}
 %Authors, replace the red X's with your assigned DOI string.
 
-\title{Control and falsification using smooth robust semantics of temporal logic}
+\title{Smooth Operator: Control Using the Smooth Robustness of Temporal Logic}
 
 \author{
 	% 1st. author

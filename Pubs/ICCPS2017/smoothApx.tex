@@ -1,11 +1,66 @@
 \section{Smooth approximation}
 \label{sec:smooth apx}
+\newcommand{\fe}{f_\varepsilon}
 
 \input{needSmoothing}
-\subsection{Distance function and min,max}
+\input{distMaxSmoothing}
 
 \subsection{Overall approximation}
+Putting the pieces together, we obtain the approximation error for the robustness of any MTL formula.
+\begin{theorem}
+	\label{thm:total apx error}
+	Consider an MTL formula $\formula$ and reals $\varepsilon > 0$ and $k \geq 1$. 
+	Define the \textit{smooth robustness} $\srobf$, obtained by substituting $\mathbf{dist}_\varepsilon$ for $\mathbf{dist}$, $\smax_k$ for $\max$, and $\smin_k$ for $\min$, in Def. \ref{def:robustness estimate}.
+	Then for any length-$N$ trajectory $\sstraj$, it holds that
+	\[|\robf-\srobf| \leq |\formula| \cdot \max(\varepsilon,\ln(m)/k)\]
+	where $m$ is the length of the longest temporal interval appearing in $\formula$ and $|\formula|$ is the size of the formula, i.e. the number of operators that appear in it.
+\end{theorem}
+\begin{proof}
+	We will prove a stronger result that implies the theorem.	
+	Define $\delta_\formula \in \Re_+$ inductively: 
+	$\delta_\top = 0, \delta_p = \varepsilon$, $\delta_{\neg \formula} = \delta_\formula$, 
+	$\delta_{\formula_1 \lor \formula_2} = \delta_{\formula_1 \land \formula_2} = \delta_{\formula_1} \sqcup \delta_{\formula_2} + \ln(2)/k$,
+	$\delta_{\formula_1 \until_{[a,b]} \formula_2}  = \delta_{\formula_1} \sqcup \delta_{\formula_2} + \ln(b-a)/k$.
+	Note that if $\formula_1$ is a sub-formula of $\formula$, then $\delta_{\formula_1} \leq \delta_\formula$.
+	Noting that $\delta_\formula \leq |\formula| \cdot \max(\varepsilon,\ln(m)/k)$, it suffices to show that the error is upper-bounded by $\delta_\formula$.
+	
+	The proof is by structural induction on $\formula$. 	
+	The case $\formula = \top$ is trivial.
+	
+\underline{Case $\formula = p \in AP$.}
+$\robf(\sstraj,t)$ is given by either $\dist{x_t}{\Oc(p)}$ or $-\dist{x_t}{\Oc(p)}$, and 
+$\srobf(\sstraj,t)$ is given by either $\sdist(x_t,\Oc(p))$ or $-\sdist(x_t,\Oc(p))$, respectively.
+Either way, $|\srobf(\sstraj,t) - \robf(\sstraj,t)| \leq \varepsilon = \delta_{p}$.
 
+\underline{Case $\formula = \neg \formula_1$} 
+$|\rob_{\neg \formula_1}(\sstraj,t)-\srob_{\neg \formula_1}(\sstraj,t)| = |-\rob_{\formula_1}(\sstraj,t) + \rob_{ \formula_1}(\sstraj,t)|  \leq \delta_{\formula_1} = \delta_\formula$.
+
+\underline{Case $\formula = \formula_1 \lor \formula_2$}.
+If the same sub-formula $\formula_i$ achieves the max for both $\rob_{\formula_1}(\sstraj,t) \sqcup \rob_{\formula_2}(\sstraj,t)$ and $\srob_{\formula_1}(\sstraj,t) \sqcup \srob_{\formula_2}(\sstraj,t)$, then by induction hypothesis we immediately obtain 
+$|\robf(\sstraj,t)-\srob(\sstraj,t)|  \leq \delta_{\formula_i} \leq \delta_{\formula}$.
+
+Otherwise if, say, $\robf = \rob_{\formula_1}$ and $\srobf = \srob_{\formula_2}$ then
+\[\robfa -\delta_{\formula_1} \leq \srob_{\formula_1} \leq \srob_{\formula_2} \implies \robfa-\srob_{\formula_2} \leq \delta_{\formula_1}\]
+Also 
+\[\srob_{\formula_2} \leq \robfb+\delta_{\formula_2} \leq \robfa + \delta_{\formula_2} \implies -\delta_{\formula_2} \leq \robfa - \srob_{\formula_2}\]
+Therefore
+\begin{equation*}
+\label{eq:inter}
+-(\delta_{\formula_1} \sqcup \delta_{\formula_2})\leq \robfa - \srob_{\formula_2}\leq \delta_{\formula_1} \sqcup \delta_{\formula_2} \Leftrightarrow |\robfa - \srob_{\formula_2}|\leq \delta_{\formula_1} \sqcup \delta_{\formula_2}
+\end{equation*}
+Similarly, if $\robf = \rob_{\formula_2}$ and $\srobf = \srob_{\formula_1}$, we have $|\robfb - \srob_{\formula_1}|\leq  \delta_{\formula_1} \sqcup \delta_{\formula_2}$.
+So in all cases, 
+\[|\robfa \sqcup \robfb - \srob_{\formula_1} \sqcup \srob_{\formula_2}|\leq \delta_{\formula_1} \sqcup \delta_{\formula_2}\]
+Therefore 
+\[|\robfa \sqcup \robfb - \smax_k(\srob_{\formula_1} , \srob_{\formula_2})|\leq  \delta_{\formula_1} \sqcup \delta_{\formula_2} + \ln(2)/k  = \delta_\formula\]
+
+The case $\formula_1 \land \formula_2$ is treated similarly.
+
+\underline{$\formula = \formula_1 \until_I \formula_2$.} 
+Recall that 
+
+	\end{proof}
+	
 \subsection{Examples}
 
 Show quality of apx on the examples
