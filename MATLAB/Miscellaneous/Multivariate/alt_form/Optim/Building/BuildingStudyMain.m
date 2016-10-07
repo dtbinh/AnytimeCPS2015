@@ -10,7 +10,7 @@ dec_factor = 10;
 P1_comfort = Polyhedron('lb',22,'ub',28);
 
 load('ComfortParams.mat');
-
+optParams.wavparams = wavparams;
 %% generate some code
 genCodeCostFn = 0;
 if(genCodeCostFn)
@@ -24,18 +24,50 @@ if(genCodeCostFn)
     %codegen -config cfg confun_case -report -args arg_ins -o confun_case_mex
 end
 
-%%
-x_0 = 21*ones(4,1);
+%% init optimization
+x_0 = 21*ones(4,1); %init state
+optParams.x0 = x_0;
+optParams.disturbances = disturbances;
 optParams.dim = 4;
 optParams.len = 24;
+optParams.dim_d = 3;
+optParams.dim_u = 1;
 optParams.A = A;
 optParams.B = B*10; %check this
 optParams.Bd = Bd;
-optParams.P_feas = P_feas;
-optParams.U_feas = U_feas;
-
+optParams.P_feas.A = P_feas.A;
+optParams.P_feas.b = P_feas.b;
+optParams.U_feas.A = U_feas.A;
+optParams.U_feas.b = U_feas.b;
+optParams.P1_comfort.A = P1_comfort.A;
+optParams.P1_comfort.b = P1_comfort.b;
+optParams.exact = 1;
+%% get feas traj
 x_feas = bldg_getFeasTraj(x_0,optParams,disturbances);
+u_0 = x_feas.u;
+%% optimization
+I1=10:19; %hours of interest in the 24 hour period
+optParams.I1 = I1;
+if(0)
 
+'Starting optimization'
+tic;
+options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-6,...
+    'UseParallel','always','MaxFunEval',1000000,'GradObj','off');
+%options.TolFun = 10^(-10);
+%options.TolCon = 10;
+%[x,fval,flag] = ...
+[x,fval,exitflag,output] = fmincon(@(x)objfun_bldg(x,optParams,I1),u_0,[],[],[],[],[],[], ...
+    @(x)confun_bldg(x,optParams),options);
+toc
 
-
+else %simann
+optParams.exact = 1;
+tic
+[x,fmin,Nruns,info]=sa_mincon_bldg(0.8,optParams,u_0);
+end
+%%
+plot_bldg(x,optParams);
+%%
+save('BldgData/Sim_SA_exact.mat','x','optParams');
 
