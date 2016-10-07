@@ -30,9 +30,9 @@ The $p_i$'s are \textit{atomic propositions.}
 
 Formally, let $AP$ be a set of atomic propositions, which can be thought of as point-wise constraints on the state of the system.
 An MTL formula $\formula$ is built recursively from the atomic propositions using the following grammar:
-\[\formula \defeq \top|p|\neg \formula | \formula_1 \lor \formula_2 | \formula_1 \land \formula_2 | \formula_1 \until_I \formula_2\]
+\[\formula \defeq p|\neg \formula | \formula_1 \lor \formula_2 | \formula_1 \land \formula_2 | \formula_1 \until_I \formula_2\]
 where $I \subset \Re$ is a time interval.
-Here, $\top$ is the value True, $p$ is an atomic proposition, $\lor$ and $\land$ are the logical OR and AND operators, respectively, and $\until$ is the Until temporal operator.
+Here, $p$ is an atomic proposition, $\lor$ and $\land$ are the logical OR and AND operators, respectively, and $\until$ is the Until temporal operator.
 Informally, $\formula_1 \until_I \formula_2$ means that $\formula_1$ must hold \textit{until} $\formula_2$ holds, and that the hand-over from $\formula_1$  to $\formula_2$ must happen sometime during the interval $I$.
 The implication ($\implies$), Always ($\always$) and Eventually ($\eventually$) operators can be derived using the above opearators.
 
@@ -64,7 +64,7 @@ We say $\sstraj$ satisfies $\formula$ if $(\sstraj,0) \models \formula$.
 All formulas that appear in this paper have bounded temporal intervals: $ 0\leq \inf I < \sup I < +\infty$.
 To evaluate whether such a formula $\formula$ holds on a given trajectory, only a finite-length prefix of that trajectory is needed.
 Its length can be upper-bounded by the \textit{horizon} of $\formula$, $hrz(\formula)$.
-The horizon is computed by maximizing the sum of all right endpoints of intervals appearing in $\formula$.
+The horizon is the maximum sum of all right endpoints of intervals appearing in $\formula$ \cite{Dokhanchi14_OnlineMonitoring}.
 Thus, we need only consider trajectories and input sequences of finite length.
 
 \subsection{Robust semantics of MTL}

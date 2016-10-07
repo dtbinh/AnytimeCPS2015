@@ -1,8 +1,8 @@
 \section{Controlling for robustness}
 \label{sec:intro}
 Cyber-Physical Systems must withstand a wide range of errors, from bugs in their software to attacks on and failures of their physical sensors.
-Given a formal specification of their desired behavior, e.g. in Metric Temporal Logic (MTL), it is very useful to have a notion of \textit{system robustness} that can be calculated directly on the output behavior of the system, without reference to specific models of the errors.
-The \textit{robust semantics} of MTL provide such a notion \cite{FainekosGP06formats}.
+Given a formal specification of their desired behavior, it is very useful to have a notion of \textit{system robustness} that can be calculated directly on the output behavior of the system, without reference to specific models of the errors.
+When the specification is expressed in Metric Temporal Logic (MTL), the \textit{robust semantics} of MTL provide such a notion \cite{FainekosGP06formats}.
 The robustness of the MTL specification has been used both to verify the system offline (via robustness minimization) and to control the system online (to maximize its robustness over some horizon).
 Unfortunately, the robustness objective function is difficult to work with: it is recursively defined, non-convex and non-differentiable.
 In this paper, we propose smooth approximations of the robustness. 

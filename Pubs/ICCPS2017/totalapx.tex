@@ -50,7 +50,7 @@ Therefore
 Similarly, if $\robf = \rob_{\formula_2}$ and $\srobf = \srob_{\formula_1}$, we have $|\robfb - \srob_{\formula_1}|\leq  \delta_{\formula_1} \sqcup \delta_{\formula_2}$.
 So in all cases, 
 \[|\robfa \sqcup \robfb - \srob_{\formula_1} \sqcup \srob_{\formula_2}|\leq \delta_{\formula_1} \sqcup \delta_{\formula_2}\]
-Therefore 
+Therefore by the triangle inequality and \eqref{eq:smooth max error}
 \[|\robfa \sqcup \robfb - \smax_k(\srob_{\formula_1} , \srob_{\formula_2})|\leq  \delta_{\formula_1} \sqcup \delta_{\formula_2} + \ln(2)/k  = \delta_\formula\]
 Clearly, $\delta_\formula$ satisfied (a)-(c).
 
@@ -74,10 +74,12 @@ Starting with the innermost sub-expression $\rob_\psi \defeq \sqcap_{t'' \in [t,
 |\rob_{\psi}-\srob_\psi| \leq \sqcup_{t'' \in [t,t')}\delta_{\formula_1}^{t''} + \ln(t'-t)/k
 \end{equation} 
 where $\delta_{\formula_1}^{t''} $ is the bound for approximating $\rob_{\formula_1}(\sstraj,t'')$.
-But $\delta_\formula$ does not depend on the time at which the formula is evaluated. Therefore the bound in \eqref{eq:robpsi} becomes
-\begin{equation*}
+But $\delta_\formula$ does not depend on the time at which the formula is evaluated. 
+Therefore the bound in \eqref{eq:robpsi} becomes
+\begin{equation}
+\label{eq:t'-t}
 |\rob_{\psi}-\srob_\psi| \leq \delta_{\formula_1} + \ln(t'-t)/k
-\end{equation*} 
+\end{equation} 
 %
 To avoid introducing a dependence on time, we further upper-bound by 
 \begin{equation*}
@@ -89,17 +91,45 @@ Continuing with the sub-expression $\rob_\alpha = \rob_{\formula_2} (\sstraj,t')
 $|\rob_\alpha - \srob_\alpha| \leq \delta_{\formula_2} \sqcup \delta_\psi + \ln(2)/k \defeq \delta_\alpha$.
 %
 Finally, the top-most max operator introduces the total error 
-\begin{eqnarray*}
+\begin{eqnarray}
+\label{eq:deltaphi until}
 |\robf-\srobf| &\leq& \delta_\alpha + \ln(|I|)/k 
+\nonumber
 \\
 &=& \delta_{\formula_2} \sqcup \delta_\psi + \ln(2)/k + \ln(|I|)/k 
+\nonumber 
 \\
 &=& \delta_{\formula_2} \sqcup ( \delta_{\formula_1} + \ln(hrz(\formula))/k )+ \ln(2|I|)/k 
+\nonumber
 \\
 &=&\delta_\formula
-\end{eqnarray*}
+\end{eqnarray}
 The first inequality obtains from the fact that $\delta_\alpha$ is independent of evaluation time and Lemma \ref{lemma:n-ary apx}.
 The bound $\delta_\formula$ obey s (a)-(c).
 This concludes the proof.
 %if $\formula_1$ is a sub-formula of $\formula$, then $\delta_{\formula_1} \leq \delta_\formula$.
 	\end{proof}
+	
+\begin{rem}
+	The proof suggests in \eqref{eq:deltaphi until} that every Until operator increases the error by $+\ln(hrz(\formula))/k$, which may be a large quantity for long-horizon formulas.
+	However, a more careful analysis of the accumulation of interval widths $t'-t$, which we upper bounded above by $hrz(\formula)$, reveals that that is not the case.
+	Indeed, consider the formula
+	\[\formula = \underbrace{(\formula_1 \until_{[a,b]} \formula_2) }_{\psi}\until_{[c,d]} \formula_3\]
+	where $\formula_i$ does not contain temporal operators and let $t_\psi$ be the satisfaction time of $\psi$. 
+	I.e. it is the time in $[a,b]$ when $\formula_2$ becomes true and `takes over' from $\formula_1$.
+	Then, using \eqref{eq:t'-t}, $\delta_{\formula}$ is equal to
+	\begin{eqnarray*}
+	 && \delta_{\formula_3} \sqcup ( \delta_{\psi} + \ln(t_{\formula_3} - t_\psi)/k )+ \ln(2[d-c])/k 
+	\\
+	&\leq& \delta_{\formula_3} \sqcup ( \delta_{\psi} + \ln(t_\psi + d - t_\psi)/k )+ \ln(2[d-c])/k 
+	\\
+	&\leq& \delta_{\formula_3} \sqcup ( \delta_{\psi} + \ln(d)/k )+ \ln(2[d-c])/k 
+	\\
+	&=& \delta_{\formula_3} \sqcup \left( \underbrace{\delta_{\formula_2} \sqcup ( \delta_{\formula_1} + \ln(b)/k )+ \ln(2[b-a])/k }_{\delta_\psi} + \ln(d)/k \right)
+	\\
+	&& \quad + \ln(2[d-c])/k 
+	\end{eqnarray*}
+	The sum of interval widths, such as $\ln(2[b-a])+\ln(2[d-c])$ in this example, gives a \textit{total} $\sum_j\ln(2|I_j|) = \#\until\ln(2) +  \sum\ln(|I_j|)$, where $\#\until$ is the number of times $\until$ appears in $\formula$. 
+	This quantity, in most cases, will actually be smaller than the horizon.
+	The sum of interval right endpoints, such as $\ln(b)/k + \ln(d)/k$ in this example, yields $\sum_j \ln(\sup I_j)/k$ \textit{in total}, which is smaller than the horizon.
+\end{rem}
