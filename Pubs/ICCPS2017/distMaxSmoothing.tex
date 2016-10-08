@@ -65,7 +65,7 @@ $C^\infty(\Re^n)$ is the class of functions that are infinitely differentiable i
 Fig.~\ref{fig:smooth2d} shows the distance function $\dist{\cdot}{U}$ where $U$ is a square in the plane, smoothed by convolving with kernel $g_{\varepsilon}$ obtained from the shown function. 
 We used $\varepsilon = 0.001$, and the actual approximation error $\|f-\fe\|_\infty$ is less than 1e-15.
 Parameter $\varepsilon$ controls how peaked or flat $g_\varepsilon$ is: a large $\varepsilon$ gives a peaked kernel which yields better local approximation, but the max error decreases towards 0 slower.
-
+\todo[inline]{because lip cnt is bounded by that of f, this says that it's a conservative apx? if d is -ve and decreasing, $d_\varepsilon$ decreases less and if d is +ve and increasing, $d_e$ increases less.}
 \underline{Smooth max and min}
 We use the following smooth approximations of $m$-ary max and min.
 Let $k \geq 1$.
@@ -98,3 +98,4 @@ Assume $a_1$ is the largest number, then
 \end{eqnarray*}
 It is also clear from what preceded that $\varepsilon_M \geq 0$.
 The maximum error is achieved when all the $a_i$'s are equal.
+\todo[inline]{$\smax$' = 1 so its local minima are also at the boundary of domain, like regular max...}

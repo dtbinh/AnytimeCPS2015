@@ -1,10 +1,22 @@
-\subsection{Wavelet approximations}
+\subsection{Wavelet approximations of the distance function}
 \label{sec:waveletApx}
 
-Wavelets can be viewed as a generalization of the kernel $g_\varepsilon$ of the previous section to a whole family of kernels, obtained by translations and dilations of one function called the `mother wavelet' $\psi$: $\psi_{k,j}(x) = \sqrt{2^{-j}}\psi(2^{-j}(x-k))$  \cite{MallatBook}.
-They are used extensively in signal processing, as they have very good approximation properties, including fast convergence and multi-scale analysis.
+Wavelets can be viewed as a generalization of the kernel $g_\varepsilon$ of the previous section to a whole family of kernels, obtained by translations and dilations of one function called the `mother wavelet' $\psi$: $\psi_{j,k}(x) = 2^{j/2}\psi(2^jx - k)$  \cite{MallatBook}.
+They are used extensively in signal processing, as they have very good approximation properties.
 See \cite{MallatBook}.
-In the experiments in the rest of this paper, we used the Meyer wavelets. 
-Specifically
-\todo[inline]{Yash, meyer}
+Wavelets give greater control on the approximation error and allow us to 
+In the experiments in the rest of the paper, we use wavelet approximations to the distance function.
+
+Specifically, the wavelet approximation to a function $f:\Re^n \rightarrow \Re$ is 
+\[f(x) = \sum_{\mathbf{j,k}}c_{\mathbf{j,k}}\psi_{\mathbf{j,k}}(x)\]
+where $\mathbf{j} = (j_1\ldots,j_n), \mathbf{k} = (k_1,\ldots,k_n)$ are multi-indices in $\Ze^n$ 
+and the $c_{\mathbf{j,k}}$ coefficients are the result of projecting $f$ onto the wavelet basis
+\[c_{\mathbf{j,k}} = \int_{\Re^n}f(x)\psi_{\mathbf{j,k}}^*\]
+The multi-dimensional wavelet we use is a tensor product of 1-D Meyer wavelets:
+\begin{equation}
+\label{eq:multid meyer}
+\psi_{\mathbf{j,k}} = \psi_{j_1,k_1}\ldots \psi_{j_n,k_n}, \mathbf{j,k} \in \Ze^n
+\end{equation}
+In the experiments in the rest of this paper, we used the Meyer wavelets \cite{MallatBook}. 
+
  

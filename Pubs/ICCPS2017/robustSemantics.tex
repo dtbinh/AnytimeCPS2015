@@ -57,7 +57,6 @@ The validity (boolean truth value) of a formula $\formula$ w.r.t. the trajectory
 		\\
 		&& \, \land \forall t'' \in (t,t'), \;\; (\sstraj,t'') \models_\Oc \formula_1 
 	\end{eqnarray*}
-	The \textit{robustness estimate} of signal $\sstraj$ relative to $\formula$ at time $t$ is $\rs{\formula}{\Oc}(\sstraj,t)$.
 \end{definition}
 As $\Oc$ is fixed in this paper, we just drop it from the notation.
 We say $\sstraj$ satisfies $\formula$ if $(\sstraj,0) \models \formula$.
@@ -105,7 +104,7 @@ The robustness is a real-valued function of $\sstraj$ with the following importa
 	\label{thm:rob objective}
 	For any $\sstraj \in \SigSpace$ and MTL formula $\formula$, 
 	if $\robf(\sstraj,t) <0$ then $\sstraj$ falsifies the spec $\formula$ at time $t$, and if $\robf(\sstraj) > 0$ then $\sstraj$ satisfies $\formula$ at $t$. 
-	The case $r =0$ is inconclusive.
+	The case $\robf(\sstraj,t) =0$ is inconclusive.
 \end{theorem} 
 
 Thus, we can compute control inputs by maximizing the robustness over the set of finite input sequences of a certain length.
