@@ -4,7 +4,10 @@ Let $\formula$ be an MTL formula with horizon $N$.
 We aim to solve the problem
 \begin{eqnarray}
 \label{eq:min rob problem}
-\max_{x_0 \in X_0, \inpSig \in \inpSet^{N-1}, \sstraj \in X^N} && \robf(\sstraj)
+\max_{\begin{smallmatrix}
+	x_0 \in X_0 \\
+	\inpSig \in \inpSet^{N-1}
+	\end{smallmatrix}} && \robf(\sstraj)
 \nonumber
 \\
 \text{s.t. } && x_{t+1} = f(x_t,u_t) \; \forall t=0,1,\ldots,N-1
@@ -14,7 +17,7 @@ Gradient descent algorithms typically offer convergence guarantees to the functi
 Moreover, they usually have a fewer number of parameters to be set by the user, and important issues like step-size selection are rigorously addressed.
 
 To apply gradient descent methods, we require a differentiable objective function. 
-Our objective function, $\robf$, is non-differentiable, because it uses the distance function, and max and min functions, all of which are non-differentiable.
+Our objective function, $\robf$, is non-differentiable, because it uses the distance, max, and min functions, all of which are non-differentiable.
 One may note that these functions are all differentiable almost everywhere (a.e.).
 That is, the set of points in their domain where they are non-differentiable has measure 0 in $\Re^n$. 
 Therefore, by measure additivity, the composite function $\robf$ is itself differentiable almost everywhere.
@@ -27,13 +30,19 @@ Thus they are consistently visited by gradient descent, after which it fails to 
 
 \begin{exmp}
 	\label{ex:cluster nondiff}
-	We use Sequential Quadratic Programming (SQP) \cite{Polak97_Optim} to maximize robustness of a single point, $x\in \mathbb{R}^2$, with respect to an unsafe set, $[-1,1]^2$ (in red in Fig. \ref{fig:DumbExample}), with $x$ constrained to a set $[-2.5,2.5]^2$ (in grey in Fig. \ref{fig:DumbExample}). We initialize the SQP from the point $x_0=[0\,0]'$, which corresponds to a robustness of $-1$, the minima in this (maximization) problem. In this problem, it is clear the optimal solution(s) lies at the boundary of the gray set, i.e. at a maximum possible distance from the unsafe set. SQP with the cost of maximizing the robustness function gets stuck at a local minima, corresponding to $x=[1\,1]'$ as shown in Fig. \ref{fig:DumbExample}. 
-	
-	\todo[inline]{Habbas, can you explain the reason why? Eloquently please. Also note that our method gets to a global optimal (the green point).} 
+	A simple example illustrates how gradient descent gets stuck at singularities.
+	We use Sequential Quadratic Programming (SQP) \cite{Polak97_Optim} to maximize the robustness of $\formula = \neg (x \in U)$, where $U=[-1,1]^2$ is the unsafe red square in Fig.~\ref{fig:DumbExample}.
+	In this case, $\robf$ is simply $\dist(x_0,U)$, the distance of the first trajectory point to the set.
+	The search space is $[-2.5,2.5]^2$ (big grey square in Fig. \ref{fig:DumbExample}). 
+	The most robust point is $x^* = [2.5,2.5]$ (green `+' in figure), being furthest from the unsafe set.
+	We initialize the SQP at $x_0=[0,0]$. 
+	SQP generates iterates (blue circles) \textit{on the line of singularity} connecting $[1,1]$ to $x^*$ and ultimately gets stuck at $x=[1,1]$.
+	That's because along the line, the gradient does not exist and attempts by SQP to approximate it numerically fail, prompting it to generate smaller and smaller step-sizes for the approximation.
+	Ultimately, SQP aborts due to the step-size being too small, and concludes it is at a local minimum.
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.49\textwidth]{figures/DumbOptEx}
-\caption{Iterates of SQP for Example \ref{ex:cluster nondiff}}
+\caption{Iterates of SQP for Example \ref{ex:cluster nondiff}. Colors in online version.}
 \label{fig:DumbExample}
 \end{figure}
 
