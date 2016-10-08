@@ -106,7 +106,7 @@ end
 tic;
 options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-6,...
     'UseParallel','always','MaxFunEval',1000000,'GradObj','off');
-exact = 0; %use what function
+exact = 1; %use what function
 [x0_opt,fval,exitflag,output] = fmincon(@(x)objfun_toy_falsification(x,optParams,exact),x0,[],[],[],[],[],[], ...
     @(x)confun_toy_falsification(x,optParams),options);
 
@@ -128,6 +128,6 @@ for t = 2:len
 end
 
 hold on;
-plot(x(1,:),x(2,:),'go');
+plot(x(1,:),x(2,:),'ro');
 
 

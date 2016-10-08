@@ -17,14 +17,14 @@ optional_P1.savefile = 'P1_j0_P.mat';
 
 %% optimization data
 dim = 2;
-len = 20;
+len = 30;
 
 P_feas = Polyhedron('lb',[-2.5 -2.5],'ub',[2.5 2.5]);
 P_final = Polyhedron('lb',[2.0 2.0],'ub',[2.5 2.5]);
 P_term = P_final;
 %U_feas = Polyhedron('lb',[-0.32 -0.32],'ub',[0.32 0.32]);
 %U_feas = Polyhedron('lb',[-2.52 -2.52],'ub',[2.52 2.52]);
-U_feas = Polyhedron('lb',[-0.52 -0.52],'ub',[0.52 0.52]);
+U_feas = Polyhedron('lb',[-0.32 -0.32],'ub',[0.32 0.32]);
 
 
 optParams.P_final = P_final;
@@ -77,18 +77,33 @@ save('Data/TestData_opt10.mat','x','x_0','optParams');
 time_taken_mins = toc/60
 
 %% plot
+dim = optParams.dim;
+P_feas = optParams.P_feas;
+P_final = optParams.P_final;
+len = optParams.len;
+P1 = optParams.P1;
 if(dim<=3)
     figure;
-    plot(P_feas,'Color','gray');
+    plot(P_feas,'Color','gray','Alpha',0.7);
     hold on;
-    plot(P1,'Color','red');
+    plot(P1,'Color','red','Alpha',0.7);
     hold on;
-    plot(P_final,'Color','green');
+    plot(P_final,'Color','green','Alpha',0.7);
     hold on;
     traj_x = reshape(x(1:dim*len),dim,len);
+    traj_x0 = reshape(x_0(1:dim*len),dim,len);
     hold on;
+    
     for i = 1:len
-        plot(traj_x(1,i),traj_x(2,i),'o');hold on;
+        plot(traj_x0(1,i),traj_x0(2,i),'bo');hold on;
+        plot(traj_x(1,i),traj_x(2,i),'k*');hold on;
+        
+        if(i==2)
+            legend('Feasible set','Unsafe set','Terminal Set','Init. Traj.',...
+                'Traj. \gamma=0.1');
+        end
     end
     grid on;
 end
+
+
