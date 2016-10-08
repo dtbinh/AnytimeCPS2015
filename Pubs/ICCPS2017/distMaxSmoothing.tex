@@ -1,8 +1,7 @@
-\subsection{Distance function and min,max}
-\label{sec:dist max smoothing}
+\subsection{Approximating the distance function}
+\label{sec:dist smoothing}
 To create a smooth approximation to $\robf$, we use smooth approximations to each of its non-differentiable components: the set-distance, min, and max functions.
 
-\underline{Point-to-set distance function}.
 \begin{figure}[t!]
 	\centering
 	\begin{subfigure}[t]{0.25\textwidth}
@@ -18,7 +17,7 @@ To create a smooth approximation to $\robf$, we use smooth approximations to eac
 	\label{fig:smooth2d}
 \end{figure}
 
-Recall that for a set $U \subset \Re^n$, $\dist{x}{U} = \inf_{a \in \cl{U}} |x-a|_2$, where $|\cdot|_2$ is the Euclidian norm.
+Recall that for a set $U \subset \Re^n$, $\dist(x,U) = \inf_{a \in \cl{U}} |x-a|_2$, where $|\cdot|_2$ is the Euclidian norm.
 This function is globally Lipschitz with Lipschitz constant 1 and therefore differentiable almost everywhere (Rademacher's theorem), and has a second derivative almost everywhere if $U$ is convex (Alexandrov's theorem) \cite{MakelaN92book}.
 
 It is well-known that if we convolve an a.e.-differentiable function with a smooth kernel, the output function no longer has those singularities.
@@ -31,7 +30,7 @@ $C^\infty(\Re^n)$ is the class of functions that are infinitely differentiable i
 	$\int_{\Re^n}g(x)dx = 1$, $g(x) = 0$ if $x \notin B(0,1)$.
 	Define $g_\varepsilon = \varepsilon^{-n}g(x/\varepsilon)$ and
 	\[f_\varepsilon(x) = f *g_\varepsilon(x) = \int_{\Re^n}f(y)g_\varepsilon(x-y)dy\]
-	Then $\fe$ is infinitely differentiable, its Lipschitz constant $L_{\fe} = L_f$ and $\|f-\fe\|_\infty \leq L_f \varepsilon$.
+	Then $\fe$ is infinitely differentiable, its Lipschitz constant $L_{\fe} \leq L_f$ and $\|f-\fe\|_\infty \leq L_f \varepsilon$.
 \end{theorem}
 \begin{proof}
 	Clearly, $\fe$ is $C^\infty$: $g_\varepsilon \in C^\infty$ and the integrand in the above convolution is differentiable w.r.t. $x$, so it holds that $\fe'(x) = \int{f(y)\partial g_\varepsilon(x-y)/\partial x dy}$.
@@ -47,7 +46,7 @@ $C^\infty(\Re^n)$ is the class of functions that are infinitely differentiable i
 	\\
 	&= &L_f|x-x'| \int_{\Re^n} \varepsilon^{-n} g(y') \varepsilon^ndy'
 	\\
-	&=& L_f|x-x'| \implies L_f = L_{\fe}
+	&=& L_f|x-x'| \implies L_f \leq L_{\fe}
 	\end{eqnarray*}
 	
 	Finally, 
@@ -62,40 +61,9 @@ $C^\infty(\Re^n)$ is the class of functions that are infinitely differentiable i
 	\end{eqnarray*}
 	In particular, $\|f-\fe\|_\infty \rightarrow 0$ as $\varepsilon \rightarrow 0$.
 \end{proof}
-Fig.~\ref{fig:smooth2d} shows the distance function $\dist{\cdot}{U}$ where $U$ is a square in the plane, smoothed by convolving with kernel $g_{\varepsilon}$ obtained from the shown function. 
+Fig.~\ref{fig:smooth2d} shows the distance function $\dist(\cdot,U)$ where $U$ is a square in the plane, smoothed by convolving with kernel $g_{\varepsilon}$ obtained from the shown function. 
 We used $\varepsilon = 0.001$, and the actual approximation error $\|f-\fe\|_\infty$ is less than 1e-15.
 Parameter $\varepsilon$ controls how peaked or flat $g_\varepsilon$ is: a large $\varepsilon$ gives a peaked kernel which yields better local approximation, but the max error decreases towards 0 slower.
 \todo[inline]{because lip cnt is bounded by that of f, this says that it's a conservative apx? if d is -ve and decreasing, $d_\varepsilon$ decreases less and if d is +ve and increasing, $d_e$ increases less.}
-\underline{Smooth max and min}
-We use the following smooth approximations of $m$-ary max and min.
-Let $k \geq 1$.
-\begin{eqnarray}
-	\label{eq:soft max min}
-	\smax_k(a_1,\ldots,a_m) &\defeq& \frac{1}{k} \ln(e^{ka_1}+\ldots+e^{ka_m})
-	\\
-	\smin_k(a_1,\ldots,a_m) &\defeq& -\smax(-a_1,\ldots,-a_m)
-\end{eqnarray}
-Suppose $k=1$ and that $a_1$ is the largest number.
-Then $e^{a_1}$ is even larger than the other $e^{a_i}$'s, and dominates the sum. 
-Thus $\smax_1(\mathbf{a}) \approxeq \ln e^{a_1} = a_1 = \max(\mathbf{a})$.
-If $a_1$ is not significantly larger than the rest, the sum is not well-approximated by $e^{a_1}$ alone.
-To counter this, the scaling factor $k$ is used: it amplifies the differences between the numbers.
-It holds that for any set of $m$ reals,
-\begin{eqnarray}
-\label{eq:smooth max error}
-0 \leq \smax_k(a_1,\ldots,a_m) -\max(a_1,\ldots,a_m) \leq \ln(m)/k
-\\
-0 \leq \min(a_1,\ldots,a_m) -\smin_k(a_1,\ldots,a_m) \leq \ln(m)/k
-\end{eqnarray}
-Indeed, the error of smooth max can be bounded as follows.
-Assume $a_1$ is the largest number, then 
-\begin{eqnarray*}
-\varepsilon_M &\defeq& \smax_k(\mathbf{a}) - a_1 =  \frac{\ln(\sum_ie^{ka_i})-ka_1}{k}
-\\
-&=& k^{-1}\ln\left(\frac{\sum_ie^{ka_i}}{e^{ka_1}}\right) \leq k^{-1}\ln \left(\frac{me^{ka_1}}{e^{ka_1}}\right)
-\\
-&=&\frac{\ln m}{k}
-\end{eqnarray*}
-It is also clear from what preceded that $\varepsilon_M \geq 0$.
-The maximum error is achieved when all the $a_i$'s are equal.
-\todo[inline]{$\smax$' = 1 so its local minima are also at the boundary of domain, like regular max...}
+
+\input{waveletApx}

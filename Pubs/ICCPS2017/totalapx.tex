@@ -4,12 +4,15 @@ Putting the pieces together, we obtain the approximation error for the robustnes
 \begin{theorem}
 	\label{thm:total apx error}
 	Consider an MTL formula $\formula$ and reals $\varepsilon > 0$ and $k \geq 1$. 
-	Define the \textit{smooth robustness} $\srobf$, obtained by substituting $\sdist_{\varepsilon}$ for $\mathbf{dist}$, $\smax_k$ for $\max$, and $\smin_k$ for $\min$, in Def. \ref{def:robustness estimate}.
+	Given a set $U$, let $\sdist_\varepsilon(\cdot,U)$ be an $\varepsilon$-approximation of $\dist(\cdot,U)$, i.e. for all $x$ in their common domain, $|\dist(x,U) - \sdist_\varepsilon(x,U)| \leq \varepsilon$.	
+	
+	Define the \textit{smooth robustness} $\srobf$, obtained by substituting $\sdist_{\varepsilon}$ for $\dist$, $\smax_k$ for $\max$, and $\smin_k$ for $\min$, in Def. \ref{def:robustness estimate}.
 	Then for any length-$N$ trajectory $\sstraj$, it holds that
 	\[|\robf-\srobf| \leq \delta_\formula\]
 	where $\delta_\formula$ is
-	(a)independent of the evaluation time $t$, and 
-	(b) goes to 0 as $\varepsilon \rightarrow 0$ and $k \rightarrow \infty$.
+	(a) independent of $N$,
+	(b) independent of the evaluation time $t$, and 
+	(c) goes to 0 as $\varepsilon \rightarrow 0$ and $k \rightarrow \infty$.
 %	\[|\robf-\srobf| \leq |\formula| \cdot \max(\varepsilon,\ln(m)/k)\]
 %	where $m$ is the length of the longest temporal interval appearing in $\formula$ and $|\formula|$ is the size of the formula, i.e. the number of operators that appear in it.
 \end{theorem}
@@ -23,7 +26,6 @@ Putting the pieces together, we obtain the approximation error for the robustnes
 	When $\sstraj$ or $t$ are clear from the context, we will drop them from the notation.
 	
 	The proof is by structural induction on $\formula$, and works by carefully characterizing the approximation error.
-	The case $\formula = \top$ is trivial.
 	
 \underline{Case $\formula = p \in AP$.}
 $\robf(\sstraj,t)$ is given by either $\dist{x_t}{\Oc(p)}$ or $-\dist{x_t}{\Oc(p)}$, and 
@@ -32,11 +34,11 @@ Either way, $|\srobf(\sstraj,t) - \robf(\sstraj,t)| \leq \varepsilon$.
 Indeed, $\varepsilon$ satisfies the conditions on $\delta_\formula$.
 
 \underline{Case $\formula = \neg \formula_1$} 
-$|\rob_{\neg \formula_1}(\sstraj,t)-\srob_{\neg \formula_1}(\sstraj,t)| = |-\rob_{\formula_1}(\sstraj,t) + \rob_{ \formula_1}(\sstraj,t)|  \leq \delta_{\formula_1}$, and $\delta_{\formula_1}$ satisfies (a)-(b) by induction hypothesis.
+$|\rob_{\neg \formula_1}(\sstraj,t)-\srob_{\neg \formula_1}(\sstraj,t)| = |-\rob_{\formula_1}(\sstraj,t) + \rob_{ \formula_1}(\sstraj,t)|  \leq \delta_{\formula_1}$, and $\delta_{\formula_1}$ satisfies (a)-(c) by induction hypothesis.
 
 \underline{Case $\formula = \formula_1 \lor \formula_2$}.
 If the same sub-formula $\formula_i$ achieves the max for both $\rob_{\formula_1}(\sstraj,t) \sqcup \rob_{\formula_2}(\sstraj,t)$ and $\srob_{\formula_1}(\sstraj,t) \sqcup \srob_{\formula_2}(\sstraj,t)$, then by induction hypothesis we immediately obtain 
-$|\robf(\sstraj,t)-\srob(\sstraj,t)|  \leq \delta_{\formula_i} \leq \delta_{\formula}$.
+$|\robf(\sstraj,t)-\srob(\sstraj,t)|  \leq \delta_{\formula_i}$.
 
 Otherwise if, say, $\robf = \rob_{\formula_1}$ and $\srobf = \srob_{\formula_2}$ then
 \[\robfa -\delta_{\formula_1} \leq \srob_{\formula_1} \leq \srob_{\formula_2} \implies \robfa-\srob_{\formula_2} \leq \delta_{\formula_1}\]
@@ -52,7 +54,7 @@ So in all cases,
 \[|\robfa \sqcup \robfb - \srob_{\formula_1} \sqcup \srob_{\formula_2}|\leq \delta_{\formula_1} \sqcup \delta_{\formula_2}\]
 Therefore by the triangle inequality and \eqref{eq:smooth max error}
 \[|\robfa \sqcup \robfb - \smax_k(\srob_{\formula_1} , \srob_{\formula_2})|\leq  \delta_{\formula_1} \sqcup \delta_{\formula_2} + \ln(2)/k  = \delta_\formula\]
-Clearly, $\delta_\formula$ satisfied (a)-(b).
+Clearly, $\delta_\formula$ satisfied (a)-(c).
 
 The case $\formula_1 \land \formula_2$ is treated similarly.
 
@@ -105,7 +107,7 @@ Finally, the top-most max operator introduces the total error
 &=&\delta_\formula
 \end{eqnarray}
 The first inequality obtains from the fact that $\delta_\alpha$ is independent of evaluation time and Lemma \ref{lemma:n-ary apx}.
-The bound $\delta_\formula$ obey s (a)-(b).
+The bound $\delta_\formula$ obeys (a)-(c).
 This concludes the proof.
 %if $\formula_1$ is a sub-formula of $\formula$, then $\delta_{\formula_1} \leq \delta_\formula$.
 	\end{proof}
