@@ -71,5 +71,5 @@ if(0) %for the P1 until P2 data
    hold on;errorbar(250,mean_err_rel,std_err_rel.^2)
 end
 
-%%legends
-legend('AlwaysNotP','Always((NotP1)or(NotP2))','Always((NotP1)and(NotP2))','AlwaysNotP(R3)','Always((NotP1)Until(P2))');
+%% legends
+legend('AlwaysNotP1','Always((NotP1)or(NotP2))','Always((NotP1)and(NotP2))','AlwaysNotP1(R3)','Always((NotP1)Until(P2))');

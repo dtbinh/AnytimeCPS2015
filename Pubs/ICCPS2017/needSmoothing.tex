@@ -4,7 +4,7 @@ Let $\formula$ be an MTL formula with horizon $N$.
 We aim to solve the problem
 \begin{eqnarray}
 \label{eq:min rob problem}
-\max_{x_0 \in X_0, \inpSig \in \inpSet^N} && \robf(\sstraj)
+\max_{x_0 \in X_0, \inpSig \in \inpSet^{N-1}, \sstraj \in X^N} && \robf(\sstraj)
 \nonumber
 \\
 \text{s.t. } && x_{t+1} = f(x_t,u_t) \; \forall t=0,1,\ldots,N-1
@@ -27,14 +27,14 @@ Thus they are consistently visited by gradient descent, after which it fails to 
 
 \begin{exmp}
 	\label{ex:cluster nondiff}
-	We use Sequential Quadratic Programming (SQP) \cite{Polak97_Optim} to...
+	We use Sequential Quadratic Programming (SQP) \cite{Polak97_Optim} to maximize robustness of a single point, $x\in \mathbb{R}^2$, with respect to an unsafe set, $[-1,1]^2$ (in red in Fig. \ref{fig:DumbExample}), with $x$ constrained to a set $[-2.5,2.5]^2$ (in grey in Fig. \ref{fig:DumbExample}). We initialize the SQP from the point $x_0=[0\,0]'$, which corresponds to a robustness of $-1$, the minima in this (maximization) problem. In this problem, it is clear the optimal solution(s) lies at the boundary of the gray set, i.e. at a maximum possible distance from the unsafe set. SQP with the cost of maximizing the robustness function gets stuck at a local minima, corresponding to $x=[1\,1]'$ as shown in Fig. \ref{fig:DumbExample}. 
 	
-	\todo[inline]{Yash, put example here. Use the place holder for figure}
+	\todo[inline]{Habbas, can you explain the reason why? Eloquently please. Also note that our method gets to a global optimal (the green point).} 
 \begin{figure}[t]
 \centering
-\includegraphics[scale=0.3]{figures/placeHolder}
+\includegraphics[width=0.49\textwidth]{figures/DumbOptEx}
 \caption{Iterates of SQP for Example \ref{ex:cluster nondiff}}
-\label{fig:placeholder}
+\label{fig:DumbExample}
 \end{figure}
 
 \end{exmp}
