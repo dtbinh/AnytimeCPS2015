@@ -86,13 +86,13 @@ for t = 2:len
 end
 
 hold on;
-plot(x(1,:),x(2,:),'k*');
+plot(x(1,:),x(2,:),'bo');
 
 % making sure of this
 optParams.Params_P1.j_max = 0;
 
 %% gen code if necessary
-genCodeCostFn = 1;
+genCodeCostFn = 0;
 if(genCodeCostFn)
     cfg=coder.config('mex');
     Params_P1.j_max = 0;  
@@ -122,12 +122,19 @@ exact = 1; %use what function
 % traj
 x = zeros(2,len);
 x(:,1) = x0_opt;
+x(:,1) = x_sr;
 for t = 2:len
     x(:,t) = (A-B*K)*x(:,t-1) + B*K*x_star;%(A-B*K)*(x(:,t-1) - x_star) + x_star;
        
 end
 
 hold on;
-plot(x(1,:),x(2,:),'ro');
+plot(x(1,:),x(2,:),'kd');
 
+%% legend shite 
+h  =legend('Feasible set','Terminal set','Unsafe set','X_0','\mathbb{x}_0','\mathbb{x}_{\tilde{\rho}}','7');
+set(h,'Interpreter','latex');
+h  =legend('Feasible set','Terminal set','Unsafe set','X_0','Init. pt. (and traj.)','Init. state (and traj.) SQP ', ...
+    'Init. state (and traj.) SA') ;
+xlabel('x_1');ylabel('x_2');
 

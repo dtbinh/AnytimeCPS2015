@@ -38,8 +38,6 @@ The control problem is to maximize the smooth robustness of the specification $\
 
 For simulation purposes, we use obtain 3 initial trajectories (via solving different linear programs) from the given initial state to the terminal (landing) set. These three trajectories, each of which has negative robustness (i.e. does not satisfy the given specification), serve as three different initial solutions to A) Our approach B) Gradient-descent via SQP, using the actual robustness function as the cost, C) Simulated Annealing with the actual robustness function as the cost. This multi-start approach can be used in practice when there is a fast initial trajectory generator available.
 
-Fig.\ref{fig:quad_init} shows the initial trajectories for both the quadrotors in the given air-space, neither of which satisfy the specification $\Psi$. Fig.\ref{fig:quad_ssqp} shows the three trajectories obtained after applying our control method, with the three initial trajectories as starting points for the optimization, respectively. All three trajectories obtained satisfy the specification $\Psi$, showing the applicability of our method. To avoid clutter, we do not show trajectories obtained from the other two methods, but summarize the results in a table. Table shows for the three trajectories, initial robustness, robustness for trajectory obtained via the three methods (and the approximate robustness when applicable).
-
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.49\textwidth]{figures/QuadInitTrajs_scissored}
@@ -47,12 +45,33 @@ Fig.\ref{fig:quad_init} shows the initial trajectories for both the quadrotors i
 \label{fig:quad_init}
 \end{figure}
 
+
+Fig.\ref{fig:quad_init} shows the initial trajectories for both the quadrotors in the given air-space, neither of which satisfy the specification $\Psi$. Fig.\ref{fig:quad_ssqp} shows the three trajectories obtained after applying our control method, with the three initial trajectories as starting points for the optimization, respectively. All three trajectories obtained satisfy the specification $\Psi$, showing the applicability of our method. To avoid clutter, we do not show trajectories obtained from the other two methods, but summarize the results in a table. Table \ref{tbl:opt_performance} shows for the three trajectories, initial robustness, robustness for trajectory obtained via the three methods (and the approximate robustness when applicable). Our method, SQP with Smooth Robustness (SR-SQP), results in trajectories with the highest robustness, and for all three initial trajectories, results in trajectories that satisfy $\Psi$. Simulated Annealing (SA), with an upper limit of 30,000 function evaluations, results in only one trajectory that satisfies $\Psi$. SQP on robustness results in trajectories that satisfy $\Psi$ from all 3 initial trajectories. It is worth noting that this method gives not only lower values of robustness than our proposed method, but also from three very initial trajectories, results in trajectories with the same robustness value $0.1798$. We hypothesize that this is due to the non-existence of the gradient of $\rob_{\Psi}$ along certain directions, which results in gradient descent on robustness getting stuck in local minima. On further investigation, we also noticed that the robustness is due to the segment of the $\Psi$ corresponding to $\eventually_{[0,N]}(p_2 \in \text{Terminal})$, i.e. gradient descent does not drive the trajectory deeper inside the set $\text{Terminal}$, unlike our approach, even though the minimum separation property is far from being violated. This lends credence to our hypothesis of SQP terminating on a local minima (which is indeed the flag MATLAB's optimization gives).
+
+
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.49\textwidth]{figures/QuadTrajs_scissored}
 \caption{ Trajectories obtained via SQP on smooth robustness, with three different initial trajectories acting as initial solutions for the SQP. Note, all 3 trajectories satisfy $\Psi$. Here, $p_{i}^j$ refers to the positions of the $i^{th}$ initial trajectory for the $j^{th}$ quadrotor.}
 \label{fig:quad_ssqp}
 \end{figure}
+
+{\small
+\begin{table}[htb]
+\begin{center}
+\caption{Optimization performance}
+\label{tbl:opt_performance}
+\begin{tabular} {|c|c|c|c|c|}
+	\hline
+	\textbf{Traj.} & $\rob(\sstraj_0) $ & SR-SQP: $\rob(\sstraj) (\srob)$ & SA: $\rob(\sstraj)$ & SQP: $\rob(\sstraj)$\\ \hline
+	1 & -0.8803 & \textbf{0.2985} (0.2460) & -0.2424 & 0.1798 \\ \hline
+	2 & -0.7832 & \textbf{0.3255} (0.3103) & -0.5861 & 0.1798 \\ \hline
+	3 & -0.0399 & \textbf{0.2967} (0.2652) & 0.0854 & 0.1798 \\ \hline
+\end{tabular}	
+\end{center}
+\end{table}
+}
+
 
 %\todo[inline]{%Start by motivating the example as something more than a dumb system. E.g. "Air traffic control offers many opportunities for automation to allow a more efficient and safer landing patterns. The constraints of air traffic control are complex and contain many safety rules. In this example we express these rules in MTL and demonstrate how the smoothed robustness is used to generate control strategies for safely and robustly landing two quadrotors. The proposed approach outperforms Simulated Annealing and gradient descent on %the non-smooth robustness."	Then you give the details below}
 %1. We take a quad-rotor model with linearized dynamics around hover, similar to those used in \cite{}. The case study involves centralized control of two quad-rotors, with operational objectives given as an MTL specification, and a constrained air-space.
