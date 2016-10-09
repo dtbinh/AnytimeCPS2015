@@ -5,6 +5,16 @@ distbs = [optParams.disturbances.d1'; optParams.disturbances.d2'; ...
 
 z = SimBldg(u,optParams);
 
+figure(4)
+hold all;
+plot(z(4,:),'linewidth',2);
+grid on;
+%%
+ P = Polyhedron('lb',[10 22],'ub',[19 28]);
+ hold on;
+ plot(P,'Color','green','Alpha',0.6);
+ legend('Initial','Method','SQP','SA','Comfort temp. (and occupancy time)')
+%%
 figure(1)
 for i = 411:414
     subplot(i)

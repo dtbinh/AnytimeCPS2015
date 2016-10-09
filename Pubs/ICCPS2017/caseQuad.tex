@@ -7,17 +7,17 @@ The specification for the autonomous ATC with two-quadrotors in the airspace is:
 \begin{subequations}
 \begin{align}
 \Psi &= \eventually_{[0,N]}(p_1 \in \text{Terminal}) \land \eventually_{[0,N]}(p_2 \in \text{Terminal}) \land   \nonumber \\
-& \always_{[0,N]} (\neg (p_1 \in \text{Zone}_1) \lor z_1 \in [1,5]) \land \nonumber \\
-& \always_{[0,N]} (\neg (p_2 \in \text{Zone}_1) \lor z_2 \in [1,5]) \land \nonumber \\
-& \always_{[0,N]} (\neg (p_1 \in \text{Zone}_2) \lor z_1 \in [0,3]) \land \nonumber \\
-& \always_{[0,N]} (\neg (p_2 \in \text{Zone}_2) \lor z_2 \in [0,3]) \land \nonumber \\
-& \always_{[0,N]} (\neg (p_1 \in \text{Unsafe})) \land \always_{[0,N]} (\neg (p_2 \in \text{Unsafe})) \land  \nonumber \\
+& \always_{[0,N]} (\neg (p_1 \in \text{Zone}_1) \lor z_1 \in [1,5]) \, \land \nonumber \\
+& \always_{[0,N]} (\neg (p_2 \in \text{Zone}_1) \lor z_2 \in [1,5]) \, \land \nonumber \\
+& \always_{[0,N]} (\neg (p_1 \in \text{Zone}_2) \lor z_1 \in [0,3]) \, \land \nonumber \\
+& \always_{[0,N]} (\neg (p_2 \in \text{Zone}_2) \lor z_2 \in [0,3]) \, \land \nonumber \\
+& \always_{[0,N]} (\neg (p_1 \in \text{Unsafe})) \land \always_{[0,N]} (\neg (p_2 \in \text{Unsafe})) \, \land  \nonumber \\
 & \always_{[0,N]} (||p_1-p_2||_2^2 \geq d_{min}^2)
 \end{align}
 \end{subequations}
 }
 
-Here $p_1$ and $p_2$ refer to the position of the two quad-rotors in $(x,y,z)$-space. The specification implies that, within a horizon of $N$ steps,  both quad-rotors should: a) eventually land (reach the terminal zone), b) Follow altitude rules in two zones, $\text{Zone}_1$ and $\text{Zone}_2$ which have different altitude ($z$) floors and ceilings, c) Avoid the $\text{Unsafe}$ set, and d) always maintain a safe distance between each other ($d_{min}$). Note, that unlike the previous example, turning the specification into constraints (possibly non-convex) for the control problem is no longer trivial. This is due to the $\eventually$ operator, which would require a MILP formulation to be accounted for. In addition, the minimum separation and altitude-rules for the two zones cannot be turned into convex constraints for the optimization. As will be seen below, our approach allows us to keep the non-convexity in the cost function, have convex (linear) constraints on the optimization problem.
+Here $p_1$ and $p_2$ refer to the position of the two quad-rotors in $(x,y,z)$-space. The specification implies that, within a horizon of $N$ steps,  both quad-rotors should: a) eventually land (reach the terminal zone), b) Follow altitude rules in two zones, $\text{Zone}_1$ and $\text{Zone}_2$ which have different altitude ($z$) floors and ceilings, c) Avoid the $\text{Unsafe}$ set, and d) always maintain a safe distance between each other ($d_{min}$). Note, that unlike the previous example, turning the specification into constraints (possibly non-convex) for the control problem is no longer trivial. This is due to the $\eventually$ operator, which would require a MILP formulation to be accounted for. In addition, the minimum separation and altitude-rules for the two zones cannot be turned into convex constraints for the optimization. As will be seen below, our approach allows us to keep the non-convexity in the cost function, and have convex (linear) constraints on the optimization problem.
 
 The $\text{Airspace}$ here is a hyper-rectangle in $\mathbb{R}^3$, $[-5,5] \times [-5,5] \times [0,5]$, where $\times$ represents the Cartesian product. $\text{Zone}_1$, $[-5,0] \times [-5,5] \times [0,5]$, is the zone where the quad-rotors enter the $\text{Airspace}$ (i.e. where initial positions are), and has a ceiling of $5$ m and an enforced floor of $1$ m. Similarly, $\text{Zone}_2$, $[0,5] \times [-5,5] \times [0,5]$, is the zone where the $\text{Terminal}$ landing zone is, and it has a lower floor of $0$ m, and ceiling of $3$ m. The $\text{Terminal}$ set is a hyper-cube of length 1, given by $[3,4] \times [3,4] \times [0,1]$. Finally, the $\text{Unsafe}$ set is a hyper-rectangle $[-1,1] \times [-1,1] \times [0,5]$ in the middle of the air-space. In simulation, $d_{min}$ is set to $0.2$ m. The formula horizon $N$, is set to $20$.
 
