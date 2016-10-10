@@ -1,6 +1,6 @@
 %caseBldg
 
-In order to evaluate the control performance of our method on a system with more meaningful dynamics than the point-mass system, we test it on temperature control of a 4-state model of a single zone room in a building (\cite{HAMLAB}). Such a model is commonly used in literature for evaluation of predictive control algorithms \cite{AchinACC}. The control problem we solve is similar to the example used in \cite{Vasu}, where the objective is to bring the room temperature to a comfortable range when the building is occupied (given predictions on the building occupancy). The specification is gives as:
+In order to evaluate the control performance of our method on a system with more meaningful dynamics than the point-mass system, we test it on temperature control of a 4-state model of a single zone room in a building (\cite{HAMLAB}). Such a model is commonly used in literature for evaluation of predictive control algorithms \cite{AchinACC}. The control problem we solve is similar to the example used in \cite{Raman14_MPCSTL}, where the objective is to bring the room temperature to a comfortable range when the building is occupied (given predictions on the building occupancy). The specification is gives as:
 \begin{equation}
 \label{eq:BldgSpec}
 \Psi = \always_I(\text{RoomTemp} \in \text{Comfort})
