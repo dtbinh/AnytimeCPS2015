@@ -1,6 +1,6 @@
 \section{Case study}
 \label{sec:case study}
-Two numerical examples. Finite horizon control in a single shot, can be applied in a receding/shrinking horizon approach wherever applicable. 
+\todo[inline]{introduce two numerical examples. Finite horizon control in a single shot, can be applied in a receding/shrinking horizon approach wherever applicable.}
 
 
 \subsection{HVAC Control of a building for comfort}
@@ -9,3 +9,7 @@ Two numerical examples. Finite horizon control in a single shot, can be applied 
 
 \subsection{Autonomous Air Traffic Controller for quad-rotors}
 \input{caseQuad}
+
+\subsection{Discussion}
+With a simple 2-state numerical example, and two case studies on systems with more complex dynamics, we show the applicability and consistently good performance of our method. As seen in the two case studies, our method outperforms both simulated annealing and gradient descent (via SQP) on the robustness function. Also, while in the first case study, gradient descent does not find a trajectory that satisfies the specification, in the second case study, simulated annealing cannot find trajectories that satisfy the specification from two of the three initial trajectories (used as initial solutions for optimization). Our method on the other hand, successfully finds a trajectory that satisfies the specification, while resulting in the best robustness value achieved across all examples considered. 
+Since all implementations were done in MATLAB, the focus was not real-time applicability of the proposed method. For the first case study, where the dynamics are slow, our method should still be applicable ($~20s$) of execution time (compared to $~5 \text{ mins}$ for SA), for the second case study a MATLAB implementation is infeasible due to the very fast dynamics and sampling times involved. We have shown previously in ??? that control of a real quadrotor with the dynamics in \eqref{eq:quad_dyn} is possible on a low computation power platform while solving multiple quadratic programs at even higher sampling rates ($20Hz$). With this in mind, we expect a C/C++ implementation of SQP (and the smooth robustness function) should allow us to implement our method on such a system. Ongoing work focuses on a general interpreter for formulae to generate corresponding smooth robustness functions, as well as their derivatives.
