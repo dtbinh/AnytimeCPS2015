@@ -25,7 +25,7 @@ On the other hand, \textit{gradient descent optimization} algorithms typically o
 The existence of a gradient also allows us to do \textit{local} search for falsifying trajectories, which is necessary for corner case bugs.
 Moreover, such optimization algorithms usually have a fewer number of parameters to be set by the user, and important issues like step-size selection are rigorously addressed.
 
-\textbf{Contributions}. In this paper, we present smooth (infinitely differentiable) approximations to the robustness function of arbitrary MTL formulas.
+\textbf{Contributions}. In this paper, we present smooth (infinitely differentiable) approximations to the robustness function of arbitrary MTL formulae.
 This allows us to run powerful and rigorous off-the-shelf gradient descent optimizers.
 We show that the smooth approximation is always within a user-defined error of the true robustness, and illustrate the result experimentally.
 %\yhl{We demonstrate that optimizing the smooth approximation yields near-minima of the original robustness}.
@@ -45,7 +45,7 @@ They also use many `magic' parameters that are heurstically set and may affect t
 %The same is true of deterministic heuristics \cite{zutshi_trajectory_2013}, albeit they tend to be more transparent to the user and can be better tuned.
 %\todo[inline]{look up latest convergence of cross entropy for continuous spaces, genetic algos}
 Because the robustness is non-smooth, the work in \cite{AbbasF13acc} developed an algorithm that decreases the objective function along its sub-gradient. 
-This involved a series of conservative approximations, and was restricted to the case of safety formulas.
+This involved a series of conservative approximations, and was restricted to the case of safety formulae.
 In \cite{Raman14_MPCSTL}, the authors encoded the MTL formula as a set of linear and boolean constraints, and used an MILP solver to solve them.
 %The resulting MILP and used a Mixed Integer Linear Program (MILP) has $O(N\cdot|P|)$ binary variables (where $N$ is the number of samples in the trajectory over which we optimize and $|P|$ is the number of predicates, and $O(N\cdot |\formula|)$ continuous variables.
 MILPs are NP-hard, and the sophisticated heuristics used to mitigate this make it hard to characterize their runtimes, which is important in control - see examples in \cite{Raman14_MPCSTL}.
