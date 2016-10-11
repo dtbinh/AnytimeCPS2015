@@ -1,4 +1,5 @@
 %Toy example text
+\todo[inline]{I expect to see first the general control problem 13a-13e, then the specific example. This way, if you define once here, we dnot have to worry about re-defining the control problem later. So: here;s the general control problem; here's a simple system.}
 For illustrative purposes, we choose a simple linear system (point mass dynamics) to first illustrate our method. The point-mass system has the following dynamics:
 \begin{equation}
 \label{eq:PointMass}
@@ -15,14 +16,17 @@ The control problem we solve is a generalized version of \eqref{eq:min rob probl
  & \delta \srob_{\Psi}(\sstraj) \geq 0
 \end{align}
 \end{subequations}
+\todo[inline]{stick to $\formula$ for a formula, not $\psi$ (unless there's a good reason)}
 
 If we set $\gamma=0$ and $\delta=0$, we recover the problem in \eqref{eq:min rob problem} with the smooth robustness in the cost function. In the above formulation, $l(x_{k+1},u_{k})$ is a system specific control cost, e.g. the LQR cost $x_k'Qx_k + u_k'Ru_k$. $X$ and $U$ define constraints on the state $x$ and control $u$ respectively. 
 
 For the point-mass example, we define the specification to be followed as $\Psi = \always_{[0,20]} \neg (x_k \in \text{Unsafe}) \land \eventually_{[0,20]} (x_k \in \text{Terminal})$, with the sets $\text{Unsafe}=[-1,1]^2$ and $\text{Terminal}=[2,2.5]^2$. In addition, for the control problem, $X=[-2.5,2.5]^2$, $U=[0.3,0.3]^2$, $\delta=1$, and we optimize for two different values of $\gamma$, $0.1$ and $0.001$, and start with an initial point $x_0=[-2,-2]'$. The control cost is $l(x_k) = ||x_k||_{2}^2$, which when summed over is the square of the trajectory length. Note, $N=20$, which is the horizon of the specification.
 
 An initial trajectory starting from $x_0$ and ending in the $\text{Terminal}$ set is obtained via solving a linear program for feasibility ($\text{minimize } 0$) with the system dynamics and input/state constraints, and the terminal set added as a constraint. This trajectory is used to initialize the SQP optimization, which is used for the optimization. We also compute a gradient for $\srob$ to be used by MATLAB's SQP solver.
+\todo[inline]{confusing...you throw around things casually like $\min 0$, as if you're daring the reader to get confused. Or "This trajectory is used to initialize the SQP optimization, which is used for the optimization."..Take your time. explain it once, well, and then forget about it. this is the \textit{illustrative} example. see my comment in ATC case study.}
+\todo[inline]{say a word or two about SQP: broadly, how it works and whether it has guarantees. after all, it is to use things like SQP that we are smoothing in the first place. }
 
-Fig.\ref{fig:toy control} shows the sets, initial trajectory (which is unsafe and has a robustness of $-1$), and the two trajectories for the two values of $\gamma$. Both trajectories satisfy the specification $\Psi$. Intuitively, the trajectories in Fig.\ref{fig:toy control} make sense, as for a higher value of $\gamma=0.1$ we get a shorter trajectory, which is closer to unsafe set, hence satisfies $\Psi$ less robustly ($\rob_{\Psi}=0.6543$) and for a smaller value of $\gamma=0.001$ we get a longer trajectory which has a higher robustness ($\rob_{\Psi}=1.2073$).
+Fig.~\ref{fig:toy control} shows the sets, initial trajectory (which is unsafe and has a robustness of $-1$), and the two trajectories for the two values of $\gamma$. Both trajectories satisfy the specification $\Psi$. Intuitively, the trajectories in Fig.\ref{fig:toy control} make sense, as for a higher value of $\gamma=0.1$ we get a shorter trajectory, which is closer to unsafe set, hence satisfies $\Psi$ less robustly ($\rob_{\Psi}=0.6543$) and for a smaller value of $\gamma=0.001$ we get a longer trajectory which has a higher robustness ($\rob_{\Psi}=1.2073$).
 
 \begin{figure}[t]
 \centering

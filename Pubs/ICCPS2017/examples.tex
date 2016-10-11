@@ -1,34 +1,45 @@
-\section{Examples}
+\section{Approximation error, verification and control}
 \label{sec:examples}
-We implemented the above smooth approximation to the semantics of MTL, and tested them empirically on a number of examples.
+We implemented the above smooth approximation to the semantics of MTL, and tested it empirically on a number of examples.
 
-\subsection{Approximation error for Robustness}
+\subsection{Approximation error for robustness}
 \label{sec: ex apx error}
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.49\textwidth]{figures/RobustnessError}
-\caption{RMSE of approximation error for robustness with varying trajectory lengths for multiple formulae.}
+\caption{RMSE of robustness approximation error against formula horizon. \todo[inline]{Replace each Always by $Always_{[0:N-1]}
+$ and make x-axis `Formula horizon $N$. Otherwise this seems to contradict Thm. 3.2. Also explain the $\in \Re^3$ thingy}}
 \label{fig:sample result}
 \end{figure}
 %\todo[inline]{Yash, Show these results}
 
-In order to study the quality of approximation empirically, we evaluated robustness and its approximation for multiple formulae for 1000 random trajectories (of varying lengths) generated for a system with 2-states and point-mass dynamics (see \eqref{eq:PointMass}) with input and state saturation. We also evaluate a single formula, for a 3-state point mass system, to observe the approximation errors in a higher dimension. Here, in all formulae evaluated (see Fig. \ref{fig:sample result}), $P1$ is defined as $x \in [-1,1]^2$, and $P2$ as $x\in [2,2.5]^2$ (and similarly in $\mathbb{R}^3$). The states are constrained to be in $[-5,5]^2$ and the inputs in $[-0.3,0.3]^2$. 
+We evaluated the robustness $\robf$ and its approximation $\srobf$ for five formulae.
+Each formula is of the form $\formula_i = \always_{[0:N-1]} \psi$, where $N$ is the length of the trajectory.
+Thus $hrz(\formula_i)  = N$.
+Each formula's robustness is evaluated on a 1000 randomly-generated trajectories of varying lengths $N$, so we can  examine the error's variation with the horizon.
+The trajectories were produced by either a 2-dimensional point-mass system \eqref{eq:PointMass} or a 3-dimensional point-mass system, with input and state saturation.
+%All formulas use the atomic propositions $P_1 \defeq x \in [-1,1]^n$ and $P_2 \defeq x\in [2,2.5]^n$, where $n = 2,3$ is the dimension of the system.
+%The state-space is $[-5,5]^n$ and the input set is $\inpSet = [-0.3,0.3]^n$. 
 
-Fig. \ref{fig:sample result} shows the Root Mean Square (RMSE) and variance of approximation errors $\robf-\srobf$ to give an idea of the magnitude of the approximation errors for multiple formulae. 
-It is expected, and seen to some extent in Fig. \ref{fig:sample result}, that (for a constant number of wavelet coefficients) approximation error will grow as trajectory length grows. This is due to the smooth max and min functions, as seen in \eqref{eq:smooth max error}.
+Fig. \ref{fig:sample result} shows the Root Mean Square (RMSE) of the approximation, $\sqrt{(1/1000)\sum_{\sstraj}\robf(\sstraj)-\srobf(\sstraj)^2}$, and variance bars around it.
+As suggested by Remark \ref{rem:upper bound}, the approximation error generally increases with the horizon (for a constant number of wavelet coefficients).
+This is due to the smooth max and min functions, as seen in \eqref{eq:smooth max error}.
 
-Fig. \ref{fig:relative error} shows the relative approximation errors, $(\robf-\srobf)/|\robf|$, for the formulae under consideration. It is seen that the relative average approximation is less than $10\%$ for all cases. 
+Fig. \ref{fig:relative error} shows the relative approximation errors, $(\robf-\srobf)/|\robf|$, for the formulae under consideration. 
+It is seen that the relative average approximation error is less than $10\%$ for all cases. 
+For some data points in Fig. \ref{fig:relative error}, the variance of relative error is high, suggesting that the approximation errors vary wildly. This is not the case, as it is worth noting in Fig. \ref{fig:sample result} that the variance of the actual approximation is very small. 
+The high relative approximation errors are due to trajectories which have a true robustness of near zero, leading to a spike in the relative approximation error, $(\robf-\srobf)/|\robf|$, even for small values of the true approximation error, $\robf-\srobf$.
+\todo[inline]{not sure what the point is in this paragraph...previous figure gives (roughly) average error. this gives relative error. one does not cancel out the other. the relative error does vary a lot in some case, as evidenced here. one can only say that even though relative error can vary a lot inn some case, the absolute error remains small in absolute terms.}
 
-For some data points in Fig. \ref{fig:relative error}, the variance of relative error is high, suggesting that the approximation errors vary wildly. This is not the case, as it is worth noting in Fig. \ref{fig:sample result} that the variance of the actual approximation is very small. The high relative approximation errors are due to trajectories which have a true robustness of near zero, leading to a spike in the relative approximation error, $(\robf-\srobf)/|\robf|$, even for small values of the true approximation error, $\robf-\srobf$.
-
-Also while Fig.\ref{fig:sample result} suggests that the approximation error grows as dimension of the state grows from $2$ to $3$, Fig. \ref{fig:relative error} shows that the relative approximation error is still small. 
+Note that while the RMSE  increased with the system dimension($4^{th}$ formula in Fig.~\ref{fig:sample result}), the relative error remained very small ($4^{th}$ formula in Fig.~\ref{fig:relative error}.
+I.e. the increase in approximation error is explained by an increase in the robustness's value. 
 %As explained in the previous section, better approximation can be achieved by increasing the number of wavelet coefficients as dimension, and trajectory length, grow.
 %\todo[inline]{Is that true?}
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.49\textwidth]{figures/RobustnessErrorRel}
-\caption{Mean and Variance of relative approximation error for robustness with varying trajectory lengths for multiple formulae.}
+\caption{Mean and variance of relative approximation error against formula horizon.\todo[inline]{smae changes as previous fig. All temporal operators must be bounded}}
 \label{fig:relative error}
 \end{figure}
 
