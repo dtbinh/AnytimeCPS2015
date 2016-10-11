@@ -7,7 +7,7 @@ We implemented the above smooth approximation to the semantics of MTL, and teste
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.49\textwidth]{figures/RobustnessError}
-\caption{RMSE (and variance) of robustness approximation error against formula horizon, evaluated on 1000 randomly generated trajectories for the system in \eqref{eq:PointMass}. Unless noted, the states in the trajectory are in $\mathbb{R}^2$. Note, the magnitude of the approximation errors are very small, as is the variance, showing the accuracy of the smooth approximation of robustness.}
+\caption{{\small RMSE (and variance) of robustness approximation error against formula horizon, evaluated on 1000 randomly generated trajectories for the system in \eqref{eq:PointMass}. Unless noted, the states in the trajectory are in $\mathbb{R}^2$. Note, the magnitude of the approximation errors are very small, as is the variance, showing the accuracy of the smooth approximation of robustness.}}
 %\todo[inline]{Replace each Always by $Always_{[0:N-1]}
 %$ and make x-axis `Formula horizon $N$. Otherwise this seems to contradict Thm. 3.2. Also explain the $\in \Re^3$ thingy}}
 \label{fig:sample result}
@@ -29,8 +29,9 @@ This is due to the smooth max and min functions, as seen in \eqref{eq:smooth max
 Fig. \ref{fig:relative error} shows the relative approximation errors, $(\robf-\srobf)/|\robf|$, for the formulae under consideration. 
 It is seen that the average relative approximation error is less than $10\%$ for all cases. 
 For some data points in Fig. \ref{fig:relative error}, the variance of relative error is high, the error remains small in absolute terms as seen in Fig.~\ref{fig:sample result}.
-In general, the high relative approximation errors are due to trajectories which have a true robustness of near zero; 
-these lead to a spike in the relative approximation error, $(\robf-\srobf)/|\robf|$, even for small values of the absolute error $|\robf-\srobf|$.
+
+%In general, the high relative approximation errors are due to trajectories which have a true robustness of near zero; 
+%these lead to a spike in the relative approximation error, $(\robf-\srobf)/|\robf|$, even for small values of the absolute error $|\robf-\srobf|$.
 
 %suggesting that the approximation errors vary wildly. This is not the case, as it is worth noting in Fig. \ref{fig:sample result} that the variance of the actual approximation is very small. 
 
@@ -43,12 +44,12 @@ Note that while the RMSE  increased with the system dimension($4^{th}$ formula i
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.49\textwidth]{figures/RobustnessErrorRel}
-\caption{Mean and variance of relative approximation error against formula horizon, evaluated on 1000 randomly generated trajectories for the system in \eqref{eq:PointMass}. Unless noted, the states in the trajectory are in $\mathbb{R}^2$.} 
+\caption{{\small Mean and variance of relative approximation error against formula horizon, evaluated on 1000 randomly generated trajectories for the system in \eqref{eq:PointMass}. Unless noted, the states in the trajectory are in $\mathbb{R}^2$.}} 
 %\todo[inline]{smae changes as previous fig. All temporal operators must be bounded}}
 \label{fig:relative error}
 \end{figure}
 
-
+\vspace{-30pt}
 \subsection{Robustness maximization for control}
 \label{sec:toy example}
 %\todo[inline]{Yash, Show SA and SR-SQP on toy example}
