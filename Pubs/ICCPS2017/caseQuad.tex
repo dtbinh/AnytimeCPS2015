@@ -11,13 +11,13 @@ The specification for the autonomous ATC with two quadrotors is:
 {\small
 \begin{subequations}
 \begin{align}
-\formula &= \eventually_{[0,N]}(q_1 \in \text{Terminal}) \land \eventually_{[0,N]}(q_2 \in \text{Terminal}) \land   \nonumber \\
-& \always_{[0,N]} (q_1 \in \text{Zone}_1 \implies z_1 \in [1,5]) \, \land \nonumber \\
-& \always_{[0,N]} (q_2 \in \text{Zone}_1 \implies z_2 \in [1,5]) \, \land \nonumber \\
-& \always_{[0,N]} (q_1 \in \text{Zone}_2 \implies z_1 \in [0,3]) \, \land \nonumber \\
-& \always_{[0,N]} (q_2 \in \text{Zone}_2 \implies z_2 \in [0,3]) \, \land \nonumber \\
-& \always_{[0,N]} (\neg (q_1 \in \text{Unsafe})) \land \always_{[0,N]} (\neg (q_2 \in \text{Unsafe})) \, \land  \nonumber \\
-& \always_{[0,N]} (||q_1-q_2||_2^2 \geq d_{min}^2)
+\formula &= \eventually_{[0,N-1]}(q_1 \in \text{Terminal}) \land \eventually_{[0,N-1]}(q_2 \in \text{Terminal}) \land   \nonumber \\
+& \always_{[0,N-1]} (q_1 \in \text{Zone}_1 \implies z_1 \in [1,5]) \, \land \nonumber \\
+& \always_{[0,N-1]} (q_2 \in \text{Zone}_1 \implies z_2 \in [1,5]) \, \land \nonumber \\
+& \always_{[0,N-1]} (q_1 \in \text{Zone}_2 \implies z_1 \in [0,3]) \, \land \nonumber \\
+& \always_{[0,N-1]} (q_2 \in \text{Zone}_2 \implies z_2 \in [0,3]) \, \land \nonumber \\
+& \always_{[0,N-1]} (\neg (q_1 \in \text{Unsafe})) \land \always_{[0,N-1]} (\neg (q_2 \in \text{Unsafe})) \, \land  \nonumber \\
+& \always_{[0,N-1]} (||q_1-q_2||_2^2 \geq d_{min}^2)
 \end{align}
 \end{subequations}
 }
@@ -92,7 +92,7 @@ The three initial trajectories all have negative robustness, i.e. they violate $
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.49\textwidth]{figures/QuadInitTrajs_scissored}
-\caption{The airspace with the corresponding sets, and initial trajectories for the two quad-rotors. Note, all 3 initial trajectories violate the specification. Here, $q0_{i}^j$ refers to the positions of the $i^{th}$ initial trajectory for the $j^{th}$ quadrotor.} 
+\caption{The airspace with the corresponding sets, and initial trajectories for the two quad-rotors. Note, all 3 initial trajectories violate the specification, and the $\text{Airspace}$ is the union of $\text{Zone}_1$ and $\text{Zone}_2$. Here, $q0_{i}^j$ refers to the positions of the $i^{th}$ initial trajectory for the $j^{th}$ quadrotor.} 
 %\todo[inline]%{don't foret to change the $p$ into whatever symbol you use. remove sets from teh legend (for next fifgure also)}}
 \label{fig:quad_init}
 \end{figure}
