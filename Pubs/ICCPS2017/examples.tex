@@ -12,7 +12,6 @@ We implemented the above smooth approximation to the semantics of MTL, and teste
 %$ and make x-axis `Formula horizon $N$. Otherwise this seems to contradict Thm. 3.2. Also explain the $\in \Re^3$ thingy}}
 \label{fig:sample result}
 \end{figure}
-%\todo[inline]{Yash, Show these results}
 
 We evaluated the robustness $\robf$ and its approximation $\srobf$ for five formulae.
 Each formula is of the form $\formula_i = \always_{[0:N-1]} \psi$, where $N$ is the length of the trajectory.
@@ -22,15 +21,16 @@ The trajectories were produced by either a 2-dimensional point-mass system \eqre
 %All formulas use the atomic propositions $P_1 \defeq x \in [-1,1]^n$ and $P_2 \defeq x\in [2,2.5]^n$, where $n = 2,3$ is the dimension of the system.
 %The state-space is $[-5,5]^n$ and the input set is $\inpSet = [-0.3,0.3]^n$. 
 
-Fig. \ref{fig:sample result} shows the Root Mean Square (RMSE) of the approximation, $\sqrt{(1/1000)\sum_{\sstraj}\robf(\sstraj)-\srobf(\sstraj)^2}$
-\todo[inline]{Y:what is this formula? No RMSE I've ever seen before}
+Fig. \ref{fig:sample result} shows the Root Mean Square (RMSE) of the approximation, $\sqrt{(1/1000)\sum_{\sstraj}(\robf(\sstraj)-\srobf(\sstraj))^2}$
 , and variance bars around it.
 As suggested by Remark \ref{rem:upper bound}, the approximation error generally increases with the horizon (for a constant number of wavelet coefficients).
 This is due to the smooth max and min functions, as seen in \eqref{eq:smooth max error}.
 
 Fig. \ref{fig:relative error} shows the relative approximation errors, $(\robf-\srobf)/|\robf|$, for the formulae under consideration. 
 It is seen that the average relative approximation error is less than $10\%$ for all cases. 
-For some data points in Fig. \ref{fig:relative error}, the variance of relative error is high, the error remains small in absolute terms as seen in fig.\ref{fig:sample result}.In general, the high relative approximation errors are due to trajectories which have a true robustness of near zero, leading to a spike in the relative approximation error, $(\robf-\srobf)/|\robf|$, even for small values of the true approximation error, $\robf-\srobf$.
+For some data points in Fig. \ref{fig:relative error}, the variance of relative error is high, the error remains small in absolute terms as seen in Fig.~\ref{fig:sample result}.
+In general, the high relative approximation errors are due to trajectories which have a true robustness of near zero; 
+these lead to a spike in the relative approximation error, $(\robf-\srobf)/|\robf|$, even for small values of the absolute error $|\robf-\srobf|$.
 
 %suggesting that the approximation errors vary wildly. This is not the case, as it is worth noting in Fig. \ref{fig:sample result} that the variance of the actual approximation is very small. 
 
