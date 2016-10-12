@@ -4,9 +4,13 @@
 To evaluate our approach, we solve a robustness maximization problem for control of two systems, using three methods (all of which are implemented in MATLAB)
 
 \begin{itemize}
+	\vspace{-5pt}
 	\item SR-SQP, which uses SQP to optimize the smooth approximation to robustness, $\srobf$
+	\vspace{-5pt}
 	\item R-SQP, which uses SQP to optimize the \textit{true} robustness, $\robf$
+	\vspace{-5pt}
 	\item SA, which uses Simulated Annealing to optimize the true robustness
+	\vspace{-5pt}
 \end{itemize}
 
 %A) Temperature control of a 4-state, single-zone model of a room, with an occupancy dependent comfort specification (similar to \cite{Raman14_MPCSTL}) and B) An Autonomous Centralized Air Traffic Control system for control of two quad-rotors in a constrained airspace with an obstacle, the specification in which corresponds to safely landing the two quad-rotors while following the rules of the airspace. We compare out approach, which consists of gradient descent on the smooth robustness of the specification (via SQP) to A) Simulated Annealing (\cite{}) for robustness maximization and B) Gradient descent on the robustness function (via SQP). 
@@ -26,7 +30,7 @@ For both examples considered here, first, we compute the wavelet approximation o
 %\todo[inline]{skipping for now. i suspect many of my comments for ATC are applicable here, so please apply them as needed}
 \input{caseBldg}
 
-
+\vspace{-10pt}
 \subsection{Autonomous ATC for quad-rotors}
 %\todo[inline]{title exceeds margin}
 \input{caseQuad}

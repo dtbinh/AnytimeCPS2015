@@ -3,6 +3,7 @@
 We can also formulate a falsification problem \cite{AbbasATVA11_LinFalsification}, \cite{AbbasF_HybridSA12}, \cite{Deshmukh15_IterativeApproaches} by minimizing robustness in order to find trajectories of a closed loop system that violate a specification. In particular, we solve the following problem:
 
 \begin{subequations}
+\vspace{-20pt}
 \label{eq:falsification}
 \begin{align}
 \text{min}&_{x_0 \in X_0 } \, \rob_{\formula}(\sstraj) \nonumber \\
@@ -18,6 +19,8 @@ For evaluation, we compare A) SQP using smooth robustness (SR-SQP), B) gradient 
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.49\textwidth]{figures/ToyExampleFalse}
+\vspace{-30pt}
 \caption{{\small Trajectories from initial points obtained from robustness minimization via SA and SR-SQP, R-SQP (both of which lead to the same optimal solution)}}.
 \label{fig:toy falisification}
+\vspace{-20pt}
 \end{figure}
