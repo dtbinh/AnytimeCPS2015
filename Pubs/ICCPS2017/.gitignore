@@ -1,2 +1,4 @@
 *.blg
-iccp*.pdf
+*root*.pdf
+*.aux
+*.synct*
