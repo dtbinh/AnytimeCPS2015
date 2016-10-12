@@ -4,9 +4,13 @@
 To evaluate our approach, we solve a robustness maximization problem for control of two systems, using three methods (all of which are implemented in MATLAB)
 
 \begin{itemize}
+	\vspace{-5pt}
 	\item SR-SQP, which uses SQP to optimize the smooth approximation to robustness, $\srobf$
+	\vspace{-5pt}
 	\item R-SQP, which uses SQP to optimize the \textit{true} robustness, $\robf$
+	\vspace{-5pt}
 	\item SA, which uses Simulated Annealing to optimize the true robustness
+	\vspace{-5pt}
 \end{itemize}
 
 %A) Temperature control of a 4-state, single-zone model of a room, with an occupancy dependent comfort specification (similar to \cite{Raman14_MPCSTL}) and B) An Autonomous Centralized Air Traffic Control system for control of two quad-rotors in a constrained airspace with an obstacle, the specification in which corresponds to safely landing the two quad-rotors while following the rules of the airspace. We compare out approach, which consists of gradient descent on the smooth robustness of the specification (via SQP) to A) Simulated Annealing (\cite{}) for robustness maximization and B) Gradient descent on the robustness function (via SQP). 
@@ -26,7 +30,7 @@ For both examples considered here, first, we compute the wavelet approximation o
 %\todo[inline]{skipping for now. i suspect many of my comments for ATC are applicable here, so please apply them as needed}
 \input{caseBldg}
 
-
+\vspace{-10pt}
 \subsection{Autonomous ATC for quad-rotors}
 %\todo[inline]{title exceeds margin}
 \input{caseQuad}
@@ -35,6 +39,6 @@ For both examples considered here, first, we compute the wavelet approximation o
 %\todo[inline]{skipping fr now}
 With a simple 2-state, 2-input numerical example, and two case studies on systems with more complex dynamics, we show the applicability and consistently good performance of our method, SR-SQP. As seen in the two case studies, our method outperforms both SA and R-SQP. Also, while in the first case study, R-SQP, in the second case study, simulated annealing cannot find trajectories that satisfy the specification from two of the three initial trajectories (used as initial solutions for optimization). Our method on the other hand, successfully finds a trajectory that satisfies the specification, while resulting in the best robustness value achieved across all examples considered. 
 
-While we solve the control problem in a single-shot, finite horizon manner, in general, for a real online implementation, the problem can be solved in a receding horizon manner or in a manner where the state and actions of the past are stored an added as constraints at each time step while the look-ahead horizon of the optimization shrinks (similar to \cite{Raman14_MPCSTL}). The problem of which method is suitable for what kinds of specifications is left for future work.
+While we solve the control problem in a single-shot, finite horizon manner, in general, for a real online implementation, the problem can be solved in a receding horizon manner (similar to \cite{PantAMNDM15_Anytime}, \cite{Jain2016}) or in a manner where the state and actions of the past are stored an added as constraints at each time step while the look-ahead horizon of the optimization shrinks (similar to \cite{Raman14_MPCSTL}). The problem of which method is suitable for what kinds of specifications is left for future work.
 
 Since all implementations were done in MATLAB, the focus was not real-time applicability of the proposed method. For the first case study, where the dynamics are slow, our method should still be applicable ($\sim 20s$) of execution time (compared to $\sim 5 \text{ mins}$ for SA). For the second case study a MATLAB implementation is infeasible due to the very fast dynamics and sampling times involved. We have shown previously in \cite{PantAMNDM15_Anytime} that control of a real quad-rotor with the dynamics in \eqref{eq:quad_dyn} is possible on a low computation power platform while solving multiple quadratic programs at even higher sampling rates ($20Hz$). With this in mind, we expect a C/C++ implementation of SQP (and the smooth robustness function) should allow us to implement our method on such a system. Ongoing work focuses on a general interpreter for formulae to generate corresponding smooth robustness functions, as well as their derivatives.

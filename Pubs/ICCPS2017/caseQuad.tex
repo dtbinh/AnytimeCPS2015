@@ -19,6 +19,7 @@ The specification for the autonomous ATC with two quadrotors is:
 & \always_{[0,N-1]} (||q_1-q_2||_2^2 \geq d_{min}^2)
 \end{align}
 \end{subequations}
+\vspace{-10pt}
 }
 
 Here $q_1$ and $q_2$ refer to the position of the two quad-rotors in $(x,y,z)$-space, and $z_1$ and $z_2$ refer to their altitude. 
@@ -49,10 +50,12 @@ The quad-rotor dynamics are obtained via linearization around hover, and discret
 The corresponding linearized and discretized quad-rotor dynamics are given as:
 
 {\tiny
+\vspace{-10pt}
 \begin{equation}
 \label{eq:quad_dyn}
 \begin{bmatrix} \dot{x}_{k+1} \\ \dot{y}_{k+1} \\ \dot{z}_{k+1} \\ x_{k+1} \\ y_{k+1} \\ z_{k+1} \end{bmatrix}= \begin{bmatrix} 1&0&0&0&0&0 \\0&1&0&0&0&0 \\0&0&1&0&0&0 \\0.2&0&0&1&0&0 \\0&0.2&0&0&1&0 \\0&0&0.2&0&0&1\end{bmatrix} \begin{bmatrix} \dot{x}_{k} \\ \dot{y}_{k} \\ \dot{z}_{k} \\ x_{k} \\ y_{k} \\ z_{k} \end{bmatrix} + \begin{bmatrix} 1.96&0&0 \\ 0&-1.96&0 \\0&0&0.4 \\0.196&0&0 \\0&-0.196&0\\0&0&0.04 \end{bmatrix} \begin{bmatrix} \theta_k \\ \phi_k \\ \text{T}_k \end{bmatrix}
 \end{equation}
+\vspace{-10pt}
 }
 
 Here, the state consists of the velocities and positions in the $x,y,z$ co-ordinates. 
@@ -62,6 +65,7 @@ In a real system, this thrust is in addition to the hover thrust, $mg$, and a hi
 \textbf{The control problem.}
 We solve the following control problem.
 \begin{subequations}
+\vspace{-10pt}
 \label{eq:atc_ctrl}
 \begin{align}
 \text{max } & \srob_{\formula}(\sstraj) \\ %- \gamma \sum_{k=0}^{N-1} l(x_{k+1},u_{k}) \\
@@ -84,15 +88,15 @@ Note, this is same as setting $\gamma=0$ and $\delta=0$ in \eqref{eq:general_ctr
 
 \textbf{Results.}
 For each approach, we ran three optimizations, starting from three different trajectories to initialize the optimization. 
-These \textit{initial trajectories} can be obtained in practice by a fast trajectory generator. 
-The three initial trajectories all have negative robustness, i.e. they violate $\formula$.
+These \textit{initial trajectories} can be obtained in practice by a fast trajectory generator. The three initial trajectories all have negative robustness, i.e. they violate $\formula$.
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.49\textwidth]{figures/QuadInitTrajs_scissored}
+\vspace{-10pt}
 \caption{{\small The airspace with the corresponding sets, and initial trajectories for the two quad-rotors. Note, all 3 initial trajectories violate the specification, and the $\text{Airspace}$ is the union of $\text{Zone}_1$ and $\text{Zone}_2$. Here, $q0_{i}^j$ refers to the positions of the $i^{th}$ initial trajectory for the $j^{th}$ quadrotor.}}
 \label{fig:quad_init}
+\vspace{-20pt}
 \end{figure}
-
 Fig.\ref{fig:quad_init} shows the initial trajectories for both the quadrotors in the given air-space, neither of which satisfy the specification $\formula$. 
 Fig.\ref{fig:quad_ssqp} shows the three trajectories obtained after applying SR-SQP,
 with the three initial trajectories as initial guesses for the optimizations. 
@@ -119,7 +123,7 @@ Instead, we summarize the results in Table \ref{tbl:opt_performance} which shows
 \textbf{Analysis.} It is seen that SR-SQP and R-SQP satisfy $\formula$ for all instances, while SA satisfies it only once.
 Note that in all three cases, R-SQP results in trajectories with the same robustness value. 
 We conjecture that this is because R-SQP is getting stuck at local minima at points of non-differentiability of the objective, as illustrated in Example \ref{ex:cluster nondiff}.
-On further investigation, we also noticed that the robustness value achieved is due to the segment of the $\formula$ corresponding to $\eventually_{[0,N]}(q_2 \in \text{Terminal})$. R-SQP does not drive the trajectory (for quad-rotor 2) deeper inside the set $\text{Terminal}$, unlike the proposed approach, SR-SQP, even though the minimum separation property is far from being violated. This lends credence to our hypothesis of SQP terminating on a local minima (which is indeed the flag MATLAB's optimization gives).
+On further investigation, we also noticed that the robustness value achieved is due to the segment of the $\formula$ corresponding to $\eventually_{[0,N]}(q_2 \in \text{Terminal})$. R-SQP does not drive the trajectory (for quad-rotor 2) deeper inside the set $\text{Terminal}$, unlike the proposed approach, SR-SQP, even though the minimum separation property is far from being violated. This lends credence to our hypothesis of SQP terminating on a local minima, which is the flag MATLAB's optimization gives.
 
 %\todo[inline]{this last discussion is important. break down your sentences, clarify it, take it easy. you've done the work, don't rush the explanation.}
 
@@ -127,7 +131,9 @@ On further investigation, we also noticed that the robustness value achieved is 
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.49\textwidth]{figures/QuadTrajs_scissored}
+\vspace{-10pt}
 \caption{{\small Trajectories obtained via SQP on smooth robustness, with three different initial trajectories acting as initial solutions for the SQP. Note, all 3 trajectories satisfy $\formula$. Here, $q_{i}^j$ refers to the positions of the $i^{th}$ initial trajectory for the $j^{th}$ quadrotor. Consider $q_{1}^1$ and $q_{2}^1$, the first trajectory for the two quad-rotors. The second quad-rotor swerves around the obstacle and reaches $\text{Terminal}$, while the first quad-rotor swerves towards $\text{Unsafe}$ (but without violating $\formula$) in order to maintain a safe distance with the other quad-rotor while reaching $\text{Terminal}$. This results in the two quad-rotors satisfying $\formula$. Similar behavior is seen with the other two trajectories as well.}}
+\vspace{-10pt}
 \label{fig:quad_ssqp}
 \end{figure}
 
@@ -137,6 +143,7 @@ On further investigation, we also noticed that the robustness value achieved is 
 \small
 \begin{center}
 \caption{{\small Robustness of final trajectory $\sstraj^*$ for three optimization runs with different initial trajectories.}}
+\vspace{-10pt}
 \label{tbl:opt_performance}
 \begin{tabular} {|c|c|c|c|c|}
 	\hline
@@ -146,6 +153,7 @@ On further investigation, we also noticed that the robustness value achieved is 
 	3 & -0.0399 & \textbf{0.2967} /\,0.2652 & 0.0854 & 0.1798 \\ \hline
 \end{tabular}	
 \end{center}
+\vspace{-20pt}
 \end{table}
 
 
