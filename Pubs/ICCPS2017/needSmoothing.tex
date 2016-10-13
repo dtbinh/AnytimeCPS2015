@@ -1,29 +1,22 @@
 \subsection{The need for smoothing}
 \label{sec:need for smoothing}
 Let $\formula$ be an MTL formula with horizon $N$.
-We aim to solve the following problem for a dynamical system
-%\begin{eqnarray}
-%\label{eq:min rob problem}
-%\max_{\begin{smallmatrix}%
-%	x_0 \in X_0 \\
-%	\inpSig \in \inpSet^{N-1}
-%	\end{smallmatrix}} && \robf(\sstraj)
-%\nonumber
-%\\
-%\text{s.t. } && x_{t+1} = f(x_t,u_t) \; \forall t=0,1,\ldots,N-1
-%\end{eqnarray}
+We aim to solve the following control problem $P_\rob$.
 \begin{subequations}
 \label{eq:general_ctrl}
 \begin{align}
-\text{max } & \rob_{\formula}(\sstraj) - \gamma \sum_{k=0}^{N-1} l(x_{k+1},u_{k}) \\
-\text{s.t. } & x_{k+1} = f(x_k,u_k), \, \forall k=0,\dotsc,N-1 \\
- & x_k \in X, \, \forall k=0,\dotsc,N \\
- & u_k \in U, \, \forall k=0,\dotsc,N-1 \\
- & \delta \rob_{\formula}(\sstraj) \geq 0
+P_\rob:\, \max\, & \rob_{\formula}(\sstraj) - \gamma \sum_{k=0}^{N-1} l(x_{k+1},u_{k}) \label{eq:general ctrl obj}\\
+\text{s.t. } & x_{k+1} = f(x_k,u_k), \, \forall k=0,\dotsc,N-1 \label{eq:general ctrl dyn}\\
+ & x_k \in X, \, \forall k=0,\dotsc,N \label{eq:general ctrl X}\\
+ & u_k \in U, \, \forall k=0,\dotsc,N-1 \label{eq:general ctrl U}\\
+ & \delta \rob_{\formula}(\sstraj) \geq 0 \label{eq:general ctrl pos rob}
 \end{align}
 \end{subequations}
 
-using established, powerful gradient descent algorithms \cite{Polak97_Optim}, rather than heuristics like Simulated Annealing \cite{kirkpatrickV_SA83}. In the above formulation, $l(x_{k+1},u_{k})$ is a system specific control cost, e.g. the LQR cost $x_k'Qx_k + u_k'Ru_k$. $\gamma \geq 0$ is weighting parameter, which is a design choice. $X$ and $U$ define constraints on the state $x$ and control $u$ respectively. $f$ represents the dynamical system, with $x$ as the state and $u$ as inputs. Finally, the last constraint enforces $\rob \geq 0$, i.e. the specification is satisfied. $\delta$ here is a binary design choice, $1$ if the constraint is meant to be enforced, $0$ otherwise.
+We want to use established, powerful gradient descent algorithms \cite{Polak97_Optim}, rather than heuristics like Simulated Annealing \cite{kirkpatrickV_SA83}. 
+In the above formulation, $l(x_{k+1},u_{k})$ is a system specific control cost, e.g. the LQR cost $x_k'Qx_k + u_k'Ru_k$. $\gamma \geq 0$ is weighting parameter, which is a design choice. $X$ and $U$ define constraints on the state $x$ and control $u$ respectively. $f$ represents the dynamical system, with $x$ as the state and $u$ as inputs. Finally, the last constraint enforces $\rob \geq 0$, i.e. the specification is satisfied. 
+$\delta$ here is a binary design choice, $1$ if the constraint is meant to be enforced, $0$ otherwise.
+We will need to assume that $f$ is twice Lipschitz continuously differentiable and that its gradient $f_u$ has maximum row rank.
 
 Gradient descent algorithms typically offer convergence guarantees to the function's minima, have known convergence rates for certain function classes, and have been optimized so they outperform heuristics that don't have access to the objective's gradient information.
 Moreover, they usually have a fewer number of parameters to be set by the user, and important issues like step-size selection are rigorously addressed.
