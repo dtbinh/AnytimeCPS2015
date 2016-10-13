@@ -20,26 +20,20 @@ The max operator is written $\sqcup$ and min is written $\sqcap$.
 \label{sec:mtl}
 The controller of $\Sys$ is designed to make the closed loop system \eqref{eq:xt} satisfy a specification expressed in Metric Temporal Logic (MTL) \cite{Koymans90}.
 MTL allows one to formally express complex reactive specifications, beyond stability, trajectory tracking and the like.
-For example, for a 2-dimensional system with state $x=(x_1,x_2)$, 
-\begin{equation}
-\label{eq:example mtl}
-\formula = \always (\underbrace{x_1 > 5}_{p_1} \implies (\underbrace{x_2 \geq 6}_{p_2} \until_{[2,4]} \underbrace{x_1 \leq 5}_{\neg p_1}))
-\end{equation}
-says that Always ($\always$), whenever $x_1$ exceeds 5, $x_2$ must exceed 6 and stay there $\until$ntil, within 2 to 4 time units later, $x_1$ falls back below 5.
-The $p_i$'s are \textit{atomic propositions.}
+See examples \eqref{eq:rule1mtl} and \eqref{eq:rule3mtl}.
 
 Formally, let $AP$ be a set of atomic propositions, which can be thought of as point-wise constraints on the state of the system.
 An MTL formula $\formula$ is built recursively from the atomic propositions using the following grammar:
-\[\formula \defeq p|\neg \formula | \formula_1 \lor \formula_2 | \formula_1 \land \formula_2 | \formula_1 \until_I \formula_2\]
+\[\formula \defeq \top|p|\neg \formula | \formula_1 \lor \formula_2 | \formula_1 \land \formula_2 | \formula_1 \until_I \formula_2\]
 where $I \subset \Re$ is a time interval.
-Here, $p$ is an atomic proposition, $\lor$ and $\land$ are the logical OR and AND operators, respectively, and $\until$ is the Until temporal operator.
+Here, $\top$ is the Boolean True, $p$ is an atomic proposition, $\neg$ is Boolean negation, $\lor$ and $\land$ are the Boolean OR and AND operators, respectively, and $\until$ is the Until temporal operator.
 Informally, $\formula_1 \until_I \formula_2$ means that $\formula_1$ must hold \textit{until} $\formula_2$ holds, and that the hand-over from $\formula_1$  to $\formula_2$ must happen sometime during the interval $I$.
 The implication ($\implies$), Always ($\always$) and Eventually ($\eventually$) operators can be derived using the above opearators.
 
 Formally, the \textit{semantics} of an MTL formula define what it means for a system trajectory $\sstraj$ to satisfy the formula $\formula$.
 Let $\Oc: AP \rightarrow \Pc(X)$ be an \textit{observation} map for the atomic propositions.
-The validity (boolean truth value) of a formula $\formula$ w.r.t. the trajectory $\sstraj$ at time $t$ is defined recursively as follows.
-\begin{definition}
+The validity (boolean truth value) of a formula $\formula$ w.r.t. the trajectory $\sstraj$ at time $t$ is defined recursively.
+\begin{definition}[MTL semantics]
 	\label{def:boolean sat}
 	\begin{eqnarray*}
 		\label{eq:boolean sat}

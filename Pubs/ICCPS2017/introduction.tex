@@ -5,27 +5,34 @@ Under certain error models, like a bounded disturbance on a sensor reading
 %or a wrong transition in the logic
 , a CPS can be designed to be robust to that source of error.
 In general, however, unforeseen issues can occur. 
-To deal with unforeseen problems, at design time, the system must be verified to be \textit{robust} : i.e., not only does it satisfy its design specifications under the known error models, it must satisfy robustly.
+To deal with unforeseen problems, at design time, the system must be verified to be \textit{robust} : i.e., not only does it satisfy its design specifications under the known error models, it must satisfy them robustly.
 Similarly, at runtime, the system's controller must make decisions that maximize this satisfaction margin, or \textit{robustness}.
 This can give a margin of maneuvarability to the system during which it addresses the unforeseen problem.
 Since these problems are, by definition, unforeseen and unmodeled and only detected by their effect on the output, the notion of robustness must be computable using only the output behavior of the system.
 
 \input{atcExample}
 
-The \textit{robustness of Metric Temporal Logic specifications} \cite{Fainekos2006_TLVerifSimu,Donze2010} is such a notion that has been successfully for the verification of automotive systems \cite{Fainekos12_Automotive,Dreossi15_RRTFalsification}, medical devices \cite{SankaranarayananF2012cmsb}, and general CPS.
+How do we ensure that the ATC system satisfies these complex rules \textit{robustly}?
+The \textit{robustness of Metric Temporal Logic specifications} \cite{Fainekos2006_TLVerifSimu,Donze2010} is a rigorous notion that has been used successfully for the verification of automotive systems \cite{Fainekos12_Automotive,Dreossi15_RRTFalsification}, medical devices \cite{SankaranarayananF2012cmsb}, and general CPS.
+In details, MTL is a formal language for expressing complex reactive requirements with time constraints, such as those of the ATC~\cite{Koymans90}.
 Given a specification $\formula$ written in Metric Temporal Logic (MTL) and a system execution $\sstraj$, the robustness $\robf(\sstraj)$ of the spec relative to $\sstraj$ measures two things:
-its sign tells whether $\sstraj$ satisfies the spec ($\robf(\sstraj) > 0$) or falsifies it (i.e., violates, $\robf(\sstraj) <0$).
+its sign tells whether $\sstraj$ satisfies the spec ($\robf(\sstraj) > 0$) or falsifies it (i.e., violates it, $\robf(\sstraj) <0$).
 Its magnitude $|\robf(\sstraj)|$ measures how \textit{robustly} the spec is satisfied or falsified.
 Namely, any perturbation to $\sstraj$ of size less than $|\robf(\sstraj)|$ will not cause its truth value to change.
 Thus, the control algorithm can \textit{maximize} the robustness over all possible control actions to determine the next control input.
 
+\input{atcMTL}
+
 Unfortunately, the robustness function $\robf$ is hard to work with.
-It is recursively defined (does not have a closed form), non-convex, non-differentiable and does not obey an optimality principle.
+It is recursively defined (does not have a closed form), and so is hard to work with analytically.
+It is non-convex, so optimizating cannot be guaranteed to yield global optima.
+It is non-differentiable, so we have to resort to heuristics or costly nonsmooth optimizers. 
+Finally, it does not obey an optimality principle, so efficient Dynamic Programming algorithms cannot be used.
 This makes its optimization a challenge - indeed, most existing approaches treat it as a black box and apply heuristics to its optimization (see Related Work below).
 These heuristics provide little to no guarantees, have too many user-set parameters, and don't have rigorous termination criteria.
 On the other hand, \textit{gradient descent optimization} algorithms typically offer convergence guarantees to the function's (local) minima, have known convergence rates for certain function classes, and have been optimized so they outperform heuristics that don't have access to the objective's gradient information.
-The existence of a gradient also allows us to do \textit{local} search for falsifying trajectories, which is necessary for corner case bugs.
-Moreover, such optimization algorithms usually have a fewer number of parameters to be set by the user, and important issues like step-size selection are rigorously addressed.
+The existence of a gradient also allows us to do \textit{local} search for falsifying trajectories, which is necessary for corner case bugs or dangerous situations.
+Moreover, gradient descent algorithms usually have a fewer number of parameters to be set by the user, and important issues like step-size selection are rigorously addressed.
 
 \textbf{Contributions}. In this paper, we present smooth (infinitely differentiable) approximations to the robustness function of arbitrary MTL formulae.
 This allows us to run powerful and rigorous off-the-shelf gradient descent optimizers.
@@ -43,7 +50,7 @@ and iterative approximations \cite{AbbasATVA11_LinFalsification,Abbas14_MTLDesce
 Black-box heuristics are the most commonly used approach: for example, Simulated Annealing~\cite{NghiemSFIGP10hscc}, cross-entropy \cite{SankaranarayananF2012hscc} and RRTs~\cite{Dreossi15_RRTFalsification}.
 The clear advantage of these methods is that they do not require any special form of the objective function: they simply need to evaluate it at various points of the search space, and use its value as feedback to decide on the next point to try.
 A significant shortcoming is that, unlike gradient descent optimization, they offer little to no guarantees of convergence to local minima, and their convergence rates are often not known. 
-They also use many `magic' parameters that are heurstically set and may affect the results significantly, thus requiring more user interaction than desired.
+They also use many `magical' parameters that are heurstically set and may affect the results significantly, thus requiring more user interaction than desired.
 %The same is true of deterministic heuristics \cite{zutshi_trajectory_2013}, albeit they tend to be more transparent to the user and can be better tuned.
 %\todo[inline]{look up latest convergence of cross entropy for continuous spaces, genetic algos}
 Because the robustness is non-smooth, the work in \cite{AbbasF13acc} developed an algorithm that decreases the objective function along its sub-gradient. 
@@ -54,5 +61,7 @@ MILPs are NP-hard, and the sophisticated heuristics used to mitigate this make i
 The work closest to ours is \cite{AbbasATVA11_LinFalsification,Abbas14_MTLDescent}.
 There, the authors considered safety formulas, for which the robustness reduces to the minimum distance between $\sstraj$ and the unsafe set $U$.
 By sub-optimally focusing on one point on the trajectory $\sstraj$, they replaced the objective by a differentiable indicator function for $U$ and solved the resulting problem with gradient descent.
+
+By computing fast smooth approximations of robustness, we circumvent most of the above issues and enable real-time control by robustness maximization.
 
 
