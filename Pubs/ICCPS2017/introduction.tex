@@ -38,8 +38,8 @@ Moreover, gradient descent algorithms usually have a fewer number of parameters 
 This allows us to run powerful and rigorous off-the-shelf gradient descent optimizers.
 We show that the smooth approximation is always within a user-defined error of the true robustness, and illustrate the result experimentally.
 %\yhl{We demonstrate that optimizing the smooth approximation yields near-minima of the original robustness}.
-We demonstrate that the resulting falsification and control algorithms, which use gradient descent on the smoothed robustness, perform better than a heuristic like Simulated Annealing optimizing the original, non-differentiable robustness.
-We demonstrate the results on a control case study for an autonomous airport traffic controller.
+We demonstrate that the resulting control algorithms, which use gradient descent on the smoothed robustness, performs better than a heuristic like Simulated Annealing optimizing the original, non-differentiable robustness.
+We demonstrate the results on a control case study for an autonomous airport traffic controller. Note, our method can also be applied to the falsification problem by minimizing robustness, instead of maximizing it (as for control).
 
 \textit{Related work.}
 Current approaches to optimizing the robustness fall into four categories: 

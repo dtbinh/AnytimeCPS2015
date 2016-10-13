@@ -41,6 +41,21 @@
 \newcommand{\Ltp}{\Lc_t(p)}
 \newcommand{\Lrf}{\Lc_{\Re_\Fc}}
 
+%for blank footnote
+\usepackage{lipsum}
+\newcommand\blfootnote[1]{%
+  \begingroup
+  \renewcommand\thefootnote{}\footnote{#1}%
+  \addtocounter{footnote}{-1}%
+  \endgroup
+}
+
+% remove acm copyright
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\maketitle}{\@copyrightspace}{}{}{}
+\makeatother
+
 % Control spacing...
 %\setlength{\marginparwidth}{4cm}
 %\setlength{\textfloatsep}{2pt}
@@ -53,29 +68,38 @@
 \conferenceinfo{ICCPS '17,}{April 18--21, 2017, Pittsburgh, Pennsylvania, USA.}
 \isbn{978-1-4503-3955-1/16/04}\acmPrice{\$15.00}
 \doi{http://dx.doi.org/10.1145/2883817.2883841}
+
 %Authors, replace the red X's with your assigned DOI string.
 
 \title{Smooth Operator: Control Using the Smooth Robustness of Temporal Logic}
 
+\author{
+	% 1st. author
+	\alignauthor
+	Yash Vardhan Pant\thanks{The authors contributed equally.}, Houssam Abbas\footnotemark[1], Rahul Mangharam\\
+	\affaddr{Department of Electrical and Systems Engineering}\\
+	\affaddr{University of Pennsylvania, Philadelphia, PA, USA}\\
+	\email{\{piggies1,2,3\}@seas.upenn.edu}%
+}
+
 %\author{
-%	% 1st. author
-%	\alignauthor
-%	Three little piggies\\
-%	\affaddr{Department of Electrical and Systems Engineering}\\
+%\alignauthor
 %	\affaddr{University of Pennsylvania, Philadelphia, PA, USA}\\
 %	\email{\{piggies1,2,3\}@seas.upenn.edu}%
-%}
-\author{Yash Vardhan Pant \thanks{The authors contributed equally.} \footnotemark[2] \and Houssam Abbas \footnotemark[1] \footnotemark[2] \and Rahul Mangharam% 
+%Yash Vardhan Pant\thanks{The authors contributed equally.}\and Houssam Abbas\footnotemark[1] \and Rahul Mangharam \\ % \\
+%\affaddr{Department of Electrical and Systems Engineering}\\
+%	\affaddr{University of Pennsylvania, Philadelphia, PA, USA}\\
+%	\email{\{piggies1,2,3\}@seas.upenn.edu}% 
 %\thanks{This work was supported by STARnet a Semiconductor Research
 %Corporation program sponsored by MARCO and DARPA, NSF MRI-0923518 and the US Department of Transportation University Transportation Center Program}% <-this % stops a space
-\thanks{The Department of Electrical and Systems Engineering, University of Pennsylvania, Philadelphia, U.S.A.
-        {\small
-        \{yashpant,habbas,rahulm\}@seas.upenn.edu}}%
-}
+%\thanks{The Department of Electrical and Systems Engineering, University of Pennsylvania, Philadelphia, U.S.A.
+%        {\small
+%        \{yashpant,habbas,rahulm\}@seas.upenn.edu}}%
+%}
 
 
 \maketitle
-\footnote{This work was supported by STARnet a Semiconductor Research
+\blfootnote{This work was supported by STARnet a Semiconductor Research
 Corporation program sponsored by MARCO and DARPA, NSF MRI-0923518 and the US Department of Transportation University Transportation Center Program.}
 \input{abstract}
 \input{introduction}

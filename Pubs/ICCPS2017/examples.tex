@@ -7,9 +7,9 @@ We implemented the above smooth approximation to the semantics of MTL, and teste
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.49\textwidth]{figures/RobustnessError}
-%\vspace{-30pt}
+\vspace{-30pt}
 \caption{{\small RMSE (and variance) of robustness approximation error against formula horizon, evaluated on 1000 randomly generated trajectories for the system in \eqref{eq:PointMass}. Unless noted, the states in the trajectory are in $\mathbb{R}^2$. Note, the magnitude of the approximation errors are very small, as is the variance, showing the accuracy of the smooth approximation of robustness.}}
-\vspace{-20pt}
+\vspace{-10pt}
 \label{fig:sample result}
 \end{figure}
 
@@ -44,7 +44,7 @@ Note that while the RMSE  increased with the system dimension($4^{th}$ formula i
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.49\textwidth]{figures/RobustnessErrorRel}
-%\vspace{-30pt}
+\vspace{-30pt}
 \caption{{\small Mean and variance of relative approximation error against formula horizon, evaluated on 1000 randomly generated trajectories for the system in \eqref{eq:PointMass}. Unless noted, the states in the trajectory are in $\mathbb{R}^2$.}} 
 %\todo[inline]{smae changes as previous fig. All temporal operators must be bounded}}
 \label{fig:relative error}
@@ -57,7 +57,11 @@ Note that while the RMSE  increased with the system dimension($4^{th}$ formula i
 %\todo[inline]{Yash, Show SA and SR-SQP on toy example}
 \input{toyExample}
 
-\subsection{Robustness minimization for falsification}
-\label{sec:toy falsification}
-%\todo[inline]{Yash, Show the falsification figure for an autonomous system, comparing Method, DumbSqp,SA}
-\input{toyFalse}
+%% falsification example
+%\subsection{Robustness minimization for falsification}
+%\label{sec:toy falsification}
+%Similar to the control problem, we can also minimize robustness to find trajectories that violate a given specification. Indeed, for the point-mass system, we solved such a problem ($\text{min}_{x_0 \in X_0} \, \srob(\sstraj) \, \text{s.t. } \sstraj=f(x_0,K)$) to find initial states such that the resulting trajectory, subject to a feedback controller $K$, violates a safety constraint. Our approach successfully finds such initial states, and so do gradient descent and simulated annealing on $\rob$. For brevity, we do not present these results here since all three methods result in the nearly the same solution, but note that our method can also be used to solve a falsification problem (\cite{AbbasATVA11_LinFalsification}, \cite{Deshmukh15_IterativeApproaches}).
+
+%this blurb or the full example, pick your poisson:
+
+%\input{toyFalse}

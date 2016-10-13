@@ -44,7 +44,7 @@ Thus they are consistently visited by gradient descent, after which it fails to 
 	SQP generates iterates (blue circles) \textit{on the line of singularity} connecting $[1,1]$ to $x^*$ and ultimately gets stuck at $x=[1,1]$.
 	That's because along the line, the gradient does not exist and attempts by SQP to approximate it numerically fail, prompting it to generate smaller and smaller step-sizes for the approximation.
 	Ultimately, SQP aborts due to the step-size being too small, and concludes it is at a local minimum.
-	
+\end{exmp}	
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.49\textwidth]{figures/DumbOptEx_scissored}
@@ -54,4 +54,4 @@ Thus they are consistently visited by gradient descent, after which it fails to 
 \label{fig:DumbExample}
 \end{figure}
 
-\end{exmp}
+
