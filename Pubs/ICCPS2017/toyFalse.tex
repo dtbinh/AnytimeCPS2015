@@ -3,10 +3,10 @@
 We can also formulate a falsification problem \cite{AbbasATVA11_LinFalsification}, \cite{AbbasF_HybridSA12}, \cite{Deshmukh15_IterativeApproaches} by minimizing robustness in order to find trajectories of a closed loop system that violate a specification. In particular, we solve the following problem:
 
 \begin{subequations}
-\vspace{-20pt}
+\vspace{-10pt}
 \label{eq:falsification}
 \begin{align}
-\text{min}&_{x_0 \in X_0 } \, \rob_{\formula}(\sstraj) \nonumber \\
+\text{min}&_{x_0 \in X_0 } \, \srob_{\formula}(\sstraj) \nonumber \\
 \text{s.t. } & x_{k+1} = f_k(x_0) \, \forall k=0,\dotsc,N-1 \\
 &  x_{k} \in X \, \forall k=1,\dotsc,N
 \end{align}

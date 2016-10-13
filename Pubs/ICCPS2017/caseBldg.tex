@@ -1,6 +1,6 @@
 %caseBldg
 
-In order to evaluate the control performance of our method on a system with more meaningful dynamics than the point-mass system, we test it on temperature control of a 4-state model of a single zone in a building. Such a model is commonly used in literature for evaluation of predictive control algorithms \cite{Jain2016}. The control problem we solve is similar to the example used in \cite{Raman14_MPCSTL}, where the objective is to bring the zone temperature to a comfortable range when the zone is occupied (given predictions on the building occupancy). The specification is gives as:
+In order to evaluate the control performance of our method on a system with more meaningful dynamics than the point-mass system, we test it on Heating, ventilation and air conditioning (HVAC) control of a 4-state model of a single zone in a building. Such a model is commonly used in literature for evaluation of predictive control algorithms \cite{Jain2016}. The control problem we solve is similar to the example used in \cite{Raman14_MPCSTL}, where the objective is to bring the zone temperature to a comfortable range when the zone is occupied (given predictions on the building occupancy). The specification is gives as:
 \begin{equation}
 \label{eq:BldgSpec}
 \formula = \always_I(\text{ZoneTemp} \in \text{Comfort})
