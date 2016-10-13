@@ -39,9 +39,14 @@ max(max(abs(F-Fe)))
 1;
 
     function dist = distFromSquare(xx, S)
-        if (xx(1) >= S(1) && xx(1) <= S(2))
-            if xx(2) <= S(4) && xx(2) >= S(3)
-                dist = 0;
+        if (xx(1) >= S(1) && xx(1) <= S(2)) % horizontally in square bounds
+            if xx(2) <= S(4) && xx(2) >= S(3) % vertically in sq bounds
+                % use this for dist fnt
+%                 dist = 0;
+                % use this instead for signed distance
+                d1 = min([abs(xx(1)-S(1)), abs(xx(1)-S(2)),...
+                    abs(xx(2)-S(2)), abs(xx(2)-S(4))]);
+                dist = -d1;
             else
                 dist = min(abs([xx(2)-S(3), xx(2) - S(4)]));
             end                            
