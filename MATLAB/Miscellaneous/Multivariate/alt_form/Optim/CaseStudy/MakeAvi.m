@@ -46,6 +46,13 @@ for j = 1:3
      %drawnow;
      myavi = addframe(myavi,gca);
  end
+ 
+ for j = 1:3
+     pause;
+ for i = 1:5
+ myavi = addframe(myavi,gca);
+ end
+ end
 end
  myavi = close(myavi);
 % figure(1)
