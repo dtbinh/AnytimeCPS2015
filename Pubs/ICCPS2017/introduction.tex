@@ -40,10 +40,11 @@ We show that the smooth approximation is always within a user-defined error of t
 %\yhl{We demonstrate that optimizing the smooth approximation yields near-minima of the original robustness}.
 We demonstrate that the resulting control algorithms, which use gradient descent on the smoothed robustness, performs better than a heuristic like Simulated Annealing optimizing the original, non-differentiable robustness.
 We demonstrate the results on a control case study for an autonomous airport traffic controller. Note, our method can also be applied to the falsification problem by minimizing robustness, instead of maximizing it (as for control).
+%zutshi_trajectory_2013,
 
-\textit{Related work.}
+\textbf{Related work.}
 Current approaches to optimizing the robustness fall into four categories: 
-the use of heuristics like Simulated Annealing and RRTs~\cite{NghiemSFIGP10hscc,AbbasF_HybridSA12,SankaranarayananF2012hscc,Dreossi15_RRTFalsification,zutshi_trajectory_2013,Deshmukh15_IterativeApproaches}, 
+the use of heuristics like Simulated Annealing and RRTs~\cite{NghiemSFIGP10hscc,AbbasF_HybridSA12,SankaranarayananF2012hscc,Dreossi15_RRTFalsification,Deshmukh15_IterativeApproaches}, 
 nonsmooth optimization \cite{AbbasF13acc}, 
 Mixed Integer Linear Programming (MILP) \cite{Raman14_MPCSTL}, 
 and iterative approximations \cite{AbbasATVA11_LinFalsification,Abbas14_MTLDescent}.
