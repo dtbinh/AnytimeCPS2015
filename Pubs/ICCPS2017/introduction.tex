@@ -1,9 +1,6 @@
 \section{Controlling for robustness}
 \label{sec:intro}
-Cyber-Physical Systems (CPS) must withstand a wide range of problems, from bugs in their software to attacks on and failures of their physical sensors.
-Under certain error models, like a bounded disturbance on a sensor reading 
-%or a wrong transition in the logic
-, a CPS can be designed to be robust to that source of error.
+The errors in Cyber Physical Systems (CPS) can affect both the cyber components (e.g., software bugs) and physical components (e.g., sensor failures and attacks) of a system. Under certain error models, like a bounded disturbance on a sensor reading, a CPS can be designed to be robust to that source of error.
 In general, however, unforeseen issues can occur. 
 To deal with unforeseen problems, at design time, the system must be verified to be \textit{robust} : i.e., not only does it satisfy its design specifications under the known error models, it must satisfy them robustly.
 Similarly, at runtime, the system's controller must make decisions that maximize this satisfaction margin, or \textit{robustness}.
