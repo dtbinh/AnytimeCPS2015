@@ -19,7 +19,7 @@ $\delta$ here is a binary design choice, $1$ if the constraint is meant to be en
 We will need to assume that $f$ is twice Lipschitz continuously differentiable and that its gradient $f_u$ has maximum row rank.
 
 Gradient descent algorithms typically offer convergence guarantees to the function's minima, have known convergence rates for certain function classes, and have been optimized so they outperform heuristics that don't have access to the objective's gradient information.
-Moreover, they usually have a fewer number of parameters to be set by the user, and important issues like step-size selection are rigorously addressed.
+Moreover, they usually have a fewer parameters to be set by the user, and important issues like step-size selection are rigorously addressed.
 
 To apply gradient descent methods, we require a differentiable objective function. 
 Our objective function, $\robf$, is non-differentiable, because it uses the distance, max, and min functions, all of which are non-differentiable.
