@@ -18,8 +18,9 @@ In the above formulation, $l(x_{k+1},u_{k})$ is a system specific control cost, 
 $\delta$ here is a binary design choice, $1$ if the constraint is meant to be enforced, $0$ otherwise.
 We will need to assume that $f$ is twice Lipschitz continuously differentiable and that its gradient $f_u$ has maximum row rank.
 
-Gradient descent algorithms typically offer convergence guarantees to the function's minima, have known convergence rates for certain function classes, and have been optimized so they outperform heuristics that don't have access to the objective's gradient information.
-Moreover, they usually have a fewer parameters to be set by the user, and important issues like step-size selection are rigorously addressed.
+Gradient descent algorithms typically offer convergence guarantees to the function's minima and offer advantages which were reviewed in Sec. \ref{sec:intro}.
+%have known convergence rates for certain function classes, and have been optimized so they outperform heuristics that don't have access to the objective's gradient information.
+%Moreover, they usually have a fewer parameters to be set by the user, and important issues like step-size selection are rigorously addressed.
 
 To apply gradient descent methods, we require a differentiable objective function. 
 Our objective function, $\robf$, is non-differentiable, because it uses the distance, max, and min functions, all of which are non-differentiable.
@@ -35,8 +36,7 @@ Thus they are consistently visited by gradient descent, after which it fails to 
 
 \begin{exmp}
 	\label{ex:cluster nondiff}
-	A simple example illustrates how gradient descent gets stuck at singularities.
-	We use Sequential Quadratic Programming (SQP) \cite{Polak97_Optim} to maximize the robustness of $\formula = \neg (x \in U)$, where $U=[-1,1]^2$ is the unsafe red square in Fig.~\ref{fig:DumbExample}.
+	A simple example illustrates how gradient descent gets stuck at singularities. We use Sequential Quadratic Programming (SQP) \cite{Polak97_Optim} to maximize the robustness of $\formula = \neg (x \in U)$, where $U=[-1,1]^2$ is the unsafe red square in Fig.~\ref{fig:DumbExample}.
 	In this case, $\robf$ is simply $\dist(x_0,U)$, the distance of the first trajectory point to the set.
 	The search space is $[-2.5,2.5]^2$ (big grey square in Fig. \ref{fig:DumbExample}). 
 	The most robust point is $x^* = [2.5,2.5]$ (green `+' in figure), being furthest from the unsafe set.

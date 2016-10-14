@@ -21,7 +21,7 @@ Thus, the control algorithm can \textit{maximize} the robustness over all possib
 \input{atcMTL}
 
 Unfortunately, the robustness function $\robf$ is hard to work with.
-It is recursively defined (does not have a closed form), and so is hard to work with analytically.
+It is recursively defined (does not have a closed form), and so is hard to handle analytically.
 It is non-convex, so optimization cannot be guaranteed to yield global optima.
 It is non-differentiable, so we have to resort to heuristics or costly non-smooth optimizers. 
 Finally, it does not obey an optimality principle, so efficient Dynamic Programming algorithms cannot be used.

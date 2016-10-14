@@ -1,6 +1,5 @@
 {\sf Example1, continued}.
-The ATC rules can be formalized in Metric Temporal Logic (MTL) as follows.
-E.g., Rule \ref{rule:floor ceiling} can be formalized as follows ($\always$ means `Always', $q$ is an aircraft and $q_z$ is its altitude).
+\textit{The ATC rules can be formalized in Metric Temporal Logic (MTL). Rule \ref{rule:floor ceiling} can be formalized as follows ($\always$ means `Always', $q$ is an aircraft and $q_z$ is its altitude).}
 \begin{equation}
 \label{eq:rule1mtl}
 \always( q \in Zone1 \implies q_z \leq \text{Ceiling1} \land q_z \geq \text{Floor1})
@@ -12,9 +11,10 @@ Rule \ref{rule:holding} can be formalized as follows.
 \nonumber \\
 &\until_{[0,\text{MaxHolding}]} \neg Busy)
 \end{flalign}
-This says that Always ($\always$), if airport is Busy, then Eventually $(\eventually)$, sometime between times $t_1$ and $t_2$, the plane goes into a holding area.
-It stays there $\until$ntil the airport is not ($\neg$) busy, or the timer expires at time MaxHolding. 
 
-By maximizing the robusness of these MTL specifications, the ATC can automatically find landing patterns that leave room for maneuvering in case of emergencies.
+\textit{This says that Always ($\always$), if airport is Busy, then Eventually $(\eventually)$, sometime between times $t_1$ and $t_2$, the plane goes into a holding area.
+It stays there $\until$ntil the airport is not ($\neg$) busy, or the timer expires at time MaxHolding.} 
+
+\textit{By maximizing the robusness of these MTL specifications, the ATC can automatically find landing patterns that leave room for maneuvering in case of emergencies.}
 \textit{Any unforeseen disturbance smaller than a known bounded size will not violate the rules, and will not lead to an unsafe situation.} 
 %\vspace{-20pt} \begin{flushright} $\blacksquare$ \end{flushright}

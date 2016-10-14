@@ -17,7 +17,7 @@ We evaluated the robustness $\robf$ and its approximation $\srobf$ for five form
 %Each formula is of the form $\formula_i = \always_{[0:N-1]} \psi$, where $N$ is the length of the trajectory.
 %Thus $hrz(\formula_i)  = N$.
 Each formula's robustness is evaluated on 1000 randomly-generated trajectories of varying lengths $N$, so we can  examine the error's variation with the horizon.
-The trajectories were produced by a 2 (or 3 when applicable) dimensional \eqref{eq:PointMass} with input and state saturation.
+The trajectories were produced by a 2-or-3 dimensional system, \eqref{eq:PointMass} with input and state saturation.
 %All formulas use the atomic propositions $P_1 \defeq x \in [-1,1]^n$ and $P_2 \defeq x\in [2,2.5]^n$, where $n = 2,3$ is the dimension of the system.
 %The state-space is $[-5,5]^n$ and the input set is $\inpSet = [-0.3,0.3]^n$. 
 
@@ -28,7 +28,7 @@ This is due to the smooth max and min functions, as seen in \eqref{eq:smooth max
 
 Fig. \ref{fig:relative error} shows the relative approximation errors, $(\robf-\srobf)/|\robf|$, for the formulae under consideration. 
 It is seen that the average relative approximation error is less than $10\%$ for all cases. 
-For some data points in Fig. \ref{fig:relative error}, the variance of relative error is high, the error remains small in absolute terms as seen in Fig.~\ref{fig:sample result}.
+For some data points in Fig. \ref{fig:relative error}, the variance of relative error is high, but the error remains small in absolute terms as seen in Fig.~\ref{fig:sample result}.
 
 %In general, the high relative approximation errors are due to trajectories which have a true robustness of near zero; 
 %these lead to a spike in the relative approximation error, $(\robf-\srobf)/|\robf|$, even for small values of the absolute error $|\robf-\srobf|$.
@@ -37,7 +37,7 @@ For some data points in Fig. \ref{fig:relative error}, the variance of relative 
 
 %\todo[inline]{not sure what the point is in this paragraph...previous figure gives (roughly) average error. this gives relative error. one does not cancel out the other. the relative error does vary a lot in some case, as evidenced here. one can only say that even though relative error can vary a lot inn some case, the absolute }
 
-Note that while the RMSE  increased with the system dimension($4^{th}$ formula in Fig.~\ref{fig:sample result}), the relative error remained very small ($4^{th}$ formula in Fig.~\ref{fig:relative error}), i.e. the increase in error is explained by an increase in the robustness's value. 
+Note that while the RMSE  increased with the system dimension ($4^{th}$ formula in Fig.~\ref{fig:sample result}), the relative error remained very small ($4^{th}$ formula in Fig.~\ref{fig:relative error}), i.e. the increase in error is explained by an increase in the robustness's value. 
 %As explained in the previous section, better approximation can be achieved by increasing the number of wavelet coefficients as dimension, and trajectory length, grow.
 %\todo[inline]{Is that true?}
 
