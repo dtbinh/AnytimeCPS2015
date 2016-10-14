@@ -36,7 +36,7 @@ Thus they are consistently visited by gradient descent, after which it fails to 
 
 \begin{exmp}
 	\label{ex:cluster nondiff}
-	A simple example illustrates how gradient descent gets stuck at singularities. We use Sequential Quadratic Programming (SQP) \cite{Polak97_Optim} to maximize the robustness of $\formula = \neg (x \in U)$, where $U=[-1,1]^2$ is the unsafe red square in Fig.~\ref{fig:DumbExample}.
+	A simple example illustrates how gradient descent gets stuck at singularities. We use the optimization algorithm Sequential Quadratic Programming (SQP) \cite{Polak97_Optim} to maximize the robustness of $\formula = \neg (x \in U)$, where $U=[-1,1]^2$ is the unsafe red square in Fig.~\ref{fig:DumbExample}.
 	In this case, $\robf$ is simply $\dist(x_0,U)$, the distance of the first trajectory point to the set.
 	The search space is $[-2.5,2.5]^2$ (big grey square in Fig. \ref{fig:DumbExample}). 
 	The most robust point is $x^* = [2.5,2.5]$ (green `+' in figure), being furthest from the unsafe set.
