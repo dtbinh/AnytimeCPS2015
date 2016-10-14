@@ -41,14 +41,14 @@ optParams.U_feas.A = U_feas.A;
 optParams.U_feas.b = U_feas.b;
 optParams.P1_comfort.A = P1_comfort.A;
 optParams.P1_comfort.b = P1_comfort.b;
-optParams.exact = 1;
+optParams.exact = 0;
 %% get feas traj
 x_feas = bldg_getFeasTraj(x_0,optParams,disturbances);
 u_0 = x_feas.u;
 %% optimization
 I1=10:19; %hours of interest in the 24 hour period
 optParams.I1 = I1;
-if(0)
+if(1)
 
 'Starting optimization'
 tic;
