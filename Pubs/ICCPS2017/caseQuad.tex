@@ -7,7 +7,7 @@ In this example we formalize a subset of such rules, similar to those in example
 We demonstrate how the smoothed robustness is used to generate control strategies for safely and robustly landing two quad-rotors in an enclosed airspace with an obstacle. 
 
 \textbf{The specification}.
-The specification for the autonomous ATC with two quadrotors is:
+The specification for the autonomous ATC with two quad-rotors is:
 {\small
 \begin{subequations}
 \begin{align}
@@ -78,7 +78,7 @@ The inputs to the system are the desired roll angle $\theta$, pitch angle $\phi$
 % & \delta \srob_{\formula}(\sstraj) \geq 0
 %\end{align}
 %\end{subequations}
-\textbf{The control problem.} For the autonomus ATC problem for two quad-rotors, we solve \eqref{eq:general_ctrl}  with $\srob$ in the objective instead of $\rob$.
+\textbf{The control problem.} For the autonomous ATC problem for two quad-rotors, we solve \eqref{eq:general_ctrl}  with $\srob$ in the objective instead of $\rob$.
 Note, we set $\gamma=0$ here, following logically from existing ATC rules (see sec.\ref{sec:intro}), which do not have an air-craft specific cost for fuel, or distance traveled. Because of this, we can also set $\delta=0$ and simply maximize(smooth) robustness (subject to system dynamics and constraints) to get trajectories that satisfy $\formula$.
 % With some abuse of notation, for the control formulation, $x$ represents the concatenated state of the two quadrotors, and $u$ the concatenated inputs to the system. 
 For the control problem, $X$ and $U$ represent the bounds on the states ($\text{Airspace}$ and velocity limits) and inputs respectively, for both quad-rotors. $f$ represents the linearized dynamics of \eqref{eq:quad_dyn} applied to two quad-rotors, and $N=21$. The initial state for the first quad-rotor is $[2,2,2,0,0,0]'$ and for the second, $[2, -2 , 2 ,0 ,0 ,0]'$.

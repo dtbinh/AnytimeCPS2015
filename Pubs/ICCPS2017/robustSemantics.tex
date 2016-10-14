@@ -1,4 +1,4 @@
-\section{Robustness of MTL formulas}
+\section{Robustness of MTL formulae}
 \label{sec:robust semantics}
 
 Consider a discrete-time dynamical system $\Sys$ given by 
@@ -28,7 +28,7 @@ An MTL formula $\formula$ is built recursively from the atomic propositions usin
 where $I \subset \Re$ is a time interval.
 Here, $\top$ is the Boolean True, $p$ is an atomic proposition, $\neg$ is Boolean negation, $\lor$ and $\land$ are the Boolean OR and AND operators, respectively, and $\until$ is the Until temporal operator.
 Informally, $\formula_1 \until_I \formula_2$ means that $\formula_1$ must hold \textit{until} $\formula_2$ holds, and that the hand-over from $\formula_1$  to $\formula_2$ must happen sometime during the interval $I$.
-The implication ($\implies$), Always ($\always$) and Eventually ($\eventually$) operators can be derived using the above opearators.
+The implication ($\implies$), Always ($\always$) and Eventually ($\eventually$) operators can be derived using the above operators.
 
 Formally, the \textit{semantics} of an MTL formula define what it means for a system trajectory $\sstraj$ to satisfy the formula $\formula$.
 Let $\Oc: AP \rightarrow \Pc(X)$ be an \textit{observation} map for the atomic propositions.
@@ -63,9 +63,9 @@ Thus, we need only consider trajectories and input sequences of finite length.
 \subsection{Robust semantics of MTL}
 \label{sec:rob sem}
 Designing a controller that satisfies the MTL formula $\formula$\footnote{Strictly speaking, a controller such that the closed-loop satisfies the formula.} is not always enough.
-In a dynamic environment, where the system must react to new unforeseen events, it is useful to have a margin of maneuvarability.
+In a dynamic environment, where the system must react to new unforeseen events, it is useful to have a margin of maneuverability.
 That is, it is useful to control the system such that we \textit{maximize} our degree of satisfaction of the formula.
-When unforeseen events occur, the sytem can react to them without violating the formula.
+When unforeseen events occur, the system can react to them without violating the formula.
 This degree of satisfaction can be formally defined and computed using the robust semantics of MTL.
 Given a point $x \in X$ and a set $A \subset X$, $d_A(x) \defeq \inf_{a \in \cl{A}}|x-a|_2$ is the distance from $x$  to the closure $\cl{A}$ of $A$.
 \begin{definition}[Robustness\cite{FainekosP09tcs}]
@@ -103,4 +103,4 @@ The robustness is a real-valued function of $\sstraj$ with the following importa
 
 Thus, we can compute control inputs by maximizing the robustness over the set of finite input sequences of a certain length.
 The obtained sequence $\inpSig^*$ is valid if $\robf(\sstraj,t)$ is positive, where $\sstraj$ and $\inpSig^*$ obey \eqref{eq:xt}.
-The larger the magnitude $|\robf(\sstraj,t)|$, the more robust is the behavior of the system: intutively, $\sstraj$ can be disturbed and $\robf$ might decrease but not go negative.
+The larger the magnitude $|\robf(\sstraj,t)|$, the more robust is the behavior of the system: intuitively, $\sstraj$ can be disturbed and $\robf$ might decrease but not go negative.

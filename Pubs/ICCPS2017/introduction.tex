@@ -22,8 +22,8 @@ Thus, the control algorithm can \textit{maximize} the robustness over all possib
 
 Unfortunately, the robustness function $\robf$ is hard to work with.
 It is recursively defined (does not have a closed form), and so is hard to work with analytically.
-It is non-convex, so optimizating cannot be guaranteed to yield global optima.
-It is non-differentiable, so we have to resort to heuristics or costly nonsmooth optimizers. 
+It is non-convex, so optimization cannot be guaranteed to yield global optima.
+It is non-differentiable, so we have to resort to heuristics or costly non-smooth optimizers. 
 Finally, it does not obey an optimality principle, so efficient Dynamic Programming algorithms cannot be used.
 This makes its optimization a challenge - indeed, most existing approaches treat it as a black box and apply heuristics to its optimization (see Related Work below).
 These heuristics provide little to no guarantees, have too many user-set parameters, and don't have rigorous termination criteria.
@@ -36,19 +36,19 @@ This allows us to run powerful and rigorous off-the-shelf gradient descent optim
 We show that the smooth approximation is always within a user-defined error of the true robustness, and illustrate the result experimentally.
 %\yhl{We demonstrate that optimizing the smooth approximation yields near-minima of the original robustness}.
 We demonstrate that the resulting control algorithms, which use gradient descent on the smoothed robustness, performs better than a heuristic like Simulated Annealing optimizing the original, non-differentiable robustness.
-We demonstrate the results on a control case study for an autonomous airport traffic controller. Note, our method can also be applied to the falsification problem by minimizing robustness, instead of maximizing it (as for control).
+We demonstrate the results on a control case study for an autonomous airport traffic controller. Note, our method can also be applied to the falsification problem \cite{AbbasATVA11_LinFalsification} by minimizing robustness.
 %zutshi_trajectory_2013,
 
 \textbf{Related work.}
 Current approaches to optimizing the robustness fall into four categories: 
 the use of heuristics like Simulated Annealing and RRTs~\cite{NghiemSFIGP10hscc,AbbasF_HybridSA12,SankaranarayananF2012hscc,Dreossi15_RRTFalsification,Deshmukh15_IterativeApproaches}, 
-nonsmooth optimization \cite{AbbasF13acc}, 
+non-smooth optimization \cite{AbbasF13acc}, 
 Mixed Integer Linear Programming (MILP) \cite{Raman14_MPCSTL}, 
 and iterative approximations \cite{AbbasATVA11_LinFalsification,Abbas14_MTLDescent}.
 Black-box heuristics are the most commonly used approach: for example, Simulated Annealing~\cite{NghiemSFIGP10hscc}, cross-entropy \cite{SankaranarayananF2012hscc} and RRTs~\cite{Dreossi15_RRTFalsification}.
 The clear advantage of these methods is that they do not require any special form of the objective function: they simply need to evaluate it at various points of the search space, and use its value as feedback to decide on the next point to try.
 A significant shortcoming is that, unlike gradient descent optimization, they offer little to no guarantees of convergence to local minima, and their convergence rates are often not known. 
-They also use many `magical' parameters that are heurstically set and may affect the results significantly, thus requiring more user interaction than desired.
+They also use many `magical' parameters that are heuristically set and may affect the results significantly, thus requiring more user interaction than desired.
 %The same is true of deterministic heuristics \cite{zutshi_trajectory_2013}, albeit they tend to be more transparent to the user and can be better tuned.
 %\todo[inline]{look up latest convergence of cross entropy for continuous spaces, genetic algos}
 Because the robustness is non-smooth, the work in \cite{AbbasF13acc} developed an algorithm that decreases the objective function along its sub-gradient. 
