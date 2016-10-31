@@ -101,3 +101,14 @@ err_z = Data_rec(:,3);
 err_yaw = Data_rec(:,4);
 err_pitch = Data_rec(:,5);
 err_roll = Data_rec(:,6);
+
+
+[h,p,stats] = chi2gof(err_x); %use this to test
+figure;
+subplot(311);
+qqplot(err_x);
+subplot(312);
+qqplot(err_y);
+subplot(313);
+qqplot(err_z);
+

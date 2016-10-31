@@ -64,6 +64,7 @@ S.minHRep;
 %e
 dist_params.u_e = zeros(6,1);
 dist_params.cov_e = 0.03*eye(6);
+dist_params.cov_e =  5.7309e-4*eye(6);
 
 %w
 dist_params.u_w = zeros(6,1);
@@ -79,3 +80,6 @@ ProblemParams.n_x = size(sys_c.a,1);
 ProblemParams.n_u = size(sys_c.b,2);
 % Robust control inv set
 Cdelta = repmat(emptyPoly,numModes,1);
+
+%% get Zjs
+Zjs = getZjs_smpc(S,ProblemParams,N);
