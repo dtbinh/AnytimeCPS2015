@@ -1,0 +1,15 @@
+MEX {
+	global:
+		mexFunction;
+		emlrtMexFcnProperties;
+		alt_getCoefficientsVector_genable;
+		emxEnsureCapacity;
+		emxFree_real_T;
+		emxInit_real_T;
+		emxInit_real_T1;
+		alt_getCoefficientsVector_genable_initialize;
+		alt_getCoefficientsVector_genable_terminate;
+		alt_getCoefficientsVector_genable_atexit;
+	local:
+		*;
+};
