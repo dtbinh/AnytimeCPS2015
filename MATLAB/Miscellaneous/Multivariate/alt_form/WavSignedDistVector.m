@@ -65,7 +65,7 @@ if(exist('C_00k','var') && exist('D_ejk','var')) %if some params loaded
     
 else
     'computing coeffs'
-    [C_00k,D_ejk] = alt_getCoefficientsVector(grid_x,dist_array_xy,dx,j_min,j_max,k_min,k_max,E_dash,0);
+    [C_00k,D_ejk] = alt_getCoefficientsVector_genable(grid_x,dist_array_xy,dx,j_min,j_max,k_min,k_max,E_dash,0);
 end
 %% test on grid
 if(viz)

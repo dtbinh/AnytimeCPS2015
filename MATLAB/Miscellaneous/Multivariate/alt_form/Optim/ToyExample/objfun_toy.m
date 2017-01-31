@@ -14,7 +14,11 @@ g = zeros(numel(x),1);
 if(optParams.robCost)
 traj = reshape(x(1:optParams.dim*optParams.len),optParams.dim,optParams.len);
 %f1 = alt_getRobustnessP_vector(traj,optParams.P1,optParams.Params_P1,0);
+if(nargout==2)
 [f1,g1] = alt_getRobustnessP_and_der_vector(traj,optParams.Params_P1);
+else
+f1 = alt_getRobustnessP_and_der_vector(traj,optParams.Params_P1);    
+end
 else
 f1 = 0;
 end
