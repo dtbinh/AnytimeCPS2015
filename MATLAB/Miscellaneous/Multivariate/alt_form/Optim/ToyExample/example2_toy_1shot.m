@@ -16,7 +16,7 @@ clear SmoothOpt;
 global taliro_SmoothRob; %flag
 global SmoothOpt; %params
 taliro_SmoothRob = 0;
-genCode = 1;
+genCode = 0;
 preds(1).A = P_unsafe.A;
 preds(1).b = P_unsafe.b;
 preds(2).A = P_term.A;
@@ -25,10 +25,10 @@ preds(2).b = P_term.b;
 for i = 1:numel(preds)
     SmoothOpt.preds.Sets(i).A = preds(i).A;
     SmoothOpt.preds.Sets(i).b = preds(i).b;
-    SmoothOpt.preds.WavParams(i).k_min = -5;
-    SmoothOpt.preds.WavParams(i).k_max = 5;
+    SmoothOpt.preds.WavParams(i).k_min = -30;
+    SmoothOpt.preds.WavParams(i).k_max = 30;
     SmoothOpt.preds.WavParams(i).j_min = 0;
-    SmoothOpt.preds.WavParams(i).j_max = 1;
+    SmoothOpt.preds.WavParams(i).j_max = 0;
     SmoothOpt.preds.WavParams(i).x_min = -5;
     SmoothOpt.preds.WavParams(i).x_max = 5;
     SmoothOpt.preds.WavParams(i).dx = 0.25;
@@ -44,12 +44,12 @@ wavparams_all = getWaveletParameters(SmoothOpt,genCode);
         SmoothOpt.preds.WavParams(i).E = wavparams_all(i).E;
         SmoothOpt.preds.WavParams(i).E_dash = wavparams_all(i).E_dash;
         SmoothOpt.preds.WavParams(i).D_ejk = wavparams_all(i).D_ejk;
-        SmoothOpt.preds.WavParams(i).C_00k = wavparams_all.C_00k;
+        SmoothOpt.preds.WavParams(i).C_00k = wavparams_all(i).C_00k;
         
     end
-    save('Wavparams_ToyExample.mat','SmoothOpt','wavparams_all');
+    save('Wavparams2_j0_k30_ToyExample.mat','SmoothOpt','wavparams_all');
 else
-    load('Wavparams_ToyExample.mat');
+    load('Wavparams2_j0_k20_ToyExample.mat');
 end
 
 
@@ -63,8 +63,13 @@ len = 30;
 P_feas = Polyhedron('lb',[-2.5 -2.5],'ub',[2.5 2.5]);
 U_feas = Polyhedron('lb',[-0.32 -0.32],'ub',[0.32 0.32]);
 
-optParams.P_final = P_term;
-optParams.U_feas = U_feas;
+AuxParams.P_final = P_term;
+optParams.P_final.A = P_term.A;
+optParams.P_final.b = P_term.b;
+
+AuxParams.U_feas = U_feas;
+optParams.U_feas.A = U_feas.A;
+optParams.U_feas.b = U_feas.b;
 %system
 optParams.A = eye(2);
 optParams.B = eye(2);
@@ -74,14 +79,19 @@ optParams.robConstr = 0;
 
 x0 = [-2;-2];
 %x0 = [-1.5;0];
-optParams.gamma = 10^(-2);
+optParams.gamma = 0;%10^(-2);
 optParams.x0 = x0;
 optParams.dim = dim;
 optParams.len = len;
 optParams.Params_P_unsafe = SmoothOpt.preds.WavParams(1);
 optParams.Params_P_term = SmoothOpt.preds.WavParams(2);
-optParams.P_unsafe = P_unsafe;
-optParams.P_feas = P_feas;
+
+optParams.P_feas.A = P_feas.A;
+optParams.P_feas.b = P_feas.b;
+optParams.P_unsafe.A = P_unsafe.A;
+optParams.P_unsafe.b = P_unsafe.b;
+AuxParams.P_unsafe = P_unsafe;
+AuxParams.P_feas = P_feas;
 %% start opt
 clc;
 % init traj gen
@@ -99,6 +109,8 @@ else
 end
 %x_0 = [x0;[-1.5;1];[-0.5
 'got init traj'
+%% gen code for objfun and confun
+genOptimCode(x_0,optParams);
 %%  optim
 tic;
 options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-6,...
@@ -107,10 +119,10 @@ options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP'
 %options.TolCon = 10;
 %[x,fval,flag] = ...
 [x,fval,exitflag,output] = fmincon(@(x)objfun2_toy(x,optParams),x_0,[],[],[],[],[],[], ...
-    @(x)confun_toy(x,optParams),options);
+    @(x)confun2_toy(x,optParams),options);
 
 
-save('Data/TestData_toyexample2.mat','x','x_0','optParams');
+save('Data/TestData_toyexample2.mat','x','x_0','optParams','AuxParams','SmoothOpt');
 time_taken_mins = toc/60
 
 %% plot
@@ -134,7 +146,7 @@ if(dim<=3)
     for i = 1:len
         plot(traj_x0(1,i),traj_x0(2,i),'bo');hold on;
         plot(traj_x(1,i),traj_x(2,i),'k*');hold on;
-        
+        pause(.1);
         if(i==2)
             legend('Feasible set','Unsafe set','Terminal Set','Init. Traj.',...
                 'Traj. \gamma=0.1');
