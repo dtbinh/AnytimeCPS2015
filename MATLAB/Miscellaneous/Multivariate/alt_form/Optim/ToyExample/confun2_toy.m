@@ -42,6 +42,7 @@ c_input = A_big_u*x(Nx*N+1:end) - B_big_u;
 %c_term = optParams.P_final.A*x(N*Nx-Nx+1:N*Nx)-optParams.P_final.b;
 c_term = [];
 if(optParams.robConstr)
+    rho = [];
 c = [c_state;c_input;c_term;-rho];
 else
 c = [c_state;c_input;c_term]; 
