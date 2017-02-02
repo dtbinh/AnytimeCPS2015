@@ -25,8 +25,8 @@ preds(2).b = P_term.b;
 for i = 1:numel(preds)
     SmoothOpt.preds.Sets(i).A = preds(i).A;
     SmoothOpt.preds.Sets(i).b = preds(i).b;
-    SmoothOpt.preds.WavParams(i).k_min = -30;
-    SmoothOpt.preds.WavParams(i).k_max = 30;
+    SmoothOpt.preds.WavParams(i).k_min = -20;
+    SmoothOpt.preds.WavParams(i).k_max = 20;
     SmoothOpt.preds.WavParams(i).j_min = 0;
     SmoothOpt.preds.WavParams(i).j_max = 0;
     SmoothOpt.preds.WavParams(i).x_min = -5;
@@ -47,7 +47,7 @@ wavparams_all = getWaveletParameters(SmoothOpt,genCode);
         SmoothOpt.preds.WavParams(i).C_00k = wavparams_all(i).C_00k;
         
     end
-    save('Wavparams2_j0_k30_ToyExample.mat','SmoothOpt','wavparams_all');
+    save('Wavparams2_j0_k20_ToyExample.mat','SmoothOpt','wavparams_all');
 else
     load('Wavparams2_j0_k20_ToyExample.mat');
 end
@@ -110,7 +110,7 @@ end
 %x_0 = [x0;[-1.5;1];[-0.5
 'got init traj'
 %% gen code for objfun and confun
-genOptimCode(x_0,optParams);
+CodeGeneratorForOptim;
 %%  optim
 tic;
 options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-6,...
@@ -118,7 +118,7 @@ options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP'
 %options.TolFun = 10^(-10);
 %options.TolCon = 10;
 %[x,fval,flag] = ...
-[x,fval,exitflag,output] = fmincon(@(x)objfun2_toy(x,optParams),x_0,[],[],[],[],[],[], ...
+[x,fval,exitflag,output] = fmincon(@(x)objfun2_toy_using_mex(x,optParams),x_0,[],[],[],[],[],[], ...
     @(x)confun2_toy(x,optParams),options);
 
 
@@ -127,10 +127,10 @@ time_taken_mins = toc/60
 
 %% plot
 dim = optParams.dim;
-P_feas = optParams.P_feas;
-P_final = optParams.P_final;
+P_feas = AuxParams.P_feas;
+P_final = AuxParams.P_final;
 len = optParams.len;
-P_unsafe = optParams.P_unsafe;
+P_unsafe = AuxParams.P_unsafe;
 if(dim<=3)
     figure;
     plot(P_feas,'Color','gray','Alpha',0.7);
