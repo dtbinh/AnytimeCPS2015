@@ -1,6 +1,7 @@
 % wavparams
 wavparams = optParams.Params_P_unsafe;
-
+traj = reshape(x_0(1:optParams.dim*optParams.len),optParams.dim,optParams.len);
+P = [];
 %% codegen for
 %alt_getRobustnessP_vector_genable_parallel(traj,P,wavparams,exact)
 
