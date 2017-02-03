@@ -12,9 +12,10 @@ arg_ins = {coder.typeof(traj),coder.typeof(P),coder.typeof(wavparams),coder.type
 codegen -config cfg alt_getRobustnessP_vector_genable_parallel -report -args arg_ins
 end
 %%
+if(0)
 %parallel was faster
 codegen -config cfg alt_getRobustnessP_vector_genable -report -args arg_ins
-
+end
 %%
 %alt_getRobustnessP_and_der_vector_genable(traj,wavparams)
 if(1)
