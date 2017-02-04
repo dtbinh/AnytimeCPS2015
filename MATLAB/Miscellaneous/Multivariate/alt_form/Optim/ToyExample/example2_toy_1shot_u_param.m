@@ -2,7 +2,7 @@
 % (always not Unsfafe) and (eventually Terminal)
 %% get params
 %unsafe set
-clc;clear all;close all;
+%clc;clear all;close all;
 
 disp('Initializing problem');
 P_unsafe = Polyhedron('lb',[-1 -1],'ub',[1 1]);
@@ -160,8 +160,7 @@ options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP'
 %options.TolFun = 10^(-10);
 %options.TolCon = 10;
 %[x,fval,flag] = ...
-[u_opt,fval,exitflag,output] = fmincon(@(u)objfun2_u_toy_using_mex(u,optParams),u_0,[],[],[],[],LB_U,UB_U, ...
-    [],options);
+[u_opt,fval,exitflag,output] = fmincon(@(u)objfun2_u_toy_using_mex(u,optParams),u_0,[],[],[],[],LB_U,UB_U,[],options);
 
 
 save('Data/TestData_toyexample2_u.mat','u_opt','u_0','optParams','AuxParams','SmoothOpt');
