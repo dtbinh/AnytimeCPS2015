@@ -3,7 +3,7 @@
 %% get params
 %unsafe set
 clc;clear all;close all;
-
+%%
 P_unsafe = Polyhedron('lb',[-1 -1],'ub',[1 1]);
 P_term = Polyhedron('lb',[2 2],'ub',[2.5 2.5]);
 
@@ -49,7 +49,7 @@ wavparams_all = getWaveletParameters(SmoothOpt,genCode);
     end
     save('Wavparams2_j0_k20_ToyExample.mat','SmoothOpt','wavparams_all');
 else
-    load('Wavparams2_j0_k20_ToyExample.mat');
+    load('Wavparams2_j0_k5_ToyExample.mat');
 end
 
 
@@ -58,7 +58,7 @@ end
 
 %% optimization data
 dim = 2;
-len = 30;
+len = 20;
 
 P_feas = Polyhedron('lb',[-2.5 -2.5],'ub',[2.5 2.5]);
 U_feas = Polyhedron('lb',[-0.52 -0.52],'ub',[0.52 0.52]);
@@ -110,11 +110,15 @@ end
 
 'got init traj'
 %% gen code for objfun and confun
+if(1)
 CodeGeneratorForOptim;
+end
 %%  optim
+global ct;
+ct = 0;
 tic;
-options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-6,...
-    'UseParallel','always','MaxFunEval',1000000,'GradObj','off'); %rep 'always' by true
+options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-6,'ObjectiveLimit',-eps,...
+    'UseParallel','always','MaxFunEval',1000000,'GradObj','on'); %rep 'always' by true
 %options.TolFun = 10^(-10);
 %options.TolCon = 10;
 %[x,fval,flag] = ...
@@ -122,7 +126,7 @@ options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP'
     @(x)confun2_toy(x,optParams),options);
 
 
-save('Data/TestData_toyexample2.mat','x','x_0','optParams','AuxParams','SmoothOpt');
+save('Data/TestData_toyexample2_shite.mat','x','x_0','optParams','AuxParams','SmoothOpt');
 time_taken_mins = toc/60
 
 %% plot
