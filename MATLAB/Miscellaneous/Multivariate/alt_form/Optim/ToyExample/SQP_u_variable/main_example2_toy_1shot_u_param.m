@@ -51,7 +51,7 @@ wavparams_all = getWaveletParameters(SmoothOpt,genCode);
     end
     save('Wavparams2_j0_k20_ToyExample.mat','SmoothOpt','wavparams_all');
 else
-    load('Wavparams2_j0_k20_ToyExample.mat');
+    load('Wavparams2_j0_k5_ToyExample.mat');
 end
 
 
@@ -153,7 +153,7 @@ end
 
 %% random initialization
 rd_u0 = 0;
-if(1)
+if(0)
    u_0 = -0.25+(.5)*rand(38,1); %random u_0; 
    rd_u0 = 1;
    x_0 = [optParams.A_x0*optParams.x0 + optParams.B_U*u_0;u_0];
@@ -164,7 +164,7 @@ end
 
 %% gen code for objfun and confun
 
-if(1)
+if(0)
     disp('Code gen');
     CodeGeneratorForOptim;
 end
@@ -196,6 +196,7 @@ if(rd_u0) %random u
 end
 
 dim = optParams.dim;
+
 P_feas = AuxParams.P_feas;
 P_final = AuxParams.P_final;
 len = optParams.len;

@@ -45,3 +45,8 @@ if(0)
 arg_ins = {coder.typeof(x_0),coder.typeof(optParams),coder.typeof(1)};
 codegen -config cfg objfun2_toy_genable -report -args arg_ins
 end
+
+%%
+cfg=coder.config('mex');
+  arg_ins = {coder.typeof(u_0),coder.typeof(U_intersect_set),coder.typeof(options),coder.typeof(optParams)}
+codegen -config cfg getController -report -args arg_ins

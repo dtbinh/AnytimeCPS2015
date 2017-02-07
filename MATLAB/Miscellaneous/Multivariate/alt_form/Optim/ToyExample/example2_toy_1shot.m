@@ -113,7 +113,7 @@ optParams.A_x0 = [eye(dim);A_x0];
 optParams.B_U = [zeros(optParams.dim,(optParams.len-1)*optParams.dim_u);B_U];
 
 %% start opt
-clc;
+%clc;
 % init traj gen
 if(1) %via reg MPC
     x_0 = [x0;rand((len-1)*dim,1);rand((len-1)*size(optParams.B,2),1)];
@@ -147,7 +147,7 @@ global ct;
 ct = 0;
 tic;
 options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-6,'ObjectiveLimit',-10,...
-    'UseParallel','always','MaxFunEval',1000000,'GradObj','off'); %rep 'always' by true
+    'UseParallel','always','MaxFunEval',1000000,'GradObj','on'); %rep 'always' by true
 %options.TolFun = 10^(-10);
 %options.TolCon = 10;
 %[x,fval,flag] = ...

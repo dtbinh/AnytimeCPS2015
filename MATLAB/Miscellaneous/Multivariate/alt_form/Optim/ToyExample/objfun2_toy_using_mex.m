@@ -40,4 +40,4 @@ end
 f3 = (optParams.gamma)*norm(x(1:optParams.dim*optParams.len))^2; %weighted sos of states
 f = -rob+f3; %min neg of robustness, robustness = not in P1
 g(1:optParams.dim*optParams.len) = -g_temp+2*x(1:optParams.dim*optParams.len)*optParams.gamma; %FIX!!!!
-g(optParams.dim*optParams.len+1:end) = -optParams.B_U'*g_temp; %comment out
+%g(optParams.dim*optParams.len+1:end) = -optParams.B_U'*g_temp; %comment out
