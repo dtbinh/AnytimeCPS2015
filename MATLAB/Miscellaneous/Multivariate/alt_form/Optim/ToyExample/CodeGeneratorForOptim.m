@@ -22,6 +22,12 @@ if(1)
 arg_ins = {coder.typeof(traj),coder.typeof(wavparams),coder.typeof(0)};
 codegen -config cfg alt_getRobustnessP_and_der_vector_genable -report -args arg_ins
 end
+
+%% parallel
+if(1)
+arg_ins = {coder.typeof(traj),coder.typeof(wavparams),coder.typeof(0)};
+codegen -config cfg alt_getRobustnessP_and_der_vector_genable_parallel -report -args arg_ins
+end
 %% for eventually
 %robustness_eventually_P_genable(traj,wavparams,need_derivative)
 if(0)

@@ -51,7 +51,7 @@ wavparams_all = getWaveletParameters(SmoothOpt,genCode);
     end
     save('Wavparams2_j0_k20_ToyExample.mat','SmoothOpt','wavparams_all');
 else
-    load('Wavparams2_j0_k20_ToyExample.mat');
+    load('Wavparams2_j0_k5_ToyExample.mat');
 end
 
 
@@ -65,6 +65,7 @@ len = 20;
 dim_u = 2;
 optParams.dim = dim;
 optParams.len = len;
+optParams.dim_u = dim_u;
 
 u_lim = 0.52;
 
@@ -155,8 +156,8 @@ end
 %%  optim
 disp('Robustness maximization')
 tic;
-options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-6,...
-    'TolFun',10^-3,'UseParallel','always','MaxFunEval',1000000,'GradObj','off'); %rep 'always' by true
+options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-6,'ObjectiveLimit',-eps,...
+    'UseParallel','always','MaxFunEval',1000000,'GradObj','off'); %rep 'always' by true
 %options.TolFun = 10^(-10);
 %options.TolCon = 10;
 %[x,fval,flag] = ...

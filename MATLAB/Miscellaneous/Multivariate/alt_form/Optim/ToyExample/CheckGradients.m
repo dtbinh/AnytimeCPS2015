@@ -38,14 +38,54 @@ f1_true = SignedDist(x_pt,optParams.P_unsafe.A,optParams.P_unsafe.b);
     [SignedDist(x_pt+offset*[1;0],optParams.P_unsafe.A,optParams.P_unsafe.b)-f1_true;SignedDist(x_pt+offset*[0;1],optParams.P_unsafe.A,optParams.P_unsafe.b)-f1_true]]
 
 %%
-[f,g] = objfun2_toy_using_mex(x_0,optParams);
+[f,g] = objfun2_toy_using_mex(x,optParams);
+figure;
+stairs(g,'*');
+offset = 1;
+g_finite = zeros(numel(g),1);
+for i = 1:numel(g)
+    e = zeros(size(g_finite));
+    e(i) = offset;
+    g_finite(i) = (objfun2_toy_using_mex(x+e,optParams)-f)/norm(e);
+    
+end
+hold all;
+stairs(g_finite,'.-');
+%%
+[f,g] = main_objfun2_u_toy_using_mex(u_0,optParams);
 figure;
 stairs(g);
 offset = 0.1;
-g_finite = zeros(numel(x_0),1);
-for i = 1:optParams.dim*optParams.len
+g_finite = zeros(numel(u_0),1);
+for i = 1:optParams.dim_u*(optParams.len-1)
     e = zeros(size(g_finite));
     e(i) = offset;
-    g_finite(i) = objfun2_toy_using_mex(x_0+offset,optParams)-;
+    g_finite(i) = (main_objfun2_u_toy_using_mex(u_0+e,optParams) - f)/norm(e);
     
 end
+hold all;
+stairs(g_finite);
+
+%%
+figure;
+[f,g] = objfun2_toy_using_mex(x,optParams);
+stairs(g);
+hold all
+u = x(41:end);
+[fu,gu] = main_objfun2_u_toy_using_mex(u,optParams);
+stairs(gu);
+figure;
+stairs(optParams.B_U'*g(1:40)-gu);
+
+%% check states
+
+state(:,1) = optParams.x0;
+uu = reshape(u_opt,2,19);
+for i = 2:20
+    state(:,i) = optParams.A*state(:,i-1) + optParams.B*uu(:,i-1);
+end
+figure;
+plot(state(1,:),state(2,:),'o');hold all;
+state_fast = optParams.A_x0*optParams.x0 + optParams.B_U*u_opt;
+state_fast_rs = reshape(state_fast,2,20);
+grid on;plot(state_fast_rs(1,:),state_fast_rs(2,:),'k*');

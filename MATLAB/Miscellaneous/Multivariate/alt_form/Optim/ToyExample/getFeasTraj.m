@@ -24,7 +24,7 @@ z(:,N) == optParams.A*z(:,N-1) + optParams.B*u(:,N-1);
 optParams.P_final.A*z(:,N) <= optParams.P_final.b;
 
 cvx_end 
-clc;
+
 x_feas.z = z;
 x_feas.u = u;
 x_feas.x0 = [x_feas.z(:);x_feas.u(:)];

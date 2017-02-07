@@ -1,9 +1,10 @@
 % 2d example
 % (always not Unsfafe) and (eventually Terminal)
 %% get params
-%unsafe set
+
 clc;clear all;close all;
-%%
+
+disp('Initializing problem');
 P_unsafe = Polyhedron('lb',[-1 -1],'ub',[1 1]);
 P_term = Polyhedron('lb',[2 2],'ub',[2.5 2.5]);
 
@@ -36,6 +37,7 @@ for i = 1:numel(preds)
 end
 
 %% get params
+disp('Wavelet params');
 getParams = 0;
 if(getParams) %do this once, disable flag and load params next time
 wavparams_all = getWaveletParameters(SmoothOpt,genCode);    
@@ -49,7 +51,7 @@ wavparams_all = getWaveletParameters(SmoothOpt,genCode);
     end
     save('Wavparams2_j0_k20_ToyExample.mat','SmoothOpt','wavparams_all');
 else
-    load('Wavparams2_j0_k5_ToyExample.mat');
+    load('Wavparams2_j0_k20_ToyExample.mat');
 end
 
 
@@ -57,11 +59,18 @@ end
 %close all;clc;
 
 %% optimization data
+disp('Control problem data');
 dim = 2;
 len = 20;
+dim_u = 2;
+optParams.dim = dim;
+optParams.len = len;
+optParams.dim_u = dim_u;
+
+u_lim = 0.52;
 
 P_feas = Polyhedron('lb',[-2.5 -2.5],'ub',[2.5 2.5]);
-U_feas = Polyhedron('lb',[-0.52 -0.52],'ub',[0.52 0.52]);
+U_feas = Polyhedron('lb',-u_lim*ones(1,dim),'ub',u_lim*ones(1,dim));
 
 AuxParams.P_final = P_term;
 optParams.P_final.A = P_term.A;
@@ -70,7 +79,7 @@ optParams.P_final.b = P_term.b;
 AuxParams.U_feas = U_feas;
 optParams.U_feas.A = U_feas.A;
 optParams.U_feas.b = U_feas.b;
-%system
+% system dynamics
 optParams.A = eye(2);
 optParams.B = eye(2);
 % robustness in obj and/or constr
@@ -81,8 +90,6 @@ x0 = [-2;-2];
 %x0 = [-1.5;0];
 optParams.gamma = 0;%10^(-2);
 optParams.x0 = x0;
-optParams.dim = dim;
-optParams.len = len;
 optParams.Params_P_unsafe = SmoothOpt.preds.WavParams(1);
 optParams.Params_P_term = SmoothOpt.preds.WavParams(2);
 
@@ -92,7 +99,15 @@ optParams.P_unsafe.A = P_unsafe.A;
 optParams.P_unsafe.b = P_unsafe.b;
 AuxParams.P_unsafe = P_unsafe;
 AuxParams.P_feas = P_feas;
-%% for gradient with input in mind
+
+%% redo constraints for control input
+% H_U = kron(eye(optParams.len-1),optParams.U_feas.A);
+% g_U = repmat(optParams.U_feas.b,optParams.len-1,1);
+%sanity check
+% stairs(H_U*u_0<=g_U);
+%or
+LB_U = repmat(-u_lim*ones(size(optParams.B,2),1),optParams.len-1,1);
+UB_U = repmat(u_lim*ones(size(optParams.B,2),1),optParams.len-1,1);
 dim_u = size(optParams.B,2);
 % translate state constraints if needed
 A_x0 = [];
@@ -108,17 +123,25 @@ for i = 1:optParams.len-1
 end
 % optParams.A_x0 = A_x0;
 % optParams.B_U = B_U;
-optParams.dim_u = size(optParams.B,2);
 optParams.A_x0 = [eye(dim);A_x0];
 optParams.B_U = [zeros(optParams.dim,(optParams.len-1)*optParams.dim_u);B_U];
+    
+X_lims = Polyhedron('lb',(xmin/2)*ones(40,1),'ub',(xmax/2)*ones(40,1));
+H1 = X_lims.A*optParams.B_U;
+g1 = X_lims.b-X_lims.A*optParams.A_x0*optParams.x0;
+U_new = Polyhedron('A',H1,'b',g1);
+U_lims = Polyhedron('lb',LB_U,'ub',UB_U);
+U_intersect = intersect(U_new,U_lims);
+U_intersect.minHRep;
 
 %% start opt
-clc;
+disp('Getting init trajectory');
 % init traj gen
 if(1) %via reg MPC
     x_0 = [x0;rand((len-1)*dim,1);rand((len-1)*size(optParams.B,2),1)];
     x_feas = getFeasTraj(x_0,optParams);
     x_0 = x_feas.x0;
+    u_0 = x_feas.u(:);
     if(sum(isnan(x_0))>0)
         'x_0 infeasible'
         keyboard;
@@ -128,37 +151,50 @@ else
     x_0 = x;
 end
 
-'got init traj'
-
+%% random initialization
 rd_u0 = 0;
-if(0)
+if(1)
    u_0 = -0.25+(.5)*rand(38,1); %random u_0; 
    rd_u0 = 1;
    x_0 = [optParams.A_x0*optParams.x0 + optParams.B_U*u_0;u_0];
 end
+
+
+
+
 %% gen code for objfun and confun
-if(0)
-CodeGeneratorForOptim;
+
+if(1)
+    disp('Code gen');
+    CodeGeneratorForOptim;
 end
-
-
+%% sanity cheque
+if(0)
+tic;objfun2_toy_using_mex(x_0,optParams);toc
+tic;objfun2_u_toy_using_mex(u_0,optParams);toc
+end
+%keyboard
 %%  optim
-global ct;
-ct = 0;
-tic;
-options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-6,'ObjectiveLimit',-10,...
-    'UseParallel','always','MaxFunEval',1000000,'GradObj','off'); %rep 'always' by true
+disp('Robustness maximization')
+tic;clear options;
+options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-2,...
+    'ObjectiveLimit',-eps,'UseParallel','always','MaxFunEval',1000000,'GradObj','on'); %rep 'always' by true
 %options.TolFun = 10^(-10);
 %options.TolCon = 10;
 %[x,fval,flag] = ...
-[x,fval,exitflag,output] = fmincon(@(x)objfun2_toy_using_mex(x,optParams),x_0,[],[],[],[],[],[], ...
-    @(x)confun2_toy(x,optParams),options);
+% [u_opt,fval,exitflag,output] = fmincon(@(u)main_objfun2_u_toy_using_mex(u,optParams),u_0,[],[],[],[],LB_U,UB_U,[],options);
+[u_opt,fval,exitflag,output] = fmincon(@(u)main_objfun2_u_toy_using_mex(u,optParams),u_0,U_intersect.A,U_intersect.b,[],[],[],[],[],options);
 
-
-save('Data/TestData_toyexample2_shite.mat','x','x_0','optParams','AuxParams','SmoothOpt');
+save('Data/TestData_toyexample2_u_grad.mat','u_opt','u_0','optParams','AuxParams','SmoothOpt');
 time_taken = toc
 
 %% plot
+x_init_and_onwards = optParams.A_x0*optParams.x0 + optParams.B_U*u_opt;
+x = [x_init_and_onwards;u_opt];
+if(rd_u0) %random u
+    x_0 = [optParams.A_x0*optParams.x0 + optParams.B_U*u_0;u_0];
+end
+
 dim = optParams.dim;
 P_feas = AuxParams.P_feas;
 P_final = AuxParams.P_final;
@@ -166,8 +202,8 @@ len = optParams.len;
 P_unsafe = AuxParams.P_unsafe;
 if(dim<=3)
     figure;
-    plot(P_feas,'Color','gray','Alpha',0.7);
-    hold on;
+%     plot(P_feas,'Color','gray','Alpha',0.7);
+%     hold on;
     plot(P_unsafe,'Color','red','Alpha',0.7);
     hold on;
     plot(P_final,'Color','green','Alpha',0.7);
@@ -181,11 +217,11 @@ if(dim<=3)
         plot(traj_x(1,i),traj_x(2,i),'k*');hold on;
         pause(.1);
         if(i==2)
-            legend('Feasible set','Unsafe set','Terminal Set','Init. Traj.',...
+            legend('Unsafe set','Terminal Set','Init. Traj.',...
                 'Traj. \gamma=0.1');
         end
     end
     grid on;
 end
-
+axis([-5 5 -5 5]);
 
