@@ -4,14 +4,18 @@
 %unsafe set
 clc;clear all;close all;
 %%
+disp('Setting up problem...')
+
+%Polyhedrons for the APs
 P_unsafe = Polyhedron('lb',[-1 -1],'ub',[1 1]);
 P_term = Polyhedron('lb',[2 2],'ub',[2.5 2.5]);
 
+% grid to make up hypercube for wavelet param computations
 xmin = -5;
 xmax = 5;
 dx = 0.25;
 
-% prelim set stuff
+% prelim set stuff and 
 clear SmoothOpt;
 global taliro_SmoothRob; %flag
 global SmoothOpt; %params
@@ -22,6 +26,7 @@ preds(1).b = P_unsafe.b;
 preds(2).A = P_term.A;
 preds(2).b = P_term.b;
 
+% structure with params for wavelets
 for i = 1:numel(preds)
     SmoothOpt.preds.Sets(i).A = preds(i).A;
     SmoothOpt.preds.Sets(i).b = preds(i).b;
@@ -35,8 +40,9 @@ for i = 1:numel(preds)
     %SmoothOpt.preds.WavParams(i) = wavparams;
 end
 
-%% get params
-getParams = 0;
+%% get params wavelet params
+disp('Wavelet parameters...')
+getParams = 0; % set it to zero after computing params once
 if(getParams) %do this once, disable flag and load params next time
 wavparams_all = getWaveletParameters(SmoothOpt,genCode);    
     for i = 1:numel(preds)
@@ -57,11 +63,11 @@ end
 %close all;clc;
 
 %% optimization data
-dim = 2;
-len = 20;
+dim = 2; %dimension of state
+len = 20; %length of trajectory
 
-P_feas = Polyhedron('lb',[-2.5 -2.5],'ub',[2.5 2.5]);
-U_feas = Polyhedron('lb',[-0.52 -0.52],'ub',[0.52 0.52]);
+P_feas = Polyhedron('lb',[-2.5 -2.5],'ub',[2.5 2.5]); %feasible set of states
+U_feas = Polyhedron('lb',[-0.52 -0.52],'ub',[0.52 0.52]); %input bounds
 
 AuxParams.P_final = P_term;
 optParams.P_final.A = P_term.A;
@@ -70,16 +76,17 @@ optParams.P_final.b = P_term.b;
 AuxParams.U_feas = U_feas;
 optParams.U_feas.A = U_feas.A;
 optParams.U_feas.b = U_feas.b;
-%system
+
+%system dynamics
 optParams.A = eye(2);
 optParams.B = eye(2);
 % robustness in obj and/or constr
 optParams.robCost = 1;
 optParams.robConstr = 0;
 
-x0 = [-2;-2];
-%x0 = [-1.5;0];
-optParams.gamma = 0;%10^(-2);
+x0 = [-2;-2]; % initial state
+
+optParams.gamma = 0;%10^(-2); %weight for norm of state in cost
 optParams.x0 = x0;
 optParams.dim = dim;
 optParams.len = len;
@@ -115,7 +122,10 @@ optParams.B_U = [zeros(optParams.dim,(optParams.len-1)*optParams.dim_u);B_U];
 %% start opt
 %clc;
 % init traj gen
-if(1) %via reg MPC
+disp('Getting initial trajectory...');
+random_initialization = 0;
+rd_u0 = random_initialization;
+if(~random_initialization) %via reg MPC
     x_0 = [x0;rand((len-1)*dim,1);rand((len-1)*size(optParams.B,2),1)];
     x_feas = getFeasTraj(x_0,optParams);
     x_0 = x_feas.x0;
@@ -123,26 +133,22 @@ if(1) %via reg MPC
         'x_0 infeasible'
         keyboard;
     end
+
 else
-    load('TestData_opt4','x') %from somewhere else
-    x_0 = x;
-end
-
-'got init traj'
-
-rd_u0 = 0;
-if(0)
+    
    u_0 = -0.25+(.5)*rand(38,1); %random u_0; 
    rd_u0 = 1;
    x_0 = [optParams.A_x0*optParams.x0 + optParams.B_U*u_0;u_0];
 end
 %% gen code for objfun and confun
-if(0)
+if(1) %make this 1 once, then set to zero 
+    disp('Generating code for robustness functions');
 CodeGeneratorForOptim;
 end
 
 
 %%  optim
+disp('Optimizing...')
 global ct;
 ct = 0;
 tic;
@@ -159,6 +165,7 @@ save('Data/TestData_toyexample2_shite.mat','x','x_0','optParams','AuxParams','Sm
 time_taken = toc
 
 %% plot
+disp('Plotting...');
 dim = optParams.dim;
 P_feas = AuxParams.P_feas;
 P_final = AuxParams.P_final;
