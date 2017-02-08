@@ -141,7 +141,7 @@ else
    x_0 = [optParams.A_x0*optParams.x0 + optParams.B_U*u_0;u_0];
 end
 %% gen code for objfun and confun
-if(1) %make this 1 once, then set to zero 
+if(0) %make this 1 once, then set to zero 
     disp('Generating code for robustness functions');
 CodeGeneratorForOptim;
 end
@@ -161,7 +161,7 @@ options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP'
     @(x)confun2_toy(x,optParams),options);
 
 
-save('Data/TestData_toyexample2_shite.mat','x','x_0','optParams','AuxParams','SmoothOpt');
+save('TestData_toyexample2_shite.mat','x','x_0','optParams','AuxParams','SmoothOpt');
 time_taken = toc
 
 %% plot
