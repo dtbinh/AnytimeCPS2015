@@ -61,7 +61,7 @@ end
 %% optimization data
 disp('Control problem data');
 dim = 2;
-len = 20;
+len = 30;
 dim_u = 2;
 optParams.dim = dim;
 optParams.len = len;
@@ -126,7 +126,7 @@ end
 optParams.A_x0 = [eye(dim);A_x0];
 optParams.B_U = [zeros(optParams.dim,(optParams.len-1)*optParams.dim_u);B_U];
     
-X_lims = Polyhedron('lb',(xmin/2)*ones(40,1),'ub',(xmax/2)*ones(40,1));
+X_lims = Polyhedron('lb',(xmin/2)*ones(optParams.len*optParams.dim,1),'ub',(xmax/2)*ones(optParams.len*optParams.dim,1));
 H1 = X_lims.A*optParams.B_U;
 g1 = X_lims.b-X_lims.A*optParams.A_x0*optParams.x0;
 U_new = Polyhedron('A',H1,'b',g1);
@@ -154,7 +154,7 @@ end
 %% random initialization
 rd_u0 = 0;
 if(0)
-   u_0 = -0.25+(.5)*rand(38,1); %random u_0; 
+   u_0 = -0.25+(.5)*rand(optParams.dim_u*(optParams.len-1),1); %random u_0; 
    rd_u0 = 1;
    x_0 = [optParams.A_x0*optParams.x0 + optParams.B_U*u_0;u_0];
 end
@@ -164,7 +164,7 @@ end
 
 %% gen code for objfun and confun
 
-if(0)
+if(1)
     disp('Code gen');
     CodeGeneratorForOptim;
 end
@@ -178,7 +178,7 @@ end
 disp('Robustness maximization')
 tic;clear options;
 options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-2,...
-    'ObjectiveLimit',-eps,'UseParallel','always','MaxFunEval',1000000,'GradObj','off'); %rep 'always' by true
+    'ObjectiveLimit',-eps,'UseParallel','always','MaxFunEval',1000000,'GradObj','on'); %rep 'always' by true
 %options.TolFun = 10^(-10);
 %options.TolCon = 10;
 %[x,fval,flag] = ...
