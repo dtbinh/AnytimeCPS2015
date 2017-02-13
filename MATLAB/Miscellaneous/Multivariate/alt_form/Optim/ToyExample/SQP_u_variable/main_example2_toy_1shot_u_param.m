@@ -2,7 +2,8 @@
 % (always not Unsfafe) and (eventually Terminal)
 %% get params
 
-clc;clear all;close all;
+clc;close all;
+%clear all;close all;
 
 disp('Initializing problem');
 P_unsafe = Polyhedron('lb',[-1 -1],'ub',[1 1]);
@@ -61,7 +62,7 @@ end
 %% optimization data
 disp('Control problem data');
 dim = 2;
-len = 30;
+len = 20;
 dim_u = 2;
 optParams.dim = dim;
 optParams.len = len;
@@ -86,7 +87,18 @@ optParams.B = eye(2);
 optParams.robCost = 1;
 optParams.robConstr = 0;
 
+%% init state
+if(~exist('rand_x0','var'))
+fixed_x0 = 0;
+else
+   fixed_x0 = ~rand_x0; 
+end
+
+if(fixed_x0);
 x0 = [-2;-2];
+else %in [-2 -1.1]^2
+x0 = -2 + (-1.1+2)*rand(2,1);    
+end
 %x0 = [-1.5;0];
 optParams.gamma = 0;%10^(-2);
 optParams.x0 = x0;
@@ -164,7 +176,7 @@ end
 
 %% gen code for objfun and confun
 
-if(1)
+if(0)
     disp('Code gen');
     CodeGeneratorForOptim;
 end
@@ -175,10 +187,18 @@ tic;objfun2_u_toy_using_mex(u_0,optParams);toc
 end
 %keyboard
 %%  optim
+if(exist('robustness_max','var'))
+    objLim = -10*robustness_max - eps*(1-robustness_max);
+else
+    objLim = -eps;
+end
+
+%%
+clear options;
 disp('Robustness maximization')
-tic;clear options;
-options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-2,...
-    'ObjectiveLimit',-eps,'UseParallel','always','MaxFunEval',1000000,'GradObj','on'); %rep 'always' by true
+tic;
+options = optimset('Algorithm','sqp','Display','off','MaxIter',1000,'TolConSQP',1e-2,...
+    'ObjectiveLimit',objLim,'UseParallel','always','MaxFunEval',1000000,'GradObj','on'); %rep 'always' by true
 %options.TolFun = 10^(-10);
 %options.TolCon = 10;
 %[x,fval,flag] = ...
@@ -186,9 +206,19 @@ options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP'
 [u_opt,fval,exitflag,output] = fmincon(@(u)main_objfun2_u_toy_using_mex(u,optParams),u_0,U_intersect.A,U_intersect.b,[],[],[],[],[],options);
 
 save('TestData_toyexample2_u_grad.mat','u_opt','u_0','optParams','AuxParams','SmoothOpt');
-time_taken = toc
+time_taken = toc;
 
 %% plot
+if(exist('display_on','var'))
+    if(display_on)
+        disp_plot=1;
+    else
+        disp_plot=0;
+    end
+end
+
+if(disp_plot)
+    
 x_init_and_onwards = optParams.A_x0*optParams.x0 + optParams.B_U*u_opt;
 x = [x_init_and_onwards;u_opt];
 if(rd_u0) %random u
@@ -226,3 +256,4 @@ if(dim<=3)
 end
 axis([-5 5 -5 5]);
 
+end
