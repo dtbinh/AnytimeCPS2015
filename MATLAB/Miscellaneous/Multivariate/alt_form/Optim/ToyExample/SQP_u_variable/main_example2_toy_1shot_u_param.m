@@ -62,7 +62,7 @@ end
 %% optimization data
 disp('Control problem data');
 dim = 2;
-len = 20;
+len = 50;
 dim_u = 2;
 optParams.dim = dim;
 optParams.len = len;
@@ -188,8 +188,13 @@ end
 %keyboard
 %%  optim
 if(exist('robustness_max','var'))
-    objLim = -10*robustness_max - eps*(1-robustness_max);
-else
+    if(~isempty(robustness_max))
+        objLim = -10*robustness_max - eps*(1-robustness_max);
+    else
+        objLim = -eps;
+    end
+    
+    else
     objLim = -eps;
 end
 
@@ -203,7 +208,7 @@ options = optimset('Algorithm','sqp','Display','off','MaxIter',1000,'TolConSQP',
 %options.TolCon = 10;
 %[x,fval,flag] = ...
 % [u_opt,fval,exitflag,output] = fmincon(@(u)main_objfun2_u_toy_using_mex(u,optParams),u_0,[],[],[],[],LB_U,UB_U,[],options);
-[u_opt,fval,exitflag,output] = fmincon(@(u)main_objfun2_u_toy_using_mex(u,optParams),u_0,U_intersect.A,U_intersect.b,[],[],[],[],[],options);
+[u_opt,fval,exitflag,output] = fmincon(@(u)main_objfun2_u_toy_using_mex_alwaysNotUnsafe(u,optParams),u_0,U_intersect.A,U_intersect.b,[],[],[],[],[],options);
 
 save('TestData_toyexample2_u_grad.mat','u_opt','u_0','optParams','AuxParams','SmoothOpt');
 time_taken = toc;
