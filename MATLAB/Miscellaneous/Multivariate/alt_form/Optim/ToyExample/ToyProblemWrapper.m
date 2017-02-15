@@ -2,13 +2,36 @@
 Nruns = 51;
 
 global rand_x0
-rand_x0 = 1;
+rand_x0 = 0;
 global display_on;
 display_on = 0;
 global robustness_max
-%% SR-SQP sat mode
 
-robustness_max = 0;
+clear SmoothOpt;
+global taliro_SmoothRob; %flag
+global SmoothOpt; %params
+taliro_SmoothRob = 0;
+
+disp(' ')
+disp('The specification:')
+%phi = '[]_[0,2.0]!a /\ <>_[0,2.0]b'
+%phi = '[]_[0,2.0]!a' % /\ <>_[0,2.0]b'
+phi = '<>_[0,2.0]b'
+preds(1).str = 'a';
+disp('Type "help monitor" to see the syntax of MTL formulas')
+P_pred_a = Polyhedron('lb',[-1 -1],'ub',[1 1]); %The polyhedron for predicate a
+preds(1).A = P_pred_a.A;
+preds(1).b = P_pred_a.b;
+
+preds(2).str = 'b';
+disp('Type "help monitor" to see the syntax of MTL formulas')
+P_pred_b = Polyhedron('lb',[2 2],'ub',[2.5 2.5]);
+preds(2).A = P_pred_a.A;
+preds(2).b = P_pred_a.b;
+
+%% SR-SQP sat mode
+if(0)
+robustness_max = 1;
 
 time_per_shot_SRSQP = zeros(Nruns-1,1);
 robustness_one_shot_SRSQP = zeros(Nruns-1,1);
@@ -26,49 +49,37 @@ disp('Satisfaction rate')
 sum(robustness_one_shot_SRSQP>=0)/numel(robustness_one_shot_SRSQP)
 disp('Mean, max and std. exec time for SQSQP')
 [mean(time_per_shot_SRSQP) max(time_per_shot_SRSQP) std(time_per_shot_SRSQP)]
-
-%% BluSTL satisfaction mode
-
+end
+%% BluSTL
+if(1)
 time_per_shot_BS = zeros(Nruns-1,1);
+robustness_one_shot_BS = zeros(Nruns-1,1);
 global time_1shot;
 %robustness_one_shot_BS = zeros(Nruns-1,1);
 for ii = 1:Nruns
     ToyExample2d;
     if(ii>1)
+        ii
         time_per_shot_BS(ii-1) = time_1shot;
+        SX = Sys.model_data.X;
+        ST = Sys.model_data.time;
+        robustness_one_shot_BS(ii-1) = dp_taliro(phi,preds,SX',ST',[],[],[]);
         if(display_on) 
             pause;
         end
-        %robustness_one_shot_BS(ii) = fval;
+        
     end
 end
 
 disp('Mean, max and std. exec time for BluSTL')
 [mean(time_per_shot_BS) max(time_per_shot_BS) std(time_per_shot_BS)]
-%% save data
-save('Data/SatModeTimes_alwaysNot_20.mat','time_per_shot_SRSQP','time_per_shot_BS','ii');
-%% SR-SQP Max Mode
-
-robustness_max = 1;
-
-time_per_shot_SRSQP_max = zeros(Nruns-1,1);
-robustness_one_shot_SRSQP_max = zeros(Nruns-1,1);
-for ii = 1:Nruns
-    main_example2_toy_1shot_u_param;
-    if(display_on)
-    pause
-    end
-    if(ii>1)
-        time_per_shot_SRSQP_max(ii-1) = time_taken;
-        robustness_one_shot_SRSQP_max(ii-1) = -fval;
-    end
 end
-disp('Satisfaction rate')
-sum(robustness_one_shot_SRSQP_max>=0)/numel(robustness_one_shot_SRSQP_max)
-disp('Mean, max and std. exec time for SQSQP in max mode')
-[mean(time_per_shot_SRSQP_max) max(time_per_shot_SRSQP_max) std(time_per_shot_SRSQP_max)]
-save('Data/MaxModeTimes.mat','time_per_shot_SRSQP_max');
-
+%% save data
+if(0)
+save('Data/RobModeTimes_alwaysNot_20.mat','time_per_shot_SRSQP','time_per_shot_BS','ii');
+end
+%% SR-SQP Max Mode
+if(0)
 %% plotting
 load('Data/TimingSat.mat');
 L = 20:10:50;
@@ -124,3 +135,4 @@ xlabel('Horizon Length');
 ylabel('Exec. time one shot (s)');
 legend('SR-SQP','BluSTL');
 title('Sat. always not unsafe set');
+end
