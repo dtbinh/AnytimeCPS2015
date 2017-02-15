@@ -45,6 +45,17 @@ optParams.exact = 0;
 %% get feas traj
 x_feas = bldg_getFeasTraj(x_0,optParams,disturbances);
 u_0 = x_feas.u;
+%% gen code for objfun and confun
+
+if(1)
+    disp('Code gen');
+    cfg=coder.config('mex');
+    arg_ins = {coder.typeof(u_0),coder.typeof(optParams),coder.typeof(I1)};
+    codegen -config cfg objfun_bldg_gen -report -args arg_ins
+    %objfun_bldg_gen(u,optParams,I1)
+end
+
+
 %% optimization
 I1=10:19; %hours of interest in the 24 hour period
 optParams.I1 = I1;
@@ -57,8 +68,14 @@ options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP'
 %options.TolFun = 10^(-10);
 %options.TolCon = 10;
 %[x,fval,flag] = ...
-[x,fval,exitflag,output] = fmincon(@(x)objfun_bldg(x,optParams,I1),u_0,[],[],[],[],[],[], ...
-    @(x)confun_bldg(x,optParams),options);
+
+%[x,fval,exitflag,output] = fmincon(@(x)objfun_bldg_gen_mex(x,optParams,I1),u_0,[],[],[],[],[],[], ...
+%    @(x)confun_bldg(x,optParams),options);
+
+[x,fval,exitflag,output] = fmincon(@(x)objfun_bldg_gen_mex(x,optParams,I1),u_0,[],[],[],[], ...
+    -500*ones(size(u_0)),2000*ones(size(u_0)),[],options);
+
+
 toc
 
 else %simann
