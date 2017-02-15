@@ -4,11 +4,11 @@ function z = SimBldg(u,optParams)
 distbs = [optParams.disturbances.d1'; ...
             optParams.disturbances.d2'; ...
             optParams.disturbances.d3'];
-
+%%
 Nx = optParams.dim;
 N = optParams.len;
 
-
+%%
 z = zeros(Nx,N);
 
 z(:,1) = optParams.x0;

@@ -36,6 +36,14 @@ len = 24; %24 hour, 1 step per hour
 [A,B,Bd,C] = linear_model(Ts); 
 disturbances = sim_disturbance(1999,4,1,1999,4,2); %disturbances for a day
 optParams.disturbances = disturbances;
+
+Nd = size(Bd,2);
+D = [];
+for i = 1:len-1
+    D((i-1)*Nd+1:i*Nd,1) = [disturbances.d1(i);disturbances.d2(i);disturbances.d3(i)];
+end
+optParams.D = D; %vector of disturbances;
+
 dim = 4;
 dim_u = 1;
 dim_d = 3;
@@ -53,8 +61,8 @@ optParams.U_feas.A = U_feas.A;
 optParams.U_feas.b = U_feas.b;
 % system dynamics
 optParams.A = A;
-optParams.B = B;
 optParams.Bd = Bd;
+optParams.B = B*10; %check this
 % robustness in obj and/or constr
 optParams.robCost = 1;
 optParams.robConstr = 0;
@@ -81,7 +89,7 @@ optParams.P_feas.b = P_feas.b;
 
 %% redo constraints for control input
 
-LB_U = U_feas.b(1)*ones(1,optParams.len-1);
+LB_U = -U_feas.b(1)*ones(1,optParams.len-1);
 UB_U = U_feas.b(2)*ones(1,optParams.len-1);
 dim_u = size(optParams.B,2);
 % translate state constraints if needed
@@ -93,14 +101,24 @@ end
 clear B_U
 for i = 1:optParams.len-1
     for j = 1:optParams.len-1
-       B_U((i-1)*dim+1:i*dim,(j-1)*dim_u+1:j*dim_u) = (i-j>=0)*optParams.A^(i-j)*optParams.B + (i-j<0)*zeros(size(optParams.A*optParams.B));     
+        if(i>=j)
+            B_U((i-1)*dim+1:i*dim,(j-1)*dim_u+1:j*dim_u) = optParams.A^(i-j)*optParams.B;
+        else
+            B_U((i-1)*dim+1:i*dim,(j-1)*dim_u+1:j*dim_u) = zeros(size(optParams.A*optParams.B));     
+        end
+       %B_U((i-1)*dim+1:i*dim,(j-1)*dim_u+1:j*dim_u) = ((i-j)>=0)*optParams.A^(i-j)*optParams.B + ((i-j)<0)*zeros(size(optParams.A*optParams.B));     
     end
 end
 
 clear B_D
 for i = 1:optParams.len-1
     for j = 1:optParams.len-1
-       B_D((i-1)*dim+1:i*dim,(j-1)*dim_d+1:j*dim_d) = (i-j>=0)*optParams.A^(i-j)*optParams.Bd + (i-j<0)*zeros(size(optParams.A*optParams.Bd));     
+        if(i>=j)
+            B_D((i-1)*dim+1:i*dim,(j-1)*dim_d+1:j*dim_d) = optParams.A^(i-j)*optParams.Bd;
+        else
+            B_D((i-1)*dim+1:i*dim,(j-1)*dim_d+1:j*dim_d) = zeros(size(optParams.A*optParams.Bd));
+        end
+       %B_D((i-1)*dim+1:i*dim,(j-1)*dim_d+1:j*dim_d) = ((i-j)>=0)*optParams.A^(i-j)*optParams.Bd + ((i-j)<0)*zeros(size(optParams.A*optParams.Bd));     
     end
 end
 
@@ -128,8 +146,6 @@ end
 
 %%
 disp('Mapping all constraints to inputs...');
-D = [disturbances.d1(1:len-1);disturbances.d2(1:len-1);disturbances.d1(1:len-1)];
-optParams.D = D;
 X_lims = Polyhedron('lb',(xmin/2)*ones(optParams.len*optParams.dim,1),'ub',(xmax/2)*ones(optParams.len*optParams.dim,1));
 H1 = X_lims.A*optParams.B_U;
 g1 = X_lims.b-X_lims.A*optParams.A_x0*optParams.x0-X_lims.A*optParams.B_D*D;
@@ -146,7 +162,7 @@ if(1)
     disp('Code gen');
     cfg=coder.config('mex');
     arg_ins = {coder.typeof(u_0),coder.typeof(optParams),coder.typeof(I1)};
-    codegen -config cfg objfun_bldg_gen -report -args arg_ins
+    codegen -config cfg objfun_bldg_new -report -args arg_ins
     %objfun_bldg_gen(u,optParams,I1)
 end
 
@@ -167,15 +183,15 @@ clear options;
 disp('Robustness maximization')
 tic;
 options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-2,...
-    'ObjectiveLimit',objLim,'UseParallel','always','MaxFunEval',1000000,'GradObj','off'); %rep 'always' by true
+    'ObjectiveLimit',objLim,'UseParallel','always','MaxFunEval',1000000,'GradObj','on'); %rep 'always' by true
 %options.TolFun = 10^(-10);
 %options.TolCon = 10;
 %[x,fval,flag] = ...
 % [u_opt,fval,exitflag,output] = fmincon(@(u)main_objfun2_u_toy_using_mex(u,optParams),u_0,[],[],[],[],LB_U,UB_U,[],options);
-[u_opt,fval,exitflag,output] = fmincon(@(u)objfun_bldg_gen(u,optParams,I1),u_0,[],[],[],[],LB_U,UB_U,[],options);
+[u_opt,fval,exitflag,output] = fmincon(@(u)objfun_bldg_new_mex(u,optParams,I1),u_0,[],[],[],[],LB_U,UB_U,[],options);
 
 save('TestData_toyexample2_u_grad.mat','u_opt','u_0','optParams','AuxParams','SmoothOpt');
-time_taken = toc;
+time_taken = toc
 
 %% plot
 if(exist('display_on','var'))

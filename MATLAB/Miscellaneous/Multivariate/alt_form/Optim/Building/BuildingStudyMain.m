@@ -3,12 +3,13 @@
 Ts = 60*60; %sampling time, 1 hr
 H = 24; %24 hour, 1 step per hour
 [A,B,Bd,C] = linear_model(Ts); 
-disturbances = sim_disturbance(1999,4,1,1999,4,3); %disturbances for a day
+disturbances = sim_disturbance(1999,4,1,1999,4,2); %disturbances for a day
 U_feas = Polyhedron('lb',-500,'ub',2000);
 P_feas = Polyhedron('lb',0*ones(4,1),'ub',50*ones(4,1));
 dec_factor = 10;
 P1_comfort = Polyhedron('lb',22,'ub',28);
-
+I1=10:19; %hours of interest in the 24 hour period
+optParams.I1 = I1;
 load('ComfortParams.mat');
 optParams.wavparams = wavparams;
 %% generate some code
@@ -57,8 +58,7 @@ end
 
 
 %% optimization
-I1=10:19; %hours of interest in the 24 hour period
-optParams.I1 = I1;
+
 if(1)
 
 'Starting optimization'
@@ -72,7 +72,7 @@ options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP'
 %[x,fval,exitflag,output] = fmincon(@(x)objfun_bldg_gen_mex(x,optParams,I1),u_0,[],[],[],[],[],[], ...
 %    @(x)confun_bldg(x,optParams),options);
 
-[x,fval,exitflag,output] = fmincon(@(x)objfun_bldg_gen_mex(x,optParams,I1),u_0,[],[],[],[], ...
+[x,fval,exitflag,output] = fmincon(@(x)objfun_bldg_gen(x,optParams,I1),u_0,[],[],[],[], ...
     -500*ones(size(u_0)),2000*ones(size(u_0)),[],options);
 
 
