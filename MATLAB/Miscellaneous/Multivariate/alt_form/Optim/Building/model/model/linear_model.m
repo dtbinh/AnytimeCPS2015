@@ -1,4 +1,4 @@
-function [A,B,Bd,C] = linear_model(Ts)
+function [A,B,Bd,C,sysc] = linear_model(Ts)
 
 model_params;
 

@@ -1,6 +1,8 @@
 % 2d example
 % (always not Unsfafe) and (eventually Terminal)
 %% get params
+codegeneration = 0;
+no_disturbances = 1;
 
 clc;close all;
 disp('Initializing problem...');
@@ -33,16 +35,24 @@ disp('Control problem data...');
 
 Ts = 60*60; %sampling time, 1 hr
 len = 24; %24 hour, 1 step per hour
-[A,B,Bd,C] = linear_model(Ts); 
+[A,B,Bd,C,~] = linear_model(Ts); 
 disturbances = sim_disturbance(1999,4,1,1999,4,2); %disturbances for a day
-optParams.disturbances = disturbances;
 
+if(no_disturbances)
+   disturbances.d1 = zeros(size(disturbances.d1));
+   disturbances.d2 = zeros(size(disturbances.d2));
+   disturbances.d3 = zeros(size(disturbances.d3));
+end
+optParams.disturbances = disturbances;
 Nd = size(Bd,2);
 D = [];
 for i = 1:len-1
     D((i-1)*Nd+1:i*Nd,1) = [disturbances.d1(i);disturbances.d2(i);disturbances.d3(i)];
 end
 optParams.D = D; %vector of disturbances;
+
+
+
 
 dim = 4;
 dim_u = 1;
@@ -142,7 +152,7 @@ else
     load('TestData_opt4','x') %from somewhere else
     x_0 = x;
 end
-
+close all;
 
 %%
 disp('Mapping all constraints to inputs...');
@@ -158,7 +168,7 @@ U_intersect.minHRep;
 
 %% gen code for objfun and confun
 
-if(1)
+if(codegeneration)
     disp('Code gen');
     cfg=coder.config('mex');
     arg_ins = {coder.typeof(u_0),coder.typeof(optParams),coder.typeof(I1)};
@@ -182,7 +192,7 @@ end
 clear options;
 disp('Robustness maximization')
 tic;
-options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-2,...
+options = optimset('Algorithm','sqp','Display','off','MaxIter',1000,'TolConSQP',1e-2,...
     'ObjectiveLimit',objLim,'UseParallel','always','MaxFunEval',1000000,'GradObj','on'); %rep 'always' by true
 %options.TolFun = 10^(-10);
 %options.TolCon = 10;
@@ -191,7 +201,7 @@ options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP'
 [u_opt,fval,exitflag,output] = fmincon(@(u)objfun_bldg_new_mex(u,optParams,I1),u_0,[],[],[],[],LB_U,UB_U,[],options);
 
 save('TestData_toyexample2_u_grad.mat','u_opt','u_0','optParams','AuxParams','SmoothOpt');
-time_taken = toc
+time_taken = toc;
 
 %% plot
 if(exist('display_on','var'))
