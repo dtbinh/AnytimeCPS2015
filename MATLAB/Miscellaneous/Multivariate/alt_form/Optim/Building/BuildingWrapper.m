@@ -52,6 +52,7 @@ for ii = 1:Nruns
         robustness_one_shot_SRSQP_actual(ii-1) = dp_taliro(phi,preds,z(4,:)',T_index',[],[],[]);
     end
 end
+%%
 disp('Satisfaction rate')
 sum(robustness_one_shot_SRSQP>=0)/numel(robustness_one_shot_SRSQP)
 disp('Mean, max and std. exec time for SQSQP')
@@ -81,7 +82,7 @@ for ii = 1:Nruns
         
     end
 end
-
+%%
 disp('Mean, max and std. exec time for BluSTL')
 [mean(time_per_shot_BS) max(time_per_shot_BS) std(time_per_shot_BS)]
 disp('95 percentile exec. time')
