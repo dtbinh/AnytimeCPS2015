@@ -65,7 +65,8 @@ end
 %% optimization data
 dim = 2; %dimension of state
 len = 20; %length of trajectory
-
+optParams.len = len;
+optParams.dim = dim;
 P_feas = Polyhedron('lb',[-2.5 -2.5],'ub',[2.5 2.5]); %feasible set of states
 U_feas = Polyhedron('lb',[-0.52 -0.52],'ub',[0.52 0.52]); %input bounds
 
@@ -84,12 +85,24 @@ optParams.B = eye(2);
 optParams.robCost = 1;
 optParams.robConstr = 0;
 
-x0 = [-2;-2]; % initial state
 
-optParams.gamma = 0;%10^(-2); %weight for norm of state in cost
+
+
+%% init state
+if(~exist('rand_x0','var'))
+fixed_x0 = 0;
+else
+   fixed_x0 = ~rand_x0; 
+end
+
+if(fixed_x0);
+x0 = [-2;-2];
+else %in [-2 -1.1]^2
+x0 = -2 + (-1.1+2)*rand(2,1);    
+end
+%x0 = [-1.5;0];
+optParams.gamma = 0;%10^(-2);
 optParams.x0 = x0;
-optParams.dim = dim;
-optParams.len = len;
 optParams.Params_P_unsafe = SmoothOpt.preds.WavParams(1);
 optParams.Params_P_term = SmoothOpt.preds.WavParams(2);
 
@@ -99,6 +112,7 @@ optParams.P_unsafe.A = P_unsafe.A;
 optParams.P_unsafe.b = P_unsafe.b;
 AuxParams.P_unsafe = P_unsafe;
 AuxParams.P_feas = P_feas;
+
 %% for gradient with input in mind
 dim_u = size(optParams.B,2);
 % translate state constraints if needed
@@ -141,7 +155,7 @@ else
    x_0 = [optParams.A_x0*optParams.x0 + optParams.B_U*u_0;u_0];
 end
 %% gen code for objfun and confun
-if(1) %make this 1 once, then set to zero 
+if(0) %make this 1 once, then set to zero 
     disp('Generating code for robustness functions');
 CodeGeneratorForOptim;
 end
@@ -161,7 +175,7 @@ options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP'
     @(x)confun2_toy(x,optParams),options);
 
 
-save('Data/TestData_toyexample2_shite.mat','x','x_0','optParams','AuxParams','SmoothOpt');
+%save('Data/TestData_toyexample2_shite.mat','x','x_0','optParams','AuxParams','SmoothOpt');
 time_taken = toc
 
 %% plot
