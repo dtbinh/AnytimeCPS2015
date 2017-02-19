@@ -30,8 +30,8 @@ preds(2).A = P_pred_a.A;
 preds(2).b = P_pred_a.b;
 
 %% SR-SQP sat mode
-if(0)
-robustness_max = 1;
+if(1)
+robustness_max = 0;
 
 time_per_shot_SRSQP = zeros(Nruns-1,1);
 robustness_one_shot_SRSQP = zeros(Nruns-1,1);
@@ -50,6 +50,30 @@ sum(robustness_one_shot_SRSQP>=0)/numel(robustness_one_shot_SRSQP)
 disp('Mean, max and std. exec time for SQSQP')
 [mean(time_per_shot_SRSQP) max(time_per_shot_SRSQP) std(time_per_shot_SRSQP)]
 end
+
+
+%% SR-SQP max mode
+if(1)
+robustness_max = 0;
+
+time_per_shot_SRSQP = zeros(Nruns-1,1);
+robustness_one_shot_SRSQP = zeros(Nruns-1,1);
+for ii = 1:Nruns
+    example2_toy_1shot;
+    if(display_on)
+    pause
+    end
+    if(ii>1)
+        time_per_shot_SRSQP(ii-1) = time_taken;
+        robustness_one_shot_SRSQP(ii-1) = -fval;
+    end
+end
+disp('Satisfaction rate')
+sum(robustness_one_shot_SRSQP>=0)/numel(robustness_one_shot_SRSQP)
+disp('Mean, max and std. exec time for SQSQP')
+[mean(time_per_shot_SRSQP) max(time_per_shot_SRSQP) std(time_per_shot_SRSQP)]
+end
+
 %% BluSTL
 if(1)
 time_per_shot_BS = zeros(Nruns-1,1);

@@ -200,17 +200,17 @@ end
 disp('Computing Control...');
 tic;
 options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-6,...
-    'UseParallel','always','MaxFunEval',1000000,'GradObj','off');
+    'UseParallel','always','MaxFunEval',1000000,'ObjectiveLimit',-10,'GradObj','off');
 %options.TolFun = 10^(-10);
 %options.TolCon = 10;
 %[x,fval,flag] = ...
 [u_opt,fval,exitflag,output] = fmincon(@(u)objfun_case_u_mex(u,optParams),u_0,U_intersect.A,U_intersect.b,[],[],[],[], ...
     [],options);
-
+time_taken_mins = toc/60
 %% %%
 
-save('CaseData/Case_20_u.mat','u_opt','u_0','optParams','ExactParams');
-time_taken_mins = toc/60
+save('CaseData/Case_20_u_0.mat','u_opt','u_0','optParams','ExactParams');
+
 
 %% plot
 Nx = optParams.dim_x;
