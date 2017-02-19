@@ -2,7 +2,8 @@
 % (always not Unsfafe) and (eventually Terminal)
 %% get params
 %unsafe set
-clc;clear all;close all;
+%clc;clear all;close all;
+close all;
 %%
 disp('Setting up problem...')
 
@@ -64,7 +65,7 @@ end
 
 %% optimization data
 dim = 2; %dimension of state
-len = 20; %length of trajectory
+len = 50; %length of trajectory
 optParams.len = len;
 optParams.dim = dim;
 P_feas = Polyhedron('lb',[-2.5 -2.5],'ub',[2.5 2.5]); %feasible set of states
@@ -166,7 +167,7 @@ disp('Optimizing...')
 global ct;
 ct = 0;
 tic;
-options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-6,'ObjectiveLimit',-10,...
+options = optimset('Algorithm','sqp','Display','off','MaxIter',1000,'TolConSQP',1e-6,'ObjectiveLimit',-10,...
     'UseParallel','always','MaxFunEval',1000000,'GradObj','on'); %rep 'always' by true
 %options.TolFun = 10^(-10);
 %options.TolCon = 10;
@@ -177,8 +178,12 @@ options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP'
 
 %save('Data/TestData_toyexample2_shite.mat','x','x_0','optParams','AuxParams','SmoothOpt');
 time_taken = toc
+fval
 
 %% plot
+traj_x = reshape(x(1:dim*len),dim,len);
+traj_x0 = reshape(x_0(1:dim*len),dim,len);
+if(0)
 disp('Plotting...');
 dim = optParams.dim;
 P_feas = AuxParams.P_feas;
@@ -193,8 +198,7 @@ if(dim<=3)
     hold on;
     plot(P_final,'Color','green','Alpha',0.7);
     hold on;
-    traj_x = reshape(x(1:dim*len),dim,len);
-    traj_x0 = reshape(x_0(1:dim*len),dim,len);
+    
     hold on;
     
     for i = 1:len
@@ -209,4 +213,4 @@ if(dim<=3)
     grid on;
 end
 
-
+end

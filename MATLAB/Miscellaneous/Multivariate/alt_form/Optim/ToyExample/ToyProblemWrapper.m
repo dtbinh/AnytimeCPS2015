@@ -1,8 +1,8 @@
 % wrapper
-Nruns = 51;
+Nruns = 21;
 
 global rand_x0
-rand_x0 = 0;
+rand_x0 = 1;
 global display_on;
 display_on = 0;
 global robustness_max
@@ -14,9 +14,9 @@ taliro_SmoothRob = 0;
 
 disp(' ')
 disp('The specification:')
-%phi = '[]_[0,2.0]!a /\ <>_[0,2.0]b'
+phi = '[]_[0,5.0]!a /\ <>_[0,5.0]b'
 %phi = '[]_[0,2.0]!a' % /\ <>_[0,2.0]b'
-phi = '<>_[0,2.0]b'
+%phi = '<>_[0,3.9]b'
 preds(1).str = 'a';
 disp('Type "help monitor" to see the syntax of MTL formulas')
 P_pred_a = Polyhedron('lb',[-1 -1],'ub',[1 1]); %The polyhedron for predicate a
@@ -26,8 +26,8 @@ preds(1).b = P_pred_a.b;
 preds(2).str = 'b';
 disp('Type "help monitor" to see the syntax of MTL formulas')
 P_pred_b = Polyhedron('lb',[2 2],'ub',[2.5 2.5]);
-preds(2).A = P_pred_a.A;
-preds(2).b = P_pred_a.b;
+preds(2).A = P_pred_b.A;
+preds(2).b = P_pred_b.b;
 
 %% SR-SQP sat mode
 if(1)
@@ -54,8 +54,8 @@ end
 
 %% SR-SQP max mode
 if(1)
-robustness_max = 0;
-
+robustness_max = 1;
+display_on = 0;
 time_per_shot_SRSQP = zeros(Nruns-1,1);
 robustness_one_shot_SRSQP = zeros(Nruns-1,1);
 for ii = 1:Nruns
@@ -66,6 +66,7 @@ for ii = 1:Nruns
     if(ii>1)
         time_per_shot_SRSQP(ii-1) = time_taken;
         robustness_one_shot_SRSQP(ii-1) = -fval;
+        robustness_one_shot_SRSQP_actual(ii-1) = dp_taliro(phi,preds,traj_x',[0:.1:(len-1)/10]',[],[],[])
     end
 end
 disp('Satisfaction rate')
@@ -73,7 +74,7 @@ sum(robustness_one_shot_SRSQP>=0)/numel(robustness_one_shot_SRSQP)
 disp('Mean, max and std. exec time for SQSQP')
 [mean(time_per_shot_SRSQP) max(time_per_shot_SRSQP) std(time_per_shot_SRSQP)]
 end
-
+save('Data/MaxModeTimes_50.mat','time_per_shot_SRSQP','robustness_one_shot_SRSQP','robustness_one_shot_SRSQP_actual','ii');
 %% BluSTL
 if(1)
 time_per_shot_BS = zeros(Nruns-1,1);
@@ -100,7 +101,7 @@ disp('Mean, max and std. exec time for BluSTL')
 end
 %% save data
 if(0)
-save('Data/RobModeTimes_alwaysNot_20.mat','time_per_shot_SRSQP','time_per_shot_BS','ii');
+save('Data/RobMode_20.mat','time_per_shot_SRSQP','time_per_shot_BS','ii');
 end
 %% SR-SQP Max Mode
 if(0)

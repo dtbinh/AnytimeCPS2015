@@ -80,7 +80,7 @@ optParams.robConstr = 0;
 %% init state
 
 if(~exist('rand_x0','var'))
-fixed_x0 = 0;
+fixed_x0 = 1;
 else
    fixed_x0 = ~rand_x0; 
 end
@@ -185,7 +185,7 @@ if(exist('robustness_max','var'))
     end
     
     else
-    objLim = -eps;
+    objLim = -10;
 end
 
 %%

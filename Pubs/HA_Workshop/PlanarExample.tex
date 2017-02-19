@@ -11,40 +11,42 @@ Where $x_k,u_k \in \mathbb{R}^2$ and $ u_k \in [-0.52,0.52]^2 \forall k$. The sa
 
 The evaluation purposes, we vary the formula time-horizon $T$ from $2$ to $5$ seconds, resulting in control horizons of $20$ to $50$ steps at $10$Hz. For comparison to BluSTL, we run BluSTL in \textit{boolean}, i.e. satisfaction of $\formula$ mode and, \textit{robust} mode which attempts to maximize robustness with its corresponding MILP formulation. For both modes of BluSTL, the control cost (norm of $u$) is set to zero.
 
-\begin{table}[htb]
+\begin{table*}[tb]
 \small
 \begin{center}
 \caption{{\small Timing for satisfaction of $\formula$ for SR-SQP and BlueSTL over 100 runs with random initial states.}}
 \vspace{-10pt}
-\label{tbl:opt_performance}
+\label{tbl:sat_performance_toy}
 \begin{tabular} {|c|c|c|c|c|}
 	\hline
-	\textbf{T} & Mean exec. time BS (s) & Std. exec. time BS (s) &  Mean Exec. time SR-SQP (s) & Std. exec. time SR-SQP (s)\\ \hline
-	2 & 0.9592 & 0.8229 & \textbf{0.3140} & 0.1346 \\ \hline
-	3 & 1.3696 & 1.7165 & \textbf{0.3297} & 0.2558\\ \hline
-	4 & 3.8643 & 5.0953  & \textbf{0.6077} & 0.2958\\ \hline
-	5 & 4.3606 & 12.9720  & \textbf{0.7394} & 0.2982\\ \hline
+	\textbf{T} & Mean exec. time BS (s) & 95 percentile time BS (s) &  Mean Exec. time SR-SQP (s) & 95 percentile time SR-SQP (s)\\ \hline
+	2 & 0.9592/0.8229 & 0.3213 & \textbf{0.3140}/0.1346 & 0.1211\\ \hline
+	3 & 1.3696/1.7165 & 0.5648 & \textbf{0.3297}/0.2558 & 0.1345 \\ \hline
+	4 & 3.8643/5.0953 & 0.8262  & \textbf{0.6077}/0.2958 & 0.3074 \\ \hline
+	5 & 4.3606/12.9720 & 1.9285  & \textbf{0.7394}/0.2982 & 0.3454 \\ \hline
 \end{tabular}	
 \end{center}
 \vspace{-20pt}
-\end{table}
+\end{table*}
 
-When in satisfaction mode, BluSTL results in trajectories with zero ($-10^{-11}$) robustness (as seen in), while our method (which stops optimizing on getting a robustness greater than $\epsilon$) results in trajectories with an average robustness of $0.10$. 
+When in satisfaction mode, BluSTL results in trajectories with zero ($-10^{-11}$) robustness (as seen in), while our method (which stops optimizing on getting a robustness greater than $\epsilon$) results in trajectories with an average robustness of $0.10$. Execution times show the speed and scalability of our method. All experiments were run on a machine with a quad-core Intel I5 3.2GHz processor with 24GB RAM, running MATLAB 2016b. 
 
-\begin{table}[htb]
+\begin{table*}[tb]
 \small
 \begin{center}
 \caption{{\small Timing for robustness maximization of $\formula$ for SR-SQP and BlueSTL over 100 runs with random initial states.}}
 \vspace{-10pt}
-\label{tbl:opt_performance}
-\begin{tabular} {|c|c|c|c|c|}
+\label{tbl:opt_performance_toy}
+\begin{tabular} {|c|c|c|c|c|c|}
 	\hline
-	\textbf{T} & Mean exec. time BS (s) & Std. exec. time BS (s) &  Mean Exec. time SR-SQP (s) & Std. exec. time SR-SQP (s)\\ \hline
-	2 & NA & NA & \textbf{0.3140} & 0.1346 \\ \hline
-	3 & NA & NA & \textbf{0.3297} & 0.2558\\ \hline
-	4 & NA & NA  & \textbf{0.6077} & 0.2958\\ \hline
-	5 & NA & NA  & \textbf{0.7394} & 0.2982\\ \hline
+	\textbf{T} & Mean/std exec. time BS (s) & 95 percentile time (s) &  Mean/std Exec. time SR-SQP (s) & 95 percentile exec time (s) & mean/std robustness\\ \hline
+	2 & NA/NA & NA & \textbf{3.3032}/1.2511 & 1.8249 & 0.2475/0.0015\\ \hline
+	3 & NA/NA & NA & \textbf{5.8532}/2.7442 & 2.6201 & 0.2477/0.0050\\ \hline
+	4 & NA/NA & NA  & \textbf{12.3641}/6.0452 & 5.7611 & 0.2477/0.0043\\ \hline
+	5 & NA/NA & NA  & \textbf{30.0574}/18.23 & 13.1530 & 0.2476/0.0038\\ \hline
 \end{tabular}	
 \end{center}
 \vspace{-20pt}
-\end{table}
+\end{table*}
+
+When it comes to maximizing robustness, BluSTL could not finish within 100 hours on both the machine used for running experiments as well as on a machine with 8 core Intel Xeon machine with 60GB RAM. The execution times and robustness values for the different formula horizon lengths are shown in table \ref{tbl:opt_performance_toy}. Note, for the specification $\formula$, the maximum robustness that can be achieved is upper bounded by $0.25$, which is the resulting robustness if the trajectory reaches point $[2.25,2.25]$ in the middle of the the set $[2.0,2.5]^2$ within the time horizon of the spec.

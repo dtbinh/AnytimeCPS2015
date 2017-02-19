@@ -1,0 +1,50 @@
+\subsection{BuildingExample}
+
+This is done by testing it on the Heating, Ventilation and Air Conditioning (HVAC) control of a 4-state model of a single zone in a building. Such a model is commonly used in literature for evaluation of predictive control algorithms \cite{Jain2016}. The control problem we solve is similar to the example used in \cite{Raman14_MPCSTL}, where the objective is to bring the zone temperature to a comfortable range when the zone is occupied (given predictions on the building occupancy). The specification is:
+\begin{equation}
+\label{eq:BldgSpec}
+\Phi= \always_I(\text{ZoneTemp} \in \text{Comfort})
+\end{equation}
+Here, $I$ is the time interval where the zone is occupied, and $\text{Comfort}$ is the range of temperatures (in Celsius) deemed comfortable ($[22,28]$). For the control horizon, we consider a 24 hour period (24 steps at 1hr sampling), in which the building is occupied from time steps $10$ to $19$ (i.e. $I=[10,19]$), i.e. a 10-hour workday from 9am to 6pm. 
+
+\textbf{System dynamics.} The single-zone model, discretized at a sampling rate of 1 hour (which is common in building temperature control) is of the form:
+\begin{equation}
+\label{eq:bldg_dyn}
+x_{k+1} = Ax_{k}+Bu_k+B_dd_k
+\end{equation}
+Here, $A$, $B$ and $B_d$ matrices are from the hamlab ISE model \cite{VanSchijndel2005}. $x \in \mathbb{R}^4$ is the state of the model, the $4^{th}$ element of which is the zone temperature, the others are auxiliary temperatures corresponding to other physical properties of the zone (walls and facade). The input to the system, $u \in \mathbb{R}^1$, is the heating/cooling energy. $b_d \in \mathbb{R}^3$ are disturbances (due to occupancy, outside temperature, solar radiation). We assume these are known a priori, and without loss of generality, set them to zero.
+
+%i.e. robustness (smooth, when applicable) is only in the objective, to be maximized. This allows for a fair comparison between the three methods. 
+%With respect to the general control problem of \eqref{eq:general_ctrl}, the limits on the states are $X=[0,50]^4$ and on the inputs $U=[-1000,2000]$.
+
+\begin{table*}[tb]
+\small
+\begin{center}
+\caption{{\small Timing for $\Phi$ for SR-SQP and BlueSTL over 100 runs with random initial states.}}
+\vspace{-10pt}
+\label{tbl:bldg}
+\begin{tabular} {|c|c|c|c|}
+	\hline
+	 Mean/std/95pct. exec. time BS sat (s)  &  Mean/std/95pct. exec. time SR-SQP sat(s) & Mean/std/95pct. exec. time BS max (s) & Mean/std/95pct. exec. time SRSQP max 	 \\ \hline
+0.0413/0.0457/0.0377 & \textbf{0.0281/0.0272/0.0114} & 0.2530/0.0763/0.2092 & 2.8078/0.6641/2.1094\\ \hline	
+\end{tabular}	
+\end{center}
+\vspace{-20pt}
+\end{table*}
+
+Note, for the given comfort zone of $[22,28]$ celsius, the upper bound on robustness is $3$, which would be achieved by keeping the temperature constant at 25C from 9am to 6pm. Also note that despite the small run times of BluSTL in maximizing robustness, the resultant trajectories violate the specification (negative robustness) for each of the 100 runs. 
+
+\begin{table}[tb]
+\small
+\begin{center}
+\caption{{\small Robustness after robustness maximization for $\Phi$ for SR-SQP and BlueSTL over 100 runs with random initial states.}}
+\vspace{-10pt}
+\label{tbl:bldg_robustness}
+\begin{tabular} {|c|c|}
+	\hline
+	 mean/std $\rho$ BS & mean/std $\rho$ SRSQP \\ \hline
+ -2.8742/0.1982 & 2.9984/0.0028\\ \hline	
+\end{tabular}	
+\end{center}
+\vspace{-20pt}
+\end{table}
