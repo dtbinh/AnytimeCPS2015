@@ -20,7 +20,9 @@ This makes its optimization a challenge - indeed, most existing approaches treat
 This allows us to run powerful and rigorous off-the-shelf gradient descent optimizers.
 Here, we use the SQP optimizer, which offers convergence guarantees to the function's (local) minima under certain conditions, and has been optimized so it outperforms heuristics that don't have access to the objective's gradient information.
 
-We demonstrate that the resulting control algorithm performs better than current heuristics, and better than the approach presented in \cite{Raman14_MPCSTL} and subsequent papers on two example systems.
+%We demonstrate that the resulting control algorithm performs better than current heuristics, and better than the approach presented in \cite{Raman14_MPCSTL} and subsequent papers on two example systems.
+
+Initial results on two example systems suggest that the resulting control algorithm performs better than current heuristics, and better than the approach presented in \cite{Raman14_MPCSTL} and subsequent papers.
 The approach in \cite{Raman14_MPCSTL}, implemented in the tool BluSTL, formulates the robustness maximization problem as a Mixed Integer Linear Programming (MILP) (for linear systems) and uses a MILP solver to solve them.
 %The resulting MILP and used a Mixed Integer Linear Program (MILP) has $O(N\cdot|P|)$ binary variables (where $N$ is the number of samples in the trajectory over which we optimize and $|P|$ is the number of predicates, and $O(N\cdot |\formula|)$ continuous variables.
 MILPs are NP-hard, and the sophisticated heuristics used to mitigate this make it hard to characterize their runtimes, which is important in control - see examples in \cite{Raman14_MPCSTL}.

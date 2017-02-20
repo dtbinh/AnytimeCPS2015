@@ -15,7 +15,7 @@
 
 \begin{table}[t]
 	\begin{center}
-		\caption{{\small Runtimes for \eqref{eq:BldgSpec} for Smooth Operator (SOP) and BluSTL over 100 runs with random initial states, running in Sat and Robustness (Rob) modes. All times are presented as Mean / Std deviation / $95^{th}$ percentile (s)}}
+		\caption{{\small Runtimes for \eqref{eq:BldgSpec} for Smooth Operator (SOP) and BluSTL over 100 runs with random initial states, running in Sat and Robustness (Rob) modes. All times are presented as Mean / Std deviation / $95^{th}$ percentile (s)}.}
 		\vspace{-5pt}
 		\label{tbl:bldg}
 		\begin{tabular} {|c|c|}
@@ -53,11 +53,11 @@ We assume these are known a priori, and without loss of generality, set them to 
 
 %i.e. robustness (smooth, when applicable) is only in the objective, to be maximized. This allows for a fair comparison between the three methods. 
 %With respect to the general control problem of \eqref{eq:general_ctrl}, the limits on the states are $X=[0,50]^4$ and on the inputs $U=[-1000,2000]$.
+In satisfaction mode, BluSTL find trajectories that satisfy the specification (with $0$ robustness), as does Smooth Operator (with a mean robustness of $0.14$).
 
-Note, for the given comfort zone of $[22,28]$ celsius, the upper bound on robustness is $3$, which would be achieved by keeping the temperature constant at 25C from 9am to 6pm. 
+In robustness maximization mode, BluSTL fails to find satisfying trajectories (negative robustness) for each of the 100 runs, specifically the mean robustness was -2.8742 ($\sigma = 0.1982$) whereas the Smooth Operator results had a mean robustness of 2.9984 ($\sigma = 0.0028$). Note, for the given comfort zone of $[22,28]$ celsius, the upper bound on robustness is $3$, which would be achieved by keeping the temperature constant at 25C from 9am to 6pm. Also, the reason why BluSTL finds negative robustness trajectories in this case might be because MILP solvers in general result in local minima (as does SQP).
 
-BluSTL fails to find satisfying trajectories (negative robustness) for each of the 100 runs, specifically the mean robustness was -2.8742 ($\sigma = 0.1982$) whereas the Smooth Operator results had a mean robustness of 2.9984 ($\sigma = 0.0028$).
-The runtimes are presented in Table~\ref{tbl:bldg}.
+The runtimes are presented in Table~\ref{tbl:bldg}. Ongoing work focuses on evaluation over other systems as well as detailed comparison to other heuristics (e.g. Simulated Annealing). % speeding up Smooth Operator by reformulating the optimization problem in a more efficient manner.
 %\begin{table}[t]
 %\small
 %\begin{center}
