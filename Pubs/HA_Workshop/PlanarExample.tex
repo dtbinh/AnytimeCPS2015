@@ -3,7 +3,7 @@ This discrete-time 2D system has equations
 \begin{equation}
 x_{k+1} = x_k + u_k, \, x_k, u_k \in \Re^2
 \end{equation}
-The input $ u_k$ is constrained to be in $[-0.52,0.52]^2 \forall k$. 
+The input $ u_k$ is constrained to be in $[-0.52,0.52]^2$. 
 The sampling rate is $10$Hz.
 The specification to be satisfied is
 \begin{equation}
@@ -12,8 +12,8 @@ The specification to be satisfied is
 \end{equation}
 
 For evaluation purposes, we vary the formula time horizon $T$ from $2$ to $5$ seconds, resulting in control horizons of $20$ to $50$ time steps at $10$Hz. 
-We first run BluSTL in satisfaction mode, with the control cost (norm of $u$) to 0.
-To emulate a satisfaction mode in Smooth Operator we simply stop the optimization iterations when the robustness exceeds the approximation error $\varepsilon$.
+We first run BluSTL in satisfaction mode, with the control cost (norm of $u$) set to 0.
+To emulate a satisfaction mode in Smooth Operator we simply stop the optimization when the robustness exceeds the approximation error $\varepsilon$.
 The results are shown in Table~\ref{tbl:sat_performance_toy}.
 
 \begin{table*}[tb]
@@ -52,10 +52,10 @@ The results are shown in Table~\ref{tbl:sat_performance_toy}.
 \end{table*}
 
 
-When in satisfaction mode, BluSTL results in trajectories with zero ($-10^{-11}$) robustness, while Smooth Operator results in trajectories with an average (true, non-approximate) robustness of $0.10$. 
+When in satisfaction mode, BluSTL produces trajectories with zero ($-10^{-11}$) robustness, while Smooth Operator produces trajectories with an average (true, non-approximate) robustness of $0.10$. 
 Execution times show the speed and scalability of our method. 
 
 We also ran BluSTL in robustness maximization mode. 
 BluSTL could not finish within 100 hours.
 To be certain, we also ran it on a machine with 8 core Intel Xeon machine with 60GB RAM, with the same result. 
-The execution times and robustness values for the different formula horizon lengths are shown in Table \ref{tbl:opt_performance_toy}. Note that for the specification $\formula$ in Eq.~\eqref{eq:phi toy}, the maximum achievable robustness is $0.25$, which is the robustness of a trajectory that reaches point $[2.25,2.25]$ in the middle of the goal set $[2.0,2.5]^2$ within the time horizon of the spec.
+The execution times and robustness values for the different formula horizon lengths are shown in Table \ref{tbl:opt_performance_toy}. Note that for the specification $\formula$ in Eq.~\eqref{eq:phi toy}, the maximum achievable robustness is $0.25$, which is the robustness of a trajectory that reaches point $[2.25,2.25]$ in the middle of the goal set $[2.0,2.5]^2$.

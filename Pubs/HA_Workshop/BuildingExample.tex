@@ -34,12 +34,12 @@
 Our second example is a Heating, Ventilation and Air Conditioning (HVAC) control of a 4-state model of a single zone in a building. 
 Such a model is commonly used in literature for evaluation of predictive control algorithms \cite{Jain2016}. 
 The control problem we solve is similar to the example used in \cite{Raman14_MPCSTL}, where the objective is to bring the zone temperature to a comfortable range when the zone is occupied (given predictions on the building occupancy). 
-The specification is:
+The spec is:
 \begin{equation}
 \label{eq:BldgSpec}
 \Phi= \always_I(\text{ZoneTemp} \in \text{Comfort})
 \end{equation}
-Here, $I$ is the time interval where the zone is occupied, and $\text{Comfort}$ is the range of temperatures (in Celsius) deemed comfortable ($[22,28]$). For the control horizon, we consider a 24 hour period (24 steps at 1hr sampling), in which the building is occupied from time steps $10$ to $19$ (i.e. $I=[10,19]$), i.e. a 10-hour workday from 9am to 6pm. 
+Here, $I$ is the time interval where the zone is occupied, and $\text{Comfort}$ is the range of temperatures deemed comfortable, namely $[22,28]$. For the control horizon, we consider a 24 hour period (24 steps at 1hr sampling), in which the building is occupied from time steps $10$ to $19$ (i.e. $I=[10,19]$), i.e. a 10-hour workday from 9am to 6pm. 
 
 \textbf{System dynamics.} The single-zone model, discretized at a sampling rate of 1 hour (which is common in building temperature control) is of the form:
 \begin{equation}
@@ -55,7 +55,9 @@ We assume these are known a priori, and without loss of generality, set them to 
 %With respect to the general control problem of \eqref{eq:general_ctrl}, the limits on the states are $X=[0,50]^4$ and on the inputs $U=[-1000,2000]$.
 In satisfaction mode, BluSTL find trajectories that satisfy the specification (with $0$ robustness), as does Smooth Operator (with a mean robustness of $0.14$).
 
-In robustness maximization mode, BluSTL fails to find satisfying trajectories (negative robustness) for each of the 100 runs, specifically the mean robustness was -2.8742 ($\sigma = 0.1982$) whereas the Smooth Operator results had a mean robustness of 2.9984 ($\sigma = 0.0028$). Note, for the given comfort zone of $[22,28]$ celsius, the upper bound on robustness is $3$, which would be achieved by keeping the temperature constant at 25C from 9am to 6pm. Also, the reason why BluSTL finds negative robustness trajectories in this case might be because MILP solvers in general result in local minima (as does SQP).
+In robustness maximization mode, BluSTL fails to find satisfying trajectories (negative robustness) for each of the 100 runs.
+Specifically the mean robustness was -2.8742 ($\sigma = 0.1982$) whereas Smooth Operator results had a mean robustness of 2.9984 ($\sigma = 0.0028$). 
+Note, for the given comfort zone of $[22,28]$ celsius, the upper bound on robustness is $3$, which would be achieved by keeping the temperature constant at 25C from 9am to 6pm. Also, the reason why BluSTL finds negative robustness trajectories in this case might be because MILP solvers in general result in local minima (as does SQP).
 
 The runtimes are presented in Table~\ref{tbl:bldg}. Ongoing work focuses on evaluation over other systems as well as detailed comparison to other heuristics (e.g. Simulated Annealing). % speeding up Smooth Operator by reformulating the optimization problem in a more efficient manner.
 %\begin{table}[t]
