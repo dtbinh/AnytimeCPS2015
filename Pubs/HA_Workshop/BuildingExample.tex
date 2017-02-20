@@ -1,6 +1,40 @@
-\subsection{BuildingExample}
+\section{BuildingExample}
+\label{sec:building}
+%\begin{table}[t]
+%	\begin{center}
+%		\caption{{\small Runtimes for \eqref{eq:BldgSpec} for Smooth Operator (SOP) and BluSTL over 100 runs with random initial states. All times are presented as Mean / Std deviation / $95^{th}$ percentile (s)}}
+%		\vspace{-5pt}
+%		\label{tbl:bldg}
+%		\begin{tabular} {|c|c|c|c|}
+%			\hline
+%			BluSTL in Sat mode &   SOP in Sat mode & BluSTL in Robustness mode & SOP in Robustness mode	 \\ \hline
+%			0.0413/0.0457/0.0377 & \textbf{0.0281/0.0272/0.0114} & 0.2530/0.0763/0.2092 & 2.8078/0.6641/2.1094\\ \hline	
+%		\end{tabular}	
+%	\end{center}
+%\end{table}
 
-This is done by testing it on the Heating, Ventilation and Air Conditioning (HVAC) control of a 4-state model of a single zone in a building. Such a model is commonly used in literature for evaluation of predictive control algorithms \cite{Jain2016}. The control problem we solve is similar to the example used in \cite{Raman14_MPCSTL}, where the objective is to bring the zone temperature to a comfortable range when the zone is occupied (given predictions on the building occupancy). The specification is:
+\begin{table}[t]
+	\begin{center}
+		\caption{{\small Runtimes for \eqref{eq:BldgSpec} for Smooth Operator (SOP) and BluSTL over 100 runs with random initial states, running in Sat and Robustness (Rob) modes. All times are presented as Mean / Std deviation / $95^{th}$ percentile (s)}}
+		\vspace{-5pt}
+		\label{tbl:bldg}
+		\begin{tabular} {|c|c|}
+			\hline
+			\textbf{BluSTL (Sat mode)} &   \textbf{SOP (Sat mode)}
+			\\ \hline
+			0.0413/0.0457/0.0377 & 0.0281/0.0272/0.0114
+			\\ \hline
+			 \textbf{BluSTL (Rob. mode)} & \textbf{SOP (Rob. mode)}
+			\\ \hline
+			 0.2530/0.0763/0.2092 & 2.8078/0.6641/2.1094\\ \hline	
+		\end{tabular}	
+	\end{center}
+	\vspace{-10pt}
+\end{table}
+Our second example is a Heating, Ventilation and Air Conditioning (HVAC) control of a 4-state model of a single zone in a building. 
+Such a model is commonly used in literature for evaluation of predictive control algorithms \cite{Jain2016}. 
+The control problem we solve is similar to the example used in \cite{Raman14_MPCSTL}, where the objective is to bring the zone temperature to a comfortable range when the zone is occupied (given predictions on the building occupancy). 
+The specification is:
 \begin{equation}
 \label{eq:BldgSpec}
 \Phi= \always_I(\text{ZoneTemp} \in \text{Comfort})
@@ -12,39 +46,29 @@ Here, $I$ is the time interval where the zone is occupied, and $\text{Comfort}$ 
 \label{eq:bldg_dyn}
 x_{k+1} = Ax_{k}+Bu_k+B_dd_k
 \end{equation}
-Here, $A$, $B$ and $B_d$ matrices are from the hamlab ISE model \cite{VanSchijndel2005}. $x \in \mathbb{R}^4$ is the state of the model, the $4^{th}$ element of which is the zone temperature, the others are auxiliary temperatures corresponding to other physical properties of the zone (walls and facade). The input to the system, $u \in \mathbb{R}^1$, is the heating/cooling energy. $b_d \in \mathbb{R}^3$ are disturbances (due to occupancy, outside temperature, solar radiation). We assume these are known a priori, and without loss of generality, set them to zero.
+Here, $A$, $B$ and $B_d$ matrices are from the hamlab ISE model \cite{VanSchijndel2005}. $x \in \mathbb{R}^4$ is the state of the model, the $4^{th}$ element of which is the zone temperature, the others are auxiliary temperatures corresponding to other physical properties of the zone (walls and facade). 
+The input to the system, $u \in \mathbb{R}^1$, is the heating/cooling energy. 
+$b_d \in \mathbb{R}^3$ are disturbances (due to occupancy, outside temperature, solar radiation). 
+We assume these are known a priori, and without loss of generality, set them to zero.
 
 %i.e. robustness (smooth, when applicable) is only in the objective, to be maximized. This allows for a fair comparison between the three methods. 
 %With respect to the general control problem of \eqref{eq:general_ctrl}, the limits on the states are $X=[0,50]^4$ and on the inputs $U=[-1000,2000]$.
 
-\begin{table*}[tb]
-\small
-\begin{center}
-\caption{{\small Timing for $\Phi$ for SR-SQP and BlueSTL over 100 runs with random initial states.}}
-\vspace{-10pt}
-\label{tbl:bldg}
-\begin{tabular} {|c|c|c|c|}
-	\hline
-	 Mean/std/95pct. exec. time BS sat (s)  &  Mean/std/95pct. exec. time SR-SQP sat(s) & Mean/std/95pct. exec. time BS max (s) & Mean/std/95pct. exec. time SRSQP max 	 \\ \hline
-0.0413/0.0457/0.0377 & \textbf{0.0281/0.0272/0.0114} & 0.2530/0.0763/0.2092 & 2.8078/0.6641/2.1094\\ \hline	
-\end{tabular}	
-\end{center}
-\vspace{-20pt}
-\end{table*}
+Note, for the given comfort zone of $[22,28]$ celsius, the upper bound on robustness is $3$, which would be achieved by keeping the temperature constant at 25C from 9am to 6pm. 
 
-Note, for the given comfort zone of $[22,28]$ celsius, the upper bound on robustness is $3$, which would be achieved by keeping the temperature constant at 25C from 9am to 6pm. Also note that despite the small run times of BluSTL in maximizing robustness, the resultant trajectories violate the specification (negative robustness) for each of the 100 runs. 
-
-\begin{table}[tb]
-\small
-\begin{center}
-\caption{{\small Robustness after robustness maximization for $\Phi$ for SR-SQP and BlueSTL over 100 runs with random initial states.}}
-\vspace{-10pt}
-\label{tbl:bldg_robustness}
-\begin{tabular} {|c|c|}
-	\hline
-	 mean/std $\rho$ BS & mean/std $\rho$ SRSQP \\ \hline
- -2.8742/0.1982 & 2.9984/0.0028\\ \hline	
-\end{tabular}	
-\end{center}
-\vspace{-20pt}
-\end{table}
+BluSTL fails to find satisfying trajectories (negative robustness) for each of the 100 runs, specifically the mean robustness was -2.8742 ($\sigma = 0.1982$) whereas the Smooth Operator results had a mean robustness of 2.9984 ($\sigma = 0.0028$).
+The runtimes are presented in Table~\ref{tbl:bldg}.
+%\begin{table}[t]
+%\small
+%\begin{center}
+%\caption{{\small Robustness after robustness maximization for $\Phi$ for SR-SQP and BlueSTL over 100 runs with random initial states.}}
+%\vspace{-10pt}
+%\label{tbl:bldg_robustness}
+%\begin{tabular} {|c|c|}
+%	\hline
+%	 mean/std $\rho$ BS & mean/std $\rho$ SRSQP \\ \hline
+% -2.8742/0.1982 & 2.9984/0.0028\\ \hline	
+%\end{tabular}	
+%\end{center}
+%\vspace{-20pt}
+%\end{table}

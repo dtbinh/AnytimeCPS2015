@@ -1,0 +1,29 @@
+\section{Introduction}
+\label{sec:intro}
+The errors in Cyber Physical Systems (CPS) can affect both the cyber components (e.g., software bugs) and physical components (e.g., sensor failures and attacks) of a system.
+To deal with unforeseen problems, the system must be controlled at runtime such that it not only satisfies its design specifications, but it satisfies them robustly.
+This can give a margin of maneuvarability to the system during which it addresses the unforeseen problem.
+Since these problems are, by definition, unforeseen and unmodeled and only detected by their effect on the output, the notion of robustness must be computable using only the output behavior of the system.
+%
+The \textit{robustness of Metric Temporal Logic specifications} \cite{Fainekos2006_TLVerifSimu,Donze2010} is a rigorous notion that has been used successfully for the verification of automotive systems, medical devices, and general CPS.
+In details, MTL is a formal language for expressing complex reactive requirements with time constraints.
+Given a specification $\formula$ written in MTL and a system execution $\sstraj$, the robustness $\robf(\sstraj)$ of the spec relative to $\sstraj$ measures two things:
+its sign tells whether $\sstraj$ satisfies the spec ($\robf(\sstraj) > 0$) or falsifies it (i.e., violates it, $\robf(\sstraj) <0$).
+Its magnitude $|\robf(\sstraj)|$ measures how \textit{robustly} the spec is satisfied or falsified.
+Namely, any perturbation to $\sstraj$ of size less than $|\robf(\sstraj)|$ will not cause its truth value to change.
+Thus, the control algorithm can \textit{maximize} the robustness over all possible control actions to determine the next control input.
+Unfortunately, the robustness function $\robf$ is hard to work with.
+In particular, it is non-differentiable, so we have to resort to heuristics or costly non-smooth optimizers. 
+This makes its optimization a challenge - indeed, most existing approaches treat it as a black box and apply heuristics to its optimization.
+
+\textbf{In this work, we designed and implemented smooth (infinitely differentiable) approximations to the robustness function of arbitrary MTL formulae, which can be made arbitrarily close to the true robustness.}
+This allows us to run powerful and rigorous off-the-shelf gradient descent optimizers.
+Here, we use the SQP optimizer, which offers convergence guarantees to the function's (local) minima under certain conditions, and has been optimized so it outperforms heuristics that don't have access to the objective's gradient information.
+
+We demonstrate that the resulting control algorithm performs better than current heuristics, and better than the approach presented in \cite{Raman14_MPCSTL} and subsequent papers on two example systems.
+The approach in \cite{Raman14_MPCSTL}, implemented in the tool BluSTL, formulates the robustness maximization problem as a Mixed Integer Linear Programming (MILP) (for linear systems) and uses a MILP solver to solve them.
+%The resulting MILP and used a Mixed Integer Linear Program (MILP) has $O(N\cdot|P|)$ binary variables (where $N$ is the number of samples in the trajectory over which we optimize and $|P|$ is the number of predicates, and $O(N\cdot |\formula|)$ continuous variables.
+MILPs are NP-hard, and the sophisticated heuristics used to mitigate this make it hard to characterize their runtimes, which is important in control - see examples in \cite{Raman14_MPCSTL}.
+
+This abstract presents the results of the comparison to BluSTL, which represents the state-of-the-art.
+
