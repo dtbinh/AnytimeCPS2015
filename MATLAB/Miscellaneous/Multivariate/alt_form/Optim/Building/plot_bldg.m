@@ -46,7 +46,7 @@ grid on;
    hold on
    plot(optParams.I1,1*optParams.P1_comfort.b(2)*ones(numel(I1),1),'r-');
 %% 
-if(1) %for ws shit
+if(0) %for ws shit
     figure;
     z = SimBldg(u_opt_sat',optParams);
     plot([0:23],z(4,:),'linewidth',2);
