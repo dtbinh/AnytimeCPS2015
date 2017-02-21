@@ -200,7 +200,7 @@ end
 disp('Computing Control...');
 tic;
 options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-6,...
-    'UseParallel','always','MaxFunEval',1000000,'ObjectiveLimit',-10,'GradObj','off');
+    'UseParallel','always','MaxFunEval',1000000,'ObjectiveLimit',-eps,'GradObj','off');
 %options.TolFun = 10^(-10);
 %options.TolCon = 10;
 %[x,fval,flag] = ...
@@ -209,7 +209,7 @@ options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP'
 time_taken_mins = toc/60
 %% %%
 
-save('CaseData/Case_20_u_0.mat','u_opt','u_0','optParams','ExactParams');
+save('CaseData/Case_20_u_sat_maxz.mat','u_opt','u_0','optParams','ExactParams');
 
 
 %% plot

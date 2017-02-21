@@ -10,7 +10,7 @@ cvx_begin quiet
 variable z(Nx,N);
 variable u(Nu,N-1);
 
-minimise sum(z(4,:)) %-sum(z(6,:)) %sum (z(5,:))
+minimise -sum (z(6,:))%sum(z(4,:)) %-sum(z(6,:)) %sum (z(5,:))
 
 z(:,1) == x(1:Nx); %initial state
 optParams.U_feas.A*u(:,1) <= optParams.U_feas.b; %input 0

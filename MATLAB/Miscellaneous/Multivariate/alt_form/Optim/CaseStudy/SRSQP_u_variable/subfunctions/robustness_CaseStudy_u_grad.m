@@ -1,4 +1,4 @@
-function [r_P,r_P_der] = robustness_CaseStudy_u(X,optParams,grad_on)
+function [r_P,r_P_der] = robustness_CaseStudy_u_grad(X,optParams,grad_on)
 % robustness for CaseStudy
 %Phi = eventually(p_1 in Tset) AND eventually(p_2 in Tset) AND always( not(p_1 in
 % Z_1) OR (z_1 in Rule1)) AND always( not(p_2 in Z_1) OR (z_2 in Rule1)) AND
@@ -22,10 +22,17 @@ pos_1 = state_1(4:6,:);
 pos_2 = state_2(4:6,:);
 %%
 
-[r_phi(1),g1] = robustness_eventually_P(pos_1,optParams.wavparams.Terminal,grad_on);
-[r_phi(2),g2] = robustness_eventually_P(pos_2,optParams.wavparams.Terminal,grad_on);
-[r_phi(7),g7] = robustness_always_notP(pos_1,optParams.wavparams.NoFly,grad_on);
-[r_phi(8),g8] = robustness_always_notP(pos_2,optParams.wavparams.NoFly,grad_on);
+[r_phi(1),g1] = robustness_eventually_P_genable_parallel(pos_1,optParams.wavparams.Terminal,grad_on);
+g1=[zeros(3*optParams.len,1);g1;zeros(3*optParams.len,1);zeros(3*optParams.len,1)];
+
+[r_phi(2),g2] = robustness_eventually_P_genable_parallel(pos_2,optParams.wavparams.Terminal,grad_on);
+g2=[zeros(3*optParams.len,1);zeros(3*optParams.len,1);zeros(3*optParams.len,1);g2];
+
+[r_phi(7),g7] = alt_getRobustnessP_and_der_vector_genable_parallel(pos_1,optParams.wavparams.NoFly,grad_on);
+g7=[zeros(3*optParams.len,1);g7;zeros(3*optParams.len,1);zeros(3*optParams.len,1)];
+
+[r_phi(8),g8] = alt_getRobustnessP_and_der_vector_genable_parallel(pos_2,optParams.wavparams.NoFly,grad_on);
+g8=[zeros(3*optParams.len,1);zeros(3*optParams.len,1);zeros(3*optParams.len,1);g8];
 
 [r_phi(9),g9] = robustness_always_SafeDist([pos_1;pos_2],optParams.d_min,grad_on);
 
