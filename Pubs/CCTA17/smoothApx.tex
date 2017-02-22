@@ -1,0 +1,14 @@
+\section{Smooth approximation}
+\label{sec:smooth apx}
+\newcommand{\fe}{f_\varepsilon}
+
+In this section, we come up with an infinitely differentiable approximation for robustness and obtain bounds on the approximation error. We start by stating the problem we want to solve, and why the smooth approximation is helpful.
+\input{needSmoothing}
+\input{distMaxSmoothing}
+\input{maxSmoothing}
+\input{totalapx}
+
+%???Indeed, we may view boolean semantics, robust semantics, and smooth robust semantics as lying on one spectrum: 
+%in boolean semantics, we use discontinuous (hard) indicator functions for the atomic sets $A = \Oc(p)$: $d^\Be_A(x) = 0$ if $x \in A$, and equals 1 otherwise.
+%In robust semantics, this is replaced by a continuous indicator function: $d_A^C(x)$ equals the distance between point $x$ and the set $A$, and thus decreases continuously from positive values (outside the set) to 0 (inside it).
+%In the smooth robust semantics we introduce here, we use a smooth indicator function: $d_A^S(x)$ is a differentiable approximation to $d_A^C$, and thus decreases smoothly from positive values to 0.

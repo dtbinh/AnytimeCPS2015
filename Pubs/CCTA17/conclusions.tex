@@ -1,0 +1,15 @@
+\section{Conclusions}
+%\todo[inline]{use either formulas or formulae consistently}
+%\todo[inline]{use {\small } for figure and table captions}
+%\todo[inline]{thre's some funny spacing sometimes..}\todo[inline]{use commas in vectors, [2,2,-1] to distinguish the entries}
+%\todo[inline]{we present 3 diff control problems, one with and one without control cost. need to make this a bit smoother, right now it's something of a back and forth between the three. (i know, they're special cases of each other, but it reads bad)}
+We present a method to obtain smooth (infinity differentiable) approximations to the robustness of MTL formulae, with bounded and asymptotically decaying approximation error. 
+Empirically, we show that the approximation error is indeed small for a variety of commonly used MTL formulae. 
+Through several examples, we show how we leverage the smoothness property of the approximation for solving a control problem by maximizing the smooth robustness, using SQP, an off-the-shelf gradient descent optimization technique. A similar approach can also be used for falsification by minimizing the smooth robustness over a set of possible initial states for a closed loop system. We compare our technique (SR-SQP) to two other approaches for robustness maximization for control of two dynamical systems, with state and input constraints, and show how our approach consistently outperforms the other two and can be used for control of systems to satisfy MTL specifications.
+
+%\begin{figure}[t]
+%\centering
+%\includegraphics[width=0.49\textwidth]{figures/Habbas}
+%\caption{{\small Habbas, pictured here, is the author of this paper, half the papers cited in this paper, half the papers submitted to CPS Week and many others. He can be contacted at habbasATseas.upenn.edu}}
+%\label{fig:quad_ssqp}
+%\end{figure}

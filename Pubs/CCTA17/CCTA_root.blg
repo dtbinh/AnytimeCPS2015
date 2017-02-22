@@ -1,0 +1,51 @@
+This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: CCTA_root.aux
+The style file: plain.bst
+Database file #1: iccps2017.bib
+Database file #2: hscc17.bib
+Database file #3: hscc2016.bib
+Database file #4: fainekos_bibrefs.bib
+Warning--empty booktitle in Jain2016
+You've used 26 entries,
+            2118 wiz_defined-function locations,
+            670 strings with 9079 characters,
+and the built_in function-call counts, 9391 in all, are:
+= -- 869
+> -- 442
+< -- 9
++ -- 176
+- -- 148
+* -- 605
+:= -- 1490
+add.period$ -- 80
+call.type$ -- 26
+change.case$ -- 147
+chr.to.int$ -- 0
+cite$ -- 27
+duplicate$ -- 413
+empty$ -- 806
+format.name$ -- 148
+if$ -- 2049
+int.to.chr$ -- 0
+int.to.str$ -- 26
+missing$ -- 31
+newline$ -- 133
+num.names$ -- 52
+pop$ -- 217
+preamble$ -- 1
+purify$ -- 126
+quote$ -- 0
+skip$ -- 285
+stack$ -- 0
+substring$ -- 482
+swap$ -- 115
+text.length$ -- 9
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 94
+warning$ -- 1
+while$ -- 76
+width$ -- 28
+write$ -- 280
+(There was 1 warning)
