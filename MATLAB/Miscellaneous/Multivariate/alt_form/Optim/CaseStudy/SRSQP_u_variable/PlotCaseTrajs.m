@@ -1,6 +1,6 @@
-%load('Case_20_u_nofevlim.mat'); %z(5,:)
+load('Case_20_u_nofevlim.mat'); %z(5,:)
 %load('Case_20_u_zmax.mat'); %-z(6,:)
-load('Case_20_u_0.mat'); %-z(4,:)
+%load('Case_20_u_0.mat'); %-z(4,:)
 %% plot sets
 xmin = -7;
 xmax = 7;
@@ -61,4 +61,4 @@ grid on;
 %% get rob
 X = [state_1(:);u_opt(1:numel(u_opt)/2);state_2(:);u_opt(numel(u_opt)/2+1:end)];
 robustness_CaseStudy_exact(X,ExactParams)
--objfun_case_u_mex(u_opt,optParams)
+-objfun_case_u_mex(u_opt,optParams)-optParams.d_min
