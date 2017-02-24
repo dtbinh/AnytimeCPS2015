@@ -16,7 +16,7 @@ i=N;j=1;
 F = zeros(N);
 Je = F;
 J = J;
-epsi = 0.01;
+epsi = 0.1;
 for x1=-B:dx:B
     for x2=-B:dx:B
         xx = [x1;x2];
@@ -39,6 +39,7 @@ max(max(abs(F-Fe)))
 1;
 
     function dist = distFromSquare(xx, S)
+        inset = 0;
         if (xx(1) >= S(1) && xx(1) <= S(2)) % horizontally in square bounds
             if xx(2) <= S(4) && xx(2) >= S(3) % vertically in sq bounds
                 % use this for dist fnt
@@ -46,7 +47,8 @@ max(max(abs(F-Fe)))
                 % use this instead for signed distance
                 d1 = min([abs(xx(1)-S(1)), abs(xx(1)-S(2)),...
                     abs(xx(2)-S(2)), abs(xx(2)-S(4))]);
-                dist = -d1;
+                dist = d1;
+                inset = 1;
             else
                 dist = min(abs([xx(2)-S(3), xx(2) - S(4)]));
             end                            
@@ -54,6 +56,9 @@ max(max(abs(F-Fe)))
             dist = min(abs([xx(1)-S(1), xx(1) - S(2)]));           
         else
             dist = norm(abs(xx)-[1;1]);
+        end
+        if ~inset
+            dist = -dist;
         end
     end
     function y = h(x)
