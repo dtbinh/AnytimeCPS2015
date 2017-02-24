@@ -2,7 +2,8 @@
 % (always not Unsfafe) and (eventually Terminal)
 %% get params
 
-clc;close all;
+%clc;close all;
+close all;
 %clear all;close all;
 
 disp('Initializing problem');
@@ -62,7 +63,7 @@ end
 %% optimization data
 disp('Control problem data');
 dim = 2;
-len = 20;
+len = 200;
 dim_u = 2;
 optParams.dim = dim;
 optParams.len = len;
@@ -144,7 +145,7 @@ g1 = X_lims.b-X_lims.A*optParams.A_x0*optParams.x0;
 U_new = Polyhedron('A',H1,'b',g1);
 U_lims = Polyhedron('lb',LB_U,'ub',UB_U);
 U_intersect = intersect(U_new,U_lims);
-U_intersect.minHRep;
+%U_intersect.minHRep;
 
 %% start opt
 disp('Getting init trajectory');
@@ -203,7 +204,7 @@ clear options;
 disp('Robustness maximization')
 tic;
 options = optimset('Algorithm','sqp','Display','off','MaxIter',1000,'TolConSQP',1e-2,...
-    'ObjectiveLimit',objLim,'UseParallel','always','MaxFunEval',1000000,'GradObj','off'); %rep 'always' by true
+    'ObjectiveLimit',objLim,'UseParallel','always','MaxFunEval',1000000,'GradObj','on'); %rep 'always' by true
 %options.TolFun = 10^(-10);
 %options.TolCon = 10;
 %[x,fval,flag] = ...

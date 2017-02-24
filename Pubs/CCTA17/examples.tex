@@ -22,13 +22,13 @@ The trajectories were produced by a 2-or-3 dimensional system, \eqref{eq:PointMa
 %The state-space is $[-5,5]^n$ and the input set is $\inpSet = [-0.3,0.3]^n$. 
 
 Fig. \ref{fig:sample result} shows the Root Mean Square (RMSE) of the approximation, $\sqrt{(1/1000)\sum_{\sstraj}(\robf(\sstraj)-\srobf(\sstraj))^2}$
-, and variance bars around it.
+, and variance bars around it. As seen, the approximation error is small for all cases.
 As suggested by Remark \ref{rem:upper bound}, the approximation error generally increases with the horizon (for a constant number of wavelet coefficients).
 This is due to the smooth max and min functions, as seen in \eqref{eq:smooth max error}.
 
-Fig. \ref{fig:relative error} shows the relative approximation errors, $(\robf-\srobf)/|\robf|$, for the formulae under consideration. 
-It is seen that the average relative approximation error is less than $10\%$ for all cases. 
-For some data points in Fig. \ref{fig:relative error}, the variance of relative error is high, but the error remains small in absolute terms as seen in Fig.~\ref{fig:sample result}.
+%Fig. \ref{fig:relative error} shows the relative approximation errors, $(\robf-\srobf)/|\robf|$, for the formulae under consideration. 
+%It is seen that the average relative approximation error is less than $10\%$ for all cases. 
+%For some data points in Fig. \ref{fig:relative error}, the variance of relative error is high, but the error remains small in absolute terms as seen in Fig.~\ref{fig:sample result}.
 
 %In general, the high relative approximation errors are due to trajectories which have a true robustness of near zero; 
 %these lead to a spike in the relative approximation error, $(\robf-\srobf)/|\robf|$, even for small values of the absolute error $|\robf-\srobf|$.
@@ -37,19 +37,19 @@ For some data points in Fig. \ref{fig:relative error}, the variance of relative 
 
 %\todo[inline]{not sure what the point is in this paragraph...previous figure gives (roughly) average error. this gives relative error. one does not cancel out the other. the relative error does vary a lot in some case, as evidenced here. one can only say that even though relative error can vary a lot inn some case, the absolute }
 
-Note that while the RMSE  increased with the system dimension ($4^{th}$ formula in Fig.~\ref{fig:sample result}), the relative error remained very small ($4^{th}$ formula in Fig.~\ref{fig:relative error}), i.e. the increase in error is explained by an increase in the robustness's value. 
+Note that while the RMSE  increased with the system dimension ($4^{th}$ formula in Fig.~\ref{fig:sample result}), it was observed that the relative error remained very small i.e. the increase in error is explained by an increase in the robustness's magnitude. 
 %As explained in the previous section, better approximation can be achieved by increasing the number of wavelet coefficients as dimension, and trajectory length, grow.
 %\todo[inline]{Is that true?}
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.49\textwidth]{figures/RobustnessErrorRel}
-\vspace{-30pt}
-\caption{{\small Mean and variance of relative approximation error against formula horizon, evaluated on 1000 randomly generated trajectories for the system in \eqref{eq:PointMass}. Unless noted, the states in the trajectory are in $\mathbb{R}^2$.}} 
+%\begin{figure}[t]
+%\centering
+%\includegraphics[width=0.49\textwidth]{figures/RobustnessErrorRel}
+%\vspace{-30pt}
+%\caption{{\small Mean and variance of relative approximation error against formula horizon, evaluated on 1000 randomly generated trajectories for the system in \eqref{eq:PointMass}. Unless noted, the states in the trajectory are in $\mathbb{R}^2$.}} 
 %\todo[inline]{smae changes as previous fig. All temporal operators must be bounded}}
-\label{fig:relative error}
-\vspace{-15pt}
-\end{figure}
+%\label{fig:relative error}
+%\vspace{-15pt}
+%\end{figure}
 
 %\vspace{-30pt}
 \subsection{Robustness maximization for control}
