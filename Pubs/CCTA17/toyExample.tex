@@ -66,7 +66,7 @@ We run 100 instances with the specification and dynamics of our illustrative exa
 \begin{table}[tb]
 \small
 \begin{center}
-\caption{{\small $95^{th}$ percentile runtimes (in seconds) for Smooth Operator (SOP) and BluSTL over 100 runs with random initial states and with different formula horizon lengths $N$. Here, (B) means \textit{boolean} mode and (R) means \textit{robust} mode of operation.}}
+\caption{{\small $95^{th}$ percentile runtimes (in seconds) for Smooth Operator (SR-SOP) and BluSTL (BS) over 100 runs with random initial states and with different formula horizon lengths $N$. Here, (B) means \textit{boolean} mode and (R) means \textit{robust} mode of operation.}}
 \vspace{-5pt}
 \label{tbl:time_performance_toy}
 \begin{tabular} {|c|c|c|c|c|}
@@ -82,7 +82,7 @@ We run 100 instances with the specification and dynamics of our illustrative exa
 
 \textbf{Analysis.}
 As seen in table \ref{tbl:time_performance_toy}, our SR-SQP performs faster than BluSTL. For BluSTL in \textit{robust} mode, BluSTL could not finish a single instance within 100 hours on both the machine used for running experiments as well as on a machine with 8 core Intel Xeon machine with 60GB RAM.
-When in \textit{boolean} mode, BluSTL results in trajectories with zero robustness (as seen in), while our method results in trajectories with an average robustness of 0.10. Both methods satisfy $\formula$ in all 100 instances. In \textit{robust} mode, across all experiments, SR-SQP results in an average $\rob_{\formula}=0.247$ with a standard deviation of less than $0.005$. It is to be noted, that an upper bound on the maximum achievable $\rob_{\formula}$ is $0.25$, which can be achieved by trajectory reaching (in number of time steps $\leq N$) the point $[2.25,2.25]$ in the middle of the Terminal set while always avoiding the Unsafe set by a distance greater than $0.25$. This shows that for this particular problem, our method reaches very close to achieving the global optima of $\rob_{\formula}$.
+When in \textit{boolean} mode, BluSTL results in trajectories with zero robustness (as seen in), while our method results in trajectories with an average robustness of 0.10. Both methods satisfy $\formula$ in all 100 instances. In \textit{robust} mode, across all experiments, SR-SQP results in an average $\rob_{\formula}=0.247$ with a standard deviation of less than $0.005$. It is to be noted, that an upper bound on the maximum achievable $\rob_{\formula}$ is $0.25$, which can be achieved by trajectory reaching (in number of time steps $\leq N$) the point $[2.25,2.25]$ in the middle of the Terminal set while always avoiding the Unsafe set by a distance greater than $0.25$. This shows that for this problem, our method reaches very close to achieving the global optima of $\rob_{\formula}$.
 
 \begin{figure}[t]
 \centering

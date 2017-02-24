@@ -1,5 +1,5 @@
 % wrapper
-Nruns = 21;
+Nruns = 25;
 
 global rand_x0
 rand_x0 = 1;
@@ -14,7 +14,7 @@ taliro_SmoothRob = 0;
 
 disp(' ')
 disp('The specification:')
-phi = '[]_[0,5.0]!a /\ <>_[0,5.0]b'
+phi = '[]_[0,20.0]!a /\ <>_[0,20.0]b'
 %phi = '[]_[0,2.0]!a' % /\ <>_[0,2.0]b'
 %phi = '<>_[0,3.9]b'
 preds(1).str = 'a';
@@ -36,6 +36,7 @@ robustness_max = 0;
 time_per_shot_SRSQP = zeros(Nruns-1,1);
 robustness_one_shot_SRSQP = zeros(Nruns-1,1);
 for ii = 1:Nruns
+    ii
     main_example2_toy_1shot_u_param;
     if(display_on)
     pause
