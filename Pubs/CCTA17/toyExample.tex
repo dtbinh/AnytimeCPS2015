@@ -60,7 +60,7 @@ Fig.~\ref{fig:toy control} shows the sets, initial trajectory (which is unsafe a
 \textbf{Comparison to BluSTL.}
 We also compare the timing and robustness maximization performance for our method with BluSTL \cite{}. BluSTL has two modes of operation, \textit{boolean}: which aims at satisfying the specification (we set control cost to zero), and \textit{robust}: which uses a MILP encoding of robustness and attempts to maximize it (again we set control cost to zero). For a fair comparison of our method to BluSTL, we emulate the \textit{boolean} mode of BluSTL by terminating the optimization at the iteration of SQP where $\srob \geq \epsilon_{\text{Meyer}}$. The \textit{robust} operation is obtained by solving $P_{\srob}$ until SQP terminates (on a local minima, possibly global). Similar to the optimization cost of BluSTL, we set $\gamma=0$ in $P_{\srob}$ for both modes, i.e. no control cost. All methods are run in a one-shot manner, that is a single optimization is solved at time step $0$ to get a trajectory with a length of $N$ time steps, where $hrz(\formula) = N$.
 
-We run 100 instances with the specification and dynamics of our illustrative example, with a random initial state $x_0 \in [-2.5,-1.5] \times [-2.5,2.5]$ for each instance. We also vary the formula horizon (and hence optimization length of the trajectory being optimized over) $N$ from $20$ to $50$ time-steps in increments of 10. Table \ref{tbl:time_performance_toy} shows the $95^{th}$ percentile execution times for each method and the two modes of operation. All experiments were run on a machine with a quad-core Intel I5 3.2GHz processor with 24GB RAM, running MATLAB 2016b.
+We run 100 instances with the specification and dynamics of our illustrative example, with a random initial state $x_0 \in [-2.5,-1.5] \times [-2.5,2.5]$ for each instance. We also vary the formula horizon (and hence optimization length of the trajectory being optimized over) $N$ from $20$ to $200$ time-steps. Table \ref{tbl:time_performance_toy} shows the $95^{th}$ percentile execution times for each method and the two modes of operation. All experiments were run on a machine with a quad-core Intel I5 3.2GHz processor with 24GB RAM, running MATLAB 2016b.
 
 
 \begin{table}[tb]
@@ -72,10 +72,12 @@ We run 100 instances with the specification and dynamics of our illustrative exa
 \begin{tabular} {|c|c|c|c|c|}
 	\hline
 	N & BS(B) & SR-SQP(B) & BS(R) & SR-SQP(R) \\ \hline
-	20 & 0.3213 &  \textbf{0.1211} & NA & 1.8249 \\ \hline
-	30 & 0.5648 &  \textbf{0.1345} & NA & 2.6201\\ \hline
-	40 & 0.8262 &  \textbf{0.3074} & NA & 5.7611\\ \hline
-	50 & 1.9285  & \textbf{0.7394} & NA & 30.0574\\ \hline
+	20 & 2.8316 &  \textbf{0.6524} & NA & 5.6199 \\ \hline
+	30 & 6.6763 &  \textbf{0.7978} & NA & 8.6163\\ \hline
+	40 & 10.4009 &  \textbf{1.0639} & NA & 16.9843\\ \hline
+	50 & 15.3513  & \textbf{1.1222} & NA & 45.0135\\ \hline
+	100 & 74.5513  & \textbf{1.6284} & NA & 87.6524 \\ \hline
+	200 & 201.4036  & \textbf{3.5977} & NA & 176.3510\\ \hline
 \end{tabular}	
 \end{center}
 \end{table}
