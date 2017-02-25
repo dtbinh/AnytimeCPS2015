@@ -167,7 +167,7 @@ disp('Optimizing...')
 global ct;
 ct = 0;
 tic;
-options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-6,'ObjectiveLimit',-0.2760,...
+options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-6,'ObjectiveLimit',-0.240,...
     'UseParallel','always','MaxFunEval',1000000,'GradObj','on'); %rep 'always' by true
 options.TolFun = 10^(-5);
 %options.TolCon = 10;

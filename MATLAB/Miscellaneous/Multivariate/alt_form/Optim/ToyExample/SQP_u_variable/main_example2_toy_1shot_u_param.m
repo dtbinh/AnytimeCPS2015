@@ -166,7 +166,7 @@ end
 
 %% random initialization
 rd_u0 = 0;
-if(0)
+if(1)
    u_0 = -0.25+(.5)*rand(optParams.dim_u*(optParams.len-1),1); %random u_0; 
    rd_u0 = 1;
    x_0 = [optParams.A_x0*optParams.x0 + optParams.B_U*u_0;u_0];
@@ -177,7 +177,7 @@ end
 
 %% gen code for objfun and confun
 
-if(1)
+if(0)
     disp('Code gen');
     CodeGeneratorForOptim;
 end
@@ -196,14 +196,14 @@ if(exist('robustness_max','var'))
     end
     
     else
-    objLim = -eps;
+    objLim = -0.24;
 end
 
 %%
 clear options;
 disp('Robustness maximization')
 tic;
-options = optimset('Algorithm','sqp','Display','off','MaxIter',1000,'TolConSQP',1e-2,...
+options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-2,...
     'ObjectiveLimit',objLim,'UseParallel','always','MaxFunEval',1000000,'GradObj','on'); %rep 'always' by true
 %options.TolFun = 10^(-10);
 %options.TolCon = 10;
@@ -221,6 +221,8 @@ if(exist('display_on','var'))
     else
         disp_plot=0;
     end
+else
+    disp_plot = 1;
 end
 
 if(disp_plot)
