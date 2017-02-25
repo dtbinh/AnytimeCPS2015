@@ -10,21 +10,15 @@ Since these problems are, by definition, unforeseen and unmodeled and only detec
 \input{atcExample}
 
 How do we ensure that the ATC system satisfies these complex rules \textit{robustly}?
-The \textit{robustness of Metric Temporal Logic specifications} \cite{Fainekos2006_TLVerifSimu,Donze2010} is a rigorous notion that has been used successfully for the verification of automotive systems \cite{Fainekos12_Automotive,Dreossi15_RRTFalsification}, medical devices \cite{SankaranarayananF2012cmsb}, and general CPS.
-In details, MTL is a formal language for expressing complex reactive requirements with time constraints, such as those of the ATC~\cite{Koymans90}.
-Given a specification $\formula$ written in Metric Temporal Logic (MTL) and a system execution $\sstraj$, the robustness $\robf(\sstraj)$ of the spec relative to $\sstraj$ measures two things:
-its sign tells whether $\sstraj$ satisfies the spec ($\robf(\sstraj) > 0$) or falsifies it (i.e., violates it, $\robf(\sstraj) <0$).
-Its magnitude $|\robf(\sstraj)|$ measures how \textit{robustly} the spec is satisfied or falsified.
-Namely, any perturbation to $\sstraj$ of size less than $|\robf(\sstraj)|$ will not cause its truth value to change.
-Thus, the control algorithm can \textit{maximize} the robustness over all possible control actions to determine the next control input.
+
+\input{morari}
+
 
 \input{atcMTL}
 
 Unfortunately, the robustness function $\robf$ is hard to work with.
-It is recursively defined (does not have a closed form), and so is hard to handle analytically.
-It is non-convex, so optimization cannot be guaranteed to yield global optima.
-It is non-differentiable, so we have to resort to heuristics or costly non-smooth optimizers. 
-Finally, it does not obey an optimality principle, so efficient Dynamic Programming algorithms cannot be used.
+In particular, it is non-convex, so optimization cannot be guaranteed to yield global optima.
+And it is non-differentiable, so we have to resort to heuristics or costly non-smooth optimizers. 
 This makes its optimization a challenge - indeed, most existing approaches treat it as a black box and apply heuristics to its optimization (see Related Work below).
 These heuristics provide little to no guarantees, have too many user-set parameters, and don't have rigorous termination criteria.
 On the other hand, \textit{gradient descent optimization} algorithms typically offer convergence guarantees to the function's (local) minima, have known convergence rates for certain function classes, and have been optimized so they outperform heuristics that don't have access to the objective's gradient information.
@@ -35,13 +29,13 @@ Moreover, gradient descent algorithms usually have a fewer number of parameters 
 \textbf{Contributions}. In this paper, we present smooth (infinitely differentiable) approximations to the robustness function of arbitrary MTL formulae.
 This allows us to run powerful and rigorous off-the-shelf gradient descent optimizers.
 We show that the smooth approximation is always within a user-defined error of the true robustness, and illustrate the result experimentally.
+
 %\yhl{We demonstrate that optimizing the smooth approximation yields near-minima of the original robustness}.
 %We demonstrate that the resulting control algorithms, which use gradient descent on the smoothed robustness, performs better than a heuristic like Simulated Annealing optimizing the original, non-differentiable robustness.
 Through multiple examples, we show that our method is faster and performs better than heuristics like Simulated Annealing optimizing the original, non-differentiable robustness and also the MILP based approach used in BluSTL. 
 We demonstrate the results on a control case study for an autonomous airport traffic controller problem for two quad-rotors with a specification where the MILP based approach BluSTL does not scale well enough to finding a solution that satisfies the specification, much less optimizing robustness. 
- Note, our method can also be applied to the falsification problem \cite{AbbasATVA11_LinFalsification} by minimizing robustness.
-
-%zutshi_trajectory_2013,
+ Note, our method can also be applied to the falsification problem \cite{AbbasATVA11_LinFalsification} by minimizing robustness. 
+While we do not tackle the non-convexity issue directly, having a cheap gradient optimizer makes it possible to run an efficient multi-start optimization, increasing the chances of approaching the global optimum.
 
 \textbf{Related work.}
 Current approaches to optimizing the robustness fall into four categories: 
@@ -65,5 +59,7 @@ There, the authors considered safety formulas, for which the robustness reduces 
 By sub-optimally focusing on one point on the trajectory $\sstraj$, they replaced the objective by a differentiable indicator function for $U$ and solved the resulting problem with gradient descent.
 
 By computing fast smooth approximations of robustness, we circumvent most of the above issues and get closer to real-time control by robustness maximization.
+
+
 
 
