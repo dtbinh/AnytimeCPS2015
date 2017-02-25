@@ -15,11 +15,31 @@ x_{k+1} = Ax_{k}+Bu_k+B_dd_k
 \end{equation}
 Here, $A$, $B$ and $B_d$ matrices are from the hamlab ISE model \cite{VanSchijndel2005}. $x \in \mathbb{R}^4$ is the state of the model, the $4^{th}$ element of which is the zone temperature, the others are auxiliary temperatures corresponding to other physical properties of the zone (walls and facade). The input to the system, $u \in \mathbb{R}^1$, is the heating/cooling energy. $b_d \in \mathbb{R}^3$ are disturbances (due to occupancy, outside temperature, solar radiation). We assume these are known a priori.
 %perfect predictions of. Data for the disturbances is obtained for $1^{st}$ April 2000, which is our 24 hours of interest, from \cite{VanSchijndel2005}. 
-The control problem we solve is of the form in \eqref{eq:general_ctrl}, with $\gamma$ and $\delta$ both set to zero, and $X=[0,50]^4$, $U=[-1000,2000]$.
+The control problem we solve is of the form in \eqref{eq:general_ctrl}, with $\gamma$ and $\delta$ both set to zero (correspondingly, not cost for control in BluSTL), and $X=[0,50]^4$, $U=[-1000,2000]$.
 %i.e. robustness (smooth, when applicable) is only in the objective, to be maximized. This allows for a fair comparison between the three methods. 
 %With respect to the general control problem of \eqref{eq:general_ctrl}, the limits on the states are $X=[0,50]^4$ and on the inputs $U=[-1000,2000]$.
 
-\textbf{Results.} To initialize the optimization for all three methods, we generate an initial trajectory for the system \eqref{eq:bldg_dyn}, starting from $x_0=[21,21,21,21]'$, which does not satisfy $\formula$. The final trajectories after optimization from the three methods are shown in Fig.\ref{fig:ZoneTemp}. Our method (SR-SQP) and SA both result in trajectories that satisfy $\formula$, with a robustness of $2.9994$ and $2.8862$ respectively. On the other hand, R-SQP results in a trajectory that does not satisfy $\formula$ ($\rob_{\formula} = -0.1492$), and terminates on a local maxima. %This is possibly due to the lack of existence of a gradient along certain directions, as seen in example \ref{ex:cluster nondiff}.
+\begin{table}[tb]
+\small
+\begin{center}
+\caption{{\small Runtimes (mean and standard, in seconds) for Smooth Operator (SR-SQP) and BluSTL (BS) over 100 runs with random initial states. Here, (B) means \textit{boolean} mode and (R) means \textit{robust} mode of operation. $^*$Note, BS (R) is faster than SR-SQP (R) but never in the 100 runs found a trajectory with positive robustness.}}
+\vspace{-5pt}
+\label{tbl:time_performance_bldg}
+\begin{tabular} {|c|c|c|c|}
+	\hline
+	BS(B) & SR-SQP(B) & BS(R) & SR-SQP(R) \\ \hline
+	 $0.041 \pm 0.002$ &  $\mathbf{0.014 \pm 0.002}$  & $0.230^{*} \pm 0.009 $ & $2.532  \pm 0.26$ \\ \hline 
+\end{tabular}	
+\end{center}
+\end{table}
+
+
+
+\textbf{Results.} For comparison across all methods, we run 100 instances of the problem, starting from random initial states $x_0 \in [20,21]^4$. SA, R-SQP and SR-SQP are initialized with the same initial trajectories. The final trajectories after optimization from all methods are shown in Fig.\ref{fig:ZoneTemp} for a particular instance with $x_0 = [21,21,21,21]'$. To reduce clutter, we do not visualize trajectories from SA and R-SQP in \textit{boolean} mode. In \textit{boolean} mode, SR-SQP, BluSTL, and SA (terminated at $\rob>0$) all find satisfying trajectories across all 100 instances, while R-SQP does not find one for any run and always exits at a local minima. Execution times for SR-SQP and BluSTL are shown in table \ref{tbl:time_performance_bldg}. For SA in \textit{boolean} mode, the run-times have a mean and standard deviation of $3.7s$ and $2.3s$ respectively. R-SQP has run-times in the order of minutes. This is because of the lack of existence of an explicit gradient of $\rob$ and MATLAB's numerical approximation of the gradient slows down the optimization.
+
+
+In \textit{robust} mode, our method (SR-SQP) and SA both result in trajectories that satisfy $\formula$, with an average robustness of $2.9994$ and $2.8862$ respectively. On the other hand, R-SQP results in a trajectory that does not satisfy $\formula$ ($\rob_{\formula} = -0.1492$), and terminates on a local maxima. Perhaps surprisingly, BluSTL also does not manage to find a satisfying trajectory (average $\rho=-2.71$ for any of the 100 runs. One particular instance is shown in fig. \ref{fig:ZoneTemp}. This could be because the MILP encoding of robustness for this example results in the solver finding local minima which have negative robustness. In terms of run-times, shown in table \ref{tbl:time_performance_bldg}, SR-SQP takes $2.5s$ on average, which is slower than BluSTL, but always finds a trajectory which achieves near global optima of robustness. SA in \textit{robust} mode takes $8.56s$ on average, with a standard deviation of $0.31s$. R-SQP again takes minutes to return a non-satisfying trajectory across all 100 runs. 
+%This is possibly due to the lack of existence of a gradient along certain directions, as seen in example \ref{ex:cluster nondiff}.
 
 \textbf{Analysis.} In this particular problem, the maximum robustness achievable is $3$, which can be achieved by setting the room temperature at $25$C for the interval $I$. 
 With this insight, the problem of maximizing robustness can be solved with a quadratic program with linear constraints and the cost $\sum_{k \in I}({x_4}_k-25)^2$ to be minimized. This indeed results in a trajectory with the global optimal robustness of $3$, but this is a method tailored to the particular problem. 
@@ -33,7 +53,7 @@ SR-SQP, which is a general purpose technique, results in a robustness which is j
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.49\textwidth]{figures/ZoneTemp_scissored}
+\includegraphics[width=0.49\textwidth]{figures/ZoneTemp_all_scissored}
 \vspace{-20pt}
 \caption{\small{Zone temperatures. The green rectangle shows the comfortable temperature limit of 22-28 C, applicable during time steps 10-19 (when the building is occupied).}}
 \label{fig:ZoneTemp}

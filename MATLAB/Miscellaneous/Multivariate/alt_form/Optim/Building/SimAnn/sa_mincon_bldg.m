@@ -108,6 +108,9 @@ while (( (T > T_min) || (j <= max_rej)) && (totaleval<=maxeval))
       % Cooling according to a cooling schedule
         T = cooling(alpha,T);  
         disp(strcat('The best found so far =',num2str(fmin)));
+        if(fmin<eps)
+           break; 
+        end
     end
     
     % Function evaluations at new locations

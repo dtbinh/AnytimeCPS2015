@@ -1,4 +1,4 @@
-load('Case_20_u_nofevlim.mat'); %z(5,:)
+%load('Case_20_u_nofevlim.mat'); %z(5,:)
 %load('Case_20_u_zmax.mat'); %-z(6,:)
 %load('Case_20_u_0.mat'); %-z(4,:)
 %% plot sets
@@ -33,6 +33,12 @@ Nx = optParams.dim_x;
 Nu = optParams.dim_u;
 N = optParams.len;
 
+%1
+load('Case_20_u_nofevlim.mat'); %z(5,:)
+%load('Case_20_u_zmax.mat'); %-z(6,:)
+%load('Case_20_u_0.mat'); %-z(4,:)
+
+
 X = optParams.A_x0_nQuad*optParams.x0 + optParams.B_U_nQuad*u_opt; %get states
 state_1 = reshape(X(1:Nx*N),Nx,N);
 state_2 = reshape(X(Nx*N+1:end),Nx,N);
@@ -40,14 +46,61 @@ state_2 = reshape(X(Nx*N+1:end),Nx,N);
 pos_1 = state_1(4:6,:);
 pos_2 = state_2(4:6,:);
 
-for i = 1:size(pos_1,2)
-    hold on
-    plot3(pos_1(1,i),pos_1(2,i),pos_1(3,i),'g*');
-    hold on;
-    plot3(pos_2(1,i),pos_2(2,i),pos_2(3,i),'ko');
-    pause(0.1)
-end
+figure(1)
+hold all;
+plot3(pos_1(1,:),pos_1(2,:),pos_1(3,:),'--*b','linewidth',2,'MarkerSize',8)
+hold all;
+plot3(pos_2(1,:),pos_2(2,:),pos_2(3,:),'--og','linewidth',2,'MarkerSize',8)
 
+%2
+
+%load('Case_20_u_nofevlim.mat'); %z(5,:)
+load('Case_20_u_zmax.mat'); %-z(6,:)
+%load('Case_20_u_0.mat'); %-z(4,:)
+
+
+X = optParams.A_x0_nQuad*optParams.x0 + optParams.B_U_nQuad*u_opt; %get states
+state_1 = reshape(X(1:Nx*N),Nx,N);
+state_2 = reshape(X(Nx*N+1:end),Nx,N);
+
+pos_1 = state_1(4:6,:);
+pos_2 = state_2(4:6,:);
+
+
+figure(1)
+hold all;
+plot3(pos_1(1,:),pos_1(2,:),pos_1(3,:),'--*r','linewidth',2,'MarkerSize',8)
+hold all;
+plot3(pos_2(1,:),pos_2(2,:),pos_2(3,:),'--oc','linewidth',2,'MarkerSize',8)
+
+%3
+
+%load('Case_20_u_nofevlim.mat'); %z(5,:)
+%load('Case_20_u_zmax.mat'); %-z(6,:)
+load('Case_20_u_0.mat'); %-z(4,:)
+
+
+X = optParams.A_x0_nQuad*optParams.x0 + optParams.B_U_nQuad*u_opt; %get states
+state_1 = reshape(X(1:Nx*N),Nx,N);
+state_2 = reshape(X(Nx*N+1:end),Nx,N);
+
+pos_1 = state_1(4:6,:);
+pos_2 = state_2(4:6,:);
+
+
+figure(1)
+hold all;
+plot3(pos_1(1,:),pos_1(2,:),pos_1(3,:),'--*m','linewidth',2,'MarkerSize',8)
+hold all;
+plot3(pos_2(1,:),pos_2(2,:),pos_2(3,:),'--ok','linewidth',2,'MarkerSize',8)
+
+%
+set(gca,'Xtick',-5:5:5)
+set(gca,'Ytick',-5:5:5)
+set(gca,'Ztick',0:5:5)
+legend('Airspace','Zone1','Zone2','NoFly','Terminal','p_{1}^1','p_{2}^1','p_{1}^2','p_{2}^2','p_{1}^3','p_{2}^3')
+
+%%
 figure;
 hold on;
 for i = 1:size(pos_1,2)

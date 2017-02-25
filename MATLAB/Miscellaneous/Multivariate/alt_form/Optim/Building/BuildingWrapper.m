@@ -94,7 +94,47 @@ end
 if(1)
 save('BldgData/MaxModeTimes.mat','time_per_shot_SRSQP','time_per_shot_BS','ii','robustness_one_shot_BS','robustness_one_shot_SRSQP','robustness_one_shot_SRSQP_actual');
 end
-%% SR-SQP Max Mode
+
+%% SA
+for ii = 1:Nruns
+
+if(~exist('rand_x0','var'))
+fixed_x0 = 1;
+else
+   fixed_x0 = ~rand_x0; 
+end
+
+if(fixed_x0);
+x0 = 21*ones(4,1); %init state
+else %in [-2 -1.1]^2
+x0 = 20 + (22-20)*rand(dim,1);    
+end
+%x0 = [-1.5;0];
+optParams.gamma = 0;%10^(-2);
+optParams.x0 = x0;
+optParams.exact = 1;
+optParams.P_feas.A = P_feas.A;
+optParams.P_feas.b = P_feas.b;
+
+disp('Getting init trajectory');
+% init traj gen
+
+   x_feas = bldg_getFeasTraj(x0,optParams,disturbances);
+   u_0 = x_feas.u;
+    if(sum(isnan(u_0))>0)
+        'x_0 infeasible'
+        keyboard;
+    end
+close all;
+
+
+    %[bestsol,fmin,N,info]=sa_mincon_bldg(alpha,optParams,u_0)
+tic;[u_opt,fmin,~,~] = sa_mincon_bldg(0.8,optParams,u_0);
+time_sa_bldg(ii) = toc;
+ z = SimBldg(u_opt,optParams);
+         robustness_one_shot_SA_actual(ii) = -fmin;
+end
+%%
 if(0)
 %% plotting
 load('Data/TimingSat.mat');
