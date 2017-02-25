@@ -18,7 +18,7 @@ The max operator is written $\sqcup$ and min is written $\sqcap$.
 
 \subsection{Metric Temporal Logic}
 \label{sec:mtl}
-The controller of $\Sys$ is designed to make the closed loop system \eqref{eq:xt} satisfy a specification expressed in Metric Temporal Logic (MTL) \cite{Koymans90}.
+The controller of $\Sys$ is designed to make the closed loop system \eqref{eq:xt} satisfy a specification expressed in Metric Temporal Logic (MTL)~\cite{Ouaknine08_RecentResultsMTL}.
 MTL allows one to formally express complex reactive specifications, beyond stability, trajectory tracking and the like.
 See examples \eqref{eq:rule1mtl} and \eqref{eq:rule3mtl}.
 
@@ -30,7 +30,7 @@ Here, $\top$ is the Boolean True, $p$ is an atomic proposition, $\neg$ is Boolea
 Informally, $\formula_1 \until_I \formula_2$ means that $\formula_1$ must hold \textit{until} $\formula_2$ holds, and that the hand-over from $\formula_1$  to $\formula_2$ must happen sometime during the interval $I$.
 The implication ($\implies$), Always ($\always$) and Eventually ($\eventually$) operators can be derived using the above operators.
 
-Formally, the \textit{semantics} of an MTL formula define what it means for a system trajectory $\sstraj$ to satisfy the formula $\formula$.
+Formally, the \textit{pointwise semantics} of an MTL formula define what it means for a system trajectory $\sstraj$ to satisfy the formula $\formula$.
 Let $\Oc: AP \rightarrow \Pc(X)$ be an \textit{observation} map for the atomic propositions.
 The boolean truth value of a formula $\formula$ w.r.t. the trajectory $\sstraj$ at time $t$ is defined recursively.
 \begin{definition}[MTL semantics]
@@ -102,4 +102,4 @@ The robustness is a real-valued function of $\sstraj$ with the following importa
 
 Thus, we can compute control inputs by maximizing the robustness over the set of finite input sequences of a certain length.
 The obtained sequence $\inpSig^*$ is valid if $\robf(\sstraj,t)$ is positive, where $\sstraj$ and $\inpSig^*$ obey \eqref{eq:xt}.
-The larger the magnitude $|\robf(\sstraj,t)|$, the more robust is the behavior of the system: intuitively, $\sstraj$ can be disturbed and $\robf$ might decrease but not go negative.
+The larger $\robf(\sstraj,t)$, the more robust is the behavior of the system: intuitively, $\sstraj$ can be disturbed and $\robf$ might decrease but not go negative.

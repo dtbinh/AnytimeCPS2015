@@ -16,9 +16,6 @@ P_\rob:\, \max\, & \rob_{\formula}(\sstraj) - \gamma \sum_{k=0}^{N-1} l(x_{k+1},
 We want to use established, powerful gradient descent algorithms \cite{Polak97_Optim}, rather than heuristics like Simulated Annealing \cite{kirkpatrickV_SA83}. 
 In the above formulation, $l(x_{k+1},u_{k})$ is a system specific control cost, e.g. the LQR cost $x_k'Qx_k + u_k'Ru_k$. $\gamma \geq 0$ is weighting parameter, which is a design choice. $X$ and $U$ define constraints on the state $x$ and control $u$ respectively. $f$ represents the dynamical system, with $x$ as the state and $u$ as inputs. Finally, the last constraint enforces $\rob \geq 0$, i.e. the specification is satisfied. 
 $\delta$ here is a binary design choice, $1$ if the constraint is meant to be enforced, $0$ otherwise.
-We will need to assume that $f$ is twice Lipschitz continuously differentiable and that its gradient $f_u$ has maximum row rank.
-
-\ypcomment{HA, wanna tell them why?} %
 
 Gradient descent algorithms typically offer convergence guarantees to the function's minima and offer advantages which were reviewed in Sec. \ref{sec:intro}.
 %have known convergence rates for certain function classes, and have been optimized so they outperform heuristics that don't have access to the objective's gradient information.
@@ -26,7 +23,7 @@ Gradient descent algorithms typically offer convergence guarantees to the functi
 
 To apply gradient descent methods, we require a differentiable objective function. 
 Our objective function, $\robf$, is non-differentiable, because it uses the distance, max, and min functions, all of which are non-differentiable.
-One may note that these functions are all differentiable almost everywhere (a.e.).
+One may note that these functions are all differentiable almost everywhere (a.e.) on their domain.
 That is, the set of points in their domain where they are non-differentiable has measure 0 in $\Re^n$. 
 Therefore, by measure additivity, the composite function $\robf$ is itself differentiable almost everywhere.
 Thus, one may be tempted to `ignore' the singularities (points of non-differentiability), and apply gradient descent to $\robf$ anyway.

@@ -47,9 +47,10 @@ They also use many `magical' parameters that are heuristically set and may affec
 %\todo[inline]{look up latest convergence of cross entropy for continuous spaces, genetic algos}
 Because the robustness is non-smooth, the work in \cite{AbbasF13acc} developed an algorithm that decreases the objective function along its sub-gradient. 
 This involved a series of conservative approximations, and was restricted to the case of safety formulae.
-In \cite{Raman14_MPCSTL}, the authors encoded the MTL formula as a set of linear and boolean constraints, and used an MILP solver to solve them.
-%The resulting MILP and used a Mixed Integer Linear Program (MILP) has $O(N\cdot|P|)$ binary variables (where $N$ is the number of samples in the trajectory over which we optimize and $|P|$ is the number of predicates, and $O(N\cdot |\formula|)$ continuous variables.
-MILPs are NP-hard, and the sophisticated heuristics used to mitigate this make it hard to characterize their runtimes, which is important in control - see examples in \cite{Raman14_MPCSTL}.
+In \cite{Raman14_MPCSTL}, the authors encoded the MTL formula as a set of linear and boolean constraints, and used Gurobi to solve the resulting Mixed Integer Linear Program (MILP).
+MILPs are NP-hard.
+The sophisticated heuristics used to mitigate this typically yield local optima, and make it hard to characterize their runtimes, which is important in control - see examples in \cite{Raman14_MPCSTL} and this paper.
+%Like the method of this paper, in general, MILP solvers yield local optima, which is a reflection of the non-convexity of the objective, but our method, being faster, allows for a larger number of initializations in a multi-start fashion.
 The work closest to ours is \cite{AbbasATVA11_LinFalsification,Abbas14_MTLDescent}.
 There, the authors considered safety formulas, for which the robustness reduces to the minimum distance between $\sstraj$ and the unsafe set $U$.
 By sub-optimally focusing on one point on the trajectory $\sstraj$, they replaced the objective by a differentiable indicator function for $U$ and solved the resulting problem with gradient descent.

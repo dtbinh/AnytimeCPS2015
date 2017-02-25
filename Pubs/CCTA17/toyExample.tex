@@ -36,10 +36,13 @@ The control cost is $l(x_k,u_k) = ||x_k||_{2}^2$, so that $\sum_kl(x_k,u_k)$ pen
 \textbf{Optimization solver.}
 We use Sequential Quadratic Programming (SQP) to solve the optimization problem $P_{\srob}$.
 SQP solves constrained non-linear optimization problems, like $P_{\srob}$, by creating a sequence of quadratic approximations to the problem and solving these approximate problems.
-SQP enjoys various convergence-to-(local)-minima properties, depending on the assumptions we place on the problem. 
+SQP enjoys various convergence-to-(local)-optima properties, depending on the assumptions we place on the problem. 
 See \cite[Section 2.9]{Polak97_Optim}.
 For example, for SQP to converge to a strict local minimum (a minimum that is strictly smaller than any objective function value in an open neighborhood around it), it suffices that 
-1) all constraint functions be twice Lipschitz continuously differentiable (which is true in our case), and 
+1) all constraint functions be twice Lipschitz continuously differentiable. 
+In our case, this includes function $f$ in \eqref{eq:general ctrl obj}, and the problems we solve satisfy this requirement.
+%We will need to assume that $f$ is twice Lipschitz continuously differentiable and that its gradient $f_u$ has maximum row rank.
+And, 
 2) at points in the search space that lie on the boundary of the inequality-feasible set (where the inequality constraints are satisfied with equality), there exists a search direction towards the interior of the feasible set that does not violate the equality constraints (the so-called Mangasarian-Fromowitz constraint qualification) \cite[Assumption 2.9.1]{Polak97_Optim}.
 This is also true in our case since our equality constraints come from the dynamics and are always enforced for any $\mathbf{u}$.
 
