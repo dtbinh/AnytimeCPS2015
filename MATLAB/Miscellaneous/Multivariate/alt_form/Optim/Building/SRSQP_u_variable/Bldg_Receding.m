@@ -2,7 +2,7 @@
 % (always not Unsfafe) and (eventually Terminal)
 %% get params
 codegeneration = 0;
-no_disturbances = 1;
+no_disturbances = 0;
 
 clc;close all;
 disp('Initializing problem...');
@@ -189,8 +189,11 @@ if(exist('robustness_max','var'))
 end
 
 %%
-clear options;
+clear options time_taken u_applied dists;
 disp('Robustness maximization...')
+
+temp_dists = optParams.B_D*D;
+temp_dists = 0.05*reshape(temp_dists,optParams.dim,optParams.len); %5 percent of dists
 
 options = optimset('Algorithm','sqp','Display','off','MaxIter',1000,'TolConSQP',1e-2,...
     'ObjectiveLimit',objLim,'UseParallel','always','MaxFunEval',1000000,'GradObj','on'); %rep 'always' by true
@@ -210,16 +213,17 @@ for t=1:optParams.len-1
 [u_opt,fval,exitflag,output] = fmincon(@(u)objfun_bldg_new_rh_mex(u,optParams,I1,t,x_upto_t),u_0,[],[],Aeq,Beq,LB_U',UB_U',[],options);
 time_taken(t) = toc;
 u_applied(t) = u_opt(t);
-dists(:,t) = 0;% (0 + 0.5*randn(4,1));
-x_t = optParams.A*optParams.x0 + optParams.B*u_applied(t) + dists(:,t);
+dists(:,t) = (-temp_dists(:,t)/2) + temp_dists(:,t).*rand(optParams.dim,1);
+x_t = optParams.A*x_t + optParams.B*u_applied(t) + dists(:,t);
 
 
 
 
 
 end
-
+x_upto_t(:,end) = x_t; %last step
 %% plot static
+clear xx
 for i = 1:optParams.len
     if(i==1)
    xx(:,i) = x0; 
@@ -230,4 +234,5 @@ end
 
 plot(xx(4,:));grid on;
 %%
-
+disp('robustness=')
+min([28-xx(4,10:19) xx(4,10:19)-22])

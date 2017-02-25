@@ -7,7 +7,7 @@ xx = x_upto;
 
 for t = i+1:optParams.len
         
-   xx(:,t) = optParams.A*xx(:,t-1) + optParams.B*u(t-1:end) ;
+   xx(:,t) = optParams.A*xx(:,t-1) + optParams.B*u(t-1,1) ;
     
 end
 room_temp = xx(4,:);

@@ -53,7 +53,9 @@ Because the robustness is non-smooth, the work in \cite{AbbasF13acc} developed a
 This involved a series of conservative approximations, and was restricted to the case of safety formulae.
 In \cite{Raman14_MPCSTL}, the authors encoded the MTL formula as a set of linear and boolean constraints, and used an MILP solver to solve them.
 %The resulting MILP and used a Mixed Integer Linear Program (MILP) has $O(N\cdot|P|)$ binary variables (where $N$ is the number of samples in the trajectory over which we optimize and $|P|$ is the number of predicates, and $O(N\cdot |\formula|)$ continuous variables.
-MILPs are NP-complete, inherently non-convex, and do not scale well with increasing number of variables.  In general, MILP solvers can only guarantee achieving local optima. The sophisticated heuristics used to mitigate these make it hard to characterize their runtimes, which is important in control - see examples in \cite{Raman14_MPCSTL}. The implementation of the algorithm in \cite{Raman14_MPCSTL} can be found in the tool BluSTL \cite{}, and is used for comparison with our approach throughout this paper.
+MILPs are NP-complete, non-convex, and do not scale well with increasing number of variables. The sophisticated heuristics used to mitigate these make it hard to characterize their runtimes, which is important in control - see examples in \cite{Raman14_MPCSTL}. In general, MILP solvers can only guarantee achieving local optima.
+
+The implementation of the algorithm in \cite{Raman14_MPCSTL} can be found in the tool BluSTL \cite{}, and is used for comparison with our approach throughout this paper.
 The work closest to ours is \cite{AbbasATVA11_LinFalsification,Abbas14_MTLDescent}.
 There, the authors considered safety formulas, for which the robustness reduces to the minimum distance between $\sstraj$ and the unsafe set $U$.
 By sub-optimally focusing on one point on the trajectory $\sstraj$, they replaced the objective by a differentiable indicator function for $U$ and solved the resulting problem with gradient descent.

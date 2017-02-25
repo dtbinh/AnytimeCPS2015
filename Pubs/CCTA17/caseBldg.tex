@@ -41,6 +41,8 @@ The control problem we solve is of the form in \eqref{eq:general_ctrl}, with $\g
 In \textit{robust} mode, our method (SR-SQP) and SA both result in trajectories that satisfy $\formula$, with an average robustness of $2.9994$ and $2.8862$ respectively. On the other hand, R-SQP results in a trajectory that does not satisfy $\formula$ ($\rob_{\formula} = -0.1492$), and terminates on a local maxima. Perhaps surprisingly, BluSTL also does not manage to find a satisfying trajectory (average $\rho=-2.71$ for any of the 100 runs. One particular instance is shown in fig. \ref{fig:ZoneTemp}. This could be because the MILP encoding of robustness for this example results in the solver finding local minima which have negative robustness. In terms of run-times, shown in table \ref{tbl:time_performance_bldg}, SR-SQP takes $2.5s$ on average, which is slower than BluSTL, but always finds a trajectory which achieves near global optima of robustness. SA in \textit{robust} mode takes $8.56s$ on average, with a standard deviation of $0.31s$. R-SQP again takes minutes to return a non-satisfying trajectory across all 100 runs. 
 %This is possibly due to the lack of existence of a gradient along certain directions, as seen in example \ref{ex:cluster nondiff}.
 
+\ypcomment{Move to after spec.}
+
 \textbf{Analysis.} In this particular problem, the maximum robustness achievable is $3$, which can be achieved by setting the room temperature at $25$C for the interval $I$. 
 With this insight, the problem of maximizing robustness can be solved with a quadratic program with linear constraints and the cost $\sum_{k \in I}({x_4}_k-25)^2$ to be minimized. This indeed results in a trajectory with the global optimal robustness of $3$, but this is a method tailored to the particular problem. 
 
@@ -50,6 +52,16 @@ SR-SQP, which is a general purpose technique, results in a robustness which is j
 %, even while the gradient of robustness exists \textit{almost everywhere}. 
 %In the following example, we take a specification which cannot be trivially turned into a quadratic-program. %without adding tighter constraints than the specification asks for (or binary variables).
 
+\textbf{Online implementation.} Our scheme can also be implemented online in a receding (shrinking) horizon method similar to \cite{Raman14_MPCSTL}. Note that the control horizon in Eq. \ref{eq:general_ctrl} is as at least long as the formula horizon $N$, and evaluating $\srob$ in general requires a trajectory of length $N$. 
+For each time step $k=0,\dotsc,N$, we solve the problem of Eq.\ref{eq:general_ctrl} while constraining the variables (the previously applied inputs and states, when applicable) for times steps $<k$. Note, the length of the optimization remains $N$, but the number of free variables keeps on shrinking as $k$ increases. For initializing SR-SQP at each time step, the sequence of inputs (or states) computed at time $k-1$ is used as an initial solution for the optimization at time $k$. 
+We implemented this scheme for the HVAC control problem with additional unknown disturbances in the dynamics of the form:
+  
+\begin{equation}
+\label{eq:bldg_dyn_noisy}
+x_{k+1} = Ax_{k}+Bu_k+B_dd_k+B_dw_k
+\end{equation}
+
+Here, $w_k$ is a uniform random variable centred around the known $d_k$ with a width of $10\%$ of $d_k$. This can be thought of as prediction errors in the disturbances like solar radiation and outside temperature. Over 100 runs with random initial states as before, the online application of SR-SQP (in \textit{robust} mode) resulted in an average robustness value of $2.91$. In terms of execution time, the first iteration takes times of the order of those in table \ref{tbl:time_performance_bldg}, and subsequent iterations take a fraction of that time (average for one instance $0.0151$) since we re-use the input sequence at time $k-1$ as an initial guess for the solver at time $k$. Since at the initial time step we have achieved near global robustness maxima, the subsequent SQP runs terminate much faster while the formulation takes into account change in the state due to disturbance values by making small changes to the input sequence being computed at time $k>0$. 
 
 \begin{figure}[t]
 \centering
