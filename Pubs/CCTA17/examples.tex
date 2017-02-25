@@ -54,14 +54,12 @@ Note that while the RMSE  increased with the system dimension ($4^{th}$ formula 
 %\vspace{-30pt}
 \subsection{Robustness maximization for control}
 \label{sec:toy example}
-%\todo[inline]{Yash, Show SA and SR-SQP on toy example}
+To solve Problem $P_\rob$ given in \eqref{eq:general_ctrl}, we replace the true robustness $\robf$ by its smooth approximation $\srobf$.
+We thus obtain Problem $P_{\srob}$.
+We illustrate the approach on a simple linear system,
+and provide more extensive case studies in Section \ref{sec:case study}.
+
 \input{toyExample}
 
-%% falsification example
-%\subsection{Robustness minimization for falsification}
-%\label{sec:toy falsification}
-%Similar to the control problem, we can also minimize robustness to find trajectories that violate a given specification. Indeed, for the point-mass system, we solved such a problem ($\text{min}_{x_0 \in X_0} \, \srob(\sstraj) \, \text{s.t. } \sstraj=f(x_0,K)$) to find initial states such that the resulting trajectory, subject to a feedback controller $K$, violates a safety constraint. Our approach successfully finds such initial states, and so do gradient descent and simulated annealing on $\rob$. For brevity, we do not present these results here since all three methods result in the nearly the same solution, but note that our method can also be used to solve a falsification problem (\cite{AbbasATVA11_LinFalsification}, \cite{Deshmukh15_IterativeApproaches}).
-
-%this blurb or the full example, pick your poisson:
 
 %\input{toyFalse}
