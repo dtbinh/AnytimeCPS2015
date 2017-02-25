@@ -177,7 +177,7 @@ end
 
 %% gen code for objfun and confun
 
-if(0)
+if(1)
     disp('Code gen');
     CodeGeneratorForOptim;
 end

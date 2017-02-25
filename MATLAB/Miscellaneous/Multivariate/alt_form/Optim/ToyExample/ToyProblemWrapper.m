@@ -14,7 +14,7 @@ taliro_SmoothRob = 0;
 
 disp(' ')
 disp('The specification:')
-phi = '[]_[0,20.0]!a /\ <>_[0,20.0]b'
+phi = '[]_[0,10.0]!a /\ <>_[0,10.0]b'
 %phi = '[]_[0,2.0]!a' % /\ <>_[0,2.0]b'
 %phi = '<>_[0,3.9]b'
 preds(1).str = 'a';
@@ -60,6 +60,8 @@ display_on = 0;
 time_per_shot_SRSQP = zeros(Nruns-1,1);
 robustness_one_shot_SRSQP = zeros(Nruns-1,1);
 for ii = 1:Nruns
+    ii
+    pause(0.2)
     example2_toy_1shot;
     if(display_on)
     pause

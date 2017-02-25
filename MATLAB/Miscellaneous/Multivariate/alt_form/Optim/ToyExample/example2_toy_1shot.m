@@ -65,7 +65,7 @@ end
 
 %% optimization data
 dim = 2; %dimension of state
-len = 50; %length of trajectory
+len = 200; %length of trajectory
 optParams.len = len;
 optParams.dim = dim;
 P_feas = Polyhedron('lb',[-2.5 -2.5],'ub',[2.5 2.5]); %feasible set of states
@@ -156,7 +156,7 @@ else
    x_0 = [optParams.A_x0*optParams.x0 + optParams.B_U*u_0;u_0];
 end
 %% gen code for objfun and confun
-if(0) %make this 1 once, then set to zero 
+if(1) %make this 1 once, then set to zero 
     disp('Generating code for robustness functions');
 CodeGeneratorForOptim;
 end
@@ -167,9 +167,9 @@ disp('Optimizing...')
 global ct;
 ct = 0;
 tic;
-options = optimset('Algorithm','sqp','Display','off','MaxIter',1000,'TolConSQP',1e-6,'ObjectiveLimit',-10,...
+options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-6,'ObjectiveLimit',-0.2760,...
     'UseParallel','always','MaxFunEval',1000000,'GradObj','on'); %rep 'always' by true
-%options.TolFun = 10^(-10);
+options.TolFun = 10^(-5);
 %options.TolCon = 10;
 %[x,fval,flag] = ...
 [x,fval,exitflag,output] = fmincon(@(x)objfun2_toy_using_mex(x,optParams),x_0,[],[],[],[],[],[], ...
