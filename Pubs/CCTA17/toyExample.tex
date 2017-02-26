@@ -1,5 +1,6 @@
 %\subsubsection{Illustrative example}
 %\label{sec:illustrative example}
+\begin{exmp}
 We consider a linear system with the following dynamics:
 \begin{equation}
 \label{eq:PointMass}
@@ -11,46 +12,17 @@ The specification is
 with the sets $\text{Unsafe}=[-1,1]^2$ and $\text{Terminal}=[2,2.5]^2$. 
 The state space is $X=[-2.5,2.5]^2$, $U=[0.3,0.3]^2$, $\delta=1$, and we optimize for two different values of $\gamma$, $0.1$ and $0.001$. 
 The initial point of the trajectory is $x_0=[-2,-2]'$. 
-The control cost is $l(x_k,u_k) = ||x_k||_{2}^2$, so that $\sum_kl(x_k,u_k)$ penalizes the length of the trajectory. Here, $hrz(\formula) = 21$.
-
-\textbf{Optimization solver.}
-We use Sequential Quadratic Programming (SQP) to solve the optimization problem $P_{\srob}$.
-SQP solves constrained non-linear optimization problems, like $P_{\srob}$, by creating a sequence of quadratic approximations to the problem and solving these approximate problems.
-SQP enjoys various convergence-to-(local)-optima properties, depending on the assumptions we place on the problem. 
-See \cite[Section 2.9]{Polak97_Optim}.
-For example, for SQP to converge to a strict local minimum (a minimum that is strictly smaller than any objective function value in an open neighborhood around it), it suffices that 
-1) all constraint functions be twice Lipschitz continuously differentiable. 
-In our case, this includes function $f$ in \eqref{eq:general ctrl obj}, and the problems we solve satisfy this requirement.
-%We will need to assume that $f$ is twice Lipschitz continuously differentiable and that its gradient $f_u$ has maximum row rank.
-And, 
-2) at points in the search space that lie on the boundary of the inequality-feasible set (where the inequality constraints are satisfied with equality), there exists a search direction towards the interior of the feasible set that does not violate the equality constraints (the so-called Mangasarian-Fromowitz constraint qualification) \cite[Assumption 2.9.1]{Polak97_Optim}.
-This is also true in our case since our equality constraints come from the dynamics and are always enforced for any $\mathbf{u}$.
-
-\textbf{Solver initialization}.
-To initialize SQP when solving $P_{\srob}$ (i.e., give it a starting value for $\mathbf{u}$), we can either:
-
- a) solve an inexpensive feasibility linear program with constraints \eqref{eq:general ctrl dyn}-\eqref{eq:general ctrl U}. By definition, the resulting trajectory simply satisfies the constraints without optimizing the objective.
- 
- b) or, generate a random input sequence respecting $u_k \in U$. 
- Such a trajectory will be very fast to generate and feasible w.r.t the dynamics but is unlikely to satisfy the specification on the system. 
-
-Note, the resulting initial trajectory is free to violate the specification (as it does in every example we study in this paper) and we only enforce that it satisfy the dynamics and state constraints.
-
-%In most cases, SQP solvers can also recover from infeasible starts, that is the initial trajectory can also violate the dynamics and constraints of the system, but at the cost of computation effort, hence we enforce the feasibility constraint on the initial trajectory.
-\todo[inline]{fig.3 still doesn't show the interval for the until operator on the last spec}
-
-\textbf{Comparison to BluSTL.}
-BluSTL has two modes of operation:  \textit{Boolean}, which aims at satisfying the specification without maximizing its robustness, and \textit{Robust}, which attempts to maximize robustness. 
-In both modes, we set the control cost to zero ($\gamma=0$). 
-For a fair comparison, our method emulates the Boolean mode of BluSTL by terminating the optimization at the iteration of SQP where $\srob \geq \epsilon_{\text{Meyer}}$.
-The \textit{Robust} operation is obtained by solving $P_{\srob}$ until SQP terminates. 
-All methods are run in a \textit{one-shot} manner, that is, a single optimization is solved at time step $0$ to get a trajectory with $N = hrz(\formula)$ time steps.
-
+The control cost is $l(x_k,u_k) = ||x_k||_{2}^2$, so that longer trajectories incur greater cost. 
+Finally, $hrz(\formula) = 21$.
 
 \textbf{Results}.
-%Fig.~\ref{fig:toy control} shows the sets, initial trajectory (which is unsafe and has a robustness of $-1$), and two trajectories obtained by solving $P_{\srob}$ for two different values of $\gamma$ (with $\delta=0$). Both trajectories satisfy the specification $\formula$. Intuitively, the trajectories in Fig.\ref{fig:toy control} make sense, as for a higher value of $\gamma=0.1$ we get a shorter trajectory, which is closer to unsafe set, hence satisfies $\formula$ less robustly ($\rob_{\formula}=0.65$) and for a smaller value of $\gamma=0.001$ we get a longer trajectory with a higher robustness ($\rob_{\formula}=1.21$).
-Fig. \ref{fig:toy control} shows the trajectories resulting from the SR-SQP and BluSTL in \textit{boolean} mode, SR-SQP in \textit{robust} mode, starting from the same initial state $[-2,-2]$. The last trajectory corresponds to SR-SQP in \textit{robust} mode with a non-zero cost for control corresponding to $\gamma=0.1$  in $P_{\srob}$ and a quadratic control cost function $l$. Note that BluSTL results in a trajectory that skirts the edge of the unsafe set and reaches a corner of the terminal set (resulting robustness is zero). SR-SQP (B) and SR-SQP (R) have a similar shape but SR-SQP (R) ends in the middle of the terminal set, resulting in a higher robustness as expected, while SR-SQP (B) terminates on reaching a positive robustness threshold as described above. SR-SQP (R,$\gamma=0.1$), takes into account the control cost and hence results in a trajectory of shorter length which trades of robustness ($0.236$ compared to $0.247$ for SR-SQP (R)) for control cost as is expected from the objective of $P_{\srob}$ in Eq. \ref{eq:general_ctrl}.
+Fig. \ref{fig:toy control} shows the found trajectories from the two methods in modes (B) and (R), starting from the same initial state. 
+All experiments use $\gamma=0$ except that last one
+\todo[inline]{fix BluSTLS in figure}
+Both BluSTL (B) and SR-SQP (B) produce satisfying trajectories.
 
+Note that BluSTL results in a trajectory that skirts the edge of the unsafe set and reaches a corner of the terminal set (resulting robustness is zero). SR-SQP (B) and SR-SQP (R) have a similar shape but SR-SQP (R) ends in the middle of the terminal set, resulting in a higher robustness as expected, while SR-SQP (B) terminates on reaching a positive robustness threshold as described above. SR-SQP (R,$\gamma=0.1$), takes into account the control cost and hence results in a trajectory of shorter length which trades of robustness ($0.236$ compared to $0.247$ for SR-SQP (R)) for control cost as is expected from the objective of $P_{\srob}$ in Eq. \ref{eq:general_ctrl}.
+The last trajectory corresponds to SR-SQP in \textit{robust} mode with a non-zero cost for control corresponding to $\gamma=0.1$  in $P_{\srob}$ and a quadratic control cost function $l$. 
 
 For detailed evaluation, we run 100 instances with the specification and dynamics of our illustrative example, with a random initial state $x_0 \in [-2.5,-1.5] \times [-2.5,2.5]$ for each instance. We also vary the formula horizon (and hence optimization length of the trajectory being optimized over) $N$ from $20$ to $200$ time-steps. Table \ref{tbl:time_performance_toy} shows the execution times for each method and the two modes of operation. All experiments were run on a machine with a quad-core Intel I5 3.2GHz processor with 24GB RAM, running MATLAB 2016b.
 
@@ -89,3 +61,5 @@ When in \textit{boolean} mode, BluSTL results in trajectories with zero robustne
 \label{fig:toy control}
 \vspace{-10pt}
 \end{figure}
+
+\end{exmp}
