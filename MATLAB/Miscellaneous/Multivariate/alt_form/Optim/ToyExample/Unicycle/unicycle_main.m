@@ -3,7 +3,7 @@
 %% get params
 %unsafe set
 %clc;clear all;close all;
-close all;
+close all; unicycle_mode = 1;
 %%
 disp('Setting up problem...')
 
@@ -64,12 +64,14 @@ end
 %close all;clc;
 
 %% optimization data
-dim = 2; %dimension of state
+dim = 3; %dimension of state
 len = 20; %length of trajectory
 optParams.len = len;
 optParams.dim = dim;
-P_feas = Polyhedron('lb',[-2.5 -2.5],'ub',[2.5 2.5]); %feasible set of states
-U_feas = Polyhedron('lb',[-0.52 -0.52],'ub',[0.52 0.52]); %input bounds
+optParams.dim_u = 2;
+optParams.h = 0.1; %discretization period
+P_feas = Polyhedron('lb',[-2.5 -2.5 -deg2rad(88)],'ub',[2.5 2.5 deg2rad(88)]); %feasible set of states
+U_feas = Polyhedron('lb',[-5 -1],'ub',[5 1]); %input bounds
 
 AuxParams.P_final = P_term;
 optParams.P_final.A = P_term.A;
@@ -97,9 +99,9 @@ else
 end
 
 if(fixed_x0);
-x0 = [-2;-2];
+x0 = [-2;-2;0];
 else %in [-2 -1.1]^2
-x0 = -2 + (-1.1+2)*rand(2,1);    
+x0 = [-2 + (-1.1+2)*rand(2,1);0];    
 end
 %x0 = [-1.5;0];
 optParams.gamma = 0.0;%10^(-2);
@@ -114,31 +116,12 @@ optParams.P_unsafe.b = P_unsafe.b;
 AuxParams.P_unsafe = P_unsafe;
 AuxParams.P_feas = P_feas;
 
-%% for gradient with input in mind
-dim_u = size(optParams.B,2);
-% translate state constraints if needed
-A_x0 = [];
-for i = 1:optParams.len-1
-    A_x0 = [A_x0;optParams.A^i];    
-end
-%
-clear B_U
-for i = 1:optParams.len-1
-    for j = 1:optParams.len-1
-       B_U((i-1)*dim+1:i*dim,(j-1)*dim_u+1:j*dim_u) = (i-j>=0)*optParams.A^(i-j)*optParams.B + (i-j<0)*zeros(size(optParams.A*optParams.B));     
-    end
-end
-% optParams.A_x0 = A_x0;
-% optParams.B_U = B_U;
-optParams.dim_u = size(optParams.B,2);
-optParams.A_x0 = [eye(dim);A_x0];
-optParams.B_U = [zeros(optParams.dim,(optParams.len-1)*optParams.dim_u);B_U];
 
 %% start opt
 %clc;
 % init traj gen
 disp('Getting initial trajectory...');
-random_initialization = 0;
+random_initialization = 1;
 rd_u0 = random_initialization;
 if(~random_initialization) %via reg MPC
     x_0 = [x0;rand((len-1)*dim,1);rand((len-1)*size(optParams.B,2),1)];
@@ -150,12 +133,26 @@ if(~random_initialization) %via reg MPC
     end
 
 else
-    
-   u_0 = -0.25+(.5)*rand(38,1); %random u_0; 
+   h = optParams.h; 
    rd_u0 = 1;
-   x_0 = [optParams.A_x0*optParams.x0 + optParams.B_U*u_0;u_0];
+   u0 = .5*(randn((optParams.len-1)*optParams.dim_u,1));
+   uu = reshape(u0,optParams.dim_u,optParams.len-1);
+   uu(1,:) = 3.25;
+   uu(2,:) = .75;
+   xx = zeros(optParams.dim,optParams.len);
+   xx(:,1) = x0;
+   for t = 2:optParams.len;
+    xx(1,t) = (xx(1,t-1) + h*uu(1,t-1)*cos(xx(3,t-1)));
+    xx(2,t) = (xx(2,t-1) + h*uu(1,t-1)*sin(xx(3,t-1)));
+    xx(3,t) = (xx(3,t-1) + h*uu(2,t-1));
+    end
+   plot(xx(1,:),xx(2,:))
+   x_0 = [xx(:);uu(:)];
+  
 end
+
 %% gen code for objfun and confun
+optParams.dim_x = 2; %dim of formulae
 if(0) %make this 1 once, then set to zero 
     disp('Generating code for robustness functions');
 CodeGeneratorForOptim;
@@ -167,13 +164,13 @@ disp('Optimizing...')
 global ct;
 ct = 0;
 tic;
-options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-6,'ObjectiveLimit',-0.30,...
-    'UseParallel','always','MaxFunEval',1000000,'GradObj','on'); %rep 'always' by true
+options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-6,'ObjectiveLimit',-0.3,...
+    'UseParallel','always','MaxFunEval',1000000,'GradObj','off'); %rep 'always' by true
 options.TolFun = 10^(-5);
 %options.TolCon = 10;
 %[x,fval,flag] = ...
-[x,fval,exitflag,output] = fmincon(@(x)objfun2_toy_using_mex(x,optParams),x_0,[],[],[],[],[],[], ...
-    @(x)confun2_toy(x,optParams),options);
+[x,fval,exitflag,output] = fmincon(@(x)objfun2_unicycle(x,optParams),x_0,[],[],[],[],[],[], ...
+    @(x)confun2_unicycle(x,optParams),options);
 
 
 %save('Data/TestData_toyexample2_shite.mat','x','x_0','optParams','AuxParams','SmoothOpt');
@@ -183,9 +180,10 @@ fval
 %% plot
 traj_x = reshape(x(1:dim*len),dim,len);
 traj_x0 = reshape(x_0(1:dim*len),dim,len);
-if(0)
+if(1)
 %%
     disp('Plotting...');
+    
 dim = optParams.dim;
 P_feas = AuxParams.P_feas;
 P_final = AuxParams.P_final;
@@ -193,13 +191,15 @@ len = optParams.len;
 P_unsafe = AuxParams.P_unsafe;
 if(dim<=3)
     figure;
-    plot(P_feas,'Color','gray','Alpha',0.7);
+    
+    %plot(P_feas,'Color','gray','Alpha',0.7);
     hold on;
     plot(P_unsafe,'Color','red','Alpha',0.7);
     hold on;
     plot(P_final,'Color','green','Alpha',0.7);
     hold on;
-    
+    axis([-2.5 2.5 -2.5 2.5]);
+    pause(0.05);
     hold on;
     
     for i = 1:len
