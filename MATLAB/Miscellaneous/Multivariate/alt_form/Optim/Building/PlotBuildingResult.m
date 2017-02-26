@@ -1,8 +1,7 @@
 %%
 close all;figure;
-P = Polyhedron('lb',[10 22],'ub',[19 28]);
-hold on;
-plot(P,'Color','green','Alpha',0.2);
+
+
 axis([1 24 15 40]);
 load('/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/Miscellaneous/Multivariate/alt_form/Optim/Building/BldgData/SatTraj.mat')
 z = SimBldg(u_opt',optParams);
@@ -24,6 +23,14 @@ load('/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/Miscellaneous/Multivariat
 z = SimBldg(x,optParams);
 hold all;
 plot(z(4,:),'-.c','linewidth',2);
-legend('Comfort Zone','SR-SQP (B)','BS (B)','SR-SQP (R)','BS (R)','R-SQP','SA');
-xlabel('Time Steps (hours)');
-ylabel('Zone Temperature (C)');
+h_legend = legend('SOP (B)','BluSTL (B)','SOP (R)','BluSTL (R)','R-SQP','SA');
+set(h_legend,'FontSize',20);
+P = Polyhedron('lb',[10 22],'ub',[19 28]);
+plot(P,'Color','green','Alpha',0.2);
+hold on;
+xlabel('Time Steps (hours)','FontSize',20);
+ylabel('Zone Temperature (C)','FontSize',20);
+set(gca,'Xtick',1:2:24,'FontSize',20)
+set(gca,'Ytick',16:2:40,'FontSize',20)
+
+print -painters -dpdf -r600 test.pdf

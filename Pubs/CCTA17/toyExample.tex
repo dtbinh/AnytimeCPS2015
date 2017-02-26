@@ -1,6 +1,7 @@
 %\subsubsection{Illustrative example}
 %\label{sec:illustrative example}
 \begin{exmp}
+\label{ex:toyproblem}
 We consider a linear system with the following dynamics:
 \begin{equation}
 \label{eq:PointMass}
@@ -12,7 +13,6 @@ The specification is
 with the sets $\text{Unsafe}=[-1,1]^2$ and $\text{Terminal}=[2,2.5]^2$. 
 The state space is $X=[-2.5,2.5]^2$, $U=[0.3,0.3]^2$, $\delta=1$, and we optimize for two different values of $\gamma$, $0.1$ and $0.001$. 
 The initial point of the trajectory is $x_0=[-2,-2]'$. 
-<<<<<<< HEAD
 The control cost is $l(x_k,u_k) = ||x_k||_{2}^2$, so that $\sum_kl(x_k,u_k)$ penalizes the length of the trajectory. Here, $hrz(\formula) = 21$.
 
 \textbf{Optimization solver.}
