@@ -183,6 +183,7 @@ traj_x0 = reshape(x_0(1:dim*len),dim,len);
 if(1)
 %%
     disp('Plotting...');
+    
 dim = optParams.dim;
 P_feas = AuxParams.P_feas;
 P_final = AuxParams.P_final;
@@ -190,13 +191,15 @@ len = optParams.len;
 P_unsafe = AuxParams.P_unsafe;
 if(dim<=3)
     figure;
+    
     %plot(P_feas,'Color','gray','Alpha',0.7);
     hold on;
     plot(P_unsafe,'Color','red','Alpha',0.7);
     hold on;
     plot(P_final,'Color','green','Alpha',0.7);
     hold on;
-    
+    axis([-2.5 2.5 -2.5 2.5]);
+    pause(0.05);
     hold on;
     
     for i = 1:len
@@ -208,7 +211,7 @@ if(dim<=3)
                 'Traj. \gamma=0.1');
         end
     end
-    grid on;axis([-2.5 2.5 -2.5 2.5]);
+    grid on;
 end
 
 end
