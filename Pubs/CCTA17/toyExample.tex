@@ -17,20 +17,25 @@ Finally, $hrz(\formula) = 21$.
 
 \textbf{Results}.
 Fig. \ref{fig:toy control} shows the found trajectories from the two methods in modes (B) and (R), starting from the same initial state. 
-All experiments use $\gamma=0$ except that last one
+Unless otherwise indicated, we use $\gamma=0$.
 \todo[inline]{fix BluSTLS in figure}
 Both BluSTL (B) and SR-SQP (B) produce satisfying trajectories.
-
-Note that BluSTL results in a trajectory that skirts the edge of the unsafe set and reaches a corner of the terminal set (resulting robustness is zero). SR-SQP (B) and SR-SQP (R) have a similar shape but SR-SQP (R) ends in the middle of the terminal set, resulting in a higher robustness as expected, while SR-SQP (B) terminates on reaching a positive robustness threshold as described above. SR-SQP (R,$\gamma=0.1$), takes into account the control cost and hence results in a trajectory of shorter length which trades of robustness ($0.236$ compared to $0.247$ for SR-SQP (R)) for control cost as is expected from the objective of $P_{\srob}$ in Eq. \ref{eq:general_ctrl}.
+BluSTL (R) was unable to produce any satisfying trajectories, so we don't show any (more in Analysis subsection).
+The trajectory from SR-SQP (R) ends in the middle of the terminal set, resulting in a higher robustness than mode (B), as expected. 
+SR-SQP (R, $\gamma=0.1$) takes into account the control cost and hence results in a trajectory of shorter length at the cost of a lower final robustness than SR-SQP (R, $\gamma = 0$) ($0.236$ vs $0.247$).
 The last trajectory corresponds to SR-SQP in \textit{robust} mode with a non-zero cost for control corresponding to $\gamma=0.1$  in $P_{\srob}$ and a quadratic control cost function $l$. 
-
-For detailed evaluation, we run 100 instances with the specification and dynamics of our illustrative example, with a random initial state $x_0 \in [-2.5,-1.5] \times [-2.5,2.5]$ for each instance. We also vary the formula horizon (and hence optimization length of the trajectory being optimized over) $N$ from $20$ to $200$ time-steps. Table \ref{tbl:time_performance_toy} shows the execution times for each method and the two modes of operation. All experiments were run on a machine with a quad-core Intel I5 3.2GHz processor with 24GB RAM, running MATLAB 2016b.
+\todo[inline]{"last trajectory"? reference the legend..}
+\todo[inline]{either call our method Smooth Operator (SOP) or SR-SQP throughout. i strongly suggest the former, because SR-SQP is as forgettable as they come. but most of all, don't use both as you're doing now.}
+For further evaluation, we ran 100 instances of the problem, varying the trajectory's initial state in $[-2.5,-1.5] \times [-2.5,2.5]$.
+We also varied the formula horizon $N$ (and hence the size of the problem) from $20$ to $200$ time steps. 
+Table \ref{tbl:time_performance_toy} shows the execution times. 
+All experiments were run on a machine with a quad-core Intel I5 3.2GHz processor with 24GB RAM, running MATLAB 2016b.
 
 
 \begin{table}[tb]
 \small
 \begin{center}
-\caption{{\small Runtimes (mean and standard, in seconds) for Smooth Operator (SR-SQP) and BluSTL (BlS) over 100 runs with random initial states and with different formula horizon lengths $N$. Here, (B) means \textit{boolean} mode and (R) means \textit{robust} mode of operation.}}
+\caption{{\small Runtimes (mean and standard deviation, in seconds) for Smooth Operator (SR-SQP) and BluSTL (BlS) over 100 runs with random initial states and with different formula horizon lengths $N$. Here, (B) means \textit{boolean} mode and (R) means \textit{robust} mode of operation.}}
 \vspace{-5pt}
 \label{tbl:time_performance_toy}
 \begin{tabular} {|c|c|c|c|c|}
