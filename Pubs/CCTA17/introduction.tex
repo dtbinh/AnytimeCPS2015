@@ -25,13 +25,17 @@ On the other hand, \textit{gradient descent optimization} algorithms typically o
 The existence of a gradient also allows us to do \textit{local} search for falsifying trajectories, which is necessary for corner case bugs or dangerous situations.
 Moreover, gradient descent algorithms usually have a fewer number of parameters to be set by the user, and important issues like step-size selection are rigorously addressed.
 
+\ypcomment{Contributions of this paper: make them explicit in a list if possible. Move this to after related work}
 \textbf{Contributions}. In this paper, we present smooth (infinitely differentiable) approximations to the robustness function of arbitrary MTL formulae.
 This allows us to run powerful and rigorous off-the-shelf gradient descent optimizers.
 We show that the smooth approximation is always within a user-defined error of the true robustness, and illustrate the result experimentally.
-We demonstrate that the resulting control algorithms, which use gradient descent on the smoothed robustness, performs better than a heuristic like Simulated Annealing optimizing the original, non-differentiable robustness.
-We demonstrate the results on a control case study for an autonomous airport traffic controller. Note, our method can also be applied to the falsification problem \cite{AbbasATVA11_LinFalsification} by minimizing robustness.
+
+%\yhl{We demonstrate that optimizing the smooth approximation yields near-minima of the original robustness}.
+%We demonstrate that the resulting control algorithms, which use gradient descent on the smoothed robustness, performs better than a heuristic like Simulated Annealing optimizing the original, non-differentiable robustness.
+Through multiple examples, we show that our method is faster and performs better than heuristics like Simulated Annealing optimizing the original, non-differentiable robustness and also the MILP based approach used in BluSTL. 
+We demonstrate the results on a control case study for an autonomous airport traffic controller problem for two quad-rotors with a specification where the MILP based approach BluSTL does not scale well enough to finding a solution that satisfies the specification, much less optimizing robustness. 
+ Note, our method can also be applied to the falsification problem \cite{AbbasATVA11_LinFalsification} by minimizing robustness. 
 While we do not tackle the non-convexity issue directly, having a cheap gradient optimizer makes it possible to run an efficient multi-start optimization, increasing the chances of approaching the global optimum.
-%zutshi_trajectory_2013,
 
 \textbf{Related work.}
 Current approaches to optimizing the robustness fall into four categories: 
@@ -47,15 +51,16 @@ They also use many `magical' parameters that are heuristically set and may affec
 %\todo[inline]{look up latest convergence of cross entropy for continuous spaces, genetic algos}
 Because the robustness is non-smooth, the work in \cite{AbbasF13acc} developed an algorithm that decreases the objective function along its sub-gradient. 
 This involved a series of conservative approximations, and was restricted to the case of safety formulae.
-In \cite{Raman14_MPCSTL}, the authors encoded the MTL formula as a set of linear and boolean constraints, and used Gurobi to solve the resulting Mixed Integer Linear Program (MILP).
-MILPs are NP-hard.
-The sophisticated heuristics used to mitigate this typically yield local optima, and make it hard to characterize their runtimes, which is important in control - see examples in \cite{Raman14_MPCSTL} and this paper.
-%Like the method of this paper, in general, MILP solvers yield local optima, which is a reflection of the non-convexity of the objective, but our method, being faster, allows for a larger number of initializations in a multi-start fashion.
+In \cite{Raman14_MPCSTL}, the authors encoded the MTL formula as a set of linear and boolean constraints, and used an MILP solver to solve them.
+%The resulting MILP and used a Mixed Integer Linear Program (MILP) has $O(N\cdot|P|)$ binary variables (where $N$ is the number of samples in the trajectory over which we optimize and $|P|$ is the number of predicates, and $O(N\cdot |\formula|)$ continuous variables.
+MILPs are NP-complete, non-convex, and do not scale well with increasing number of variables. The sophisticated heuristics used to mitigate these make it hard to characterize their runtimes, which is important in control - see examples in \cite{Raman14_MPCSTL}. In general, MILP solvers can only guarantee achieving local optima.
+
+The implementation of the algorithm in \cite{Raman14_MPCSTL} can be found in the tool BluSTL \cite{}, and is used for comparison with our approach throughout this paper.
 The work closest to ours is \cite{AbbasATVA11_LinFalsification,Abbas14_MTLDescent}.
 There, the authors considered safety formulas, for which the robustness reduces to the minimum distance between $\sstraj$ and the unsafe set $U$.
 By sub-optimally focusing on one point on the trajectory $\sstraj$, they replaced the objective by a differentiable indicator function for $U$ and solved the resulting problem with gradient descent.
 
-By computing fast smooth approximations of robustness, we circumvent most of the above issues and enable real-time control by robustness maximization.
+By computing fast smooth approximations of robustness, we circumvent most of the above issues and get closer to real-time control by robustness maximization.
 
 
 

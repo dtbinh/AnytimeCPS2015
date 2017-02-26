@@ -14,7 +14,7 @@ taliro_SmoothRob = 0;
 
 disp(' ')
 disp('The specification:')
-phi = '[]_[0,10.0]!a /\ <>_[0,10.0]b'
+phi = '[]_[0,20.0]!a /\ <>_[0,20.0]b'
 %phi = '[]_[0,2.0]!a' % /\ <>_[0,2.0]b'
 %phi = '<>_[0,3.9]b'
 preds(1).str = 'a';
@@ -31,7 +31,7 @@ preds(2).b = P_pred_b.b;
 
 %% SR-SQP sat mode
 if(1)
-robustness_max = 0;
+robustness_max = 1;
 
 time_per_shot_SRSQP = zeros(Nruns-1,1);
 robustness_one_shot_SRSQP = zeros(Nruns-1,1);
@@ -51,6 +51,8 @@ sum(robustness_one_shot_SRSQP>=0)/numel(robustness_one_shot_SRSQP)
 disp('Mean, max and std. exec time for SQSQP')
 [mean(time_per_shot_SRSQP) max(time_per_shot_SRSQP) std(time_per_shot_SRSQP)]
 end
+sop_200 = time_per_shot_SRSQP.*(robustness_one_shot_SRSQP>=0);
+[mean(sop(find(sop_200))) std(sop(find(sop_200)))]
 
 
 %% SR-SQP max mode
