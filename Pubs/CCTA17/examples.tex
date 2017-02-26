@@ -1,14 +1,15 @@
-\section{Approximation error and control}
+\section{Approximation and control}
 \label{sec:examples}
-We implemented the smooth approximation to the semantics of MTL, and tested it empirically on several examples.
+We implemented the smooth approximation to the semantics of MTL, and tested it on several examples.
 
 \subsection{Approximation error for robustness}
 \label{sec: ex apx error}
 \begin{figure}[t]
 \centering
+<<<<<<< HEAD
 \includegraphics[width=0.49\textwidth]{figures/RobustnessError_corrected_scissored}
 \vspace{-20pt}
-\caption{{\small RMSE (and variance) of robustness approximation error against formula horizon, evaluated on 1000 randomly generated trajectories for the system in \eqref{eq:PointMass}. Unless noted, the states in the trajectory are in $\mathbb{R}^2$. Note, the magnitude of the approximation errors are very small, as is the variance, showing the accuracy of the smooth approximation of robustness.}}
+\caption{{\small RMSE and variance of robustness approximation error against formula horizon, evaluated on 1000 randomly generated trajectories for the system in \eqref{eq:PointMass}. Unless noted, the systems are 2D. Note that the approximation errors and their variances are very small, showing the accuracy and stability of the smooth approximation.}}
 \vspace{-10pt}
 \label{fig:sample result}
 \end{figure}
@@ -52,6 +53,39 @@ Note that while the RMSE  increased with the system dimension ($4^{th}$ formula 
 To solve Problem $P_\rob$ given in \eqref{eq:general_ctrl}, we replace the true robustness $\robf$ by its smooth approximation $\srobf$.
 We thus obtain Problem $P_{\srob}$.
 We illustrate the approach on a simple linear system, with a reach-while-avoid type of specification which is common in literature, e.g. in \cite{Saha_acc16}. More extensive case studies are presented in Section \ref{sec:case study}.
+
+\textbf{Optimization solver.}
+We use Sequential Quadratic Programming (SQP) to solve the optimization problem $P_{\srob}$.
+SQP solves constrained non-linear optimization problems, like $P_{\srob}$, by creating a sequence of quadratic approximations to the problem and solving these approximate problems.
+SQP enjoys various convergence-to-(local)-optima properties, depending on the assumptions we place on the problem. 
+See \cite[Section 2.9]{Polak97_Optim}.
+For example, for SQP to converge to a strict local minimum (a minimum that is strictly smaller than any objective function value in an open neighborhood around it), it suffices that 
+1) all constraint functions be twice Lipschitz continuously differentiable. 
+In our case, this includes function $f$ in \eqref{eq:general ctrl obj}, and the problems we solve satisfy this requirement.
+%We will need to assume that $f$ is twice Lipschitz continuously differentiable and that its gradient $f_u$ has maximum row rank.
+And, 
+2) at points in the search space that lie on the boundary of the inequality-feasible set (where the inequality constraints are satisfied with equality), there exists a search direction towards the interior of the feasible set that does not violate the equality constraints (the so-called Mangasarian-Fromowitz constraint qualification) \cite[Assumption 2.9.1]{Polak97_Optim}.
+This is also true in our case since our equality constraints come from the dynamics and are always enforced for any $\mathbf{u}$.
+
+\textbf{Solver initialization}.
+To initialize SQP when solving $P_{\srob}$ (i.e., to give it a starting value for $\mathbf{u}$), we can either:
+
+a) solve an inexpensive feasibility linear program with constraints \eqref{eq:general ctrl dyn}-\eqref{eq:general ctrl U}. By definition, the resulting trajectory simply satisfies the constraints without optimizing the objective.
+
+b) Or, generate a random input sequence respecting $u_k \in U$. 
+Such a trajectory will be very fast to generate and feasible w.r.t the dynamics but is unlikely to satisfy the specification on the system. 
+
+Note, the resulting initial trajectory is free to violate the specification (as it does in every example we study in this paper) and we only enforce that it satisfy the dynamics and state constraints.
+
+%In most cases, SQP solvers can also recover from infeasible starts, that is the initial trajectory can also violate the dynamics and constraints of the system, but at the cost of computation effort, hence we enforce the feasibility constraint on the initial trajectory.
+\todo[inline]{fig.3 still doesn't show the interval for the until operator on the last spec}
+
+\textbf{Comparison to BluSTL.}
+BluSTL has two modes of operation: mode (B) or \textit{Boolean}, which aims at satisfying the specification without maximizing its robustness, and mode (R) or \textit{Robust}, which attempts to maximize robustness. 
+In both modes, we set the control cost to zero ($\gamma=0$). 
+Our method optimizes robustness and so naturally runs in mode (R).
+To emulate mode (B), we terminate the optimization as soon as $\srob \geq \epsilon_{\text{Meyer}}$.
+All methods are run in a \textit{one-shot} manner, that is, a single optimization is solved at time step $0$ to get a trajectory with $N = hrz(\formula)$ time steps.
 
 \input{toyExample}
 \input{nonlinear}
