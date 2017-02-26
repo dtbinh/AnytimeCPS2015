@@ -2,7 +2,28 @@
 \label{sec:smooth apx}
 \newcommand{\fe}{f_\varepsilon}
 
-In this section, we come up with an infinitely differentiable approximation for robustness and obtain bounds on the approximation error. We start by stating the problem we want to solve, and why the smooth approximation is helpful.
+In this paper, we seek to design control inputs such that the closed-loop system satisfies an MTL specification.
+Formally, the goal is to solve the following problem.
+Let $\formula$ be an MTL formula with horizon $N$.
+We aim to solve the following control problem $P_\rob$.
+\begin{subequations}
+	\label{eq:general_ctrl}
+	\begin{align}
+	P_\rob:\, \max_{\mathbf{u}}\, & \rob_{\formula}(\sstraj) - \gamma \sum_{k=0}^{N-1} l(x_{k+1},u_{k}) \label{eq:general ctrl obj}\\
+	\text{s.t. } & x_{k+1} = f(x_k,u_k), \, \forall k=0,\dotsc,N-1 \label{eq:general ctrl dyn}\\
+	& x_k \in X, \, \forall k=0,\dotsc,N \label{eq:general ctrl X}\\
+	& u_k \in U, \, \forall k=0,\dotsc,N-1 \label{eq:general ctrl U}\\
+	& \delta \rob_{\formula}(\sstraj) \geq \delta \epsilon_{\text{Meyer}} \label{eq:general ctrl pos rob}
+	\end{align}
+\end{subequations}
+
+%We want to use established, powerful gradient descent algorithms \cite{Polak97_Optim}, rather than heuristics like Simulated Annealing \cite{kirkpatrickV_SA83}. 
+Here, $\mathbf{u} = (u_0,\ldots,u_{N-1})$, 
+$l(x_{k+1},u_{k})$ is a control cost, e.g. the LQR cost $x_k'Qx_k + u_k'Ru_k$,
+and $\gamma \geq 0$ is a trade-off weight. 
+The scalar $\epsilon_{\text{Meyer}} \geq 0$ is a desired minimum robustness. 
+If $\delta = 0$, then this constraint is effectively removed, while $\delta=1$ enforces the constraint.
+
 \input{needSmoothing}
 \input{distMaxSmoothing}
 \input{maxSmoothing}

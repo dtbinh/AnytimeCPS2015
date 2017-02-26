@@ -1,10 +1,11 @@
-\subsection{The need for temporal logic requirements}
+\subsection{The need for temporal logic}
 \label{sec:morari}
-\todo[inline]{Morari defense. develop}
-The \textit{robustness of Metric Temporal Logic specifications} \cite{Fainekos2006_TLVerifSimu,Donze2010} is a rigorous notion that has been used successfully for the verification of automotive systems \cite{Fainekos12_Automotive,Dreossi15_RRTFalsification}, medical devices \cite{SankaranarayananF2012cmsb}, and general CPS.
-In details, MTL is a formal language for expressing complex reactive requirements with time constraints, such as those of the ATC~\cite{Koymans90}.
-Given a specification $\formula$ written in Metric Temporal Logic (MTL) and a system execution $\sstraj$, the robustness $\robf(\sstraj)$ of the spec relative to $\sstraj$ measures two things:
-its sign tells whether $\sstraj$ satisfies the spec ($\robf(\sstraj) > 0$) or falsifies it (i.e., violates it, $\robf(\sstraj) <0$).
-Its magnitude $|\robf(\sstraj)|$ measures how \textit{robustly} the spec is satisfied or falsified.
-Namely, any perturbation to $\sstraj$ of size less than $|\robf(\sstraj)|$ will not cause its truth value to change.
-Thus, the control algorithm can \textit{maximize} the robustness over all possible control actions to determine the next control input.
+The above requirements go beyond traditional control objectives like stability, tracking, quadratic cost optimization and reach-while-avoid for which we have well-developed theory.
+While these requirements can be directly encoded from natural language into a Mixed Integer Program (MIP), such direct encoding can easily have thousands of variables, as will be seen in the experiments. 
+Thus it is error-prone and checking that it corresponds to the designer's intent is near impossible.
+On the other hand, such control requirements are easily and succinctly expressed in Metric Temporal Logic (MTL)~\cite{Koymans90,Ouaknine08_RecentResultsMTL}.
+MTL is a formal language for expressing reactive requirements with constraints on their time of occurence and sequencing, such as those of the ATC.
+The advantage of first expressing them as MTL formulas is that such formulas are more succinct and legible, and less error-prone, than the corresponding MIP.
+In this sense, MTL bridges the gap between the ease of use of natural language and the rigor of mathematical formulation.
+
+\input{atcMTL}

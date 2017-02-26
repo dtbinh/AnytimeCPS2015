@@ -1,6 +1,6 @@
-\section{Approximation error, verification and control}
+\section{Approximation error and control}
 \label{sec:examples}
-We implemented the above smooth approximation to the semantics of MTL, and tested it empirically on a number of examples.
+We implemented the smooth approximation to the semantics of MTL, and tested it empirically on several examples.
 
 \subsection{Approximation error for robustness}
 \label{sec: ex apx error}
@@ -13,7 +13,7 @@ We implemented the above smooth approximation to the semantics of MTL, and teste
 \label{fig:sample result}
 \end{figure}
 
-We evaluated the robustness $\robf$ and its approximation $\srobf$ for five formulae, with $hrz(\formula_i) = N$. $P_1$ and $P_2$ are atomic propositions for state being in two polyhedrons $P_1$ and $P_2$ respectively. 
+We evaluated the robustness $\robf$ and its approximation $\srobf$ for five formulae, with $hrz(\formula_i) = N$. $P_1$ and $P_2$ are atomic propositions for state being in two different polyhedra.
 %Each formula is of the form $\formula_i = \always_{[0:N-1]} \psi$, where $N$ is the length of the trajectory.
 %Thus $hrz(\formula_i)  = N$.
 Each formula's robustness is evaluated on 1000 randomly-generated trajectories of varying lengths $N$, so we can  examine the error's variation with the horizon.
@@ -22,10 +22,12 @@ The trajectories were produced by a 2-or-3 dimensional system, \eqref{eq:PointMa
 %The state-space is $[-5,5]^n$ and the input set is $\inpSet = [-0.3,0.3]^n$. 
 
 Fig. \ref{fig:sample result} shows the Root Mean Square (RMSE) of the approximation, $\sqrt{(1/1000)\sum_{\sstraj}(\robf(\sstraj)-\srobf(\sstraj))^2}$
-, and variance bars around it. As seen, the approximation error is small for all cases.
-As suggested by Remark \ref{rem:upper bound}, the approximation error generally increases with the horizon (for a constant number of wavelet coefficients).
-This is due to the smooth max and min functions, as seen in \eqref{eq:smooth max error}.
+, and variance bars around it. 
+As seen, the approximation error is small for all cases.
+Note that while the RMSE  increased with the system dimension ($4^{th}$ formula in Fig.~\ref{fig:sample result}), it was observed that the relative error remained very small i.e. the increase in error is explained by an increase in the robustness's magnitude. 
 
+%As suggested by Remark \ref{rem:upper bound}, the approximation error generally increases with the horizon (for a constant number of wavelet coefficients).
+%This is due to the smooth max and min functions, as seen in \eqref{eq:smooth max error}.
 %Fig. \ref{fig:relative error} shows the relative approximation errors, $(\robf-\srobf)/|\robf|$, for the formulae under consideration. 
 %It is seen that the average relative approximation error is less than $10\%$ for all cases. 
 %For some data points in Fig. \ref{fig:relative error}, the variance of relative error is high, but the error remains small in absolute terms as seen in Fig.~\ref{fig:sample result}.
@@ -33,13 +35,6 @@ This is due to the smooth max and min functions, as seen in \eqref{eq:smooth max
 %In general, the high relative approximation errors are due to trajectories which have a true robustness of near zero; 
 %these lead to a spike in the relative approximation error, $(\robf-\srobf)/|\robf|$, even for small values of the absolute error $|\robf-\srobf|$.
 
-%suggesting that the approximation errors vary wildly. This is not the case, as it is worth noting in Fig. \ref{fig:sample result} that the variance of the actual approximation is very small. 
-
-%\todo[inline]{not sure what the point is in this paragraph...previous figure gives (roughly) average error. this gives relative error. one does not cancel out the other. the relative error does vary a lot in some case, as evidenced here. one can only say that even though relative error can vary a lot inn some case, the absolute }
-
-Note that while the RMSE  increased with the system dimension ($4^{th}$ formula in Fig.~\ref{fig:sample result}), it was observed that the relative error remained very small i.e. the increase in error is explained by an increase in the robustness's magnitude. 
-%As explained in the previous section, better approximation can be achieved by increasing the number of wavelet coefficients as dimension, and trajectory length, grow.
-%\todo[inline]{Is that true?}
 
 %\begin{figure}[t]
 %\centering

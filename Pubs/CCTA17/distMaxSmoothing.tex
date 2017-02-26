@@ -7,7 +7,7 @@ This function is globally Lipschitz with Lipschitz constant 1 and therefore diff
 
 It is well-known that if an a.e.-differentiable function is convolved with a smooth kernel, the output function no longer has those singularities.
 We leverage this to provide a smooth approximation of the distance function by expanding it over a basis of orthonormal Meyer wavelets.
-Specifically, the 1-D Meyer wavelet function is given in the frequency domain by ($i = \sqrt{-1})$):
+Specifically, the 1-D Meyer wavelet function is given in the frequency domain by ($i = \sqrt{-1})$:
 \[\widehat{\psi}(\omega) = \frac{1}{\sqrt{2\pi}} \left \lbrace 
 \begin{matrix} \sin (\frac{\pi}{2}\nu(\frac{3|\omega|}{2\pi}-1))e^{i\omega/2} & 2\pi/3 \leq |\omega| \leq 4\pi/3 \\
 \cos (\frac{\pi}{2}\nu(\frac{3|\omega|}{4\pi}-1))e^{i\omega/2}, & 4\pi/3 \leq |\omega| \leq 8\pi/3\\
