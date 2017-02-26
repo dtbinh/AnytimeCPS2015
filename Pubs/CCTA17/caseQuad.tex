@@ -92,7 +92,7 @@ For the control problem, $X$ and $U$ represent the bounds on the states ($\text{
 %\todo[inline]{re-word in a much more direct style, as follows:}
 
 \textbf{Results.}
-For each approach (except BluSTL), we ran three optimizations, starting from three different trajectories to initialize the optimization. In this case study, we only aim to maximize robustness, i.e. operate in the \textit{robust} mode. BluSTL, in either \textit{boolean} or \textit{robust} mode could not find a solution for this problem (ran over 100 hours without terminating) and so is excluded from the rest of this comparison. This suggests that having a complex specification like the one in this problem, non-trivial dynamics, and the given formula horizon, results in a MILP that is simply intractable to solve due to combinatorial explosion. We believe that this example represents a fundamental limitation of MILP based approaches.
+For each approach (except BluSTL), we ran three optimizations, starting from three different trajectories to initialize the optimization. In this case study, we only aim to maximize robustness, i.e. operate in the \textit{robust} mode. BluSTL, in either \textit{boolean} or \textit{robust} mode could not find a solution for this problem (ran over 100 hours without terminating) and so is excluded from the rest of this comparison. This suggests that having a complex specification like the one in this problem, non-trivial dynamics, and the given formula horizon, results in a MILP that is simply intractable to solve. We believe that this example highlights a fundamental limitation of MILP based approaches.
 
 These \textit{initial trajectories} can be obtained in practice by a fast trajectory generator. Note that the three initial trajectories all have negative robustness, i.e. they violate $\formula$.
 
@@ -106,33 +106,33 @@ These \textit{initial trajectories} can be obtained in practice by a fast trajec
 %\end{figure}
 %Fig.\ref{fig:quad_init} shows the initial trajectories for both the quadrotors in the given air-space, neither of which satisfy the specification $\formula$. 
 
-Fig.\ref{fig:quad_ssqp} shows the three trajectories obtained after applying SR-SQP,
+Fig.\ref{fig:quad_ssqp} shows the three trajectories obtained after applying SOP,
 with the three initial trajectories as initial guesses for the optimizations. 
-%\todo[inline]{use the names of the methods, here, SR-SQP} 
+%\todo[inline]{use the names of the methods, here, SOP} 
 %\todo[inline]{it's either a trajectory or a point. the reader can't peer into your head and see that you're thinking about them in the ssame way. Stick to one nomenclature, "initial trajectory". moreover, we've already explained above what an initial rajectory is, so we don't have to keep explaining that it initializes the optim.}
 %for the optimization, respectively. 
-All three trajectories obtained by SR-SQP satisfy the specification $\formula$. 
+All three trajectories obtained by SOP satisfy the specification $\formula$. 
 To avoid visual clutter, we do not show the trajectories obtained from the other methods on the figure.
-Instead, we summarize the results in Table \ref{tbl:opt_performance} which shows the true robustness of the three initial trajectories, and the true robustness for the trajectories obtained via the three methods, SR-SQP, SA, and R-SQP.In order to keep the study easy to interpret, we use two quad-rotors, but it is straight forward to scale the specification and the optimization to account for more. 
+Instead, we summarize the results in Table \ref{tbl:opt_performance} which shows the true robustness of the three initial trajectories, and the true robustness for the trajectories obtained via the three methods, SOP, SA, and R-SQP.In order to keep the study easy to interpret, we use two quad-rotors, but it is straight forward to scale the specification and the optimization to account for more. 
 
-%Our method, SQP with Smooth Robustness (SR-SQP)
-%\todo[inline]{define once, use forever: SR-SQP}, 
+%Our method, SQP with Smooth Robustness (SOP)
+%\todo[inline]{define once, use forever: SOP}, 
 %results in trajectories with the highest robustness.
 %SA, with an upper limit of 30,000 function evaluations, results in only one trajectory that satisfies $\formula$. 
 %SQP on robustness 
 %\todo[inline]{chicken on rice. R-SQP}
 %results in trajectories that satisfy $\formula$ from all 3 initial trajectories. 
-%R-SQP consistently returns lower values of robustness than SR-SQP, but also from three very different initial trajectories, 
+%R-SQP consistently returns lower values of robustness than SOP, but also from three very different initial trajectories, 
 %\todo[inline]{"very" initial?}
-%\todo[inline]{re-organize: SR-SQP and R-SQP satisfies the spec every time, SA only once.
-%	\\ SR-SQP gives highest robustness values, higher than R-SQP.
+%\todo[inline]{re-organize: SOP and R-SQP satisfies the spec every time, SA only once.
+%	\\ SOP gives highest robustness values, higher than R-SQP.
 %	\\ observations below about getting stuck at local minima due to non-diff. }
 %results in trajectories with the same robustness value $0.1798$. 
 
-\textbf{Analysis.} It is seen that SR-SQP and R-SQP satisfy $\formula$ for all instances, while SA satisfies it only once.
-Note that in all three cases, R-SQP results in trajectories with the same robustness value, which is less than the robustness value achieved in SR-SQP.
+\textbf{Analysis.} It is seen that SOP and R-SQP satisfy $\formula$ for all instances, while SA satisfies it only once.
+Note that in all three cases, R-SQP results in trajectories with the same robustness value, which is less than the robustness value achieved in SOP.
 We conjecture that this is because R-SQP is getting stuck at local minima at points of non-differentiability of the objective, as illustrated in Example \ref{ex:cluster nondiff}.
-On further investigation, we also noticed that the robustness value achieved is due to the segment of the $\formula$ corresponding to $\eventually_{[0,N]}(q_2 \in \text{Terminal})$. R-SQP does not drive the trajectory (for quad-rotor 2) deeper inside the set $\text{Terminal}$, unlike the proposed approach, SR-SQP, even though the minimum separation property is far from being violated. This lends credence to our hypothesis of SQP terminating on a local minima, which is the flag MATLAB's optimization gives.
+On further investigation, we also noticed that the robustness value achieved is due to the segment of the $\formula$ corresponding to $\eventually_{[0,N]}(q_2 \in \text{Terminal})$. R-SQP does not drive the trajectory (for quad-rotor 2) deeper inside the set $\text{Terminal}$, unlike the proposed approach, SOP, even though the minimum separation property is far from being violated. This lends credence to our hypothesis of SQP terminating on a local minima, which is the flag MATLAB's optimization gives.
 
 %\todo[inline]{this last discussion is important. break down your sentences, clarify it, take it easy. you've done the work, don't rush the explanation.}
 
@@ -158,10 +158,10 @@ A real-time playback of trajectories can be seen in \protect\url{http://bit.ly/2
 \label{tbl:opt_performance}
 \begin{tabular} {|c|c|c|c|c|}
 	\hline
-	\textbf{Run} & $\rob(\sstraj_0) $ &SR-SQP $\rob(\sstraj^*) [\srob]$ & SA: $\rob(\sstraj^*)$ & R-SQP: $\rob(\sstraj^*)$\\ \hline
-	1 & -0.8803 & \textbf{0.3689} /\,0.4107 & -0.2424 & 0.1798 \\ \hline
-	2 & -0.7832 & \textbf{0.3688} /\,0.4106 & -0.5861 & 0.1798 \\ \hline
-	3 & -0.0399 & \textbf{0.3689} /\,0.4107 & 0.0854 & 0.1798 \\ \hline
+	\textbf{Run} & $\rob(\sstraj_0) $ &SOP $\rob(\sstraj^*) [\srob]$ & SA: $\rob(\sstraj^*)$ & R-SQP: $\rob(\sstraj^*)$\\ \hline
+	1 & -0.8803 & \textbf{0.3689}\,[0.4107] & -0.2424 & 0.1798 \\ \hline
+	2 & -0.7832 & \textbf{0.3688}\,[0.4106] & -0.5861 & 0.1798 \\ \hline
+	3 & -0.0399 & \textbf{0.3689}\,[0.4107] & 0.0854 & 0.1798 \\ \hline
 \end{tabular}	
 \end{center}
 \vspace{-20pt}
