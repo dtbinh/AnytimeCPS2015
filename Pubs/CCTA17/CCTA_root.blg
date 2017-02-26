@@ -1,4 +1,4 @@
-This is BibTeX, Version 0.99d (TeX Live 2015)
+This is BibTeX, Version 0.99d (TeX Live 2013/Debian)
 Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: CCTA_root.aux
 The style file: plain.bst
@@ -8,45 +8,45 @@ Database file #3: hscc2016.bib
 Database file #4: fainekos_bibrefs.bib
 Warning--empty booktitle in Jain2016
 Warning--empty booktitle in Valenzuela15
-You've used 28 entries,
+You've used 27 entries,
             2118 wiz_defined-function locations,
-            680 strings with 9477 characters,
-and the built_in function-call counts, 10065 in all, are:
-= -- 932
-> -- 479
+            670 strings with 9321 characters,
+and the built_in function-call counts, 9701 in all, are:
+= -- 895
+> -- 461
 < -- 10
-+ -- 191
-- -- 160
-* -- 636
-:= -- 1598
-add.period$ -- 88
-call.type$ -- 28
-change.case$ -- 159
++ -- 184
+- -- 154
+* -- 605
+:= -- 1537
+add.period$ -- 85
+call.type$ -- 27
+change.case$ -- 153
 chr.to.int$ -- 0
-cite$ -- 30
-duplicate$ -- 448
-empty$ -- 865
-format.name$ -- 160
-if$ -- 2199
+cite$ -- 29
+duplicate$ -- 437
+empty$ -- 838
+format.name$ -- 154
+if$ -- 2126
 int.to.chr$ -- 0
-int.to.str$ -- 28
-missing$ -- 33
-newline$ -- 144
-num.names$ -- 56
-pop$ -- 239
+int.to.str$ -- 27
+missing$ -- 32
+newline$ -- 139
+num.names$ -- 54
+pop$ -- 235
 preamble$ -- 1
-purify$ -- 136
+purify$ -- 131
 quote$ -- 0
-skip$ -- 307
+skip$ -- 300
 stack$ -- 0
-substring$ -- 485
-swap$ -- 123
+substring$ -- 455
+swap$ -- 122
 text.length$ -- 10
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 102
+type$ -- 98
 warning$ -- 2
-while$ -- 82
-width$ -- 30
-write$ -- 304
+while$ -- 78
+width$ -- 29
+write$ -- 293
 (There were 2 warnings)

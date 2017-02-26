@@ -37,7 +37,7 @@ To initialize SQP when solving $P_{\srob}$ (i.e., give it a starting value for $
 Note, the resulting initial trajectory is free to violate the specification (as it does in every example we study in this paper) and we only enforce that it satisfy the dynamics and state constraints.
 
 %In most cases, SQP solvers can also recover from infeasible starts, that is the initial trajectory can also violate the dynamics and constraints of the system, but at the cost of computation effort, hence we enforce the feasibility constraint on the initial trajectory.
-\todo[inline]{fig.3 still doesn't show the interval for the until operator on the last spec}
+%\todo[inline]{fig.3 still doesn't show the interval for the until operator on the last spec}
 
 \textbf{Comparison to BluSTL.}
 BluSTL has two modes of operation:  \textit{Boolean}, which aims at satisfying the specification without maximizing its robustness, and \textit{Robust}, which attempts to maximize robustness. 
@@ -85,7 +85,7 @@ When in \textit{boolean} mode, BluSTL results in trajectories with zero robustne
 \centering
 \includegraphics[width=0.49\textwidth]{figures/ToyExUni_scissored.pdf}
 \vspace{-20pt}
-\caption{{\small Trajectories for the illustrative example for SR-SQP and BluSTL. B, R refer to the \textit{Boolean} and \textit{Robust} mode of operation. Refer to the discussion in Sec. \ref{sec:illustrative example}}, Results for an explanation. Color in online version.}
+\caption{{\small Trajectories for the illustrative example for SR-SQP and BluSTL. B, R refer to the \textit{Boolean} and \textit{Robust} mode of operation. Refer to the discussion in Sec. \ref{sec:toy example}, Results for an explanation. Color in online version.}}
 \label{fig:toy control}
 \vspace{-10pt}
 \end{figure}
