@@ -63,7 +63,7 @@ end
 %% optimization data
 disp('Control problem data');
 dim = 2;
-len = 200;
+len = 20;
 dim_u = 2;
 optParams.dim = dim;
 optParams.len = len;
@@ -90,7 +90,7 @@ optParams.robConstr = 0;
 
 %% init state
 if(~exist('rand_x0','var'))
-fixed_x0 = 0;
+fixed_x0 = 1;
 else
    fixed_x0 = ~rand_x0; 
 end
@@ -166,7 +166,7 @@ end
 
 %% random initialization
 rd_u0 = 0;
-if(1)
+if(0)
    u_0 = -0.25+(.5)*rand(optParams.dim_u*(optParams.len-1),1); %random u_0; 
    rd_u0 = 1;
    x_0 = [optParams.A_x0*optParams.x0 + optParams.B_U*u_0;u_0];
@@ -196,7 +196,7 @@ if(exist('robustness_max','var'))
     end
     
     else
-    objLim = -0.24;
+    objLim = -eps;
 end
 
 %%

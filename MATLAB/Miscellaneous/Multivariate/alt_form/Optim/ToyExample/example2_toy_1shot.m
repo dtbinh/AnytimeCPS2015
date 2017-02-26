@@ -65,7 +65,7 @@ end
 
 %% optimization data
 dim = 2; %dimension of state
-len = 200; %length of trajectory
+len = 20; %length of trajectory
 optParams.len = len;
 optParams.dim = dim;
 P_feas = Polyhedron('lb',[-2.5 -2.5],'ub',[2.5 2.5]); %feasible set of states
@@ -91,7 +91,7 @@ optParams.robConstr = 0;
 
 %% init state
 if(~exist('rand_x0','var'))
-fixed_x0 = 0;
+fixed_x0 = 1;
 else
    fixed_x0 = ~rand_x0; 
 end
@@ -102,7 +102,7 @@ else %in [-2 -1.1]^2
 x0 = -2 + (-1.1+2)*rand(2,1);    
 end
 %x0 = [-1.5;0];
-optParams.gamma = 0;%10^(-2);
+optParams.gamma = 0.0;%10^(-2);
 optParams.x0 = x0;
 optParams.Params_P_unsafe = SmoothOpt.preds.WavParams(1);
 optParams.Params_P_term = SmoothOpt.preds.WavParams(2);
@@ -156,7 +156,7 @@ else
    x_0 = [optParams.A_x0*optParams.x0 + optParams.B_U*u_0;u_0];
 end
 %% gen code for objfun and confun
-if(1) %make this 1 once, then set to zero 
+if(0) %make this 1 once, then set to zero 
     disp('Generating code for robustness functions');
 CodeGeneratorForOptim;
 end
@@ -167,7 +167,7 @@ disp('Optimizing...')
 global ct;
 ct = 0;
 tic;
-options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-6,'ObjectiveLimit',-0.240,...
+options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-6,'ObjectiveLimit',-0.30,...
     'UseParallel','always','MaxFunEval',1000000,'GradObj','on'); %rep 'always' by true
 options.TolFun = 10^(-5);
 %options.TolCon = 10;
@@ -184,7 +184,8 @@ fval
 traj_x = reshape(x(1:dim*len),dim,len);
 traj_x0 = reshape(x_0(1:dim*len),dim,len);
 if(0)
-disp('Plotting...');
+%%
+    disp('Plotting...');
 dim = optParams.dim;
 P_feas = AuxParams.P_feas;
 P_final = AuxParams.P_final;
