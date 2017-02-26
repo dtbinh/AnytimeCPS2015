@@ -4,9 +4,15 @@ We evaluate the control performance of our approach (SR-SQP) and compare it to R
 This is done by testing it on the Heating, Ventilation and Air Conditioning (HVAC) control of a 4-state model of a single zone in a building. Such a model is commonly used in literature for evaluation of predictive control algorithms \cite{Jain2016}. The control problem we solve is similar to the example used in \cite{Raman14_MPCSTL}, where the objective is to bring the zone temperature to a comfortable range when the zone is occupied (given predictions on the building occupancy). The specification is:
 \begin{equation}
 \label{eq:BldgSpec}
-\formula = \always_I(\text{ZoneTemp} \in \text{Comfort})
+\formula = \always_I(\text{ZoneTemp} \in [22,28])
 \end{equation}
-Here, $I$ is the time interval where the zone is occupied, and $\text{Comfort}$ is the range of temperatures (in Celsius) deemed comfortable ($[22,28]$). For the control horizon, we consider a 24 hour period, in which the building is occupied from time steps $10$ to $19$ (i.e. $I=[10,19]$), i.e. a 10-hour workday. 
+
+Here, $I$ is the time interval where the zone is occupied and the range of temperatures (in Celsius) deemed comfortable is ($[22,28]$). For the control horizon, we consider a 24 hour period, in which the building is occupied from time steps $10$ to $19$ (i.e. $I=[10,19]$), i.e. a 10-hour workday. 
+
+\textit{Note:} In this particular problem, the maximum robustness achievable is $3$, which can be achieved by setting the room temperature at $25$C for the interval $I$. 
+With this insight, the problem of maximizing robustness can be solved with a quadratic program with linear constraints and the cost $\sum_{k \in I}({x_4}_k-25)^2$ to be minimized. This indeed results in a trajectory with the global optimal robustness of $3$, but is a method tailored to the particular problem. 
+
+SR-SQP, which is a general purpose technique, results in a robustness which is just $0.02\%$ less than the global optimal value. In the example that follows this one, we take a specification which cannot be trivially turned into a quadratic-program.
 
 \textbf{System dynamics.} The single-zone model, discretized at a sampling rate of 1 hour (which is common in building temperature control) is of the form:
 \begin{equation}
@@ -22,38 +28,36 @@ The control problem we solve is of the form in \eqref{eq:general_ctrl}, with $\g
 \begin{table}[tb]
 \small
 \begin{center}
-\caption{{\small Runtimes (mean and standard, in seconds) for Smooth Operator (SR-SQP) and BluSTL (BS) over 100 runs with random initial states. Here, (B) means \textit{boolean} mode and (R) means \textit{robust} mode of operation. $^*$Note, BS (R) is faster than SR-SQP (R) but never in the 100 runs found a trajectory with positive robustness.}}
+\caption{{\small Runtimes (mean and standard, in seconds) for Smooth Operator (SR-SQP), BluSTL (BlS) and Simulated annealing (SA) over 100 runs with random initial states. Here, (B) means \textit{boolean} mode and (R) means \textit{robust} mode of operation.}}
 \vspace{-5pt}
 \label{tbl:time_performance_bldg}
 \begin{tabular} {|c|c|c|c|}
 	\hline
-	BS(B) & SR-SQP(B) & BS(R) & SR-SQP(R) \\ \hline
-	 $0.041 \pm 0.002$ &  $\mathbf{0.014 \pm 0.002}$  & $0.230^{*} \pm 0.009 $ & $2.532  \pm 0.26$ \\ \hline 
+	BlS (B) & SR-SQP (B) & SR-SQP (R) & SA (R) \\ \hline
+	 $0.041 \pm 0.002$ &  $\mathbf{0.014 \pm 0.002}$  &  $2.532 \pm 0.26$ & $8.56 \pm 0.31$ \\ \hline 
 \end{tabular}	
 \end{center}
 \end{table}
 
 
 
-\textbf{Results.} For comparison across all methods, we run 100 instances of the problem, starting from random initial states $x_0 \in [20,21]^4$. SA, R-SQP and SR-SQP are initialized with the same initial trajectories. The final trajectories after optimization from all methods are shown in Fig.\ref{fig:ZoneTemp} for a particular instance with $x_0 = [21,21,21,21]'$. To reduce clutter, we do not visualize trajectories from SA and R-SQP in \textit{boolean} mode. In \textit{boolean} mode, SR-SQP, BluSTL, and SA (terminated at $\rob>0$) all find satisfying trajectories across all 100 instances, while R-SQP does not find one for any run and always exits at a local minima. Execution times for SR-SQP and BluSTL are shown in table \ref{tbl:time_performance_bldg}. For SA in \textit{boolean} mode, the run-times have a mean and standard deviation of $3.7s$ and $2.3s$ respectively. R-SQP has run-times in the order of minutes. This is because of the lack of existence of an explicit gradient of $\rob$ and MATLAB's numerical approximation of the gradient slows down the optimization.
+\textbf{Results.} For comparison across all methods, we run 100 instances of the problem, starting from random initial states $x_0 \in [20,21]^4$. SA, R-SQP and SR-SQP are initialized with the same initial trajectories. The final trajectories after optimization from all methods are shown in Fig.\ref{fig:ZoneTemp} for a particular instance with $x_0 = [21,21,21,21]'$. To reduce clutter, we do not visualize trajectories from SA and R-SQP in \textit{boolean} mode. 
+
+\textbf{Analysis.} In \textit{boolean} mode, SR-SQP, BluSTL, and SA (terminated at $\rob>0$) all find satisfying trajectories across all 100 instances, while R-SQP does not find one for any run and always exits at a local minima. Execution times for SR-SQP and BluSTL are shown in table \ref{tbl:time_performance_bldg}. For SA in \textit{boolean} mode, the run-times have a mean and standard deviation of $3.7s$ and $2.3s$ respectively. R-SQP has run-times in the order of minutes. This is because of the lack of existence of an explicit gradient of $\rob$ and MATLAB's numerical approximation of the gradient slows down the optimization.
 
 
 In \textit{robust} mode, our method (SR-SQP) and SA both result in trajectories that satisfy $\formula$, with an average robustness of $2.9994$ and $2.8862$ respectively. On the other hand, R-SQP results in a trajectory that does not satisfy $\formula$ ($\rob_{\formula} = -0.1492$), and terminates on a local maxima. Perhaps surprisingly, BluSTL also does not manage to find a satisfying trajectory (average $\rho=-2.71$ for any of the 100 runs. One particular instance is shown in fig. \ref{fig:ZoneTemp}. This could be because the MILP encoding of robustness for this example results in the solver finding local minima which have negative robustness. In terms of run-times, shown in table \ref{tbl:time_performance_bldg}, SR-SQP takes $2.5s$ on average, which is slower than BluSTL, but always finds a trajectory which achieves near global optima of robustness. SA in \textit{robust} mode takes $8.56s$ on average, with a standard deviation of $0.31s$. R-SQP again takes minutes to return a non-satisfying trajectory across all 100 runs. 
 %This is possibly due to the lack of existence of a gradient along certain directions, as seen in example \ref{ex:cluster nondiff}.
 
-\ypcomment{Move to after spec.}
+%\ypcomment{Move to after spec.}
 
-\textbf{Analysis.} In this particular problem, the maximum robustness achievable is $3$, which can be achieved by setting the room temperature at $25$C for the interval $I$. 
-With this insight, the problem of maximizing robustness can be solved with a quadratic program with linear constraints and the cost $\sum_{k \in I}({x_4}_k-25)^2$ to be minimized. This indeed results in a trajectory with the global optimal robustness of $3$, but this is a method tailored to the particular problem. 
-
-SR-SQP, which is a general purpose technique, results in a robustness which is just $0.02\%$ less than the global optimal value. In the following example, we take a specification which cannot be trivially turned into a quadratic-program.
 %, while SA gets to a value $3.8\%$ less than the global optima. 
 %We use this example to illustrate the applicability of our method, as well as its performance, while adding a word of caution against the use of gradient descent for maximizing the true robustness.
 %, even while the gradient of robustness exists \textit{almost everywhere}. 
 %In the following example, we take a specification which cannot be trivially turned into a quadratic-program. %without adding tighter constraints than the specification asks for (or binary variables).
 
 \textbf{Online implementation.} Our scheme can also be implemented online in a receding (shrinking) horizon method similar to \cite{Raman14_MPCSTL}. Note that the control horizon in Eq. \ref{eq:general_ctrl} is as at least long as the formula horizon $N$, and evaluating $\srob$ in general requires a trajectory of length $N$. 
-For each time step $k=0,\dotsc,N$, we solve the problem of Eq.\ref{eq:general_ctrl} while constraining the variables (the previously applied inputs and states, when applicable) for times steps $<k$. Note, the length of the optimization remains $N$, but the number of free variables keeps on shrinking as $k$ increases. For initializing SR-SQP at each time step, the sequence of inputs (or states) computed at time $k-1$ is used as an initial solution for the optimization at time $k$. 
+For each time step $k=0,\dotsc,N$, we solve the problem of Eq.\ref{eq:general_ctrl} while constraining the variables (the previously applied inputs and states, when applicable) for times steps $<k$ to their actual values. In this scheme, the length of the optimization remains $N$, but the number of free variables keeps on shrinking as $k$ increases. For initializing SR-SQP at each time step, the sequence of inputs (or states) computed at time $k-1$ is used as an initial solution for the optimization at time $k$. 
 We implemented this scheme for the HVAC control problem with additional unknown disturbances in the dynamics of the form:
   
 \begin{equation}
@@ -61,7 +65,7 @@ We implemented this scheme for the HVAC control problem with additional unknown 
 x_{k+1} = Ax_{k}+Bu_k+B_dd_k+B_dw_k
 \end{equation}
 
-Here, $w_k$ is a uniform random variable centred around the known $d_k$ with a width of $10\%$ of $d_k$. This can be thought of as prediction errors in the disturbances like solar radiation and outside temperature. Over 100 runs with random initial states as before, the online application of SR-SQP (in \textit{robust} mode) resulted in an average robustness value of $2.91$. In terms of execution time, the first iteration takes times of the order of those in table \ref{tbl:time_performance_bldg}, and subsequent iterations take a fraction of that time (average for one instance $0.0151$) since we re-use the input sequence at time $k-1$ as an initial guess for the solver at time $k$. Since at the initial time step we have achieved near global robustness maxima, the subsequent SQP runs terminate much faster while the formulation takes into account change in the state due to disturbance values by making small changes to the input sequence being computed at time $k>0$. 
+Here, $w_k$ is a uniform random variable centred around the known $d_k$ with a width of $10\%$ of element wise magnitude of $d_k$. This can be thought of as prediction errors in the disturbances like solar radiation and outside temperature. Over 100 runs with random initial states as before, the online application of SR-SQP (in \textit{robust} mode) resulted in an average robustness value of $2.91$. In terms of execution time, the first iteration takes times of the order of those in table \ref{tbl:time_performance_bldg}, and subsequent iterations take a fraction of that time (average for one instance $0.0151s$). This is because we re-use the input sequence at time $k-1$ as an initial guess for the solver at time $k$. Since at the initial time step we have achieved near global robustness maxima, the subsequent SQP optimizations terminate much faster while the formulation takes into account change in the state due to disturbance values by making small changes to the input sequence being computed at time $k>0$. The high value of average robustness achieved and the small execution show the applicability of SR-SQP as an online closed loop control method. 
 
 \begin{figure}[t]
 \centering
