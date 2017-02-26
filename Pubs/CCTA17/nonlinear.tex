@@ -1,3 +1,13 @@
-\subsection{A Non-linear example}
-Since SQP can handle non-linear (twice differentiable) constraints, our method can inherently also deal with non-linear dynamics whereas the MILP based methods have to linearize dynamics to solve the system. The following example shows SR-SQP applied in a one-shot manner to a unicycle model discretized at 10Hz.
+\subsubsection{A Non-linear example: Unicycle}
+Since SQP can handle non-linear (twice differentiable) constraints, our method can inherently also deal with non-linear dynamics whereas the MILP based methods have to linearize dynamics to solve the system. The following example shows SR-SQP applied in a one-shot manner to the unicycle dynamics (Eq. \ref{eq:unicycle}) discretized at 10Hz.
 
+\begin{subequations}
+\label{eq:unicycle}
+\begin{align}
+\dot{x}_t &=v_t \cos (\theta_t) \nonumber \\ 
+\dot{y}_t &=v_t \sin (\theta_t) \nonumber \\
+\dot{\theta}_t &= u_t
+\end{align}
+\end{subequations}
+
+For the specification of Sec. \ref{sec:illustrative example}, the resulting trajectory of length 20 steps with SR-SQP in $\textit{robust}$ mode is shown in fig.\ref{fig:toy control}, starting from an initial state of $[-2,-2,0]$. The resulting robustness is $0.248$, which is close to the value of the global optima of $0.25$. Note how the trajectory terminates close to the middle of the terminal set (where the global maxima is achieved as discussed previously), similar to the SR-SQP (R) trajectory for the illustrative example. This shows that SR-SQP can indeed handle non-linear dynamics without the need for explicit linearization as is done in MILP based methods.
