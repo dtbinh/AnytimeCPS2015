@@ -31,7 +31,7 @@ This makes its optimization a challenge - indeed, most existing approaches treat
 These heuristics provide little to no guarantees, have too many user-set parameters, and don't have rigorous termination criteria.
 On the other hand, \textit{gradient descent optimization} algorithms typically offer convergence guarantees to the function's (local) minima, have known convergence rates for certain function classes, and have been optimized so they outperform heuristics that don't have access to the objective's gradient information.
 The existence of a gradient also allows us to do \textit{local} search for falsifying trajectories, which is necessary for corner case bugs or dangerous situations.
-Moreover, gradient descent algorithms usually have a fewer number of parameters to be set by the user, and important issues like step-size selection are rigorously addressed.
+Moreover, gradient descent algorithms usually have a fewer number of parameters to be set, and important issues like step-size selection are rigorously addressed.
 
 \textbf{Contributions}. In this paper, we present smooth (infinitely differentiable) approximations to the robustness function of arbitrary MTL formulae.
 We show that the smooth approximation is always within a user-defined error of the true robustness, and illustrate the result experimentally.

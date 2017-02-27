@@ -8,7 +8,7 @@ We implemented the smooth approximation to the semantics of MTL, and tested it o
 \centering
 \includegraphics[width=0.49\textwidth]{figures/RobustnessError_corrected_scissored}
 \vspace{-20pt}
-\caption{{\small RMSE and variance of robustness approximation error against formula horizon, evaluated on 1000 randomly generated trajectories for the system in \eqref{eq:PointMass}. Unless noted, the systems are 2D. Note that the approximation errors and their variances are very small, showing the accuracy and stability of the smooth approximation.}}
+\caption{{\small RMSE and variance of robustness approximation error against formula horizon, evaluated on 1000 randomly generated trajectories for the system in \eqref{eq:PointMass}. Unless noted, the systems are 2D. Note that the approximation errors and their variances are very small, showing the accuracy and stability of the smooth approximation. Color in online version.}}
 \vspace{-10pt}
 \label{fig:sample result}
 \end{figure}
@@ -69,12 +69,21 @@ This is also true in our case since our equality constraints come from the dynam
 \textbf{Solver initialization}.
 To initialize SQP when solving $P_{\srob}$ (i.e., to give it a starting value for $\mathbf{u}$), we can either:
 
-a) solve an inexpensive feasibility linear program with constraints \eqref{eq:general ctrl dyn}-\eqref{eq:general ctrl U}. By definition, the resulting trajectory simply satisfies the constraints without optimizing the objective.
+a) solve an inexpensive feasibility linear program with constraints \eqref{eq:general ctrl dyn}-\eqref{eq:general ctrl U}. By definition, the resulting trajectory simply satisfies the constraints without optimizing the objective, or necessarily even satisfying the specification.
 
 b) Or, generate a random input sequence respecting $u_k \in U$. 
 Such a trajectory will be very fast to generate and feasible w.r.t the dynamics but is unlikely to satisfy the specification on the system. 
 
 Note, the resulting initial trajectory is free to violate the specification (as it does in every example we study in this paper) and we only enforce that it satisfy the dynamics and state constraints.
+
+\textbf{Comparison to BluSTL.}
+In the following example and case studies, we compare our method Smooth Operator (SOP) to (among other methods) BluSTL, a state of the art MILP based approach. BluSTL has two modes of operation:  \textit{Boolean} (B), which aims at satisfying the specification without maximizing its robustness, and \textit{Robust} (R), which attempts to maximize robustness. 
+In both modes, we set the control cost to zero, which implies $\gamma=0$ in the control optimization formulation $P_{\srob}$ of Eq. \ref{eq:general_ctrl}. For a fair comparison, our method emulates the \textit{Boolean} mode of BluSTL by terminating the optimization at the iteration of SQP where $\srob \geq \epsilon_{\text{Meyer}}$. We abbreviate this approach as SOP (B). Here, $\epsilon_{\text{Meyer}}$ is the bound on robustness approximation error for the approximation method defined in Sec. \ref{sec:overall apx}. This guarantees that $\srob_{\formula} \geq  \epsilon_{\text{Meyer}} \implies \rob_{\formula} \geq 0$ and the termination criteria, when met, ensures a trajectory that satisfies $\formula$.
+The \textit{Robust} operation, SOP (R), is obtained by solving $P_{\srob}$ until SQP terminates. For our method we also set $\delta=0$ in $P_{\srob}$ for all cases.
+All methods are run in a \textit{one-shot} manner, that is, a single optimization is solved at time step $0$ to get a trajectory with $N = hrz(\formula)$ time steps. 
+
+
+
 
 %In most cases, SQP solvers can also recover from infeasible starts, that is the initial trajectory can also violate the dynamics and constraints of the system, but at the cost of computation effort, hence we enforce the feasibility constraint on the initial trajectory.
 %\todo[inline]{fig.3 still doesn't show the interval for the until operator on the last spec}

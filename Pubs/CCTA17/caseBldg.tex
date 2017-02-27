@@ -45,7 +45,7 @@ The control problem we solve is of the form in \eqref{eq:general_ctrl}, with $\g
 \textbf{Analysis.} In \textit{boolean} mode, SOP, BluSTL, and SA (terminated at $\rob>0$) all find satisfying trajectories across all 100 instances, while R-SQP does not find one for any run and always exits at a local minima. Execution times for SOP and BluSTL are shown in table \ref{tbl:time_performance_bldg}. For SA in \textit{boolean} mode, the run-times have a mean and standard deviation of $3.7s$ and $2.3s$ respectively. R-SQP has run-times in the order of minutes. This is because of the lack of existence of an explicit gradient of $\rob$ and MATLAB's numerical approximation of the gradient slows down the optimization.
 
 
-In \textit{robust} mode, our method (SOP) and SA both result in trajectories that satisfy $\formula$, with an average robustness of $2.9994$ and $2.8862$ respectively. On the other hand, R-SQP results in a trajectory that does not satisfy $\formula$ ($\rob_{\formula} = -0.1492$), and terminates on a local maxima. Perhaps surprisingly, BluSTL also does not manage to find a satisfying trajectory (average $\rho=-2.71$) for any of the 100 runs. One particular instance is shown in fig. \ref{fig:ZoneTemp}. This could be because the MILP encoding of robustness for this example results in the solver finding local minima which have negative robustness. In terms of run-times, shown in table \ref{tbl:time_performance_bldg}, SOP takes $2.5s$ on average, which is slower than BluSTL, but always finds a trajectory which achieves near global optima of robustness. SA in \textit{robust} mode takes $8.56s$ on average, with a standard deviation of $0.31s$. R-SQP again takes minutes to return a non-satisfying trajectory across all 100 runs. 
+In \textit{robust} mode, our method (SOP) and SA both result in trajectories that satisfy $\formula$, with an average robustness of $2.9994$ and $2.8862$ respectively. On the other hand, R-SQP results in a trajectory that does not satisfy $\formula$ (average $\rob_{\formula} = -0.1492$). Perhaps surprisingly, BluSTL also does not manage to find a satisfying trajectory (average $\rho=-2.71$) for any of the 100 runs. One particular instance is shown in fig. \ref{fig:ZoneTemp}. This could be because the MILP encoding of robustness for this example results in the solver finding local minima which have negative robustness. In terms of run-times, shown in table \ref{tbl:time_performance_bldg}, SOP takes $2.5s$ on average, which is slower than BluSTL, but always finds a trajectory which achieves near global optima of robustness. SA in \textit{robust} mode takes $8.56s$ on average, with a standard deviation of $0.31s$. R-SQP again takes minutes on average to return non-satisfying trajectories across all 100 runs. 
 %This is possibly due to the lack of existence of a gradient along certain directions, as seen in example \ref{ex:cluster nondiff}.
 
 %\ypcomment{Move to after spec.}
@@ -71,7 +71,7 @@ Here, $w_k$ is a uniform random variable centred around the known $d_k$ with a w
 \centering
 \includegraphics[width=0.49\textwidth]{figures/ZoneTempFinal}
 \vspace{-20pt}
-\caption{\small{Zone temperatures. The green rectangle shows the comfortable temperature limit of 22-28 C, applicable during time steps 10-19 (when the building is occupied).}}
+\caption{\small{Zone temperatures. The green rectangle shows the comfortable temperature limit of 22-28 C, applicable during time steps 10-19 (when the building is occupied). Color in online version.}}
 \label{fig:ZoneTemp}
 \vspace{-10pt}
 \end{figure}
