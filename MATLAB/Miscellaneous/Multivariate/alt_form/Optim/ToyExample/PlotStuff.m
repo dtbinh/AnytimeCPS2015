@@ -31,7 +31,7 @@ hold on;plot(traj_uni(1,:),traj_uni(2,:),'-g+','linewidth',2.5,'markersize',8)
 xlabel('x_1','FontSize',20);
 ylabel('x_2','FontSize',20);
 %h_legend = legend('Unsafe','Terminal','SR-SQP (B)','BluSTLS (B)','SR-SQP (R)','SR-SQP (R,\gamma=0.1)');
-h_legend = legend('SR-SQP (B)','BluSTLS (B)','SR-SQP (R)','SR-SQP (R,\gamma=0.1)','SR-SQP (R,unicycle)');
+h_legend = legend('SR-SQP (B)','BluSTLS (B)','SR-SQP (R)','SR-SQP (\gamma=0.1,\delta=0)','SR-SQP (R,unicycle)');
 set(h_legend,'FontSize',20);
 grid off
 set(gca,'Xtick',-2.5:2.5:2.5,'FontSize',20)
