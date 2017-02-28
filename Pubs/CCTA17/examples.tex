@@ -72,10 +72,14 @@ Note, the resulting initial trajectory could violate the specification (as it do
 We compare the proposed Smooth Operator (SOP) to (among other methods) BluSTL, a state of the art MILP-based approach.
 BluSTL has two modes of operation: mode (B) or \textit{Boolean}, which aims at satisfying the specification without maximizing its robustness, and mode (R) or \textit{Robust}, which attempts to maximize robustness. 
 The proposed SOP method optimizes robustness and so naturally runs in mode (R).
-To emulate mode (B), we terminate the optimization as soon as $\srob \geq \epsilon_{\text{Meyer}}$, which in turn implies that $\rob_{\formula} \geq 0$.
-For SOP we also set $\delta=0$ in $P_{\srob}$ for all cases.
-\todo[inline]{why did you set delta=0? Justify your choices. 
-	If you use delta=0, then how are you enforcing satisfaction? It might be that you're about to explain these things later, but here is the place to explain since this is where you bring them up. }
+To emulate mode (B), we terminate the optimization as soon as $\srob \geq \epsilon_{\text{Meyer}}$, which in turn implies that $\rob_{\formula} \geq 
+0$. 
+
+Since the focus of this paper is on robustness optimization, we set the cost of control to zero for all methods involved in the examples, unless stated otherwise. This corresponds to $\gamma=0$ in $P_{\srob}$. %Since there is no cost of control, and robustness alone is being maximized in $P_{\srob}$,We also set $\delta=0$ in $P_{\srob}$ for all SOP. 
+The goal of $P_{\srob}$ with $\gamma=0$ is to find a trajectory that maximizes $\srob$, hence there is no need for the additional lower bound constraint (Eq. \ref{eq:general ctrl pos rob}) on $\srob$. This is why we also set $\delta=0$ in $P_{\srob}$ for all examples that follow.
+
+%\todo[inline]{why did you set delta=0? Justify your choices. 
+%	If you use delta=0, then how are you enforcing satisfaction? It might be that you're about to explain these things later, but here is the place to explain since this is where you bring them up. }
 %All methods are run in a \textit{one-shot} manner, that is, a single optimization is solved at time step $0$ to get a trajectory with $N = hrz(\formula)$ time steps. 
 
 \input{toyExample}
