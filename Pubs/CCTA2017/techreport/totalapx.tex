@@ -1,0 +1,136 @@
+\subsection{Overall approximation}
+\label{sec:overall apx}
+Putting the pieces together, we obtain the approximation error for the robustness of any MTL formula.
+Given a set $U$, let $\sdist_\varepsilon(\cdot,U)$ be an $\varepsilon$-approximation of $\dist(\cdot,U)$, i.e. for all $x$ in their common domain, $|\dist(x,U) - \sdist_\varepsilon(x,U)| \leq \varepsilon$.	
+\begin{theorem}
+	\label{thm:total apx error}
+	Consider an MTL formula $\formula$ and reals $\varepsilon > 0$ and $k \geq 1$. 
+	Define the \textit{smooth robustness} $\srobf$, obtained by substituting $\sdist_{\varepsilon}$ for $\dist$, $\smax_k$ for $\max$, and $\smin_k$ for $\min$, in Def. \ref{def:robustness estimate}.
+	Then for any trajectory $\sstraj$, it holds that
+	\[|\robf-\srobf| \leq \delta_\formula\]
+	where $\delta_\formula$ is
+	(a) independent of the evaluation time $t$, and 
+	(b) goes to 0 as $\varepsilon \rightarrow 0$ and $k \rightarrow \infty$.
+%	\[|\robf-\srobf| \leq |\formula| \cdot \max(\varepsilon,\ln(m)/k)\]
+%	where $m$ is the length of the longest temporal interval appearing in $\formula$ and $|\formula|$ is the size of the formula, i.e. the number of operators that appear in it.
+\end{theorem}
+\begin{proof}
+	We will prove a stronger result that implies the theorem.	
+%	Define $\delta_\formula \in \Re_+$ inductively: 
+%	$\delta_\top = 0, \delta_p = \varepsilon$, $\delta_{\neg \formula} = \delta_\formula$, 
+%	$\delta_{\formula_1 \lor \formula_2} = \delta_{\formula_1 \land \formula_2} = \delta_{\formula_1} \sqcup \delta_{\formula_2} + \ln(2)/k$,
+%	$\delta_{\formula_1 \until_{[a,b]} \formula_2}  = \delta_{\formula_1} \sqcup \delta_{\formula_2} + \ln(b-a)/k$.
+%	Noting that $\delta_\formula \leq |\formula| \cdot \max(\varepsilon,\ln(m)/k)$, it suffices to show that the error is upper-bounded by $\delta_\formula$.
+	When $\sstraj$ or $t$ are clear from the context, we will drop them from the notation.
+	
+	The proof is by structural induction on $\formula$, and works by carefully characterizing the approximation error.
+	
+\underline{Case $\formula = p \in AP$.}
+$\robf(\sstraj,t)$ is given by either $\dist{x_t}{\Oc(p)}$ or $-\dist{x_t}{\Oc(p)}$, and 
+$\srobf(\sstraj,t)$ is given by either $\sdist_\varepsilon(x_t,\Oc(p))$ or $-\sdist_\varepsilon(x_t,\Oc(p))$, respectively.
+Either way, $|\srobf(\sstraj,t) - \robf(\sstraj,t)| \leq \varepsilon$.
+Indeed, $\varepsilon$ satisfies the conditions on $\delta_\formula$.
+
+\underline{Case $\formula = \neg \formula_1$} 
+$|\rob_{\neg \formula_1}(\sstraj,t)-\srob_{\neg \formula_1}(\sstraj,t)| = |-\rob_{\formula_1}(\sstraj,t) + \srob_{ \formula_1}(\sstraj,t)|  \leq \delta_{\formula_1}$, and $\delta_{\formula_1}$ satisfies (a)-(b) by the induction hypothesis.
+
+\underline{Case $\formula = \formula_1 \lor \formula_2$}.
+If the same sub-formula $\formula_i$ achieves the max for both $\rob_{\formula_1}(\sstraj,t) \sqcup \rob_{\formula_2}(\sstraj,t)$ and $\srob_{\formula_1}(\sstraj,t) \sqcup \srob_{\formula_2}(\sstraj,t)$, then by induction hypothesis we immediately obtain 
+$|\robf(\sstraj,t)-\srob(\sstraj,t)|  \leq \delta_{\formula_i}$.
+
+Otherwise if, say, $\robf = \rob_{\formula_1}$ and $\srobf = \srob_{\formula_2}$ then
+\[\robfa -\delta_{\formula_1} \leq \srob_{\formula_1} \leq \srob_{\formula_2} \implies \robfa-\srob_{\formula_2} \leq \delta_{\formula_1}\]
+Also 
+\[\srob_{\formula_2} \leq \robfb+\delta_{\formula_2} \leq \robfa + \delta_{\formula_2} \implies -\delta_{\formula_2} \leq \robfa - \srob_{\formula_2}\]
+Therefore
+\begin{equation*}
+\label{eq:inter}
+-(\delta_{\formula_1} \sqcup \delta_{\formula_2})\leq \robfa - \srob_{\formula_2}\leq \delta_{\formula_1} \sqcup \delta_{\formula_2} \Leftrightarrow |\robfa - \srob_{\formula_2}|\leq \delta_{\formula_1} \sqcup \delta_{\formula_2}
+\end{equation*}
+Similarly, if $\robf = \rob_{\formula_2}$ and $\srobf = \srob_{\formula_1}$, we have $|\robfb - \srob_{\formula_1}|\leq  \delta_{\formula_1} \sqcup \delta_{\formula_2}$.
+So in all cases, 
+\[|\robfa \sqcup \robfb - \srob_{\formula_1} \sqcup \srob_{\formula_2}|\leq \delta_{\formula_1} \sqcup \delta_{\formula_2}\]
+Therefore by the triangle inequality and \eqref{eq:smooth max error}
+\[|\robfa \sqcup \robfb - \smax_k(\srob_{\formula_1} , \srob_{\formula_2})|\leq  \delta_{\formula_1} \sqcup \delta_{\formula_2} + \ln(2)/k  = \delta_\formula\]
+Clearly, $\delta_\formula$ satisfied (a)-(b).
+
+The case $\formula_1 \land \formula_2$ is treated similarly.
+
+\underline{$\formula = \formula_1 \until_I \formula_2$.} 
+Before proving this case, we will need the following lemma, which is provable by induction on $n$:
+\begin{lemma}
+	\label{lemma:n-ary apx}
+	If $\formula = \formula_1\land \ldots\land \formula_n$ or $\formula = \formula_1\lor \ldots\lor \formula_n$, $n\geq 2$, then 
+	$|\robf - \srobf| \leq \sqcup_{1\leq i \leq n}\delta_{\formula_i} + \ln(n)/k$.
+\end{lemma}
+
+We now proceed with the proof of the last case.
+Recall that $\rob_{ \formula_1 \until_I \formula_2} (\sstraj,t) = \sqcup_{t' \in t+_{\TDom}I} \left(\rob_{\formula_2} (\sstraj,t') \bigsqcap \right.
+\\
+\left. \sqcap_{t'' \in [t,t')}   \rob_{\formula_1} (\sstraj,t'') \right)$.
+Starting with the innermost sub expression $\rob_\psi \defeq \sqcap_{t'' \in [t,t')}   \rob_{\formula_1} (\sstraj,t'')$, we have, by Lemma \ref{lemma:n-ary apx}
+\begin{equation}
+\label{eq:robpsi}
+|\rob_{\psi}-\srob_\psi| \leq \sqcup_{t'' \in [t,t')}\delta_{\formula_1}^{t''} + \ln(t'-t)/k
+\end{equation} 
+where $\delta_{\formula_1}^{t''} $ is the bound for approximating $\rob_{\formula_1}(\sstraj,t'')$.
+But $\delta_\formula$ does not depend on the time at which the formula is evaluated. 
+Therefore the bound in \eqref{eq:robpsi} becomes
+\begin{equation}
+\label{eq:t'-t}
+|\rob_{\psi}-\srob_\psi| \leq \delta_{\formula_1} + \ln(t'-t)/k
+\end{equation} 
+%
+To avoid introducing a dependence on time, we further upper-bound by 
+\begin{equation*}
+|\rob_{\psi}-\srob_\psi| \leq \delta_{\formula_1} + \ln(hrz(\formula))/k \defeq \delta_\psi
+\end{equation*} 
+where, recall, $hrz(\formula)$ is the horizon of $\formula$ (see Section \ref{sec:mtl}).
+
+Continuing with the sub-expression $\rob_\alpha = \rob_{\formula_2} (\sstraj,t') \bigsqcap \rob_\psi$, by the induction hypothesis it holds that 
+$|\rob_\alpha - \srob_\alpha| \leq \delta_{\formula_2} \sqcup \delta_\psi + \ln(2)/k \defeq \delta_\alpha$.
+%
+Finally, the top-most max operator introduces the total error 
+\begin{eqnarray}
+\label{eq:deltaphi until}
+|\robf-\srobf| &\leq& \delta_\alpha + \ln(|I|)/k 
+\nonumber
+\\
+&=& \delta_{\formula_2} \sqcup \delta_\psi + \ln(2)/k + \ln(|I|)/k 
+\nonumber 
+\\
+&=& \delta_{\formula_2} \sqcup ( \delta_{\formula_1} + \ln(hrz(\formula))/k )+ \ln(2|I|)/k 
+\nonumber
+\\
+&=&\delta_\formula
+\end{eqnarray}
+The first inequality obtains from the fact that $\delta_\alpha$ is independent of evaluation time and Lemma \ref{lemma:n-ary apx}.
+The bound $\delta_\formula$ obeys (a)-(b).
+This concludes the proof.
+%if $\formula_1$ is a sub-formula of $\formula$, then $\delta_{\formula_1} \leq \delta_\formula$.
+	\end{proof}
+	
+%\begin{rem}
+%	\label{rem:upper bound}
+%	The proof suggests in \eqref{eq:deltaphi until} that every Until operator increases the error by $+\ln(hrz(\formula))/k$, which may be a large quantity for long-horizon formulas.
+%	However, a more careful analysis of the accumulation of interval widths $t'-t$, which we upper bounded above by $hrz(\formula)$, reveals that that is not the case.
+%	Indeed, consider the formula
+%	\[\formula = \underbrace{(\formula_1 \until_{[a,b]} \formula_2) }_{\psi}\until_{[c,d]} \formula_3\]
+%	where $\formula_i$ does not contain temporal operators and let $t_\psi$ be the satisfaction time of $\psi$. 
+%	I.e. it is the time in $[a,b]$ when $\formula_2$ becomes true and `takes over' from $\formula_1$.
+%	Then, using \eqref{eq:t'-t}, $\delta_{\formula}$ is equal to
+%	\begin{eqnarray*}
+%	 && \delta_{\formula_3} \sqcup ( \delta_{\psi} + \ln(t_{\formula_3} - t_\psi)/k )+ \ln(2[d-c])/k 
+%	\\
+%	&\leq& \delta_{\formula_3} \sqcup ( \delta_{\psi} + \ln(t_\psi + d - t_\psi)/k )+ \ln(2[d-c])/k 
+%	\\
+%	&\leq& \delta_{\formula_3} \sqcup ( \delta_{\psi} + \ln(d)/k )+ \ln(2[d-c])/k 
+%	\\
+%	&=& \delta_{\formula_3} \sqcup \left( \underbrace{\delta_{\formula_2} \sqcup ( \delta_{\formula_1} + \ln(b)/k )+ \ln(2[b-a])/k }_{\delta_\psi} + \ln(d)/k \right)
+%	\\
+%	&& \quad + \ln(2[d-c])/k 
+%	\end{eqnarray*}
+%	The sum of interval widths, such as $\ln(2[b-a])+\ln(2[d-c])$ in this example, gives a \textit{total} $\sum_j\ln(2|I_j|) = \#\until\ln(2) +  \sum\ln(|I_j|)$, where $\#\until$ is the number of times $\until$ appears in $\formula$ and the $I_j$'s are all the temporal intervals. 
+%	This quantity, in most cases, will actually be smaller than the horizon.
+%	The sum of interval right endpoints, such as $\ln(b)/k + \ln(d)/k$ in this example, yields $\sum_j \ln(\sup I_j)/k$ \textit{in total}, which is smaller than the horizon.
+%\end{rem}
