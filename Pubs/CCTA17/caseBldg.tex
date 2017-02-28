@@ -11,7 +11,7 @@ Here, $I$ is the time interval where the zone is occupied and the range of tempe
 \textit{Note:} In this particular problem, the maximum robustness achievable is $3$, which can be achieved by setting the room temperature at $25$C for the interval $I$. 
 With this insight, the problem of maximizing robustness can be solved with a quadratic program with linear constraints and the cost $\sum_{k \in I}({x_4}_k-25)^2$ to be minimized. This indeed results in a trajectory with the global optimal robustness of $3$, but is a method tailored to the particular problem. 
 
-SOP, which is a general purpose technique, results in a robustness which is just $0.02\%$ less than the global optimal value. In the example that follows this one, we take a specification which cannot be trivially turned into a quadratic-program.
+SOP, which is a general purpose technique, results in a robustness which is just $0.02\%$ less than the global optimal value. In the example that follows this one, we take a specification which cannot be trivially turned into a quadratic program.
 
 \textbf{System dynamics.} The single-zone model, discretized at a sampling rate of 1 hour (which is common in building temperature control) is of the form:
 \begin{equation}
@@ -27,7 +27,7 @@ The control problem we solve is of the form in \eqref{eq:general_ctrl}, with $\g
 \begin{table}[tb]
 \small
 \begin{center}
-\caption{{\small Runtimes (mean and standard, in seconds) for Smooth Operator (SOP), BluSTL (BlS) and Simulated annealing (SA) over 100 runs with random initial states. Here, (B) means \textit{boolean} mode and (R) means \textit{robust} mode of operation. BlS (R) runtimes are not reported since it does not find trajectories that satisfy the specification. See text for more details.}}
+\caption{{\small HVAC. Runtimes (mean and std deviation, in seconds) for Smooth Operator (SOP), BluSTL (BlS) and Simulated annealing (SA) over 100 runs with random initial states. BluSTL (R) could not find satisfying trajectories.}}
 \vspace{-5pt}
 \label{tbl:time_performance_bldg}
 \begin{tabular} {|c|c|c|c|}
@@ -40,12 +40,21 @@ The control problem we solve is of the form in \eqref{eq:general_ctrl}, with $\g
 
 
 
-\textbf{Results.} For comparison across all methods, we run 100 instances of the problem, starting from random initial states $x_0 \in [20,21]^4$. SA, R-SQP and SOP are initialized with the same initial trajectories. The final trajectories after optimization from all methods are shown in Fig.\ref{fig:ZoneTemp} for a particular instance with $x_0 = [21,21,21,21]'$. To reduce clutter, we do not visualize trajectories from SA and R-SQP in \textit{boolean} mode. 
+\textbf{Results.} For comparison across all methods, we run 100 instances of the problem, starting from random initial states $x_0 \in [20,21]^4$. SA, R-SQP and SOP are initialized with the same initial input sequences $\mathbf{u}$. 
+The final trajectories after optimization from all methods are shown in Fig.\ref{fig:ZoneTemp} for a particular instance with $x_0 = [21,21,21,21]'$. To reduce clutter, we do not visualize trajectories from SA and R-SQP in mode (B).
 
-\textbf{Analysis.} In \textit{boolean} mode, SOP, BluSTL, and SA (terminated at $\rob>0$) all find satisfying trajectories across all 100 instances, while R-SQP does not find one for any run and always exits at a local minima. Execution times for SOP and BluSTL are shown in table \ref{tbl:time_performance_bldg}. For SA in \textit{boolean} mode, the run-times have a mean and standard deviation of $3.7s$ and $2.3s$ respectively. R-SQP has run-times in the order of minutes. This is because of the lack of existence of an explicit gradient of $\rob$ and MATLAB's numerical approximation of the gradient slows down the optimization.
-
-
-In \textit{robust} mode, our method (SOP) and SA both result in trajectories that satisfy $\formula$, with an average robustness of $2.9994$ and $2.8862$ respectively. On the other hand, R-SQP results in a trajectory that does not satisfy $\formula$ (average $\rob_{\formula} = -0.1492$). Perhaps surprisingly, BluSTL also does not manage to find a satisfying trajectory (average $\rho=-2.71$) for any of the 100 runs. One particular instance is shown in fig. \ref{fig:ZoneTemp}. This could be because the MILP encoding of robustness for this example results in the solver finding local minima which have negative robustness. In terms of run-times, shown in table \ref{tbl:time_performance_bldg}, SOP takes $2.5s$ on average, which is slower than BluSTL, but always finds a trajectory which achieves near global optima of robustness. SA in \textit{robust} mode takes $8.56s$ on average, with a standard deviation of $0.31s$. R-SQP again takes minutes on average to return non-satisfying trajectories across all 100 runs. 
+\textbf{Analysis.} 
+In Boolean mode, SOP, BluSTL, and SA all find satisfying trajectories across all 100 instances, while R-SQP does not find one for any run and always exits at a local minima. 
+Execution times for SOP and BluSTL are shown in Table \ref{tbl:time_performance_bldg}, while the runtimes for SA (B) are $3.7 \pm 2.3s$.
+ R-SQP has run-times in the order of minutes. This is because of Matlab's failed attempts at approximating a gradient that does not exist.
+ 
+In Robust mode, SOP and SA both result in trajectories that satisfy $\formula$, with an average robustness of $2.9994$ and $2.8862$ respectively. On the other hand, R-SQP often returns violating trajectories (average $\rob_{\formula} = -0.1492$). 
+Somewhat surprisingly, BluSTL does not manage to find a satisfying trajectory (average $\rho=-2.71$) for any of the 100 runs. 
+One particular instance is shown in Fig. \ref{fig:ZoneTemp}. 
+%This could be because the MILP encoding of robustness for this example results in the solver finding local minima which have negative robustness. 
+As shown in Table \ref{tbl:time_performance_bldg}, SOP takes $2.5s$ on average.
+SA (R) takes $8.56 \pm 0.31s$ on average. 
+R-SQP again takes minutes on average to return non-satisfying trajectories across all 100 runs. 
 %This is possibly due to the lack of existence of a gradient along certain directions, as seen in example \ref{ex:cluster nondiff}.
 
 %\ypcomment{Move to after spec.}
@@ -55,7 +64,7 @@ In \textit{robust} mode, our method (SOP) and SA both result in trajectories tha
 %, even while the gradient of robustness exists \textit{almost everywhere}. 
 %In the following example, we take a specification which cannot be trivially turned into a quadratic-program. %without adding tighter constraints than the specification asks for (or binary variables).
 
-\subsubsection{Online implementation} 
+\subsubsection{Receding horizon implementation} 
 %\textbf{Online implementation.} 
 Our scheme can also be implemented online in a receding (shrinking) horizon method similar to \cite{Raman14_MPCSTL}. Note that the control horizon in Eq. \ref{eq:general_ctrl} is as at least long as the formula horizon $N$, and evaluating $\srob$ in general requires a trajectory of length $N$. 
 For each time step $k=0,\dotsc,N$, we solve the problem of Eq.\ref{eq:general_ctrl} while constraining the variables (the previously applied inputs and states, when applicable) for times steps $<k$ to their actual values. In this scheme, the length of the optimization remains $N$, but the number of free variables keeps on shrinking as $k$ increases. For initializing SOP at each time step, the sequence of inputs (or states) computed at time $k-1$ is used as an initial solution for the optimization at time $k$. 

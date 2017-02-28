@@ -2,35 +2,34 @@
 %\label{sec:illustrative example}
 \begin{exmp}
 \label{ex:toyproblem}
-We consider a linear system with the following dynamics:
+We control the following linear system
 \begin{equation}
 \label{eq:PointMass}
 x_{k+1} = x_k + u_k
 \end{equation}
-
-The specification is 
+to satisfy the specification
 \[\formula = \always_{[0,20]} \neg (x \in \text{Unsafe}) \land \eventually_{[0,20]} (x \in \text{Terminal})\]
 with the sets $\text{Unsafe}=[-1,1]^2$ and $\text{Terminal}=[2,2.5]^2$. 
 The state space is $X=[-2.5,2.5]^2$, $U=[-0.5,0.5]^2$.
+Unless otherwise indicated, we use $\gamma=0$ in Eq. \ref{eq:general_ctrl} to focus on satisfaction in this illustrative example. 
+Experiments were run on a quad-core Intel i5 3.2GHz processor with 24GB RAM, running MATLAB 2016b.
 %, $\delta=1$, and we optimize for two different values of $\gamma$, $0.1$ and $0.001$. 
 %The initial point of the trajectory is $x_0=[-2,-2]'$. 
-%The control cost is $l(x_k,u_k) = ||x_k||_{2}^2$, so that $\sum_kl(x_k,u_k)$ penalizes the length of the trajectory. Here, $hrz(\formula) = 21$.
-
-
-%In most cases, SQP solvers can also recover from infeasible starts, that is the initial trajectory can also violate the dynamics and constraints of the system, but at the cost of computation effort, hence we enforce the feasibility constraint on the initial trajectory.
-%\todo[inline]{fig.3 still doesn't show the interval for the until operator on the last spec}
-
-
-
+%Here, $hrz(\formula) = 21$.
 
 \textbf{Results}.
 %Fig.~\ref{fig:toy control} shows the sets, initial trajectory (which is unsafe and has a robustness of $-1$), and two trajectories obtained by solving $P_{\srob}$ for two different values of $\gamma$ (with $\delta=0$). Both trajectories satisfy the specification $\formula$. Intuitively, the trajectories in Fig.\ref{fig:toy control} make sense, as for a higher value of $\gamma=0.1$ we get a shorter trajectory, which is closer to unsafe set, hence satisfies $\formula$ less robustly ($\rob_{\formula}=0.65$) and for a smaller value of $\gamma=0.001$ we get a longer trajectory with a higher robustness ($\rob_{\formula}=1.21$).
-Fig. \ref{fig:toy control} shows the trajectories (of length $N=20$) from the two methods in modes (B) and (R), starting from the same initial state $[-2,-2]$. Unless otherwise indicated, we use $\gamma=0$. Both BluSTL (B) and SOP (B) produce satisfying trajectories. The trajectory from SOP (R) ends in the middle of the terminal set, resulting in a higher robustness than mode (B), as expected. 
-In robust mode, BluSTL could not finish a single instance of robustness maximization within 100 hours on both the machine used for running experiments as well as on a machine with 8 core Intel Xeon machine with 60GB RAM, leading us to believe that the problem formulation in BluSTL did not scale into a tractable MILP. 
-SOP ($\gamma=0.1,\delta=0$) takes into account the (quadratic) control cost and hence results in a trajectory of shorter length at the cost of a lower final robustness than SOP (R), which had $\gamma = 0$, ($0.236$ vs $0.247$).
+Fig. \ref{fig:toy control} shows the trajectories of length $N=20$ obtained by SOP and BluSTL in modes (B) and (R), starting from the same initial point $x_0=[-2,-2]'$.
+Both BluSTL (B) and SOP (B) produce satisfying trajectories. 
+The trajectory from SOP (R) ends in the middle of the terminal set, resulting in a higher robustness than mode (B), as expected. 
+In mode (R), BluSTL could not finish a single instance of robustness maximization within 100 hours on both the above machine and on a more powerful 8 core Intel Xeon machine with 60GB RAM, leading us to believe that the corresponding MILP was not tractable.
+ 
+SOP ($\gamma=0.1,\delta=0$) takes into account a control cost $l(x_k,u_k) = ||x_k||_{2}^2$ that penalizes longer trajectories.
+The resulting trajectory is shorter but has a lower robustness than SOP (R, $\gamma = 0$), ($0.236$ vs $0.247$).
 
-For further evaluation, we ran 100 instances of the problem, varying the trajectory's initial state in $[-2.5,-1.5] \times [-2.5,2.5]$. We also varied the formula horizon $N$ (and hence the size of the problem) from $20$ to $200$ time steps. 
-Table \ref{tbl:time_performance_toy} shows the execution times. All experiments were run on a machine with a quad-core Intel I5 3.2GHz processor with 24GB RAM, running MATLAB 2016b.
+For further evaluation, we ran 100 instances of the problem, varying the trajectory's initial state in $[-2.5,-1.5] \times [-2.5,2.5]$. 
+We also varied the formula horizon $N$ (and hence the size of the problem) from $20$ to $200$ time steps. 
+Table \ref{tbl:time_performance_toy} shows the execution times. 
 
 
 %The control cost is $l(x_k,u_k) = ||x_k||_{2}^2$, so that longer trajectories incur greater cost. 
@@ -41,7 +40,7 @@ Table \ref{tbl:time_performance_toy} shows the execution times. All experiments 
 \begin{table}[tb]
 \small
 \begin{center}
-\caption{{\small Runtimes (mean and standard deviation, in seconds) for Smooth Operator (SOP) and BluSTL (BlS) over 100 runs with random initial states and with different formula horizon lengths $N$. Here, (B) means \textit{boolean} mode and (R) means \textit{robust} mode of operation.}}
+\caption{{\small Example \ref{ex:toyproblem}. Runtimes (mean and standard deviation, in seconds) for Smooth Operator (SOP) and BluSTL (BlS) in modes (B) and (R), over 100 runs with random initial states and different formula horizons $N$. BluSTL (R) did not finish (see text).}}
 \vspace{-5pt}
 \label{tbl:time_performance_toy}
 \begin{tabular} {|c|c|c|c|c|}
@@ -58,23 +57,25 @@ Table \ref{tbl:time_performance_toy} shows the execution times. All experiments 
 \end{table}
 
 \textbf{Analysis.}
-As seen in table \ref{tbl:time_performance_toy}, our method is consistently faster than BluSTL for the \textit{boolean} mode, and also displays smaller variances in runtimes. Note, the problem solved here is very similar to the example used in \cite{Saha_acc16}, which uses another MILP based method to find satisfying trajectories. While the underlying dynamics and the machine on which evaluations are run are different, these results suggest that our run-times compare favourably with those in \cite{Saha_acc16}.
+As seen in table \ref{tbl:time_performance_toy}, SOP is consistently faster than BluSTL for the \textit{boolean} mode, and displays smaller variances in runtimes. 
+Note also that the problem solved here is very similar to the one used in \cite{Saha_acc16}, which uses another MILP-based method. 
+While the underlying dynamics differ and their numbers are reported on a more power machine, these results suggest that our runtimes compare favourably with those in \cite{Saha_acc16}.
 
-When in \textit{boolean} mode, BluSTL results in trajectories with zero robustness (as seen in fig. \ref{fig:toy control}), while our method results in trajectories with an average robustness of 0.10. Both methods satisfy $\formula$ in all 100 instances. In \textit{robust} mode, across all experiments, SOP results in an average $\rob_{\formula}=0.247$ with a standard deviation of less than $0.005$. It is to be noted, that an upper bound on the maximum achievable $\rob_{\formula}$ is $0.25$, which can be achieved by trajectory reaching (in number of time steps $\leq N$) the point $[2.25,2.25]$ in the middle of the Terminal set while always avoiding the Unsafe set by a distance greater than $0.25$. This shows that for this problem, our method reaches very close to achieving the global optima of $\rob_{\formula}$. Also with this additional knowledge of the global optima upper bound, the SOP method in \textit{robust} mode can be made a lot faster by specifying an exit condition based on a upper threshold of $\srob_{\formula}$ attained at any iteration of the SOP method. While for brevity we do not include results with this additional stopping criteria, it was observed that for an upper bound value of $\srob_{\formula}=0.24$, an average speed up of about $4$-times was observed for $N=20$ and $2$-times for $N=200$ while resulting an average robustness value achieved of $\rob_{\formula} = 0.235$. This shows that with the iterative nature of SQP, we can trade-off performance for improved execution times.
+%When in Boolean mode, BluSTL results in trajectories with zero robustness (as seen in fig. \ref{fig:toy control}), while our method results in trajectories with an average robustness of 0.10. 
+In Robust mode, across all 100 experiments, SOP results in an average $\rob_{\formula}=0.247$ with a standard deviation less than $0.005$. 
+This gets very close to the upper bound on robustness, which is 0.25.
+This bound is achieved by a trajectory reaching (in less than $N$ time steps) the center of the Terminal set while always staying more than 0.25 distant from Unsafe. 
+%Also with this additional knowledge of the global optima upper bound, the SOP method in \textit{robust} mode can be made a lot faster by specifying an exit condition based on a upper threshold of $\srob_{\formula}$ attained at any iteration of the SOP method. While for brevity we do not include results with this additional stopping criteria, it was observed that for an upper bound value of $\srob_{\formula}=0.24$, an average speed up of about $4$-times was observed for $N=20$ and $2$-times for $N=200$ while resulting an average robustness value achieved of $\rob_{\formula} = 0.235$. This shows that with the iterative nature of SQP, we can trade-off performance for improved execution times.
 \end{exmp}
-
-\textbf{Note} that in BluSTL, atomic propositions in general have to be of the form $a'x\leq b$ (although absolute value and polynomials are also valid) since robustness is encoded as a MILP, which necessitates avoiding the signed distance function in dimensions greater than 1. This implies that atomic propositions in higher dimensions ($x\in \mathbb{R}^{n>1}$), $Hx \leq g$, have to be broken down into the conjunction of $n$ individual atomic propositions of the form $h_i'x \leq g_i$. This also restricts atomic propositions in BluSTL from involving sets like circles or ellipsoids. On the other hand, atomic propositions in our work can involve non-Polyhedron sets (e.g. ellipsoids or circles) and even non-convex sets since we do not avoid the signed distance function for higher dimensions.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.49\textwidth]{figures/ToyExUni_scissored.pdf}
 \vspace{-20pt}
-\caption{{\small Trajectories for the illustrative example for SOP and BluSTL. B, R refer to the \textit{Boolean} and \textit{Robust} mode of operation. Refer to the discussion in Ex. \ref{ex:toyproblem}, Results, for an explanation. The final trajectory, SOP (R, unicycle), is from SOP applied to a non-linear system in Sec. \ref{sec:nl_unicycle}. Color in online version.}}
+\caption{{\small The first 4 trajectories are for the linear system \eqref{eq:PointMass}. See Ex. \ref{ex:toyproblem}. The last trajectory, SOP (R, unicycle), is from the non-linear system in Sec. \ref{sec:nl_unicycle}. Colors in online version.}}
 \label{fig:toy control}
 \vspace{-10pt}
 \end{figure}
-
-
 
 %\textbf{Optimization solver.}
 %We use Sequential Quadratic Programming (SQP) to solve the optimization problem %$P_{\srob}$.
