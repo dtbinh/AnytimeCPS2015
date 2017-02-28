@@ -24,7 +24,7 @@ Both BluSTL (B) and SOP (B) produce satisfying trajectories.
 The trajectory from SOP (R) ends in the middle of the terminal set, resulting in a higher robustness than mode (B), as expected. 
 In mode (R), BluSTL could not finish a single instance of robustness maximization within 100 hours on both the above machine and on a more powerful 8 core Intel Xeon machine with 60GB RAM, leading us to believe that the corresponding MILP was not tractable.
  
-SOP ($\gamma=0.1,\delta=0$) takes into account a control cost $l(x_k,u_k) = ||x_k||_{2}^2$ that penalizes longer trajectories.
+SOP ($R, \gamma=0.1$) takes into account a control cost $l(x_k,u_k) = ||x_k||_{2}^2$ that penalizes longer trajectories.
 The resulting trajectory is shorter but has a lower robustness than SOP (R, $\gamma = 0$), ($0.236$ vs $0.247$).
 
 For further evaluation, we ran 100 instances of the problem, varying the trajectory's initial state in $[-2.5,-1.5] \times [-2.5,2.5]$. 
@@ -70,7 +70,7 @@ This bound is achieved by a trajectory reaching (in less than $N$ time steps) th
 
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.49\textwidth]{figures/ToyExUni_scissored.pdf}
+\includegraphics[width=0.49\textwidth]{figures/ToyExUni_alternate_scissored.pdf}
 \vspace{-20pt}
 \caption{{\small The first 4 trajectories are for the linear system \eqref{eq:PointMass}. See Ex. \ref{ex:toyproblem}. The last trajectory, SOP (R, unicycle), is from the non-linear system in Sec. \ref{sec:nl_unicycle}. Colors in online version.}}
 \label{fig:toy control}
