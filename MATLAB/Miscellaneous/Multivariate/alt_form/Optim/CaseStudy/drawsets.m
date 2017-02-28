@@ -21,4 +21,8 @@ hold on;
 plot(intersect(NoFly,LimitSet),'Alpha',0.3);
 hold on;
 plot(intersect(Terminal,LimitSet),'Color','green','Alpha',0.3);
-xlabel('x');ylabel('y');zlabel('z');
+xlabel('x','Fontsize',20);ylabel('y','Fontsize',20);zlabel('z','Fontsize',20);
+
+set(gca,'Xtick',-5:5:5,'FontSize',20)
+set(gca,'Ytick',-5:5:5,'FontSize',20)
+set(gca,'Ztick',0:5:5,'FontSize',20)
