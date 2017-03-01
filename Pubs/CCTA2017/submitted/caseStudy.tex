@@ -24,28 +24,19 @@ We solve a robustness maximization problem for the control of two systems using 
 For both case studies, we compute the wavelet approximation of the distance function to the sets $\Oc(p)$ off-line. 
 Next, we solve the control problem \eqref{eq:general_ctrl} as a single shot, finite horizon constrained optimization. 
 
-The code to reproduce these results can be found at \protect\url{https://github.com/yashpant/SmoothOperator0}. Future release of the code will focus on re-usability of the code and making it handle any system.
+The code to reproduce these results can be found at \protect\url{https://github.com/yashpant/SmoothOperator0}. Future release of the code will focus on re-usability of the code. %and making it handle any system.
 %In general, for a real online implementation, the problem can be solved in a receding horizon manner or in a manner where the state and actions of the past are stored an added as constraints at each time step while the look-ahead horizon of the optimization shrinks (similar to \cite{Raman14_MPCSTL}). The problem of which method is suitable for what kinds of specifications is left for future work.
 %\todo[inline]{too soon, the control problem hasn't been formulated yet. first forumlate it (or, better, refer to section 4.2), \textit{solve it}, then critique it. Discussion of related work like Vasu's should be after you present what you did, not before}
 %\todo[inline]{introduce two numerical examples. Finite horizon control in a single shot, can be applied in a receding/shrinking horizon approach wherever applicable.}
 
 
+\vspace{-5pt}
 \subsection{HVAC Control of a building for comfort}
 %\todo[inline]{skipping for now. i suspect many of my comments for ATC are applicable here, so please apply them as needed}
 \input{caseBldg}
-
-%\vspace{-10pt}
+\vspace{-11pt}
 \subsection{Autonomous ATC for quad-rotors}
+%\vspace{-5pt}
 \label{sec:ATCquad}
 %\todo[inline]{title exceeds margin}
 \input{caseQuad}
-
-
-\subsection{Discussion}
-%\todo[inline]{skipping fr now}
-With two case studies on dynamic systems, we show the applicability and consistently good performance of SOP (our method), which outperforms both SA R-SQP and BluSTL, which does not scale well enough to solve the second case study. For every instance we covered, SOP finds trajectories that satisfy the specification, while the other methods do not always do so.
-
-%Also, while in the first case study, R-SQP, in the second case study, simulated annealing cannot find trajectories that satisfy the specification from two of the three initial trajectories (used as initial solutions for optimization). Our method on the other hand, successfully finds a trajectory that satisfies the specification, while resulting in the best robustness value achieved across all examples considered. 
-
-While we solve the control problem in a single-shot, finite horizon manner, in general, for a real-time implementation, the problem can be solved in a receding horizon manner (similar to \cite{PantAMNDM15_Anytime}, \cite{Jain2016}). Or, it can be solved in a manner where the state and actions of the past are stored an added as constraints at each time step while the look-ahead horizon of the optimization shrinks (similar to \cite{Raman14_MPCSTL}). This will be explored further in future work. We have shown previously \cite{PantAMNDM15_Anytime} that control of an actual quad-rotor with the dynamics in \eqref{eq:quad_dyn} is possible on a low computation power platform. The control algorithm there involved solving multiple quadratic programs at even higher sampling rates ($20Hz$), in a receding horizon manner. Future work will include a C implementation of SOP, which will allow us to experiment on real platforms, like the aforementioned quad-rotors.
-%Since all implementations were done in MATLAB, the focus was not real-time applicability of the proposed method. For the first case study, where the dynamics are slow, our method should still be applicable ($\sim 20s$) of execution time (compared to $\sim 5 \text{ mins}$ for SA). For the second case study a MATLAB implementation is infeasible due to the very fast dynamics and sampling times involved. We have shown previously in \cite{PantAMNDM15_Anytime} that control of a real quad-rotor with the dynamics in \eqref{eq:quad_dyn} is possible on a low computation power platform while solving multiple quadratic programs at even higher sampling rates ($20Hz$). With this in mind, we expect a C/C++ implementation of SQP (and the smooth robustness function) should allow us to implement our method on such a system. Ongoing work focuses on a general interpreter for formulae to generate corresponding smooth robustness functions, as well as their derivatives.

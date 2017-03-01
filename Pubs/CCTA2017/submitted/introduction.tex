@@ -56,11 +56,11 @@ In \cite{Raman14_MPCSTL}, the authors encoded the MTL formula as a set of linear
 MILPs are NP-complete, non-convex, and do not scale well with the number of variables. 
 The sophisticated heuristics used to mitigate this make it hard to characterize their runtimes, which is important in control - see examples in \cite{Raman14_MPCSTL} and this paper. 
 In general, MILP solvers can only guarantee achieving local optima.
-Note also that \cite{Raman14_MPCSTL} requires all constraints to be linear, so all atomic propositions must involve half-spaces ($p: a'x\leq b$), which is not a restriction in the current work.
+Note also that \cite{Raman14_MPCSTL} requires all constraints to be linear, so all atomic propositions must involve half-spaces ($p: a'x\leq b$), which is not a restriction in the current work. Another MILP based approach is presented in \cite{Saha_acc16} where constraints are added when necessary, in order to reduce MILP complexity.
 The work closest to this paper is \cite{AbbasATVA11_LinFalsification,Abbas14_MTLDescent}.
 There, the authors considered safety formulas, for which the robustness reduces to the minimum distance between $\sstraj$ and the unsafe set $U$.
 By sub-optimally focusing on one point on the trajectory $\sstraj$, they replaced the objective by a differentiable indicator function for $U$ and solved the resulting problem with gradient descent.
-\todo[inline]{say something about saha,julius}
+%\todo[inline]{say something about saha,julius}
 The use of fast smooth approximations of robustness circumvents most of the above issues and gets closer to real-time control by robustness maximization.
 
 

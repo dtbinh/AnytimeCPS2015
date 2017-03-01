@@ -11,7 +11,7 @@ Here, $I$ is the time interval where the zone is occupied and the range of tempe
 \textit{Note:} In this particular problem, the maximum robustness achievable is $3$, which can be achieved by setting the room temperature at $25$C for the interval $I$. 
 With this insight, the problem of maximizing robustness can be solved with a quadratic program with linear constraints and the cost $\sum_{k \in I}({x_4}_k-25)^2$ to be minimized. This indeed results in a trajectory with the global optimal robustness of $3$, but is a method tailored to the particular problem. 
 
-SOP, which is a general purpose technique, results in a robustness which is just $0.02\%$ less than the global optimal value. In the example that follows this one, we take a specification which cannot be trivially turned into a quadratic program.
+SOP, which is a general purpose technique, results in a robustness which is just $0.02\%$ less than the global optimal value. In the next example, we take a specification which cannot be trivially turned into a quadratic program.
 
 \textbf{System dynamics.} The single-zone model, discretized at a sampling rate of 1 hour (which is common in building temperature control) is of the form:
 \begin{equation}
@@ -36,6 +36,7 @@ The control problem we solve is of the form in \eqref{eq:general_ctrl}, with $\g
 	 $0.041 \pm 0.002$ &  $\mathbf{0.014 \pm 0.002}$  &  $2.532 \pm 0.26$ & $8.56 \pm 0.31$ \\ \hline 
 \end{tabular}	
 \end{center}
+\vspace{-10pt}
 \end{table}
 
 
@@ -46,7 +47,8 @@ The final trajectories after optimization from all methods are shown in Fig.\ref
 \textbf{Analysis.} 
 In Boolean mode, SOP, BluSTL, and SA all find satisfying trajectories across all 100 instances, while R-SQP does not find one for any run and always exits at a local minima. 
 Execution times for SOP and BluSTL are shown in Table \ref{tbl:time_performance_bldg}, while the runtimes for SA (B) are $3.7 \pm 2.3s$.
- R-SQP has run-times in the order of minutes. This is because of Matlab's failed attempts at approximating a gradient that does not exist.
+ R-SQP has run-times in the order of minutes. 
+ %This is because of Matlab's failed attempts at approximating a gradient that does not exist. %say whaaaa???
  
 In Robust mode, SOP and SA both result in trajectories that satisfy $\formula$, with an average robustness of $2.9994$ and $2.8862$ respectively. On the other hand, R-SQP often returns violating trajectories (average $\rob_{\formula} = -0.1492$). 
 Somewhat surprisingly, BluSTL does not manage to find a satisfying trajectory (average $\rho=-2.71$) for any of the 100 runs. 
@@ -65,17 +67,16 @@ R-SQP again takes minutes on average to return non-satisfying trajectories acros
 %In the following example, we take a specification which cannot be trivially turned into a quadratic-program. %without adding tighter constraints than the specification asks for (or binary variables).
 
 \subsubsection{Receding horizon implementation} 
+\label{sec:online}
 %\textbf{Online implementation.} 
 Our scheme can also be implemented online in a receding (shrinking) horizon method similar to \cite{Raman14_MPCSTL}. Note that the control horizon in Eq. \ref{eq:general_ctrl} is as at least long as the formula horizon $N$, and evaluating $\srob$ in general requires a trajectory of length $N$. 
 For each time step $k=0,\dotsc,N$, we solve the problem of Eq.\ref{eq:general_ctrl} while constraining the variables (the previously applied inputs and states, when applicable) for times steps $<k$ to their actual values. In this scheme, the length of the optimization remains $N$, but the number of free variables keeps on shrinking as $k$ increases. For initializing SOP at each time step, the sequence of inputs (or states) computed at time $k-1$ is used as an initial solution for the optimization at time $k$. 
-We implemented this scheme for the HVAC control problem with additional unknown disturbances in the dynamics of the form:
-%\begin{equation}
+We implemented this scheme for the HVAC control problem with additional unknown disturbances in $d_k$ term of Eq.\ref{eq:bldg_dyn}.
+%begin{equation}
 %\label{eq:bldg_dyn_noisy}
-$$x_{k+1} = Ax_{k}+Bu_k+B_dd_k+B_dw_k$$
+%$x_{k+1} = Ax_{k}+Bu_k+B_dd_k+B_dw_k$$
 %\end{equation}
-
-Here, $w_k$ is a uniform random variable centred around the known $d_k$ with a width of $10\%$ of element wise magnitude of $d_k$. This can be thought of as prediction errors in the disturbances like solar radiation and outside temperature. Over 100 runs with random initial states as before, the online application of SOP (in \textit{robust} mode) resulted in an average robustness value of $2.91$. In terms of execution time, the first iteration takes times of the order of those in table \ref{tbl:time_performance_bldg}, and subsequent iterations take a fraction of that time (average for one instance $0.0151s$). This is because we re-use the input sequence at time $k-1$ as an initial guess for the solver at time $k$. Since at the initial time step we have achieved near global robustness maxima, the subsequent SQP optimizations terminate much faster while the formulation takes into account change in the state due to disturbance values by making small changes to the input sequence being computed at time $k>0$. The high value of average robustness and the small execution time per iteration show the applicability of SOP as an online closed loop control method. 
-
+The disturbances are in the form random variable centred around the known $d_k$ with a width of $10\%$ of element wise magnitude of $d_k$. This can be thought of as prediction errors in the disturbances like solar radiation and outside temperature. Over 100 runs with random initial states as before, the online application of SOP (in \textit{robust} mode) resulted in an average robustness value of $2.91$. In terms of execution time, the first iteration takes times of the order of those in table \ref{tbl:time_performance_bldg}, and subsequent iterations take a fraction of that time (average for one instance $0.0151s$). This is because we re-use the input sequence at time $k-1$ as an initial guess for the solver at time $k$. Since at the initial time step we have achieved near global robustness maxima, the subsequent SQP optimizations terminate much faster while the formulation takes into account change in the state due to disturbance values by making small changes to the input sequence being computed at time $k>0$. The high value of average robustness and the small execution time per iteration show the applicability of SOP as an online closed loop control method. 
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.49\textwidth]{figures/ZoneTempFinal}
@@ -84,15 +85,3 @@ Here, $w_k$ is a uniform random variable centred around the known $d_k$ with a w
 \label{fig:ZoneTemp}
 \vspace{-10pt}
 \end{figure}
-
-%1. Single zone building model from ...
-
-%2. Specification for comfort when occupied.
-
-%3. 24 hour look ahead, given disturbances and occupancy. Initial guess (with negative robustness) via solving an LP.
-
-%4. Can be applied in a receding horizon manner. For the given setting, could very well be solved using a linear program asking for temperature between 22-28C for time steps 10 to 19, but we use our method to illustrate how robustness based control can be used to satisfy a specification. The next example (Autonomous ATC) shows control with a specification cannot be trivially translated to a linear program with Polyhedral constraints.
-
-%5. Figure shows room temperature for the 3 methods (other states and disturbances/control in a single figure if necessary)
-
-%6. Table shows robustness of obtained trajectory via the 3 methods. Note, Optimal solution would be temperature of 25C  (robustness of 3) for the occupancy period (if dynamics/constraints would allow it).
