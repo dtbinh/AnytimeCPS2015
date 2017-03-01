@@ -55,7 +55,7 @@ The resulting initial trajectory could violate the specification (as it does in 
 The tool BluSTL implements the MILP approach of ~\cite{Raman14_MPCSTL} and is used in the experiments.
 It has two modes of operation: mode (B) or \textit{Boolean}, which aims at satisfying the specification without maximizing its robustness, and mode (R) or \textit{Robust}, which attempts to maximize robustness. 
 The proposed SOP method optimizes robustness and so naturally runs in mode (R).
-SOP emulates mode (B) by terminating the optimization as soon as $\srobf \geq \epsilon_{\text{Meyer}}$, which in turn implies that $\rob_{\formula} \geq 0$. 
+SOP emulates mode (B) by terminating the optimization as soon as $\srobf \geq \epsilon_{\text{Meyer}}$, which implies $\rob_{\formula} \geq 0$. $\epsilon_{\text{Meyer}}$ can be computed explicitly using the approach in the online technical report \cite{PantAM17_SmoothOpTechRpt}.
 
 \input{toyExample}
 \input{nonlinear}

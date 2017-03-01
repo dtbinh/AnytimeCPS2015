@@ -92,9 +92,9 @@ For the control problem, $X$ and $U$ represent the bounds on the states ($\text{
 %\todo[inline]{re-word in a much more direct style, as follows:}
 
 \textbf{Results.}
-For each approach (except BluSTL), we ran three optimizations, starting from three different trajectories to initialize the optimization. In this case study, we only aim to maximize robustness, i.e. operate in the \textit{robust} mode. BluSTL, in either \textit{boolean} or \textit{robust} mode could not find a solution for this problem (ran over 100 hours without terminating) and so is excluded from the rest of this comparison. This suggests that having a complex specification like the one in this problem, non-trivial dynamics, and the given formula horizon, results in a MILP that is simply intractable to solve. We believe that this example highlights a fundamental limitation of MILP based approaches.
+For each approach (except BluSTL), we ran three optimizations, starting from three different trajectories to initialize the optimization. These \textit{initial trajectories} can be obtained in practice by a fast trajectory generator. Note that the three initial trajectories all have negative robustness, i.e. they violate $\formula$. In this case study, we only aim to maximize robustness, i.e. operate in the \textit{robust} mode. BluSTL, in either \textit{boolean} or \textit{robust} mode could not find a solution for this problem (ran over 100 hours without terminating) and so is excluded from the rest of this comparison. This suggests that having a complex specification like the one in this problem, non-trivial dynamics, and the given formula horizon, results in a MILP that is simply intractable to solve. We believe that this example highlights a fundamental limitation of MILP based approaches.
 
-These \textit{initial trajectories} can be obtained in practice by a fast trajectory generator. Note that the three initial trajectories all have negative robustness, i.e. they violate $\formula$.
+
 
 %\begin{figure}[t]
 %\centering
