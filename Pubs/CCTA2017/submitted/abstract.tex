@@ -5,9 +5,6 @@ Given a formal description of a system's required behavior in  MTL, the controll
 the robust semantics of the specification provides a notion of \textit{system robustness} that can be calculated directly on the output behavior of the system, without explicit reference to the various sources or models of the errors.
  The robustness of the MTL specification has been used both to verify the system offline (via robustness minimization) and to control the system online (to maximize its robustness over some horizon).
  Unfortunately, the robustness objective function is difficult to work with: it is recursively defined, non-convex and non-differentiable.
-This paper proposes infinitely differentiable approximations of the robustness. 
-This enables the use of powerful off-the-shelf gradient descent algorithms for optimizing it.
- By using them we can also offer guarantees on the performance of the optimization in terms of convergence to minima.
- We show that the approximation error is bounded to any desired level, and that the approximation can be tuned to the specification.
- We demonstrate the use of the smooth robustness to control two quad-rotors in an autonomous air traffic control scenario, and for temperature control of a building for comfort.
+This paper proposes infinitely differentiable approximations of the robustness. We show that the approximation error is bounded to any desired level, and can be tuned to the specification. This enables the use of powerful off-the-shelf gradient descent algorithms for optimizing it. By using them we can also offer guarantees on the performance of the optimization in terms of convergence to minima. We combine this to optimize the smooth robustness for control of a given system.
+ We demonstrate the timing and control performance of our algorithm on two systems: a) two quad-rotors in an autonomous air traffic control scenario, and b) for temperature control of a building for comfort.
 \end{abstract}

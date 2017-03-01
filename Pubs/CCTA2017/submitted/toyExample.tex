@@ -1,5 +1,25 @@
 %\subsubsection{Illustrative example}
 %\label{sec:illustrative example}
+\begin{table}[tb]
+\small
+\begin{center}
+\caption{{\small Example \ref{ex:toyproblem}. Runtimes (mean and standard deviation, in seconds) for Smooth Operator (SOP) and BluSTL (BlS) in modes (B) and (R), over 100 runs with random initial states and different formula horizons $N$. BluSTL(R) did not finish (see text).}}
+\vspace{-5pt}
+\label{tbl:time_performance_toy}
+\begin{tabular} {|c|c|c|c|c|}
+	\hline
+	N & BlS(B) & SOP(B) & SOP(R) & SOP(R) \\ \hline
+	20 & $0.96 \pm 0.82$ &  $\mathbf{0.31 \pm 0.13}$  & NA & $3.30 \pm 1.25$ \\ \hline
+	30 & $1.37 \pm 1.72$ &  $\mathbf{0.33 \pm 0.25}$  & NA & $5.85 \pm 2.74$\\ \hline
+	40 & $3.86 \pm 5.10$ &  $\mathbf{0.60 \pm 0.29}$  & NA & $12.36 \pm 6.04$\\ \hline
+	50 & $4.36 \pm 12.97$&  $\mathbf{0.74 \pm 0.30}$ & NA & $30.05 \pm 18.23$\\ \hline
+	100& $16.77 \pm 27.84$ & $\mathbf{1.21 \pm 0.25}$ & NA & $69.70 \pm 13.16$ \\ \hline
+	200& $53.88 \pm 14.18$& $\mathbf{4.19 \pm 1.18}$ & NA & $126.11 \pm 20.43$ \\ \hline
+\end{tabular}	
+\end{center}
+\end{table}
+
+
 \begin{exmp}
 \label{ex:toyproblem}
 The linear system $x_{k+1} = x_k + u_k$ is controlled
@@ -28,24 +48,6 @@ For further evaluation, we ran 100 instances of the problem, varying the traject
 We also varied the formula horizon $N$ (and hence the size of the problem) from $20$ to $200$ time steps. 
 Table \ref{tbl:time_performance_toy} shows the execution times. 
 
-\begin{table}[tb]
-\small
-\begin{center}
-\caption{{\small Example \ref{ex:toyproblem}. Runtimes (mean and standard deviation, in seconds) for Smooth Operator (SOP) and BluSTL (BlS) in modes (B) and (R), over 100 runs with random initial states and different formula horizons $N$. BluSTL(R) did not finish (see text).}}
-\vspace{-5pt}
-\label{tbl:time_performance_toy}
-\begin{tabular} {|c|c|c|c|c|}
-	\hline
-	N & BlS(B) & SOP(B) & SOP(R) & SOP(R) \\ \hline
-	20 & $0.96 \pm 0.82$ &  $\mathbf{0.31 \pm 0.13}$  & NA & $3.30 \pm 1.25$ \\ \hline
-	30 & $1.37 \pm 1.72$ &  $\mathbf{0.33 \pm 0.25}$  & NA & $5.85 \pm 2.74$\\ \hline
-	40 & $3.86 \pm 5.10$ &  $\mathbf{0.60 \pm 0.29}$  & NA & $12.36 \pm 6.04$\\ \hline
-	50 & $4.36 \pm 12.97$&  $\mathbf{0.74 \pm 0.30}$ & NA & $30.05 \pm 18.23$\\ \hline
-	100& $16.77 \pm 27.84$ & $\mathbf{1.21 \pm 0.25}$ & NA & $69.70 \pm 13.16$ \\ \hline
-	200& $53.88 \pm 14.18$& $\mathbf{4.19 \pm 1.18}$ & NA & $126.11 \pm 20.43$ \\ \hline
-\end{tabular}	
-\end{center}
-\end{table}
 
 \textbf{Analysis.}
 As seen in Table \ref{tbl:time_performance_toy}, SOP is consistently faster than BluSTL in Boolean mode, and displays smaller variances in runtimes. 
