@@ -23,7 +23,7 @@ Let $D$ be the set of all dyadic cubes in $\Re^n$ obtained by varying $k$ over $
 Then $\{\Psi^e_{I}, e \in E, I\in D\}$ is an orthonormal basis for $L_2(\Re^n)$ (because the Meyer wavelet itself is orthonormal).
 Then every function in $L_2(\Re^n)$ has an expansion 
 \[f(x) = \sum_{I \in D} \sum_{e \in E} c_I^e \Psi^e_I(x), \, c_I^e \defeq\, \langle f,\Psi^e_I \rangle\]
-with $\langle h,g \rangle \defeq \int_{\Re^n}f(x)g(x)dx$.
+with $\langle h,g \rangle \defeq \int_{\Re^n}h(x)g(x)dx$.
 The desired approximation is obtained by truncating this expansion after a finite number of terms, i.e., by using  a \textit{finite} set $D' \subsetneq D$
 \begin{equation}
 \dist(x,U) \approx \sdist_\varepsilon(x,U) \defeq \sum_{I \in D'} \sum_{e \in E} c_I^e \Psi^e_I(x)

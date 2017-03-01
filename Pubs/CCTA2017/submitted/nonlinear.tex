@@ -1,6 +1,6 @@
-\begin{exmp}
+\begin{exmp}[Nonlinear system]
 	\label{ex:nl_unicycle}
 Since SQP can handle non-linear (twice differentiable) constraints, Smooth Operator can also deal with non-linear dynamics whereas the MILP-based methods have to linearize the dynamics to solve the system. 
 The following example shows SOP applied in a one-shot manner to the unicycle dynamics ($\dot{x}_t=v_t \cos (\theta_t)\, ,\dot{y}_t=v_t \sin (\theta_t)\, ,\dot{\theta}_t= u_t$) discretized at 10Hz.
-For the specification of Ex. \ref{ex:toyproblem}, the resulting trajectory of length 20 steps obtained by SOP(R) is shown in fig.\ref{fig:toy control}, starting from an initial state of $[-2,-2,0]$. The resulting robustness is $0.248$, which is close to the global optimum of $0.25$. This shows that SOP can indeed handle non-linear dynamics without the need for explicit linearization.
+For the specification of Ex. \ref{ex:toyproblem}, the resulting trajectory of length 20 steps obtained by SOP(R) is shown in Fig.\ref{fig:toy control}, starting from an initial state of $[-2,-2,0]$. The resulting robustness is $0.248$, which is close to the global optimum of $0.25$. This shows that SOP can indeed handle non-linear dynamics without the need for explicit linearization.
 \end{exmp}

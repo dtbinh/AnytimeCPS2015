@@ -1,17 +1,20 @@
 %caseBldg
 
-The first example is the Heating, Ventilation and Air Conditioning (HVAC) control of a 4-state model of a single zone in a building. Such a model is commonly used in literature for evaluation of predictive control algorithms \cite{Jain2016}. The control problem we solve is similar to the example used in \cite{Raman14_MPCSTL}, where the objective is to bring the zone temperature to a comfortable range when the zone is occupied (given predictions on the building occupancy). The specification is:
+The first example is the Heating, Ventilation and Air Conditioning (HVAC) control of a 4-state model of a single zone in a building. Such a model is commonly used in literature for evaluation of predictive control algorithms \cite{Jain2016}. 
+The control problem is similar to the example used in \cite{Raman14_MPCSTL}.
+The control horizon is a 24 hour period.
+The objective is to bring the zone temperature to a comfortable range, $[22,28]$ Celsius, when the zone is occupied during the hours 10-to-19. 
+The specification is:
 \begin{equation}
 \label{eq:BldgSpec}
-\formula = \always_I(\text{ZoneTemp} \in [22,28])
+\formula = \always_{[10,19]}(\text{ZoneTemp} \in [22,28])
 \end{equation}
 
-Here, $I$ is the time interval where the zone is occupied and the range of temperatures (in Celsius) deemed comfortable is ($[22,28]$). For the control horizon, we consider a 24 hour period, in which the building is occupied from time steps $10$ to $19$ (i.e. $I=[10,19]$), i.e. a 10-hour workday. 
-
-\textit{Note:} In this particular problem, the maximum robustness achievable is $3$, which can be achieved by setting the room temperature at $25$C for the interval $I$. 
-With this insight, the problem of maximizing robustness can be solved with a quadratic program with linear constraints and the cost $\sum_{k \in I}({x_4}_k-25)^2$ to be minimized. This indeed results in a trajectory with the global optimal robustness of $3$, but is a method tailored to the particular problem. 
-
-SOP, which is a general purpose technique, results in a robustness which is just $0.02\%$ less than the global optimal value. In the next example, we take a specification which cannot be trivially turned into a quadratic program.
+\textit{Note:} For this particular specification, the maximum robustness is $3$, achievable by setting the room temperature at $25$C during the interval $[10,19]$.
+Thus the problem of maximizing robustness can be solved by minimizing the cost $\sum_{10\leq k \leq 19}({x_4}_k-25)^2$ with linear constraints,
+which is a problem-specific approach.
+SOP, which is a general purpose technique, results in a robustness which is just $0.02\%$ smaller than the global optimal value. 
+Section~\ref{sec:ATCquad} shows a specification that cannot be trivially turned into a quadratic program.
 
 \textbf{System dynamics.} The single-zone model, discretized at a sampling rate of 1 hour (which is common in building temperature control) is of the form:
 \begin{equation}

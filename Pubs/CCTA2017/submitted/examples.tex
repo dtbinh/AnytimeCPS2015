@@ -49,13 +49,13 @@ This is also true in our case since our equality constraints come from the dynam
 \textbf{Solver initialization}.
 To initialize SQP when solving $P_{\srob}$ (i.e., to give it a starting value for $\mathbf{u}$), we can either solve an inexpensive feasibility linear program with constraints \eqref{eq:general ctrl dyn}-\eqref{eq:general ctrl U}, 
 or generate a random input sequence respecting $u_t \in U$. 
-The resulting initial trajectory could violate the specification (as it does in every example we study in this paper) and it is only needs to satisfy the dynamics and state constraints.
+The resulting initial trajectory could violate the specification (as it does in every example we study in this paper) and it is only required to satisfy the dynamics and state constraints.
 
 \textbf{Comparisons to BluSTL.}
 The tool BluSTL implements the MILP approach of ~\cite{Raman14_MPCSTL} and is used in the experiments.
 It has two modes of operation: mode (B) or \textit{Boolean}, which aims at satisfying the specification without maximizing its robustness, and mode (R) or \textit{Robust}, which attempts to maximize robustness. 
 The proposed SOP method optimizes robustness and so naturally runs in mode (R).
-SOP emulates mode (B) by terminating the optimization as soon as $\srobf \geq \epsilon_{\text{Meyer}}$, which implies $\rob_{\formula} \geq 0$. $\epsilon_{\text{Meyer}}$ can be computed explicitly using the approach in the online technical report \cite{PantAM17_SmoothOpTechRpt}.
+SOP emulates mode (B) by terminating the optimization as soon as $\srobf \geq \epsilon_{\text{Meyer}}$, which implies $\rob_{\formula} \geq 0$. $\epsilon_{\text{Meyer}}$ can be computed explicitly using the approach in the online report \cite{PantAM17_SmoothOpTechRpt}.
 
 \input{toyExample}
 \input{nonlinear}

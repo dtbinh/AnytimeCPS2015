@@ -11,7 +11,7 @@ to satisfy the specification
 \[\formula = \always_{[0,20]} \neg (x \in \text{Unsafe}) \land \eventually_{[0,20]} (x \in \text{Terminal})\]
 with the sets $\text{Unsafe}=[-1,1]^2$ and $\text{Terminal}=[2,2.5]^2$. 
 The state space is $X=[-2.5,2.5]^2$, $U=[-0.5,0.5]^2$.
-Unless otherwise indicated, $\gamma=\delta=0$ in Eq. \ref{eq:general_ctrl} to focus on robustness maximization in this illustrative example. 
+Unless otherwise indicated, $\gamma=\delta=0$ in Eq. \eqref{eq:general_ctrl} to focus on robustness maximization in this illustrative example. 
 Experiments were run on a quad-core Intel i5 3.2GHz processor with 24GB RAM, running MATLAB 2016b.
 %The goal of $P_{\srob}$ with $\gamma=0$ is to find a trajectory that maximizes $\srob$, hence there is no need for the additional lower bound constraint (Eq. \ref{eq:general ctrl pos rob}) on $\srob$. This is why we also set $\delta=0$ in $P_{\srob}$ for all examples that follow.
 
@@ -48,13 +48,14 @@ Table \ref{tbl:time_performance_toy} shows the execution times.
 \end{table}
 
 \textbf{Analysis.}
-As seen in table \ref{tbl:time_performance_toy}, SOP is consistently faster than BluSTL in Boolean mode, and displays smaller variances in runtimes. 
+As seen in Table \ref{tbl:time_performance_toy}, SOP is consistently faster than BluSTL in Boolean mode, and displays smaller variances in runtimes. 
 Note also that the problem solved here is very similar to the one used in \cite{Saha_acc16}, which uses another MILP-based method. 
-While the underlying dynamics differ and their numbers are reported on a more power machine, these results suggest that our runtimes compare favourably with those in \cite{Saha_acc16}.
+While the underlying dynamics differ and their numbers are reported on a more power machine, 
+SOP numbers compare favourably with those in \cite{Saha_acc16}.
 
-In Robust mode, across all 100 experiments, SOP results in an average $\rob_{\formula}=0.247$ with a standard deviation less than $0.005$. 
+In (R) mode, across 100 experiments, SOP has an average $\rob_{\formula}=0.247$ with a standard deviation less than $0.005$. 
 This gets very close to the upper bound on robustness, which is 0.25.
-This bound is achieved by a trajectory reaching (in less than $N$ time steps) the center of the Terminal set while always staying more than 0.25 distant from Unsafe. 
+This bound is achieved by a trajectory reaching (in 4$<N$ time steps) the center of the Terminal set while remaining more than 0.25 distant from Unsafe. 
 %Also with this additional knowledge of the global optima upper bound, the SOP method in \textit{robust} mode can be made a lot faster by specifying an exit condition based on a upper threshold of $\srob_{\formula}$ attained at any iteration of the SOP method. While for brevity we do not include results with this additional stopping criteria, it was observed that for an upper bound value of $\srob_{\formula}=0.24$, an average speed up of about $4$-times was observed for $N=20$ and $2$-times for $N=200$ while resulting an average robustness value achieved of $\rob_{\formula} = 0.235$. This shows that with the iterative nature of SQP, we can trade-off performance for improved execution times.
 \end{exmp}
 
