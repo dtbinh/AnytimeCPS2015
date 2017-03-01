@@ -5,11 +5,11 @@
 %have known convergence rates for certain function classes, and have been optimized so they outperform heuristics that don't have access to the objective's gradient information.
 %Moreover, they usually have a fewer parameters to be set by the user, and important issues like step-size selection are rigorously addressed.
 
-To apply gradient descent methods, we require a differentiable objective function. 
+The application of gradient descent methods requires a differentiable objective function. 
 Our objective function, $\robf$, is non-differentiable, because it uses the distance, max, and min functions, all of which are non-differentiable.
 One may note that these functions are all differentiable almost everywhere (a.e.) on their domain.
 That is, the set of points in their domain where they are non-differentiable has measure 0 in $\Re^n$. 
-Therefore, by measure additivity, the composite function $\robf$ is itself differentiable almost everywhere.
+Therefore, by measure additivity, the composite function $\robf$ is itself differentiable a.e.
 Thus, one may be tempted to `ignore' the singularities (points of non-differentiability), and apply gradient descent to $\robf$ anyway.
 The rationale for doing so is that sets of measure 0 are unlikely to be visited by gradient descent, and thus don't matter. 
 However, as we show in the next example, the lines of singularity (along which the objective is non-differentiable) can be  precisely the lines along which the objective increases the fastest.

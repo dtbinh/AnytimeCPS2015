@@ -2,85 +2,60 @@
 \label{sec:examples}
 We implemented the smooth approximation to the semantics of MTL, and tested it on several examples.
 
-\subsection{Approximation error for robustness}
+\subsection{Approximation error }
 \label{sec: ex apx error}
 \begin{figure}[t]
 \centering
-\includegraphics[width=0.49\textwidth]{figures/RobustnessError_corrected_scissored}
-\vspace{-20pt}
-\caption{{\small RMSE and variance of robustness approximation error against formula horizon, evaluated on 1000 randomly generated trajectories for the system in \eqref{eq:PointMass}. Unless noted, the systems are 2D. Note that the approximation errors and their variances are very small, showing the accuracy and stability of the smooth approximation. Color in online version.}}
+\includegraphics[width=0.45\textwidth]{figures/RobustnessError_corrected_scissored}
+\vspace{-5pt}
+\caption{{\small Robustness approximation error against formula horizon, evaluated on 1000 randomly generated trajectories for Example \ref{ex:toyproblem}. Unless noted, the systems are 2D. Color in online version.}}
 \vspace{-10pt}
 \label{fig:sample result}
 \end{figure}
 
-We evaluated the robustness $\robf$ and its approximation $\srobf$ for five formulae, with $hrz(\formula_i) = N$. $P_1$ and $P_2$ are atomic propositions for state being in two different polyhedra.
+We evaluated the robustness $\robf$ and its approximation $\srobf$ for five formulae.
+The horizon $N$ of each formula is varied, and at each value of $N$ we generate 1000 trajectories of system $x_{k+1} = x_k+u_k$ with input and state saturation, by feeding it random input sequences.
+Fig. \ref{fig:sample result} shows the Root Mean Square (RMSE) of the approximation, $\sqrt{(1/1000)\sum_{\sstraj}(\robf(\sstraj)-\srobf(\sstraj))^2}$, and variance bars around it. 
+As seen, the approximation errors and their variances are small, showing the accuracy and stability of the smooth approximation.
+Note that while the RMSE  increased with the system dimension ($4^{th}$ formula in Fig.~\ref{fig:sample result}), it was observed that the relative error remained very small i.e. the increase in error is explained by an increase in the robustness's magnitude. 
+
+%, with $hrz(\formula_i) = N$. $P_1$ and $P_2$ are atomic propositions for state being in two different polyhedra.
 %Each formula is of the form $\formula_i = \always_{[0:N-1]} \psi$, where $N$ is the length of the trajectory.
 %Thus $hrz(\formula_i)  = N$.
-Each formula's robustness is evaluated on 1000 randomly-generated trajectories of varying lengths $N$, so we can  examine the error's variation with the horizon.
-The trajectories were produced by a 2-or-3 dimensional system, \eqref{eq:PointMass} with input and state saturation.
+% of varying lengths $N$, so we can  examine the error's variation with the horizon.
 %All formulas use the atomic propositions $P_1 \defeq x \in [-1,1]^n$ and $P_2 \defeq x\in [2,2.5]^n$, where $n = 2,3$ is the dimension of the system.
 %The state-space is $[-5,5]^n$ and the input set is $\inpSet = [-0.3,0.3]^n$. 
-Fig. \ref{fig:sample result} shows the Root Mean Square (RMSE) of the approximation, $\sqrt{(1/1000)\sum_{\sstraj}(\robf(\sstraj)-\srobf(\sstraj))^2}$
-, and variance bars around it. 
-As seen, the approximation error is small for all cases.
-Note that while the RMSE  increased with the system dimension ($4^{th}$ formula in Fig.~\ref{fig:sample result}), it was observed that the relative error remained very small i.e. the increase in error is explained by an increase in the robustness's magnitude. 
-%As suggested by Remark \ref{rem:upper bound}, the approximation error generally increases with the horizon (for a constant number of wavelet coefficients).
-%This is due to the smooth max and min functions, as seen in \eqref{eq:smooth max error}.
-%Fig. \ref{fig:relative error} shows the relative approximation errors, $(\robf-\srobf)/|\robf|$, for the formulae under consideration. 
-%It is seen that the average relative approximation error is less than $10\%$ for all cases. 
-%For some data points in Fig. \ref{fig:relative error}, the variance of relative error is high, but the error remains small in absolute terms as seen in Fig.~\ref{fig:sample result}.
-%\begin{figure}[t]
-%\centering
-%\includegraphics[width=0.49\textwidth]{figures/RobustnessErrorRel}
-%\vspace{-30pt}
-%\caption{{\small Mean and variance of relative approximation error against formula horizon, evaluated on 1000 randomly generated trajectories for the system in \eqref{eq:PointMass}. Unless noted, the states in the trajectory are in $\mathbb{R}^2$.}} 
-%\todo[inline]{smae changes as previous fig. All temporal operators must be bounded}}
-%\label{fig:relative error}
-%\vspace{-15pt}
-%\end{figure}
+
 \subsection{Robustness maximization for control}
 \label{sec:toy example}
-To solve Problem $P_\rob$ given in \eqref{eq:general_ctrl}, we replace the true robustness $\robf$ by its smooth approximation $\srobf$.
-We thus obtain Problem $P_{\srob}$. We call this approach of optimizing the smooth approximation of robustness for control, \textbf{Smooth Operator} (SOP).
-We illustrate the approach on a simple linear system, with a reach-while-avoid type of specification which is common in literature, e.g. in \cite{Saha_acc16}. More extensive case studies are presented in Section \ref{sec:case study}.
+Problem $P_\rob$ given in \eqref{eq:general_ctrl} is solved by replacing the true robustness $\robf$ by its smooth approximation $\srobf$, and setting $\epsilon_{\text{min}}$ to the value of the smooth approximation error.
+We thus obtain Problem $P_{\srob}$. 
+This approach is labeled \textit{Smooth Operator} (SOP).
 
 \textbf{Optimization solver.}
-We use Sequential Quadratic Programming (SQP) to solve the optimization problem $P_{\srob}$.
-SQP solves constrained non-linear optimization problems, like $P_{\srob}$, by creating a sequence of quadratic approximations to the problem and solving these approximate problems.
-SQP enjoys various convergence-to-(local)-optima properties, depending on the assumptions we place on the problem. 
-See \cite[Section 2.9]{Polak97_Optim}.
+Problem $P_{\srob}$ is solved using Sequential Quadratic Programming (SQP).
+SQP solves constrained non-linear optimization problems by creating a sequence of quadratic approximations to the problem and solving these approximate problems.
+SQP enjoys various convergence-to-(local)-optima properties~\cite[Section 2.9]{Polak97_Optim}.
 For example, for SQP to converge to a strict local minimum (a minimum that is strictly smaller than any objective function value in an open neighborhood around it), it suffices that 
 1) all constraint functions be twice Lipschitz continuously differentiable. 
 In our case, this includes function $f$ in \eqref{eq:general ctrl obj}, and the problems we solve satisfy this requirement.
-%We will need to assume that $f$ is twice Lipschitz continuously differentiable and that its gradient $f_u$ has maximum row rank.
 And, 
-2) at points in the search space that lie on the boundary of the inequality-feasible set (where the inequality constraints are satisfied with equality), there exists a search direction towards the interior of the feasible set that does not violate the equality constraints (the so-called Mangasarian-Fromowitz constraint qualification) \cite[Assumption 2.9.1]{Polak97_Optim}.
+2) at points in the search space that lie on the boundary of the inequality-feasible set
+% (where the inequality constraints are satisfied with equality), 
+there exists a search direction towards the interior of the feasible set that does not violate the equality constraints~\cite[Assumption 2.9.1]{Polak97_Optim}. 
+%(the so-called Mangasarian-Fromowitz constraint qualification) .
 This is also true in our case since our equality constraints come from the dynamics and are always enforced for any $\mathbf{u}$.
 
 \textbf{Solver initialization}.
-To initialize SQP when solving $P_{\srob}$ (i.e., to give it a starting value for $\mathbf{u}$), we can either:
+To initialize SQP when solving $P_{\srob}$ (i.e., to give it a starting value for $\mathbf{u}$), we can either solve an inexpensive feasibility linear program with constraints \eqref{eq:general ctrl dyn}-\eqref{eq:general ctrl U}, 
+or generate a random input sequence respecting $u_t \in U$. 
+The resulting initial trajectory could violate the specification (as it does in every example we study in this paper) and it is only needs to satisfy the dynamics and state constraints.
 
-a) solve an inexpensive feasibility linear program with constraints \eqref{eq:general ctrl dyn}-\eqref{eq:general ctrl U}. 
-%By definition, the resulting trajectory simply satisfies the constraints without optimizing the objective, or necessarily even satisfying the specification.
-
-b) Or, generate a random input sequence respecting $u_k \in U$. 
-Such a trajectory will be very fast to generate and feasible w.r.t the dynamics.% but is unlikely to satisfy the specification on the system. 
-
-Note, the resulting initial trajectory could violate the specification (as it does in every example we study in this paper) and we only enforce that it satisfy the dynamics and state constraints.
-
-\textbf{Comparison to BluSTL.}
-We compare the proposed Smooth Operator (SOP) to (among other methods) BluSTL, a state of the art MILP-based approach.
-BluSTL has two modes of operation: mode (B) or \textit{Boolean}, which aims at satisfying the specification without maximizing its robustness, and mode (R) or \textit{Robust}, which attempts to maximize robustness. 
+\textbf{Comparisons to BluSTL.}
+The tool BluSTL implements the MILP approach of ~\cite{Raman14_MPCSTL} and is used in the experiments.
+It has two modes of operation: mode (B) or \textit{Boolean}, which aims at satisfying the specification without maximizing its robustness, and mode (R) or \textit{Robust}, which attempts to maximize robustness. 
 The proposed SOP method optimizes robustness and so naturally runs in mode (R).
-To emulate mode (B), we terminate the optimization as soon as $\srob \geq \epsilon_{\text{Meyer}}$, which in turn implies that $\rob_{\formula} \geq 
-0$. 
-
-Since the focus of this paper is on robustness optimization, we set the cost of control to zero for all methods involved in the examples, unless stated otherwise. This corresponds to $\gamma=0$ in $P_{\srob}$. %Since there is no cost of control, and robustness alone is being maximized in $P_{\srob}$,We also set $\delta=0$ in $P_{\srob}$ for all SOP. 
-The goal of $P_{\srob}$ with $\gamma=0$ is to find a trajectory that maximizes $\srob$, hence there is no need for the additional lower bound constraint (Eq. \ref{eq:general ctrl pos rob}) on $\srob$. This is why we also set $\delta=0$ in $P_{\srob}$ for all examples that follow.
-
-%\todo[inline]{why did you set delta=0? Justify your choices. 
-%	If you use delta=0, then how are you enforcing satisfaction? It might be that you're about to explain these things later, but here is the place to explain since this is where you bring them up. }
-%All methods are run in a \textit{one-shot} manner, that is, a single optimization is solved at time step $0$ to get a trajectory with $N = hrz(\formula)$ time steps. 
+SOP emulates mode (B) by terminating the optimization as soon as $\srobf \geq \epsilon_{\text{Meyer}}$, which in turn implies that $\rob_{\formula} \geq 0$. 
 
 \input{toyExample}
 \input{nonlinear}

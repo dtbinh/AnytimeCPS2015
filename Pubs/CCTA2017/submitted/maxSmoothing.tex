@@ -1,6 +1,6 @@
 \subsection{Smooth max and min}
 \label{max min smoothing}
-We use the following standard smooth approximations of $m$-ary max and min.
+The following standard smooth approximations of $m$-ary max and min are used.
 Let $k \geq 1$.
 \begin{eqnarray}
 	\label{eq:soft max min}
@@ -20,14 +20,17 @@ It holds that for any set of $m$ reals,
 \\
 0 \leq \min(a_1,\ldots,a_m) -\smin_k(a_1,\ldots,a_m) \leq \ln(m)/k
 \end{eqnarray}
-Indeed, the error of smooth max can be bounded as follows.
-Assume $a_1$ is the largest number, then 
-\begin{eqnarray*}
-\varepsilon_M &\defeq& \smax_k(\mathbf{a}) - a_1 =  \frac{\ln(\sum_ie^{ka_i})-ka_1}{k}
-\\
-&=& k^{-1}\ln\left(\frac{\sum_ie^{ka_i}}{e^{ka_1}}\right) \leq k^{-1}\ln \left(\frac{me^{ka_1}}{e^{ka_1}}\right)
-\\
-&=&\frac{\ln m}{k}
-\end{eqnarray*}
-It is also clear from what preceded that $\varepsilon_M \geq 0$.
-The maximum error is achieved when all the $a_i$'s are equal.
+with the maximum error is achieved when all the $a_i$'s are equal.
+Indeed, assume $a_1$ is the largest number, then 
+$\smax_k(\mathbf{a}) - a_1 \leq k^{-1}\ln\left(\frac{\sum_ie^{ka_i}}{e^{ka_1}}\right) \leq \ln m /k$.
+
+%Indeed, the error of smooth max can be bounded as follows.
+%Assume $a_1$ is the largest number, then 
+%\begin{eqnarray*}
+%\varepsilon_M &\defeq& \smax_k(\mathbf{a}) - a_1 =  \frac{\ln(\sum_ie^{ka_i})-ka_1}{k}
+%\\
+%&=& k^{-1}\ln\left(\frac{\sum_ie^{ka_i}}{e^{ka_1}}\right) \leq k^{-1}\ln \left(\frac{me^{ka_1}}{e^{ka_1}}\right)
+%\\
+%&=&\frac{\ln m}{k}
+%\end{eqnarray*}
+%It is also clear from what preceded that $\varepsilon_M \geq 0$.
