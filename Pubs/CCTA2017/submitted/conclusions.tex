@@ -1,0 +1,16 @@
+\section{Discussion and Conclusions}
+
+
+We present a method to obtain smooth (infinity differentiable) approximations to the robustness of MTL formulae, with bounded and asymptotically decaying approximation error. 
+Empirically, we show that the approximation error is indeed small for a variety of commonly used MTL formulae. 
+Through several examples, we show how we leverage the smoothness property of the approximation for solving a control problem by maximizing the smooth robustness, using SQP, an off-the-shelf gradient descent optimization technique. A similar approach can also be used for falsification by minimizing the smooth robustness over a set of possible initial states for a closed loop system. We compare our technique (SOP) to other approaches for robustness maximization for control of two dynamical systems, with state and input constraints, and show how our approach consistently outperforms the other methods. 
+While for most examples, we solve the control problem in a single-shot, finite horizon manner, in general, for a real-time implementation, the problem can be solved in an online manner as in Sec. \ref{sec:online}.
+Future work will include a C implementation of SOP, which will allow us to experiment on real platforms, like the aforementioned quad-rotors, and also expand.
+
+
+%\begin{figure}[t]
+%\centering
+%\includegraphics[width=0.49\textwidth]{figures/Habbas}
+%\caption{{\small Habbas, pictured here, is the author of this paper, half the papers cited in this paper, half the papers submitted to CPS Week and many others. He can be contacted at habbasATseas.upenn.edu}}
+%\label{fig:quad_ssqp}
+%\end{figure}

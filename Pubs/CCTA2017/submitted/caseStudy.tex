@@ -1,0 +1,42 @@
+\section{Case studies}
+\label{sec:case study}
+
+We solve a robustness maximization problem for the control of two systems using the following methods.
+
+\begin{itemize}
+	\vspace{-1pt}
+	\item SOP in (B)oolean and (R)obust modes.
+	\vspace{-1pt}
+	\item BluSTL in modes (B) and (R).
+	\item R-SQP, which uses SQP to optimize the \textit{exact} non-smoothed robustness $\robf$.
+	\vspace{-1pt}
+	\item SA, which uses Simulated Annealing to optimize $\robf$.%the true robustness
+	\vspace{-1pt}
+\end{itemize}
+
+%A) Temperature control of a 4-state, single-zone model of a room, with an occupancy dependent comfort specification (similar to \cite{Raman14_MPCSTL}) and B) An Autonomous Centralized Air Traffic Control system for control of two quad-rotors in a constrained airspace with an obstacle, the specification in which corresponds to safely landing the two quad-rotors while following the rules of the airspace. We compare out approach, which consists of gradient descent on the smooth robustness of the specification (via SQP) to A) Simulated Annealing (\cite{}) for robustness maximization and B) Gradient descent on the robustness function (via SQP). 
+%\todo[inline]{rather than this intro, just start giving each case study subsection. so lose above paragraph, maybe just one sentence that says "we evaluated the control performance using smooth robustness on a alnging bla and a building bla." Also don't use A and B twice, every time for different things. }
+
+%All methods are implemented in MATLAB, and 
+%solving the control problem is preceded by an offline phase which consists of finding the wavelet parameters for the signed distance function approximation for all atomic propositions involving polyhedrons. 
+%\todo[inline]{sentence is long and awkward and mixes 2 very different pieces of information. can simply say "we compute the wavelet approimation of the distance function to the sets $\Oc(p)$ off-line"}
+
+For both case studies, we compute the wavelet approximation of the distance function to the sets $\Oc(p)$ off-line. 
+Next, we solve the control problem \eqref{eq:general_ctrl} as a single shot, finite horizon constrained optimization. 
+
+The code to reproduce these results can be found at \protect\url{https://github.com/yashpant/SmoothOperator0}. Future release of the code will focus on re-usability of the code. %and making it handle any system.
+%In general, for a real online implementation, the problem can be solved in a receding horizon manner or in a manner where the state and actions of the past are stored an added as constraints at each time step while the look-ahead horizon of the optimization shrinks (similar to \cite{Raman14_MPCSTL}). The problem of which method is suitable for what kinds of specifications is left for future work.
+%\todo[inline]{too soon, the control problem hasn't been formulated yet. first forumlate it (or, better, refer to section 4.2), \textit{solve it}, then critique it. Discussion of related work like Vasu's should be after you present what you did, not before}
+%\todo[inline]{introduce two numerical examples. Finite horizon control in a single shot, can be applied in a receding/shrinking horizon approach wherever applicable.}
+
+
+\vspace{-5pt}
+\subsection{HVAC Control of a building for comfort}
+%\todo[inline]{skipping for now. i suspect many of my comments for ATC are applicable here, so please apply them as needed}
+\input{caseBldg}
+\vspace{-11pt}
+\subsection{Autonomous ATC for quad-rotors}
+%\vspace{-5pt}
+\label{sec:ATCquad}
+%\todo[inline]{title exceeds margin}
+\input{caseQuad}

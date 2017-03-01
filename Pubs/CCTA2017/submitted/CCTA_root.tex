@@ -59,11 +59,11 @@
 \usepackage{xcolor}
 \newcommand\ypcomment[1]{\textcolor{blue}{\textbf{#1}}}
 \usepackage{url}
-
+%\usepackage{hyperref}
 % Control spacing...
 %\setlength{\marginparwidth}{4cm}
 %\setlength{\textfloatsep}{2pt}
-%\linespread{0.97}
+\linespread{0.97}
 %\thickmuskip=0mu
 
 \begin{document}
@@ -122,6 +122,7 @@ Corporation program sponsored by MARCO and DARPA, NSF MRI-0923518 and the US Dep
 %\input{openaccess}
 \input{caseStudy}
 \input{conclusions}
+\input{acks}
 
 %\addtolength{\textheight}{-12cm}   % This command serves to balance the column lengths
 % on the last page of the document manually. It shortens
@@ -129,6 +130,6 @@ Corporation program sponsored by MARCO and DARPA, NSF MRI-0923518 and the US Dep
 % This command does not take effect until the next page
 % so it should come on the page before the last. Make
 % sure that you do not shorten the textheight too much.
-\bibliographystyle{plain}
+\bibliographystyle{IEEEtran}
 \bibliography{iccps2017,hscc17,hscc2016,fainekos_bibrefs}
 \end{document}

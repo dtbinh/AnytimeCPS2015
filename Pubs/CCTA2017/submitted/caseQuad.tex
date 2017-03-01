@@ -1,5 +1,4 @@
-%CaseQuad
-
+%CaseQuad%
 Air Traffic Control (ATC) offers many opportunities for automation to allow safer and more efficient landing patterns. 
 The constraints of ATC are complex and contain many safety rules \cite{Max_ICRAT16}.
 %\cite{JohnsonICCPS12}, \cite{Max_ICRAT16}.
@@ -8,7 +7,7 @@ We demonstrate how the smoothed robustness is used to generate control strategie
 
 \textbf{The specification}.
 The specification for the autonomous ATC with two quad-rotors is:
-{\small
+{\footnotesize
 \begin{subequations}
 \begin{align}
 \formula &= \eventually_{[0,N-1]}(q_1 \in \text{Terminal}) \land \eventually_{[0,N-1]}(q_2 \in \text{Terminal}) \land   \nonumber \\
@@ -49,18 +48,19 @@ The airspace and associated sets for the specification $\formula$ are hyper-rect
 %\todo[inline]{unnecessary paragraph}
 
 The quad-rotor dynamics are obtained via linearization around hover, and discretization at $5$-Hz. Similar models have been used for control of real quad-rotors with success (\cite{PantAMNDM15_Anytime}). For simulation, we set the mass of either quad-rotor to be $0.5$ kg. %and $g=9.8\,ms^{-2}$.
-The corresponding linearized and discretized quad-rotor dynamics are given as:
+The corresponding linearized and discretized quad-rotor dynamics are given in \cite{PantAM17_SmoothOpTechRpt}.	
+%as:
 
-{\tiny
-\vspace{-10pt}
-\begin{equation}
-\label{eq:quad_dyn}
-\begin{bmatrix} \dot{x}_{k+1} \\ \dot{y}_{k+1} \\ \dot{z}_{k+1} \\ x_{k+1} \\ y_{k+1} \\ z_{k+1} \end{bmatrix}= \begin{bmatrix} 1&0&0&0&0&0 \\0&1&0&0&0&0 \\0&0&1&0&0&0 \\0.2&0&0&1&0&0 \\0&0.2&0&0&1&0 \\0&0&0.2&0&0&1\end{bmatrix} \begin{bmatrix} \dot{x}_{k} \\ \dot{y}_{k} \\ \dot{z}_{k} \\ x_{k} \\ y_{k} \\ z_{k} \end{bmatrix} + \begin{bmatrix} 1.96&0&0 \\ 0&-1.96&0 \\0&0&0.4 \\0.196&0&0 \\0&-0.196&0\\0&0&0.04 \end{bmatrix} \begin{bmatrix} \theta_k \\ \phi_k \\ \text{T}_k \end{bmatrix}
-\end{equation}
-\vspace{-10pt}
-}
+%{\tiny
+%\vspace{-10pt}
+%\begin{equation}
+%\label{eq:quad_dyn}
+%\begin{bmatrix} \dot{x}_{k+1} \\ \dot{y}_{k+1} \\ \dot{z}_{k+1} \\ x_{k+1} \\ y_{k+1} \\ z_{k+1} \end{bmatrix}= \begin{bmatrix} 1&0&0&0&0&0 \\0&1&0&0&0&0 \\0&0&1&0&0&0 \\0.2&0&0&1&0&0 \\0&0.2&0&0&1&0 \\0&0&0.2&0&0&1\end{bmatrix} \begin{bmatrix} \dot{x}_{k} \\ \dot{y}_{k} \\ \dot{z}_{k} \\ x_{k} \\ y_{k} \\ z_{k} \end{bmatrix} + \begin{bmatrix} 1.96&0&0 \\ 0&-1.96&0 \\0&0&0.4 \\0.196&0&0 \\0&-0.196&0\\0&0&0.04 \end{bmatrix} \begin{bmatrix} \theta_k \\ \phi_k \\ \text{T}_k \end{bmatrix}
+%\end{equation}
+%\vspace{-10pt}
+%}
 
-Here, the state consists of the velocities and positions in the $x,y,z$ co-ordinates. 
+The state for a quad-rotor $x \in \mathbb{R}^6$ consists of the velocities and positions in the $x,y,z$ co-ordinates respectively. 
 The inputs to the system are the desired roll angle $\theta$, pitch angle $\phi$ and thrust $\text{T}$. 
 
 %In a real system, this thrust is in addition to the hover thrust, $mg$, and a high-frequency low-level controller (not simulated) is responsible for generating rotor speeds to match the desired roll, pitch and thrust (with yaw set to be stabilized at $0$). 
@@ -81,7 +81,7 @@ The inputs to the system are the desired roll angle $\theta$, pitch angle $\phi$
 \textbf{The control problem.} For the autonomous ATC problem for two quad-rotors, we solve \eqref{eq:general_ctrl}  with $\srob$ in the objective instead of $\rob$.
 Note, we set $\gamma=0$ here, following logically from existing ATC rules (see sec.\ref{sec:intro}), which do not have an air-craft specific cost for fuel, or distance traveled. Because of this, we can also set $\delta=0$ and simply maximize (smooth) robustness (subject to system dynamics and constraints) to get trajectories that satisfy $\formula$.
 % With some abuse of notation, for the control formulation, $x$ represents the concatenated state of the two quadrotors, and $u$ the concatenated inputs to the system. 
-For the control problem, $X$ and $U$ represent the bounds on the states ($\text{Airspace}$ and velocity limits) and inputs respectively, for both quad-rotors. $f$ represents the linearized dynamics of \eqref{eq:quad_dyn} applied to two quad-rotors, and $N=21$. The initial state for the first quad-rotor is $[2,2,2,0,0,0]'$ and for the second, $[2, -2 , 2 ,0 ,0 ,0]'$.
+For the control problem ($P_{\srob}$), $X$ and $U$ represent the bounds on the states ($\text{Airspace}$ and velocity limits) and inputs respectively, for both quad-rotors. $f$ represents the linearized dynamics of \eqref{eq:quad_dyn} applied to two quad-rotors, and $N=21$. The initial state for the first quad-rotor is $[0,0,0,2,2,2]'$ and for the second, $[0 ,0 ,0,2, -2 , 2]'$.
 %The control problem is to maximize the smooth robustness of the specification $\srob_{\formula}$, subject to the dynamics of two identical quad-rotors, and input limits of $0.5236$ radians (or $30$ degrees) on both roll and pitch, and $\text{T}\in[-1.5,1.5]$, giving us the set $U$. The set $X$ for state limits on either quadrotor is, as defined earlier, the Cartesian product of velocity limits $[-5,5]^3$ and the $\text{Airspace}$ set, i.e. $[-5,5]^3$. Also with respect to the general control problem, \eqref{eq:general_ctrl}, we set $\gamma=0$ and $\delta=0$. This keeps the smooth robustness only in the cost (to be maximized) and allows a fair comparison of the optimization of robustness with other methods. In general, our formulation has linear constraints (dynamics and $X$, $U$) for both quad-rotors, allowing us to easily apply off the shelf optimization solvers.
 %\todo[inline]{repetitive. get to it. remove this paragraph and replace it with the control problem mathematically, as done for toy example.}
  %, Simulated Annealing and gradient descent, via SQP, on the robustness function.
@@ -92,9 +92,10 @@ For the control problem, $X$ and $U$ represent the bounds on the states ($\text{
 %\todo[inline]{re-word in a much more direct style, as follows:}
 
 \textbf{Results.}
-For each approach (except BluSTL), we ran three optimizations, starting from three different trajectories to initialize the optimization. In this case study, we only aim to maximize robustness, i.e. operate in the \textit{robust} mode. BluSTL, in either \textit{boolean} or \textit{robust} mode could not find a solution for this problem (ran over 100 hours without terminating) and so is excluded from the rest of this comparison. This suggests that having a complex specification like the one in this problem, non-trivial dynamics, and the given formula horizon, results in a MILP that is simply intractable to solve. We believe that this example highlights a fundamental limitation of MILP based approaches.
+For each approach (except BluSTL), we ran three optimizations, starting from three different trajectories to initialize the optimization. These \textit{initial trajectories} can be obtained in practice by a fast trajectory generator. Note that the three initial trajectories all have negative robustness, i.e. they violate $\formula$.
+In this case study, we only aim to maximize robustness, i.e. operate in the \textit{robust} mode. BluSTL, in either \textit{boolean} or \textit{robust} mode could not find a solution for this problem (ran over 100 hours without terminating) and so is excluded from the rest of this comparison. This suggests that having a complex specification like the one in this problem, non-trivial dynamics, and the given formula horizon, results in a MILP that is simply intractable to solve. We believe that this example highlights a fundamental limitation of MILP based approaches.
 
-These \textit{initial trajectories} can be obtained in practice by a fast trajectory generator. Note that the three initial trajectories all have negative robustness, i.e. they violate $\formula$.
+
 
 %\begin{figure}[t]
 %\centering
@@ -113,7 +114,9 @@ with the three initial trajectories as initial guesses for the optimizations.
 %for the optimization, respectively. 
 All three trajectories obtained by SOP satisfy the specification $\formula$. 
 To avoid visual clutter, we do not show the trajectories obtained from the other methods on the figure.
-Instead, we summarize the results in Table \ref{tbl:opt_performance} which shows the true robustness of the three initial trajectories, and the true robustness for the trajectories obtained via the three methods, SOP, SA, and R-SQP.In order to keep the study easy to interpret, we use two quad-rotors, but it is straight forward to scale the specification and the optimization to account for more. 
+Instead, we summarize the results in Table \ref{tbl:opt_performance} which shows the true robustness of the three initial trajectories, and the true robustness for the trajectories obtained via the three methods, SOP, SA, and R-SQP. %In order to keep the study easy to interpret, we use two quad-rotors, but it is straight forward to scale the specification and the optimization to account for more. 
+Unlike previous examples, we did not explicitly compute the gradient of the robustness for $\formula$. Because of this run-times are much slower as MATLAB has to numerically compute the gradient using finite-differences, resulting in overheads that were not incurred in the other examples. Despite this, SOP takes the order of 30 minutes for the optimization, while SA and R-SQP take over 4 hours to do so. Including explicit gradients should result in a significant speed up as was observed for the other examples. 
+
 
 %Our method, SQP with Smooth Robustness (SOP)
 %\todo[inline]{define once, use forever: SOP}, 
@@ -131,8 +134,8 @@ Instead, we summarize the results in Table \ref{tbl:opt_performance} which shows
 
 \textbf{Analysis.} It is seen that SOP and R-SQP satisfy $\formula$ for all instances, while SA satisfies it only once.
 Note that in all three cases, R-SQP results in trajectories with the same robustness value, which is less than the robustness value achieved in SOP.
-We conjecture that this is because R-SQP is getting stuck at local minima at points of non-differentiability of the objective, as illustrated in Example \ref{ex:cluster nondiff}.
-On further investigation, we also noticed that the robustness value achieved is due to the segment of the $\formula$ corresponding to $\eventually_{[0,N]}(q_2 \in \text{Terminal})$. R-SQP does not drive the trajectory (for quad-rotor 2) deeper inside the set $\text{Terminal}$, unlike the proposed approach, SOP, even though the minimum separation property is far from being violated. This lends credence to our hypothesis of SQP terminating on a local minima, which is the flag MATLAB's optimization gives.
+We conjecture that this is because R-SQP is getting stuck at local minima at points of non-differentiability of the objective (see Ex.2 in \cite{PantAM17_SmoothOpTechRpt}).
+On further investigation, we also noticed that the robustness value achieved is due to the segment of the $\formula$ corresponding to $\eventually_{[0,N]}(q_2 \in \text{Terminal})$. R-SQP does not drive the trajectory (for quad-rotor 2) deeper inside the set $\text{Terminal}$, unlike the proposed approach, SOP, even though the minimum separation property is far from being violated. This lends credence to our hypothesis of SQP terminating on a local minima, which is the flag MATLAB's optimization gives. 
 
 %\todo[inline]{this last discussion is important. break down your sentences, clarify it, take it easy. you've done the work, don't rush the explanation.}
 
@@ -141,7 +144,7 @@ On further investigation, we also noticed that the robustness value achieved is 
 \centering
 \includegraphics[width=0.49\textwidth]{figures/QuadTrajs_u_scissored}
 \vspace{-10pt}
-\caption{{\small Trajectories obtained via SQP on smooth robustness, with three different initial trajectories acting as initial solutions for the SQP. Note, all 3 trajectories satisfy $\formula$. Here, $q_{i}^j$ refers to the positions of the $i^{th}$ trajectory for the $j^{th}$ quadrotor. 
+\caption{{\small Trajectories obtained via SQP on smooth robustness, with three different initial trajectories acting as initial solutions for the SQP. Note, all 3 trajectories satisfy $\formula$. Here, $p_{i}^j$ refers to the positions of the $i^{th}$ trajectory for the $j^{th}$ quadrotor. 
 %Consider $q_{1}^1$ and $q_{2}^1$, the first trajectory for the two quad-rotors. The second quad-rotor swerves around the obstacle and reaches $\text{Terminal}$, while the first quad-rotor swerves towards $\text{Unsafe}$, without violating $\formula$, in order to maintain a safe distance with the other quad-rotor while reaching $\text{Terminal}$. This results in the two quad-rotors satisfying $\formula$. Similar behavior is seen with the other two trajectories as well. 
 A real-time playback of trajectories can be seen in \protect\url{https://youtu.be/gofB_HLwFGA}.}}
 \vspace{-10pt}
@@ -153,7 +156,7 @@ A real-time playback of trajectories can be seen in \protect\url{https://youtu.b
 \begin{table}[htb]
 \small
 \begin{center}
-\caption{{\small Robustness of final trajectory $\rob^*$ for three optimization runs with different initial trajectories ($\sstraj_0$),none of which satisfy the specification).}}
+\caption{{\small Robustness of final trajectory, $\rob^*$, for 3 runs with different initial trajectories ($\sstraj_0$), none of which satisfy $\formula$.}}
 \vspace{-5pt}
 \label{tbl:opt_performance}
 \begin{tabular} {|c|c|c|c|c|}

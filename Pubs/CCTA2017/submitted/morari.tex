@@ -1,0 +1,25 @@
+\subsection{The need for temporal logic}
+\label{sec:morari}
+The above requirements go beyond traditional control objectives like stability, tracking, quadratic cost optimization and reach-while-avoid for which we have well-developed theory.
+While these requirements can be directly encoded from natural language into a Mixed Integer Program (MIP), such direct encoding can easily have thousands of variables, as will be seen in the experiments. 
+Thus it is error-prone and checking that it corresponds to the designer's intent is near impossible.
+On the other hand, such control requirements are easily and succinctly expressed in Metric Temporal Logic (MTL)~\cite{Ouaknine08_RecentResultsMTL}.
+MTL is a formal language for expressing reactive requirements with constraints on their time of occurence and sequencing, such as those of the ATC.
+The advantage of first expressing them as MTL formulas is that such formulas are more succinct and legible, and less error-prone, than the corresponding MIP.
+In this sense, MTL bridges the gap between the ease of use of natural language and the rigor of mathematical formulation.
+%
+For example, ATC rule (A) can be formalized with the following MTL formula ($\always$ means `Always', $q$ is an aircraft and $q_z$ is its altitude).
+\begin{equation*}
+\label{eq:rule1mtl}
+\always( q \in Zone1 \implies q_z \leq \text{Ceiling1} \land q_z \geq \text{Floor1})
+\end{equation*}
+Rule (B) can be formalized as follows.
+\begin{flalign*}
+\label{eq:rule3mtl}
+\always(Busy \implies\eventually_{[t_1,t_2]} (&q \in \text{Holding-6} \, \lor \,q \in \text{Holding-7}) 
+\nonumber \\
+&\until_{[0,\text{MaxHolding}]} \neg Busy)
+\end{flalign*}
+
+This says that Always ($\always$), if airport is Busy, then sometime within $t_1$ to $t_2$ seconds ($\eventually_{[t_1,t_2]} $), the plane goes into one of two Holding areas.
+It stays there $\until$ntil the airport is not ($\neg$) busy, which must happen before duration MaxHolding elapses.

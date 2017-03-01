@@ -1,0 +1,40 @@
+\subsection{The need for smoothing}
+\label{sec:need for smoothing}
+
+
+%have known convergence rates for certain function classes, and have been optimized so they outperform heuristics that don't have access to the objective's gradient information.
+%Moreover, they usually have a fewer parameters to be set by the user, and important issues like step-size selection are rigorously addressed.
+
+The application of gradient descent methods requires a differentiable objective function. 
+Our objective function, $\robf$, is non-differentiable, because it uses the distance, max, and min functions, all of which are non-differentiable.
+One may note that these functions are all differentiable almost everywhere (a.e.) on their domain.
+That is, the set of points in their domain where they are non-differentiable has measure 0 in $\Re^n$. 
+Therefore, by measure additivity, the composite function $\robf$ is itself differentiable a.e.
+Thus, one may be tempted to `ignore' the singularities (points of non-differentiability), and apply gradient descent to $\robf$ anyway.
+The rationale for doing so is that sets of measure 0 are unlikely to be visited by gradient descent, and thus don't matter. 
+However, as we show in the next example, the lines of singularity (along which the objective is non-differentiable) can be  precisely the lines along which the objective increases the fastest.
+See also \cite{Cortes08_Discontinuous}.
+Thus they are consistently visited by gradient descent, after which it fails to converge because of the lack of a gradient.
+
+
+\begin{exmp}
+	\label{ex:cluster nondiff}
+	A simple example illustrates how gradient descent gets stuck at singularities. We use the optimization algorithm Sequential Quadratic Programming (SQP) \cite{Polak97_Optim} to maximize the robustness of $\formula = \neg (x \in U)$, where $U=[-1,1]^2$ is the unsafe red square in Fig.~\ref{fig:DumbExample}.
+	In this case, $\robf$ is simply $\dist(x_0,U)$, the distance of the first trajectory point to the set.
+	The search space is $[-2.5,2.5]^2$ (big grey square in Fig. \ref{fig:DumbExample}). 
+	The most robust points are the corners of the grey square, such as $x^* = [2.5,2.5]$ (green `+' in figure), being furthest from the unsafe set.
+	We initialize the SQP at $x_0=[0,0]$. 
+	SQP generates iterates (blue circles) \textit{on the line of singularity} connecting $[1,1]$ to $x^*$ and ultimately gets stuck at $x=[1,1]$.
+	That's because along the line, the gradient does not exist and attempts by SQP to approximate it numerically fail, prompting it to generate smaller and smaller step-sizes for the approximation.
+	Ultimately, SQP aborts due to the step-size being too small, and concludes it is at a local minimum.
+\end{exmp}	
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.49\textwidth]{figures/DumbOptEx_scissored}
+\vspace{-20pt}
+\caption{{\small Iterates of SQP for Example \ref{ex:cluster nondiff}. Colors in online version.}}
+\vspace{-10pt}
+\label{fig:DumbExample}
+\end{figure}
+
+

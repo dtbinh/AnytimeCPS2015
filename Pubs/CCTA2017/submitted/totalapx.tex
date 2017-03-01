@@ -1,0 +1,17 @@
+\subsection{Overall approximation}
+\label{sec:overall apx}
+Putting the pieces together yields the approximation error for the robustness of any MTL formula.
+\begin{theorem}
+	\label{thm:total apx error}
+	Consider an MTL formula $\formula$ and reals $\varepsilon > 0$ and $k \geq 1$. 
+	Define the \textit{smooth robustness} $\srobf$, obtained by substituting $\sdist_{\varepsilon}$ for $\dist$, $\smax_k$ for $\max$, and $\smin_k$ for $\min$, in Def. \ref{def:robustness estimate}.
+	Then for any trajectory $\sstraj$, it holds that
+	\[|\robf(\sstraj,t)-\srobf(\sstraj,t)| \leq \delta_\formula\]
+	where $\delta_\formula$ is
+	(a) independent of the evaluation time $t$, and 
+	(b) goes to 0 as $\varepsilon \rightarrow 0$ and $k \rightarrow \infty$.
+%	\[|\robf-\srobf| \leq |\formula| \cdot \max(\varepsilon,\ln(m)/k)\]
+%	where $m$ is the length of the longest temporal interval appearing in $\formula$ and $|\formula|$ is the size of the formula, i.e. the number of operators that appear in it.
+\end{theorem}
+The proof is in on the online technical report~\cite{PantAM17_SmoothOpTechRpt}.
+The proof also gives an \textit{explicit computation} for $\delta_\formula$ in terms of $\varepsilon, k$ and $\formula$, which can be computed beforehand and made as small as desired.
