@@ -1,10 +1,11 @@
 \begin{abstract}
-Modern control systems, like controllers for swarms of quadrotors, must satisfy complex sets of requirements that go beyond stability and tracking, which are succinctly expressed in Metric Temporal Logic (MTL).
-They must do so while withstanding a wide range of errors and disturbances, from bugs in their software to attacks on their physical sensors and changes in their environments.
-Given a formal description of a system's required behavior in  MTL, the controller must be designed to give the system a margin of error at the output, so that unexpected disturbances do not cause it to violate its requirements.
-the robust semantics of the specification provides a notion of \textit{system robustness} that can be calculated directly on the output behavior of the system, without explicit reference to the various sources or models of the errors.
- The robustness of the MTL specification has been used both to verify the system offline (via robustness minimization) and to control the system online (to maximize its robustness over some horizon).
- Unfortunately, the robustness objective function is difficult to work with: it is recursively defined, non-convex and non-differentiable.
-This paper proposes infinitely differentiable approximations of the robustness. We show that the approximation error is bounded to any desired level, and can be tuned to the specification. This enables the use of powerful off-the-shelf gradient descent algorithms for optimizing it. By using them we can also offer guarantees on the performance of the optimization in terms of convergence to minima. We combine this to optimize the smooth robustness for control of a given system.
- We demonstrate the timing and control performance of our algorithm on two systems: a) two quad-rotors in an autonomous air traffic control scenario, and b) for temperature control of a building for comfort.
+Modern control systems, like controllers for swarms of quadrotors, must satisfy complex control objectives while withstanding a wide range of disturbances, from bugs in their software to attacks on their sensors and changes in their environments.
+These requirements go beyond stability and tracking, and involve temporal and sequencing constraints on system response to various events.
+%Previous work formalized the requirements as formulas in Metric Temporal Logic (MTL), and designed a controller for linear systems that solves a Mixed Integer Linear Program (MILP) to compute control inputs.
+%This approach has high computational cost and its runtimes are hard to predict.
+This work formalizes the requirements  as formulas in Metric Temporal Logic (MTL), and designs a controller that maximizes the \textit{robustness} of the MTL formula.
+Formally, if the system satisfies the formula with robustness $r$, then any disturbance of size less than $r$ cannot cause it to violate the formula.
+Because robustness is not differentiable, this work provides arbitrarily precise, infinitely differentiable, approximations of it, thus enabling the use of powerful gradient descent optimizers.
+Experiments on a temperature control example and a two-quadrotor system demonstrate that this approach to controller design outperforms existing approaches to robustness maximization based on Mixed Integer Linear Programming and stochastic heuristics.
+Moreover, it is not constrained to linear systems.
 \end{abstract}
