@@ -1,9 +1,10 @@
 \section{Controlling for robustness}
 \label{sec:intro}
-The errors in Cyber-Physical Systems (CPS) can affect both the cyber components (e.g., software bugs) and physical components (e.g., sensor failures and attacks) of a system. Under certain error models, like a bounded disturbance on a sensor reading, a system can be designed to be robust to that source of error.
-In general, however, unforeseen issues will occur. 
-To deal with unforeseen problems, at design time, the system must be verified to be \textit{robust} : i.e., not only does it satisfy its design specifications under the known error models, it must satisfy them robustly.
-Similarly, at runtime, the system's controller must make decisions that maximize this satisfaction margin, or \textit{robustness}.
+The errors in a cyber-physical control system like an automated air traffic controller can affect both the cyber components (e.g., software bugs) and physical components (e.g., sensor failures and attacks) of a system. 
+Under certain error models, like a bounded disturbance on a sensor reading, a system can be designed to be robust to that source of error.
+In general, however, unforeseen and unmodeled issues will occur and the controller has to deal with them at runtime. 
+To help deal with unforeseen problems at runtime, the system's controller must make decisions that not only satisfy the system's requirements (like a maximum response time to an event), but satisfy them \textit{robustly}. 
+Intuitively, the requirements are robustly satisfied if a disturbance to the system does not cause it to violate them.
 This can give a margin of maneuvarability to the system during which it addresses the unforeseen problem.
 Since these problems are, by definition, unforeseen and unmodeled and only detected by their effect on the output, the notion of robustness must be computable using only the output behavior of the system.
 
