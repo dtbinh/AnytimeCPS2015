@@ -39,6 +39,7 @@ for j = 1:3
         inp_2 = reshape(u_opt((numel(u_opt)/2)+1:end),3,N-1);
         pos_1 = state_1(4:6,:);
         pos_2 = state_2(4:6,:);
+        
         pause;
     end
     
@@ -58,6 +59,15 @@ for j = 1:3
         pause;
     end
     clear p1 p2
+    temp_1 = pos_1; temp_2 = pos_2;
+    
+        clear pos_1 pos_2
+        for i = 1:3
+            pos_1(i,:) = interp(temp_1(i,:),2);
+            pos_2(i,:) = interp(temp_2(i,:),2);
+        end
+    
+    
     for i = 1:size(pos_1,2)
         if(exist('p1','var'))
         delete(p1);
