@@ -1,0 +1,21 @@
+MEX {
+	global:
+		mexFunction;
+		emlrtMexFcnProperties;
+		alt_getWavApprox_vector_genable;
+		asr_s32;
+		emlrtGetRootTLSGlobal;
+		emlrtLockerFunction;
+		emxEnsureCapacity;
+		emxFree_int32_T;
+		emxFree_real_T;
+		emxInit_int32_T;
+		emxInit_real_T;
+		emxInit_real_T1;
+		emxInit_real_T2;
+		alt_getWavApprox_vector_genable_initialize;
+		alt_getWavApprox_vector_genable_terminate;
+		alt_getWavApprox_vector_genable_atexit;
+	local:
+		*;
+};

@@ -1,0 +1,485 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Code Generation Report</title>
+<link rel="stylesheet" type="text/css" href="file:////usr/local/MATLAB/R2015b/toolbox/coder/coder/resources/eml_report.css" />
+<link rel="stylesheet" type="text/css" href="file:////usr/local/MATLAB/R2015b/toolbox/coder/coder/resources/jQuery/ui.resizable.css" />
+<link rel="stylesheet" type="text/css" href="file:////home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification demos/codegen/mex/alt_getWavApprox_vector_genable/html/index.css" />
+
+<script type="text/javascript" src="file:////usr/local/MATLAB/R2015b/toolbox/coder/coder/resources/jQuery/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="file:////usr/local/MATLAB/R2015b/toolbox/coder/coder/resources/jQuery/jquery-ui-1.7.custom.min.js"></script>
+<script type="text/javascript" src="file:////usr/local/MATLAB/R2015b/toolbox/coder/coder/resources/jQuery/jquery.tablesorter.mod.js"></script>
+<script type="text/javascript" src="file:////usr/local/MATLAB/R2015b/toolbox/coder/coder/resources/jQuery/jquery.hotkeys-0.7.8.js"></script>
+<script type="text/javascript" src="file:////usr/local/MATLAB/R2015b/toolbox/coder/coder/resources/eml_report_interactions.js"></script>
+<script type="text/javascript" src="file:////usr/local/MATLAB/R2015b/toolbox/coder/coder/resources/eml_report_layout.js"></script>
+<script type="text/javascript" src="file:////usr/local/MATLAB/R2015b/toolbox/rtw/rtw/+coder/+report/resources/rtwshrink.js"></script>
+<script type="text/javascript">
+var localizedMessages = {
+    callSelectPrompt: "Select a function call:",
+    callSelectSource: "Calls from this function",
+    callSelectTarget: "Calls to this function",
+    infoForExpression: "Information for the selected expression:",
+    infoForVarType: "Information for the selected variable:",
+    infoForVarConst: "Information for the selected compile-time constant:",
+    infoForVarNone: "This variable does not have information associated with it.",
+    infoForFilter: "Matched {0}/{1} functions, {2}/{3} methods",
+    autoExtrinsicCall: "Only supported within the MATLAB environment."
+};
+var keyBindings = {
+        selectMCodeTab: "Ctrl+m",
+    selectCallStackTab: "Ctrl+k",
+        selectCCodeTab: "Ctrl+c",
+       selectReportTab: "Ctrl+r",
+     selectCenterPanel: "Ctrl+w",
+      selectSummaryTab: "Ctrl+s",
+     selectMessagesTab: "Ctrl+a",
+    selectWatchListTab: "Ctrl+v",
+     selectBuildLogTab: "Ctrl+t"
+};
+var functionInfoTable = {
+ MATLABcode1: "alt_getWavApprox_vector_genable1_mcode.html",
+ fpath1: "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/Smooth/wavelet/alt_getWavApprox_vector_genable.m",
+ lines1: [1, 1, 57],
+ watch1: "alt_getWavApprox_vector_genable1_watch.html",
+ title1: "Function: <span class='functionname'><a title='/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/Smooth/wavelet/alt_getWavApprox_vector_genable.m' class='functionlink' href=\"matlab: open('/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/Smooth/wavelet/alt_getWavApprox_vector_genable.m')\">alt_getWavApprox_vector_genable</a></span>",
+ tcall1: [  ],
+ scall1: [ [ "From line 10 to permn2", "204#srcline1" ], [ "From line 24 to MeyerWavelet", "233#srcline1" ], [ "From line 41 to MeyerWavelet", "233#srcline1" ] ],
+ MATLABcode204: "permn2204_mcode.html",
+ fpath204: "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/Smooth/wavelet/permn2.m",
+ lines204: [1, 1, 176],
+ watch204: "permn2204_watch.html",
+ title204: "Function: <span class='functionname'><a title='/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/Smooth/wavelet/permn2.m' class='functionlink' href=\"matlab: open('/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/Smooth/wavelet/permn2.m')\">permn2</a></span>",
+ tcall204: [ [ "From alt_getWavApprox_vector_genable line 10", "1#F204N6:B69" ] ],
+ scall204: [  ],
+ MATLABcode233: "MeyerWavelet233_mcode.html",
+ fpath233: "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/Smooth/wavelet/MeyerWavelet.m",
+ lines233: [1, 1, 60],
+ watch233: "MeyerWavelet233_watch.html",
+ title233: "Function: <span class='functionname'><a title='/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/Smooth/wavelet/MeyerWavelet.m' class='functionlink' href=\"matlab: open('/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/Smooth/wavelet/MeyerWavelet.m')\">MeyerWavelet</a></span>",
+ tcall233: [ [ "From alt_getWavApprox_vector_genable line 24", "1#F233N2:B135" ], [ "From alt_getWavApprox_vector_genable line 41", "1#F233N2:B221" ] ],
+ scall233: [  ],
+ rootFcnID: "1",
+ firstPage: "1",
+ htmlRoot: "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification%20demos/codegen/mex/alt_getWavApprox_vector_genable/html/"
+};
+var scriptInfoTable = {
+ fpath1: "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/Smooth/wavelet/alt_getWavApprox_vector_genable.m",
+ fpath2: "/usr/local/MATLAB/R2015b/toolbox/eml/eml/+coder/+internal/isDomainError.m",
+ fpath3: "/usr/local/MATLAB/R2015b/toolbox/eml/eml/+coder/+internal/error.m",
+ fpath4: "/usr/local/MATLAB/R2015b/toolbox/eml/eml/+coder/+internal/floatModel.m",
+ fpath5: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/elmat/private/eml_realmax.m",
+ fpath6: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/elmat/realmax.m",
+ fpath7: "/usr/local/MATLAB/R2015b/toolbox/eml/eml/+coder/+internal/isBuiltInNumeric.m",
+ fpath8: "/usr/local/MATLAB/R2015b/toolbox/eml/eml/+coder/+internal/scalexpCompatible.m",
+ fpath9: "/usr/local/MATLAB/R2015b/toolbox/eml/eml/+coder/+internal/div.m",
+ fpath10: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/ops/rdivide.m",
+ fpath11: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/ops/mrdivide.p",
+ fpath12: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/elmat/isinf.m",
+ fpath13: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/elmat/isnan.m",
+ fpath14: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/elmat/isfinite.m",
+ fpath15: "/usr/local/MATLAB/R2015b/toolbox/eml/eml/+coder/+internal/+scalar/log2.m",
+ fpath16: "/usr/local/MATLAB/R2015b/toolbox/eml/eml/+coder/+internal/applyScalarFunction.m",
+ fpath17: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/elfun/log2.m",
+ fpath18: "/usr/local/MATLAB/R2015b/toolbox/eml/eml/+coder/+internal/+scalar/floor.m",
+ fpath19: "/usr/local/MATLAB/R2015b/toolbox/eml/eml/+coder/+internal/applyScalarFunctionInPlace.m",
+ fpath20: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/elfun/floor.m",
+ fpath21: "/usr/local/MATLAB/R2015b/toolbox/eml/eml/+coder/+internal/scalarEg.m",
+ fpath22: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/fixedpoint/isnumerictype.m",
+ fpath23: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/fixedpoint/isfimath.m",
+ fpath24: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/fixedpoint/isfi.m",
+ fpath25: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/elmat/intmax.m",
+ fpath26: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/elmat/intmin.m",
+ fpath27: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/eml/eml_int_forloop_overflow_check.m",
+ fpath28: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/elmat/flintmax.m",
+ fpath29: "/usr/local/MATLAB/R2015b/toolbox/eml/eml/+coder/+internal/+scalar/abs.m",
+ fpath30: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/elfun/abs.m",
+ fpath31: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/ops/colon.m",
+ fpath32: "/usr/local/MATLAB/R2015b/toolbox/eml/eml/+coder/+internal/isFloatClass.m",
+ fpath33: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/elmat/private/eml_eps.m",
+ fpath34: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/elmat/eps.m",
+ fpath35: "/usr/local/MATLAB/R2015b/toolbox/shared/coder/coder/+coder/+internal/indexIntRelop.m",
+ fpath36: "/usr/local/MATLAB/R2015b/toolbox/eml/eml/+coder/+internal/indexMinus.m",
+ fpath37: "/usr/local/MATLAB/R2015b/toolbox/eml/eml/+coder/+internal/indexDivide.m",
+ fpath38: "/usr/local/MATLAB/R2015b/toolbox/eml/eml/+coder/+internal/indexTimes.m",
+ fpath39: "/usr/local/MATLAB/R2015b/toolbox/eml/eml/+coder/+internal/indexPlus.m",
+ fpath40: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/elmat/ismatrix.m",
+ fpath41: "/usr/local/MATLAB/R2015b/toolbox/eml/eml/+coder/+internal/scalexpAllocNoCheck.m",
+ fpath42: "/usr/local/MATLAB/R2015b/toolbox/eml/eml/+coder/+internal/scalexpAlloc.m",
+ fpath43: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/ops/power.m",
+ fpath44: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/ops/mpower.m",
+ fpath45: "/usr/local/MATLAB/R2015b/toolbox/shared/coder/coder/+coder/+internal/narginchk.m",
+ fpath46: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/elmat/private/eml_isequal_core.m",
+ fpath47: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/elmat/isequal.m",
+ fpath48: "/usr/local/MATLAB/R2015b/toolbox/eml/eml/+coder/+internal/constNonSingletonDim.m",
+ fpath49: "/usr/local/MATLAB/R2015b/toolbox/eml/eml/+coder/+internal/allOrAny.m",
+ fpath50: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/ops/any.m",
+ fpath51: "/usr/local/MATLAB/R2015b/toolbox/eml/eml/+coder/+internal/+scalar/fix.m",
+ fpath52: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/elfun/fix.m",
+ fpath53: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/lang/error.m",
+ fpath54: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/elmat/reshape.m",
+ fpath55: "/usr/local/MATLAB/R2015b/toolbox/eml/eml/+coder/+internal/relop.m",
+ fpath56: "/usr/local/MATLAB/R2015b/toolbox/eml/eml/+coder/+internal/minOrMax.m",
+ fpath57: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/datafun/max.m",
+ fpath58: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/datafun/min.m",
+ fpath59: "/usr/local/MATLAB/R2015b/toolbox/eml/eml/+coder/+internal/useParforConst.m",
+ fpath60: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/ops/eml_mtimes_helper.m",
+ fpath61: "/usr/local/MATLAB/R2015b/toolbox/eml/eml/+coder/+internal/+scalar/rem.m",
+ fpath62: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/elfun/rem.m",
+ fpath63: "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/Smooth/wavelet/permn2.m",
+ fpath64: "/usr/local/MATLAB/R2015b/toolbox/eml/eml/+coder/+internal/+scalar/sqrt.m",
+ fpath65: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/elfun/sqrt.m",
+ fpath66: "/usr/local/MATLAB/R2015b/toolbox/eml/eml/+coder/+internal/+scalar/cos.m",
+ fpath67: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/elfun/cos.m",
+ fpath68: "/usr/local/MATLAB/R2015b/toolbox/eml/eml/+coder/+internal/+scalar/sin.m",
+ fpath69: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/elfun/sin.m",
+ fpath70: "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/Smooth/wavelet/MeyerWavelet.m",
+ fpath71: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/datafun/private/process_sumprod_inputs.m",
+ fpath72: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/datafun/private/combine_vector_elements.m",
+ fpath73: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/datafun/private/sumprod.m",
+ fpath74: "/usr/local/MATLAB/R2015b/toolbox/eml/lib/matlab/datafun/prod.m"
+};
+</script>
+</head>
+<body>
+
+<div class="west">
+<ul class="ui-tabs-nav">
+<li class="ui-tabs-nav-item ui-tabs-selected"><span class="tab-link" id="MATLABcode"><span>MATLAB code</span></span></li>
+<li class="ui-tabs-nav-item"><span class="tab-link" id="callstack"><span>Call stack</span></span></li>
+<li class="ui-tabs-nav-item"><span class="tab-link" id="ccode"><span>C code</span></span></li>
+</ul>
+<div id="MATLABcodebody" class="ui-tabs-panel">
+<!-- Begin Filter -->
+<div class="grayline methodset" onclick="filterClick(event);">
+<a class="collapsed">Filter</a>
+</div>
+<div id="filterbody" class="hidden">
+<table class="myfunc-filter-tbl">
+<tr>
+<td title="Use this filter to display only functions and methods that contain variables or expressions with the specified attributes." colspan="2" class="checkbox">
+<div class="myfunc-filterby-chk"><input type="checkbox" class="filterenable" />
+<div class="filter-enable-lbl">Filter functions and methods</div></div></td></tr><tr>
+<td class="label"><div class="myfunc-filterby-lbl">Filter by:</div></td>
+<td class="select">
+<div class="filters">
+<select class="myfunc-filterby">
+<option id="size">Size</option>
+<option id="complex">Complexity</option>
+<option id="class">Class</option>
+</select>
+</div>
+</td>
+</tr>
+
+<tr>
+<td class="label"><div class="myfunc-filterstr-lbl">Filter:</div></td>
+<td class="input"><div>
+
+<div class="size">
+<select class="myfunc-filter size">
+<option value="1 204 233">1 x 1</option>
+<option value="1">1 x 1 x <b>:</b>?</option>
+<option value="1 204">1 x <b>:</b>?</option>
+<option value="1"><b>:</b>? x 1</option>
+<option value="1"><b>:</b>? x <b>:</b>?</option>
+<option value="1"><b>:</b>? x <b>:</b>? x <b>:</b>?</option>
+</select>
+</div>
+
+<div class="complex">
+<select class="myfunc-filter complex">
+<option value="">Complex values</option>
+<option value="1 204 233">Real values</option>
+</select>
+</div>
+<!-- Begin Class Filter -->
+<div class="class">
+<select class="myfunc-filter class">
+<option value="1 204 233">double</option>
+</select>
+</div>
+<!-- End Class Filter -->
+</div>
+</td>
+</tr>
+</table>
+<div class="myfunc-count"></div>
+</div>
+<!-- End Filter -->
+<div class="grayline methodset" onmouseover="callTreeMouseOver(event);" onmouseout="callTreeMouseOut(event);" onclick="functionSetClick(event);">
+<a class="expanded">Functions</a>
+</div>
+<!-- Begin Function Tree -->
+<div id="functiontreebody">
+<div class="functionwrapper" onmouseover="callTreeMouseOver(event);" onmouseout="callTreeMouseOut(event);" onclick="functionTreeClick(event);">
+<ol class="tree">
+<!-- Begin Function Tree Roots -->
+<li class="leaf  passed"><a href="#" class="fcn " id="F233N2:F1">MeyerWavelet</a></li>
+<li class="leaf  passed"><a href="#" class="fcn " id="F1N3:F2">alt_getWavApprox_vector_genable</a></li>
+<li class="leaf  passed"><a href="#" class="fcn " id="F204N6:F3">permn2</a></li>
+<!-- End Function Tree Roots -->
+</ol>
+<!-- Function Tree Nodes -->
+<div class="functiontreenodes hidden">
+</div>
+<!-- End Function Tree Nodes -->
+</div>
+</div>
+<!-- End Function Tree -->
+</div>
+<!-- Begin Call Tree -->
+<div id="callstackbody" class="ui-tabs-panel hidden">
+<div class="treewrapper" onmouseover="callTreeMouseOver(event);" onmouseout="callTreeMouseOut(event);" onclick="callTreeClick(event);">
+<ol class="tree">
+<!-- Call Tree Root -->
+<li class="node collapsed passed"><a href="#" class="fcn " id="F1N3:L1">alt_getWavApprox_vector_genable</a>
+<ul>
+<li class="leaf passed"><a href="#" class="fcn " id="F204N6:L2">permn2</a></li>
+<li class="leaf passed"><a href="#" class="fcn " id="F233N2:L3">MeyerWavelet</a></li>
+</ul>
+</li>
+</ol>
+<!-- Call Tree Nodes -->
+<div class="callstacknodes hidden">
+<ol class="callstacknode" id="callstacknode1">
+
+<li class="node collapsed passed"><a href="#" class="fcn " id="F1N3:l1">alt_getWavApprox_vector_genable</a>
+<ul>
+<li class="leaf passed"><a href="#" class="fcn " id="F204N6:l2">permn2</a></li>
+<li class="leaf passed"><a href="#" class="fcn " id="F233N2:l3">MeyerWavelet</a></li>
+</ul>
+</li>
+</ol>
+<ol class="callstacknode" id="callstacknode204">
+
+<li class="leaf passed"><a href="#" class="fcn " id="F204N6:l4">permn2</a>
+</li>
+</ol>
+<ol class="callstacknode" id="callstacknode233">
+
+<li class="leaf passed"><a href="#" class="fcn " id="F233N2:l5">MeyerWavelet</a>
+</li>
+</ol>
+
+</div>
+</div>
+</div>
+<!-- End Call Tree -->
+<!-- Begin C Code -->
+<div id="ccodebody" class="ui-tabs-panel hidden">
+<div class="grayline methodset" onclick="ccodeClick(event,1);">
+<a class="expanded">Target Source Files</a>
+</div>
+<!-- Begin C Code List -->
+<div id="ccodelistbody1" class="visible">
+<table class="myfunc-list" cellspacing="0" cellpadding="0" onclick="cFileClickWithMexWarning(event);">
+<tbody>
+<tr class="ccode" id="MeyerWavelet_c.html"><td class="ccode"><a href="#">MeyerWavelet.c</a></td></tr>
+<tr class="ccode" id="MeyerWavelet_h.html"><td class="ccode"><a href="#">MeyerWavelet.h</a></td></tr>
+<tr class="ccode" id="alt_getWavApprox_vector_genable_c.html"><td class="ccode"><a href="#">alt_getWavApprox_vector_genable.c</a></td></tr>
+<tr class="ccode" id="alt_getWavApprox_vector_genable_h.html"><td class="ccode"><a href="#">alt_getWavApprox_vector_genable.h</a></td></tr>
+<tr class="ccode" id="alt_getWavApprox_vector_genable_data_c.html"><td class="ccode"><a href="#">alt_getWavApprox_vector_genable_data.c</a></td></tr>
+<tr class="ccode" id="alt_getWavApprox_vector_genable_data_h.html"><td class="ccode"><a href="#">alt_getWavApprox_vector_genable_data.h</a></td></tr>
+<tr class="ccode" id="alt_getWavApprox_vector_genable_emxutil_c.html"><td class="ccode"><a href="#">alt_getWavApprox_vector_genable_emxutil.c</a></td></tr>
+<tr class="ccode" id="alt_getWavApprox_vector_genable_emxutil_h.html"><td class="ccode"><a href="#">alt_getWavApprox_vector_genable_emxutil.h</a></td></tr>
+<tr class="ccode" id="alt_getWavApprox_vector_genable_initialize_c.html"><td class="ccode"><a href="#">alt_getWavApprox_vector_genable_initialize.c</a></td></tr>
+<tr class="ccode" id="alt_getWavApprox_vector_genable_initialize_h.html"><td class="ccode"><a href="#">alt_getWavApprox_vector_genable_initialize.h</a></td></tr>
+<tr class="ccode" id="alt_getWavApprox_vector_genable_mexutil_c.html"><td class="ccode"><a href="#">alt_getWavApprox_vector_genable_mexutil.c</a></td></tr>
+<tr class="ccode" id="alt_getWavApprox_vector_genable_mexutil_h.html"><td class="ccode"><a href="#">alt_getWavApprox_vector_genable_mexutil.h</a></td></tr>
+<tr class="ccode" id="alt_getWavApprox_vector_genable_terminate_c.html"><td class="ccode"><a href="#">alt_getWavApprox_vector_genable_terminate.c</a></td></tr>
+<tr class="ccode" id="alt_getWavApprox_vector_genable_terminate_h.html"><td class="ccode"><a href="#">alt_getWavApprox_vector_genable_terminate.h</a></td></tr>
+<tr class="ccode" id="alt_getWavApprox_vector_genable_types_h.html"><td class="ccode"><a href="#">alt_getWavApprox_vector_genable_types.h</a></td></tr>
+<tr class="ccode" id="eml_int_forloop_overflow_check_c.html"><td class="ccode"><a href="#">eml_int_forloop_overflow_check.c</a></td></tr>
+<tr class="ccode" id="eml_int_forloop_overflow_check_h.html"><td class="ccode"><a href="#">eml_int_forloop_overflow_check.h</a></td></tr>
+<tr class="ccode" id="error_c.html"><td class="ccode"><a href="#">error.c</a></td></tr>
+<tr class="ccode" id="error_h.html"><td class="ccode"><a href="#">error.h</a></td></tr>
+<tr class="ccode" id="log2_c.html"><td class="ccode"><a href="#">log2.c</a></td></tr>
+<tr class="ccode" id="log2_h.html"><td class="ccode"><a href="#">log2.h</a></td></tr>
+<tr class="ccode" id="mpower_c.html"><td class="ccode"><a href="#">mpower.c</a></td></tr>
+<tr class="ccode" id="mpower_h.html"><td class="ccode"><a href="#">mpower.h</a></td></tr>
+<tr class="ccode" id="permn2_c.html"><td class="ccode"><a href="#">permn2.c</a></td></tr>
+<tr class="ccode" id="permn2_h.html"><td class="ccode"><a href="#">permn2.h</a></td></tr>
+<tr class="ccode" id="prod_c.html"><td class="ccode"><a href="#">prod.c</a></td></tr>
+<tr class="ccode" id="prod_h.html"><td class="ccode"><a href="#">prod.h</a></td></tr>
+<tr class="ccode" id="rt_nonfinite_h.html"><td class="ccode"><a href="#">rt_nonfinite.h</a></td></tr>
+<tr class="ccode" id="rtwtypes_h.html"><td class="ccode"><a href="#">rtwtypes.h</a></td></tr>
+<tr class="ccode" id="scalexpAlloc_c.html"><td class="ccode"><a href="#">scalexpAlloc.c</a></td></tr>
+<tr class="ccode" id="scalexpAlloc_h.html"><td class="ccode"><a href="#">scalexpAlloc.h</a></td></tr>
+</tbody>
+</table>
+</div>
+<!-- End C Code List -->
+<div class="grayline methodset" onclick="ccodeClick(event,3);">
+<a class="collapsed">Interface Source Files</a>
+</div>
+<!-- Begin C Code List -->
+<div id="ccodelistbody3" class="hidden">
+<table class="myfunc-list" cellspacing="0" cellpadding="0" onclick="cFileClickWithMexWarning(event);">
+<tbody>
+<tr class="ccode" id="_coder_alt_getWavApprox_vector_genable_api_c.html"><td class="ccode"><a href="#">_coder_alt_getWavApprox_vector_genable_api.c</a></td></tr>
+<tr class="ccode" id="_coder_alt_getWavApprox_vector_genable_api_h.html"><td class="ccode"><a href="#">_coder_alt_getWavApprox_vector_genable_api.h</a></td></tr>
+<tr class="ccode" id="_coder_alt_getWavApprox_vector_genable_info_c.html"><td class="ccode"><a href="#">_coder_alt_getWavApprox_vector_genable_info.c</a></td></tr>
+<tr class="ccode" id="_coder_alt_getWavApprox_vector_genable_info_h.html"><td class="ccode"><a href="#">_coder_alt_getWavApprox_vector_genable_info.h</a></td></tr>
+<tr class="ccode" id="_coder_alt_getWavApprox_vector_genable_mex_c.html"><td class="ccode"><a href="#">_coder_alt_getWavApprox_vector_genable_mex.c</a></td></tr>
+<tr class="ccode" id="_coder_alt_getWavApprox_vector_genable_mex_h.html"><td class="ccode"><a href="#">_coder_alt_getWavApprox_vector_genable_mex.h</a></td></tr>
+</tbody>
+</table>
+</div>
+<!-- End C Code List -->
+</div>
+<!-- End C Code -->
+</div>
+<!-- Tooltips -->
+<div class="aux hidden">
+<div class="tooltips">
+<div class="tooltip" id="TT1"><table class="tooltip"><tr><th>Size</th><td>1 x 1</td></tr><tr><th>Class</th><td>double</td></tr><tr><th>Complex</th><td>No</td></tr></table></div>
+<div class="tooltip" id="TT2"><table class="tooltip"><tr><th>Size</th><td><b>:</b>? x 1</td></tr><tr><th>Class</th><td>double</td></tr><tr><th>Complex</th><td>No</td></tr></table></div>
+<div class="tooltip" id="TT3"><table class="tooltip"><tr><th>Size</th><td>1 x 1 x <b>:</b>?</td></tr><tr><th>Class</th><td>double</td></tr><tr><th>Complex</th><td>No</td></tr></table></div>
+<div class="tooltip" id="TT4"><table class="tooltip"><tr><th>Size</th><td><b>:</b>? x <b>:</b>? x <b>:</b>?</td></tr><tr><th>Class</th><td>double</td></tr><tr><th>Complex</th><td>No</td></tr></table></div>
+<div class="tooltip" id="TT5"><table class="tooltip"><tr><th>Size</th><td><b>:</b>? x <b>:</b>?</td></tr><tr><th>Class</th><td>double</td></tr><tr><th>Complex</th><td>No</td></tr></table></div>
+<div class="tooltip" id="TT6"><table class="tooltip"><tr><th>Size</th><td>1 x <b>:</b>?</td></tr><tr><th>Class</th><td>double</td></tr><tr><th>Complex</th><td>No</td></tr></table></div>
+<div class="tooltip" id="TT7"><table class="tooltip"><tr><th>Size</th><td><b>:</b>? x 1</td></tr><tr><th>Class</th><td>double</td></tr><tr><th>Complex</th><td>No</td></tr></table></div>
+<div class="tooltip" id="TT8"><table class="tooltip"><tr><th>Size</th><td>1 x <b>:</b>?</td></tr><tr><th>Class</th><td>double</td></tr><tr><th>Complex</th><td>No</td></tr></table></div>
+<div class="tooltip" id="TT9"><table class="tooltip"><tr><th>Size</th><td>1 x 1</td></tr><tr><th>Class</th><td>logical</td></tr></table></div>
+<div class="tooltip" id="TT10"><table class="tooltip"><tr><th>Size</th><td>1 x 1</td></tr><tr><th>Class</th><td>function_handle</td></tr></table></div>
+<div class="tooltip" id="TT11"><table class="tooltip"><tr><th>Size</th><td>1 x 30</td></tr><tr><th>Class</th><td>char</td></tr></table></div>
+<div class="tooltip" id="TT12"><table class="tooltip"><tr><th>Size</th><td>1 x 1</td></tr><tr><th>Class</th><td>cell</td></tr></table></div>
+<div class="tooltip" id="TT13"><table class="tooltip"><tr><th>Size</th><td>1 x 4</td></tr><tr><th>Class</th><td>char</td></tr></table></div>
+<div class="tooltip" id="TT14"><table class="tooltip"><tr><th>Size</th><td>1 x 1</td></tr><tr><th>Class</th><td>int32</td></tr><tr><th>Complex</th><td>No</td></tr></table></div>
+<div class="tooltip" id="TT15"><table class="tooltip"><tr><th>Size</th><td>1 x 6</td></tr><tr><th>Class</th><td>char</td></tr></table></div>
+<div class="tooltip" id="TT16"><table class="tooltip"><tr><th>Size</th><td>1 x 17</td></tr><tr><th>Class</th><td>char</td></tr></table></div>
+<div class="tooltip" id="TT17"><table class="tooltip"><tr><th>Size</th><td>1 x 1</td></tr><tr><th>Class</th><td>function_handle</td></tr></table></div>
+<div class="tooltip" id="TT18"><table class="tooltip"><tr><th>Size</th><td>1 x 0</td></tr><tr><th>Class</th><td>cell</td></tr></table></div>
+<div class="tooltip" id="TT19"><table class="tooltip"><tr><th>Size</th><td>1 x 5</td></tr><tr><th>Class</th><td>char</td></tr></table></div>
+<div class="tooltip" id="TT20"><table class="tooltip"><tr><th>Size</th><td>1 x 1</td></tr><tr><th>Class</th><td>function_handle</td></tr></table></div>
+<div class="tooltip" id="TT21"><table class="tooltip"><tr><th>Size</th><td>1 x 3</td></tr><tr><th>Class</th><td>cell</td></tr></table></div>
+<div class="tooltip" id="TT22"><table class="tooltip"><tr><th>Size</th><td>1 x 23</td></tr><tr><th>Class</th><td>char</td></tr></table></div>
+<div class="tooltip" id="TT23"><table class="tooltip"><tr><th>Size</th><td>1 x 1</td></tr><tr><th>Class</th><td>double</td></tr><tr><th>Complex</th><td>No</td></tr></table></div>
+<div class="tooltip" id="TT24"><table class="tooltip"><tr><th>Size</th><td>1 x 2</td></tr><tr><th>Class</th><td>cell</td></tr></table></div>
+<div class="tooltip" id="TT25"><table class="tooltip"><tr><th>Size</th><td>1 x 3</td></tr><tr><th>Class</th><td>char</td></tr></table></div>
+<div class="tooltip" id="TT26"><table class="tooltip"><tr><th>Size</th><td>1 x 1</td></tr><tr><th>Class</th><td>function_handle</td></tr></table></div>
+<div class="tooltip" id="TT27"><table class="tooltip"><tr><th>Size</th><td>1 x 1</td></tr><tr><th>Class</th><td>uint8</td></tr><tr><th>Complex</th><td>No</td></tr></table></div>
+<div class="tooltip" id="TT28"><table class="tooltip"><tr><th>Size</th><td>1 x 2</td></tr><tr><th>Class</th><td>char</td></tr></table></div>
+<div class="tooltip" id="TT29"><table class="tooltip"><tr><th>Size</th><td>2 x 1</td></tr><tr><th>Class</th><td>double</td></tr><tr><th>Complex</th><td>No</td></tr></table></div>
+<div class="tooltip" id="TT30"><table class="tooltip"><tr><th>Size</th><td>1 x 14</td></tr><tr><th>Class</th><td>char</td></tr></table></div>
+<div class="tooltip" id="TT31"><table class="tooltip"><tr><th>Size</th><td>1 x 1</td></tr><tr><th>Class</th><td>function_handle</td></tr></table></div>
+<div class="tooltip" id="TT32"><table class="tooltip"><tr><th>Size</th><td>1 x 31</td></tr><tr><th>Class</th><td>char</td></tr></table></div>
+<div class="tooltip" id="TT33"><table class="tooltip"><tr><th>Size</th><td>0 x 0</td></tr><tr><th>Class</th><td>double</td></tr><tr><th>Complex</th><td>No</td></tr></table></div>
+<div class="tooltip" id="TT34"><table class="tooltip"><tr><th>Size</th><td>1 x 7</td></tr><tr><th>Class</th><td>char</td></tr></table></div>
+<div class="tooltip" id="TT35"><table class="tooltip"><tr><th>Size</th><td>1 x 1</td></tr><tr><th>Class</th><td>function_handle</td></tr></table></div>
+<div class="tooltip" id="TT36"><table class="tooltip"><tr><th>Size</th><td>1 x 1</td></tr><tr><th>Class</th><td>mxArray</td></tr></table></div>
+<div class="tooltip" id="TT37"><table class="tooltip"><tr><th>Size</th><td>1 x 2</td></tr><tr><th>Class</th><td>double</td></tr><tr><th>Complex</th><td>No</td></tr></table></div>
+<div class="tooltip" id="TT38"><table class="tooltip"><tr><th>Size</th><td>1 x 1</td></tr><tr><th>Class</th><td>function_handle</td></tr></table></div>
+<div class="tooltip" id="TT39"><table class="tooltip"><tr><th>Size</th><td>1 x 39</td></tr><tr><th>Class</th><td>char</td></tr></table></div>
+<div class="tooltip" id="TT40"><table class="tooltip"><tr><th>Size</th><td>1 x 2</td></tr><tr><th>Class</th><td>double</td></tr><tr><th>Complex</th><td>No</td></tr></table></div>
+<div class="tooltip" id="TT41"><table class="tooltip"><tr><th>Size</th><td>1 x 1</td></tr><tr><th>Class</th><td>function_handle</td></tr></table></div>
+<div class="tooltip" id="TT42"><table class="tooltip"><tr><th>Size</th><td>1 x 1</td></tr><tr><th>Class</th><td>function_handle</td></tr></table></div>
+<div class="tooltip" id="TT43"><table class="tooltip"><tr><th>Size</th><td>1 x 1</td></tr><tr><th>Class</th><td>function_handle</td></tr></table></div>
+<div class="tooltip" id="TT44"><table class="tooltip"><tr><th>Size</th><td>1 x 1</td></tr><tr><th>Class</th><td>function_handle</td></tr></table></div>
+<div class="tooltip" id="TT45"><table class="tooltip"><tr><th>Size</th><td>1 x 1</td></tr><tr><th>Class</th><td>function_handle</td></tr></table></div>
+</div>
+</div>
+<!-- End Tooltips -->
+
+<div class="south">
+<ul class="ui-tabs-nav">
+<li class="ui-tabs-nav-item ui-tabs-selected"><span class="tab-link" id="summary"><span>Summary</span></span></li>
+<li class="ui-tabs-nav-item"><span class="tab-link" id="messages"><span>All Messages (0)</span></span></li>
+<li class="ui-tabs-nav-item"><span class="tab-link" id="watchlist"><span>Variables</span></span></li>
+<li class="ui-tabs-nav-item hidden"><span class="tab-link" id="watchload"><span>Variables</span></span></li>
+<li class="ui-tabs-nav-item"><span class="tab-link" id="buildlog1"><span>Target Build Log</span></span></li>
+</ul>
+
+<!-- Compilation Summary -->
+<div id="summarybody" class="ui-tabs-panel">
+<table cellpadding="1" cellspacing="4">
+<tr><td>C source code generated on:</td><td>06-Mar-2017 14:29:00</td></tr>
+<tr><td>Coding target:</td><td>C MEX Function</td></tr>
+<tr><td>Number of errors:</td><td><a href="javascript:selectMessagesTab();">0</a></td></tr>
+<tr><td>Number of warnings:</td><td><a href="javascript:selectMessagesTab();">0</a></td></tr>
+<tr><td>Number of notices:</td><td><a href="javascript:selectMessagesTab();">0</a></td></tr>
+</table>
+<p/><p/><table>
+<tr><td><b>Tell Us What You Think</b></td></tr>
+<tr><td>We value your feedback. Please take a few minutes to answer this short questionnaire regarding the Code Generation Report.</td></tr>
+<tr><td><a href="matlab: web('http://www.customersat3.com/TakeSurvey.asp?si=ELu7GTnTYtk%3D','-browser');">&gt;&gt;Provide Feedback</a></td></tr>
+</table>
+</div>
+
+<!-- Message Table -->
+<div id="messagesbody" class="ui-tabs-panel hidden">
+<div>
+<div class="msgsuccess">Code generation successful. Click here to <a href="javaScript:selectSummaryTab();">view summary</a>.</div>
+</div>
+</div>
+<!-- Watchlist Table -->
+<div id="watchlistbody" class="ui-tabs-panel hidden">
+</div>
+<div id="watchloadbody" class="ui-tabs-panel hidden">
+Loading Variables table ...
+</div>
+
+<!-- Target Build Log -->
+<div id="buildlog1body" class="ui-tabs-panel hidden">
+<div class="grayline"></div>
+<table cellpadding="4" cellspacing="1"><tr>
+<td align="left" class="td-linebottomrt-gray" colspan="2">Build Parameters</td>
+</tr>
+<tr><td align="left" valign="top" class="td-linebottomrt">Build directory</td>
+<td align="left" valign="top" class="td-linebottomrt-link"><a href="matlab: cd('/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification demos/codegen/mex/alt_getWavApprox_vector_genable')">/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification demos/codegen/mex/alt_getWavApprox_vector_genable</a></td></tr>
+<tr><td align="left" valign="top" class="td-linebottomrt">Make wrapper</td>
+<td align="left" valign="top" class="td-linebottomrt-link">sh alt_getWavApprox_vector_genable_mex.sh</td></tr>
+</table>
+<br/>
+<table border="1" cellpadding="4" cellspacing="1" width="100%">
+<tr><td align="left" class="td-linebottomrt-gray">Build Log</td></tr>
+<tr><td valign="top" class="td-script">
+<pre>
+<span class="td-line-number">    1   </span><span class="td-line-normal">/usr/bin/gcc -c -ansi -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -DMX_COMPAT_32 -fopenmp -DOMPLIBNAME="\"/usr/local/MATLAB/R2015b/sys/os/glnxa64/libiomp5.so\"" -O -DNDEBUG  -I "/usr/local/MATLAB/R2015b/simulink/include" -I "/usr/local/MATLAB/R2015b/toolbox/shared/simtargets" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos/codegen/mex/alt_getWavApprox_vector_genable" -I "./interface" -I "/usr/local/MATLAB/R2015b/extern/include" -I "." "alt_getWavApprox_vector_genable_mexutil.c"</span>
+<span class="td-line-number">    2   </span><span class="td-line-normal">/usr/bin/gcc -c -ansi -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -DMX_COMPAT_32 -fopenmp -DOMPLIBNAME="\"/usr/local/MATLAB/R2015b/sys/os/glnxa64/libiomp5.so\"" -O -DNDEBUG  -I "/usr/local/MATLAB/R2015b/simulink/include" -I "/usr/local/MATLAB/R2015b/toolbox/shared/simtargets" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos/codegen/mex/alt_getWavApprox_vector_genable" -I "./interface" -I "/usr/local/MATLAB/R2015b/extern/include" -I "." "alt_getWavApprox_vector_genable_data.c"</span>
+<span class="td-line-number">    3   </span><span class="td-line-normal">/usr/bin/gcc -c -ansi -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -DMX_COMPAT_32 -fopenmp -DOMPLIBNAME="\"/usr/local/MATLAB/R2015b/sys/os/glnxa64/libiomp5.so\"" -O -DNDEBUG  -I "/usr/local/MATLAB/R2015b/simulink/include" -I "/usr/local/MATLAB/R2015b/toolbox/shared/simtargets" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos/codegen/mex/alt_getWavApprox_vector_genable" -I "./interface" -I "/usr/local/MATLAB/R2015b/extern/include" -I "." "alt_getWavApprox_vector_genable_initialize.c"</span>
+<span class="td-line-number">    4   </span><span class="td-line-normal">/usr/bin/gcc -c -ansi -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -DMX_COMPAT_32 -fopenmp -DOMPLIBNAME="\"/usr/local/MATLAB/R2015b/sys/os/glnxa64/libiomp5.so\"" -O -DNDEBUG  -I "/usr/local/MATLAB/R2015b/simulink/include" -I "/usr/local/MATLAB/R2015b/toolbox/shared/simtargets" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos/codegen/mex/alt_getWavApprox_vector_genable" -I "./interface" -I "/usr/local/MATLAB/R2015b/extern/include" -I "." "alt_getWavApprox_vector_genable_terminate.c"</span>
+<span class="td-line-number">    5   </span><span class="td-line-normal">/usr/bin/gcc -c -ansi -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -DMX_COMPAT_32 -fopenmp -DOMPLIBNAME="\"/usr/local/MATLAB/R2015b/sys/os/glnxa64/libiomp5.so\"" -O -DNDEBUG  -I "/usr/local/MATLAB/R2015b/simulink/include" -I "/usr/local/MATLAB/R2015b/toolbox/shared/simtargets" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos/codegen/mex/alt_getWavApprox_vector_genable" -I "./interface" -I "/usr/local/MATLAB/R2015b/extern/include" -I "." "alt_getWavApprox_vector_genable.c"</span>
+<span class="td-line-number">    6   </span><span class="td-line-normal">/usr/bin/gcc -c -ansi -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -DMX_COMPAT_32 -fopenmp -DOMPLIBNAME="\"/usr/local/MATLAB/R2015b/sys/os/glnxa64/libiomp5.so\"" -O -DNDEBUG  -I "/usr/local/MATLAB/R2015b/simulink/include" -I "/usr/local/MATLAB/R2015b/toolbox/shared/simtargets" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos/codegen/mex/alt_getWavApprox_vector_genable" -I "./interface" -I "/usr/local/MATLAB/R2015b/extern/include" -I "." "log2.c"</span>
+<span class="td-line-number">    7   </span><span class="td-line-normal">/usr/bin/gcc -c -ansi -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -DMX_COMPAT_32 -fopenmp -DOMPLIBNAME="\"/usr/local/MATLAB/R2015b/sys/os/glnxa64/libiomp5.so\"" -O -DNDEBUG  -I "/usr/local/MATLAB/R2015b/simulink/include" -I "/usr/local/MATLAB/R2015b/toolbox/shared/simtargets" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos/codegen/mex/alt_getWavApprox_vector_genable" -I "./interface" -I "/usr/local/MATLAB/R2015b/extern/include" -I "." "error.c"</span>
+<span class="td-line-number">    8   </span><span class="td-line-normal">/usr/bin/gcc -c -ansi -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -DMX_COMPAT_32 -fopenmp -DOMPLIBNAME="\"/usr/local/MATLAB/R2015b/sys/os/glnxa64/libiomp5.so\"" -O -DNDEBUG  -I "/usr/local/MATLAB/R2015b/simulink/include" -I "/usr/local/MATLAB/R2015b/toolbox/shared/simtargets" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos/codegen/mex/alt_getWavApprox_vector_genable" -I "./interface" -I "/usr/local/MATLAB/R2015b/extern/include" -I "." "eml_int_forloop_overflow_check.c"</span>
+<span class="td-line-number">    9   </span><span class="td-line-normal">/usr/bin/gcc -c -ansi -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -DMX_COMPAT_32 -fopenmp -DOMPLIBNAME="\"/usr/local/MATLAB/R2015b/sys/os/glnxa64/libiomp5.so\"" -O -DNDEBUG  -I "/usr/local/MATLAB/R2015b/simulink/include" -I "/usr/local/MATLAB/R2015b/toolbox/shared/simtargets" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos/codegen/mex/alt_getWavApprox_vector_genable" -I "./interface" -I "/usr/local/MATLAB/R2015b/extern/include" -I "." "mpower.c"</span>
+<span class="td-line-number">   10   </span><span class="td-line-normal">/usr/bin/gcc -c -ansi -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -DMX_COMPAT_32 -fopenmp -DOMPLIBNAME="\"/usr/local/MATLAB/R2015b/sys/os/glnxa64/libiomp5.so\"" -O -DNDEBUG  -I "/usr/local/MATLAB/R2015b/simulink/include" -I "/usr/local/MATLAB/R2015b/toolbox/shared/simtargets" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos/codegen/mex/alt_getWavApprox_vector_genable" -I "./interface" -I "/usr/local/MATLAB/R2015b/extern/include" -I "." "scalexpAlloc.c"</span>
+<span class="td-line-number">   11   </span><span class="td-line-normal">/usr/bin/gcc -c -ansi -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -DMX_COMPAT_32 -fopenmp -DOMPLIBNAME="\"/usr/local/MATLAB/R2015b/sys/os/glnxa64/libiomp5.so\"" -O -DNDEBUG  -I "/usr/local/MATLAB/R2015b/simulink/include" -I "/usr/local/MATLAB/R2015b/toolbox/shared/simtargets" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos/codegen/mex/alt_getWavApprox_vector_genable" -I "./interface" -I "/usr/local/MATLAB/R2015b/extern/include" -I "." "permn2.c"</span>
+<span class="td-line-number">   12   </span><span class="td-line-normal">/usr/bin/gcc -c -ansi -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -DMX_COMPAT_32 -fopenmp -DOMPLIBNAME="\"/usr/local/MATLAB/R2015b/sys/os/glnxa64/libiomp5.so\"" -O -DNDEBUG  -I "/usr/local/MATLAB/R2015b/simulink/include" -I "/usr/local/MATLAB/R2015b/toolbox/shared/simtargets" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos/codegen/mex/alt_getWavApprox_vector_genable" -I "./interface" -I "/usr/local/MATLAB/R2015b/extern/include" -I "." "MeyerWavelet.c"</span>
+<span class="td-line-number">   13   </span><span class="td-line-normal">/usr/bin/gcc -c -ansi -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -DMX_COMPAT_32 -fopenmp -DOMPLIBNAME="\"/usr/local/MATLAB/R2015b/sys/os/glnxa64/libiomp5.so\"" -O -DNDEBUG  -I "/usr/local/MATLAB/R2015b/simulink/include" -I "/usr/local/MATLAB/R2015b/toolbox/shared/simtargets" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos/codegen/mex/alt_getWavApprox_vector_genable" -I "./interface" -I "/usr/local/MATLAB/R2015b/extern/include" -I "." "prod.c"</span>
+<span class="td-line-number">   14   </span><span class="td-line-normal">/usr/bin/gcc -c -ansi -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -DMX_COMPAT_32 -fopenmp -DOMPLIBNAME="\"/usr/local/MATLAB/R2015b/sys/os/glnxa64/libiomp5.so\"" -O -DNDEBUG  -I "/usr/local/MATLAB/R2015b/simulink/include" -I "/usr/local/MATLAB/R2015b/toolbox/shared/simtargets" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos/codegen/mex/alt_getWavApprox_vector_genable" -I "./interface" -I "/usr/local/MATLAB/R2015b/extern/include" -I "." "interface/_coder_alt_getWavApprox_vector_genable_info.c"</span>
+<span class="td-line-number">   15   </span><span class="td-line-normal">/usr/bin/gcc -c -ansi -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -DMX_COMPAT_32 -fopenmp -DOMPLIBNAME="\"/usr/local/MATLAB/R2015b/sys/os/glnxa64/libiomp5.so\"" -O -DNDEBUG  -I "/usr/local/MATLAB/R2015b/simulink/include" -I "/usr/local/MATLAB/R2015b/toolbox/shared/simtargets" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos/codegen/mex/alt_getWavApprox_vector_genable" -I "./interface" -I "/usr/local/MATLAB/R2015b/extern/include" -I "." "interface/_coder_alt_getWavApprox_vector_genable_api.c"</span>
+<span class="td-line-number">   16   </span><span class="td-line-normal">/usr/bin/gcc -c -ansi -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -DMX_COMPAT_32 -fopenmp -DOMPLIBNAME="\"/usr/local/MATLAB/R2015b/sys/os/glnxa64/libiomp5.so\"" -O -DNDEBUG  -I "/usr/local/MATLAB/R2015b/simulink/include" -I "/usr/local/MATLAB/R2015b/toolbox/shared/simtargets" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos/codegen/mex/alt_getWavApprox_vector_genable" -I "./interface" -I "/usr/local/MATLAB/R2015b/extern/include" -I "." "interface/_coder_alt_getWavApprox_vector_genable_mex.c"</span>
+<span class="td-line-number">   17   </span><span class="td-line-normal">/usr/bin/gcc -c -ansi -fexceptions -fPIC -fno-omit-frame-pointer -pthread -D_GNU_SOURCE -DMATLAB_MEX_FILE  -DMX_COMPAT_32 -fopenmp -DOMPLIBNAME="\"/usr/local/MATLAB/R2015b/sys/os/glnxa64/libiomp5.so\"" -O -DNDEBUG  -I "/usr/local/MATLAB/R2015b/simulink/include" -I "/usr/local/MATLAB/R2015b/toolbox/shared/simtargets" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos" -I "/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/STaliro_Smooth/demos/Falsification\ demos/codegen/mex/alt_getWavApprox_vector_genable" -I "./interface" -I "/usr/local/MATLAB/R2015b/extern/include" -I "." "alt_getWavApprox_vector_genable_emxutil.c"</span>
+<span class="td-line-number">   18   </span><span class="td-line-normal">/usr/bin/gcc -Wl,--version-script,alt_getWavApprox_vector_genable_mex_mex.map alt_getWavApprox_vector_genable_mexutil.o alt_getWavApprox_vector_genable_data.o alt_getWavApprox_vector_genable_initialize.o alt_getWavApprox_vector_genable_terminate.o alt_getWavApprox_vector_genable.o log2.o error.o eml_int_forloop_overflow_check.o mpower.o scalexpAlloc.o permn2.o MeyerWavelet.o prod.o _coder_alt_getWavApprox_vector_genable_info.o _coder_alt_getWavApprox_vector_genable_api.o _coder_alt_getWavApprox_vector_genable_mex.o alt_getWavApprox_vector_genable_emxutil.o -pthread -Wl,--no-undefined -Wl,-rpath-link,/usr/local/MATLAB/R2015b/bin/glnxa64 -shared -L/usr/local/MATLAB/R2015b/bin/glnxa64 -lmx -lmex -lmat -lm -lstdc++  -fPIC -L/usr/local/MATLAB/R2015b/sys/os/glnxa64 -liomp5  -o alt_getWavApprox_vector_genable_mex.mexa64    -lemlrt -lcovrt -lut -lmwmathutil -lmwblas </span>
+</pre>
+</td></tr></table>
+
+</div>
+</div>
+<!-- Begin MATLAB Code Panel -->
+<div class="center">
+<div class="center-title">
+<div class="ui-tabs-nav-item ui-tabs-selected">
+<span class="functiontitle">
+</span>
+<!-- Begin Call Sites -->
+<span id="callsiteselecttable" class="call-sites-tbl">
+<span id="callsiteselectlabel" class="filtered">Calls:</span>
+<select id="callsiteselect" onchange="callSiteChange(event)">
+<option value="callsiteprompt">Select a function call:</option>
+</select>
+</span>
+<!-- End Call Sites -->
+</div>
+</div>
+<div class="ui-tabs-panel">
+<div class="code" onmouseover="mcodeMouseOver(event);" onmouseout="mcodeMouseOut(event);"onclick="mcodeClick(event);">
+</div>
+</div>
+</div>
+<!-- End MATLAB Code Panel -->
+</body>
+</html>
