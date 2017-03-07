@@ -33,11 +33,11 @@ On the other hand, \textit{gradient descent optimization} algorithms typically o
 \noindent \textbf{Contributions}. This paper presents smooth (infinitely differentiable) approximations to the robustness function of arbitrary MTL formulae.
 The smooth approximation is proven to always be within a user-defined error of the true robustness, and this is illustrated experimentally.
 This allows running powerful and rigorous off-the-shelf gradient descent optimizers.
-We leverage this to maximize the smooth robustness for control of a system to robustly satisfy the given MTL specification.
+We leverage this to maximize the smooth robustness for control of a system to robustly satisfy its MTL specification.
 %We demonstrate that the resulting control algorithms, which use gradient descent on the smoothed robustness, performs better than a heuristic like Simulated Annealing optimizing the original, non-differentiable robustness.
 Through multiple examples, the proposed control method is shown to be faster and to yield more robust trajectories than various current heuristics and MIP-based approaches. 
 The results are demonstrated on a case study for an autonomous ATC for two quad-rotors, where the MIP-based approach fails to yield a satisfying controller.
-While this work does not tackle the non-convexity (of MTL robustness) issue directly, having an inexpensive gradient optimizer makes it possible to run an efficient multi-start optimization, increasing the chances of approaching the global optimum.
+While this work does not tackle the non-convexity of MTL robustness issue directly, having an inexpensive gradient optimizer makes it possible to run an efficient multi-start optimization, increasing the chances of approaching the global optimum.
 
 \noindent \textbf{Related work.}
 Current approaches to optimizing the robustness fall into four categories: 
@@ -45,8 +45,7 @@ the use of heuristics like Simulated Annealing~\cite{NghiemSFIGP10hscc}, cross-e
 non-smooth optimization \cite{AbbasF13acc};  
 Mixed Integer Linear Programming (MILP) \cite{Raman14_MPCSTL,Saha_acc16}; 
 and iterative approximations \cite{AbbasATVA11_LinFalsification,Abbas14_MTLDescent,Deshmukh15_IterativeApproaches}.
-Black-box heuristics%, the first category, 
-are the most commonly used approach.
+Black-box heuristics are the most commonly used approach.
 %: for example, Simulated Annealing~\cite{NghiemSFIGP10hscc}, cross-entropy \cite{SankaranarayananF2012hscc} and RRTs~\cite{Dreossi15_RRTFalsification}.
 The clear advantage of these methods is that they do not require any special form of the objective function: they simply need to evaluate it at various points of the search space, and use its value as feedback to decide on the next point to try.
 A significant shortcoming is their lack of guarantees as explained earlier.

@@ -53,7 +53,7 @@ We say $\sstraj$ satisfies $\formula$ if $(\sstraj,0) \models \formula$.
 \textit{All formulas that appear in this paper have bounded temporal intervals: $ 0\leq \inf I < \sup I < +\infty$.}
 To evaluate whether such a formula $\formula$ holds on a given trajectory, only a finite-length prefix of that trajectory is needed.
 Its length can be upper-bounded by the \textit{horizon} of $\formula$, $hrz(\formula) \in \Ne$, calculable as shown in~\cite{Dokhanchi14_OnlineMonitoring}. 
-For example, the horizon of $\eventually_{[2,4]}p$ is 4.
+For example, the horizon of $\always_{[0,2]}(\eventually_{[2,4]}p)$ is 2+4=6.
 
 \subsection{Robust semantics of MTL}
 \label{sec:rob sem}

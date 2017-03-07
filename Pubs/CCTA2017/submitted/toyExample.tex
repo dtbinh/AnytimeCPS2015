@@ -57,7 +57,7 @@ SOP numbers compare favourably with those in \cite{Saha_acc16}.
 
 In (R) mode, across 100 experiments, SOP has an average $\rob_{\formula}=0.247$ with a standard deviation less than $0.005$. 
 This gets very close to the upper bound on robustness, which is 0.25.
-This bound is achieved by a trajectory reaching (in 4$<N$ time steps) the center of the Terminal set while remaining more than 0.25 distant from Unsafe. 
+This bound is achieved by a trajectory reaching (in $<20$ time steps) the center of the Terminal set while remaining more than 0.25 distant from Unsafe. 
 %Also with this additional knowledge of the global optima upper bound, the SOP method in \textit{robust} mode can be made a lot faster by specifying an exit condition based on a upper threshold of $\srob_{\formula}$ attained at any iteration of the SOP method. While for brevity we do not include results with this additional stopping criteria, it was observed that for an upper bound value of $\srob_{\formula}=0.24$, an average speed up of about $4$-times was observed for $N=20$ and $2$-times for $N=200$ while resulting an average robustness value achieved of $\rob_{\formula} = 0.235$. This shows that with the iterative nature of SQP, we can trade-off performance for improved execution times.
 \end{exmp}
 

@@ -44,7 +44,7 @@ And,
 % (where the inequality constraints are satisfied with equality), 
 there exists a search direction towards the interior of the feasible set that does not violate the equality constraints~\cite[Assumption 2.9.1]{Polak97_Optim}. 
 %(the so-called Mangasarian-Fromowitz constraint qualification) .
-This is also true in our case since our equality constraints come from the dynamics and are always enforced for any $\mathbf{u}$.
+This is also true for $P_{\srob}$ since the equality constraints come from the dynamics and are always enforced for any $\mathbf{u}$.
 
 \textbf{Solver initialization}.
 To initialize SQP when solving $P_{\srob}$ (i.e., to give it a starting value for $\mathbf{u}$), we can either solve an inexpensive feasibility linear program with constraints \eqref{eq:general ctrl dyn}-\eqref{eq:general ctrl U}, 
