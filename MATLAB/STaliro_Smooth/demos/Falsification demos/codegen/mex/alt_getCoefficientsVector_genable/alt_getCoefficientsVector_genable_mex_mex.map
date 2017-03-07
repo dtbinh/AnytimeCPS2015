@@ -1,0 +1,21 @@
+MEX {
+	global:
+		mexFunction;
+		emlrtMexFcnProperties;
+		alt_getCoefficientsVector_genable;
+		asr_s32;
+		emlrtGetRootTLSGlobal;
+		emlrtLockerFunction;
+		emxEnsureCapacity;
+		emxFree_int32_T;
+		emxFree_real_T;
+		emxInit_int32_T;
+		emxInit_real_T;
+		emxInit_real_T1;
+		emxInit_real_T2;
+		alt_getCoefficientsVector_genable_initialize;
+		alt_getCoefficientsVector_genable_terminate;
+		alt_getCoefficientsVector_genable_atexit;
+	local:
+		*;
+};
