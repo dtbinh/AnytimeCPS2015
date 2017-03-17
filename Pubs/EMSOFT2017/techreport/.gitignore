@@ -1,0 +1,6 @@
+EMSOFT*.pdf
+*.blg
+*.bbl
+*.log
+*.*.gz
+*.aux
