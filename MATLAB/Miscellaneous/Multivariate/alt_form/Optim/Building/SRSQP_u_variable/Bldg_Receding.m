@@ -1,7 +1,7 @@
 % 2d example
 % (always not Unsfafe) and (eventually Terminal)
 %% get params
-codegeneration = 0;
+codegeneration = 1;
 no_disturbances = 0;
 
 clc;close all;

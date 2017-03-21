@@ -183,7 +183,7 @@ fval
 %% plot
 traj_x = reshape(x(1:dim*len),dim,len);
 traj_x0 = reshape(x_0(1:dim*len),dim,len);
-if(0)
+if(1)
 %%
     disp('Plotting...');
 dim = optParams.dim;
