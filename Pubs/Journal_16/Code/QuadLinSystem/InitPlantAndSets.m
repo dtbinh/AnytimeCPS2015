@@ -61,6 +61,26 @@ S.minHRep;
 
 % make some closed loop L 
 
+if(1) %load data or test
+   clear dist_params;
+   load('../../MATLAB/SVO_Profiling/SVO_ProfilingData_perch.mat')
+   for i = 1:numModes
+      dist_params(i).cov_e = zeros(6,6);
+      c = 1;%2*10^-1;
+      dist_params(i).cov_e(1,1) = c*var(Datas(i).err_x); 
+      dist_params(i).cov_e(4,4) = c*var(Datas(i).err_x);
+      dist_params(i).cov_e(2,2) = c*var(Datas(i).err_y); 
+      dist_params(i).cov_e(5,5) = c*var(Datas(i).err_y);
+      dist_params(i).cov_e(3,3) = c*var(Datas(i).err_z); 
+      dist_params(i).cov_e(6,6) = c*var(Datas(i).err_z);
+      dist_params(i).cov_w = 0.00001*eye(6);
+      % 95th confidence error rectangle
+      MM = dist_params(i).cov_e(1:3,1:3);
+      M = minv(MM);
+      [lb,ub] = getOuterRect(M);
+      dist_params(i).E_95 = Polyhedron('lb',[lb;lb],'ub',[ub;ub]);
+   end
+else
 %e
 dist_params.u_e = zeros(6,1);
 dist_params.cov_e = 0.03*eye(6);
@@ -69,7 +89,7 @@ dist_params.cov_e =  5.7309e-4*eye(6);
 %w
 dist_params.u_w = zeros(6,1);
 dist_params.cov_w = 0.0001*eye(6);
-
+end
 %alpha and alpha_is, from (Pr(x\inX)>=1-alpha)
 alpha = 0.18;
 alpha_is = repmat(alpha/size(S.b,1),size(S.b,1),1);
