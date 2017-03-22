@@ -100,6 +100,7 @@ ProblemParams.n_x = size(sys_c.a,1);
 ProblemParams.n_u = size(sys_c.b,2);
 % Robust control inv set
 Cdelta = repmat(emptyPoly,numModes,1);
+%%
 if(1)
     epsilons = zeros(numModes,1);
     H = N+1;
@@ -111,6 +112,18 @@ if(1)
             Fhat,A_lift(:,:,i),B_lift(:,:,i),K(:,:,i),...
             Kx(:,:,i),E_set(i),InputSet,S,epsilons(i),H);
         Cdelta(i) = Cdelta(i).minHRep;
+        for k = 0:H %get deterministic Zjs for all modes
+            [ZA, Zb] = getZj(A_modes(:,:,i),Acl(:,:,i),B_lift(:,:,i),Kx(:,:,i),Fhat,S,H,k,epsilons(i),epsilons(i));
+            Zj_det(i,k+1) = Polyhedron('A',ZA,'B',Zb);
+            Zj_det(i,k+1).minHRep;
+            if(Zj_det(i,k+1).isEmptySet)
+                exception = MException('Zj:empty', ...
+                    'Zj empty at i j k= %d %d %d',i,j,k);
+                throw(exception)
+            end
+            
+        end
+        Zj_det = Zj_det';
     end
 else
     
@@ -122,4 +135,9 @@ Zjs = getZjs_smpc(S,ProblemParams,N);
 %% save
 save('Data/Sets.mat','epsilons','deltas','A_lift','B_lift','Cdelta','Zjs', ...
     'Kx','E_set','K','A_modes','B1_modes','B2_modes','Acl','h','H','S','InputSet', ...
-    'dist_params','ProblemParams')
+    'dist_params','ProblemParams','Zj_det')
+%%
+
+for i = 1:H
+    plot(Zj_det(i,1).projection(1:3)-Zjs{i,1}.projection(1:3),'color','red');pause
+end
