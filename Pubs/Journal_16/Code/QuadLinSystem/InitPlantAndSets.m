@@ -59,36 +59,36 @@ S.minHRep;
 %% Rec feas probability computation
 % disturbance means and covs (made up right now):
 
-% make some closed loop L 
+% make some closed loop L
 
 if(1) %load data or test
-   clear dist_params;
-   load('../../MATLAB/SVO_Profiling/SVO_ProfilingData_perch.mat')
-   for i = 1:numModes
-      dist_params(i).cov_e = zeros(6,6);
-      c = 1;%2*10^-1;
-      dist_params(i).cov_e(1,1) = c*var(Datas(i).err_x); 
-      dist_params(i).cov_e(4,4) = c*var(Datas(i).err_x);
-      dist_params(i).cov_e(2,2) = c*var(Datas(i).err_y); 
-      dist_params(i).cov_e(5,5) = c*var(Datas(i).err_y);
-      dist_params(i).cov_e(3,3) = c*var(Datas(i).err_z); 
-      dist_params(i).cov_e(6,6) = c*var(Datas(i).err_z);
-      dist_params(i).cov_w = 0.00001*eye(6);
-      % 95th confidence error rectangle
-      MM = dist_params(i).cov_e(1:3,1:3);
-      M = minv(MM);
-      [lb,ub] = getOuterRect(M);
-      dist_params(i).E_95 = Polyhedron('lb',[lb;lb],'ub',[ub;ub]);
-   end
+    clear dist_params;
+    load('../../MATLAB/SVO_Profiling/SVO_ProfilingData_perch.mat')
+    for i = 1:numModes
+        dist_params(i).cov_e = zeros(6,6);
+        c = 1;%2*10^-1;
+        dist_params(i).cov_e(1,1) = c*var(Datas(i).err_x);
+        dist_params(i).cov_e(4,4) = c*var(Datas(i).err_x);
+        dist_params(i).cov_e(2,2) = c*var(Datas(i).err_y);
+        dist_params(i).cov_e(5,5) = c*var(Datas(i).err_y);
+        dist_params(i).cov_e(3,3) = c*var(Datas(i).err_z);
+        dist_params(i).cov_e(6,6) = c*var(Datas(i).err_z);
+        dist_params(i).cov_w = 0.00001*eye(6);
+        % 95th confidence error rectangle
+        MM = dist_params(i).cov_e(1:3,1:3);
+        M = minv(MM);
+        [lb,ub] = getOuterRect(M);
+        dist_params(i).E_95 = Polyhedron('lb',[lb;lb],'ub',[ub;ub]);
+    end
 else
-%e
-dist_params.u_e = zeros(6,1);
-dist_params.cov_e = 0.03*eye(6);
-dist_params.cov_e =  5.7309e-4*eye(6);
-
-%w
-dist_params.u_w = zeros(6,1);
-dist_params.cov_w = 0.0001*eye(6);
+    %e
+    dist_params.u_e = zeros(6,1);
+    dist_params.cov_e = 0.03*eye(6);
+    dist_params.cov_e =  5.7309e-4*eye(6);
+    
+    %w
+    dist_params.u_w = zeros(6,1);
+    dist_params.cov_w = 0.0001*eye(6);
 end
 %alpha and alpha_is, from (Pr(x\inX)>=1-alpha)
 alpha = 0.18;
@@ -100,6 +100,26 @@ ProblemParams.n_x = size(sys_c.a,1);
 ProblemParams.n_u = size(sys_c.b,2);
 % Robust control inv set
 Cdelta = repmat(emptyPoly,numModes,1);
+if(1)
+    epsilons = zeros(numModes,1);
+    H = N+1;
+    for i = 1:numModes
+        i
+        epsilons(i) = max(dist_params(i).E_95.b);
+        E_set(i) = dist_params(i).E_95;
+        Cdelta(i)=getTermSetCdelta_compute(A_modes(:,:,i),Acl(:,:,i), ...
+            Fhat,A_lift(:,:,i),B_lift(:,:,i),K(:,:,i),...
+            Kx(:,:,i),E_set(i),InputSet,S,epsilons(i),H);
+        Cdelta(i) = Cdelta(i).minHRep;
+    end
+else
+    
+end
 
 %% get Zjs
 Zjs = getZjs_smpc(S,ProblemParams,N);
+
+%% save
+save('Data/Sets.mat','epsilons','deltas','A_lift','B_lift','Cdelta','Zjs', ...
+    'Kx','E_set','K','A_modes','B1_modes','B2_modes','Acl','h','H','S','InputSet', ...
+    'dist_params','ProblemParams')
