@@ -18,3 +18,4 @@ sys_c = ss(A,B,C,D);
 
 sys_d = c2d(sys_c,h);
 
+%states are x,y,z,dotx,doty,dotz

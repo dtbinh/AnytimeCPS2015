@@ -22,8 +22,8 @@ for mode = 1:numModes
     n_x = size(Fhat,2);
     A = Ahat(1:n_x,1:n_x);
     
-    cov_w = dist_params.cov_w;
-    cov_e = dist_params.cov_e; %edit for all modes
+    cov_w = dist_params(mode).cov_w;
+    cov_e = dist_params(mode).cov_e; %edit for all modes
     cov_what = (A)*cov_e*(A)' + cov_e + cov_w;
     covar_what{mode} = cov_what;
     
@@ -50,7 +50,7 @@ for mode = 1:numModes
                 if(gamma_i(i)>=0)
                    keyboard 
                 end
-                recf(i,j-1) = normcdf(-gamma_i(i),0,(sigma_i(i)));
+                recf(i,j-1) = normcdf(-gamma_i(i),0,(sigma_i(i)));%
                 
             end
         end
