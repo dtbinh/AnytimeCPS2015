@@ -136,7 +136,7 @@ if(viz && (dim ==2))
     
     if(1)
         [msg_x,msg_y] = meshgrid(grid_x_half,grid_y_half);
-        a = arrayfun(@(x,y) alt_getWavApprox_vector([x;y],C_00k,D_ejk,k_min,k_max,j_min,j_max,E_dash), msg_x(:), msg_y(:));
+        a = arrayfun(@(x,y) alt_getWavApprox_vector_genable_mex([x;y],C_00k,D_ejk,k_min,k_max,j_min,j_max,E_dash), msg_x(:), msg_y(:));
         fhat_array = reshape(a,numel(grid_x_half),numel(grid_y_half));
         
     end

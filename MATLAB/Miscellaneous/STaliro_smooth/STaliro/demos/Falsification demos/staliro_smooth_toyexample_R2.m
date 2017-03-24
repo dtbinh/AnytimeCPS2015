@@ -38,6 +38,9 @@ P_pred_a = Polyhedron('lb',[-1 -1],'ub',[1 1]); %The polyhedron for predicate a
 preds(1).A = P_pred_a.A;
 preds(1).b = P_pred_a.b;
 
+%preds(2).str = 'b';
+%preds(2).A = P_pred_a.A;
+%preds(2).b = P_pred_a.b;
 
 disp(' ')
 disp('Total Simulation time:')
@@ -62,19 +65,20 @@ opt
 clear SmoothOpt;
 global taliro_SmoothRob; %flag
 global SmoothOpt; %params
-taliro_SmoothRob = 0;
+taliro_SmoothRob = 0; %so that signed distance doesn't mess up yet
 
 
 for i = 1:numel(preds)
     SmoothOpt.preds.Sets(i).A = preds(i).A;
     SmoothOpt.preds.Sets(i).b = preds(i).b;
-    SmoothOpt.preds.WavParams(i).k_min = -5;
-    SmoothOpt.preds.WavParams(i).k_max = 5;
+    SmoothOpt.preds.WavParams(i).k_min = -10;
+    SmoothOpt.preds.WavParams(i).k_max = 10;
     SmoothOpt.preds.WavParams(i).j_min = 0;
-    SmoothOpt.preds.WavParams(i).j_max = 1;
+    SmoothOpt.preds.WavParams(i).j_max = 0;
     SmoothOpt.preds.WavParams(i).x_min = -5;
     SmoothOpt.preds.WavParams(i).x_max = 5;
     SmoothOpt.preds.WavParams(i).dx = 0.25;
+    
     %SmoothOpt.preds.WavParams(i) = wavparams;
 end
 
@@ -82,11 +86,12 @@ end
 %% get params if not loaded already
 close all;
 scalar_list = isPredicateScalar(SmoothOpt);
-getParams = 1;
-genCode = 1;
+getParams = 0;
+genCode = 0;
 if(getParams) %do this once, disable flag and load params next time
+    WavParams = getWaveletParameters(SmoothOpt,genCode);
     for i = 1:numel(preds)
-        WavParams(i) = getWaveletParameters(SmoothOpt,genCode);
+        %WavParams(i) = getWaveletParameters(SmoothOpt,genCode);
         SmoothOpt.preds.WavParams(i).E = WavParams(i).E;
         SmoothOpt.preds.WavParams(i).E_dash = WavParams(i).E_dash;
         SmoothOpt.preds.WavParams(i).D_ejk = WavParams(i).D_ejk;
