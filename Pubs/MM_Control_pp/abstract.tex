@@ -1,0 +1,15 @@
+\begin{abstract}
+Modern control systems, like controllers for swarms of quadrotors, must satisfy complex control objectives while withstanding a wide range of disturbances, from bugs in their software to attacks on their sensors and changes in their environments.
+These requirements go beyond stability and tracking, and involve temporal and sequencing constraints on system response to various events.
+%Previous work formalized the requirements as formulas in Metric Temporal Logic (MTL), and designed a controller for linear systems that solves a Mixed Integer Linear Program (MILP) to compute control inputs.
+%This approach has high computational cost and its runtimes are hard to predict.
+This work formalizes the requirements  as formulas in Metric Temporal Logic (MTL), and 
+\ypcomment{revises these requirements at run-time if needed based on the relative importance of the specifications. Add more}.
+
+
+% and designs a controller that maximizes the \textit{robustness} of the MTL formula.
+%Formally, if the system satisfies the formula with robustness $r$, then any disturbance %of size less than $r$ cannot cause it to violate the formula.
+%Because robustness is not differentiable, this work provides arbitrarily precise, %infinitely differentiable, approximations of it, thus enabling the use of powerful gradient descent optimizers.
+%Experiments on a temperature control example and a two-quadrotor system demonstrate that this approach to controller design outperforms existing approaches to robustness maximization based on Mixed Integer Linear Programming and stochastic heuristics.
+%Moreover, it is not constrained to linear systems.
+\end{abstract}

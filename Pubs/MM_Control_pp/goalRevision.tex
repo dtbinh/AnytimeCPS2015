@@ -1,0 +1,35 @@
+\section{The Goal Revision framework}
+
+For autonomous systems with higher level specifications, situations may arise when satisfying all of the high level specifications is not possible. An example would be,
+...
+In such scenarios, it is preferable to satisfy the more important specifications while possibly violating ones with lesser importance. The automata of Fig.\ref{} (\ypcomment{The automata you drew to show me the preference order of specs})  shows the preference of satisfaction of subformulae that make up the overall specification of the form:
+\begin{equation}
+\formula = \always (\Phi_1 \land \Phi_2 \land \Phi_3)
+\end{equation}
+
+
+
+
+
+
+
+With specifications written in MTL, a bottom-up view of the goal revision problem leads us to three important sub-problems that need to be solved:
+
+\begin{itemize}
+\item \textit{Control for satisfaction of one MTL specification}: Before we can move on to the complete goal revision problem, the question arises on how can we control a system to satisfy a given MTL specification. Existing approaches involve MILP formulations of MTL specifications \cite{Raman14_MPCSTL}, but do not scale well as formulae become complex. On going work on maximizing a smooth approximation of MTL robustness \cite{PantAM17_SmoothOpTechRpt} has led to promising results with regards to overall performance, run-times and scalability of the method beyond MILP based approaches. The method applies to time bounded MTL formulae and like existing approaches, requires solving for a control horizon that is as long as the formula length itself, which is not ideal for real-time implementations. There is also a need to extend the methods to incorporate uncertainties in the knowledge of the state of the system and the environment.
+
+\item \textit{Receding Horizon control for a given MTL specification}: For a more tractable control algorithm, it is important to be able to solve a control problem with a look-ahead horizon smaller than the MTL formula's time horizon. No current approach does this while guaranteeing the important \textit{recursive feasibility} like property which is common in MPC. On going work focuses on using the concept to \textit{feasibility envelopes}\cite{Belta_FE_CDC16} for MTL formulae to enforce a \textit{terminal} constraint on the receding-horizon control problem to guarantee weaker form of recursive feasibility. 
+
+\item \textit{The goal revision problem}: \ypcomment{Habbas lay this down?}
+
+\end{itemize}
+
+\subsection{Robustness maximization for Control of systems with MTL specifications}
+\input{SmoothOperator}
+
+\subsection{Ongoing work}
+\begin{itemize}
+\item Feasibility envelopes and robustness maximization for receding horizon control with MTL specifications.
+\item Goal revision.
+\item Scalable and fast GPU implementation.
+\end{itemize}
