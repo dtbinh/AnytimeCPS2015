@@ -22,7 +22,7 @@ This has led to promising results with regards to quality of the found optimum, 
 \textbf{Next steps} Global convexification of the robustness function, to obtain better optimality guarantees. Fast GPU implementation.
 
 \item \textit{Receding horizon control for a given MTL specification}: Our on-going work develops a receding horizon controller that is recursively feasible, for the case when doing a one-shot optimization over the entire formula horizon is not an option. 
-We combine a decomposition of the MTL formula into current requirements and future commitments, with the idea of \textit{feasibility envelopes}\cite{Belta_FE_CDC16} to enforce a \textit{terminal} constraint on the receding-horizon control problem to guarantee weaker form of recursive feasibility. 
+We combine a decomposition of the MTL formula into current requirements and future commitments, with the idea of \textit{feasibility envelopes}\cite{Belta_FE_CDC16} to enforce a \textit{terminal} constraint on the receding-horizon control problem to guarantee a weaker form of recursive feasibility. 
 The above work on Smooth Control will be leveraged to solve the resulting sequence of optimizations.
 
 \item \textit{The goal revision problem}: When the controller fails to find a control sequence that satisfies $\formula=\Phi_1 \land \Phi_2 \land \Phi_3$, it can resort to revising the goal at runtime to satisfy the ``next best thing''.

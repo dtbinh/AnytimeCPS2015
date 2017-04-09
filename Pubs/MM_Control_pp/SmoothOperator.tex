@@ -25,17 +25,18 @@ For an online implementation of the controller, this one-shot optimization probl
 %\subsubsection{Simulation Results}
 \begin{exmp}
 \label{ex:toyproblem}
-The linear system $x_{k+1} = x_k + u_k$ is controlled
+The planar linear system $x_{k+1} = x_k + u_k$ is controlled
 %\begin{equation}
 %\label{eq:PointMass}
 %x_{k+1} = x_k + u_k
 %\end{equation}
 to satisfy the specification
 \[\formula = \always_{[0,20]} \neg (x \in \text{Unsafe}) \land \eventually_{[0,20]} (x \in \text{Terminal})\]
-with the sets $\text{Unsafe}=[-1,1]^2$ and $\text{Terminal}=[2,2.5]^2$. 
-The state space is $X=[-2.5,2.5]^2$, $U=[-0.5,0.5]^2$.
-Unless otherwise indicated, $\gamma=\delta=0$ in Eq. \eqref{eq:general_ctrl} to focus on robustness maximization in this illustrative example. 
-Experiments were run on a quad-core Intel i5 3.2GHz processor with 24GB RAM, running MATLAB 2016b. Comparisons are done with the tool BluSTL, which implements the MILP approach of ~\cite{Raman14_MPCSTL} and is used in the experiments.
+%with the sets $\text{Unsafe}=[-1,1]^2$ and $\text{Terminal}=[2,2.5]^2$. 
+%The state space is $X=[-2.5,2.5]^2$, $U=[-0.5,0.5]^2$.
+%Unless otherwise indicated, $\gamma=\delta=0$ in Eq. \eqref{eq:general_ctrl} to focus on robustness maximization in this illustrative example. 
+%Experiments were run on a quad-core Intel i5 3.2GHz processor with 24GB RAM, running MATLAB 2016b. 
+Comparisons are done with the tool BluSTL, which implements the MILP approach of ~\cite{Raman14_MPCSTL} and is used in the experiments.
 It has two modes of operation: mode (B) or \textit{Boolean}, which aims at satisfying the specification without maximizing its robustness, and mode (R) or \textit{Robust}, which attempts to maximize robustness. 
 The proposed SOP method optimizes robustness and so naturally runs in mode (R).
 SOP emulates mode (B) by terminating the optimization as soon as $\srobf \geq \epsilon_{\text{Meyer}}$, which implies $\rob_{\formula} \geq 0$. $\epsilon_{\text{Meyer}}$ can be computed explicitly using the approach in the online report \cite{PantAM17_SmoothOpTechRpt}.
@@ -51,8 +52,8 @@ In mode (R), BluSTL could not finish a single instance of robustness maximizatio
 SOP(R, $\gamma\!=\!0.1$) takes into account a control cost $l(x_k,u_k) = ||x_k||_{2}^2$ that penalizes longer trajectories.
 The resulting trajectory is shorter but has a lower robustness than SOP(R, $\gamma = 0$), ($0.236$ vs $0.247$).
 
-For further evaluation, we ran 100 instances of the problem, varying the trajectory's initial state in $[-2.5,-1.5] \times [-2.5,2.5]$. 
-We also varied the formula horizon $N$ (and hence the size of the problem) from $20$ to $200$ time steps. 
+%For further evaluation, we ran 100 instances of the problem, varying the trajectory's initial state in $[-2.5,-1.5] \times [-2.5,2.5]$. 
+%We also varied the formula horizon $N$ (and hence the size of the problem) from $20$ to $200$ time steps. 
 Table \ref{tbl:time_performance_toy} shows the execution times. 
 
 
@@ -86,7 +87,7 @@ This bound is achieved by a trajectory reaching (in $<20$ time steps) the center
 \label{tbl:time_performance_toy}
 \begin{tabular} {|c|c|c|c|c|}
 	\hline
-	N & BlS(B) & SOP(B) & SOP(R) & SOP(R) \\ \hline
+	N & BlS(B) & SOP(B) & BlS(R) & SOP(R) \\ \hline
 	20 & $0.96 \pm 0.82$ &  $\mathbf{0.31 \pm 0.13}$  & NA & $3.30 \pm 1.25$ \\ \hline
 	30 & $1.37 \pm 1.72$ &  $\mathbf{0.33 \pm 0.25}$  & NA & $5.85 \pm 2.74$\\ \hline
 	40 & $3.86 \pm 5.10$ &  $\mathbf{0.60 \pm 0.29}$  & NA & $12.36 \pm 6.04$\\ \hline
