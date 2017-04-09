@@ -71,12 +71,12 @@ taliro_SmoothRob = 0; %so that signed distance doesn't mess up yet
 for i = 1:numel(preds)
     SmoothOpt.preds.Sets(i).A = preds(i).A;
     SmoothOpt.preds.Sets(i).b = preds(i).b;
-    SmoothOpt.preds.WavParams(i).k_min = -10;
-    SmoothOpt.preds.WavParams(i).k_max = 10;
+    SmoothOpt.preds.WavParams(i).k_min = -20;
+    SmoothOpt.preds.WavParams(i).k_max = 20;
     SmoothOpt.preds.WavParams(i).j_min = 0;
     SmoothOpt.preds.WavParams(i).j_max = 0;
-    SmoothOpt.preds.WavParams(i).x_min = -5;
-    SmoothOpt.preds.WavParams(i).x_max = 5;
+    SmoothOpt.preds.WavParams(i).x_min = -10;
+    SmoothOpt.preds.WavParams(i).x_max = 10;
     SmoothOpt.preds.WavParams(i).dx = 0.25;
     
     %SmoothOpt.preds.WavParams(i) = wavparams;
@@ -86,8 +86,8 @@ end
 %% get params if not loaded already
 close all;
 scalar_list = isPredicateScalar(SmoothOpt);
-getParams = 0;
-genCode = 0;
+getParams = 1;
+genCode = 1;
 if(getParams) %do this once, disable flag and load params next time
     WavParams = getWaveletParameters(SmoothOpt,genCode);
     for i = 1:numel(preds)
@@ -98,9 +98,9 @@ if(getParams) %do this once, disable flag and load params next time
         SmoothOpt.preds.WavParams(i).C_00k = WavParams(i).C_00k;
         
     end
-    save('ParamsForUnitCube.mat','SmoothOpt');
+    save('ParamsForUnitCube_larger2.mat','SmoothOpt');
 else
-    load('ParamsForUnitCube.mat');
+    load('ParamsForUnitCube_larger2.mat');
 end
 
 %% also generate mex for wavelet approximation function
