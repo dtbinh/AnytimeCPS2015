@@ -1,10 +1,11 @@
 \begin{abstract}
 Modern control systems, like controllers for swarms of quadrotors, must satisfy complex control objectives while withstanding a wide range of disturbances, from bugs in their software to attacks on their sensors and changes in their environments.
-These requirements go beyond stability and tracking, and involve temporal and sequencing constraints on system response to various events.
+These requirements go beyond stability and tracking, and involve temporal and sequencing constraints on system response to various events, and can be expressed succinctly and formally in Metric Temporal Logic (MTL).
 %Previous work formalized the requirements as formulas in Metric Temporal Logic (MTL), and designed a controller for linear systems that solves a Mixed Integer Linear Program (MILP) to compute control inputs.
 %This approach has high computational cost and its runtimes are hard to predict.
-This work formalizes the requirements  as formulas in Metric Temporal Logic (MTL), and 
-\ypcomment{revises these requirements at run-time if needed based on the relative importance of the specifications. Add more}.
+This work develops an efficient, one-shot, gradient-descent algorithm to satisfy a given bounded-horizon MTL requirement.
+If the requirement's horizon exceeds the computational capabilities of the controller, a receding horizon controller is developed that is recursively feasible.
+When the requirement is composed of several sub-formulas of different importance, we are developing an algorithm for run-time trade-off of requirements.
 
 
 % and designs a controller that maximizes the \textit{robustness} of the MTL formula.

@@ -1,35 +1,37 @@
 \section{The Goal Revision framework}
 
-For autonomous systems with higher level specifications, situations may arise when satisfying all of the high level specifications is not possible. An example would be,
-...
-In such scenarios, it is preferable to satisfy the more important specifications while possibly violating ones with lesser importance. The automata of Fig.\ref{} (\ypcomment{The automata you drew to show me the preference order of specs})  shows the preference of satisfaction of subformulae that make up the overall specification of the form:
-\begin{equation}
-\formula = \always (\Phi_1 \land \Phi_2 \land \Phi_3)
-\end{equation}
-
-
-
-
-
-
+For autonomous systems with higher level specifications, situations may arise when satisfying all of the high level specifications is not possible.
+E.g. a self-driving car might have to choose between driving on the shoulder or rear-ending the leading car.
+A medical device might have to choose between spending more time terminating an arrhythmia gently, or spending more energy terminating it immediately.
+In these cases, there is a natural, domain-specific, hierarchy to the objectives.
+In such scenarios, it is preferable to satisfy the more important specifications while possibly violating ones with lesser importance.
+\textit{The objective is to satisfy more higher priority requirements, for the longest time, and to satisfy them as robustly as possible.}
+Clearly, there are many ways in which this can be formalized.
 
 With specifications written in MTL, a bottom-up view of the goal revision problem leads us to three important sub-problems that need to be solved:
 
 \begin{itemize}
-\item \textit{Control for satisfaction of one MTL specification}: Before we can move on to the complete goal revision problem, the question arises on how can we control a system to satisfy a given MTL specification. Existing approaches involve MILP formulations of MTL specifications \cite{Raman14_MPCSTL}, but do not scale well as formulae become complex. On going work on maximizing a smooth approximation of MTL robustness \cite{PantAM17_SmoothOpTechRpt} has led to promising results with regards to overall performance, run-times and scalability of the method beyond MILP based approaches. The method applies to time bounded MTL formulae and like existing approaches, requires solving for a control horizon that is as long as the formula length itself, which is not ideal for real-time implementations. There is also a need to extend the methods to incorporate uncertainties in the knowledge of the state of the system and the environment.
+\item \textit{Smooth control for one MTL specification}: How can we control a system to satisfy a given MTL specification?
+\textbf{Existing approaches} The MTL formula is automatically encoded as a MILP (for the case of linear systems and linear scalar atomic propositions)~\cite{Raman14_MPCSTL}, but these do not scale well with formula complexity and can have unpredictable runtime. See experiments.
+Other approaches use heuristics (e.g., simulated annealing) or nonsmooth optimization.
+\\
+\textbf{Our work} We created a smooth (infinitely differentiable) approximation of the robustness function and use it to optimize it by gradient descent~\cite{PantAM17_SmoothOpTechRpt} - specifically, SQP.
+This has led to promising results with regards to quality of the found optimum, run-times and scalability of the method, compared to MILP-based approaches. It is also not restricted to linear systems or to linear scalar atomic propositions.
+%The method applies to time bounded MTL formulae and like existing approaches, requires solving for a control horizon that is as long as the formula length itself, which is not ideal for real-time implementations. There is also a need to extend the methods to incorporate uncertainties in the knowledge of the state of the system and the environment.
+\\
+\textbf{Next steps} Global convexification of the robustness function, to obtain better optimality guarantees. Fast GPU implementation.
 
-\item \textit{Receding Horizon control for a given MTL specification}: For a more tractable control algorithm, it is important to be able to solve a control problem with a look-ahead horizon smaller than the MTL formula's time horizon. No current approach does this while guaranteeing the important \textit{recursive feasibility} like property which is common in MPC. On going work focuses on using the concept to \textit{feasibility envelopes}\cite{Belta_FE_CDC16} for MTL formulae to enforce a \textit{terminal} constraint on the receding-horizon control problem to guarantee weaker form of recursive feasibility. 
+\item \textit{Receding horizon control for a given MTL specification}: Our on-going work develops a receding horizon controller that is recursively feasible, for the case when doing a one-shot optimization over the entire formula horizon is not an option. 
+We combine a decomposition of the MTL formula into current requirements and future commitments, with the idea of \textit{feasibility envelopes}\cite{Belta_FE_CDC16} to enforce a \textit{terminal} constraint on the receding-horizon control problem to guarantee weaker form of recursive feasibility. 
+The above work on Smooth Control will be leveraged to solve the resulting sequence of optimizations.
 
-\item \textit{The goal revision problem}: \ypcomment{Habbas lay this down?}
+\item \textit{The goal revision problem}: When the controller fails to find a control sequence that satisfies $\formula=\Phi_1 \land \Phi_2 \land \Phi_3$, it can resort to revising the goal at runtime to satisfy the ``next best thing''.
+E.g., given the control horizon $t=0,1,\ldots,h$, it will generate a \textit{sequence} of objectives $\formula_1,\formula_1,\ldots,\formula_h$ such that each $\formula_i$ is a subset of $\{\Phi_1 , \Phi_2 , \Phi_3\}$.
+As the controller switches objectives, we model this as a switch of controllers, and end up with a switched system.
+The choice of optimal sequence is a combinatorial problem, and we tackle this using recent work on optimal mode scheduling for switched systems, which relaxes it to a local continuous optimization.
+Several challenges remain.
 
 \end{itemize}
 
 \subsection{Robustness maximization for Control of systems with MTL specifications}
 \input{SmoothOperator}
-
-\subsection{Ongoing work}
-\begin{itemize}
-\item Feasibility envelopes and robustness maximization for receding horizon control with MTL specifications.
-\item Goal revision.
-\item Scalable and fast GPU implementation.
-\end{itemize}

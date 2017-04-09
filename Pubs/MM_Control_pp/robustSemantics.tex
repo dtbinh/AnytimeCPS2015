@@ -6,14 +6,13 @@ Consider a discrete-time dynamical system $\Sys$ given by
 \label{eq:xt}
 x_{t+1} = f(x_t,u_t)
 \end{equation}
-where $x \in X \subset \Re^n$ is the state of the system and $u \in U \subset \Re^m$ is its control input.
-The system's initial state $x_0$ takes value from some initial set $X_0 \subset \Re^n$.
-Given an initial state $x_0$ and a finite control input sequence $\inpSig = (u_0,\ldots, u_{T-1}), u_t \in U$, a \textit{trajectory} of the system is the unique sequence of states $\sstraj = (x_0,\ldots,x_T)$ s.t. for all $t$, $x_t$ is in $X$ and obeys \eqref{eq:xt}.
-%We will use $\TDom$ to abbreviate the time domain $\{0,1,2,\ldots\}$.
+where $x \in X \subset \Re^n$, 
+$u \in U \subset \Re^m$.
+The system's initial state $x_0 \in X_0 \subset \Re^n$.
+Given an initial state $x_0$ and a finite control input sequence $\inpSig = (u_0,\ldots, u_{T-1}), u_t \in U$, the system trajectory is written $\sstraj = (x_0,\ldots,x_T)$.
 All temporal intervals that appear in this paper are implicitly discrete-time, e.g. $[a,b]$ means $[a,b] \cap \Ne$. 
 The set $\{0,1,\ldots,T\}\subset \Ne$ will be abbreviated as $\TDom$.
 For an interval $I \subset \Ne$, let $t+I = \{t+a \such a \in I\}$.
-The set of subsets of a set $S$ is denoted $\Pc(S)$.
 The signal space $\SigSpace$ is the set of all signals $\sstraj: \TDom \rightarrow X$.
 The max operator is written $\sqcup$ and min is written $\sqcap$.
 
@@ -28,28 +27,28 @@ Here, $\top$ is the Boolean True, $p$ is an atomic proposition, $\neg$ and $\lan
 Informally, $\formula_1 \until_I \formula_2$ means that $\formula_1$ must hold \textit{until} $\formula_2$ holds, and that the hand-over from $\formula_1$  to $\formula_2$ must happen sometime during the interval $I$.
 The disjunction ($\lor$), implication ($\implies$), Always ($\always$) and Eventually ($\eventually$) operators can be defined using the above operators.
 
-Formally, the \textit{pointwise semantics} of an MTL formula define what it means for a system trajectory $\sstraj$ to satisfy the formula $\formula$.
-Let $\Oc: AP \rightarrow \Pc(X)$ be an \textit{observation} map for the atomic propositions.
-The boolean truth value of a formula $\formula$ w.r.t. the trajectory $\sstraj$ at time $t$ is defined recursively.
-\begin{definition}[MTL semantics]
-	\label{def:boolean sat}
-	\begin{eqnarray*}
-		\label{eq:boolean sat}
-		(\sstraj,t) \models \top &\Leftrightarrow& \top
-		\\
-		\forall p \in AP, (\sstraj, t) \; \models_\Oc p &\Leftrightarrow& x_t \in \Oc(p)
-		\\
-		(\sstraj,t) \models_\Oc \neg \formula&\Leftrightarrow& \neg (\sstraj,t) \models_\Oc \formula
-		\\
-		(\sstraj,t) \models_\Oc  \formula_1 \land \formula_2&\Leftrightarrow& (\sstraj,t) \models_\Oc \formula_1 \land (\sstraj,t) \models_\Oc \formula_2
-		\\
-		(\sstraj,t) \models_\Oc \formula_1 \until_I \formula_2 &\Leftrightarrow& \exists t' \in t+I .  (\sstraj,t') \models_\Oc \formula_2  
-		\\
-		&& \, \land \forall t'' \in (t,t'), \;\; (\sstraj,t'') \models_\Oc \formula_1 
-	\end{eqnarray*}
-\end{definition}
-As $\Oc$ is fixed in this paper, it is dropped from the notation.
-We say $\sstraj$ satisfies $\formula$ if $(\sstraj,0) \models \formula$.
+%Formally, the \textit{pointwise semantics} of an MTL formula define what it means for a system trajectory $\sstraj$ to satisfy the formula $\formula$.
+%Let $\Oc: AP \rightarrow \Pc(X)$ be an \textit{observation} map for the atomic propositions.
+%The boolean truth value of a formula $\formula$ w.r.t. the trajectory $\sstraj$ at time $t$ is defined recursively.
+%\begin{definition}[MTL semantics]
+%	\label{def:boolean sat}
+%	\begin{eqnarray*}
+%		\label{eq:boolean sat}
+%		(\sstraj,t) \models \top &\Leftrightarrow& \top
+%		\\
+%		\forall p \in AP, (\sstraj, t) \; \models_\Oc p &\Leftrightarrow& x_t \in \Oc(p)
+%		\\
+%		(\sstraj,t) \models_\Oc \neg \formula&\Leftrightarrow& \neg (\sstraj,t) \models_\Oc \formula
+%		\\
+%		(\sstraj,t) \models_\Oc  \formula_1 \land \formula_2&\Leftrightarrow& (\sstraj,t) \models_\Oc \formula_1 \land (\sstraj,t) \models_\Oc \formula_2
+%		\\
+%		(\sstraj,t) \models_\Oc \formula_1 \until_I \formula_2 &\Leftrightarrow& \exists t' \in t+I .  (\sstraj,t') \models_\Oc \formula_2  
+%		\\
+%		&& \, \land \forall t'' \in (t,t'), \;\; (\sstraj,t'') \models_\Oc \formula_1 
+%	\end{eqnarray*}
+%\end{definition}
+%As $\Oc$ is fixed in this paper, it is dropped from the notation.
+%We say $\sstraj$ satisfies $\formula$ if $(\sstraj,0) \models \formula$.
 \textit{All formulas that appear in this paper have bounded temporal intervals: $ 0\leq \inf I < \sup I < +\infty$.}
 To evaluate whether such a formula $\formula$ holds on a given trajectory, only a finite-length prefix of that trajectory is needed.
 Its length can be upper-bounded by the \textit{horizon} of $\formula$, $hrz(\formula) \in \Ne$, calculable as shown in~\cite{Dokhanchi14_OnlineMonitoring}. 
@@ -63,6 +62,7 @@ That is, it is useful to control the system such that we \textit{maximize} our d
 When unforeseen events occur, the system can react to them without violating the formula.
 This degree of satisfaction can be formally defined and computed using the robust semantics of MTL.
 Given a point $x \in X$ and a set $A \subset X$, $\dist(x,A) \defeq \inf_{a \in \cl{A}}|x-a|_2$ is the minimum Euclidian distance from $x$  to the closure $\cl{A}$ of $A$.
+Let $\Oc: AP \rightarrow 2^X$ be an \textit{observation} map for the atomic propositions.
 \begin{definition}[Robustness\cite{FainekosP09tcs}]
 	\label{def:robustness estimate}
 	The \emph{robustness} of $\varphi$ relative to $\sstraj$ at time $t$ is recursively defined as 
