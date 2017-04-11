@@ -3,7 +3,7 @@
 %close all
 figure;
 
-load('/home/mlab-retro/Documents/AnytimeCPS2015/MATLAB/Miscellaneous/Multivariate/alt_form/Optim/ToyExample/Data/dataPlot.mat');
+load('Data/dataPlot.mat');
 
 %SRSQP(B)
  hold on
@@ -37,6 +37,8 @@ grid off
 set(gca,'Xtick',-2.5:2.5:2.5,'FontSize',20)
 set(gca,'Ytick',-2.5:2.5:2.5,'FontSize',20)
 
+P_unsafe = Polyhedron('lb',[-1 -1],'ub',[1 1]);
+P_final = Polyhedron('lb',[2 2],'ub',[2.5 2.5]);
 plot(P_unsafe,'Color','red','Alpha',0.7);
 hold on;
 plot(P_final,'Color','green','Alpha',0.7);
