@@ -28,6 +28,7 @@ Vis_Pose_Ori = timeseries(Vision_Pose,'Pose.Orientation.W','Pose.Orientation.X',
 %% plot3
 figure;
 axis([-2 2 -2 2 0 3]);
+if(0)
 for i = 1:size(Vic_Pose_Pos.Data,1)-off_end
     axis([-2 2 -2 2 0 3]);
     plot3(Vic_Pose_Pos.Data(i,1),Vic_Pose_Pos.Data(i,2), ...
@@ -40,6 +41,7 @@ for i = 1:size(Vic_Pose_Pos.Data,1)-off_end
     legend('Vicon','Vision');
     pause(eps);
     hold on;
+end
 end
 %
 % plot3(Vic_Pose_Pos.Data(1:end-off_end,1),Vic_Pose_Pos.Data(1:end-off_end,2), ...
