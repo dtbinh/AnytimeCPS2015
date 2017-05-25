@@ -155,8 +155,8 @@ else
    rd_u0 = 1;
    x_0 = [optParams.A_x0*optParams.x0 + optParams.B_U*u_0;u_0];
 end
-%% gen code for objfun and confun
-if(0) %make this 1 once, then set to zero 
+%% gen code for objfun and confun codegen
+if(1) %make this 1 once, then set to zero 
     disp('Generating code for robustness functions');
 CodeGeneratorForOptim;
 end

@@ -1,8 +1,9 @@
 QuadLinearModel; %get quad dynamics for high level control
 
 %modes of estimation
-deltas = [24 30 34 39 45]*(10^-3);%[0.0125;0.0129;0.0139];%(h/2)*rand(3,1);
-epsilons = 1*[0.028;0.0237;0.0231;0.0113;0.01];
+deltas = [24 30 34 39]*(10^-3);%[0.0125;0.0129;0.0139];%(h/2)*rand(3,1);
+epsilons = 1*[0.028;0.0237;0.0231;0.0113;0.01]; %old
+epsilons = [0.039 0.035 0.034 0.032];
 numModes = numel(deltas);
 setComps = 0;
 % MPC Horizon
@@ -63,7 +64,8 @@ S.minHRep;
 
 if(1) %load data or test
     clear dist_params;
-    load('../../MATLAB/SVO_Profiling/SVO_ProfilingData_perch.mat')
+    load('../../../MATLAB/SVO_Profiling/Data_2017/SVO_profiling_0.mat')
+    %load('../../MATLAB/SVO_Profiling/Data_2017/Perch_SVO.mat')
     for i = 1:numModes
         dist_params(i).cov_e = zeros(6,6);
         c = 1;%2*10^-1;
@@ -100,7 +102,7 @@ ProblemParams.n_x = size(sys_c.a,1);
 ProblemParams.n_u = size(sys_c.b,2);
 % Robust control inv set
 Cdelta = repmat(emptyPoly,numModes,1);
-%%
+%% %% for deterministic RAMPC
 if(1)
     epsilons = zeros(numModes,1);
     H = N+1;
@@ -133,7 +135,7 @@ end
 Zjs = getZjs_smpc(S,ProblemParams,N);
 
 %% save
-save('Data/Sets.mat','epsilons','deltas','A_lift','B_lift','Cdelta','Zjs', ...
+save('Data/Sets_2017.mat','epsilons','deltas','A_lift','B_lift','Cdelta','Zjs', ...
     'Kx','E_set','K','A_modes','B1_modes','B2_modes','Acl','h','H','S','InputSet', ...
     'dist_params','ProblemParams','Zj_det')
 %%
@@ -141,3 +143,5 @@ save('Data/Sets.mat','epsilons','deltas','A_lift','B_lift','Cdelta','Zjs', ...
 for i = 1:H
     plot(Zj_det(i,1).projection(1:3)-Zjs{i,1}.projection(1:3),'color','red');pause
 end
+
+

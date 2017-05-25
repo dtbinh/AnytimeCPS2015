@@ -2,8 +2,8 @@
 close all;
 clear pos_cmd odom_drop goal trpy_cmd
 'folder info here'
- folder = '2015-05-10-00-24-27_switching_fast'
-%folder = '2015-05-09-23-59-47_mode3'
+% folder = '2015-05-10-00-24-27_switching_fast'
+folder = '2015-05-09-23-59-47_mode3'
 
 if(new)
 'loading file ...'

@@ -7,6 +7,7 @@ traj = reshape(x,optParams.dim,optParams.len);
 %f1 = alt_getRobustnessP_vector(traj,optParams.P1,optParams.Params_P1,0);
 %f2 = alt_getRobustnessP_vector(traj,optParams.P2,optParams.Params_P2,0);
 %f = SoftMin([f1,f2]);
-[f1,g] = alt_getRobustnessP_and_der_vector(traj,optParams.Params_P1);
-
-f = f1; %min robustness, robustness = not in P1
+%[f1,g] = alt_getRobustnessP_and_der_vector(traj,optParams.Params_P1);
+[f1,g] = alt_getRobustnessP_and_der_vector_genable_parallel(traj,optParams.Params_P1,1);
+f = -f1; %max robustness, robustness = not in P1
+g = -g;

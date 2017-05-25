@@ -50,10 +50,10 @@ if(dim==2)
 	'getting coeffs'
 	E_dash = double(getcondvects(dim)); %set of vertices of [0,1]^dim
 	E = E_dash(2:end,:); % set of non-zero vertices in E_dash
-	k_min = -10;
-	k_max = +10;
+	k_min = -5;
+	k_max = +5;
 	j_min = 0;
-	j_max = 0; %2 works well in R2
+	j_max = 1; %2 works well in R2
 
 	if(exist('C_00k','var') && exist('D_ejk','var')) %if some params loaded
 

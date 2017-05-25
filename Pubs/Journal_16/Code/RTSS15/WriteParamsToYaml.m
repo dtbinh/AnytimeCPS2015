@@ -21,7 +21,7 @@ cB0lift = cell(numel(deltas),numel(deltas));
 valsB0lift = cell(numel(deltas),numel(deltas));
 
 % for det
-Zj = Zj_det;
+%Zj = Zj_det;
 for i=1:numel(deltas)
     %for j=1:numel(deltas)
     j = i; 
@@ -95,4 +95,4 @@ if(exist('sys_d','var')) %write the discrete normal dynamics too
     X.(sprintf('u_limit')) = u_limit';
     
 end    
-WriteYaml('Data/gains_T_10cube_det.yaml',X)
+WriteYaml('Data/gains_T_10cube_detRAMPC.yaml',X)

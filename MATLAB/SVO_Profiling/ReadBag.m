@@ -1,7 +1,7 @@
 %run tmuxinator start ErrorComp for running shit and logging data after bag
 %file play
 close all;clc;
-filepath = '~/bag_files/bag_files/processed/2016-06-04/run1/run1_1_125fts.bag';
+filepath = '~/bag_files/bag_files/processed/2017/profiling/run2_550fts.bag';
 bag = rosbag(filepath);
 
 %offset for end if needed
@@ -26,22 +26,23 @@ Vis_Pose_Ori = timeseries(Vision_Pose,'Pose.Orientation.W','Pose.Orientation.X',
     'Pose.Orientation.Y','Pose.Orientation.Z');
 
 %% plot3
-figure;
-axis([-2 2 -2 2 0 3]);
 if(0)
-for i = 1:size(Vic_Pose_Pos.Data,1)-off_end
+    figure;
     axis([-2 2 -2 2 0 3]);
-    plot3(Vic_Pose_Pos.Data(i,1),Vic_Pose_Pos.Data(i,2), ...
-        Vic_Pose_Pos.Data(i,3),'r*');
-    %hold all;
-    hold on;
-    grid on;
-    plot3(Vis_Pose_Pos.Data(i,1),Vis_Pose_Pos.Data(i,2), ...
-        Vis_Pose_Pos.Data(i,3),'bo');
-    legend('Vicon','Vision');
-    pause(eps);
-    hold on;
-end
+    
+    for i = 1:size(Vic_Pose_Pos.Data,1)-off_end
+        axis([-2 2 -2 2 0 3]);
+        plot3(Vic_Pose_Pos.Data(i,1),Vic_Pose_Pos.Data(i,2), ...
+            Vic_Pose_Pos.Data(i,3),'r*');
+        %hold all;
+        hold on;
+        grid on;
+        plot3(Vis_Pose_Pos.Data(i,1),Vis_Pose_Pos.Data(i,2), ...
+            Vis_Pose_Pos.Data(i,3),'bo');
+        legend('Vicon','Vision');
+        pause(1/20);
+        hold on;
+    end
 end
 %
 % plot3(Vic_Pose_Pos.Data(1:end-off_end,1),Vic_Pose_Pos.Data(1:end-off_end,2), ...
@@ -66,6 +67,11 @@ err_roll = wrapTo2Pi(Vis_roll)-wrapTo2Pi(Vic_roll);
 
 'Number of data points'
 numel(err_yaw)
+'stats'
+[mean(err_x) std(err_x)]
+[mean(err_y) std(err_y)]
+[mean(err_z) std(err_z)]
+
 temp_errs = [err_x err_y err_z err_yaw err_pitch err_roll];
 Data_rec = [Data_rec;temp_errs];
 %% plot hists
@@ -114,3 +120,4 @@ qqplot(err_y);
 subplot(313);
 qqplot(err_z);
 
+%%

@@ -1,5 +1,6 @@
 function [phi,psi] = MeyerWavelet(t)
 %% Meyer wavelet (psi) and scale (phi) as in Valenzuela and Oliviera
+t = t+eps; %perturb
 a1 = (2*pi)/3;
 a2 = 4/3;
 a3 = 4*pi/3;
