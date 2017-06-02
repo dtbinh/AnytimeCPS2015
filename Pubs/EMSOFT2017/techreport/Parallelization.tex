@@ -1,0 +1,46 @@
+\section{Parallel computation of MTL Robustness}
+Consider a discrete-time MTL specification of the kind:
+\begin{equation}
+\formula = \always_{[0,10]} \neg (x_k \in \text{Unsafe}) \land \eventually_{[0,10]}(x_k \in \text{Terminal}]
+\end{equation}
+This reach-avoid specifcation requires a system with the state $x_k$ to always within the next 10 ($k \in [0,10]$) time steps avoid an $\text{Unsafe}$ set, and eventually with the same interval visit a $\text{Terminal}$ region. This could be an example of a behavioral specification for an autonomous car/quadrotor. The associated robustness for this system is
+
+\begin{equation}
+ \rho_{\formula}(\mathbf{x}) = \text{min}(\sqcap_{k \in [0,10]}-\dist(x_k,\text{Unsafe}),\, \sqcup_{k \in [0,10]} \dist(x_k,\text{Eventually}))
+\end{equation}
+
+Computing this involves:
+\begin{itemize}
+\item A1: 10 signed distances of $x_k$ w.r.t $\text{Unsafe}$ ($\dist(x_k,\text{Unsafe},\,\forall k \in [0,10]$).
+\item A2: The minimum over the negation of these 10 values. $\sqcap_{k \in [0,10]}$.
+\item B1: 10 signed distances of $x_k$ w.r.t $\text{Terminal}$ ($\dist(x_k,\text{Terminal},\,\forall k \in [0,10]$).
+\item B2: The maximum over these 10 values. $\sqcup_{k \in [0,10]}$.
+\item C: The minimum of the two values obtained from A1 and A2. 
+\end{itemize}
+Similar computations are involved in computing the smooth robustness $\srob_\formula$ with the smooth approximation of the underlying functions replacing the ones used above.
+
+For a larger time horizon (e.g 1000 steps instead of 10), we would need to do 100 times more of operations A1, B1, and operations A2 and B2 would be over 1000 values instead of 10.
+Similarly for $M$ agents (instead of one), let the specification be:
+\begin{subequations}
+\begin{align}
+\formula_M &= \land_{i=1}^M (\always_{[0,10]} \neg(x^i_k  \in \text{Unsafe}) \land \eventually_{[0,10]}(x^i_k \in \text{Terminal}]) \\
+\formula_M &= \land_{i=1}^M \formula(\mathbf{x}^i)
+\end{align}
+\end{subequations}
+
+Here $x^i_k$ is the state of the $i^{th}$ agent at time step $k$. In this case, the computation for robustness (or smooth robustness) involves $O(M)$ times as many operations as the ones described for computing robustness of $\formula$. This serves as a motivating example for where parallelization can be used in computing robustness. 
+
+A parallel method of computing robustness for the example above (generalize to N time steps instead of 10) is outlined as follows:
+\begin{itemize}
+\item For each time step $k$, and for each state of every agent $i$, compute the $\dist(.,\text{Unsafe})$ (or the smooth approximation) in parallel. This would involved $M \times N$ signed distances in parallel. Similarly we can compute $MN$ signed distances in parallel w.r.t the $\text{Terminal}$ set. 
+
+\item The $2N$ minimum (and maximum) operations over signed distances to both sets can be computed in parallel once we have the results of the signed distance operations.
+
+\item Finally, the last $M$ minimum operations can also be done in parallel. 
+\end{itemize}
+
+
+\section{Goals of this work}
+Parallel execution on a CPU (using MATLAB's parfor operation) resulted in upto 50 times speed ups over serial executions (over the 3 case studies we looked at), and there is a lot more room for improvement using GPUs. For a 2-quadrotor case study we looked at in the \cite{PantAM17_SmoothOpTechRpt}, we still need over 100x speed-up for real-time control. The goal of this work will be to develop a general purpose MTL (smooth) robustness computation tool that can be interfaced with state of the art NLP solvers for real-time control of multi agent systems with complex MTL specifications. Experimental evaluations on a multi quadrotor experimental platform under development will show the applicability of this work to real systems.
+
+

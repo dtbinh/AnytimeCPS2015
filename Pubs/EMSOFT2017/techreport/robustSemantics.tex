@@ -20,7 +20,7 @@ The max operator is written $\sqcup$ and min is written $\sqcap$.
 \label{sec:mtl}
 The controller of $\Sys$ is designed to make the closed loop system \eqref{eq:xt} satisfy a specification expressed in Metric Temporal Logic (MTL)~\cite{Ouaknine08_RecentResultsMTL}.
 MTL allows one to formally express complex reactive specifications, beyond stability, trajectory tracking and the like.
-See examples \eqref{eq:rule1mtl} and \eqref{eq:rule3mtl}.
+%See examples \eqref{eq:rule1mtl} and \eqref{eq:rule3mtl}.
 
 Formally, let $AP$ be a set of atomic propositions, which can be thought of as point-wise constraints on the state of the system.
 An MTL formula $\formula$ is built recursively from the atomic propositions using the following grammar:
@@ -92,14 +92,3 @@ Given a point $x \in X$ and a set $A \subset X$, $\dist(x,A) \defeq \inf_{a \in 
 	\end{eqnarray*}
 	When $t=0$, we write $\robf(\sstraj)$ instead of $\robf(\sstraj,0)$.
 \end{definition}
-The robustness is a real-valued function of $\sstraj$ with the following important property.
-\begin{theorem} \cite{FainekosP09tcs}
-	\label{thm:rob objective}
-	For any $\sstraj \in \SigSpace$ and MTL formula $\formula$, 
-	if $\robf(\sstraj,t) <0$ then $\sstraj$ falsifies the spec $\formula$ at time $t$, and if $\robf(\sstraj,t) > 0$ then $\sstraj$ satisfies $\formula$ at $t$. 
-	The case $\robf(\sstraj,t) =0$ is inconclusive.
-\end{theorem} 
-
-Thus, we can compute control inputs by maximizing the robustness over the set of finite input sequences of a certain length.
-The obtained sequence $\inpSig^*$ is valid if $\robf(\sstraj,t)$ is positive, where $\sstraj$ and $\inpSig^*$ obey \eqref{eq:xt}.
-The larger $\robf(\sstraj,t)$, the more robust is the behavior of the system: intuitively, $\sstraj$ can be disturbed and $\robf$ might decrease but not go negative.

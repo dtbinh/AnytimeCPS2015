@@ -1,0 +1,24 @@
+\section{Using MTL Robustness for control}
+\label{sec:MTL_control}
+The robustness of a MTL specification is a real-valued function of $\sstraj$ with the following important property.
+\begin{theorem} \cite{FainekosP09tcs}
+	\label{thm:rob objective}
+	For any $\sstraj \in \SigSpace$ and MTL formula $\formula$, 
+	if $\robf(\sstraj,t) <0$ then $\sstraj$ falsifies the spec $\formula$ at time $t$, and if $\robf(\sstraj,t) > 0$ then $\sstraj$ satisfies $\formula$ at $t$. 
+	The case $\robf(\sstraj,t) =0$ is inconclusive.
+\end{theorem} 
+
+Thus, we can compute control inputs by maximizing the robustness over the set of finite input sequences of a certain length.
+The obtained sequence $\inpSig^*$ is valid if $\robf(\sstraj,t)$ is positive, where $\sstraj$ and $\inpSig^*$ obey \eqref{eq:xt}.
+The larger $\robf(\sstraj,t)$, the more robust is the behavior of the system: intuitively, $\sstraj$ can be disturbed and $\robf$ might decrease but not go negative.
+
+\subsection{Complications in optimizing over robustness}
+The robustness function for MTL formulae cannot be optimized over in a straight-forward manner because:
+\begin{itemize}
+\item Robustness $\rho$ is not a smooth function of the trajectory of the system ($\mathbf{x}$). The function is continuous as all underlying functions: the smooth distance $\dist$, the maximum ($\sqcap$) and minimum ($\sqcup$) over time are continuous, but not smooth as these functions do not have derivatives that exist everywhere. 
+\item $\rho$ is also non-convex.
+\end{itemize}
+
+In \cite{PantAM17_SmoothOpTechRpt} we deal with the first problem by using a smooth approximation of robustness $\srob$ which uses smooth approximations of the underlying functions that make up robustness. This allowed us to use powerful off the shelf gradient based algorithms to solve the non-linear optimization problem for maximizing robustness. The approximation was built from using smooth approximations of signed distance $\sdist$ and smooth maximum and minimum functions $\widetilde{\sqcup},\,\widetilde{\sqcap}$. Using these functions instead of their non-smooth counterparts allows us to form a semantically correct smooth approximation of MTL robustness with bounded approximation error. Details are in \cite{PantAM17_SmoothOpTechRpt}. 
+
+ Simulation results showed how our method outperform existing Mixed Integer Programming based tools in both control performance and execution times. Despite this, for problems of a larger scale (more states in the system, a complex specification, or a longer time horizon for the specification), the optimization cannot be done in real-time. The largest bottleneck for this is the computation of the robustness function itself. 
