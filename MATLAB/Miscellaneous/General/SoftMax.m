@@ -8,10 +8,12 @@ end
 
 %%
 x_max = (1/C)*log(sum(exp(C*vec_x)));
+if(~strcmp(class(x_max),'sym'))
 while(isinf(x_max))
     'decimating C'
    %C=max(C/10,1);
    C = C/10;
    x_max = (1/C)*log(sum(exp(C*vec_x)));
    C;
+end
 end
