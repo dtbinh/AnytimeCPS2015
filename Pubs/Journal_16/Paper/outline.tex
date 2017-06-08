@@ -1,0 +1,45 @@
+\section{outline}
+
+In autonomous cars, find numbers for power consumption of the perception chain.
+(CMU, Shinpei)
+\begin{enumerate}
+	\item Introduction
+	
+%	\item Motivating example: 
+%	\begin{itemize}
+%			\item hexrotor that is unstable/poor-performing with MPC because of actuation delay
+%			\item Operating at lowest delay (= worst performance) is not good either 
+%			\item How can we reduce the actuation delay while keeping a handle on estimation error? 			
+%	\end{itemize}
+%	Anytime control formulation explicity accounts for delay/error and optimizes over it.
+%	\\\quad A delay-error trade-off curve + control formulation that accounts for it
+
+	\item Architecture of the solution: estimation and control talking to each other
+		
+	\item Control problem and solution (in a tutorial tone)
+	\begin{itemize}
+		\item MPC control formulation 
+		\item Solution
+	\end{itemize}
+	
+	\item Delay-error curve 
+	\begin{enumerate}
+		\item Perception and estimation toolchain. Each component has knobs that make it anytime.
+		\item Perception+estimation is a task with varying utility and execution time. The controller schedules the task with the best utility/execution time.
+		\item this is also a utility/computation power trade-off.
+		\item Example: corner detection for visual odometry
+		\item Example: Matlab toolchain and decision tree that effectively removes decision points from the curve
+	\end{enumerate}
+	
+	
+	\item Experiment
+	\begin{itemize}
+			\item Show the curve on the quadrotor with ordroid (or maybe move to previous section)
+			\item Computation power
+			\item Experimental setup
+			\item Take system from intro and show results with RAMPC: better performance/ stable.
+			\item Degradation experiment: as we decrease control frequency and increase flying speed, performance degrades. How does degradation compare between the two.
+			
+	\end{itemize}
+
+\end{enumerate}

@@ -1,0 +1,17 @@
+*.aux
+*.blg
+*.bbl
+*.log
+root.pdf
+*.*.gz
+*.*~
+README
+bare_conf.tex
+bare_conf.pdf
+changelog.txt
+IEEEtranBST/*.bib
+IEEEtranBST/*.pdf
+IEEEtranBST/README
+camera_*.pdf
+RTSS_*.pdf
+

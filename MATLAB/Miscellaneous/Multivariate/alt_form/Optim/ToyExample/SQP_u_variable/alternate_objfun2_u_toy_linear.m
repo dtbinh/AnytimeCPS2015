@@ -17,7 +17,7 @@ x = optParams.A_x0*optParams.x0 + optParams.B_U*u;
 g = zeros(numel(u),1);
 if(optParams.robCost)
 traj = reshape(x(1:optParams.dim*optParams.len),optParams.dim,optParams.len);
-%%
+
 %rho_1 = zeros(optParams.len,1);
 %rho_2 = zeros(optParams.len,1);
 

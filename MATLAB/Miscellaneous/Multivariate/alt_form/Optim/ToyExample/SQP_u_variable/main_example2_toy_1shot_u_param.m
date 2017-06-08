@@ -69,7 +69,7 @@ optParams.dim = dim;
 optParams.len = len;
 optParams.dim_u = dim_u;
 
-u_lim = 0.52;
+u_lim = 1.52;
 
 P_feas = Polyhedron('lb',[-2.5 -2.5],'ub',[2.5 2.5]);
 U_feas = Polyhedron('lb',-u_lim*ones(1,dim),'ub',u_lim*ones(1,dim));
@@ -166,7 +166,7 @@ end
 
 %% random initialization
 rd_u0 = 0;
-if(0)
+if(rd_u0)
    u_0 = -0.25+(.5)*rand(optParams.dim_u*(optParams.len-1),1); %random u_0; 
    rd_u0 = 1;
    x_0 = [optParams.A_x0*optParams.x0 + optParams.B_U*u_0;u_0];

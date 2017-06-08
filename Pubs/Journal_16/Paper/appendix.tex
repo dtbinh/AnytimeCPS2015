@@ -1,0 +1,23 @@
+\section*{Appendix}
+\label{appendix}
+
+\ifthenelse{\boolean{TECH_REPORT}}
+{
+	\newcommand{\algoref}{1\;}
+	\newcommand{\ctrlProbSecRef}{III}
+	\newcommand{\discDynEeq}{(2)}
+	\input{anytime_rmpc}
+	\input{rmpc_formulation}
+	\input{RobustFeasibility}
+	\input{experimentalSetup}
+}
+{	
+	\newcommand{\algoref}{\ref{algo:RMPC-algo}}
+	\newcommand{\ctrlProbSecRef}{\ref{controlProblem}}
+	\newcommand{\discDynEeq}{\ref{eq:disc-dynamics}}
+	\ref{algo:RMPC-algo}
+	%\input{experimentalSetup} %include nothing to shorten space in the camera ready
+}
+
+
+

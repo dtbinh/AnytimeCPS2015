@@ -1,0 +1,105 @@
+\section{Robust Model Predictive Control Solution}
+\label{robustMPC}
+
+In this section we give an overview of the \emph{Robust Adaptive Model Predictive Controller} (RAMPC) that we use in the contract-based setup of Fig.~\ref{fig:fullcodesignedCE}.
+The mathematical details and derivations are available in the online technical report \cite{RTSS15TechRpt324}.
+Experiments confirm that the following controller can be run in real-time, and its computation uses a negligible amount of time relative to the estimation delay.
+
+\subsection{Solution overview}
+Recall the operation of the contract-based control and estimation framework as presented in Section \ref{sec:codesign} and Fig.~\ref{fig:fullcodesignedCE}.
+First, the estimator is profiled offline to obtain its delay-error curve, which we denote by $\Delta$.
+The curve $\Delta$ represents a finite number of $\de$ contracts that the estimator can satisfy.
+%Let $|\Delta|$ be the number of such contracts on the curve $\Delta$.
+At every time step $k$, the controller receives a state estimate $\hat{\stPt}_k$ and uses it to compute two things:
+first is the control input $\inpPt_{k}$ to be applied to the physical system at time $t_{a,k}$.
+The second is the contract $(\sDelay_{k+1}, \sAccu_{k+1}) \in \Delta$ that will be requested from the estimator at the next step.
+At $k+1$, the estimator provides an estimate with error at most $\sAccu_{k+1}$ and within delay $\sDelay_{k+1}$.
+Finally, recall that 
+$J = \sum_{k=0}^{M}\left(\ell(\stPt_k,\inpPt_k)+ \alpha \pi(\sDelay_k)\right)$ 
+combines tracking error and input power in the $\ell$ terms, and estimation power consumption in the $\pi$ terms.
+The scalar $\alpha$ quantifies the importance of power consumption to the overall performance of the system.
+
+The contract-based controller's task is to find a sequence of inputs $u_k \in \inpSet$ and of contracts $(\sDelay_k, \sAccu_k) \in \Delta$ such that the cost $J$ is minimized, and the state $\stPt_k$ is always in the set $\stSet$.
+The challenge in finding the control inputs is that the controller does not have access to the real state $\stPt_k$, but only to an estimate $\hat{\stPt}_k$.
+The norm of the error $e_k = \hat{\stPt}_k - \stPt_k$ is bounded by the contractual $\sAccu_k$, which varies at each time step.
+
+Fix the \emph{prediction horizon} $N \geq 1$.
+Assume that the current contract (under which the current estimate $\hat{\stPt}_k$ was obtained) is $\dek{k}$, and that the previously applied input is $\inpPt_{k-1}$.
+To compute the new input value $\inpPt_{k}$ and next contract $\dek{k+1}$, the proposed \textbf{Robust Adaptive Model Predictive Control (RAMPC)} seeks to solve the following optimization problem which we denote by $\RAMPCProb{\Delta}{k}$:
+
+\vspace{-10pt}
+\begin{eqnarray}
+\label{eq:fullOptim}
+J^*[0:N]= \min_{\inpSig,\sttraj,\sDelayV,\sAccuV}\sum_{j=0}^{N}\left(\ell(\stPt_{k+j},\inpPt_{k+j})+\alpha\pi(\sDelay_k)\right)
+\end{eqnarray}
+
+Here, RAMPC needs to find the optimal length-$N$ input sequence  $\inpSig^* = (\inpPt_k^*,\ldots,\inpPt_{k+N}^*) \in \inpSet^N$, corresponding state sequence $\sttraj = (\stPt_k,\ldots,\stPt_{k+N}) \in \stSet^N$, delay sequence $\sDelayV = (\sDelay_k,\ldots,\sDelay_{k+N})$ and error sequence $\sAccuV = (\sAccu_k,\ldots,\sAccu_{k+N})$ such that $\dek{k} \in \Delta$, which minimize the $N$-step cost $J[0:N]$.
+In the remainder of this section we discuss how to make this problem tractable.
+As in regular MPC \cite{camachoetal04mpc}, once a solution $\inpSig^*$ is found, only the \emph{first} input value $u_k^*$ is applied to the physical system, thus yielding the next state $\stPt_{k+1}$ as per \eqref{eq:disc-dynamics}.
+At the next time step $k+1$, RAMPC sets up the new optimization $\RAMPCProb{\Delta}{k+1}$ and solves it again.
+
+To make this problem tractable, we first assume that the mode is fixed throughout the $N$-step horizon, i.e. $\dek{k+j} = \de$ for all $1 \leq j \leq N$.
+Thus for every value $\de$ in $\Delta$, we can setup a different problem \eqref{eq:fullOptim} and solve it.
+Let $J_{\de}^*$ be the corresponding optimum.
+The solution with the smallest objective function value yields the input value $\inpPt^*_k$ to be applied and the next contract $(\sDelay^*,\sAccu^*)$.
+
+Because RAMPC only has access to the state estimate, we extend the RMPC approach in \cite{richardsetal05rmp, chiscietal01swp}.
+Namely, the problem is solved for the \emph{nominal dynamics} which assume zero process and observation noise ($w_{k+j} = 0)$ and zero estimation error ($\hat{\stPt}_{k+j}=\stPt_{k+j}$) over the prediction horizon.
+Let $\Nom \stPt$ be the state of the system under nominal conditions.
+To compensate for the use of nominal dynamics, RMPC replaces the constraint $(\Nom\stPt_{k+j},\inpPt_{k-1+j}) \in \stSet \times \inpSet \defeq \ZSet$ 
+by $(\Nom \stPt_{k+j},\inpPt_{k+j}) \in \ZSet_{j}(\sAccu_k,\sAccu)$,
+where $\ZSet_{j}(\sAccu_k,\sAccu) \subset \ZSet$ is $\ZSet$ `shrunk' by an amount corresponding to $\sAccu$, as explained in the technical report \cite{RTSS15TechRpt324}.
+Intuitively, by forcing $(\Nom\stPt_{k+j},\inpPt_{k-1+j})$ to lie in the reduced set $\ZSet_{j}(\sAccu_k,\sAccu)$, the bounded estimation error and process noise are guaranteed not to cause the true state and input to exit the constraint sets $\stSet$ and $\inpSet$.
+%
+The tractable optimization for a given $\de$, denoted by $\RAMPCProb{\de}{k}$, is then 
+\begin{eqnarray}
+\label{eq:tractableOptim}
+J^*_{\de} &=& \min_{\inpSig,\sttraj}\sum_{j=0}^{N}\left(\ell(\Nom \stPt_{k+j},\inpPt_{k+j})+\alpha\pi(\sDelay_k)\right)
+\\
+\textrm{s.t.} &&\forall j \in \{0,\ldots,N\}
+\nonumber
+\\
+&&\Nom \stPt_{k+j+1}=A \Nom \stPt_{k+j}+B_{1}(\sDelay_k)\inpPt_{k+j-1}+B_{2}(\sDelay_k)\inpPt_{k+j}
+\nonumber
+\\
+&& (\Nom \stPt_{k+j},\inpPt_{k+j}) \in \ZSet_{j}(\sAccu_k,\sAccu)
+\nonumber
+\end{eqnarray}
+
+Algorithm \ref{algo:RMPC-algo} summarizes the RAMPC algorithm.
+\begin{algorithm}
+	\begin{algorithmic}[1]
+		\State $\dek{0}$ and $u_{-1}$ specified by designer
+		\State Apply $u_{-1}$
+		\For{$k=0,1,\dots,M$}
+		\State Estimate $\hat{\stPt}_{k}$ with guarantee $\left(\sDelay_k, \sAccu_k\right)$
+		\For{each $\left( \sDelay,\sAccu \right) \in \Delta$}
+		\State $J_{\de}^* \leftarrow $ Solve $\RAMPCProb{\de}{k}$		
+		\EndFor
+		\State $( \sDelay^{*}, \sAccu^{*}, u_{k }^{*} ) \gets \argmin_{\de} J_{\de}^*$
+		%\State Wait until $t_{a,k}$
+		\State Apply control input $u_{k} = u_{k}^{*}$ and estimation mode $\dek{k+1} = \left( \sDelay^{*}, \sAccu^{*} \right)$
+		\EndFor
+	\end{algorithmic} 
+	
+	\caption{Robust Adaptive MPC algorithm with Anytime Estimation.}
+	\label{algo:RMPC-algo}
+\end{algorithm}
+
+We prove the following result in the technical report \cite{RTSS15TechRpt324}:
+\begin{thm}%[Robust Feasibility of RMPC with Anytime Estimation]
+	\label{thm:robust-feasible-anytime-RMPC}
+	If at the initial time step there exists a contract value $\de \in \Delta$, 
+	an initial state estimate $\hat{\stPt}_0 \in \stSet$,
+	and an input value $\inpPt_{-1} \in \inpSet$,
+	such that $\RAMPCProb{\de}{0}$
+	is feasible then the system (\ref{eq:disc-dynamics}) controlled by
+	Alg.~\ref{algo:RMPC-algo} and subjected to disturbances constrained
+	by $w_k \in \Wc$ robustly satisfies the state constraint $\stPt \in \stSet$
+	and the control input constraint $\inpPt \in \inpSet$,
+	and all subsequent iterations of the algorithm are feasible.
+\end{thm}
+
+
+
+

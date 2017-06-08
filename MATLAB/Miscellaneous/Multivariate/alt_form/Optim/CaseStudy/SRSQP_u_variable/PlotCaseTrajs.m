@@ -1,6 +1,7 @@
 %load('Case_20_u_nofevlim.mat'); %z(5,:)
 %load('Case_20_u_zmax.mat'); %-z(6,:)
 %load('Case_20_u_0.mat'); %-z(4,:)
+load('Case_20_u_nofevlim.mat'); %z(5,:)
 %% plot sets
 xmin = -7;
 xmax = 7;
@@ -34,7 +35,7 @@ Nu = optParams.dim_u;
 N = optParams.len;
 
 %1
-load('Case_20_u_nofevlim.mat'); %z(5,:)
+%load('Case_20_u_nofevlim.mat'); %z(5,:)
 %load('Case_20_u_zmax.mat'); %-z(6,:)
 %load('Case_20_u_0.mat'); %-z(4,:)
 
