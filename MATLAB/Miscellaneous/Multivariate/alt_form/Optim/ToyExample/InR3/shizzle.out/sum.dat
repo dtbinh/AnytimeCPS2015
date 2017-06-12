@@ -51,7 +51,7 @@
        allowipopt     =       1
        allowfiltersd  =       1
        allowfiltersqp =       0
-       dolocal        =       1
+       dolocal        =       0
        numloc         =      -2
        locres         =       0
        pdo            =      -2
@@ -63,22 +63,23 @@
        iisorder       =      -1
        threads        =       3
 ===========================================================================
- Preprocessing found feasible solution with value  6.96205760030     
+ Preprocessing found feasible solution with value  16.1087976995     
  Doing local search
- Preprocessing found feasible solution with value -.978027754229     
  Solving bounding LP
+ Preprocessing found feasible solution with value  4.52874696553     
  Starting multi-start local search
+ Preprocessing found feasible solution with value -.482088167579     
  Done with local search
 ===========================================================================
   Iteration    Open nodes         Time (s)    Lower bound      Upper bound
-          1             0            30.45    -0.978126        -0.978028    
+          1             0            18.38    -0.482136        -0.482088    
 
  Cleaning up
 
                          *** Normal completion ***            
 
- Wall clock time:                    30.45
- Total CPU time used:                30.44
+ Wall clock time:                    18.38
+ Total CPU time used:                18.37
 
  Total no. of BaR iterations:       1
  Best solution found at node:      -1

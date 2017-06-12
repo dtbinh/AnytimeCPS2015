@@ -1,7 +1,10 @@
 function out = getRobustness_u(u, obs, goal, optParams)  
 
 % path is an array of points in R^3 with length N (discrete time)
-path = reshape(optParams.A_x0*optParams.x0 + optParams.B_U*u,3,20)';
+path = reshape(optParams.A_x0*optParams.x0 + optParams.B_U*u,optParams.dim, ...
+    optParams.len)';
+
+
 N = size(path, 1);
 numObs = size(obs, 1);
 
@@ -25,11 +28,11 @@ for n = 1:N
         lQ = xc(n,1:3) - obs{o}.lb;
         dist_mat = (A*[uQ' uQ' uQ' lQ' lQ' lQ']);
         dist_diag = diag(dist_mat);
-        d1(n,o) = -SoftMin(dist_diag,50);
+        d1(n,o) = -SoftMin(dist_diag,10);
     end
 end
 
-out1 = SoftMin(d1(:),50);
+out1 = SoftMin(d1(:),10);
 
 %% Eventually Get to Goal
 
@@ -40,11 +43,11 @@ for n = 1:N
     glQ = xc(n,1:3) - glb;
     dist_mat = (gA*[guQ' guQ' guQ' glQ' glQ' glQ']);
     dist_diag = diag(dist_mat);
-    d2(n) = SoftMin(dist_diag,50);
+    d2(n) = SoftMin(dist_diag,10);
 end
 
-out2 = SoftMax(d2,50);
+out2 = SoftMax(d2,10);
 
-out = SoftMin([out1 out2],50);
+out = SoftMin([out1 out2],10);
 out = -out; %negate for SoftMaximization
 end

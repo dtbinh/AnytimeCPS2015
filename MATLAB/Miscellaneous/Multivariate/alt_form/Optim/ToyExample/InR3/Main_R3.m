@@ -4,31 +4,40 @@
 
 %clc;close all;
 close all;
+baron_use = 0;
 %clear all;close all;
 
 disp('Initializing problem...');
 disp('Loading Map...');
-map_name = 'sample_maps/map2.txt';
+map_name = 'maps/map1.txt';
 obs = getObstacles(map_name);
 map = load_map(map_name, .5, .5, 0);
 plot_path(map, []);
-goal.stop = [9;9;9];
-goal.ds = 1;
+%goal.stop = [9;9;9]; %map2
+%goal.stop = [7.5;3;3]; %map1
+goal.stop = [5;1;5.5]; %map1
+goal.ds = .5;
 
 
 %% optimization data
 disp('Control problem data');
 dim = 3;
 dim_u = 3;
-len = 20;
+len = 50;
 
 optParams.dim = dim;
 optParams.len = len;
 optParams.dim_u = dim_u;
 
-u_lim = 2;
-x_lb = [-0 0 0]';
-x_ub = [10 10 10]';
+u_lim = 0.5;
+% %sample map2
+% x_lb = [-0 0 0]';
+% x_ub = [10 10 10]';
+
+ %sample map1
+ x_lb = [0.5 0 .2]';
+ x_ub = [9.5 20 5.95]';
+
 P_feas = Polyhedron('lb',x_lb,'ub',x_ub);
 U_feas = Polyhedron('lb',-u_lim*ones(1,dim_u),'ub',u_lim*ones(1,dim_u));
 
@@ -55,7 +64,9 @@ else
 end
 
 if(fixed_x0);
-x0 = [1;1;1];
+%x0 = [1;1;1]; %sample map2
+%x0 = [1; 2; 5]; %sample map1
+x0 = [5;18;2];
 else %in [-2 -1.1]^2
 x0 = -2 + (-1.1+2)*rand(3,1);    
 end
@@ -147,7 +158,7 @@ if(exist('robustness_max','var'))
     end
     
     else
-    objLim = -.999;
+    objLim = -10;
 end
 
 %%
@@ -161,7 +172,7 @@ options = optimset('Algorithm','sqp','Display','off','MaxIter',1000,'TolConSQP',
 %[x,fval,flag] = ...
 
 %[u_opt,fval,exitflag,output] = fmincon(@(u)main_objfun2_u_toy_using_mex(u,optParams),u_0,U_intersect.A,U_intersect.b,[],[],[],[],[],options);
-if(1)
+if(~baron_use)
 [u_opt,fval,exitflag,output] = fmincon(@(u)getRobustness_u(u,obs,goal,optParams),u_0,U_intersect.A,U_intersect.b,[],[],[],[],[],options);
 
 else
@@ -169,7 +180,7 @@ not_so_fun = @(u) getRobustness_u_Baron(u,obs,goal,optParams);
 [u_opt,fval,ef,info] = baron(not_so_fun,U_intersect.A,-inf(numel(U_intersect.b),1), ...
     U_intersect.b,...
     [],[],[],[],[],[],[],baronset('threads',3,'sense','min','tracefile',...
-    'barouttrac.out','filekp',1,'barscratch','shizzle.out')) 
+    'barouttrac.out','filekp',1,'barscratch','shizzle.out','dolocal',0)) 
 end
 
 
@@ -188,7 +199,7 @@ end
 
 if(disp_plot)
     
-path_opt = reshape(optParams.A_x0*optParams.x0 + optParams.B_U*u_opt,3,20)';
+path_opt = reshape(optParams.A_x0*optParams.x0 + optParams.B_U*u_opt,optParams.dim,optParams.len)';
 plot(P_term,'alpha',0.2,'color','green');
 axis([0 10 0 10 0 10]);
 hold on;

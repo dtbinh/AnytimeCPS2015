@@ -1,7 +1,10 @@
 function out = getRobustness_u_exact(u, obs, goal, optParams)  
 
 % path is an array of points in R^3 with length N (discrete time)
-path = reshape(optParams.A_x0*optParams.x0 + optParams.B_U*u,3,20)';
+path = reshape(optParams.A_x0*optParams.x0 + optParams.B_U*u,optParams.dim, ...
+    optParams.len)';
+
+
 N = size(path, 1);
 numObs = size(obs, 1);
 
