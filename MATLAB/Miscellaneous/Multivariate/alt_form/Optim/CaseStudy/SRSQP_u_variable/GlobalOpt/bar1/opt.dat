@@ -1,0 +1,3 @@
+maxtime         1000
+dolocal         0
+threads         3

@@ -66,7 +66,9 @@ end
 if(fixed_x0);
 %x0 = [1;1;1]; %sample map2
 %x0 = [1; 2; 5]; %sample map1
-x0 = [5;18;2];
+
+%x0 = [5;18;2];
+x0 = [5;5;5];
 else %in [-2 -1.1]^2
 x0 = -2 + (-1.1+2)*rand(3,1);    
 end
@@ -165,7 +167,7 @@ end
 clear options;
 disp('Robustness maximization')
 tic;
-options = optimset('Algorithm','sqp','Display','off','MaxIter',1000,'TolConSQP',1e-2,...
+options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-2,...
     'ObjectiveLimit',objLim,'UseParallel','always','MaxFunEval',1000000,'GradObj','off'); %rep 'always' by true
 %options.TolFun = 10^(-10);
 %options.TolCon = 10;
