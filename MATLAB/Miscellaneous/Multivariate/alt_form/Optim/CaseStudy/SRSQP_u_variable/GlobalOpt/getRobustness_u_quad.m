@@ -28,11 +28,11 @@ for n = 1:N
         lQ = xc(n,1:3) - obs{o}.lb;
         dist_mat = (A*[uQ' uQ' uQ' lQ' lQ' lQ']);
         dist_diag = diag(dist_mat);
-        d1(n,o) = -SoftMin(dist_diag,25);
+        d1(n,o) = -SoftMin(dist_diag,15);
     end
 end
 
-out1 = SoftMin(d1(:),25);
+out1 = SoftMin(d1(:),15);
 
 %% Eventually Get to Goal
 
@@ -43,11 +43,11 @@ for n = 1:N
     glQ = xc(n,1:3) - glb;
     dist_mat = (gA*[guQ' guQ' guQ' glQ' glQ' glQ']);
     dist_diag = diag(dist_mat);
-    d2(n) = SoftMin(dist_diag,25);
+    d2(n) = SoftMin(dist_diag,15);
 end
 
-out2 = SoftMax(d2,25);
+out2 = SoftMax(d2,15);
 
-out = SoftMin([out1 out2],25);
+out = SoftMin([out1 out2],15);
 out = -out; %negate for SoftMaximization
 end

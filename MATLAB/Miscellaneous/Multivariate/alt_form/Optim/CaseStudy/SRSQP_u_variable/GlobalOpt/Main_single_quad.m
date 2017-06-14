@@ -78,7 +78,11 @@ P_term = Terminal;
 
 x1 = zeros(optParams.len*optParams.dim_x+ (optParams.len-1)*optParams.dim_u,1); %for one quad
 % x1(4:6) = [5;18;2]; %init positions
-x1(4:6) = [5;5;3]; %init positions
+
+% x1(4:6) = [5;5;3]; %init positions, works len 50, c = 30
+% x1(4:6) = [5;5;4]; %init positions, works ditto
+x1(4:6) = [5;5;4.5];
+
 optParams.x0 = x1(1:6);
 x1_feas = getFeasTraj_case(x1,optParams);
 % x2 = zeros(optParams.len*optParams.dim_x+ (optParams.len-1)*optParams.dim_u,1); %for one quad
@@ -107,7 +111,7 @@ for i = 1:optParams.len
 end
 grid on;
 zlabel('z');
-pause;
+pause(.25);
 %% Constraints from the input side
 disp('Projecting Constraints on input...');
 dim = 6;
