@@ -39,7 +39,7 @@ for i = 1:map.nblocks
                             v(4,3) v(7,3) v(4,3) v(4,3) v(8,3) v(6,3)];
 end
 % figure();
-grid on; grid minor;
+%grid on; grid minor;
 xlabel('x');
 ylabel('y');
 zlabel('z');

@@ -81,8 +81,8 @@ classdef Quad_ccta
             obj.roll_des = roll;
             obj.pitch_des = pitch;
             obj.yaw_des = yaw;
-            obj.armLength = 0.2;
-            obj.mass = 0.900;
+            obj.armLength = 0.3;
+            obj.mass = 0.500;
             obj.velX = 0;
             obj.velY = 0;
             obj.velZ = 0;
