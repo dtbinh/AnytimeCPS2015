@@ -42,13 +42,13 @@ sys_d = c2d(sys_c,h);
 
 optParams.dim_x = 6;
 optParams.dim_u = 3;
-optParams.len = 50;
+optParams.len = 75; % 50 works well for 5;5;4.5; 75 for 5;10;4.5
 optParams.A = sys_d.A;
 optParams.B = sys_d.B;
 
 %input bounds
 max_ang = deg2rad(30);
-max_thr = 2.5;
+max_thr = 2.5; % 2.5 works well for 2 cases
 
 %state bounds
 temp = Polyhedron('lb',[-max_ang -max_ang -max_thr],'ub',[max_ang max_ang max_thr]);
@@ -72,7 +72,7 @@ Terminal = Polyhedron('lb',goal.stop-goal.ds,'ub',goal.stop+goal.ds);
 Terminal_velocities = Polyhedron('lb',-1*ones(3,1),'ub',1*ones(3,1));
 temp = Terminal_velocities*Terminal;
 optParams.P_final.A = temp.A;
-optParams.P_final.b = temp.b; 
+optParams.P_final.b = temp.b;
 P_term = Terminal;
 
 
@@ -81,8 +81,8 @@ x1 = zeros(optParams.len*optParams.dim_x+ (optParams.len-1)*optParams.dim_u,1); 
 
 % x1(4:6) = [5;5;3]; %init positions, works len 50, c = 30
 % x1(4:6) = [5;5;4]; %init positions, works ditto
-x1(4:6) = [5;5;4.5];
-
+ x1(4:6) = [5;10;4.5];
+%x1(4:6) = [5;17;2.5];
 optParams.x0 = x1(1:6);
 x1_feas = getFeasTraj_case(x1,optParams);
 % x2 = zeros(optParams.len*optParams.dim_x+ (optParams.len-1)*optParams.dim_u,1); %for one quad
@@ -98,16 +98,16 @@ u1_0 = x1_feas.u(:);
 u_0 = u1_0;
 %u2_0 = x2_feas.u(:);
 if(sum(isnan(x1_feas.z(:)))>10)
-   disp('Infeasible goal');
-   keyboard;
+    disp('Infeasible goal');
+    keyboard;
 end
 %plot init trajs
 figure(1);
 for i = 1:optParams.len
-   hold on;
-   plot3(x1_feas.z(4,i),x1_feas.z(5,i),x1_feas.z(6,i),'b*')
-%    hold on 
-%    plot3(x2_feas.z(4,i),x2_feas.z(5,i),x2_feas.z(6,i),'ro');
+    hold on;
+    plot3(x1_feas.z(4,i),x1_feas.z(5,i),x1_feas.z(6,i),'b*')
+    %    hold on
+    %    plot3(x2_feas.z(4,i),x2_feas.z(5,i),x2_feas.z(6,i),'ro');
 end
 grid on;
 zlabel('z');
@@ -128,19 +128,19 @@ dim_u = size(optParams.B,2);
 % translate state constraints if needed
 A_x0 = [];
 for i = 1:optParams.len-1
-    A_x0 = [A_x0;optParams.A^i];    
+    A_x0 = [A_x0;optParams.A^i];
 end
 %
 clear B_U
 for i = 1:optParams.len-1
     for j = 1:optParams.len-1
-       B_U((i-1)*dim+1:i*dim,(j-1)*dim_u+1:j*dim_u) = (i-j>=0)*optParams.A^(i-j)*optParams.B + (i-j<0)*zeros(size(optParams.A*optParams.B));     
+        B_U((i-1)*dim+1:i*dim,(j-1)*dim_u+1:j*dim_u) = (i-j>=0)*optParams.A^(i-j)*optParams.B + (i-j<0)*zeros(size(optParams.A*optParams.B));
     end
 end
 
 optParams.A_x0 = [eye(dim);A_x0];
 optParams.B_U = [zeros(optParams.dim_x,(optParams.len-1)*optParams.dim_u);B_U];
-    
+
 X_lims = Polyhedron('lb',repmat(x_lb,optParams.len,1),'ub',repmat(x_ub,optParams.len,1));
 
 H1 = X_lims.A*optParams.B_U;
@@ -159,7 +159,7 @@ if(exist('robustness_max','var'))
         objLim = -eps;
     end
     
-    else
+else
     objLim = -10;
 end
 
@@ -176,14 +176,14 @@ options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP'
 
 %[u_opt,fval,exitflag,output] = fmincon(@(u)main_objfun2_u_toy_using_mex(u,optParams),u_0,U_intersect.A,U_intersect.b,[],[],[],[],[],options);
 if(~baron_use)
-[u_opt,fval,exitflag,output] = fmincon(@(u)getRobustness_u_quad(u,obs,goal,optParams),u_0,U_intersect.A,U_intersect.b,[],[],[],[],[],options);
-
+    [u_opt,fval,exitflag,output] = fmincon(@(u)getRobustness_u_quad(u,obs,goal,optParams),u_0,U_intersect.A,U_intersect.b,[],[],[],[],[],options);
+    
 else
-not_so_fun = @(u) getRobustness_u_quad_Baron(u,obs,goal,optParams);
-[u_opt,fval,ef,info] = baron(not_so_fun,U_intersect.A,-inf(numel(U_intersect.b),1), ...
-    U_intersect.b,...
-    [],[],[],[],[],[],[],baronset('threads',3,'sense','min','dolocal',0));%,'tracefile',...
-    %'barouttrac.out','filekp',1,'barscratch','shizzle.out','dolocal',0)) 
+    not_so_fun = @(u) getRobustness_u_quad_Baron(u,obs,goal,optParams);
+    [u_opt,fval,ef,info] = baron(not_so_fun,U_intersect.A,-inf(numel(U_intersect.b),1), ...
+        U_intersect.b,...
+        [],[],[],[],[],[],[],baronset('threads',3,'sense','min','dolocal',0));%,'tracefile',...
+    %'barouttrac.out','filekp',1,'barscratch','shizzle.out','dolocal',0))
 end
 
 % 30 as C in smin/smax works for x0 of 5 5 3
@@ -202,13 +202,17 @@ else
 end
 
 if(disp_plot)
-    
-path_temp = reshape(optParams.A_x0*optParams.x0 + optParams.B_U*u_opt,optParams.dim,optParams.len)';
-path_opt = path_temp(:,4:6); %where quad x y z are
-plot(P_term,'alpha',0.2,'color','green');
-axis([0 10 0 10 0 10]);
-hold on;
-plot_path(map,path_opt);
-hold on;
-
+    figure(1);
+    path_temp = reshape(optParams.A_x0*optParams.x0 + optParams.B_U*u_opt,optParams.dim,optParams.len)';
+    path_opt = path_temp(:,4:6); %where quad x y z are
+    plot(P_term,'alpha',0.2,'color','green');
+    hold on;
+    plot_path(map,path_opt);
+    hold on;
+    figure(2);
+    for i = 611:616
+        subplot(i);
+        plot(path_temp(:,i-610));
+        grid on;
+    end
 end

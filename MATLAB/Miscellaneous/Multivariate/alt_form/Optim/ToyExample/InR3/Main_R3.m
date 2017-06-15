@@ -2,8 +2,8 @@
 % (always not Unsfafe) and (eventually Terminal)
 %% get params
 
-%clc;close all;
-close all;
+clc;close all;clear all;
+
 baron_use = 0;
 %clear all;close all;
 
@@ -23,13 +23,13 @@ goal.ds = .5;
 disp('Control problem data');
 dim = 3;
 dim_u = 3;
-len = 50;
+len = 100;
 
 optParams.dim = dim;
 optParams.len = len;
 optParams.dim_u = dim_u;
 
-u_lim = 0.5;
+u_lim = .5;
 % %sample map2
 % x_lb = [-0 0 0]';
 % x_ub = [10 10 10]';
@@ -67,8 +67,8 @@ if(fixed_x0);
 %x0 = [1;1;1]; %sample map2
 %x0 = [1; 2; 5]; %sample map1
 
-%x0 = [5;18;2];
-x0 = [5;5;5];
+x0 = [5;18;2];
+%x0 = [5;5;5];
 else %in [-2 -1.1]^2
 x0 = -2 + (-1.1+2)*rand(3,1);    
 end

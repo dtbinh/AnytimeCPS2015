@@ -1,5 +1,5 @@
 function out = getRobustness_u_quad_Baron(u, obs, goal, optParams)  
-
+C = 30; %30 works best for map1
 % path is an array of points in R^3 with length N (discrete time)
 path_temp = reshape(optParams.A_x0*optParams.x0 + optParams.B_U*u,optParams.dim, ...
     optParams.len)';
@@ -28,11 +28,11 @@ for n = 1:N
         lQ = xc(n,1:3) - obs{o}.lb;
         dist_mat = (A*[uQ' uQ' uQ' lQ' lQ' lQ']);
         dist_diag = diag(dist_mat);
-        d1(n,o) = -SmoothMin(dist_diag,30);
+        d1(n,o) = -SmoothMin(dist_diag,C);
     end
 end
 
-out1 = SmoothMin(d1(:),30);
+out1 = SmoothMin(d1(:),C);
 
 %% Eventually Get to Goal
 
@@ -43,11 +43,11 @@ for n = 1:N
     glQ = xc(n,1:3) - glb;
     dist_mat = (gA*[guQ' guQ' guQ' glQ' glQ' glQ']);
     dist_diag = diag(dist_mat);
-    d2(n) = SmoothMin(dist_diag,30);
+    d2(n) = SmoothMin(dist_diag,C);
 end
 
-out2 = SmoothMax(d2,30);
+out2 = SmoothMax(d2,C);
 
-out = SmoothMin([out1 out2],30);
+out = SmoothMin([out1 out2],C);
 out = -out; %negate for SmoothMaximization
 end
