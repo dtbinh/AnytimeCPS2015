@@ -1,11 +1,7 @@
 %% case study main
 clc;clear all;close all;
-%general options
-genCode =0;
-genCodeCostFn = 0;
-getCoeffs = 0;
-getRuleCoeffs = 0;
-baron_use = 1;
+rob_maximization = 0;
+
 
 % load maps
 disp('Initializing problem...');
@@ -163,31 +159,47 @@ else
     objLim = -10;
 end
 
-%%
+if(rob_maximization)
+%% CaSaDi setup
+disp('Formulating in CaSaDi...');
+import casadi.*
+u = SX.sym('u',(optParams.len-1)*optParams.dim_u,1);
+lbx = LB_U;
+ubx = UB_U;
 optParams.dim = optParams.dim_x;
+nlp_prob = struct('f', getRobustness_u_quad_Casadi(u, obs, goal, optParams)  , 'x', u);
+nlp_solver = nlpsol('nlp_solver', 'ipopt', nlp_prob); % Solve relaxed problem
+
+%%
 clear options;
 disp('Robustness maximization...')
 tic;
-options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-2,...
-    'ObjectiveLimit',objLim,'UseParallel','always','MaxFunEval',1000000,'GradObj','off'); %rep 'always' by true
-%options.TolFun = 10^(-10);
-%options.TolCon = 10;
-%[x,fval,flag] = ...
-
-%[u_opt,fval,exitflag,output] = fmincon(@(u)main_objfun2_u_toy_using_mex(u,optParams),u_0,U_intersect.A,U_intersect.b,[],[],[],[],[],options);
-if(~baron_use)
-    [u_opt,fval,exitflag,output] = fmincon(@(u)getRobustness_u_quad(u,obs,goal,optParams),u_0,U_intersect.A,U_intersect.b,[],[],[],[],[],options);
-    
-else
-    not_so_fun = @(u) getRobustness_u_quad_Baron(u,obs,goal,optParams);
-    [u_opt,fval,ef,info] = baron(not_so_fun,U_intersect.A,-inf(numel(U_intersect.b),1), ...
-        U_intersect.b,...
-        [],[],[],[],[],[],[],baronset('threads',3,'sense','min','dolocal',0,'tracefile','barouttrac.out','filekp',1,'barscratch','shizzle1.out','dolocal',0));
-end
-
-% 30 as C in smin/smax works for x0 of 5 5 3
+sol = nlp_solver('x0',u_0, 'lbx',lbx, 'ubx',ubx, 'lbg',[], 'ubg',[]);
 time_taken = toc
+u_opt = full(sol.x);
 
+else %sat mode
+    
+disp('Formulating in CaSaDi for sat...');
+import casadi.*
+u = SX.sym('u',(optParams.len-1)*optParams.dim_u,1);
+x = SX.sym('x',(optParams.len)*optParams.dim_x,1);
+w = vertcat(x,u);
+lbx = LB_U;
+ubx = UB_U;
+optParams.dim = optParams.dim_x;
+nlp_prob = struct('f', norm(u)  , 'x', u, 'g', nl_sat_function(u, obs, goal, optParams, U_intersect));
+nlp_solver = nlpsol('nlp_solver', 'ipopt', nlp_prob); % Solve relaxed problem
+
+%%
+clear options;
+disp('Solving...')
+tic;
+sol = nlp_solver('x0',u_0, 'lbx',lbx, 'ubx',u, 'lbg',lbg, 'ubg',ubg);
+time_taken = toc
+u_opt = full(sol.x);
+    
+end
 %% plot
 disp('Plotting...');
 if(exist('display_on','var'))

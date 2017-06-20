@@ -1,0 +1,5 @@
+*filename,ModelType,BARON,noNLP,noMIP,JulianDate,Direction,NumberOfConstraints,NumberOfVariables,
+*NumberOfDiscreteVariables,NumberOfNonZeros,NumberOfNonlinearNonZeros,options,ModelStatus,barstatus,
+*ObjectiveValue,ObjectiveValueEstimate,SolverTime,0,0,NumberOfNodes,
+
+BARON_Problem,NLP,BARON,noNLP,noMIP,20170616.111548,0,899,222,0,0,0,1,1,1,-0.415389726953,-0.41543127008,13.39,0,0,1,

@@ -1,11 +1,7 @@
 %% case study main
 clc;clear all;close all;
-%general options
-genCode =0;
-genCodeCostFn = 0;
-getCoeffs = 0;
-getRuleCoeffs = 0;
-baron_use = 1;
+rob_maximization = 1;
+optParams.maxim = rob_maximization;
 
 % load maps
 disp('Initializing problem...');
@@ -42,7 +38,7 @@ sys_d = c2d(sys_c,h);
 
 optParams.dim_x = 6;
 optParams.dim_u = 3;
-optParams.len = 75; % 50 works well for 5;5;4.5; 75 for 5;10;4.5
+optParams.len = 125; % 50 works well for 5;5;4.5; 75 for 5;10;4.5
 optParams.A = sys_d.A;
 optParams.B = sys_d.B;
 
@@ -81,8 +77,8 @@ x1 = zeros(optParams.len*optParams.dim_x+ (optParams.len-1)*optParams.dim_u,1); 
 
 % x1(4:6) = [5;5;3]; %init positions, works len 50, c = 30
 % x1(4:6) = [5;5;4]; %init positions, works ditto
- x1(4:6) = [5;10;4.5];
-%x1(4:6) = [5;17;2.5];
+ %x1(4:6) = [5;10;4.5];
+x1(4:6) = [3;17;2.5]; %5 17 2.5 works for 125 steps
 optParams.x0 = x1(1:6);
 x1_feas = getFeasTraj_case(x1,optParams);
 % x2 = zeros(optParams.len*optParams.dim_x+ (optParams.len-1)*optParams.dim_u,1); %for one quad
@@ -113,44 +109,24 @@ grid on;
 zlabel('z');
 pause(.25);
 %% Constraints from the input side
-disp('Projecting Constraints on input...');
-dim = 6;
-dim_u = 3;
+disp('Getting Constraints...');
+
 U_lower = [-max_ang -max_ang -max_thr]';
 U_upper = [max_ang max_ang max_thr]';
 LB_U = repmat(U_lower,(optParams.len-1),1);
 UB_U = repmat(U_upper,(optParams.len-1),1);
+X_lower = [-5*ones(3,1);0.5; 0; 0.2];
+X_upper  =[5*ones(3,1);9.5; 20; 5.95];
+LB_X = repmat(X_lower,optParams.len,1);
+UB_X = repmat(X_upper,optParams.len,1);
 
-x_lb = [-5*ones(3,1);0.5; 0; 0.2];
-x_ub  =[5*ones(3,1);9.5; 20; 5.95];
+[~, ceq] = confun_SingleQuad_case_Casadi(x1_feas.x0,optParams.x0,optParams); %test to get dims
+lbg = [];
+ubg = [];
+tol_eq = 10^-4;
+lbg = [lbg;-tol_eq*ones(size(ceq))];
+ubg = [ubg;+tol_eq*ones(size(ceq))];
 
-dim_u = size(optParams.B,2);
-% translate state constraints if needed
-A_x0 = [];
-for i = 1:optParams.len-1
-    A_x0 = [A_x0;optParams.A^i];
-end
-%
-clear B_U
-for i = 1:optParams.len-1
-    for j = 1:optParams.len-1
-        B_U((i-1)*dim+1:i*dim,(j-1)*dim_u+1:j*dim_u) = (i-j>=0)*optParams.A^(i-j)*optParams.B + (i-j<0)*zeros(size(optParams.A*optParams.B));
-    end
-end
-
-optParams.A_x0 = [eye(dim);A_x0];
-optParams.B_U = [zeros(optParams.dim_x,(optParams.len-1)*optParams.dim_u);B_U];
-
-X_lims = Polyhedron('lb',repmat(x_lb,optParams.len,1),'ub',repmat(x_ub,optParams.len,1));
-
-H1 = X_lims.A*optParams.B_U;
-g1 = X_lims.b-X_lims.A*optParams.A_x0*optParams.x0;
-U_new = Polyhedron('A',H1,'b',g1);
-U_lims = Polyhedron('lb',LB_U,'ub',UB_U);
-U_intersect = intersect(U_new,U_lims);
-U_intersect.minHRep;
-
-%%
 %%  optim
 if(exist('robustness_max','var'))
     if(~isempty(robustness_max))
@@ -163,31 +139,53 @@ else
     objLim = -10;
 end
 
-%%
+if(rob_maximization)
+%% CaSaDi setup
+disp('Formulating in CaSaDi...');
+import casadi.*
+
+u = SX.sym('u',(optParams.len-1)*optParams.dim_u,1);
+x = SX.sym('x',(optParams.len)*optParams.dim_x,1);
+w = vertcat(x,u);
+lbx = [LB_X;LB_U];
+ubx = [UB_X;UB_U];
 optParams.dim = optParams.dim_x;
+nlp_prob = struct('f', getRobustness_u_quad_Casadi_full(w, obs, goal, optParams)  , 'x', w, ...
+    'g', nl_sat_function(w, obs, goal, optParams, []));
+nlp_solver = nlpsol('nlp_solver', 'ipopt', nlp_prob); % Solve relaxed problem
+%nlp_prob = struct('f', norm(w)  , 'x', w, 'g', nl_sat_function(w, obs, goal, optParams, []));
+%%
 clear options;
 disp('Robustness maximization...')
 tic;
-options = optimset('Algorithm','sqp','Display','iter','MaxIter',1000,'TolConSQP',1e-2,...
-    'ObjectiveLimit',objLim,'UseParallel','always','MaxFunEval',1000000,'GradObj','off'); %rep 'always' by true
-%options.TolFun = 10^(-10);
-%options.TolCon = 10;
-%[x,fval,flag] = ...
-
-%[u_opt,fval,exitflag,output] = fmincon(@(u)main_objfun2_u_toy_using_mex(u,optParams),u_0,U_intersect.A,U_intersect.b,[],[],[],[],[],options);
-if(~baron_use)
-    [u_opt,fval,exitflag,output] = fmincon(@(u)getRobustness_u_quad(u,obs,goal,optParams),u_0,U_intersect.A,U_intersect.b,[],[],[],[],[],options);
-    
-else
-    not_so_fun = @(u) getRobustness_u_quad_Baron(u,obs,goal,optParams);
-    [u_opt,fval,ef,info] = baron(not_so_fun,U_intersect.A,-inf(numel(U_intersect.b),1), ...
-        U_intersect.b,...
-        [],[],[],[],[],[],[],baronset('threads',3,'sense','min','dolocal',0,'tracefile','barouttrac.out','filekp',1,'barscratch','shizzle1.out','dolocal',0));
-end
-
-% 30 as C in smin/smax works for x0 of 5 5 3
+sol = nlp_solver('x0',x1_feas.x0, 'lbx',lbx, 'ubx',ubx, 'lbg',[lbg], 'ubg',[ubg]);
 time_taken = toc
+u_opt = full(sol.x);
 
+else %sat mode
+    
+disp('Formulating in CaSaDi for sat...');
+import casadi.*
+u = SX.sym('u',(optParams.len-1)*optParams.dim_u,1);
+x = SX.sym('x',(optParams.len)*optParams.dim_x,1);
+w = vertcat(x,u);
+lbx = [LB_X;LB_U];
+ubx = [UB_X;UB_U];
+
+optParams.dim = optParams.dim_x;
+
+nlp_prob = struct('f', norm(w)  , 'x', w, 'g', nl_sat_function(w, obs, goal, optParams, []));
+nlp_solver = nlpsol('nlp_solver', 'ipopt', nlp_prob); % Solve relaxed problem
+
+%%
+clear options;
+disp('Solving...')
+tic;
+sol = nlp_solver('x0',x1_feas.x0, 'lbx',lbx, 'ubx',ubx, 'lbg',[lbg;-inf], 'ubg',[ubg;-eps]);
+time_taken = toc
+u_opt = full(sol.x);
+    
+end
 %% plot
 disp('Plotting...');
 if(exist('display_on','var'))
@@ -202,7 +200,13 @@ end
 
 if(disp_plot)
     figure(1);
-    path_temp = reshape(optParams.A_x0*optParams.x0 + optParams.B_U*u_opt,optParams.dim,optParams.len)';
+    w_opt = full(sol.x);
+    Nx = optParams.dim_x;
+    N = optParams.len;
+    x = w_opt(1:optParams.len*optParams.dim_x);
+    path_temp = reshape(x(1:Nx*N),Nx,N)';
+
+
     path_opt = path_temp(:,4:6); %where quad x y z are
     plot(P_term,'alpha',0.2,'color','green');
     hold on;
