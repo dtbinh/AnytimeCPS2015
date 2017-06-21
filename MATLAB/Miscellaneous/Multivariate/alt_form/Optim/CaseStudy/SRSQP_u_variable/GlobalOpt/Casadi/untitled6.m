@@ -1,6 +1,6 @@
 %% case study main
 clc;clear all;close all;
-rob_maximization = 1;
+rob_maximization = 0;
 optParams.maxim = rob_maximization;
 
 % load maps
@@ -38,7 +38,7 @@ sys_d = c2d(sys_c,h);
 
 optParams.dim_x = 6;
 optParams.dim_u = 3;
-optParams.len = 75; % 50 works well for 5;5;4.5; 75 for 5;10;4.5
+optParams.len = 125; % 50 works well for 5;5;4.5; 75 for 5;10;4.5
 optParams.A = sys_d.A;
 optParams.B = sys_d.B;
 
@@ -77,8 +77,8 @@ x1 = zeros(optParams.len*optParams.dim_x+ (optParams.len-1)*optParams.dim_u,1); 
 
 % x1(4:6) = [5;5;3]; %init positions, works len 50, c = 30
 % x1(4:6) = [5;5;4]; %init positions, works ditto
-x1(4:6) = [5;10;4.5];
-%x1(4:6) = [3;17;2.5]; %5 17 2.5 works for 125 steps
+%x1(4:6) = [5;10;4.5];
+x1(4:6) = [3;17;2.5]; %5 17 2.5 works for 125 steps
 optParams.x0 = x1(1:6);
 x1_feas = getFeasTraj_case(x1,optParams);
 % x2 = zeros(optParams.len*optParams.dim_x+ (optParams.len-1)*optParams.dim_u,1); %for one quad
@@ -174,7 +174,7 @@ ubx = [UB_X;UB_U];
 
 optParams.dim = optParams.dim_x;
 
-nlp_prob = struct('f', norm(w)  , 'x', w, 'g', nl_sat_function(w, obs, goal, optParams, []));
+nlp_prob = struct('f', 0 , 'x', w, 'g', nl_sat_function(w, obs, goal, optParams, [])); %norm w
 nlp_solver = nlpsol('nlp_solver', 'ipopt', nlp_prob); % Solve relaxed problem
 
 %%
